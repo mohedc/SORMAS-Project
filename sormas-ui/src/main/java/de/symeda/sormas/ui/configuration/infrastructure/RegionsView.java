@@ -40,6 +40,7 @@ import de.symeda.sormas.api.i18n.Descriptions;
 import de.symeda.sormas.api.i18n.I18nProperties;
 import de.symeda.sormas.api.i18n.Strings;
 import de.symeda.sormas.api.infrastructure.InfrastructureType;
+import de.symeda.sormas.api.infrastructure.lga.LgaReferenceDto;
 import de.symeda.sormas.api.infrastructure.region.RegionCriteria;
 import de.symeda.sormas.api.infrastructure.region.RegionIndexDto;
 import de.symeda.sormas.api.user.UserRight;
@@ -72,7 +73,7 @@ public class RegionsView extends AbstractConfigurationView {
 	// Filter
 	private SearchField searchField;
 	private ComboBox relevanceStatusFilter;
-	private ComboBox countryFilter;
+	private ComboBox lgaFilter;
 	private Button resetButton;
 
 	private HorizontalLayout filterLayout;
@@ -89,7 +90,7 @@ public class RegionsView extends AbstractConfigurationView {
 
 		viewConfiguration = ViewModelProviders.of(RegionsView.class).get(ViewConfiguration.class);
 		criteria = ViewModelProviders.of(RegionsView.class)
-			.get(RegionCriteria.class, new RegionCriteria().country(FacadeProvider.getCountryFacade().getServerCountry()));
+			.get(RegionCriteria.class, new RegionCriteria());
 		if (criteria.getRelevanceStatus() == null) {
 			criteria.relevanceStatus(EntityRelevanceStatus.ACTIVE);
 		}
@@ -198,10 +199,17 @@ public class RegionsView extends AbstractConfigurationView {
 		});
 		filterLayout.addComponent(searchField);
 
-		countryFilter = addCountryFilter(filterLayout, country -> {
-			criteria.country(country);
+		lgaFilter = ComboBoxHelper.createComboBoxV7();
+		lgaFilter.setId(RegionIndexDto.LGA);
+		lgaFilter.setWidth(140, Unit.PIXELS);
+		lgaFilter.setCaption(I18nProperties.getPrefixCaption(RegionIndexDto.I18N_PREFIX, RegionIndexDto.LGA));
+		lgaFilter.addItems(FacadeProvider.getLgaFacade().getAllActiveByServerCountry());
+		lgaFilter.addValueChangeListener(e -> {
+			LgaReferenceDto lga = (LgaReferenceDto) e.getProperty().getValue();
+			criteria.lga(lga);
 			grid.reload();
-		}, null);
+		});
+		filterLayout.addComponent(lgaFilter);
 
 		resetButton = ButtonHelper.createButton(Captions.actionResetFilters, event -> {
 			ViewModelProviders.of(RegionsView.class).remove(RegionCriteria.class);
@@ -302,7 +310,9 @@ public class RegionsView extends AbstractConfigurationView {
 			relevanceStatusFilter.setValue(criteria.getRelevanceStatus());
 		}
 		searchField.setValue(criteria.getNameEpidLike());
-		countryFilter.setValue(criteria.getCountry());
+		if (lgaFilter != null) {
+			lgaFilter.setValue(criteria.getLga());
+		}
 
 		applyingCriteria = false;
 	}

@@ -185,6 +185,9 @@ public class RegionFacadeEjb
 				case RegionIndexDto.COUNTRY:
 					expression = cb.lower(country.get(Country.DEFAULT_NAME));
 					break;
+				case RegionIndexDto.LGA:
+					expression = cb.lower(lga.get(Lga.NAME));
+					break;
 				default:
 					throw new IllegalArgumentException(sortProperty.propertyName);
 				}
