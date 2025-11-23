@@ -40,6 +40,7 @@ import de.symeda.sormas.backend.infrastructure.continent.Continent;
 import de.symeda.sormas.backend.infrastructure.country.Country;
 import de.symeda.sormas.backend.infrastructure.district.District;
 import de.symeda.sormas.backend.infrastructure.facility.Facility;
+import de.symeda.sormas.backend.infrastructure.lga.Lga;
 import de.symeda.sormas.backend.infrastructure.region.Region;
 import de.symeda.sormas.backend.infrastructure.subcontinent.Subcontinent;
 import de.symeda.sormas.backend.person.Person;
@@ -57,6 +58,7 @@ public class Location extends AbstractDomainObject {
 	public static final String CONTINENT = "continent";
 	public static final String SUB_CONTINENT = "subcontinent";
 	public static final String COUNTRY = "country";
+	public static final String LGA = "lga";
 	public static final String REGION = "region";
 	public static final String DISTRICT = "district";
 	public static final String COMMUNITY = "community";
@@ -85,6 +87,7 @@ public class Location extends AbstractDomainObject {
 	private Continent continent;
 	private Subcontinent subcontinent;
 	private Country country;
+	private Lga lga;
 	private Region region;
 	private District district;
 	private Community community;
@@ -162,6 +165,15 @@ public class Location extends AbstractDomainObject {
 
 	public void setSubcontinent(Subcontinent subcontinent) {
 		this.subcontinent = subcontinent;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	public Lga getLga() {
+		return lga;
+	}
+
+	public void setLga(Lga lga) {
+		this.lga = lga;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)

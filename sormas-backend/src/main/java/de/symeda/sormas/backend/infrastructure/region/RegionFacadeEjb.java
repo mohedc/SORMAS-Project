@@ -62,6 +62,9 @@ import de.symeda.sormas.backend.infrastructure.country.CountryFacadeEjb;
 import de.symeda.sormas.backend.infrastructure.country.CountryFacadeEjb.CountryFacadeEjbLocal;
 import de.symeda.sormas.backend.infrastructure.country.CountryService;
 import de.symeda.sormas.backend.infrastructure.district.District;
+import de.symeda.sormas.backend.infrastructure.lga.Lga;
+import de.symeda.sormas.backend.infrastructure.lga.LgaFacadeEjb;
+import de.symeda.sormas.backend.infrastructure.lga.LgaService;
 import de.symeda.sormas.backend.infrastructure.district.DistrictFacadeEjb.DistrictFacadeEjbLocal;
 import de.symeda.sormas.backend.infrastructure.facility.Facility;
 import de.symeda.sormas.backend.infrastructure.pointofentry.PointOfEntry;
@@ -85,6 +88,8 @@ public class RegionFacadeEjb
 	private CountryService countryService;
 	@EJB
 	private CountryFacadeEjbLocal countryFacade;
+	@EJB
+	private LgaService lgaService;
 	@EJB
 	private DefaultInfrastructureCache defaultInfrastructureCache;
 
@@ -132,6 +137,12 @@ public class RegionFacadeEjb
 
 	@Override
 	@PermitAll
+	public List<RegionReferenceDto> getAllActiveByLga(String lgaUuid) {
+		return getAllActiveByPredicate((cb, root) -> cb.equal(root.get(Region.LGA).get(AbstractDomainObject.UUID), lgaUuid));
+	}
+
+	@Override
+	@PermitAll
 	public List<RegionReferenceDto> getAllActiveAsReference() {
 		return toRefDtos(service.getAllActive(Region.NAME, true).stream());
 	}
@@ -144,6 +155,7 @@ public class RegionFacadeEjb
 		Root<Region> region = cq.from(Region.class);
 		Join<Region, Area> area = region.join(Region.AREA, JoinType.LEFT);
 		Join<Region, Country> country = region.join(Region.COUNTRY, JoinType.LEFT);
+		Join<Region, Lga> lga = region.join(Region.LGA, JoinType.LEFT);
 
 		Predicate filter = null;
 		if (criteria != null) {
@@ -241,6 +253,7 @@ public class RegionFacadeEjb
 		dto.setExternalID(entity.getExternalID());
 		dto.setArea(AreaFacadeEjb.toReferenceDto(entity.getArea()));
 		dto.setCountry(CountryFacadeEjb.toReferenceDto(entity.getCountry()));
+		dto.setLga(LgaFacadeEjb.toReferenceDto(entity.getLga()));
 		dto.setCentrallyManaged(entity.isCentrallyManaged());
 		dto.setDefaultInfrastructure(entity.isDefaultInfrastructure());
 
@@ -266,6 +279,7 @@ public class RegionFacadeEjb
 		dto.setExternalID(entity.getExternalID());
 		dto.setArea(AreaFacadeEjb.toReferenceDto(entity.getArea()));
 		dto.setCountry(CountryFacadeEjb.toReferenceDto(entity.getCountry()));
+		dto.setLga(LgaFacadeEjb.toReferenceDto(entity.getLga()));
 		dto.setDefaultInfrastructure(entity.isDefaultInfrastructure());
 
 		return dto;
@@ -317,6 +331,7 @@ public class RegionFacadeEjb
 		target.setExternalID(source.getExternalID());
 		target.setArea(areaService.getByReferenceDto(source.getArea()));
 		target.setCountry(countryService.getByReferenceDto(source.getCountry()));
+		target.setLga(lgaService.getByReferenceDto(source.getLga()));
 		target.setCentrallyManaged(source.isCentrallyManaged());
 		target.setDefaultInfrastructure(source.isDefaultInfrastructure());
 

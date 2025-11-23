@@ -42,6 +42,8 @@ import de.symeda.sormas.backend.infrastructure.district.DistrictService;
 import de.symeda.sormas.backend.infrastructure.facility.Facility;
 import de.symeda.sormas.backend.infrastructure.facility.FacilityFacadeEjb;
 import de.symeda.sormas.backend.infrastructure.facility.FacilityService;
+import de.symeda.sormas.backend.infrastructure.lga.LgaFacadeEjb;
+import de.symeda.sormas.backend.infrastructure.lga.LgaService;
 import de.symeda.sormas.backend.infrastructure.region.RegionFacadeEjb;
 import de.symeda.sormas.backend.infrastructure.region.RegionService;
 import de.symeda.sormas.backend.infrastructure.subcontinent.SubcontinentFacadeEjb;
@@ -57,6 +59,8 @@ public class LocationFacadeEjb implements LocationFacade {
 	private SubcontinentService subcontinentService;
 	@EJB
 	private CountryService countryService;
+	@EJB
+	private LgaService lgaService;
 	@EJB
 	private RegionService regionService;
 	@EJB
@@ -80,6 +84,7 @@ public class LocationFacadeEjb implements LocationFacade {
 		target.setContinent(continentService.getByReferenceDto(source.getContinent()));
 		target.setSubcontinent(subcontinentService.getByReferenceDto(source.getSubcontinent()));
 		target.setCountry(countryService.getByReferenceDto(source.getCountry()));
+		target.setLga(lgaService.getByReferenceDto(source.getLga()));
 		target.setRegion(regionService.getByReferenceDto(source.getRegion()));
 		target.setDistrict(districtService.getByReferenceDto(source.getDistrict()));
 		target.setCommunity(communityService.getByReferenceDto(source.getCommunity()));
@@ -121,6 +126,7 @@ public class LocationFacadeEjb implements LocationFacade {
 		target.setContinent(ContinentFacadeEjb.toReferenceDto(source.getContinent()));
 		target.setSubcontinent(SubcontinentFacadeEjb.toReferenceDto(source.getSubcontinent()));
 		target.setCountry(CountryFacadeEjb.toReferenceDto(source.getCountry()));
+		target.setLga(LgaFacadeEjb.toReferenceDto(source.getLga()));
 		target.setRegion(RegionFacadeEjb.toReferenceDto(source.getRegion()));
 		target.setDistrict(DistrictFacadeEjb.toReferenceDto(source.getDistrict()));
 		target.setCommunity(CommunityFacadeEjb.toReferenceDto(source.getCommunity()));

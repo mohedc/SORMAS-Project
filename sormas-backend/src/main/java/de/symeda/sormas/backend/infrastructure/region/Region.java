@@ -36,6 +36,7 @@ import de.symeda.sormas.backend.infrastructure.InfrastructureAdoWithDefault;
 import de.symeda.sormas.backend.infrastructure.area.Area;
 import de.symeda.sormas.backend.infrastructure.country.Country;
 import de.symeda.sormas.backend.infrastructure.district.District;
+import de.symeda.sormas.backend.infrastructure.lga.Lga;
 
 @Entity
 @Cacheable
@@ -53,6 +54,7 @@ public class Region extends InfrastructureAdoWithDefault {
 	public static final String EXTERNAL_ID = "externalID";
 	public static final String AREA = "area";
 	public static final String COUNTRY = "country";
+	public static final String LGA = "lga";
 
 	private String name;
 	private String epidCode;
@@ -61,6 +63,7 @@ public class Region extends InfrastructureAdoWithDefault {
 	private String externalID;
 	private Area area;
 	private Country country;
+	private Lga lga;
 
 	public String getName() {
 		return name;
@@ -122,5 +125,14 @@ public class Region extends InfrastructureAdoWithDefault {
 
 	public void setCountry(Country country) {
 		this.country = country;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	public Lga getLga() {
+		return lga;
+	}
+
+	public void setLga(Lga lga) {
+		this.lga = lga;
 	}
 }

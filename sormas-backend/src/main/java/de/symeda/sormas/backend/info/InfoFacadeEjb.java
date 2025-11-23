@@ -80,6 +80,7 @@ import de.symeda.sormas.api.infrastructure.country.CountryDto;
 import de.symeda.sormas.api.infrastructure.district.DistrictDto;
 import de.symeda.sormas.api.infrastructure.facility.FacilityDto;
 import de.symeda.sormas.api.infrastructure.facility.FacilityReferenceDto;
+import de.symeda.sormas.api.infrastructure.lga.LgaDto;
 import de.symeda.sormas.api.infrastructure.pointofentry.PointOfEntryDto;
 import de.symeda.sormas.api.infrastructure.region.RegionDto;
 import de.symeda.sormas.api.infrastructure.subcontinent.SubcontinentDto;
@@ -150,6 +151,7 @@ public class InfoFacadeEjb implements InfoFacade {
 		DATA_DICTIONARY_ENTITIES.add(new EntityInfo(ContinentDto.class, ContinentDto.I18N_PREFIX));
 		DATA_DICTIONARY_ENTITIES.add(new EntityInfo(SubcontinentDto.class, SubcontinentDto.I18N_PREFIX));
 		DATA_DICTIONARY_ENTITIES.add(new EntityInfo(CountryDto.class, CountryDto.I18N_PREFIX));
+		DATA_DICTIONARY_ENTITIES.add(new EntityInfo(LgaDto.class, LgaDto.I18N_PREFIX));
 		DATA_DICTIONARY_ENTITIES.add(new EntityInfo(RegionDto.class, RegionDto.I18N_PREFIX));
 		DATA_DICTIONARY_ENTITIES.add(new EntityInfo(DistrictDto.class, DistrictDto.I18N_PREFIX));
 		DATA_DICTIONARY_ENTITIES.add(new EntityInfo(CommunityDto.class, CommunityDto.I18N_PREFIX));

@@ -22,6 +22,8 @@ import de.symeda.sormas.backend.infrastructure.community.Community;
 import de.symeda.sormas.backend.infrastructure.community.CommunityService;
 import de.symeda.sormas.backend.infrastructure.district.District;
 import de.symeda.sormas.backend.infrastructure.district.DistrictService;
+import de.symeda.sormas.backend.infrastructure.lga.Lga;
+import de.symeda.sormas.backend.infrastructure.lga.LgaService;
 import de.symeda.sormas.backend.infrastructure.region.Region;
 import de.symeda.sormas.backend.infrastructure.region.RegionService;
 
@@ -34,10 +36,13 @@ public class DefaultInfrastructureCache {
 	private DistrictService districtService;
 	@EJB
 	private CommunityService communityService;
+	@EJB
+	private LgaService lgaService;
 
 	private final DefaultInfrastructure<Region> defaultRegion = new DefaultInfrastructure<>();
 	private final DefaultInfrastructure<District> defaultDistrict = new DefaultInfrastructure<>();
 	private final DefaultInfrastructure<Community> defaultCommunity = new DefaultInfrastructure<>();
+	private final DefaultInfrastructure<Lga> defaultLga = new DefaultInfrastructure<>();
 
 	public Region getDefaultRegion() {
 
@@ -88,6 +93,23 @@ public class DefaultInfrastructureCache {
 	public void resetDefaultCommunity() {
 		defaultCommunity.setDefaultInfrastructure(null);
 		defaultCommunity.setQueried(false);
+	}
+
+	public Lga getDefaultLga() {
+
+		if (defaultLga.isQueried()) {
+			return defaultLga.defaultInfrastructure;
+		} else {
+			Lga newDefault = lgaService.getDefaultInfrastructure();
+			defaultLga.setDefaultInfrastructure(newDefault);
+			defaultLga.setQueried(true);
+			return defaultLga.getDefaultInfrastructure();
+		}
+	}
+
+	public void resetDefaultLga() {
+		defaultLga.setDefaultInfrastructure(null);
+		defaultLga.setQueried(false);
 	}
 
 	private static class DefaultInfrastructure<ADO extends InfrastructureAdoWithDefault> {
