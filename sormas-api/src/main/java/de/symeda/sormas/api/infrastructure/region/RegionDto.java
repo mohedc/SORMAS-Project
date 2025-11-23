@@ -26,6 +26,7 @@ import de.symeda.sormas.api.i18n.Validations;
 import de.symeda.sormas.api.infrastructure.InfrastructureDtoWithDefault;
 import de.symeda.sormas.api.infrastructure.area.AreaReferenceDto;
 import de.symeda.sormas.api.infrastructure.country.CountryReferenceDto;
+import de.symeda.sormas.api.infrastructure.lga.LgaReferenceDto;
 import de.symeda.sormas.api.utils.DataHelper;
 import de.symeda.sormas.api.utils.DependingOnFeatureType;
 import de.symeda.sormas.api.utils.FeatureIndependent;
@@ -43,6 +44,7 @@ public class RegionDto extends InfrastructureDtoWithDefault {
 	public static final String EXTERNAL_ID = "externalID";
 	public static final String AREA = "area";
 	public static final String COUNTRY = "country";
+	public static final String LGA = "lga";
 
 	@Size(max = FieldConstraints.CHARACTER_LIMIT_SMALL, message = Validations.textTooLong)
 	private String name;
@@ -54,6 +56,7 @@ public class RegionDto extends InfrastructureDtoWithDefault {
 	@DependingOnFeatureType(featureType = FeatureType.INFRASTRUCTURE_TYPE_AREA)
 	private AreaReferenceDto area;
 	private CountryReferenceDto country;
+	private LgaReferenceDto lga;
 
 	public RegionDto(
 		Date creationDate,
@@ -135,6 +138,14 @@ public class RegionDto extends InfrastructureDtoWithDefault {
 
 	public void setCountry(CountryReferenceDto country) {
 		this.country = country;
+	}
+
+	public LgaReferenceDto getLga() {
+		return lga;
+	}
+
+	public void setLga(LgaReferenceDto lga) {
+		this.lga = lga;
 	}
 
 	public RegionReferenceDto toReference() {

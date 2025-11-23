@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import de.symeda.sormas.api.EntityDto;
 import de.symeda.sormas.api.infrastructure.area.AreaReferenceDto;
 import de.symeda.sormas.api.infrastructure.country.CountryReferenceDto;
+import de.symeda.sormas.api.infrastructure.lga.LgaReferenceDto;
 import de.symeda.sormas.api.utils.DataHelper;
 
 public class RegionIndexDto extends EntityDto {
@@ -36,6 +37,7 @@ public class RegionIndexDto extends EntityDto {
 	public static final String EXTERNAL_ID = "externalID";
 	public static final String AREA = "area";
 	public static final String COUNTRY = "country";
+	public static final String LGA = "lga";
 	public static final String DEFAULT_INFRASTRUCTURE = "defaultInfrastructure";
 
 	private String name;
@@ -45,6 +47,7 @@ public class RegionIndexDto extends EntityDto {
 	private String externalID;
 	private AreaReferenceDto area;
 	private CountryReferenceDto country;
+	private LgaReferenceDto lga;
 	private boolean defaultInfrastructure;
 
 	public String getName() {
@@ -101,6 +104,14 @@ public class RegionIndexDto extends EntityDto {
 
 	public void setCountry(CountryReferenceDto country) {
 		this.country = country;
+	}
+
+	public LgaReferenceDto getLga() {
+		return lga;
+	}
+
+	public void setLga(LgaReferenceDto lga) {
+		this.lga = lga;
 	}
 
 	public boolean isDefaultInfrastructure() {

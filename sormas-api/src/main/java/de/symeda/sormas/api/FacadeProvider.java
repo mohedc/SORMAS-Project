@@ -79,6 +79,7 @@ import de.symeda.sormas.api.infrastructure.continent.ContinentFacade;
 import de.symeda.sormas.api.infrastructure.country.CountryFacade;
 import de.symeda.sormas.api.infrastructure.district.DistrictFacade;
 import de.symeda.sormas.api.infrastructure.facility.FacilityFacade;
+import de.symeda.sormas.api.infrastructure.lga.LgaFacade;
 import de.symeda.sormas.api.infrastructure.pointofentry.PointOfEntryFacade;
 import de.symeda.sormas.api.infrastructure.region.RegionFacade;
 import de.symeda.sormas.api.infrastructure.subcontinent.SubcontinentFacade;
@@ -254,6 +255,10 @@ public class FacadeProvider {
 
 	public static RegionFacade getRegionFacade() {
 		return get().lookupEjbRemote(RegionFacade.class);
+	}
+
+	public static LgaFacade getLgaFacade() {
+		return get().lookupEjbRemote(LgaFacade.class);
 	}
 
 	public static DistrictFacade getDistrictFacade() {

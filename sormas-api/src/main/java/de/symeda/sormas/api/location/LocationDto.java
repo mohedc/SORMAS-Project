@@ -35,6 +35,7 @@ import de.symeda.sormas.api.infrastructure.country.CountryReferenceDto;
 import de.symeda.sormas.api.infrastructure.district.DistrictReferenceDto;
 import de.symeda.sormas.api.infrastructure.facility.FacilityReferenceDto;
 import de.symeda.sormas.api.infrastructure.facility.FacilityType;
+import de.symeda.sormas.api.infrastructure.lga.LgaReferenceDto;
 import de.symeda.sormas.api.infrastructure.region.RegionReferenceDto;
 import de.symeda.sormas.api.infrastructure.subcontinent.SubcontinentReferenceDto;
 import de.symeda.sormas.api.person.PersonAddressType;
@@ -66,6 +67,7 @@ public class LocationDto extends PseudonymizableDto {
 	public static final String CONTINENT = "continent";
 	public static final String SUB_CONTINENT = "subcontinent";
 	public static final String COUNTRY = "country";
+	public static final String LGA = "lga";
 	public static final String REGION = "region";
 	public static final String DISTRICT = "district";
 	public static final String COMMUNITY = "community";
@@ -89,6 +91,7 @@ public class LocationDto extends PseudonymizableDto {
 	private ContinentReferenceDto continent;
 	private SubcontinentReferenceDto subcontinent;
 	private CountryReferenceDto country;
+	private LgaReferenceDto lga;
 	private RegionReferenceDto region;
 	private DistrictReferenceDto district;
 	@PersonalData
@@ -216,6 +219,14 @@ public class LocationDto extends PseudonymizableDto {
 
 	public void setCountry(CountryReferenceDto country) {
 		this.country = country;
+	}
+
+	public LgaReferenceDto getLga() {
+		return lga;
+	}
+
+	public void setLga(LgaReferenceDto lga) {
+		this.lga = lga;
 	}
 
 	public RegionReferenceDto getRegion() {
