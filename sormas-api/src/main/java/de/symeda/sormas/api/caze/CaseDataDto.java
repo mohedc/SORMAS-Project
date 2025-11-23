@@ -58,6 +58,7 @@ import de.symeda.sormas.api.infrastructure.district.DistrictReferenceDto;
 import de.symeda.sormas.api.infrastructure.facility.FacilityReferenceDto;
 import de.symeda.sormas.api.infrastructure.facility.FacilityType;
 import de.symeda.sormas.api.infrastructure.pointofentry.PointOfEntryReferenceDto;
+import de.symeda.sormas.api.infrastructure.lga.LgaReferenceDto;
 import de.symeda.sormas.api.infrastructure.region.RegionReferenceDto;
 import de.symeda.sormas.api.person.PersonDto;
 import de.symeda.sormas.api.person.PersonReferenceDto;
@@ -116,9 +117,11 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 	public static final String PLAGUE_TYPE = "plagueType";
 	public static final String DENGUE_FEVER_TYPE = "dengueFeverType";
 	public static final String RABIES_TYPE = "rabiesType";
+	public static final String RESPONSIBLE_LGA = "responsibleLga";
 	public static final String RESPONSIBLE_REGION = "responsibleRegion";
 	public static final String RESPONSIBLE_DISTRICT = "responsibleDistrict";
 	public static final String RESPONSIBLE_COMMUNITY = "responsibleCommunity";
+	public static final String LGA = "lga";
 	public static final String REGION = "region";
 	public static final String DISTRICT = "district";
 	public static final String COMMUNITY = "community";
@@ -329,6 +332,8 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 	@Size(max = FieldConstraints.CHARACTER_LIMIT_DEFAULT, message = Validations.textTooLong)
 	private String sequelaeDetails;
 	@NotNull(message = Validations.validResponsibleRegion)
+	private LgaReferenceDto responsibleLga;
+	@NotNull(message = Validations.validResponsibleRegion)
 	private RegionReferenceDto responsibleRegion;
 	@NotNull(message = Validations.validResponsibleDistrict)
 	private DistrictReferenceDto responsibleDistrict;
@@ -337,6 +342,8 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 	@SensitiveData
 	private CommunityReferenceDto responsibleCommunity;
 
+	@Outbreaks
+	private LgaReferenceDto lga;
 	@Outbreaks
 	private RegionReferenceDto region;
 	@Outbreaks
@@ -1025,6 +1032,14 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 		this.symptoms = symptoms;
 	}
 
+	public LgaReferenceDto getResponsibleLga() {
+		return responsibleLga;
+	}
+
+	public void setResponsibleLga(LgaReferenceDto responsibleLga) {
+		this.responsibleLga = responsibleLga;
+	}
+
 	public RegionReferenceDto getResponsibleRegion() {
 		return responsibleRegion;
 	}
@@ -1047,6 +1062,14 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 
 	public void setResponsibleCommunity(CommunityReferenceDto responsibleCommunity) {
 		this.responsibleCommunity = responsibleCommunity;
+	}
+
+	public LgaReferenceDto getLga() {
+		return lga;
+	}
+
+	public void setLga(LgaReferenceDto lga) {
+		this.lga = lga;
 	}
 
 	public RegionReferenceDto getRegion() {

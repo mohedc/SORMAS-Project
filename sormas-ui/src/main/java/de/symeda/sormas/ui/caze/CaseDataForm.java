@@ -109,6 +109,7 @@ import de.symeda.sormas.api.infrastructure.facility.FacilityDto;
 import de.symeda.sormas.api.infrastructure.facility.FacilityReferenceDto;
 import de.symeda.sormas.api.infrastructure.facility.FacilityType;
 import de.symeda.sormas.api.infrastructure.facility.FacilityTypeGroup;
+import de.symeda.sormas.api.infrastructure.lga.LgaReferenceDto;
 import de.symeda.sormas.api.infrastructure.region.RegionReferenceDto;
 import de.symeda.sormas.api.person.PersonDto;
 import de.symeda.sormas.api.sample.PathogenTestDto;
@@ -223,13 +224,13 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 					fluidRowLocs(CaseDataDto.CASE_IDENTIFICATION_SOURCE, CaseDataDto.SCREENING_TYPE) +
 					fluidRowLocs(CaseDataDto.CASE_ORIGIN, "") +
 					fluidRowLocs(RESPONSIBLE_JURISDICTION_HEADING_LOC) +
-					fluidRowLocs(CaseDataDto.RESPONSIBLE_REGION, CaseDataDto.RESPONSIBLE_DISTRICT, CaseDataDto.RESPONSIBLE_COMMUNITY) +
+					fluidRowLocs(CaseDataDto.RESPONSIBLE_LGA, CaseDataDto.RESPONSIBLE_REGION, CaseDataDto.RESPONSIBLE_DISTRICT, CaseDataDto.RESPONSIBLE_COMMUNITY) +
 					fluidRowLocs(CaseDataDto.DONT_SHARE_WITH_REPORTING_TOOL) +
 					fluidRowLocs(DONT_SHARE_WARNING_LOC) +
 					fluidRowLocs(DIFFERENT_PLACE_OF_STAY_JURISDICTION) +
 					fluidRowLocs(PLACE_OF_STAY_HEADING_LOC) +
 					fluidRowLocs(FACILITY_OR_HOME_LOC) +
-					fluidRowLocs(CaseDataDto.REGION, CaseDataDto.DISTRICT, CaseDataDto.COMMUNITY) +
+					fluidRowLocs(CaseDataDto.LGA, CaseDataDto.REGION, CaseDataDto.DISTRICT, CaseDataDto.COMMUNITY) +
 					fluidRowLocs(TYPE_GROUP_LOC, CaseDataDto.FACILITY_TYPE) +
 					fluidRowLocs(CaseDataDto.HEALTH_FACILITY, CaseDataDto.HEALTH_FACILITY_DETAILS) +
 					fluidRow(fluidColumnLoc(6, 0,CaseDataDto.DEPARTMENT)) +
@@ -303,9 +304,11 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 	private CheckBox quarantineOrderedVerbally;
 	private CheckBox quarantineOrderedOfficialDocument;
 	private CheckBox differentPlaceOfStayJurisdiction;
+	private ComboBox responsibleLga;
 	private ComboBox responsibleRegion;
 	private ComboBox responsibleDistrict;
 	private ComboBox responsibleCommunity;
+	private ComboBox lgaCombo;
 	private ComboBox regionCombo;
 	private ComboBox districtCombo;
 	private ComboBox communityCombo;
@@ -753,6 +756,7 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 		differentPlaceOfStayJurisdiction = addCustomField(DIFFERENT_PLACE_OF_STAY_JURISDICTION, Boolean.class, CheckBox.class);
 		differentPlaceOfStayJurisdiction.addStyleName(VSPACE_3);
 
+		lgaCombo = addInfrastructureField(CaseDataDto.LGA);
 		regionCombo = addInfrastructureField(CaseDataDto.REGION);
 		districtCombo = addInfrastructureField(CaseDataDto.DISTRICT);
 		communityCombo = addInfrastructureField(CaseDataDto.COMMUNITY);
@@ -761,13 +765,13 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 
 		FieldHelper.setVisibleWhen(
 			differentPlaceOfStayJurisdiction,
-			Arrays.asList(regionCombo, districtCombo, communityCombo),
+			Arrays.asList(lgaCombo, regionCombo, districtCombo, communityCombo),
 			Collections.singletonList(Boolean.TRUE),
 			true);
 
 		FieldHelper.setRequiredWhen(
 			differentPlaceOfStayJurisdiction,
-			Arrays.asList(regionCombo, districtCombo),
+			Arrays.asList(lgaCombo, regionCombo, districtCombo),
 			Collections.singletonList(Boolean.TRUE),
 			false,
 			null);
@@ -794,6 +798,17 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 		facilityCombo.setImmediate(true);
 		facilityDetails = addField(CaseDataDto.HEALTH_FACILITY_DETAILS, TextField.class);
 		facilityDetails.setVisible(false);
+
+		lgaCombo.addValueChangeListener(e -> {
+			LgaReferenceDto lgaDto = (LgaReferenceDto) e.getProperty().getValue();
+			FieldHelper.updateItems(
+				regionCombo,
+				lgaDto != null ? FacadeProvider.getRegionFacade().getAllActiveByLga(lgaDto.getUuid()) : null);
+			if (lgaDto == null) {
+				regionCombo.setValue(null);
+			}
+		});
+		lgaCombo.addItems(FacadeProvider.getLgaFacade().getAllActiveByServerCountry());
 
 		regionCombo.addValueChangeListener(e -> {
 			RegionReferenceDto regionDto = (RegionReferenceDto) e.getProperty().getValue();
@@ -848,7 +863,7 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 			e -> FieldHelper.updateEnumData(facilityTypeCombo, FacilityType.getAccommodationTypes((FacilityTypeGroup) facilityTypeGroup.getValue())));
 		facilityTypeCombo.addValueChangeListener(e -> updateFacility());
 		facilityCombo.addValueChangeListener(e -> updateFacilityDetails(facilityCombo, facilityDetails));
-		regionCombo.addItems(FacadeProvider.getRegionFacade().getAllActiveByServerCountry());
+		// Region items will be populated based on LGA selection
 
 		if (UiUtil.enabled(FeatureType.NATIONAL_CASE_SHARING)) {
 			addField(CaseDataDto.SHARED_TO_COUNTRY, CheckBox.class);
@@ -999,6 +1014,8 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 		jurisdictionHeadingLabel.addStyleName(H3);
 		getContent().addComponent(jurisdictionHeadingLabel, RESPONSIBLE_JURISDICTION_HEADING_LOC);
 
+		responsibleLga = addInfrastructureField(CaseDataDto.RESPONSIBLE_LGA);
+		responsibleLga.setRequired(true);
 		responsibleRegion = addInfrastructureField(CaseDataDto.RESPONSIBLE_REGION);
 		responsibleRegion.setRequired(true);
 		responsibleDistrict = addInfrastructureField(CaseDataDto.RESPONSIBLE_DISTRICT);
@@ -1007,7 +1024,7 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 		responsibleCommunity.setNullSelectionAllowed(true);
 		responsibleCommunity.addStyleName(SOFT_REQUIRED);
 
-		InfrastructureFieldsHelper.initInfrastructureFields(responsibleRegion, responsibleDistrict, responsibleCommunity);
+		InfrastructureFieldsHelper.initInfrastructureFields(responsibleLga, responsibleRegion, responsibleDistrict, responsibleCommunity);
 		InfrastructureFieldsHelper.initPointOfEntry(responsibleDistrict, pointOfEntry);
 
 		responsibleDistrict.addValueChangeListener(e -> {

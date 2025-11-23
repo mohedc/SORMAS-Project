@@ -21,6 +21,7 @@ import java.io.Serializable;
 
 import de.symeda.sormas.api.EntityRelevanceStatus;
 import de.symeda.sormas.api.infrastructure.country.CountryReferenceDto;
+import de.symeda.sormas.api.infrastructure.lga.LgaReferenceDto;
 import de.symeda.sormas.api.utils.IgnoreForUrl;
 import de.symeda.sormas.api.utils.criteria.BaseCriteria;
 
@@ -31,6 +32,7 @@ public class RegionCriteria extends BaseCriteria implements Serializable, Clonea
 	private String nameEpidLike;
 	private EntityRelevanceStatus relevanceStatus;
 	private CountryReferenceDto country;
+	private LgaReferenceDto lga;
 
 	@IgnoreForUrl
 	public String getNameEpidLike() {
@@ -59,6 +61,16 @@ public class RegionCriteria extends BaseCriteria implements Serializable, Clonea
 	public RegionCriteria country(CountryReferenceDto country) {
 		this.country = country;
 
+		return this;
+	}
+
+	@IgnoreForUrl
+	public LgaReferenceDto getLga() {
+		return lga;
+	}
+
+	public RegionCriteria lga(LgaReferenceDto lga) {
+		this.lga = lga;
 		return this;
 	}
 }
