@@ -106,4 +106,20 @@ public class RegionDao extends AbstractInfrastructureAdoDao<Region> {
 			throw new RuntimeException(e);
 		}
 	}
+
+	public List<Region> queryActiveByLga(Lga lga) {
+		try {
+			QueryBuilder<Region, Long> builder = queryBuilder();
+			Where<Region, Long> where = builder.where();
+			where.and(
+				where.eq(AbstractDomainObject.SNAPSHOT, false),
+				where.eq(InfrastructureAdo.ARCHIVED, false),
+				where.eq(Region.LGA + "_id", lga));
+
+			return builder.orderBy(Region.NAME, true).query();
+		} catch (SQLException | IllegalArgumentException e) {
+			Log.e(getTableName(), "Could not perform queryActiveByLga");
+			throw new RuntimeException(e);
+		}
+	}
 }

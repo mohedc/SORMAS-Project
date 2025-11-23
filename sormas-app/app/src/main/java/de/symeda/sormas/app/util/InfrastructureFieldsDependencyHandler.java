@@ -14,7 +14,10 @@ import static de.symeda.sormas.app.util.InfrastructureDaoHelper.loadCountriesByS
 import static de.symeda.sormas.app.util.InfrastructureDaoHelper.loadDistricts;
 import static de.symeda.sormas.app.util.InfrastructureDaoHelper.loadFacilities;
 import static de.symeda.sormas.app.util.InfrastructureDaoHelper.loadPointsOfEntry;
+import static de.symeda.sormas.app.util.InfrastructureDaoHelper.loadLgasByCountry;
+import static de.symeda.sormas.app.util.InfrastructureDaoHelper.loadLgasByServerCountry;
 import static de.symeda.sormas.app.util.InfrastructureDaoHelper.loadRegionsByCountry;
+import static de.symeda.sormas.app.util.InfrastructureDaoHelper.loadRegionsByLga;
 import static de.symeda.sormas.app.util.InfrastructureDaoHelper.loadRegionsByServerCountry;
 import static de.symeda.sormas.app.util.InfrastructureDaoHelper.loadSubcontinents;
 import static de.symeda.sormas.app.util.InfrastructureDaoHelper.loadSubcontinentsByContinent;
@@ -43,6 +46,7 @@ import de.symeda.sormas.app.backend.region.Community;
 import de.symeda.sormas.app.backend.region.Continent;
 import de.symeda.sormas.app.backend.region.Country;
 import de.symeda.sormas.app.backend.region.District;
+import de.symeda.sormas.app.backend.region.Lga;
 import de.symeda.sormas.app.backend.region.Region;
 import de.symeda.sormas.app.backend.region.Subcontinent;
 import de.symeda.sormas.app.component.Item;

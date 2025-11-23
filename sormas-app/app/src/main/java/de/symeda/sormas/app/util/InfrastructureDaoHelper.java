@@ -40,6 +40,7 @@ import de.symeda.sormas.app.backend.region.Community;
 import de.symeda.sormas.app.backend.region.Continent;
 import de.symeda.sormas.app.backend.region.Country;
 import de.symeda.sormas.app.backend.region.District;
+import de.symeda.sormas.app.backend.region.Lga;
 import de.symeda.sormas.app.backend.region.Region;
 import de.symeda.sormas.app.backend.region.Subcontinent;
 import de.symeda.sormas.app.component.Item;
@@ -135,6 +136,22 @@ public final class InfrastructureDaoHelper {
 
 	public static List<Item> loadRegionsByCountry(Country country) {
 		return toItems(DatabaseHelper.getRegionDao().queryActiveByCountry(country));
+	}
+
+	public static List<Item> loadLgasByServerCountry() {
+		return toItems(DatabaseHelper.getLgaDao().queryActiveByServerCountry());
+	}
+
+	public static List<Item> loadLgasByCountry(Country country) {
+		return toItems(DatabaseHelper.getLgaDao().queryActiveByCountry(country));
+	}
+
+	public static List<Item> loadRegionsByLga(Lga lga) {
+		return toItems(isEmptyLga(lga) ? new ArrayList<>() : DatabaseHelper.getRegionDao().queryActiveByLga(lga), true);
+	}
+
+	public static boolean isEmptyLga(Lga lga) {
+		return lga == null || lga.getUuid().equals("uuid-lga-unknown");
 	}
 
 	public static List<Item> loadAllDistricts() {

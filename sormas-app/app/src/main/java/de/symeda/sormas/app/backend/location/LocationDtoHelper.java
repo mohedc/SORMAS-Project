@@ -26,6 +26,7 @@ import de.symeda.sormas.app.backend.region.CommunityDtoHelper;
 import de.symeda.sormas.app.backend.region.ContinentDtoHelper;
 import de.symeda.sormas.app.backend.region.CountryDtoHelper;
 import de.symeda.sormas.app.backend.region.DistrictDtoHelper;
+import de.symeda.sormas.app.backend.region.LgaDtoHelper;
 import de.symeda.sormas.app.backend.region.RegionDtoHelper;
 import de.symeda.sormas.app.backend.region.SubcontinentDtoHelper;
 import de.symeda.sormas.app.rest.NoConnectionException;
@@ -74,6 +75,7 @@ public class LocationDtoHelper extends AdoDtoHelper<Location, LocationDto> {
 		target.setContinent(DatabaseHelper.getContinentDao().getByReferenceDto(source.getContinent()));
 		target.setSubcontinent(DatabaseHelper.getSubcontinentDao().getByReferenceDto(source.getSubcontinent()));
 		target.setCountry(DatabaseHelper.getCountryDao().getByReferenceDto(source.getCountry()));
+		target.setLga(DatabaseHelper.getLgaDao().getByReferenceDto(source.getLga()));
 		target.setRegion(DatabaseHelper.getRegionDao().getByReferenceDto(source.getRegion()));
 		target.setDistrict(DatabaseHelper.getDistrictDao().getByReferenceDto(source.getDistrict()));
 		target.setCommunity(DatabaseHelper.getCommunityDao().getByReferenceDto(source.getCommunity()));
@@ -119,6 +121,11 @@ public class LocationDtoHelper extends AdoDtoHelper<Location, LocationDto> {
 			target.setRegion(RegionDtoHelper.toReferenceDto(DatabaseHelper.getRegionDao().queryForId(source.getRegion().getId())));
 		} else {
 			target.setRegion(null);
+		}
+		if (source.getLga() != null) {
+			target.setLga(LgaDtoHelper.toReferenceDto(DatabaseHelper.getLgaDao().queryForId(source.getLga().getId())));
+		} else {
+			target.setLga(null);
 		}
 		if (source.getCountry() != null) {
 			target.setCountry(CountryDtoHelper.toReferenceDto(DatabaseHelper.getCountryDao().queryForId(source.getCountry().getId())));

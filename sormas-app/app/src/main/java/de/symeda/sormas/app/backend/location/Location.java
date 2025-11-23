@@ -44,6 +44,7 @@ import de.symeda.sormas.app.backend.region.Community;
 import de.symeda.sormas.app.backend.region.Continent;
 import de.symeda.sormas.app.backend.region.Country;
 import de.symeda.sormas.app.backend.region.District;
+import de.symeda.sormas.app.backend.region.Lga;
 import de.symeda.sormas.app.backend.region.Region;
 import de.symeda.sormas.app.backend.region.Subcontinent;
 
@@ -72,6 +73,8 @@ public class Location extends PseudonymizableAdo {
 	private Subcontinent subcontinent;
 	@DatabaseField(foreign = true, foreignAutoRefresh = true)
 	private Country country;
+	@DatabaseField(foreign = true, foreignAutoRefresh = true)
+	private Lga lga;
 	@DatabaseField(foreign = true, foreignAutoRefresh = true)
 	private Region region;
 	@DatabaseField(foreign = true, foreignAutoRefresh = true)
@@ -170,6 +173,14 @@ public class Location extends PseudonymizableAdo {
 
 	public void setCountry(Country country) {
 		this.country = country;
+	}
+
+	public Lga getLga() {
+		return lga;
+	}
+
+	public void setLga(Lga lga) {
+		this.lga = lga;
 	}
 
 	public Region getRegion() {

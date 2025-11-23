@@ -137,6 +137,8 @@ import de.symeda.sormas.app.backend.region.Country;
 import de.symeda.sormas.app.backend.region.CountryDao;
 import de.symeda.sormas.app.backend.region.District;
 import de.symeda.sormas.app.backend.region.DistrictDao;
+import de.symeda.sormas.app.backend.region.Lga;
+import de.symeda.sormas.app.backend.region.LgaDao;
 import de.symeda.sormas.app.backend.region.Region;
 import de.symeda.sormas.app.backend.region.RegionDao;
 import de.symeda.sormas.app.backend.region.Subcontinent;
@@ -325,6 +327,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 			TableUtils.createTable(connectionSource, Subcontinent.class);
 			TableUtils.createTable(connectionSource, Country.class);
 			TableUtils.createTable(connectionSource, Area.class);
+			TableUtils.createTable(connectionSource, Lga.class);
 			TableUtils.createTable(connectionSource, Region.class);
 			TableUtils.createTable(connectionSource, District.class);
 			TableUtils.createTable(connectionSource, Community.class);
@@ -4291,6 +4294,10 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
 	public static RegionDao getRegionDao() {
 		return (RegionDao) getAdoDao(Region.class);
+	}
+
+	public static LgaDao getLgaDao() {
+		return (LgaDao) getAdoDao(Lga.class);
 	}
 
 	public static AreaDao getAreaDao() {

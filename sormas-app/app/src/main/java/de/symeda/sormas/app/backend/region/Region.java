@@ -36,6 +36,7 @@ public class Region extends InfrastructureAdoWithDefault {
 	public static final String EPID_CODE = "epidCode";
 	public static final String COUNTRY = "country";
 	public static final String AREA = "area";
+	public static final String LGA = "lga";
 
 	public Region() {
 	}
@@ -55,6 +56,9 @@ public class Region extends InfrastructureAdoWithDefault {
 
 	@DatabaseField(foreign = true, foreignAutoRefresh = true, maxForeignAutoRefreshLevel = 3)
 	private Country country;
+
+	@DatabaseField(foreign = true, foreignAutoRefresh = true, maxForeignAutoRefreshLevel = 3)
+	private Lga lga;
 
 	public String getName() {
 		return name;
@@ -86,6 +90,14 @@ public class Region extends InfrastructureAdoWithDefault {
 
 	public void setCountry(Country country) {
 		this.country = country;
+	}
+
+	public Lga getLga() {
+		return lga;
+	}
+
+	public void setLga(Lga lga) {
+		this.lga = lga;
 	}
 
 	@Override

@@ -103,6 +103,7 @@ public final class RetroProvider {
 	private ContinentFacadeRetro continentFacadeRetro;
 	private SubcontinentFacadeRetro subcontinentFacadeRetro;
 	private CountryFacadeRetro countryFacadeRetro;
+	private LgaFacadeRetro lgaFacadeRetro;
 	private RegionFacadeRetro regionFacadeRetro;
 	private FacilityFacadeRetro facilityFacadeRetro;
 	private PointOfEntryFacadeRetro pointOfEntryFacadeRetro;
@@ -634,6 +635,19 @@ public final class RetroProvider {
 			}
 		}
 		return instance.countryFacadeRetro;
+	}
+
+	public static LgaFacadeRetro getLgaFacade() throws NoConnectionException {
+		if (instance == null)
+			throw new NoConnectionException();
+		if (instance.lgaFacadeRetro == null) {
+			synchronized ((RetroProvider.class)) {
+				if (instance.lgaFacadeRetro == null) {
+					instance.lgaFacadeRetro = instance.retrofit.create(LgaFacadeRetro.class);
+				}
+			}
+		}
+		return instance.lgaFacadeRetro;
 	}
 
 	public static RegionFacadeRetro getRegionFacade() throws NoConnectionException {
