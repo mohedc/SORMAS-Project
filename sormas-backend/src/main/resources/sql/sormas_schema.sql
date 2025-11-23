@@ -14415,5 +14415,51 @@ alter table drugsusceptibility_history add column IF NOT EXISTS erythromycinmic 
 alter table drugsusceptibility_history add column IF NOT EXISTS erythromycinSusceptibility varchar(255);
 
 INSERT INTO schema_version (version_number, comment) VALUES (578, 'Update history tables #13516');
+-- 2025-01-XX Add Local Government Authority (LGA) infrastructure level
+-- Create LGA table
+CREATE TABLE lga (
+    id bigint NOT NULL,
+    changedate timestamp without time zone NOT NULL,
+    creationdate timestamp without time zone NOT NULL,
+    name character varying(255),
+    uuid character varying(36) NOT NULL,
+    epidcode character varying(255),
+    growthrate real,
+    externalid character varying(512),
+    archived boolean DEFAULT false,
+    centrally_managed boolean DEFAULT false,
+    defaultinfrastructure boolean DEFAULT false,
+    country_id bigint,
+    area_id bigint,
+    sys_period tstzrange NOT NULL,
+    change_user_id bigint,
+    PRIMARY KEY (id),
+    CONSTRAINT fk_lga_country_id FOREIGN KEY (country_id) REFERENCES country (id) ON UPDATE NO ACTION ON DELETE NO ACTION,
+    CONSTRAINT fk_lga_area_id FOREIGN KEY (area_id) REFERENCES areas(id),
+    CONSTRAINT fk_lga_change_user_id FOREIGN KEY (change_user_id) REFERENCES users (id)
+);
+ALTER TABLE lga OWNER TO sormas_user;
+
+-- Add lga_id to region table
+ALTER TABLE region ADD COLUMN lga_id bigint;
+ALTER TABLE region ADD CONSTRAINT fk_region_lga_id FOREIGN KEY (lga_id) REFERENCES lga (id) ON UPDATE NO ACTION ON DELETE NO ACTION;
+
+-- Add lga_id to location table
+ALTER TABLE location ADD COLUMN lga_id bigint;
+ALTER TABLE location ADD CONSTRAINT fk_location_lga_id FOREIGN KEY (lga_id) REFERENCES lga (id) ON UPDATE NO ACTION ON DELETE NO ACTION;
+
+-- Create LGA history table
+UPDATE lga SET sys_period=tstzrange(creationdate, null);
+CREATE TABLE lga_history (LIKE lga);
+CREATE TRIGGER versioning_trigger
+BEFORE INSERT OR UPDATE OR DELETE ON lga
+FOR EACH ROW EXECUTE PROCEDURE versioning('sys_period', 'lga_history', true);
+ALTER TABLE lga_history OWNER TO sormas_user;
+
+-- Add lga_id to region_history and location_history
+ALTER TABLE region_history ADD COLUMN lga_id bigint;
+ALTER TABLE location_history ADD COLUMN lga_id bigint;
+
+INSERT INTO schema_version (version_number, comment) VALUES (579, 'Add Local Government Authority (LGA) infrastructure level');
 
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***
