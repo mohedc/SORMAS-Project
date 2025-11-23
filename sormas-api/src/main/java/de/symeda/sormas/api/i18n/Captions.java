@@ -2443,6 +2443,9 @@ public interface Captions {
 	String Region_externalID = "Region.externalID";
 	String Region_growthRate = "Region.growthRate";
 	String Region_population = "Region.population";
+	String lgaAllLgas = "lgaAllLgas";
+	String lgaArchivedLgas = "lgaArchivedLgas";
+	String lgaActiveLgas = "lgaActiveLgas";
 	String regionActiveRegions = "regionActiveRegions";
 	String regionAllRegions = "regionAllRegions";
 	String regionArchivedRegions = "regionArchivedRegions";

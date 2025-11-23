@@ -130,6 +130,13 @@ public interface Strings {
 	String confirmationDearchivePointOfEntry = "confirmationDearchivePointOfEntry";
 	String confirmationDearchivePointsOfEntry = "confirmationDearchivePointsOfEntry";
 	String confirmationDearchiveRegion = "confirmationDearchiveRegion";
+	String confirmationDearchiveLga = "confirmationDearchiveLga";
+	String confirmationDearchiveLgas = "confirmationDearchiveLgas";
+	String confirmationArchiveLga = "confirmationArchiveLga";
+	String confirmationArchiveLgas = "confirmationArchiveLgas";
+	String messageLgaDearchived = "messageLgaDearchived";
+	String messageLgaArchivingNotPossible = "messageLgaArchivingNotPossible";
+	String messageLgaArchived = "messageLgaArchived";
 	String confirmationDearchiveRegions = "confirmationDearchiveRegions";
 	String confirmationDearchiveSelfReport = "confirmationDearchiveSelfReport";
 	String confirmationDearchiveSubcontinent = "confirmationDearchiveSubcontinent";
@@ -715,6 +722,7 @@ public interface Strings {
 	String headingImportPointsOfEntry = "headingImportPointsOfEntry";
 	String headingImportPopulationData = "headingImportPopulationData";
 	String headingImportRegions = "headingImportRegions";
+	String headingImportLgas = "headingImportLgas";
 	String headingImportSelfReports = "headingImportSelfReports";
 	String headingImportSubcontinents = "headingImportSubcontinents";
 	String headingImportSurveyTokenResponses = "headingImportSurveyTokenResponses";
@@ -1152,6 +1160,7 @@ public interface Strings {
 	String labelNumberOfFacilities = "labelNumberOfFacilities";
 	String labelNumberOfPointofEntry = "labelNumberOfPointofEntry";
 	String labelNumberOfRegions = "labelNumberOfRegions";
+	String labelNumberOfLgas = "labelNumberOfLgas";
 	String labelNumberOfSubcontinents = "labelNumberOfSubcontinents";
 	String labelNumberOfTemplates = "labelNumberOfTemplates";
 	String labelNumberOfUsers = "labelNumberOfUsers";

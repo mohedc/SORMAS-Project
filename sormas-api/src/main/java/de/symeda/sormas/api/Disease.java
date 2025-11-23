@@ -89,7 +89,9 @@ public enum Disease
 	INVASIVE_PNEUMOCOCCAL_INFECTION(true, true, true, false, false, 0, false, false, false),
 	INVASIVE_MENINGOCOCCAL_INFECTION(true, true, true, false, true, 7, false, false, false),
 	OTHER(true, true, true, false, true, 21, false, false, false),
-	UNDEFINED(true, true, true, false, true, 0, false, false, false);
+    UNDEFINED(true, true, true, false, true, 0, false, false, false),
+    IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS(true, true, true, false, true, 0, false, false, false);
+
 
 	private final boolean defaultActive;
 	private final boolean defaultPrimary;
