@@ -182,14 +182,14 @@ public abstract class AbstractConfigurationView extends AbstractSubNavigationVie
 					null,
 					false);
 			}
+            menu.addView(
+                    LgaView.VIEW_NAME,
+                    I18nProperties.getPrefixCaption("View", LgaView.VIEW_NAME.replaceAll("/", ".") + ".short", ""),
+                    null,
+                    false);
 			menu.addView(
 				RegionsView.VIEW_NAME,
 				I18nProperties.getPrefixCaption("View", RegionsView.VIEW_NAME.replaceAll("/", ".") + ".short", ""),
-				null,
-				false);
-			menu.addView(
-				LgaView.VIEW_NAME,
-				I18nProperties.getPrefixCaption("View", LgaView.VIEW_NAME.replaceAll("/", ".") + ".short", ""),
 				null,
 				false);
 			menu.addView(
