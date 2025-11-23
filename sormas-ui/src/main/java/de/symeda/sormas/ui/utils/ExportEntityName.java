@@ -33,6 +33,7 @@ public enum ExportEntityName {
 	POINTS_OF_ENTRY("entityPointsOfEntry", "points of entry"),
 	POPULATION_DATA("entityPopulationData", "population data"),
 	REGIONS("entityRegions", "regions"),
+	LGAS("entityLgas", "lgas"),
 	SAMPLES("entitySamples", "samples"),
 	TASKS("entityTasks", "tasks"),
 	USER_ROLES("entityUserRoles", "user roles"),

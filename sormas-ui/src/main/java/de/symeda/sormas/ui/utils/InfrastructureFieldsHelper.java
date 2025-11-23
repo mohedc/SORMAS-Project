@@ -31,6 +31,7 @@ import de.symeda.sormas.api.infrastructure.facility.FacilityDto;
 import de.symeda.sormas.api.infrastructure.facility.FacilityReferenceDto;
 import de.symeda.sormas.api.infrastructure.facility.FacilityType;
 import de.symeda.sormas.api.infrastructure.facility.FacilityTypeGroup;
+import de.symeda.sormas.api.infrastructure.lga.LgaReferenceDto;
 import de.symeda.sormas.api.infrastructure.region.RegionReferenceDto;
 
 public class InfrastructureFieldsHelper {
@@ -182,6 +183,28 @@ public class InfrastructureFieldsHelper {
 
 		if (extraConfig != null) {
 			extraConfig.accept(isNoCountryOrServerCountry);
+		}
+	}
+
+	/**
+	 * Updates the LGA combo items based on the selected country
+	 *
+	 * @param countryCombo
+	 *            country field
+	 * @param lgaCombo
+	 *            LGA field
+	 */
+	public static void updateLgaBasedOnCountry(ComboBox countryCombo, ComboBox lgaCombo) {
+		CountryReferenceDto serverCountryDto = FacadeProvider.getCountryFacade().getServerCountry();
+		CountryReferenceDto countryDto = (CountryReferenceDto) countryCombo.getValue();
+		boolean isNoCountryOrServerCountry = serverCountryDto == null
+			? countryDto == null
+			: countryDto == null || serverCountryDto.getIsoCode().equalsIgnoreCase(countryDto.getIsoCode());
+
+		if (isNoCountryOrServerCountry) {
+			FieldHelper.updateItems(lgaCombo, FacadeProvider.getLgaFacade().getAllActiveByServerCountry());
+		} else {
+			FieldHelper.updateItems(lgaCombo, FacadeProvider.getLgaFacade().getAllActiveByCountry(countryDto.getUuid()));
 		}
 	}
 

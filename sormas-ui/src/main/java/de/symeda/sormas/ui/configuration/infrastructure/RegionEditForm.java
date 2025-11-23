@@ -30,6 +30,7 @@ import com.vaadin.v7.ui.TextField;
 import de.symeda.sormas.api.FacadeProvider;
 import de.symeda.sormas.api.feature.FeatureType;
 import de.symeda.sormas.api.infrastructure.InfrastructureDtoWithDefault;
+import de.symeda.sormas.api.infrastructure.country.CountryReferenceDto;
 import de.symeda.sormas.api.infrastructure.region.RegionDto;
 import de.symeda.sormas.api.utils.fieldaccess.UiFieldAccessCheckers;
 import de.symeda.sormas.api.utils.fieldvisibility.FieldVisibilityCheckers;
@@ -45,6 +46,7 @@ public class RegionEditForm extends AbstractEditForm<RegionDto> {
 	private static final String HTML_LAYOUT = 
 			fluidRowLocs(RegionDto.NAME, RegionDto.EPID_CODE) + 
 					fluidRowLocs(RegionDto.COUNTRY) + 
+					fluidRowLocs(RegionDto.LGA) +
 					fluidRowLocs(RegionDto.AREA) +
 					fluidRowLocs(RegionDto.EXTERNAL_ID) +
 					fluidRowLocs(InfrastructureDtoWithDefault.DEFAULT_INFRASTRUCTURE);
@@ -81,6 +83,7 @@ public class RegionEditForm extends AbstractEditForm<RegionDto> {
 		addField(RegionDto.NAME, TextField.class);
 		addField(RegionDto.EPID_CODE, TextField.class);
 		ComboBox country = addInfrastructureField(RegionDto.COUNTRY);
+		ComboBox lga = addInfrastructureField(RegionDto.LGA);
 		ComboBox area = addInfrastructureField(RegionDto.AREA);
 		addField(RegionDto.EXTERNAL_ID, TextField.class);
 
@@ -97,6 +100,22 @@ public class RegionEditForm extends AbstractEditForm<RegionDto> {
 		setRequired(true, RegionDto.NAME, RegionDto.EPID_CODE);
 
 		country.addItems(FacadeProvider.getCountryFacade().getAllActiveAsReference());
+
+		country.addValueChangeListener(e -> {
+			CountryReferenceDto countryDto = (CountryReferenceDto) e.getProperty().getValue();
+			String serverCountryName = FacadeProvider.getConfigFacade().getCountryName();
+			boolean isServerCountry = serverCountryName == null
+				? countryDto == null
+				: countryDto == null || serverCountryName.equalsIgnoreCase(countryDto.getCaption());
+			if (isServerCountry) {
+				FieldHelper.updateItems(lga, FacadeProvider.getLgaFacade().getAllActiveByServerCountry());
+			} else if (countryDto != null) {
+				FieldHelper.updateItems(lga, FacadeProvider.getLgaFacade().getAllActiveByCountry(countryDto.getUuid()));
+			} else {
+				FieldHelper.removeItems(lga);
+			}
+			lga.setValue(null);
+		});
 
 		area.addItems(FacadeProvider.getAreaFacade().getAllActiveAsReference());
 		FieldHelper.setVisibleWhen(

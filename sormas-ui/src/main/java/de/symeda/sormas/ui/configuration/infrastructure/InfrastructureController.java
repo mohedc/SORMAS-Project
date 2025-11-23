@@ -38,6 +38,7 @@ import de.symeda.sormas.api.infrastructure.continent.ContinentDto;
 import de.symeda.sormas.api.infrastructure.country.CountryDto;
 import de.symeda.sormas.api.infrastructure.district.DistrictDto;
 import de.symeda.sormas.api.infrastructure.facility.FacilityDto;
+import de.symeda.sormas.api.infrastructure.lga.LgaDto;
 import de.symeda.sormas.api.infrastructure.pointofentry.PointOfEntryDto;
 import de.symeda.sormas.api.infrastructure.region.RegionDto;
 import de.symeda.sormas.api.infrastructure.subcontinent.SubcontinentDto;
@@ -129,6 +130,18 @@ public class InfrastructureController {
 		RegionDto region = FacadeProvider.getRegionFacade().getByUuid(uuid);
 		CommitDiscardWrapperComponent<RegionEditForm> editComponent = getRegionEditComponent(region);
 		String caption = I18nProperties.getString(Strings.edit) + " " + region.getName();
+		VaadinUiUtil.showModalPopupWindow(editComponent, caption);
+	}
+
+	public void createLga() {
+		CommitDiscardWrapperComponent<LgaEditForm> createComponent = getLgaEditComponent(null);
+		VaadinUiUtil.showModalPopupWindow(createComponent, I18nProperties.getString(Strings.headingCreateEntry));
+	}
+
+	public void editLga(String uuid) {
+		LgaDto lga = FacadeProvider.getLgaFacade().getByUuid(uuid);
+		CommitDiscardWrapperComponent<LgaEditForm> editComponent = getLgaEditComponent(lga);
+		String caption = I18nProperties.getString(Strings.edit) + " " + lga.getName();
 		VaadinUiUtil.showModalPopupWindow(editComponent, caption);
 	}
 
@@ -357,6 +370,38 @@ public class InfrastructureController {
 				region,
 				ArchiveHandlers.forInfrastructure(FacadeProvider.getRegionFacade(), ArchiveMessages.REGION),
 				() -> SormasUI.get().getNavigator().navigateTo(RegionsView.VIEW_NAME));
+		}
+
+		return editView;
+	}
+
+	private CommitDiscardWrapperComponent<LgaEditForm> getLgaEditComponent(LgaDto lga) {
+
+		boolean isNew = lga == null;
+		LgaEditForm editForm = new LgaEditForm(isNew);
+		if (isNew) {
+			lga = LgaDto.build();
+		}
+
+		editForm.setValue(lga);
+
+		final CommitDiscardWrapperComponent<LgaEditForm> editView = new CommitDiscardWrapperComponent<LgaEditForm>(
+			editForm,
+			UiUtil.permitted(isNew ? UserRight.INFRASTRUCTURE_CREATE : UserRight.INFRASTRUCTURE_EDIT),
+			editForm.getFieldGroup());
+
+		editView.addCommitListener(() -> {
+			FacadeProvider.getLgaFacade().save(editForm.getValue());
+			Notification.show(I18nProperties.getString(Strings.messageEntryCreated), Type.ASSISTIVE_NOTIFICATION);
+			SormasUI.get().getNavigator().navigateTo(LgaView.VIEW_NAME);
+		});
+
+		if (!isNew) {
+			extendEditComponentWithArchiveButton(
+				editView,
+				lga,
+				ArchiveHandlers.forInfrastructure(FacadeProvider.getLgaFacade(), ArchiveMessages.LGA),
+				() -> SormasUI.get().getNavigator().navigateTo(LgaView.VIEW_NAME));
 		}
 
 		return editView;

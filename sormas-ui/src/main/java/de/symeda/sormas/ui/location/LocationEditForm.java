@@ -68,6 +68,7 @@ import de.symeda.sormas.api.infrastructure.facility.FacilityDto;
 import de.symeda.sormas.api.infrastructure.facility.FacilityReferenceDto;
 import de.symeda.sormas.api.infrastructure.facility.FacilityType;
 import de.symeda.sormas.api.infrastructure.facility.FacilityTypeGroup;
+import de.symeda.sormas.api.infrastructure.lga.LgaReferenceDto;
 import de.symeda.sormas.api.infrastructure.region.RegionReferenceDto;
 import de.symeda.sormas.api.infrastructure.subcontinent.SubcontinentCriteria;
 import de.symeda.sormas.api.infrastructure.subcontinent.SubcontinentReferenceDto;
@@ -104,7 +105,7 @@ public class LocationEditForm extends AbstractEditForm<LocationDto> {
 			fluidRowLocs(LocationDto.ADDRESS_TYPE, LocationDto.ADDRESS_TYPE_DETAILS, ""),
 			fluidRowLocs(LocationDto.CONTINENT, LocationDto.SUB_CONTINENT, ""),
 			fluidRowLocs(LocationDto.COUNTRY, COUNTRY_HINT_LOC, ""),
-			fluidRowLocs(LocationDto.REGION, LocationDto.DISTRICT, LocationDto.COMMUNITY),
+			fluidRowLocs(LocationDto.LGA, LocationDto.REGION, LocationDto.DISTRICT, LocationDto.COMMUNITY),
 			fluidRowLocs(FACILITY_TYPE_GROUP_LOC, LocationDto.FACILITY_TYPE),
 			fluidRowLocs(LocationDto.FACILITY, LocationDto.FACILITY_DETAILS),
 			fluidRowLocs(LocationDto.STREET, LocationDto.HOUSE_NUMBER, LocationDto.ADDITIONAL_INFORMATION),
@@ -127,6 +128,7 @@ public class LocationEditForm extends AbstractEditForm<LocationDto> {
 	private ComboBox continent;
 	private ComboBox subcontinent;
 	private ComboBox country;
+	private ComboBox lga;
 	private ComboBox region;
 	private ComboBox district;
 	private ComboBox community;
@@ -257,6 +259,7 @@ public class LocationEditForm extends AbstractEditForm<LocationDto> {
 		continent = addInfrastructureField(LocationDto.CONTINENT);
 		subcontinent = addInfrastructureField(LocationDto.SUB_CONTINENT);
 		country = addInfrastructureField(LocationDto.COUNTRY);
+		lga = addInfrastructureField(LocationDto.LGA);
 		region = addInfrastructureField(LocationDto.REGION);
 		district = addInfrastructureField(LocationDto.DISTRICT);
 		community = addInfrastructureField(LocationDto.COMMUNITY);
@@ -353,7 +356,31 @@ public class LocationEditForm extends AbstractEditForm<LocationDto> {
 						subcontinent.setValue(countrySubcontinent);
 						subcontinent.addValueChangeListener(subContinentValueListener);
 					}
+					// Update LGA and Region when country changes
+					String serverCountryName = FacadeProvider.getConfigFacade().getCountryName();
+					boolean isServerCountry = serverCountryName == null
+						? countryDto == null
+						: countryDto == null || serverCountryName.equalsIgnoreCase(countryDto.getCaption());
+					if (isServerCountry) {
+						FieldHelper.updateItems(lga, FacadeProvider.getLgaFacade().getAllActiveByServerCountry());
+						FieldHelper.updateItems(region, FacadeProvider.getRegionFacade().getAllActiveByServerCountry());
+					} else {
+						FieldHelper.updateItems(lga, FacadeProvider.getLgaFacade().getAllActiveByCountry(countryDto.getUuid()));
+						FieldHelper.updateItems(region, FacadeProvider.getRegionFacade().getAllActiveByCountry(countryDto.getUuid()));
+					}
+					lga.setValue(null);
+					region.setValue(null);
 				}
+			}
+		});
+
+		lga.addValueChangeListener(e -> {
+			LgaReferenceDto lgaDto = (LgaReferenceDto) e.getProperty().getValue();
+			FieldHelper.updateItems(
+				region,
+				lgaDto != null ? FacadeProvider.getRegionFacade().getAllActiveByLga(lgaDto.getUuid()) : null);
+			if (lgaDto == null) {
+				region.setValue(null);
 			}
 		});
 
@@ -561,9 +588,12 @@ public class LocationEditForm extends AbstractEditForm<LocationDto> {
 		}
 		country.addItems(FacadeProvider.getCountryFacade().getAllActiveAsReference());
 		updateRegionCombo(region, country);
+		InfrastructureFieldsHelper.updateLgaBasedOnCountry(country, lga);
 		country.addValueChangeListener(e -> {
 			updateRegionCombo(region, country);
+			InfrastructureFieldsHelper.updateLgaBasedOnCountry(country, lga);
 			region.setValue(null);
+			lga.setValue(null);
 		});
 
 		Stream.of(LocationDto.LATITUDE, LocationDto.LONGITUDE)
