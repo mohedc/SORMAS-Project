@@ -41,6 +41,15 @@ public class InfrastructureFieldsHelper {
 	}
 
 	public static void initInfrastructureFields(
+		ComboBox lgaCombo,
+		ComboBox regionCombo,
+		ComboBox districtCombo,
+		ComboBox communityCombo) {
+		initInfrastructureFields(lgaCombo, regionCombo, districtCombo, communityCombo, null, null, null, null, null);
+	}
+
+	public static void initInfrastructureFields(
+		ComboBox lgaCombo,
 		ComboBox regionCombo,
 		ComboBox districtCombo,
 		ComboBox communityCombo,
@@ -49,6 +58,19 @@ public class InfrastructureFieldsHelper {
 		@Nullable ComboBox facilityCombo,
 		@Nullable TextField facilityDetailsField,
 		@Nullable Supplier<String> facilityDetailsSupplier) {
+		if (lgaCombo != null) {
+			lgaCombo.addValueChangeListener(e -> {
+				LgaReferenceDto lgaDto = (LgaReferenceDto) e.getProperty().getValue();
+				FieldHelper.updateItems(
+					regionCombo,
+					lgaDto != null ? FacadeProvider.getRegionFacade().getAllActiveByLga(lgaDto.getUuid()) : null);
+				if (lgaDto == null) {
+					regionCombo.setValue(null);
+				}
+			});
+			lgaCombo.addItems(FacadeProvider.getLgaFacade().getAllActiveByServerCountry());
+		}
+
 		regionCombo.addValueChangeListener(e -> {
 			RegionReferenceDto regionDto = (RegionReferenceDto) e.getProperty().getValue();
 			FieldHelper
@@ -154,7 +176,21 @@ public class InfrastructureFieldsHelper {
 			facilityDetailsField.setRequired(false);
 		}
 
-		regionCombo.addItems(FacadeProvider.getRegionFacade().getAllActiveByServerCountry());
+		if (lgaCombo == null) {
+			regionCombo.addItems(FacadeProvider.getRegionFacade().getAllActiveByServerCountry());
+		}
+	}
+
+	public static void initInfrastructureFields(
+		ComboBox regionCombo,
+		ComboBox districtCombo,
+		ComboBox communityCombo,
+		@Nullable ComboBox facilityTypeGroupCombo,
+		@Nullable ComboBox facilityTypeCombo,
+		@Nullable ComboBox facilityCombo,
+		@Nullable TextField facilityDetailsField,
+		@Nullable Supplier<String> facilityDetailsSupplier) {
+		initInfrastructureFields(null, regionCombo, districtCombo, communityCombo, facilityTypeGroupCombo, facilityTypeCombo, facilityCombo, facilityDetailsField, facilityDetailsSupplier);
 	}
 
 	/**
