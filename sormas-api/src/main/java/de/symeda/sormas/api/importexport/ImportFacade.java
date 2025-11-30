@@ -61,6 +61,8 @@ public interface ImportFacade {
 
 	void generateRegionImportTemplateFile(List<FeatureConfigurationDto> featureConfigurations) throws IOException;
 
+	void generateLgaImportTemplateFile(List<FeatureConfigurationDto> featureConfigurations) throws IOException;
+
 	void generateDistrictImportTemplateFile(List<FeatureConfigurationDto> featureConfigurations) throws IOException;
 
 	void generateCommunityImportTemplateFile(List<FeatureConfigurationDto> featureConfigurations) throws IOException;
@@ -128,6 +130,10 @@ public interface ImportFacade {
 	String getRegionImportTemplateFileName();
 
 	String getRegionImportTemplateFilePath();
+
+	String getLgaImportTemplateFileName();
+
+	String getLgaImportTemplateFilePath();
 
 	String getDistrictImportTemplateFileName();
 

@@ -123,6 +123,7 @@ import de.symeda.sormas.api.infrastructure.facility.FacilityReferenceDto;
 import de.symeda.sormas.api.infrastructure.facility.FacilityType;
 import de.symeda.sormas.api.infrastructure.pointofentry.PointOfEntryDto;
 import de.symeda.sormas.api.infrastructure.pointofentry.PointOfEntryReferenceDto;
+import de.symeda.sormas.api.infrastructure.lga.LgaDto;
 import de.symeda.sormas.api.infrastructure.region.RegionDto;
 import de.symeda.sormas.api.infrastructure.region.RegionReferenceDto;
 import de.symeda.sormas.api.infrastructure.subcontinent.SubcontinentDto;
@@ -213,6 +214,7 @@ public class ImportFacadeEjb implements ImportFacade {
 	private static final String AREA_IMPORT_TEMPLATE_FILE_NAME = "import_area_template.csv";
 	private static final String COUNTRY_IMPORT_TEMPLATE_FILE_NAME = "import_country_template.csv";
 	private static final String REGION_IMPORT_TEMPLATE_FILE_NAME = "import_region_template.csv";
+	private static final String LGA_IMPORT_TEMPLATE_FILE_NAME = "import_lga_template.csv";
 	private static final String DISTRICT_IMPORT_TEMPLATE_FILE_NAME = "import_district_template.csv";
 	private static final String COMMUNITY_IMPORT_TEMPLATE_FILE_NAME = "import_community_template.csv";
 	private static final String FACILITY_IMPORT_TEMPLATE_FILE_NAME = "import_facility_template.csv";
@@ -486,6 +488,11 @@ public class ImportFacadeEjb implements ImportFacade {
 	}
 
 	@Override
+	public void generateLgaImportTemplateFile(List<FeatureConfigurationDto> featureConfigurations) throws IOException {
+		generateImportTemplateFile(LgaDto.class, Paths.get(getLgaImportTemplateFilePath()), featureConfigurations);
+	}
+
+	@Override
 	public void generateDistrictImportTemplateFile(List<FeatureConfigurationDto> featureConfigurations) throws IOException {
 		generateImportTemplateFile(DistrictDto.class, Paths.get(getDistrictImportTemplateFilePath()), featureConfigurations);
 	}
@@ -731,6 +738,16 @@ public class ImportFacadeEjb implements ImportFacade {
 	@Override
 	public String getRegionImportTemplateFilePath() {
 		return getImportTemplateFilePath(REGION_IMPORT_TEMPLATE_FILE_NAME);
+	}
+
+	@Override
+	public String getLgaImportTemplateFileName() {
+		return getImportTemplateFileName(LGA_IMPORT_TEMPLATE_FILE_NAME);
+	}
+
+	@Override
+	public String getLgaImportTemplateFilePath() {
+		return getImportTemplateFilePath(LGA_IMPORT_TEMPLATE_FILE_NAME);
 	}
 
 	@Override

@@ -1,6 +1,12 @@
 package de.symeda.sormas.ui.configuration.infrastructure;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.opencsv.exceptions.CsvValidationException;
 import com.vaadin.server.ClassResource;
@@ -11,6 +17,7 @@ import com.vaadin.ui.Notification.Type;
 import com.vaadin.v7.ui.DateField;
 
 import de.symeda.sormas.api.FacadeProvider;
+import de.symeda.sormas.api.feature.FeatureConfigurationDto;
 import de.symeda.sormas.api.i18n.I18nProperties;
 import de.symeda.sormas.api.i18n.Strings;
 import de.symeda.sormas.api.importexport.ImportFacade;
@@ -25,6 +32,8 @@ import de.symeda.sormas.ui.importer.PopulationDataImporter;
 
 @SuppressWarnings("serial")
 public class InfrastructureImportLayout extends AbstractImportLayout {
+
+	private static final Logger logger = LoggerFactory.getLogger(InfrastructureImportLayout.class);
 
 	public InfrastructureImportLayout(InfrastructureType infrastructureType) {
 
@@ -79,6 +88,11 @@ public class InfrastructureImportLayout extends AbstractImportLayout {
 			templateFileName = importFacade.getRegionImportTemplateFileName();
 			fileNameAddition = "_region_import_";
 			break;
+		case LGA:
+			templateFilePath = importFacade.getLgaImportTemplateFilePath();
+			templateFileName = importFacade.getLgaImportTemplateFileName();
+			fileNameAddition = "_lga_import_";
+			break;
 		case AREA:
 			templateFilePath = importFacade.getAreaImportTemplateFilePath();
 			templateFileName = importFacade.getAreaImportTemplateFileName();
@@ -99,6 +113,52 @@ public class InfrastructureImportLayout extends AbstractImportLayout {
 		}
 
 		addDownloadResourcesComponent(1, new ClassResource("/SORMAS_Infrastructure_Import_Guide.pdf"));
+		
+		// Generate template file if it doesn't exist
+		try {
+			if (!Files.exists(Paths.get(templateFilePath))) {
+				List<FeatureConfigurationDto> featureConfigurations = FacadeProvider.getFeatureConfigurationFacade().getActiveServerFeatureConfigurations();
+				switch (infrastructureType) {
+				case COMMUNITY:
+					importFacade.generateCommunityImportTemplateFile(featureConfigurations);
+					break;
+				case DISTRICT:
+					importFacade.generateDistrictImportTemplateFile(featureConfigurations);
+					break;
+				case FACILITY:
+					importFacade.generateFacilityImportTemplateFile(featureConfigurations);
+					break;
+				case POINT_OF_ENTRY:
+					importFacade.generatePointOfEntryImportTemplateFile(featureConfigurations);
+					break;
+				case COUNTRY:
+					importFacade.generateCountryImportTemplateFile(featureConfigurations);
+					break;
+				case REGION:
+					importFacade.generateRegionImportTemplateFile(featureConfigurations);
+					break;
+				case LGA:
+					importFacade.generateLgaImportTemplateFile(featureConfigurations);
+					break;
+				case AREA:
+					importFacade.generateAreaImportTemplateFile(featureConfigurations);
+					break;
+				case SUBCONTINENT:
+					importFacade.generateSubcontinentImportTemplateFile(featureConfigurations);
+					break;
+				case CONTINENT:
+					importFacade.generateContinentImportTemplateFile(featureConfigurations);
+					break;
+				default:
+					// POPULATION_DATA doesn't need feature configurations
+					break;
+				}
+			}
+		} catch (IOException e) {
+			logger.error("Failed to generate import template file for infrastructure type: " + infrastructureType + " at path: " + templateFilePath, e);
+			// The addDownloadImportTemplateComponent will handle the error and show a notification to the user
+		}
+		
 		addDownloadImportTemplateComponent(2, templateFilePath, templateFileName);
 
 		if (infrastructureType == InfrastructureType.POPULATION_DATA) {
@@ -165,6 +225,14 @@ public class InfrastructureImportLayout extends AbstractImportLayout {
 							file,
 							currentUser,
 							InfrastructureType.REGION,
+							allowOverwrite,
+							(ValueSeparator) separator.getValue());
+						break;
+					case LGA:
+						importer = new InfrastructureImporter(
+							file,
+							currentUser,
+							InfrastructureType.LGA,
 							allowOverwrite,
 							(ValueSeparator) separator.getValue());
 						break;

@@ -980,6 +980,11 @@ public class StartupShutdownService {
 			logger.error("Could not create region import template .csv file.");
 		}
 		try {
+			importFacade.generateLgaImportTemplateFile(featureConfigurations);
+		} catch (IOException e) {
+			logger.error("Could not create lga import template .csv file.");
+		}
+		try {
 			importFacade.generateDistrictImportTemplateFile(featureConfigurations);
 		} catch (IOException e) {
 			logger.error("Could not create district import template .csv file.");

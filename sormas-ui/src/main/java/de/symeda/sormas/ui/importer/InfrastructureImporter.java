@@ -25,6 +25,7 @@ import de.symeda.sormas.api.infrastructure.continent.ContinentDto;
 import de.symeda.sormas.api.infrastructure.district.DistrictDto;
 import de.symeda.sormas.api.infrastructure.district.DistrictReferenceDto;
 import de.symeda.sormas.api.infrastructure.facility.FacilityDto;
+import de.symeda.sormas.api.infrastructure.lga.LgaDto;
 import de.symeda.sormas.api.infrastructure.pointofentry.PointOfEntryDto;
 import de.symeda.sormas.api.infrastructure.region.RegionDto;
 import de.symeda.sormas.api.infrastructure.subcontinent.SubcontinentDto;
@@ -83,6 +84,9 @@ public class InfrastructureImporter extends DataImporter {
 		case REGION:
 			newEntityDto = RegionDto.build();
 			break;
+		case LGA:
+			newEntityDto = LgaDto.build();
+			break;
 		case AREA:
 			newEntityDto = AreaDto.build();
 			break;
@@ -136,6 +140,9 @@ public class InfrastructureImporter extends DataImporter {
 					break;
 				case REGION:
 					FacadeProvider.getRegionFacade().save((RegionDto) newEntityDto, allowOverwrite);
+					break;
+				case LGA:
+					FacadeProvider.getLgaFacade().save((LgaDto) newEntityDto, allowOverwrite);
 					break;
 				case AREA:
 					FacadeProvider.getAreaFacade().save((AreaDto) newEntityDto, allowOverwrite);
