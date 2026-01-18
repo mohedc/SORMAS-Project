@@ -92,8 +92,10 @@ public class PersonCreateForm extends AbstractEditForm<PersonDto> {
 	private Window warningSimilarPersons;
 
 	private static final String HTML_LAYOUT =
-		"%s" + fluidRow(fluidRowLocs(PersonDto.BIRTH_DATE_YYYY, PersonDto.BIRTH_DATE_MM, PersonDto.BIRTH_DATE_DD), fluidRowLocs(PersonDto.SEX))
+		"%s" + fluidRowLocs(PersonDto.OTHER_NAMES)
+			+ fluidRow(fluidRowLocs(PersonDto.BIRTH_DATE_YYYY, PersonDto.BIRTH_DATE_MM, PersonDto.BIRTH_DATE_DD), fluidRowLocs(PersonDto.SEX))
 			+ fluidRowLocs(PersonDto.NATIONAL_HEALTH_ID, PersonDto.PASSPORT_NUMBER)
+			+ fluidRowLocs(PersonDto.BIRTH_COUNTRY, PersonDto.CITIZENSHIP)
 			+ fluidRowLocs(PersonDto.PRESENT_CONDITION, SymptomsDto.ONSET_DATE) + fluidRowLocs(PersonDto.PHONE, PersonDto.EMAIL_ADDRESS)
 			+ fluidRowLocs(ENTER_HOME_ADDRESS_NOW) + loc(HOME_ADDRESS_HEADER) + divsCss(VSPACE_3, fluidRowLocs(HOME_ADDRESS_LOC));
 
@@ -133,6 +135,7 @@ public class PersonCreateForm extends AbstractEditForm<PersonDto> {
 
 		addField(PersonDto.FIRST_NAME, TextField.class);
 		addField(PersonDto.LAST_NAME, TextField.class);
+		addField(PersonDto.OTHER_NAMES, TextField.class);
 
 		if (showPersonSearchButton) {
 			searchPersonButton = createPersonSearchButton(PERSON_SEARCH_LOC);
@@ -193,6 +196,10 @@ public class PersonCreateForm extends AbstractEditForm<PersonDto> {
 
 		nationalHealthIdField = addField(PersonDto.NATIONAL_HEALTH_ID, SormasTextField.class);
 		nationalHealthIdField.setNullRepresentation("");
+
+		List<de.symeda.sormas.api.infrastructure.country.CountryReferenceDto> countries = FacadeProvider.getCountryFacade().getAllActiveAsReference();
+		addInfrastructureField(PersonDto.BIRTH_COUNTRY).addItems(countries);
+		addInfrastructureField(PersonDto.CITIZENSHIP).addItems(countries);
 
 		ComboBox presentCondition = addField(PersonDto.PRESENT_CONDITION, ComboBox.class);
 		presentCondition.setVisible(showPresentCondition);
@@ -363,6 +370,7 @@ public class PersonCreateForm extends AbstractEditForm<PersonDto> {
 
 		person.setFirstName(personCreated.getFirstName());
 		person.setLastName(personCreated.getLastName());
+		person.setOtherNames(personCreated.getOtherNames());
 		person.setBirthdateDD(personCreated.getBirthdateDD());
 		person.setBirthdateMM(personCreated.getBirthdateMM());
 		person.setBirthdateYYYY(personCreated.getBirthdateYYYY());
