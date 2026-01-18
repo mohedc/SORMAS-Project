@@ -68,6 +68,7 @@ public class Person extends PseudonymizableAdo {
 
 	public static final String FIRST_NAME = "firstName";
 	public static final String LAST_NAME = "lastName";
+	public static final String OTHER_NAMES = "otherNames";
 	public static final String APPROXIMATE_AGE = "approximateAge";
 	public static final String ADDRESS = "address";
 	public static final String SEX = "sex";
@@ -81,6 +82,8 @@ public class Person extends PseudonymizableAdo {
 	private String firstName;
 	@Column(nullable = false)
 	private String lastName;
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	private String otherNames;
 	@Enumerated(EnumType.STRING)
 	private Salutation salutation;
 	@Column(length = CHARACTER_LIMIT_DEFAULT)
@@ -213,6 +216,15 @@ public class Person extends PseudonymizableAdo {
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
+	}
+
+	@Bindable
+	public String getOtherNames() {
+		return otherNames;
+	}
+
+	public void setOtherNames(String otherNames) {
+		this.otherNames = otherNames;
 	}
 
 	public Salutation getSalutation() {
