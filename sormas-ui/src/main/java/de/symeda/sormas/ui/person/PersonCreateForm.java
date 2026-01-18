@@ -24,7 +24,9 @@ import static de.symeda.sormas.ui.utils.LayoutUtil.loc;
 
 import java.time.Month;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -49,9 +51,12 @@ import de.symeda.sormas.api.i18n.I18nProperties;
 import de.symeda.sormas.api.i18n.Strings;
 import de.symeda.sormas.api.i18n.Validations;
 import de.symeda.sormas.api.location.LocationDto;
+import de.symeda.sormas.api.person.ApproximateAgeType;
+import de.symeda.sormas.api.person.ApproximateAgeType.ApproximateAgeHelper;
 import de.symeda.sormas.api.person.PersonDto;
 import de.symeda.sormas.api.person.PresentCondition;
 import de.symeda.sormas.api.person.SimilarPersonDto;
+import de.symeda.sormas.api.utils.DataHelper.Pair;
 import de.symeda.sormas.api.symptoms.SymptomsDto;
 import de.symeda.sormas.api.utils.DateHelper;
 import de.symeda.sormas.api.utils.LocationHelper;
@@ -90,10 +95,15 @@ public class PersonCreateForm extends AbstractEditForm<PersonDto> {
 	private final boolean showPersonSearchButton;
 	private SormasTextField nationalHealthIdField;
 	private Window warningSimilarPersons;
+	private TextField approximateAgeField;
+	private ComboBox approximateAgeTypeField;
 
 	private static final String HTML_LAYOUT =
 		"%s" + fluidRowLocs(PersonDto.OTHER_NAMES)
-			+ fluidRow(fluidRowLocs(PersonDto.BIRTH_DATE_YYYY, PersonDto.BIRTH_DATE_MM, PersonDto.BIRTH_DATE_DD), fluidRowLocs(PersonDto.SEX))
+			+ fluidRow(
+				fluidRowLocs(PersonDto.BIRTH_DATE_YYYY, PersonDto.BIRTH_DATE_MM, PersonDto.BIRTH_DATE_DD),
+				fluidRowLocs(PersonDto.APPROXIMATE_AGE, PersonDto.APPROXIMATE_AGE_TYPE, PersonDto.APPROXIMATE_AGE_REFERENCE_DATE))
+			+ fluidRowLocs(6, PersonDto.SEX, 6, "")
 			+ fluidRowLocs(PersonDto.NATIONAL_HEALTH_ID, PersonDto.PASSPORT_NUMBER)
 			+ fluidRowLocs(PersonDto.BIRTH_COUNTRY, PersonDto.CITIZENSHIP)
 			+ fluidRowLocs(PersonDto.PRESENT_CONDITION, SymptomsDto.ONSET_DATE) + fluidRowLocs(PersonDto.PHONE, PersonDto.EMAIL_ADDRESS)
@@ -179,16 +189,28 @@ public class PersonCreateForm extends AbstractEditForm<PersonDto> {
 			updateListOfDays((Integer) e.getProperty().getValue(), (Integer) birthDateMonth.getValue());
 			birthDateMonth.markAsDirty();
 			birthDateDay.markAsDirty();
+			updateApproximateAge();
+			updateReadyOnlyApproximateAge();
 		});
 		birthDateMonth.addValueChangeListener(e -> {
 			updateListOfDays((Integer) birthDateYear.getValue(), (Integer) e.getProperty().getValue());
 			birthDateYear.markAsDirty();
 			birthDateDay.markAsDirty();
+			updateApproximateAge();
+			updateReadyOnlyApproximateAge();
 		});
 		birthDateDay.addValueChangeListener(e -> {
 			birthDateYear.markAsDirty();
 			birthDateMonth.markAsDirty();
+			updateApproximateAge();
+			updateReadyOnlyApproximateAge();
 		});
+
+		approximateAgeField = addField(PersonDto.APPROXIMATE_AGE, TextField.class);
+		approximateAgeField
+			.setConversionError(I18nProperties.getValidationError(Validations.onlyIntegerNumbersAllowed, approximateAgeField.getCaption()));
+		approximateAgeTypeField = addField(PersonDto.APPROXIMATE_AGE_TYPE, ComboBox.class);
+		addField(PersonDto.APPROXIMATE_AGE_REFERENCE_DATE, DateField.class);
 
 		ComboBox sex = addField(PersonDto.SEX, ComboBox.class);
 
@@ -224,6 +246,8 @@ public class PersonCreateForm extends AbstractEditForm<PersonDto> {
 		if (showHomeAddressForm) {
 			addHomeAddressForm();
 		}
+
+		setReadOnly(true, PersonDto.APPROXIMATE_AGE_REFERENCE_DATE);
 
 		initializeVisibilitiesAndAllowedVisibilities();
 		initializeAccessAndAllowedAccesses();
@@ -374,6 +398,9 @@ public class PersonCreateForm extends AbstractEditForm<PersonDto> {
 		person.setBirthdateDD(personCreated.getBirthdateDD());
 		person.setBirthdateMM(personCreated.getBirthdateMM());
 		person.setBirthdateYYYY(personCreated.getBirthdateYYYY());
+		person.setApproximateAge(personCreated.getApproximateAge());
+		person.setApproximateAgeType(personCreated.getApproximateAgeType());
+		person.setApproximateAgeReferenceDate(personCreated.getApproximateAgeReferenceDate());
 		person.setSex(personCreated.getSex());
 		person.setPresentCondition(personCreated.getPresentCondition());
 		person.setNationalHealthId(personCreated.getNationalHealthId());
@@ -519,5 +546,56 @@ public class PersonCreateForm extends AbstractEditForm<PersonDto> {
 
 	public SormasTextField getNationalHealthIdField() {
 		return nationalHealthIdField;
+	}
+
+	private void updateReadyOnlyApproximateAge() {
+		boolean readonly = false;
+		if (getFieldGroup().getField(PersonDto.BIRTH_DATE_YYYY).getValue() != null) {
+			readonly = true;
+		}
+
+		getFieldGroup().getField(PersonDto.APPROXIMATE_AGE).setReadOnly(readonly);
+		getFieldGroup().getField(PersonDto.APPROXIMATE_AGE_TYPE).setReadOnly(readonly);
+	}
+
+	private Date calcBirthDateValue() {
+		if (getFieldGroup().getField(PersonDto.BIRTH_DATE_YYYY).getValue() != null) {
+			Calendar birthDateCalendar = new GregorianCalendar();
+			birthDateCalendar.set(
+				(Integer) getFieldGroup().getField(PersonDto.BIRTH_DATE_YYYY).getValue(),
+				getFieldGroup().getField(PersonDto.BIRTH_DATE_MM).getValue() != null
+					? (Integer) getFieldGroup().getField(PersonDto.BIRTH_DATE_MM).getValue() - 1
+					: 0,
+				getFieldGroup().getField(PersonDto.BIRTH_DATE_DD).getValue() != null
+					? (Integer) getFieldGroup().getField(PersonDto.BIRTH_DATE_DD).getValue()
+					: 1);
+			return birthDateCalendar.getTime();
+		}
+		return null;
+	}
+
+	private void updateApproximateAge() {
+		String approximateAge = null;
+		ApproximateAgeType approximateAgeType = null;
+
+		Date birthDate = calcBirthDateValue();
+		if (birthDate != null) {
+			Pair<Integer, ApproximateAgeType> pair =
+				ApproximateAgeHelper.getApproximateAge(birthDate, null);
+			if (pair.getElement0() != null) {
+				approximateAge = String.valueOf(pair.getElement0());
+			}
+			approximateAgeType = pair.getElement1();
+		}
+
+		TextField approximateAgeField = (TextField) getFieldGroup().getField(PersonDto.APPROXIMATE_AGE);
+		approximateAgeField.setReadOnly(false);
+		approximateAgeField.setValue(approximateAge);
+		approximateAgeField.setReadOnly(true);
+
+		AbstractSelect approximateAgeTypeSelect = (AbstractSelect) getFieldGroup().getField(PersonDto.APPROXIMATE_AGE_TYPE);
+		approximateAgeTypeSelect.setReadOnly(false);
+		approximateAgeTypeSelect.setValue(approximateAgeType);
+		approximateAgeTypeSelect.setReadOnly(true);
 	}
 }
