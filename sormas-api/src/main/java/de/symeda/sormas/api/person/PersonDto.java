@@ -70,6 +70,7 @@ public class PersonDto extends PseudonymizableDto implements IsPerson {
 	public static final String SEX = "sex";
 	public static final String FIRST_NAME = "firstName";
 	public static final String LAST_NAME = "lastName";
+	public static final String OTHER_NAMES = "otherNames";
 	public static final String SALUTATION = "salutation";
 	public static final String OTHER_SALUTATION = "otherSalutation";
 	public static final String PRESENT_CONDITION = "presentCondition";
@@ -147,6 +148,10 @@ public class PersonDto extends PseudonymizableDto implements IsPerson {
 	@SensitiveData(mandatoryField = true)
 	@Size(max = FieldConstraints.CHARACTER_LIMIT_DEFAULT, message = Validations.textTooLong)
 	private String lastName;
+	@PersonalData
+	@SensitiveData
+	@Size(max = FieldConstraints.CHARACTER_LIMIT_DEFAULT, message = Validations.textTooLong)
+	private String otherNames;
 	@HideForCountriesExcept
 	@PersonalData
 	@SensitiveData
@@ -789,6 +794,14 @@ public class PersonDto extends PseudonymizableDto implements IsPerson {
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
+	}
+
+	public String getOtherNames() {
+		return otherNames;
+	}
+
+	public void setOtherNames(String otherNames) {
+		this.otherNames = otherNames;
 	}
 
 	public Salutation getSalutation() {
