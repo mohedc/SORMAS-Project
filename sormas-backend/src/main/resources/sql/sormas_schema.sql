@@ -14524,4 +14524,10 @@ ALTER TABLE forms_form_fields_history OWNER TO sormas_user;
 
 INSERT INTO schema_version (version_number, comment) VALUES (585, 'Add Form Builder tables for dynamic form configuration');
 
+-- Add otherNames field to person table
+alter table person add column othernames character varying(255);
+alter table person_history add column othernames character varying(255);
+
+INSERT INTO schema_version (version_number, comment) VALUES (586, 'Add otherNames field to person table');
+
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***

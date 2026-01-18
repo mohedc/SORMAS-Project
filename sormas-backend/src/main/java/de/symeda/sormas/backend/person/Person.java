@@ -84,6 +84,7 @@ public class Person extends AbstractDomainObject implements IsPerson, HasExterna
 
 	public static final String FIRST_NAME = "firstName";
 	public static final String LAST_NAME = "lastName";
+	public static final String OTHER_NAMES = "otherNames";
 	public static final String SALUTATION = "salutation";
 	public static final String OTHER_SALUTATION = "otherSalutation";
 	public static final String NICKNAME = "nickname";
@@ -148,6 +149,7 @@ public class Person extends AbstractDomainObject implements IsPerson, HasExterna
 
 	private String firstName;
 	private String lastName;
+	private String otherNames;
 	private Salutation salutation;
 	private String otherSalutation;
 	private String birthName;
@@ -243,6 +245,15 @@ public class Person extends AbstractDomainObject implements IsPerson, HasExterna
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
+	}
+
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	public String getOtherNames() {
+		return otherNames;
+	}
+
+	public void setOtherNames(String otherNames) {
+		this.otherNames = otherNames;
 	}
 
 	@Enumerated(EnumType.STRING)
