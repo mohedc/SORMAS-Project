@@ -380,7 +380,8 @@ public class PersonDto extends PseudonymizableDto implements IsPerson {
 	@SensitiveData
 	private CountryReferenceDto birthCountry;
 	@HideForCountriesExcept(countries = {
-		CountryHelper.COUNTRY_CODE_LUXEMBOURG })
+		CountryHelper.COUNTRY_CODE_LUXEMBOURG,
+		CountryHelper.COUNTRY_CODE_GAMBIA })
 	@SensitiveData
 	private CountryReferenceDto citizenship;
 	@SensitiveData
