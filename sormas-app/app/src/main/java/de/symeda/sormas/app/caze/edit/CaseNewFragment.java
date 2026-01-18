@@ -86,6 +86,7 @@ public class CaseNewFragment extends BaseEditFragment<FragmentCaseNewLayoutBindi
 	private List<Item> initialPointsOfEntry;
 	private List<Item> facilityOrHomeList;
 	private List<Item> facilityTypeGroupList;
+	private List<Item> countryList;
 
 	public static CaseNewFragment newInstance(Case activityRootData) {
 		return newInstance(CaseNewFragment.class, CaseNewActivity.buildBundle().get(), activityRootData);
@@ -143,6 +144,7 @@ public class CaseNewFragment extends BaseEditFragment<FragmentCaseNewLayoutBindi
 
 		facilityOrHomeList = DataUtils.toItems(TypeOfPlace.FOR_CASES, true);
 		facilityTypeGroupList = DataUtils.toItems(FacilityTypeGroup.getAccomodationGroups(), true);
+		countryList = InfrastructureDaoHelper.loadCountries();
 	}
 
 	@Override
@@ -258,6 +260,8 @@ public class CaseNewFragment extends BaseEditFragment<FragmentCaseNewLayoutBindi
 		contentBinding.personBirthdateYYYY.setSelectionOnOpen(year - 35);
 
 		contentBinding.personSex.initializeSpinner(sexList);
+
+		contentBinding.personCitizenship.initializeSpinner(countryList);
 
 		contentBinding.personPresentCondition.initializeSpinner(presentConditionList);
 

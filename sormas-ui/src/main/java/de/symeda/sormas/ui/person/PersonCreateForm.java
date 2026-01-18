@@ -103,9 +103,9 @@ public class PersonCreateForm extends AbstractEditForm<PersonDto> {
 			+ fluidRow(
 				fluidRowLocs(PersonDto.BIRTH_DATE_YYYY, PersonDto.BIRTH_DATE_MM, PersonDto.BIRTH_DATE_DD),
 				fluidRowLocs(PersonDto.APPROXIMATE_AGE, PersonDto.APPROXIMATE_AGE_TYPE, PersonDto.APPROXIMATE_AGE_REFERENCE_DATE))
-			+ fluidRowLocs(6, PersonDto.SEX, 6, "")
+			+ fluidRowLocs(6, PersonDto.SEX, 6, PersonDto.CITIZENSHIP)
 			+ fluidRowLocs(PersonDto.NATIONAL_HEALTH_ID, PersonDto.PASSPORT_NUMBER)
-			+ fluidRowLocs(PersonDto.BIRTH_COUNTRY, PersonDto.CITIZENSHIP)
+			+ fluidRowLocs(PersonDto.BIRTH_COUNTRY)
 			+ fluidRowLocs(PersonDto.PRESENT_CONDITION, SymptomsDto.ONSET_DATE) + fluidRowLocs(PersonDto.PHONE, PersonDto.EMAIL_ADDRESS)
 			+ fluidRowLocs(ENTER_HOME_ADDRESS_NOW) + loc(HOME_ADDRESS_HEADER) + divsCss(VSPACE_3, fluidRowLocs(HOME_ADDRESS_LOC));
 
@@ -402,6 +402,8 @@ public class PersonCreateForm extends AbstractEditForm<PersonDto> {
 		person.setApproximateAgeType(personCreated.getApproximateAgeType());
 		person.setApproximateAgeReferenceDate(personCreated.getApproximateAgeReferenceDate());
 		person.setSex(personCreated.getSex());
+		person.setCitizenship(personCreated.getCitizenship());
+		person.setBirthCountry(personCreated.getBirthCountry());
 		person.setPresentCondition(personCreated.getPresentCondition());
 		person.setNationalHealthId(personCreated.getNationalHealthId());
 		person.setPassportNumber(personCreated.getPassportNumber());
