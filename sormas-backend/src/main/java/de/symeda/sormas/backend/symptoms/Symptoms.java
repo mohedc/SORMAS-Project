@@ -269,6 +269,7 @@ public class Symptoms extends AbstractDomainObject {
 	private SymptomState normalCryAndSuck;
 	private SymptomState stiffness;
 	private CaseOutcome outcome;
+	@Column(name = "babydied")
 	private SymptomState babyDied;
 
 	// when adding new fields make sure to extend toHumanString
