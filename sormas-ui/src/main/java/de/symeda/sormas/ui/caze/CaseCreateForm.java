@@ -25,11 +25,9 @@ import static de.symeda.sormas.ui.utils.CssStyles.style;
 import static de.symeda.sormas.ui.utils.LayoutUtil.*;
 import static de.symeda.sormas.ui.utils.LayoutUtil.locsCss;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
+import com.vaadin.v7.ui.*;
 import org.apache.commons.collections4.CollectionUtils;
 
 import com.google.common.collect.Sets;
@@ -38,10 +36,6 @@ import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.ValoTheme;
 import com.vaadin.v7.data.util.converter.Converter;
 import com.vaadin.v7.ui.AbstractSelect.ItemCaptionMode;
-import com.vaadin.v7.ui.CheckBox;
-import com.vaadin.v7.ui.ComboBox;
-import com.vaadin.v7.ui.DateField;
-import com.vaadin.v7.ui.TextField;
 
 import de.symeda.sormas.api.Disease;
 import de.symeda.sormas.api.FacadeProvider;
@@ -544,8 +538,24 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 		diseaseField.addValueChangeListener((ValueChangeListener) valueChangeEvent -> {
 			Disease selectedDisease = (Disease) valueChangeEvent.getProperty().getValue();
 
-			hideAllFields();
 			handleDiseaseChanged(selectedDisease);
+			personCreateForm.updatePresentConditionEnum(selectedDisease);
+
+			// Show ONSET_DATE only for diseases that need it
+			personCreateForm.getField(SymptomsDto.ONSET_DATE).setVisible(false);
+
+			if (!mappedDiseases.contains(selectedDisease)) {
+				// Restore all fields
+				for (Field<?> field : getFieldGroup().getFields()) {
+					if (field != null) {
+						field.setVisible(true);
+					}
+				}
+				return;
+			}
+
+
+			hideAllFields();
 
 			if (selectedDisease == Disease.NEONATAL_TETANUS) {
 				setVisible(true, epidField, diseaseField, responsibleRegionCombo, responsibleDistrictCombo, responsibleCommunityCombo, facilityOrHome, facilityDetails, facilityCombo, facilityType, reportDate);
@@ -555,10 +565,7 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 				personCreateForm.getField(PersonDto.EMAIL_ADDRESS).setVisible(false);
 				personCreateForm.getField(PersonDto.PRESENT_CONDITION).setVisible(false);
 			}
-			personCreateForm.updatePresentConditionEnum((Disease) valueChangeEvent.getProperty().getValue());
 
-			// Show ONSET_DATE only for diseases that need it
-			personCreateForm.getField(SymptomsDto.ONSET_DATE).setVisible(false);
 		});
 
 		diseaseVariantField.addValueChangeListener(e -> {
@@ -800,4 +807,9 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 	public Window getWarningSimilarPersons() {
 		return warningSimilarPersons;
 	}
+
+	private final Set<Disease> mappedDiseases = EnumSet.of(
+			Disease.NEONATAL_TETANUS
+	);
+
 }

@@ -28,6 +28,7 @@ import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import de.symeda.sormas.api.caze.CaseOutcome;
 import de.symeda.sormas.api.symptoms.ClinicalPresentationStatus;
 import de.symeda.sormas.api.symptoms.CongenitalHeartDiseaseType;
 import de.symeda.sormas.api.symptoms.DiagnosisType;
@@ -473,6 +474,22 @@ public class Symptoms extends PseudonymizableAdo {
 	private SymptomState shivering;
 	@Enumerated(EnumType.STRING)
 	private ClinicalPresentationStatus clinicalPresentationStatus;
+	@Enumerated(EnumType.STRING)
+	private SymptomState babyNormalAtBirth;
+	@Column
+	private Integer ageAtDeathDays;
+	@Column
+	private Integer ageAtOnsetDays;
+	@Enumerated(EnumType.STRING)
+	private SymptomState stoppedSuckingAfterTwoDays;
+	@Enumerated(EnumType.STRING)
+	private SymptomState normalCryAndSuck;
+	@Enumerated(EnumType.STRING)
+	private SymptomState stiffness;
+	@Enumerated(EnumType.STRING)
+	private CaseOutcome outcome;
+	@Enumerated(EnumType.STRING)
+	private SymptomState babydied;
 
 	@Override
 	public String getI18nPrefix() {
@@ -2044,5 +2061,64 @@ public class Symptoms extends PseudonymizableAdo {
 
 	public void setClinicalPresentationStatus(ClinicalPresentationStatus clinicalPresentationStatus) {
 		this.clinicalPresentationStatus = clinicalPresentationStatus;
+	}
+
+	public SymptomState getBabyNormalAtBirth() {
+		return babyNormalAtBirth;
+	}
+
+	public void setBabyNormalAtBirth(SymptomState babyNormalAtBirth) {
+		this.babyNormalAtBirth = babyNormalAtBirth;
+	}
+
+	public Integer getAgeAtDeathDays() {
+		return ageAtDeathDays;
+	}
+
+	public void setAgeAtDeathDays(Integer ageAtDeathDays) {
+		this.ageAtDeathDays = ageAtDeathDays;
+	}
+
+	public Integer getAgeAtOnsetDays() {
+		return ageAtOnsetDays;
+	}
+
+	public void setAgeAtOnsetDays(Integer ageAtOnsetDays) {
+		this.ageAtOnsetDays = ageAtOnsetDays;
+	}
+	public SymptomState getStoppedSuckingAfterTwoDays() {
+		return stoppedSuckingAfterTwoDays;
+	}
+
+	public void setStoppedSuckingAfterTwoDays(SymptomState stoppedSuckingAfterTwoDays) {
+		this.stoppedSuckingAfterTwoDays = stoppedSuckingAfterTwoDays;
+	}
+	public SymptomState getNormalCryAndSuck() {
+		return normalCryAndSuck;
+	}
+
+	public void setNormalCryAndSuck(SymptomState normalCryAndSuck) {
+		this.normalCryAndSuck = normalCryAndSuck;
+	}
+	public SymptomState getStiffness() {
+		return stiffness;
+	}
+
+	public void setStiffness(SymptomState stiffness) {
+		this.stiffness = stiffness;
+	}
+	public CaseOutcome getOutcome() {
+		return outcome;
+	}
+
+	public void setOutcome(CaseOutcome outcome) {
+		this.outcome = outcome;
+	}
+	public SymptomState getBabyDied() {
+		return babydied;
+	}
+
+	public void setBabyDied(SymptomState babydied) {
+		this.babydied = babydied;
 	}
 }

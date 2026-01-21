@@ -235,6 +235,14 @@ public class SymptomsDtoHelper extends AdoDtoHelper<Symptoms, SymptomsDto> {
 		target.setHighOrLowBloodPressure(source.getHighOrLowBloodPressure());
 		target.setUrinaryRetention(source.getUrinaryRetention());
 		target.setShivering(source.getShivering());
+		target.setBabyNormalAtBirth(source.getBabyNormalAtBirth());
+		target.setAgeAtDeathDays(source.getAgeAtDeathDays());
+		target.setAgeAtOnsetDays(source.getAgeAtOnsetDays());
+		target.setStoppedSuckingAfterTwoDays(source.getStoppedSuckingAfterTwoDays());
+		target.setNormalCryAndSuck(source.getNormalCryAndSuck());
+		target.setStiffness(source.getStiffness());
+		target.setOutcome(source.getOutcome());
+		target.setBabyDied(source.getBabyDied());
 
 		target.setPseudonymized(source.isPseudonymized());
 	}
@@ -421,6 +429,14 @@ public class SymptomsDtoHelper extends AdoDtoHelper<Symptoms, SymptomsDto> {
 		target.setHighOrLowBloodPressure(source.getHighOrLowBloodPressure());
 		target.setUrinaryRetention(source.getUrinaryRetention());
 		target.setShivering(source.getShivering());
+		target.setBabyNormalAtBirth(source.getBabyNormalAtBirth());
+		target.setAgeAtDeathDays(source.getAgeAtDeathDays());
+		target.setAgeAtOnsetDays(source.getAgeAtOnsetDays());
+		target.setStoppedSuckingAfterTwoDays(source.getStoppedSuckingAfterTwoDays());
+		target.setNormalCryAndSuck(source.getNormalCryAndSuck());
+		target.setStiffness(source.getStiffness());
+		target.setOutcome(source.getOutcome());
+		target.setBabyDied(source.getBabyDied());
 
 		target.setPseudonymized(source.isPseudonymized());
 	}

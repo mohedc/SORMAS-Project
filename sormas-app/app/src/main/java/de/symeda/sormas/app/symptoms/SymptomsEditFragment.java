@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.symeda.sormas.api.Disease;
+import de.symeda.sormas.api.FormType;
 import de.symeda.sormas.api.person.ApproximateAgeType;
 import de.symeda.sormas.api.symptoms.CongenitalHeartDiseaseType;
 import de.symeda.sormas.api.symptoms.SymptomState;
@@ -160,6 +161,10 @@ public class SymptomsEditFragment extends BaseEditFragment<FragmentSymptomsEditL
 		contentBinding.setSetClearedToUnknownCallback(setClearedToUnknownCallback);
 
 		SymptomsValidator.initializeSymptomsValidation(contentBinding, ado);
+
+		if( disease != null){
+			super.hideFieldsForDisease(disease, contentBinding.mainContent, FormType.SYMPTOMS_EDIT);
+		}
 	}
 
 	@Override
