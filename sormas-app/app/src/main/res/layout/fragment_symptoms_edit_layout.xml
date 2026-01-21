@@ -1364,7 +1364,73 @@
                 app:softRequired="true"
                 style="@style/ControlSingleColumnStyle" />
 
+            <de.symeda.sormas.app.component.controls.ControlSwitchField
+                android:id="@+id/symptoms_babyDied"
+                app:enumClass="@{symptomStateClass}"
+                app:slim="true"
+                app:value="@={data.babyDied}"
+                style="@style/ControlSingleColumnStyle" />
+
+            <!-- ageAtDeathDays, ageAtOnsetDays-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/symptoms_ageAtDeathDays_ageAtOnsetDays"
+                android:orientation="horizontal">
+
+                <de.symeda.sormas.app.component.controls.ControlTextEditField
+                    android:id="@+id/symptoms_ageAtDeathDays"
+                    app:value="@={data.ageAtDeathDays}"
+                    app:dependencyParentField="@{symptomsBabyDied}"
+                    app:dependencyParentValue="@{SymptomState.YES}"
+                    app:inputType="number"
+                    style="@style/ControlFirstOfTwoColumnsStyle" />
+
+                <de.symeda.sormas.app.component.controls.ControlTextEditField
+                    android:id="@+id/symptoms_ageAtOnsetDays"
+                    app:value="@={data.ageAtOnsetDays}"
+                    app:dependencyParentField="@{symptomsBabyDied}"
+                    app:dependencyParentValue="@{SymptomState.YES}"
+                    app:inputType="number"
+                    style="@style/ControlSecondOfTwoColumnsStyle" />
+
+            </LinearLayout>
+
+            <de.symeda.sormas.app.component.controls.ControlSpinnerField
+                android:id="@+id/symptoms_outcome"
+                app:value="@={data.outcome}"
+                app:required="true"
+                style="@style/ControlSingleColumnStyle" />
+
             <!-- comments, etc. -->
+
+            <de.symeda.sormas.app.component.controls.ControlSwitchField
+                android:id="@+id/symptoms_babyNormalAtBirth"
+                app:enumClass="@{symptomStateClass}"
+                app:slim="true"
+                app:value="@={data.babyNormalAtBirth}"
+                style="@style/ControlSingleColumnStyle" />
+
+            <de.symeda.sormas.app.component.controls.ControlSwitchField
+                android:id="@+id/symptoms_normalCryAndSuck"
+                app:enumClass="@{symptomStateClass}"
+                app:slim="true"
+                app:value="@={data.normalCryAndSuck}"
+                style="@style/ControlSingleColumnStyle" />
+
+            <de.symeda.sormas.app.component.controls.ControlSwitchField
+                android:id="@+id/symptoms_stoppedSuckingAfterTwoDays"
+                app:enumClass="@{symptomStateClass}"
+                app:slim="true"
+                app:value="@={data.stoppedSuckingAfterTwoDays}"
+                style="@style/ControlSingleColumnStyle" />
+
+            <de.symeda.sormas.app.component.controls.ControlSwitchField
+                android:id="@+id/symptoms_stiffness"
+                app:enumClass="@{symptomStateClass}"
+                app:slim="true"
+                app:value="@={data.stiffness}"
+                style="@style/ControlSingleColumnStyle" />
 
             <de.symeda.sormas.app.component.controls.ControlTextEditField
                 android:id="@+id/symptoms_symptomsComments"
