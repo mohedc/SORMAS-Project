@@ -440,6 +440,7 @@ public class Case extends CoreAdo implements IsCase, SormasToSormasShareable, Ha
     private String idsrDiagnosisDetails;
 	@Enumerated(EnumType.STRING)
 	private NotifiedBy notifiedBy;
+	private String notifiedByDetails;
 	private Date dateOfNotification;
 	private Date dateOfInvestigation;
 	private String division;
@@ -1956,6 +1957,14 @@ public class Case extends CoreAdo implements IsCase, SormasToSormasShareable, Ha
 
 	public void setNotifiedBy(NotifiedBy notifiedBy) {
 		this.notifiedBy = notifiedBy;
+	}
+
+	public String getNotifiedByDetails() {
+		return notifiedByDetails;
+	}
+
+	public void setNotifiedByDetails(String notifiedByDetails) {
+		this.notifiedByDetails = notifiedByDetails;
 	}
 
 	public Date getDateOfNotification() {

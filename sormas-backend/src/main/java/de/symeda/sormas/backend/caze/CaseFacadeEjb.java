@@ -3050,6 +3050,7 @@ public class CaseFacadeEjb extends AbstractCoreFacadeEjb<Case, CaseDataDto, Case
 		target.setIdsrDiagnosis(source.getIdsrDiagnosis());
 		target.setIdsrDiagnosisDetails(source.getIdsrDiagnosisDetails());
 		target.setNotifiedBy(source.getNotifiedBy());
+		target.setNotifiedByDetails(source.getNotifiedByDetails());
 		target.setDateOfNotification(source.getDateOfNotification());
 		target.setDateOfInvestigation(source.getDateOfInvestigation());
 		target.setDivision(source.getDivision());
@@ -3297,6 +3298,7 @@ public class CaseFacadeEjb extends AbstractCoreFacadeEjb<Case, CaseDataDto, Case
 		target.setClassificationComment(source.getClassificationComment());
 		target.setClinicalConfirmation(source.getClinicalConfirmation());
 		target.setNotifiedBy(source.getNotifiedBy());
+		target.setNotifiedByDetails(source.getNotifiedByDetails());
 		target.setDateOfNotification(source.getDateOfNotification());
 		target.setDateOfInvestigation(source.getDateOfInvestigation());
 		target.setDivision(source.getDivision());

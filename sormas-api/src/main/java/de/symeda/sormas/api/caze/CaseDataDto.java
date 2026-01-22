@@ -244,6 +244,7 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
     public static final String IDSR_DIAGNOSIS = "idsrDiagnosis";
     public static final String IDSR_DIAGNOSIS_DETAILS = "idsrDiagnosisDetails";
 	public static final String NOTIFIED_BY = "notifiedBy";
+	public static final String NOTIFIED_BY_DETAILS = "notifiedByDetails";
 	public static final String DATE_OF_NOTIFICATION = "dateOfNotification";
 	public static final String DATE_OF_INVESTIGATION = "dateOfInvestigation";
 	public static final String DIVISION = "division";
@@ -709,6 +710,9 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 			Disease.NEONATAL_TETANUS,
 			Disease.MEASLES})
 	private NotifiedBy notifiedBy;
+	@Diseases({
+			Disease.MEASLES})
+	private String notifiedByDetails;
 	@Diseases({
 			Disease.NEONATAL_TETANUS,
 			Disease.MEASLES})
@@ -2059,6 +2063,14 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 
 	public void setNotifiedBy(NotifiedBy notifiedBy) {
 		this.notifiedBy = notifiedBy;
+	}
+
+	public String getNotifiedByDetails() {
+		return notifiedByDetails;
+	}
+
+	public void setNotifiedByDetails(String notifiedByDetails) {
+		this.notifiedByDetails = notifiedByDetails;
 	}
 
 	public Date getDateOfNotification() {

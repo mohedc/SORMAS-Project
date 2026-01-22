@@ -322,7 +322,8 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 					fluidRowLocs(CaseDataDto.HEALTH_FACILITY, CaseDataDto.HEALTH_FACILITY_DETAILS) +
 					fluidRowLocs(CaseDataDto.REPORT_LON, CaseDataDto.REPORT_LAT) +
 				loc(NOTIFY_INVESTIGATE) +
-				fluidRowLocs(CaseDataDto.NOTIFIED_BY, CaseDataDto.DATE_OF_NOTIFICATION, CaseDataDto.DATE_OF_INVESTIGATION) +
+				fluidRowLocs(CaseDataDto.NOTIFIED_BY, CaseDataDto.NOTIFIED_BY_DETAILS) +
+				fluidRowLocs(CaseDataDto.DATE_OF_NOTIFICATION, CaseDataDto.DATE_OF_INVESTIGATION) +
 				loc(ADDITIONAL_MEDICAL_INFORMATION) +
 				fluidRowLocs(CaseDataDto.VACCINATED, CaseDataDto.ROUTINE_VACCINATION_TYPE) +
 				fluidRowLocs(CaseDataDto.VACCINATION_RECORD_TYPE, CaseDataDto.NUMBER_OF_VACCINATION_DOSES) +
@@ -1003,6 +1004,9 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 		ComboBox notifiedByField = addField(CaseDataDto.NOTIFIED_BY, ComboBox.class);
 		notifiedByField.setNullSelectionAllowed(true);
 		FieldHelper.updateEnumData(notifiedByField, Arrays.asList(NotifiedBy.values()));
+		addField(CaseDataDto.NOTIFIED_BY_DETAILS, TextField.class);
+		// Add conditional visibility: notifiedByDetails visible when notifiedBy is OTHER
+		FieldHelper.setVisibleWhen(getFieldGroup(), CaseDataDto.NOTIFIED_BY_DETAILS, CaseDataDto.NOTIFIED_BY, Arrays.asList(NotifiedBy.OTHER), true);
 		addField(CaseDataDto.DATE_OF_NOTIFICATION, DateField.class);
 		addField(CaseDataDto.DATE_OF_INVESTIGATION, DateField.class);
 		addField(CaseDataDto.DATE_RECEIVED_AT_DISTRICT_LEVEL, DateField.class);
