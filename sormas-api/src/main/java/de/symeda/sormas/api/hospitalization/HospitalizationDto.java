@@ -17,6 +17,7 @@
  *******************************************************************************/
 package de.symeda.sormas.api.hospitalization;
 
+import de.symeda.sormas.api.Disease;
 import de.symeda.sormas.api.feature.FeatureType;
 import de.symeda.sormas.api.utils.*;
 
@@ -54,6 +55,7 @@ public class HospitalizationDto extends EntityDto {
 	public static final String DESCRIPTION = "description";
 	public static final String HOSPITAL_RECORD_NUMBER = "hospitalRecordNumber";
 	public static final String SELECT_INPATIENT_OUTPATIENT = "selectInpatientOutpatient";
+	public static final String ADDRESS = "address";
 
 	// Fields are declared in the order they should appear in the import template
 
@@ -79,6 +81,10 @@ public class HospitalizationDto extends EntityDto {
 
 	private String hospitalRecordNumber;
 	private InpatOutpat selectInpatientOutpatient;
+	@Diseases({
+		Disease.MEASLES })
+	@Size(max = FieldConstraints.CHARACTER_LIMIT_BIG, message = Validations.textTooLong)
+	private String address;
 
 	public static HospitalizationDto build() {
 		HospitalizationDto hospitalization = new HospitalizationDto();
@@ -214,5 +220,13 @@ public class HospitalizationDto extends EntityDto {
 
 	public void setSelectInpatientOutpatient(InpatOutpat selectInpatientOutpatient) {
 		this.selectInpatientOutpatient = selectInpatientOutpatient;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
 	}
 }
