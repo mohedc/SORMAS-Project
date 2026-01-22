@@ -14605,6 +14605,6 @@ INSERT INTO schema_version (version_number, comment) VALUES (591, 'Added nationa
 alter table person add column othernames character varying(255);
 alter table person_history add column othernames character varying(255);
 
-INSERT INTO schema_version (version_number, comment) VALUES (586, 'Add otherNames field to person table');
+INSERT INTO schema_version (version_number, comment) VALUES (592, 'Add otherNames field to person table');
 
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***
