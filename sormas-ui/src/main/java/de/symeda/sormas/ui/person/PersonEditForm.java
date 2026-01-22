@@ -195,7 +195,9 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
                             fluidRowLocs(PersonDto.EDUCATION_TYPE, PersonDto.EDUCATION_DETAILS)
                     ) +
 					  loc(ADDRESS_HEADER) +
-                    divsCss(VSPACE_3, fluidRowLocs(PersonDto.ADDRESS));
+                    divsCss(VSPACE_3, fluidRowLocs(PersonDto.ADDRESS)) +
+					fluidRowLocs(PersonDto.PERSON_CONTACT_DETAILS);
+
 
 	private final Label occupationHeader = new Label(I18nProperties.getString(Strings.headingPersonOccupation));
 	private final Label addressHeader = new Label(I18nProperties.getPrefixCaption(PersonDto.I18N_PREFIX, PersonDto.ADDRESS));
