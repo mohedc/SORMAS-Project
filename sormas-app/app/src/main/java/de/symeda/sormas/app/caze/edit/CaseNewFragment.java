@@ -20,6 +20,8 @@ import static android.view.View.VISIBLE;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import de.symeda.sormas.api.CountryHelper;
@@ -35,8 +37,10 @@ import de.symeda.sormas.api.disease.DiseaseVariant;
 import de.symeda.sormas.api.event.TypeOfPlace;
 import de.symeda.sormas.api.infrastructure.facility.FacilityType;
 import de.symeda.sormas.api.infrastructure.facility.FacilityTypeGroup;
+import de.symeda.sormas.api.person.ApproximateAgeType;
 import de.symeda.sormas.api.person.PresentCondition;
 import de.symeda.sormas.api.person.Sex;
+import de.symeda.sormas.api.utils.DataHelper;
 import de.symeda.sormas.api.user.JurisdictionLevel;
 import de.symeda.sormas.api.utils.DateHelper;
 import de.symeda.sormas.api.utils.fieldvisibility.FieldVisibilityCheckers;
@@ -82,6 +86,7 @@ public class CaseNewFragment extends BaseEditFragment<FragmentCaseNewLayoutBindi
 	private List<Item> initialPointsOfEntry;
 	private List<Item> facilityOrHomeList;
 	private List<Item> facilityTypeGroupList;
+	private List<Item> countryList;
 
 	public static CaseNewFragment newInstance(Case activityRootData) {
 		return newInstance(CaseNewFragment.class, CaseNewActivity.buildBundle().get(), activityRootData);
@@ -139,6 +144,7 @@ public class CaseNewFragment extends BaseEditFragment<FragmentCaseNewLayoutBindi
 
 		facilityOrHomeList = DataUtils.toItems(TypeOfPlace.FOR_CASES, true);
 		facilityTypeGroupList = DataUtils.toItems(FacilityTypeGroup.getAccomodationGroups(), true);
+		countryList = InfrastructureDaoHelper.loadCountries();
 	}
 
 	@Override
@@ -227,24 +233,35 @@ public class CaseNewFragment extends BaseEditFragment<FragmentCaseNewLayoutBindi
 		contentBinding.caseDataReportDate.initializeDateField(getFragmentManager());
 		contentBinding.symptomsOnsetDate.initializeDateField(getFragmentManager());
 
-		contentBinding.personBirthdateDD.initializeSpinner(new ArrayList<>());
+		List<Item> approximateAgeTypeList = DataUtils.getEnumItems(ApproximateAgeType.class, true);
+		contentBinding.personApproximateAgeType.initializeSpinner(approximateAgeTypeList);
+
+		contentBinding.personBirthdateDD.initializeSpinner(new ArrayList<>(), field -> updateApproximateAgeField(contentBinding));
 		contentBinding.personBirthdateMM.initializeSpinner(
 			monthList,
-			field -> DataUtils.updateListOfDays(
-				contentBinding.personBirthdateDD,
-				(Integer) contentBinding.personBirthdateYYYY.getValue(),
-				(Integer) field.getValue()));
+			field -> {
+				updateApproximateAgeField(contentBinding);
+				DataUtils.updateListOfDays(
+					contentBinding.personBirthdateDD,
+					(Integer) contentBinding.personBirthdateYYYY.getValue(),
+					(Integer) field.getValue());
+			});
 		contentBinding.personBirthdateYYYY.initializeSpinner(
 			yearList,
-			field -> DataUtils.updateListOfDays(
-				contentBinding.personBirthdateDD,
-				(Integer) field.getValue(),
-				(Integer) contentBinding.personBirthdateMM.getValue()));
+			field -> {
+				updateApproximateAgeField(contentBinding);
+				DataUtils.updateListOfDays(
+					contentBinding.personBirthdateDD,
+					(Integer) field.getValue(),
+					(Integer) contentBinding.personBirthdateMM.getValue());
+			});
 
 		int year = Calendar.getInstance().get(Calendar.YEAR);
 		contentBinding.personBirthdateYYYY.setSelectionOnOpen(year - 35);
 
 		contentBinding.personSex.initializeSpinner(sexList);
+
+		contentBinding.personCitizenship.initializeSpinner(countryList);
 
 		contentBinding.personPresentCondition.initializeSpinner(presentConditionList);
 
@@ -415,6 +432,45 @@ public class CaseNewFragment extends BaseEditFragment<FragmentCaseNewLayoutBindi
 	@Override
 	public int getEditLayout() {
 		return R.layout.fragment_case_new_layout;
+	}
+
+	private static Date calculateBirthDateValue(FragmentCaseNewLayoutBinding contentBinding) {
+		Integer birthYear = (Integer) contentBinding.personBirthdateYYYY.getValue();
+
+		if (birthYear != null) {
+			contentBinding.personApproximateAge.setEnabled(false);
+			contentBinding.personApproximateAgeType.setEnabled(false);
+
+			Integer birthDay = (Integer) contentBinding.personBirthdateDD.getValue();
+			Integer birthMonth = (Integer) contentBinding.personBirthdateMM.getValue();
+
+			Calendar birthDate = new GregorianCalendar();
+			birthDate.set(birthYear, birthMonth != null ? birthMonth - 1 : 0, birthDay != null ? birthDay : 1);
+			return birthDate.getTime();
+		}
+		return null;
+	}
+
+	private static void updateApproximateAgeField(FragmentCaseNewLayoutBinding contentBinding) {
+		Date birthDate = calculateBirthDateValue(contentBinding);
+		if (birthDate != null) {
+			contentBinding.personApproximateAge.setEnabled(false);
+			contentBinding.personApproximateAgeType.setEnabled(false);
+
+			Date to = new Date();
+
+			DataHelper.Pair<Integer, ApproximateAgeType> approximateAge = ApproximateAgeType.ApproximateAgeHelper.getApproximateAge(birthDate, to);
+			ApproximateAgeType ageType = approximateAge.getElement1();
+			contentBinding.personApproximateAge.setValue(String.valueOf(approximateAge.getElement0()));
+			contentBinding.personApproximateAgeType.setValue(ageType);
+		} else {
+			if (contentBinding.personApproximateAge.isEnabled() == false && contentBinding.personApproximateAgeType.isEnabled() == false) {
+				contentBinding.personApproximateAge.setValue(null);
+				contentBinding.personApproximateAgeType.setValue(null);
+			}
+			contentBinding.personApproximateAge.setEnabled(true);
+			contentBinding.personApproximateAgeType.setEnabled(true);
+		}
 	}
 
 	void updateForRapidCaseEntry(Case lastCase) {

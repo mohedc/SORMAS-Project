@@ -3229,57 +3229,6 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 				TableUtils.createTable(connectionSource, FormField.class);
 				TableUtils.createTable(connectionSource, FormBuilderFormField.class);
 
-				case 363:
-					currentVersion = 363;
-					getDao(Person.class).executeRaw("ALTER TABLE person ADD COLUMN nationality varchar(255) ;");
-					getDao(Case.class).executeRaw("ALTER TABLE cases ADD COLUMN notifiedby varchar(255);");
-					getDao(Case.class).executeRaw("ALTER TABLE cases ADD COLUMN dateofnotification date;");
-					getDao(Case.class).executeRaw("ALTER TABLE cases ADD COLUMN dateofinvestigation date;");
-					getDao(Case.class).executeRaw("ALTER TABLE cases ADD COLUMN mothervaccinatedwithtt varchar(255);");
-					getDao(Case.class).executeRaw("ALTER TABLE cases ADD COLUMN motherhavecard varchar(255);");
-					getDao(Case.class).executeRaw("ALTER TABLE cases ADD COLUMN mothernumberofdoses varchar(255);");
-					getDao(Case.class).executeRaw("ALTER TABLE cases ADD COLUMN mothervaccinationstatus varchar(255);");
-					getDao(Case.class).executeRaw("ALTER TABLE cases ADD COLUMN motherttdateone date;");
-					getDao(Case.class).executeRaw("ALTER TABLE cases ADD COLUMN motherttdatetwo date;");
-					getDao(Case.class).executeRaw("ALTER TABLE cases ADD COLUMN motherttdatethree date;");
-					getDao(Case.class).executeRaw("ALTER TABLE cases ADD COLUMN motherttdatefour date;");
-					getDao(Case.class).executeRaw("ALTER TABLE cases ADD COLUMN motherttdatefive date;");
-					getDao(Case.class).executeRaw("ALTER TABLE cases ADD COLUMN motherlastdosedate date;");
-					getDao(Case.class).executeRaw("ALTER TABLE cases ADD COLUMN investigatorname varchar(255);");
-					getDao(Case.class).executeRaw("ALTER TABLE cases ADD COLUMN investigatortitle varchar(255);");
-					getDao(Case.class).executeRaw("ALTER TABLE cases ADD COLUMN investigatorunit varchar(255);");
-					getDao(Case.class).executeRaw("ALTER TABLE cases ADD COLUMN investigatoraddress varchar(255);");
-					getDao(Case.class).executeRaw("ALTER TABLE cases ADD COLUMN investigatortel varchar(255);");
-					getDao(Case.class).executeRaw("ALTER TABLE cases ADD COLUMN mothergivenprotectivedosett varchar(255);");
-					getDao(Case.class).executeRaw("ALTER TABLE cases ADD COLUMN mothergivenprotectivedosettdate varchar(255);");
-					getDao(Case.class).executeRaw("ALTER TABLE cases ADD COLUMN supplementalimmunization varchar(255);");
-					getDao(Case.class).executeRaw("ALTER TABLE cases ADD COLUMN supplementalimmunizationdetails varchar(255);");
-
-				case 364:
-					currentVersion = 364;
-					getDao(Person.class).executeRaw("ALTER TABLE person ADD COLUMN receivedantenatalcare VARCHAR(255);");
-					getDao(Person.class).executeRaw("ALTER TABLE person ADD COLUMN prenataltotalvisits VARCHAR(255);");
-					getDao(Person.class).executeRaw("ALTER TABLE person ADD COLUMN attendedbytrainedtba VARCHAR(255);");
-					getDao(Person.class).executeRaw("ALTER TABLE person ADD COLUMN attendedbytrainedtbamidwifename VARCHAR(255);");
-					getDao(Person.class).executeRaw("ALTER TABLE person ADD COLUMN attendedbydoctornurse VARCHAR(255);");
-					getDao(Person.class).executeRaw("ALTER TABLE person ADD COLUMN cutcordwithsterileblade VARCHAR(255);");
-					getDao(Person.class).executeRaw("ALTER TABLE person ADD COLUMN cordtreatedwithanything VARCHAR(255);");
-					getDao(Person.class).executeRaw("ALTER TABLE person ADD COLUMN cordtreatedwithanythingwhere VARCHAR(255);");
-					getDao(Person.class).executeRaw("ALTER TABLE person ADD COLUMN describetreatmentofcard VARCHAR(512);");
-					getDao(Person.class).executeRaw("ALTER TABLE person ADD COLUMN nationality varchar(255);");
-
-				case 365:
-					currentVersion = 365;
-					getDao(Symptoms.class).executeRaw("ALTER TABLE symptoms ADD COLUMN babynormalatbirth VARCHAR(255);");
-					getDao(Symptoms.class).executeRaw("ALTER TABLE symptoms ADD COLUMN stoppedsuckingaftertwodays VARCHAR(255);");
-					getDao(Symptoms.class).executeRaw("ALTER TABLE symptoms ADD COLUMN normalcryandsuck VARCHAR(255);");
-					getDao(Symptoms.class).executeRaw("ALTER TABLE symptoms ADD COLUMN stiffness VARCHAR(255);");
-					getDao(Symptoms.class).executeRaw("ALTER TABLE symptoms ADD COLUMN outcome VARCHAR(255);");
-					getDao(Symptoms.class).executeRaw("ALTER TABLE symptoms ADD COLUMN babydied VARCHAR(255);");
-					getDao(Symptoms.class).executeRaw("ALTER TABLE symptoms ADD COLUMN ageatdeathdays INTEGER;");
-					getDao(Symptoms.class).executeRaw("ALTER TABLE symptoms ADD COLUMN ageatonsetdays INTEGER;");
-
-
 				// ATTENTION: break should only be done after last version
 				break;
 

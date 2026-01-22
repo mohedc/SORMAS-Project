@@ -82,6 +82,12 @@
 
             </LinearLayout>
 
+            <de.symeda.sormas.app.component.controls.ControlTextEditField
+                android:id="@+id/person_otherNames"
+                app:value="@={data.otherNames}"
+                app:imeOptions="actionNext"
+                style="@style/ControlSingleColumnStyle" />
+
             <de.symeda.sormas.app.component.controls.ControlSpinnerField
                 android:id="@+id/person_salutation"
                 app:value="@={data.salutation}"

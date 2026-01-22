@@ -104,6 +104,7 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
             loc(PERSON_INFORMATION_HEADING_LOC) +
 					fluidRowLocs(PersonDto.UUID, "")+
                     fluidRowLocs(PersonDto.FIRST_NAME, PersonDto.LAST_NAME) +
+					fluidRowLocs(PersonDto.OTHER_NAMES) +
 					fluidRowLocs(PersonDto.SALUTATION, PersonDto.OTHER_SALUTATION) +
                     fluidRow(
                             fluidRowLocs(PersonDto.BIRTH_DATE_YYYY, PersonDto.BIRTH_DATE_MM, PersonDto.BIRTH_DATE_DD),
@@ -305,6 +306,7 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 		addField(PersonDto.UUID).setReadOnly(true);
 		firstNameField = addField(PersonDto.FIRST_NAME, TextField.class);
 		lastNameField = addField(PersonDto.LAST_NAME, TextField.class);
+		addField(PersonDto.OTHER_NAMES, TextField.class);
 
 		addFields(PersonDto.SALUTATION, PersonDto.OTHER_SALUTATION);
 		FieldHelper.setVisibleWhen(getFieldGroup(), PersonDto.OTHER_SALUTATION, PersonDto.SALUTATION, Salutation.OTHER, true);
