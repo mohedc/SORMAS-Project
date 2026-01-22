@@ -227,9 +227,13 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 					inlineLocs(CaseDataDto.POINT_OF_ENTRY, CaseDataDto.POINT_OF_ENTRY_DETAILS, CASE_REFER_POINT_OF_ENTRY_BTN_LOC) +
 					fluidRowLocs(CaseDataDto.NOSOCOMIAL_OUTBREAK, CaseDataDto.INFECTION_SETTING) +
 					locCss(VSPACE_3, CaseDataDto.SHARED_TO_COUNTRY) +
-					loc(NOTIFY_INVESTIGATE) +
-					fluidRowLocs(CaseDataDto.NOTIFIED_BY, CaseDataDto.DATE_OF_NOTIFICATION, CaseDataDto.DATE_OF_INVESTIGATION) +
-					fluidRowLocs(CaseDataDto.MOTHER_VACCINATED_WITH_TT, CaseDataDto.MOTHER_HAVE_CARD) +
+				loc(NOTIFY_INVESTIGATE) +
+				fluidRowLocs(CaseDataDto.NOTIFIED_BY, CaseDataDto.DATE_OF_NOTIFICATION, CaseDataDto.DATE_OF_INVESTIGATION) +
+				fluidRowLocs(CaseDataDto.VACCINATED, CaseDataDto.ROUTINE_VACCINATION_TYPE) +
+				fluidRowLocs(CaseDataDto.VACCINATION_RECORD_TYPE, CaseDataDto.NUMBER_OF_VACCINATION_DOSES) +
+				fluidRowLocs(CaseDataDto.LAST_VACCINATION_DATE, CaseDataDto.DATE_RECEIVED_AT_DISTRICT_LEVEL) +
+				fluidRowLocs(CaseDataDto.SOURCE_OF_INFECTION_IDENTIFIED) +
+				fluidRowLocs(CaseDataDto.MOTHER_VACCINATED_WITH_TT, CaseDataDto.MOTHER_HAVE_CARD) +
 					fluidRowLocs(CaseDataDto.MOTHER_VACCINATION_STATUS, CaseDataDto.MOTHER_NUMBER_OF_DOSES) +
 					fluidRowLocs(CaseDataDto.MOTHER_TT_DATE_ONE, CaseDataDto.MOTHER_TT_DATE_TWO) +
 					fluidRowLocs(CaseDataDto.MOTHER_TT_DATE_THREE, CaseDataDto.MOTHER_TT_DATE_FOUR) +
@@ -289,6 +293,41 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 					loc(DYNAMIC_FORM_LOC) +
 					fluidRowLocs(CaseDataDto.DELETION_REASON) +
 					fluidRowLocs(CaseDataDto.OTHER_DELETION_REASON);
+
+	// Disease-specific layouts
+	private static final String MEASLES_LAYOUT =
+			loc(CASE_DATA_HEADING_LOC) +
+					fluidRowLocs(4, CaseDataDto.UUID, 3, CaseDataDto.REPORT_DATE, 5, CaseDataDto.REPORTING_USER) +
+					inlineLocs(CaseDataDto.CASE_CLASSIFICATION,
+							CLASSIFICATION_RULES_LOC,
+							CASE_CONFIRMATION_BASIS,
+							CASE_CLASSIFICATION_CALCULATE_BTN_LOC) +
+					fluidRow(
+							fluidColumnLoc(3, 0, CaseDataDto.CLASSIFICATION_DATE),
+							fluidColumnLocCss(LAYOUT_COL_HIDE_INVSIBLE, 5, 0, CaseDataDto.CLASSIFICATION_USER)) +
+					fluidRowLocs(9, CaseDataDto.INVESTIGATION_STATUS, 3, CaseDataDto.INVESTIGATED_DATE) +
+					fluidRowLocs(6, CaseDataDto.EPID_NUMBER, 3, ASSIGN_NEW_EPID_NUMBER_LOC) +
+					loc(EPID_NUMBER_WARNING_LOC) +
+					fluidRow(fluidColumnLoc(6, 0, CaseDataDto.DISEASE)) +
+					fluidRowLocs(CaseDataDto.CASE_ORIGIN) +
+					fluidRowLocs(RESPONSIBLE_JURISDICTION_HEADING_LOC) +
+					fluidRowLocs(CaseDataDto.RESPONSIBLE_REGION, CaseDataDto.RESPONSIBLE_DISTRICT, CaseDataDto.RESPONSIBLE_COMMUNITY) +
+					fluidRowLocs(DIFFERENT_PLACE_OF_STAY_JURISDICTION) +
+					fluidRowLocs(PLACE_OF_STAY_HEADING_LOC) +
+					fluidRowLocs(FACILITY_OR_HOME_LOC) +
+					fluidRowLocs(CaseDataDto.REGION, CaseDataDto.DISTRICT, CaseDataDto.COMMUNITY) +
+					fluidRowLocs(TYPE_GROUP_LOC, CaseDataDto.FACILITY_TYPE) +
+					fluidRowLocs(CaseDataDto.HEALTH_FACILITY, CaseDataDto.HEALTH_FACILITY_DETAILS) +
+				loc(NOTIFY_INVESTIGATE) +
+				fluidRowLocs(CaseDataDto.NOTIFIED_BY, CaseDataDto.DATE_OF_NOTIFICATION, CaseDataDto.DATE_OF_INVESTIGATION) +
+				fluidRowLocs(CaseDataDto.VACCINATED, CaseDataDto.ROUTINE_VACCINATION_TYPE) +
+				fluidRowLocs(CaseDataDto.VACCINATION_RECORD_TYPE, CaseDataDto.NUMBER_OF_VACCINATION_DOSES) +
+				fluidRowLocs(CaseDataDto.LAST_VACCINATION_DATE, CaseDataDto.DATE_RECEIVED_AT_DISTRICT_LEVEL) +
+				fluidRowLocs(CaseDataDto.SOURCE_OF_INFECTION_IDENTIFIED) +
+				loc(INVESTIGATING_OFFICER_INFO) +
+					locCss(VSPACE_TOP_3, CaseDataDto.INVESTIGATOR_NAME) +
+					fluidRowLocs(CaseDataDto.INVESTIGATOR_TITLE, CaseDataDto.INVESTIGATOR_UNIT) +
+					fluidRowLocs(CaseDataDto.INVESTIGATOR_ADDRESS, CaseDataDto.INVESTIGATOR_TEL);
 	//@formatter:on
 
 	private final String caseUuid;
@@ -521,6 +560,7 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 		addField(CaseDataDto.INVESTIGATOR_TITLE, TextField.class);
 		addField(CaseDataDto.INVESTIGATOR_UNIT, TextField.class);
 		addField(CaseDataDto.INVESTIGATOR_ADDRESS, TextField.class);
+		addField(CaseDataDto.INVESTIGATOR_TEL, TextField.class);
 
 		motherGivenProtectiveDoseTT = addField(CaseDataDto.MOTHER_GIVEN_PROTECTIVE_DOSE_TT, NullableOptionGroup.class);
 		motherGivenProtectiveDoseTTDate = addField(CaseDataDto.MOTHER_GIVEN_PROTECTIVE_DOSE_TT_DATE, DateField.class);
@@ -951,9 +991,51 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 		AccessibleTextField tfReportLon = addField(CaseDataDto.REPORT_LON, AccessibleTextField.class);
 		tfReportLon.setConverter(new StringToAngularLocationConverter());
 		addField(CaseDataDto.REPORT_LAT_LON_ACCURACY, TextField.class);
-		addField(CaseDataDto.NOTIFIED_BY, TextField.class);
+		ComboBox notifiedByField = addField(CaseDataDto.NOTIFIED_BY, ComboBox.class);
+		notifiedByField.setNullSelectionAllowed(true);
+		FieldHelper.updateEnumData(notifiedByField, Arrays.asList(NotifiedBy.values()));
 		addField(CaseDataDto.DATE_OF_NOTIFICATION, DateField.class);
 		addField(CaseDataDto.DATE_OF_INVESTIGATION, DateField.class);
+		addField(CaseDataDto.DATE_RECEIVED_AT_DISTRICT_LEVEL, DateField.class);
+		addField(CaseDataDto.SOURCE_OF_INFECTION_IDENTIFIED, NullableOptionGroup.class);
+		
+		// Add Measles vaccination fields
+		addField(CaseDataDto.VACCINATED, NullableOptionGroup.class);
+		
+		ComboBox routineVaccinationTypeField = addField(CaseDataDto.ROUTINE_VACCINATION_TYPE, ComboBox.class);
+		routineVaccinationTypeField.setNullSelectionAllowed(true);
+		FieldHelper.updateEnumData(routineVaccinationTypeField, Arrays.asList(RoutineVaccinationType.values()));
+		
+		ComboBox vaccinationRecordTypeField = addField(CaseDataDto.VACCINATION_RECORD_TYPE, ComboBox.class);
+		vaccinationRecordTypeField.setNullSelectionAllowed(true);
+		FieldHelper.updateEnumData(vaccinationRecordTypeField, Arrays.asList(VaccinationRecordType.values()));
+		
+		TextField numberOfVaccinationDosesField = addField(CaseDataDto.NUMBER_OF_VACCINATION_DOSES, TextField.class);
+		numberOfVaccinationDosesField.setConversionError(I18nProperties.getValidationError(Validations.onlyIntegerNumbersAllowed, numberOfVaccinationDosesField.getCaption()));
+		
+		DateField lastVaccinationDateField = addField(CaseDataDto.LAST_VACCINATION_DATE, DateField.class);
+
+		//Using field helper check is vacinated is yes and show vaccinationRoutine, vaccinationType, numberOfVaccinationDoses
+		FieldHelper.setVisibleWhen(getFieldGroup(), CaseDataDto.VACCINATED, Arrays.asList(CaseDataDto.ROUTINE_VACCINATION_TYPE, CaseDataDto.VACCINATION_RECORD_TYPE, CaseDataDto.NUMBER_OF_VACCINATION_DOSES), Arrays.asList(YesNoUnknown.YES), true);
+
+		
+		// Add conditional visibility: lastVaccinationDate visible when vaccinationRecordType is CARD
+		
+		FieldHelper.setVisibleWhen(getFieldGroup(), CaseDataDto.LAST_VACCINATION_DATE, CaseDataDto.VACCINATION_RECORD_TYPE, Arrays.asList(VaccinationRecordType.CARD), true);
+
+		// vaccinationRecordTypeField.addValueChangeListener(e -> {
+		// 	VaccinationRecordType recordType = (VaccinationRecordType) e.getProperty().getValue();
+		// 	lastVaccinationDateField.setVisible(VaccinationRecordType.CARD.equals(recordType));
+		// });
+		
+			// Set initial visibility based on current value
+		// if (vaccinationRecordTypeField.getValue() != null) {
+		// 	lastVaccinationDateField.setVisible(VaccinationRecordType.CARD.equals(vaccinationRecordTypeField.getValue()));
+		// } else {
+		// 	lastVaccinationDateField.setVisible(false);
+		// }
+		
+		
 
 		dfFollowUpUntil = null;
 		cbOverwriteFollowUpUntil = null;
@@ -1601,8 +1683,6 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 				setVisible(false,
 						CaseDataDto.MOTHER_TT_DATE_ONE,	CaseDataDto.MOTHER_TT_DATE_TWO,	CaseDataDto.MOTHER_TT_DATE_THREE, CaseDataDto.MOTHER_TT_DATE_FOUR, CaseDataDto.MOTHER_TT_DATE_FIVE, CaseDataDto.MOTHER_LAST_DOSE_DATE
 				);
-
-
 				break;
 			default:
 				break;
@@ -1959,7 +2039,19 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 
 	@Override
 	protected String createHtmlLayout() {
-		return MAIN_HTML_LAYOUT + (caseFollowUpEnabled ? FOLLOWUP_LAYOUT : "") + PAPER_FORM_DATES_AND_HEALTH_CONDITIONS_HTML_LAYOUT;
+		String SORMAS_MAIN_HTML_LAYOUT = MAIN_HTML_LAYOUT + (caseFollowUpEnabled ? FOLLOWUP_LAYOUT : "") + PAPER_FORM_DATES_AND_HEALTH_CONDITIONS_HTML_LAYOUT;
+		String DISEASE_LAYOUT = "";
+
+		switch (disease) {
+			case MEASLES:
+				DISEASE_LAYOUT = MEASLES_LAYOUT;
+				break;
+			default:
+				DISEASE_LAYOUT = SORMAS_MAIN_HTML_LAYOUT;
+				break;
+		}
+
+		return DISEASE_LAYOUT;
 	}
 
 	public void addButtonListener(String componentId, Button.ClickListener listener) {

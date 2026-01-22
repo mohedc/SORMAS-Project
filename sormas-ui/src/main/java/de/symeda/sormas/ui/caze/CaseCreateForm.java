@@ -438,12 +438,22 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 
 		if (!UiUtil.isPortHealthUser()) {
 			ogCaseOrigin.addValueChangeListener(ev -> {
-				if (ev.getProperty().getValue() == CaseOrigin.IN_COUNTRY) {
+				CaseOrigin caseOrigin = (CaseOrigin) ev.getProperty().getValue();
+				Disease selectedDisease = diseaseField != null ? (Disease) diseaseField.getValue() : null;
+				
+				if (caseOrigin == CaseOrigin.IN_COUNTRY) {
 					setVisible(false, CaseDataDto.POINT_OF_ENTRY, CaseDataDto.POINT_OF_ENTRY_DETAILS);
 					differentPointOfEntryJurisdiction.setVisible(false);
 					setRequired(true, FACILITY_OR_HOME_LOC, FACILITY_TYPE_GROUP_LOC, CaseDataDto.FACILITY_TYPE, CaseDataDto.HEALTH_FACILITY);
 					setRequired(false, CaseDataDto.POINT_OF_ENTRY);
 					updateFacilityFields(facilityCombo, facilityDetails);
+					// Hide passport number for in-country cases (especially for Measles)
+					if (selectedDisease == Disease.MEASLES && personCreateForm != null) {
+						Field<?> passportField = personCreateForm.getField(PersonDto.PASSPORT_NUMBER);
+						if (passportField != null) {
+							passportField.setVisible(false);
+						}
+					}
 				} else {
 					setVisible(true, CaseDataDto.POINT_OF_ENTRY);
 					differentPointOfEntryJurisdiction.setVisible(true);
@@ -453,6 +463,13 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 						setRequired(false, FACILITY_OR_HOME_LOC, FACILITY_TYPE_GROUP_LOC, CaseDataDto.FACILITY_TYPE, CaseDataDto.HEALTH_FACILITY);
 					}
 					updatePointOfEntryFields(cbPointOfEntry, tfPointOfEntryDetails);
+					// Show passport number for Point of Entry cases (if Measles)
+					if (selectedDisease == Disease.MEASLES && personCreateForm != null) {
+						Field<?> passportField = personCreateForm.getField(PersonDto.PASSPORT_NUMBER);
+						if (passportField != null) {
+							passportField.setVisible(true);
+						}
+					}
 				}
 			});
 
@@ -564,6 +581,37 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 				personCreateForm.getField(PersonDto.PHONE).setVisible(false);
 				personCreateForm.getField(PersonDto.EMAIL_ADDRESS).setVisible(false);
 				personCreateForm.getField(PersonDto.PRESENT_CONDITION).setVisible(false);
+			} else if (selectedDisease == Disease.MEASLES) {
+				// Show only Measles CIF fields for New Case
+				setVisible(true, epidField, diseaseField, ogCaseOrigin, responsibleRegionCombo, responsibleDistrictCombo, 
+						responsibleCommunityCombo, facilityOrHome, facilityDetails, facilityCombo, facilityType, reportDate);
+				// Show person fields relevant to Measles CIF
+				if (personCreateForm != null) {
+					Field<?> firstNameField = personCreateForm.getField(PersonDto.FIRST_NAME);
+					if (firstNameField != null) firstNameField.setVisible(true);
+					Field<?> lastNameField = personCreateForm.getField(PersonDto.LAST_NAME);
+					if (lastNameField != null) lastNameField.setVisible(true);
+					Field<?> otherNamesField = personCreateForm.getField(PersonDto.OTHER_NAMES);
+					if (otherNamesField != null) otherNamesField.setVisible(true);
+					Field<?> birthDateField = personCreateForm.getField(PersonDto.BIRTH_DATE);
+					if (birthDateField != null) birthDateField.setVisible(true);
+					Field<?> approximateAgeField = personCreateForm.getField(PersonDto.APPROXIMATE_AGE);
+					if (approximateAgeField != null) approximateAgeField.setVisible(true);
+					Field<?> sexField = personCreateForm.getField(PersonDto.SEX);
+					if (sexField != null) sexField.setVisible(true);
+					Field<?> nationalityField = personCreateForm.getField(PersonDto.NATIONALITY);
+					if (nationalityField != null) nationalityField.setVisible(true);
+					// Passport number visibility depends on Case Origin (handled by case origin listener)
+					// Hide fields not in Measles CIF
+					Field<?> nationalHealthIdField = personCreateForm.getField(PersonDto.NATIONAL_HEALTH_ID);
+					if (nationalHealthIdField != null) nationalHealthIdField.setVisible(false);
+					Field<?> phoneField = personCreateForm.getField(PersonDto.PHONE);
+					if (phoneField != null) phoneField.setVisible(false);
+					Field<?> emailField = personCreateForm.getField(PersonDto.EMAIL_ADDRESS);
+					if (emailField != null) emailField.setVisible(false);
+					Field<?> presentConditionField = personCreateForm.getField(PersonDto.PRESENT_CONDITION);
+					if (presentConditionField != null) presentConditionField.setVisible(false);
+				}
 			}
 
 		});
@@ -809,7 +857,8 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 	}
 
 	private final Set<Disease> mappedDiseases = EnumSet.of(
-			Disease.NEONATAL_TETANUS
+			Disease.NEONATAL_TETANUS,
+			Disease.MEASLES
 	);
 
 }
