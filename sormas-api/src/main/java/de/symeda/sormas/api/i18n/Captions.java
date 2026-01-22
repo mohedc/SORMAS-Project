@@ -757,6 +757,13 @@ public interface Captions {
 	String CaseData_investigatorAddress = "CaseData.investigatorAddress";
 	String CaseData_investigatorTel = "CaseData.investigatorTel";
 	String CaseData_investigatorUnit = "CaseData.investigatorUnit";
+	String CaseData_vaccinated = "CaseData.vaccinated";
+	String CaseData_routineVaccinationType = "CaseData.routineVaccinationType";
+	String CaseData_vaccinationRecordType = "CaseData.vaccinationRecordType";
+	String CaseData_numberOfVaccinationDoses = "CaseData.numberOfVaccinationDoses";
+	String CaseData_lastVaccinationDate = "CaseData.lastVaccinationDate";
+	String CaseData_dateReceivedAtDistrictLevel = "CaseData.dateReceivedAtDistrictLevel";
+	String CaseData_sourceOfInfectionIdentified = "CaseData.sourceOfInfectionIdentified";
 	String CaseData_outcome = "CaseData.outcome";
 	String CaseData_outcomeDate = "CaseData.outcomeDate";
 	String CaseData_overwriteFollowUpUntil = "CaseData.overwriteFollowUpUntil";
