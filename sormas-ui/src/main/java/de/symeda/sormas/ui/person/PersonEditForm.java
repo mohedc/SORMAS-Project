@@ -63,6 +63,7 @@ import de.symeda.sormas.api.CountryHelper;
 import de.symeda.sormas.api.Disease;
 import de.symeda.sormas.api.FacadeProvider;
 import de.symeda.sormas.api.caze.CaseDataDto;
+import de.symeda.sormas.api.caze.CaseOrigin;
 import de.symeda.sormas.api.customizableenum.CustomizableEnumType;
 import de.symeda.sormas.api.i18n.Captions;
 import de.symeda.sormas.api.i18n.Descriptions;
@@ -173,6 +174,29 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 									fluidRowLocs(PersonDto.NAMES_OF_GUARDIANS) +
 					fluidRowLocs(PersonDto.PERSON_CONTACT_DETAILS)) +
 					loc(GENERAL_COMMENT_LOC) + fluidRowLocs(CaseDataDto.ADDITIONAL_DETAILS);
+
+	// Disease-specific layouts
+	private static final String MEASLES_LAYOUT =
+			loc(PERSON_INFORMATION_HEADING_LOC) +
+					fluidRowLocs(PersonDto.UUID, "") +
+					fluidRowLocs(PersonDto.FIRST_NAME, PersonDto.LAST_NAME) +
+					fluidRowLocs(PersonDto.OTHER_NAMES) +
+					fluidRow(
+							fluidRowLocs(PersonDto.BIRTH_DATE_YYYY, PersonDto.BIRTH_DATE_MM, PersonDto.BIRTH_DATE_DD),
+							fluidRowLocs(PersonDto.APPROXIMATE_AGE, PersonDto.APPROXIMATE_AGE_TYPE, PersonDto.APPROXIMATE_AGE_REFERENCE_DATE)
+					) +
+					fluidRowLocs(PersonDto.SEX, "") +
+					fluidRowLocs(PersonDto.NATIONALITY, "") +
+					fluidRowLocs(PersonDto.PASSPORT_NUMBER, "") +
+					 loc(OCCUPATION_HEADER) +
+                    divsCss(VSPACE_3,
+                            fluidRowLocs(PersonDto.OCCUPATION_TYPE, PersonDto.OCCUPATION_DETAILS) +
+                            fluidRow(oneOfTwoCol(PersonDto.ARMED_FORCES_RELATION_TYPE)),
+                            fluidRowLocs(PersonDto.EDUCATION_TYPE, PersonDto.EDUCATION_DETAILS)
+                    ) +
+					  loc(ADDRESS_HEADER) +
+                    divsCss(VSPACE_3, fluidRowLocs(PersonDto.ADDRESS));
+
 	private final Label occupationHeader = new Label(I18nProperties.getString(Strings.headingPersonOccupation));
 	private final Label addressHeader = new Label(I18nProperties.getPrefixCaption(PersonDto.I18N_PREFIX, PersonDto.ADDRESS));
 	private final Label addressesHeader = new Label(I18nProperties.getPrefixCaption(PersonDto.I18N_PREFIX, PersonDto.ADDRESSES));
@@ -201,6 +225,7 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 	private long minimumEmancipatedAge;
 	private TextField approximateAgeField;
 	private ComboBox approximateAgeTypeField;
+	private TextField passportNumberField;
 	private NullableOptionGroup receivedAntenatalCare;
 	private TextField prenatalTotalVisits;
 	private TextArea describeTreatmentOfCard;
@@ -406,7 +431,7 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 		List<CountryReferenceDto> countries = FacadeProvider.getCountryFacade().getAllActiveAsReference();
 		ComboBox birthCountryCB = addInfrastructureField(PersonDto.BIRTH_COUNTRY);
 		addInfrastructureField(PersonDto.CITIZENSHIP).addItems(countries);
-		addField(PersonDto.PASSPORT_NUMBER);
+		passportNumberField = addField(PersonDto.PASSPORT_NUMBER);
 		addField(PersonDto.NATIONALITY);
 		birthCountryCB.addItems(countries);
 
@@ -865,6 +890,29 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 		super.setValue(newFieldValue);
 		initializePresentConditionField();
 
+		// Handle passport number visibility for Measles when Case Origin is Point of Entry
+		if (disease == Disease.MEASLES && personContext == PersonContext.CASE && passportNumberField != null) {
+			if (newFieldValue != null && newFieldValue.getUuid() != null) {
+				List<CaseDataDto> personCases = FacadeProvider.getCaseFacade().getAllCasesOfPerson(newFieldValue.getUuid());
+				// Find the case with matching disease
+				CaseDataDto measlesCase = personCases.stream()
+						.filter(c -> c.getDisease() == Disease.MEASLES)
+						.findFirst()
+						.orElse(null);
+				
+				if (measlesCase != null) {
+					boolean isPointOfEntry = measlesCase.getCaseOrigin() == CaseOrigin.POINT_OF_ENTRY;
+					passportNumberField.setVisible(isPointOfEntry);
+				} else {
+					// If no case found yet, hide passport number by default
+					passportNumberField.setVisible(false);
+				}
+			} else {
+				// If person not yet set, hide passport number by default
+				passportNumberField.setVisible(false);
+			}
+		}
+
 		// HACK: Binding to the fields will call field listeners that may clear/modify the values of other fields.
 		// this hopefully resets everything to its correct value
 		addressForm.discard();
@@ -986,6 +1034,9 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 
 	@Override
 	protected String createHtmlLayout() {
+		if (disease == Disease.MEASLES) {
+			return MEASLES_LAYOUT;
+		}
 		return HTML_LAYOUT;
 	}
 

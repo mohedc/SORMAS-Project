@@ -22,6 +22,7 @@ import static de.symeda.sormas.ui.utils.LayoutUtil.divs;
 import static de.symeda.sormas.ui.utils.LayoutUtil.fluidColumnLoc;
 import static de.symeda.sormas.ui.utils.LayoutUtil.fluidRow;
 import static de.symeda.sormas.ui.utils.LayoutUtil.fluidRowLocs;
+import static de.symeda.sormas.ui.utils.LayoutUtil.loc;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -119,6 +120,19 @@ public class LocationEditForm extends AbstractEditForm<LocationDto> {
 				fluidColumnLoc(2, 0, LocationDto.LATITUDE),
 				fluidColumnLoc(2, 0, LocationDto.LONGITUDE),
 				fluidColumnLoc(2, 0, LocationDto.LAT_LON_ACCURACY)));
+
+	// Disease-specific layouts
+	private static final String MEASLES_LAYOUT =
+		fluidRowLocs(LocationDto.REGION, LocationDto.DISTRICT, LocationDto.COMMUNITY) +
+		fluidRowLocs(LocationDto.DETAILS) +
+		fluidRowLocs(LocationDto.AREA_TYPE, LocationDto.POSTAL_CODE) +
+		fluidRowLocs(LocationDto.ADDITIONAL_INFORMATION) +
+		fluidRow(
+				fluidColumnLoc(4, 0, LocationDto.DETAILS),
+				fluidColumnLoc(2, 0, GEO_BUTTONS_LOC),
+				fluidColumnLoc(2, 0, LocationDto.LATITUDE),
+				fluidColumnLoc(2, 0, LocationDto.LONGITUDE),
+				fluidColumnLoc(2, 0, LocationDto.LAT_LON_ACCURACY));
 
 	private MapPopupView leafletMapPopup;
 	private ComboBox addressType;
@@ -799,6 +813,9 @@ public class LocationEditForm extends AbstractEditForm<LocationDto> {
 
 	@Override
 	protected String createHtmlLayout() {
+		if (caseDisease == Disease.MEASLES) {
+			return MEASLES_LAYOUT;
+		}
 		return HTML_LAYOUT;
 	}
 
