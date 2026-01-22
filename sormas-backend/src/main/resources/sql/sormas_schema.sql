@@ -14641,4 +14641,12 @@ INSERT INTO schema_version (version_number, comment) VALUES (595, 'Add investiga
 ALTER TABLE cases ADD COLUMN notifiedbydetails varchar(255);
 ALTER TABLE cases_history ADD COLUMN notifiedbydetails varchar(255);
 INSERT INTO schema_version (version_number, comment) VALUES (596, 'Add notifiedByDetails field to cases for Measles CIF');
+
+ALTER TABLE location ADD COLUMN compoundowner varchar(255);
+ALTER TABLE location_history ADD COLUMN compoundowner varchar(255);
+ALTER TABLE location ADD COLUMN homeresidentialaddress varchar(255);
+ALTER TABLE location_history ADD COLUMN homeresidentialaddress varchar(255);
+ALTER TABLE location ADD COLUMN landmark varchar(255);
+ALTER TABLE location_history ADD COLUMN landmark varchar(255);
+INSERT INTO schema_version (version_number, comment) VALUES (598, 'Add homeResidentialAddress and landmark fields to location for Measles CIF');
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***

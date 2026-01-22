@@ -124,11 +124,10 @@ public class LocationEditForm extends AbstractEditForm<LocationDto> {
 	// Disease-specific layouts
 	private static final String MEASLES_LAYOUT =
 		fluidRowLocs(LocationDto.REGION, LocationDto.DISTRICT, LocationDto.COMMUNITY) +
-		fluidRowLocs(LocationDto.DETAILS) +
+		fluidRowLocs(LocationDto.HOME_RESIDENTIAL_ADDRESS, LocationDto.COMPOUND_OWNER) +
+		fluidRowLocs(LocationDto.LANDMARK) +
 		fluidRowLocs(LocationDto.AREA_TYPE, LocationDto.POSTAL_CODE) +
-		fluidRowLocs(LocationDto.ADDITIONAL_INFORMATION) +
 		fluidRow(
-				fluidColumnLoc(4, 0, LocationDto.DETAILS),
 				fluidColumnLoc(2, 0, GEO_BUTTONS_LOC),
 				fluidColumnLoc(2, 0, LocationDto.LATITUDE),
 				fluidColumnLoc(2, 0, LocationDto.LONGITUDE),
@@ -259,6 +258,9 @@ public class LocationEditForm extends AbstractEditForm<LocationDto> {
 		TextField houseNumberField = addField(LocationDto.HOUSE_NUMBER, TextField.class);
 		TextField additionalInformationField = addField(LocationDto.ADDITIONAL_INFORMATION, TextField.class);
 		addField(LocationDto.DETAILS, TextField.class);
+		addField(LocationDto.COMPOUND_OWNER, TextField.class);
+		addField(LocationDto.HOME_RESIDENTIAL_ADDRESS, TextField.class);
+		addField(LocationDto.LANDMARK, TextField.class);
 		TextField cityField = addField(LocationDto.CITY, TextField.class);
 		TextField postalCodeField = addField(LocationDto.POSTAL_CODE, TextField.class);
 		ComboBox areaType = addField(LocationDto.AREA_TYPE, ComboBox.class);

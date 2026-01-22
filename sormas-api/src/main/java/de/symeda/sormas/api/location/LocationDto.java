@@ -85,6 +85,9 @@ public class LocationDto extends PseudonymizableDto {
 	public static final String CONTACT_PERSON_LAST_NAME = "contactPersonLastName";
 	public static final String CONTACT_PERSON_PHONE = "contactPersonPhone";
 	public static final String CONTACT_PERSON_EMAIL = "contactPersonEmail";
+	public static final String COMPOUND_OWNER = "compoundOwner";
+	public static final String HOME_RESIDENTIAL_ADDRESS = "homeResidentialAddress";
+	public static final String LANDMARK = "landmark";
 
 	private ContinentReferenceDto continent;
 	private SubcontinentReferenceDto subcontinent;
@@ -169,6 +172,18 @@ public class LocationDto extends PseudonymizableDto {
 	@PersonalData
 	@SensitiveData
 	private String contactPersonEmail;
+	@PersonalData
+	@SensitiveData
+	@Size(max = FieldConstraints.CHARACTER_LIMIT_DEFAULT, message = Validations.textTooLong)
+	private String compoundOwner;
+	@PersonalData
+	@SensitiveData
+	@Size(max = FieldConstraints.CHARACTER_LIMIT_DEFAULT, message = Validations.textTooLong)
+	private String homeResidentialAddress;
+	@PersonalData
+	@SensitiveData
+	@Size(max = FieldConstraints.CHARACTER_LIMIT_DEFAULT, message = Validations.textTooLong)
+	private String landmark;
 
 	public String getDetails() {
 		return details;
@@ -368,6 +383,30 @@ public class LocationDto extends PseudonymizableDto {
 
 	public void setContactPersonEmail(String contactPersonEmail) {
 		this.contactPersonEmail = contactPersonEmail;
+	}
+
+	public String getCompoundOwner() {
+		return compoundOwner;
+	}
+
+	public void setCompoundOwner(String compoundOwner) {
+		this.compoundOwner = compoundOwner;
+	}
+
+	public String getHomeResidentialAddress() {
+		return homeResidentialAddress;
+	}
+
+	public void setHomeResidentialAddress(String homeResidentialAddress) {
+		this.homeResidentialAddress = homeResidentialAddress;
+	}
+
+	public String getLandmark() {
+		return landmark;
+	}
+
+	public void setLandmark(String landmark) {
+		this.landmark = landmark;
 	}
 
 	@Override
