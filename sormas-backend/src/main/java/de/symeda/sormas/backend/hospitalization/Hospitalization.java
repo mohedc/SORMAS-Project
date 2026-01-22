@@ -75,6 +75,7 @@ public class Hospitalization extends AbstractDomainObject {
 	private String description;
 	private String hospitalRecordNumber;
 	private InpatOutpat selectInpatientOutpatient;
+	private String address;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	public Date getAdmissionDate() {
@@ -228,5 +229,14 @@ public class Hospitalization extends AbstractDomainObject {
 
 	public void setSelectInpatientOutpatient(InpatOutpat selectInpatientOutpatient) {
 		this.selectInpatientOutpatient = selectInpatientOutpatient;
+	}
+
+	@Column(length = CHARACTER_LIMIT_BIG)
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
 	}
 }

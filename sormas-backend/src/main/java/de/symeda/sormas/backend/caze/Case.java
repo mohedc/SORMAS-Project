@@ -306,6 +306,11 @@ public class Case extends CoreAdo implements IsCase, SormasToSormasShareable, Ha
 	private YesNoUnknown pregnant;
 
 	private VaccinationStatus vaccinationStatus;
+	private YesNoUnknown vaccinated;
+	private RoutineVaccinationType routineVaccinationType;
+	private VaccinationRecordType vaccinationRecordType;
+	private Integer numberOfVaccinationDoses;
+	private Date lastVaccinationDate;
 	private YesNoUnknown smallpoxVaccinationScar;
 	private YesNoUnknown smallpoxVaccinationReceived;
 	private Date smallpoxLastVaccinationDate;
@@ -433,7 +438,8 @@ public class Case extends CoreAdo implements IsCase, SormasToSormasShareable, Ha
 	private String otherDiagnosticCriteria;
     private IdsrType idsrDiagnosis;
     private String idsrDiagnosisDetails;
-	private String notifiedBy;
+	@Enumerated(EnumType.STRING)
+	private NotifiedBy notifiedBy;
 	private Date dateOfNotification;
 	private Date dateOfInvestigation;
 	private String division;
@@ -454,6 +460,8 @@ public class Case extends CoreAdo implements IsCase, SormasToSormasShareable, Ha
 	private String investigatorUnit;
 	private String investigatorAddress;
 	private String investigatorTel;
+	private Date dateReceivedAtDistrictLevel;
+	private YesNoUnknown sourceOfInfectionIdentified;
 	private YesNoUnknown motherGivenProtectiveDoseTT;
 	private Date motherGivenProtectiveDoseTTDate;
 	private YesNoUnknown supplementalImmunization;
@@ -960,6 +968,50 @@ public class Case extends CoreAdo implements IsCase, SormasToSormasShareable, Ha
 
 	public void setVaccinationStatus(VaccinationStatus vaccination) {
 		this.vaccinationStatus = vaccination;
+	}
+
+	@Enumerated(EnumType.STRING)
+	public YesNoUnknown getVaccinated() {
+		return vaccinated;
+	}
+
+	public void setVaccinated(YesNoUnknown vaccinated) {
+		this.vaccinated = vaccinated;
+	}
+
+	@Enumerated(EnumType.STRING)
+	public RoutineVaccinationType getRoutineVaccinationType() {
+		return routineVaccinationType;
+	}
+
+	public void setRoutineVaccinationType(RoutineVaccinationType routineVaccinationType) {
+		this.routineVaccinationType = routineVaccinationType;
+	}
+
+	@Enumerated(EnumType.STRING)
+	public VaccinationRecordType getVaccinationRecordType() {
+		return vaccinationRecordType;
+	}
+
+	public void setVaccinationRecordType(VaccinationRecordType vaccinationRecordType) {
+		this.vaccinationRecordType = vaccinationRecordType;
+	}
+
+	public Integer getNumberOfVaccinationDoses() {
+		return numberOfVaccinationDoses;
+	}
+
+	public void setNumberOfVaccinationDoses(Integer numberOfVaccinationDoses) {
+		this.numberOfVaccinationDoses = numberOfVaccinationDoses;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getLastVaccinationDate() {
+		return lastVaccinationDate;
+	}
+
+	public void setLastVaccinationDate(Date lastVaccinationDate) {
+		this.lastVaccinationDate = lastVaccinationDate;
 	}
 
 	@Enumerated(EnumType.STRING)
@@ -1896,11 +1948,12 @@ public class Case extends CoreAdo implements IsCase, SormasToSormasShareable, Ha
         this.idsrDiagnosisDetails = idsrDiagnosisDetails;
     }
 
-	public String getNotifiedBy() {
+	@Enumerated(EnumType.STRING)
+	public NotifiedBy getNotifiedBy() {
 		return notifiedBy;
 	}
 
-	public void setNotifiedBy(String notifiedBy) {
+	public void setNotifiedBy(NotifiedBy notifiedBy) {
 		this.notifiedBy = notifiedBy;
 	}
 
@@ -2060,6 +2113,24 @@ public class Case extends CoreAdo implements IsCase, SormasToSormasShareable, Ha
 
 	public void setInvestigatorTel(String investigatorTel) {
 		this.investigatorTel = investigatorTel;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getDateReceivedAtDistrictLevel() {
+		return dateReceivedAtDistrictLevel;
+	}
+
+	public void setDateReceivedAtDistrictLevel(Date dateReceivedAtDistrictLevel) {
+		this.dateReceivedAtDistrictLevel = dateReceivedAtDistrictLevel;
+	}
+
+	@Enumerated(EnumType.STRING)
+	public YesNoUnknown getSourceOfInfectionIdentified() {
+		return sourceOfInfectionIdentified;
+	}
+
+	public void setSourceOfInfectionIdentified(YesNoUnknown sourceOfInfectionIdentified) {
+		this.sourceOfInfectionIdentified = sourceOfInfectionIdentified;
 	}
 
 	public YesNoUnknown getMotherGivenProtectiveDoseTT() {

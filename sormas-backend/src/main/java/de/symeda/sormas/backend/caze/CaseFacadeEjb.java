@@ -3108,6 +3108,11 @@ public class CaseFacadeEjb extends AbstractCoreFacadeEjb<Case, CaseDataDto, Case
 
 		target.setPregnant(source.getPregnant());
 		target.setVaccinationStatus(source.getVaccinationStatus());
+		target.setVaccinated(source.getVaccinated());
+		target.setRoutineVaccinationType(source.getRoutineVaccinationType());
+		target.setVaccinationRecordType(source.getVaccinationRecordType());
+		target.setNumberOfVaccinationDoses(source.getNumberOfVaccinationDoses());
+		target.setLastVaccinationDate(source.getLastVaccinationDate());
 		target.setSmallpoxVaccinationScar(source.getSmallpoxVaccinationScar());
 		target.setSmallpoxVaccinationReceived(source.getSmallpoxVaccinationReceived());
 		target.setSmallpoxLastVaccinationDate(source.getSmallpoxLastVaccinationDate());
@@ -3234,6 +3239,8 @@ public class CaseFacadeEjb extends AbstractCoreFacadeEjb<Case, CaseDataDto, Case
 		target.setInvestigatorUnit(source.getInvestigatorUnit());
 		target.setInvestigatorAddress(source.getInvestigatorAddress());
 		target.setInvestigatorTel(source.getInvestigatorTel());
+		target.setDateReceivedAtDistrictLevel(source.getDateReceivedAtDistrictLevel());
+		target.setSourceOfInfectionIdentified(source.getSourceOfInfectionIdentified());
 		target.setMotherGivenProtectiveDoseTT(source.getMotherGivenProtectiveDoseTT());
 		target.setMotherGivenProtectiveDoseTTDate(source.getMotherGivenProtectiveDoseTTDate());
 		target.setSupplementalImmunization(source.getSupplementalImmunization());
@@ -3342,6 +3349,11 @@ public class CaseFacadeEjb extends AbstractCoreFacadeEjb<Case, CaseDataDto, Case
 
 		target.setPregnant(source.getPregnant());
 		target.setVaccinationStatus(source.getVaccinationStatus());
+		target.setVaccinated(source.getVaccinated());
+		target.setRoutineVaccinationType(source.getRoutineVaccinationType());
+		target.setVaccinationRecordType(source.getVaccinationRecordType());
+		target.setNumberOfVaccinationDoses(source.getNumberOfVaccinationDoses());
+		target.setLastVaccinationDate(source.getLastVaccinationDate());
 		target.setSmallpoxVaccinationScar(source.getSmallpoxVaccinationScar());
 		target.setSmallpoxVaccinationReceived(source.getSmallpoxVaccinationReceived());
 		target.setSmallpoxLastVaccinationDate(source.getSmallpoxLastVaccinationDate());
@@ -3474,6 +3486,8 @@ public class CaseFacadeEjb extends AbstractCoreFacadeEjb<Case, CaseDataDto, Case
 		target.setInvestigatorUnit(source.getInvestigatorUnit());
 		target.setInvestigatorAddress(source.getInvestigatorAddress());
 		target.setInvestigatorTel(source.getInvestigatorTel());
+		target.setDateReceivedAtDistrictLevel(source.getDateReceivedAtDistrictLevel());
+		target.setSourceOfInfectionIdentified(source.getSourceOfInfectionIdentified());
 		target.setMotherGivenProtectiveDoseTT(source.getMotherGivenProtectiveDoseTT());
 		target.setMotherGivenProtectiveDoseTTDate(source.getMotherGivenProtectiveDoseTTDate());
 		target.setSupplementalImmunization(source.getSupplementalImmunization());
