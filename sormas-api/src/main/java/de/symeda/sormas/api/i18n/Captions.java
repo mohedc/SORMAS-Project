@@ -2369,6 +2369,7 @@ public interface Captions {
 	String Person_presentCondition = "Person.presentCondition";
 	String Person_salutation = "Person.salutation";
 	String Person_sex = "Person.sex";
+	String Person_maritalStatus = "Person.maritalStatus";
 	String Person_receivedAntenatalCare = "Person.receivedAntenatalCare";
 	String Person_receivedAntenatalCareWhere = "Person.receivedAntenatalCareWhere";
 	String Person_prenatalTotalVisits = "Person.prenatalTotalVisits";

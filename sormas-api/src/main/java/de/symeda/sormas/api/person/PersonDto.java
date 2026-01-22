@@ -58,6 +58,7 @@ public class PersonDto extends PseudonymizableDto implements IsPerson {
 
 	public static final String I18N_PREFIX = "Person";
 	public static final String SEX = "sex";
+	public static final String MARITAL_STATUS = "maritalStatus";
 	public static final String FIRST_NAME = "firstName";
 	public static final String LAST_NAME = "lastName";
 	public static final String OTHER_NAMES = "otherNames";
@@ -202,6 +203,9 @@ public class PersonDto extends PseudonymizableDto implements IsPerson {
 	@Outbreaks
 	@NotNull(message = Validations.specifySex)
 	private Sex sex;
+	@PersonalData
+	@SensitiveData
+	private MaritalStatus maritalStatus;
 	@Outbreaks
 	@PersonalData
 	@SensitiveData
@@ -556,6 +560,14 @@ public class PersonDto extends PseudonymizableDto implements IsPerson {
 
 	public void setSex(Sex sex) {
 		this.sex = sex;
+	}
+
+	public MaritalStatus getMaritalStatus() {
+		return maritalStatus;
+	}
+
+	public void setMaritalStatus(MaritalStatus maritalStatus) {
+		this.maritalStatus = maritalStatus;
 	}
 
 	public PresentCondition getPresentCondition() {

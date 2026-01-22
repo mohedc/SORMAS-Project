@@ -185,7 +185,7 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 							fluidRowLocs(PersonDto.BIRTH_DATE_YYYY, PersonDto.BIRTH_DATE_MM, PersonDto.BIRTH_DATE_DD),
 							fluidRowLocs(PersonDto.APPROXIMATE_AGE, PersonDto.APPROXIMATE_AGE_TYPE, PersonDto.APPROXIMATE_AGE_REFERENCE_DATE)
 					) +
-					fluidRowLocs(PersonDto.SEX, "") +
+					fluidRowLocs(PersonDto.SEX, PersonDto.MARITAL_STATUS) +
 					fluidRowLocs(PersonDto.NATIONALITY, "") +
 					fluidRowLocs(PersonDto.PASSPORT_NUMBER, "") +
 					 loc(OCCUPATION_HEADER) +
@@ -337,6 +337,7 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 		FieldHelper.setVisibleWhen(getFieldGroup(), PersonDto.OTHER_SALUTATION, PersonDto.SALUTATION, Salutation.OTHER, true);
 
 		ComboBox sex = addField(PersonDto.SEX, ComboBox.class);
+		addField(PersonDto.MARITAL_STATUS, ComboBox.class);
 		addField(PersonDto.BIRTH_NAME, TextField.class);
 		addField(PersonDto.NICKNAME, TextField.class);
 		addField(PersonDto.MOTHERS_MAIDEN_NAME, TextField.class);

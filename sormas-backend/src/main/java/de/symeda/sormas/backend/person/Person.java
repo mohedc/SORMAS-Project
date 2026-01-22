@@ -92,6 +92,7 @@ public class Person extends AbstractDomainObject implements IsPerson, HasExterna
 	public static final String BURIAL_CONDUCTOR = "burialConductor";
 	public static final String ADDRESS = "address";
 	public static final String SEX = "sex";
+	public static final String MARITAL_STATUS = "maritalStatus";
 	public static final String DEATH_DATE = "deathDate";
 	public static final String PRESENT_CONDITION = "presentCondition";
 	public static final String EDUCATION_TYPE = "educationType";
@@ -162,6 +163,8 @@ public class Person extends AbstractDomainObject implements IsPerson, HasExterna
 	private List<ManualMessageLog> manualMessageLogs;
 
 	private Sex sex;
+	@Enumerated(EnumType.STRING)
+	private MaritalStatus maritalStatus;
 
 	private PresentCondition presentCondition;
 	private Integer birthdateDD;
@@ -396,6 +399,15 @@ public class Person extends AbstractDomainObject implements IsPerson, HasExterna
 
 	public void setSex(Sex sex) {
 		this.sex = sex;
+	}
+
+	@Enumerated(EnumType.STRING)
+	public MaritalStatus getMaritalStatus() {
+		return maritalStatus;
+	}
+
+	public void setMaritalStatus(MaritalStatus maritalStatus) {
+		this.maritalStatus = maritalStatus;
 	}
 
 	public PresentCondition getPresentCondition() {
