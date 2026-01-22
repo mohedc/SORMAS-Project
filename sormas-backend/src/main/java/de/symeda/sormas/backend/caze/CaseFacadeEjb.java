@@ -3239,6 +3239,7 @@ public class CaseFacadeEjb extends AbstractCoreFacadeEjb<Case, CaseDataDto, Case
 		target.setInvestigatorUnit(source.getInvestigatorUnit());
 		target.setInvestigatorAddress(source.getInvestigatorAddress());
 		target.setInvestigatorTel(source.getInvestigatorTel());
+		target.setInvestigatorEmail(source.getInvestigatorEmail());
 		target.setDateReceivedAtDistrictLevel(source.getDateReceivedAtDistrictLevel());
 		target.setSourceOfInfectionIdentified(source.getSourceOfInfectionIdentified());
 		target.setMotherGivenProtectiveDoseTT(source.getMotherGivenProtectiveDoseTT());
@@ -3486,6 +3487,7 @@ public class CaseFacadeEjb extends AbstractCoreFacadeEjb<Case, CaseDataDto, Case
 		target.setInvestigatorUnit(source.getInvestigatorUnit());
 		target.setInvestigatorAddress(source.getInvestigatorAddress());
 		target.setInvestigatorTel(source.getInvestigatorTel());
+		target.setInvestigatorEmail(source.getInvestigatorEmail());
 		target.setDateReceivedAtDistrictLevel(source.getDateReceivedAtDistrictLevel());
 		target.setSourceOfInfectionIdentified(source.getSourceOfInfectionIdentified());
 		target.setMotherGivenProtectiveDoseTT(source.getMotherGivenProtectiveDoseTT());

@@ -306,7 +306,7 @@ public class Case extends CoreAdo implements IsCase, SormasToSormasShareable, Ha
 	private YesNoUnknown pregnant;
 
 	private VaccinationStatus vaccinationStatus;
-	private YesNoUnknown vaccinated;
+	private VaccinationStatus vaccinated;
 	private RoutineVaccinationType routineVaccinationType;
 	private VaccinationRecordType vaccinationRecordType;
 	private Integer numberOfVaccinationDoses;
@@ -460,6 +460,7 @@ public class Case extends CoreAdo implements IsCase, SormasToSormasShareable, Ha
 	private String investigatorUnit;
 	private String investigatorAddress;
 	private String investigatorTel;
+	private String investigatorEmail;
 	private Date dateReceivedAtDistrictLevel;
 	private YesNoUnknown sourceOfInfectionIdentified;
 	private YesNoUnknown motherGivenProtectiveDoseTT;
@@ -971,11 +972,11 @@ public class Case extends CoreAdo implements IsCase, SormasToSormasShareable, Ha
 	}
 
 	@Enumerated(EnumType.STRING)
-	public YesNoUnknown getVaccinated() {
+	public VaccinationStatus getVaccinated() {
 		return vaccinated;
 	}
 
-	public void setVaccinated(YesNoUnknown vaccinated) {
+	public void setVaccinated(VaccinationStatus vaccinated) {
 		this.vaccinated = vaccinated;
 	}
 
@@ -2113,6 +2114,14 @@ public class Case extends CoreAdo implements IsCase, SormasToSormasShareable, Ha
 
 	public void setInvestigatorTel(String investigatorTel) {
 		this.investigatorTel = investigatorTel;
+	}
+
+	public String getInvestigatorEmail() {
+		return investigatorEmail;
+	}
+
+	public void setInvestigatorEmail(String investigatorEmail) {
+		this.investigatorEmail = investigatorEmail;
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)

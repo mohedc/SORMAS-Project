@@ -14633,4 +14633,8 @@ INSERT INTO schema_version (version_number, comment) VALUES (593, 'Add generic v
 ALTER TABLE cases ADD COLUMN vaccinated varchar(255);
 ALTER TABLE cases_history ADD COLUMN vaccinated varchar(255);
 INSERT INTO schema_version (version_number, comment) VALUES (594, 'Add vaccinated field to cases for Measles CIF');
+
+ALTER TABLE cases ADD COLUMN investigatoremail varchar(255);
+ALTER TABLE cases_history ADD COLUMN investigatoremail varchar(255);
+INSERT INTO schema_version (version_number, comment) VALUES (595, 'Add investigatorEmail field to cases for Measles CIF');
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***

@@ -264,6 +264,7 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 	public static final String INVESTIGATOR_UNIT = "investigatorUnit";
 	public static final String INVESTIGATOR_ADDRESS = "investigatorAddress";
 	public static final String INVESTIGATOR_TEL = "investigatorTel";
+	public static final String INVESTIGATOR_EMAIL = "investigatorEmail";
 	public static final String DATE_RECEIVED_AT_DISTRICT_LEVEL = "dateReceivedAtDistrictLevel";
 	public static final String SOURCE_OF_INFECTION_IDENTIFIED = "sourceOfInfectionIdentified";
 	public static final String MOTHER_GIVEN_PROTECTIVE_DOSE_TT = "motherGivenProtectiveDoseTT";
@@ -420,7 +421,7 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 	private VaccinationStatus vaccinationStatus;
 	@Diseases({
 		Disease.MEASLES })
-	private YesNoUnknown vaccinated;
+	private VaccinationStatus vaccinated;
 	@Diseases({
 		Disease.MEASLES })
 	private RoutineVaccinationType routineVaccinationType;
@@ -778,6 +779,9 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 			Disease.NEONATAL_TETANUS,
 			Disease.MEASLES})
 	private String investigatorTel;
+	@Diseases({
+			Disease.MEASLES})
+	private String investigatorEmail;
 	@Diseases({
 			Disease.MEASLES})
 	private Date dateReceivedAtDistrictLevel;
@@ -1299,11 +1303,11 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 		this.vaccinationStatus = vaccinationStatus;
 	}
 
-	public YesNoUnknown getVaccinated() {
+	public VaccinationStatus getVaccinated() {
 		return vaccinated;
 	}
 
-	public void setVaccinated(YesNoUnknown vaccinated) {
+	public void setVaccinated(VaccinationStatus vaccinated) {
 		this.vaccinated = vaccinated;
 	}
 
@@ -2212,6 +2216,14 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 
 	public void setInvestigatorTel(String investigatorTel) {
 		this.investigatorTel = investigatorTel;
+	}
+
+	public String getInvestigatorEmail() {
+		return investigatorEmail;
+	}
+
+	public void setInvestigatorEmail(String investigatorEmail) {
+		this.investigatorEmail = investigatorEmail;
 	}
 
 	public Date getDateReceivedAtDistrictLevel() {

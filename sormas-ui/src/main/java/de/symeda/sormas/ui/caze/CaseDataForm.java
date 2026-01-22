@@ -168,6 +168,7 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 	public static final String DIAGNOSIS_CRITERIA_HEADING_LOC = "diagnosisCriteriaHeadingLoc";
 	public static final String DIAGNOSIS_CRITERIA_LAB_TEST_PANEL_LOC = "diagnosisCriteriaLoc";
 	private static final String NOTIFY_INVESTIGATE = "notifyInvestigateLoc";
+	private static final String ADDITIONAL_MEDICAL_INFORMATION = "additionalMedicalInformationLoc";
 	private static final String INVESTIGATING_OFFICER_INFO = "investigatingOfficerInfoLoc";
 
 	//@formatter:off
@@ -229,6 +230,7 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 					locCss(VSPACE_3, CaseDataDto.SHARED_TO_COUNTRY) +
 				loc(NOTIFY_INVESTIGATE) +
 				fluidRowLocs(CaseDataDto.NOTIFIED_BY, CaseDataDto.DATE_OF_NOTIFICATION, CaseDataDto.DATE_OF_INVESTIGATION) +
+				loc(ADDITIONAL_MEDICAL_INFORMATION) +
 				fluidRowLocs(CaseDataDto.VACCINATED, CaseDataDto.ROUTINE_VACCINATION_TYPE) +
 				fluidRowLocs(CaseDataDto.VACCINATION_RECORD_TYPE, CaseDataDto.NUMBER_OF_VACCINATION_DOSES) +
 				fluidRowLocs(CaseDataDto.LAST_VACCINATION_DATE, CaseDataDto.DATE_RECEIVED_AT_DISTRICT_LEVEL) +
@@ -318,8 +320,10 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 					fluidRowLocs(CaseDataDto.REGION, CaseDataDto.DISTRICT, CaseDataDto.COMMUNITY) +
 					fluidRowLocs(TYPE_GROUP_LOC, CaseDataDto.FACILITY_TYPE) +
 					fluidRowLocs(CaseDataDto.HEALTH_FACILITY, CaseDataDto.HEALTH_FACILITY_DETAILS) +
+					fluidRowLocs(CaseDataDto.REPORT_LON, CaseDataDto.REPORT_LAT) +
 				loc(NOTIFY_INVESTIGATE) +
 				fluidRowLocs(CaseDataDto.NOTIFIED_BY, CaseDataDto.DATE_OF_NOTIFICATION, CaseDataDto.DATE_OF_INVESTIGATION) +
+				loc(ADDITIONAL_MEDICAL_INFORMATION) +
 				fluidRowLocs(CaseDataDto.VACCINATED, CaseDataDto.ROUTINE_VACCINATION_TYPE) +
 				fluidRowLocs(CaseDataDto.VACCINATION_RECORD_TYPE, CaseDataDto.NUMBER_OF_VACCINATION_DOSES) +
 				fluidRowLocs(CaseDataDto.LAST_VACCINATION_DATE, CaseDataDto.DATE_RECEIVED_AT_DISTRICT_LEVEL) +
@@ -327,7 +331,7 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 				loc(INVESTIGATING_OFFICER_INFO) +
 					locCss(VSPACE_TOP_3, CaseDataDto.INVESTIGATOR_NAME) +
 					fluidRowLocs(CaseDataDto.INVESTIGATOR_TITLE, CaseDataDto.INVESTIGATOR_UNIT) +
-					fluidRowLocs(CaseDataDto.INVESTIGATOR_ADDRESS, CaseDataDto.INVESTIGATOR_TEL);
+					fluidRowLocs(CaseDataDto.INVESTIGATOR_TEL, CaseDataDto.INVESTIGATOR_EMAIL);
 	//@formatter:on
 
 	private final String caseUuid;
@@ -455,6 +459,10 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 		caseNotifyInvestigateLabel.addStyleName(H3);
 		getContent().addComponent(caseNotifyInvestigateLabel, NOTIFY_INVESTIGATE_HEADING_LOC);
 
+		Label additionalMedicalInformationLabel = new Label("Additional medical information");
+		additionalMedicalInformationLabel.addStyleName(H3);
+		getContent().addComponent(additionalMedicalInformationLabel, ADDITIONAL_MEDICAL_INFORMATION);
+
 		headingInvestigatingOfficerLabel = new Label(I18nProperties.getString(Strings.headingInvestigatingOfficer));
 		headingInvestigatingOfficerLabel.addStyleName(H3);
 		getContent().addComponent(headingInvestigatingOfficerLabel, INVESTIGATING_OFFICER_INFO);
@@ -561,6 +569,7 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 		addField(CaseDataDto.INVESTIGATOR_UNIT, TextField.class);
 		addField(CaseDataDto.INVESTIGATOR_ADDRESS, TextField.class);
 		addField(CaseDataDto.INVESTIGATOR_TEL, TextField.class);
+		addField(CaseDataDto.INVESTIGATOR_EMAIL, TextField.class);
 
 		motherGivenProtectiveDoseTT = addField(CaseDataDto.MOTHER_GIVEN_PROTECTIVE_DOSE_TT, NullableOptionGroup.class);
 		motherGivenProtectiveDoseTTDate = addField(CaseDataDto.MOTHER_GIVEN_PROTECTIVE_DOSE_TT_DATE, DateField.class);
@@ -999,28 +1008,16 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 		addField(CaseDataDto.DATE_RECEIVED_AT_DISTRICT_LEVEL, DateField.class);
 		addField(CaseDataDto.SOURCE_OF_INFECTION_IDENTIFIED, NullableOptionGroup.class);
 		
-		// Add Measles vaccination fields
 		addField(CaseDataDto.VACCINATED, NullableOptionGroup.class);
-		
-		ComboBox routineVaccinationTypeField = addField(CaseDataDto.ROUTINE_VACCINATION_TYPE, ComboBox.class);
-		routineVaccinationTypeField.setNullSelectionAllowed(true);
-		FieldHelper.updateEnumData(routineVaccinationTypeField, Arrays.asList(RoutineVaccinationType.values()));
-		
-		ComboBox vaccinationRecordTypeField = addField(CaseDataDto.VACCINATION_RECORD_TYPE, ComboBox.class);
-		vaccinationRecordTypeField.setNullSelectionAllowed(true);
-		FieldHelper.updateEnumData(vaccinationRecordTypeField, Arrays.asList(VaccinationRecordType.values()));
-		
+		addField(CaseDataDto.ROUTINE_VACCINATION_TYPE, NullableOptionGroup.class);
+		addField(CaseDataDto.VACCINATION_RECORD_TYPE, NullableOptionGroup.class);
 		TextField numberOfVaccinationDosesField = addField(CaseDataDto.NUMBER_OF_VACCINATION_DOSES, TextField.class);
 		numberOfVaccinationDosesField.setConversionError(I18nProperties.getValidationError(Validations.onlyIntegerNumbersAllowed, numberOfVaccinationDosesField.getCaption()));
 		
 		DateField lastVaccinationDateField = addField(CaseDataDto.LAST_VACCINATION_DATE, DateField.class);
 
-		//Using field helper check is vacinated is yes and show vaccinationRoutine, vaccinationType, numberOfVaccinationDoses
-		FieldHelper.setVisibleWhen(getFieldGroup(), CaseDataDto.VACCINATED, Arrays.asList(CaseDataDto.ROUTINE_VACCINATION_TYPE, CaseDataDto.VACCINATION_RECORD_TYPE, CaseDataDto.NUMBER_OF_VACCINATION_DOSES), Arrays.asList(YesNoUnknown.YES), true);
-
 		
 		// Add conditional visibility: lastVaccinationDate visible when vaccinationRecordType is CARD
-		
 		FieldHelper.setVisibleWhen(getFieldGroup(), CaseDataDto.LAST_VACCINATION_DATE, CaseDataDto.VACCINATION_RECORD_TYPE, Arrays.asList(VaccinationRecordType.CARD), true);
 
 		// vaccinationRecordTypeField.addValueChangeListener(e -> {

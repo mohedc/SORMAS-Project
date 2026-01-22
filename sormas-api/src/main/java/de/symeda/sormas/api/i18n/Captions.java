@@ -756,6 +756,7 @@ public interface Captions {
 	String CaseData_investigatorTitle = "CaseData.investigatorTitle";
 	String CaseData_investigatorAddress = "CaseData.investigatorAddress";
 	String CaseData_investigatorTel = "CaseData.investigatorTel";
+	String CaseData_investigatorEmail = "CaseData.investigatorEmail";
 	String CaseData_investigatorUnit = "CaseData.investigatorUnit";
 	String CaseData_vaccinated = "CaseData.vaccinated";
 	String CaseData_routineVaccinationType = "CaseData.routineVaccinationType";
