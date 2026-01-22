@@ -14607,4 +14607,30 @@ alter table person_history add column othernames character varying(255);
 
 INSERT INTO schema_version (version_number, comment) VALUES (592, 'Add otherNames field to person table');
 
+
+-- Add generic vaccination and case fields for Measles CIF
+ALTER TABLE cases ADD COLUMN routinevaccinationtype varchar(255);
+ALTER TABLE cases ADD COLUMN vaccinationrecordtype varchar(255);
+ALTER TABLE cases ADD COLUMN numberofvaccinationdoses integer;
+ALTER TABLE cases ADD COLUMN lastvaccinationdate date;
+ALTER TABLE cases ADD COLUMN datereceivedatdistrictlevel date;
+ALTER TABLE cases ADD COLUMN sourceofinfectionidentified varchar(255);
+
+-- Add to history tables
+ALTER TABLE cases_history ADD COLUMN routinevaccinationtype varchar(255);
+ALTER TABLE cases_history ADD COLUMN vaccinationrecordtype varchar(255);
+ALTER TABLE cases_history ADD COLUMN numberofvaccinationdoses integer;
+ALTER TABLE cases_history ADD COLUMN lastvaccinationdate date;
+ALTER TABLE cases_history ADD COLUMN datereceivedatdistrictlevel date;
+ALTER TABLE cases_history ADD COLUMN sourceofinfectionidentified varchar(255);
+
+-- Add address field to hospitalization
+ALTER TABLE hospitalization ADD COLUMN address text;
+ALTER TABLE hospitalization_history ADD COLUMN address text;
+
+INSERT INTO schema_version (version_number, comment) VALUES (593, 'Add generic vaccination and case fields for Measles CIF');
+
+ALTER TABLE cases ADD COLUMN vaccinated varchar(255);
+ALTER TABLE cases_history ADD COLUMN vaccinated varchar(255);
+INSERT INTO schema_version (version_number, comment) VALUES (594, 'Add vaccinated field to cases for Measles CIF');
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***
