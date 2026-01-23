@@ -184,6 +184,19 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 			locsCss(VSPACE_3) +
 			fluidRowLocs(CONVULSION, OUTCOME) +
 			fluidRowLocs(BABY_DIED, AGE_AT_DEATH_DAYS, AGE_AT_ONSET_DAYS);
+
+	public static final String MEASLES_LAYOUT = loc(SIGNS_AND_SYMPTOMS_HEADING_LOC) +
+	loc(SIGNS_AND_SYMPTOMS_HEADING_LOC) +
+					fluidRowCss(VSPACE_3,
+							//XXX #1620 fluidColumnLoc?
+							fluidColumn(8, 0, loc(SYMPTOMS_HINT_LOC))) +
+					fluidRow(fluidColumn(8,4, locCss(CssStyles.ALIGN_RIGHT,BUTTONS_LOC)))+
+			fluidRowLocs(FEVER, SKIN_RASH) +
+			fluidRowLocs(LESIONS_ONSET_DATE, COUGH) +
+			fluidRowLocs(RUNNY_NOSE, CONJUNCTIVITIS) +
+			fluidRowLocs(CONJUNCTIVITIS, JOINT_PAIN) +
+			locsCss(VSPACE_3) +
+			fluidRowLocs(OUTCOME);
 	//@formatter:on
 
 	private static String createSymptomGroupLayout(SymptomGroup symptomGroup, String loc) {
@@ -784,7 +797,12 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 
 		FieldHelper.setVisibleWhen(getFieldGroup(), lesionsLocationFieldIds, LESIONS, Arrays.asList(SymptomState.YES), true);
 
-		FieldHelper.setVisibleWhen(getFieldGroup(), LESIONS_ONSET_DATE, LESIONS, Arrays.asList(SymptomState.YES), true);
+		// For measles, LESIONS_ONSET_DATE should depend on SKIN_RASH instead of LESIONS
+		if (disease == Disease.MEASLES) {
+			FieldHelper.setVisibleWhen(getFieldGroup(), LESIONS_ONSET_DATE, SKIN_RASH, Arrays.asList(SymptomState.YES), true);
+		} else {
+			FieldHelper.setVisibleWhen(getFieldGroup(), LESIONS_ONSET_DATE, LESIONS, Arrays.asList(SymptomState.YES), true);
+		}
 
 		FieldHelper.setVisibleWhen(getFieldGroup(), CONGENITAL_HEART_DISEASE_TYPE, CONGENITAL_HEART_DISEASE, Arrays.asList(SymptomState.YES), true);
 		FieldHelper.setVisibleWhen(
@@ -1069,6 +1087,8 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 		switch (caze.getDisease()) {
 			case NEONATAL_TETANUS:
 				return NNT_LAYOUT;
+			case MEASLES:
+				return MEASLES_LAYOUT;
 			default:
 				return FINAL_HTML_LAYOUT;
 		}

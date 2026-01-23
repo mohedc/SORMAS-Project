@@ -563,7 +563,6 @@ public class SymptomsDto extends PseudonymizableDto {
 		NEW_INFLUENZA,
 		CSM,
 		CHOLERA,
-		MEASLES,
 		PLAGUE,
 		POLIO,
 		ANTHRAX,
@@ -581,7 +580,6 @@ public class SymptomsDto extends PseudonymizableDto {
 		GUINEA_WORM,
 		LASSA,
 		NEW_INFLUENZA,
-		MEASLES,
 		PLAGUE,
 		POLIO,
 		UNSPECIFIED_VHF,
@@ -614,7 +612,6 @@ public class SymptomsDto extends PseudonymizableDto {
 		LASSA,
 		NEW_INFLUENZA,
 		CSM,
-		MEASLES,
 		DENGUE,
 		MONKEYPOX,
 		POLIO,
@@ -647,7 +644,6 @@ public class SymptomsDto extends PseudonymizableDto {
 		NEW_INFLUENZA,
 		CSM,
 		CHOLERA,
-		MEASLES,
 		YELLOW_FEVER,
 		DENGUE,
 		MONKEYPOX,
@@ -834,7 +830,6 @@ public class SymptomsDto extends PseudonymizableDto {
 	@Diseases({
 		AFP,
 		GUINEA_WORM,
-		MEASLES,
 		POLIO,
 		UNDEFINED,
 		OTHER })
@@ -931,7 +926,8 @@ public class SymptomsDto extends PseudonymizableDto {
 
 	@Diseases({
 		MONKEYPOX,
-		ANTHRAX })
+		ANTHRAX,
+		MEASLES })
 	@DependantOn(LESIONS)
 	@HideForCountries
 	@SymptomGrouping(SymptomGroup.SKIN)
@@ -1073,6 +1069,7 @@ public class SymptomsDto extends PseudonymizableDto {
 		AFP,
 		GUINEA_WORM,
 		MONKEYPOX,
+		MEASLES,
 		POLIO,
 		UNDEFINED,
 		OTHER })
@@ -1113,7 +1110,6 @@ public class SymptomsDto extends PseudonymizableDto {
 		NEW_INFLUENZA,
 		CSM,
 		CHOLERA,
-		MEASLES,
 		YELLOW_FEVER,
 		DENGUE,
 		MONKEYPOX,
@@ -1210,7 +1206,6 @@ public class SymptomsDto extends PseudonymizableDto {
 		EVD,
 		GUINEA_WORM,
 		LASSA,
-		MEASLES,
 		MONKEYPOX,
 		NEW_INFLUENZA,
 		PLAGUE,
@@ -1278,7 +1273,6 @@ public class SymptomsDto extends PseudonymizableDto {
 		EVD,
 		GUINEA_WORM,
 		LASSA,
-		MEASLES,
 		MONKEYPOX,
 		NEW_INFLUENZA,
 		PLAGUE,
@@ -1389,7 +1383,6 @@ public class SymptomsDto extends PseudonymizableDto {
 		NEW_INFLUENZA,
 		CSM,
 		CHOLERA,
-		MEASLES,
 		DENGUE,
 		MONKEYPOX,
 		PLAGUE,
@@ -1413,7 +1406,6 @@ public class SymptomsDto extends PseudonymizableDto {
 		NEW_INFLUENZA,
 		CSM,
 		CHOLERA,
-		MEASLES,
 		DENGUE,
 		MONKEYPOX,
 		PLAGUE,
@@ -1435,7 +1427,6 @@ public class SymptomsDto extends PseudonymizableDto {
 		AFP,
 		GUINEA_WORM,
 		NEW_INFLUENZA,
-		MEASLES,
 		POLIO,
 		UNDEFINED,
 		OTHER })
@@ -1624,7 +1615,6 @@ public class SymptomsDto extends PseudonymizableDto {
 		GUINEA_WORM,
 		LASSA,
 		NEW_INFLUENZA,
-		MEASLES,
 		MONKEYPOX,
 		ANTHRAX,
 		POLIO,
@@ -1682,7 +1672,6 @@ public class SymptomsDto extends PseudonymizableDto {
 		NEW_INFLUENZA,
 		CSM,
 		CHOLERA,
-		MEASLES,
 		DENGUE,
 		MONKEYPOX,
 		PLAGUE,
@@ -1704,7 +1693,6 @@ public class SymptomsDto extends PseudonymizableDto {
 		NEW_INFLUENZA,
 		CSM,
 		CHOLERA,
-		MEASLES,
 		YELLOW_FEVER,
 		DENGUE,
 		MONKEYPOX,
@@ -1727,7 +1715,6 @@ public class SymptomsDto extends PseudonymizableDto {
 		NEW_INFLUENZA,
 		CSM,
 		CHOLERA,
-		MEASLES,
 		YELLOW_FEVER,
 		DENGUE,
 		MONKEYPOX,
@@ -1871,7 +1858,6 @@ public class SymptomsDto extends PseudonymizableDto {
 		NEW_INFLUENZA,
 		CSM,
 		CHOLERA,
-		MEASLES,
 		YELLOW_FEVER,
 		DENGUE,
 		MONKEYPOX,
@@ -2190,7 +2176,6 @@ public class SymptomsDto extends PseudonymizableDto {
 		NEW_INFLUENZA,
 		CSM,
 		CHOLERA,
-		MEASLES,
 		POLIO,
 		UNSPECIFIED_VHF,
 		RABIES,
@@ -2209,7 +2194,6 @@ public class SymptomsDto extends PseudonymizableDto {
 		NEW_INFLUENZA,
 		CSM,
 		CHOLERA,
-		MEASLES,
 		PLAGUE,
 		POLIO,
 		UNSPECIFIED_VHF,
@@ -2291,7 +2275,6 @@ public class SymptomsDto extends PseudonymizableDto {
 		NEW_INFLUENZA,
 		CSM,
 		CHOLERA,
-		MEASLES,
 		POLIO,
 		UNSPECIFIED_VHF,
 		GUINEA_WORM,
@@ -2316,7 +2299,6 @@ public class SymptomsDto extends PseudonymizableDto {
 		NEW_INFLUENZA,
 		CSM,
 		CHOLERA,
-		MEASLES,
 		POLIO,
 		UNSPECIFIED_VHF,
 		GUINEA_WORM,
@@ -2343,7 +2325,6 @@ public class SymptomsDto extends PseudonymizableDto {
 		NEW_INFLUENZA,
 		CSM,
 		CHOLERA,
-		MEASLES,
 		POLIO,
 		UNSPECIFIED_VHF,
 		RABIES,
@@ -2363,7 +2344,6 @@ public class SymptomsDto extends PseudonymizableDto {
 		NEW_INFLUENZA,
 		CSM,
 		CHOLERA,
-		MEASLES,
 		POLIO,
 		UNSPECIFIED_VHF,
 		UNDEFINED,
@@ -2381,7 +2361,6 @@ public class SymptomsDto extends PseudonymizableDto {
 		NEW_INFLUENZA,
 		CSM,
 		CHOLERA,
-		MEASLES,
 		PLAGUE,
 		ANTHRAX,
 		POLIO,
@@ -2568,7 +2547,8 @@ public class SymptomsDto extends PseudonymizableDto {
 	private SymptomState stiffness;
 
 	@Diseases({
-			NEONATAL_TETANUS
+			NEONATAL_TETANUS,
+			MEASLES
 	})
 	@Outbreaks
 	private CaseOutcome outcome;
