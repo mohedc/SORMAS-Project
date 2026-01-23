@@ -196,6 +196,18 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 			fluidRowLocs(CONJUNCTIVITIS, JOINT_PAIN) +
 			locsCss(VSPACE_3) +
 			fluidRowLocs(3, OUTCOME);
+
+	public static final String YELLOW_FEVER_LAYOUT = loc(SIGNS_AND_SYMPTOMS_HEADING_LOC) +
+					fluidRowCss(VSPACE_3,
+							//XXX #1620 fluidColumnLoc?
+							fluidColumn(8, 0, loc(SYMPTOMS_HINT_LOC))) +
+					fluidRow(fluidColumn(8,4, locCss(CssStyles.ALIGN_RIGHT,BUTTONS_LOC)))+
+			fluidRowLocs(FEVER, GENERALIZED_RASH) +
+			fluidRowLocs(LESIONS_ONSET_DATE, COUGH) +
+			fluidRowLocs(RUNNY_NOSE, SWOLLEN_LYMPH_NODES_BEHIND_EARS) +
+			fluidRowLocs(CONJUNCTIVITIS, JOINT_PAIN) +
+			locsCss(VSPACE_3) +
+			fluidRowLocs(3, OUTCOME);
 	//@formatter:on
 
 	private static String createSymptomGroupLayout(SymptomGroup symptomGroup, String loc) {
@@ -804,7 +816,8 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 		FieldHelper.setVisibleWhen(getFieldGroup(), lesionsLocationFieldIds, LESIONS, Arrays.asList(SymptomState.YES), true);
 
 		// For measles, LESIONS_ONSET_DATE should depend on GENERALIZED_RASH instead of LESIONS
-		if (disease == Disease.MEASLES) {
+		// For yellow fever, same logic applies
+		if (disease == Disease.MEASLES || disease == Disease.YELLOW_FEVER) {
 			FieldHelper.setVisibleWhen(getFieldGroup(), LESIONS_ONSET_DATE, GENERALIZED_RASH, Arrays.asList(SymptomState.YES), true);
 		} else {
 			FieldHelper.setVisibleWhen(getFieldGroup(), LESIONS_ONSET_DATE, LESIONS, Arrays.asList(SymptomState.YES), true);
@@ -1095,6 +1108,8 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 				return NNT_LAYOUT;
 			case MEASLES:
 				return MEASLES_LAYOUT;
+			case YELLOW_FEVER:
+				return YELLOW_FEVER_LAYOUT;
 			default:
 				return FINAL_HTML_LAYOUT;
 		}

@@ -129,6 +129,20 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 					fluidRowLocs(SampleDto.RECEIVED_DATE, SampleDto.LAB_SAMPLE_ID) +
 					fluidRowLocs(SampleDto.PATHOGEN_TEST_RESULT);
 
+    protected static final String YELLOW_FEVER_HTML_LAYOUT =
+			fluidRowLocs(4, SampleDto.UUID, 4, REPORT_INFO_LABEL_LOC, 3,SampleDto.REPORTING_USER, 1, "") +
+					fluidRowLocs(SampleDto.SAMPLE_PURPOSE, SampleDto.FIELD_SAMPLE_ID) +
+                    fluidRowLocs(SampleDto.SAMPLE_DATE_TIME) +
+                    fluidRowLocs(SampleDto.LAB, SampleDto.LAB_DETAILS) +
+                    fluidRowLocs(SampleDto.LAB_SAMPLE_ID) +
+                    fluidRowLocs(SampleDto.SAMPLE_MATERIAL, SampleDto.SAMPLE_MATERIAL_TEXT) +
+					 locCss(VSPACE_TOP_3, SampleDto.SHIPPED) +
+					fluidRowLocs(SampleDto.SHIPMENT_DATE, SampleDto.SHIPMENT_DETAILS) +
+					fluidRowLocs(SampleDto.DATE_FORM_SENT_TO_HIGHER_LEVEL, SampleDto.NAME_CONTACT_PERSON_COMPLETING_FORM) +
+                    locCss(VSPACE_TOP_3, SampleDto.RECEIVED) +
+					fluidRowLocs(SampleDto.RECEIVED_DATE, SampleDto.LAB_SAMPLE_ID) +
+					fluidRowLocs(SampleDto.PATHOGEN_TEST_RESULT);
+
 
 	//@formatter:on
 
@@ -309,6 +323,10 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 		// Measles-specific configuration (called after all other visibility logic)
 		if (disease == Disease.MEASLES) {
 			configureMeaslesFields();
+		}
+		// Yellow fever-specific configuration (called after all other visibility logic)
+		if (disease == Disease.YELLOW_FEVER) {
+			configureYellowFeverFields();
 		}
 	}
 
@@ -591,10 +609,72 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 		// Show measles-specific fields
 	}
 
+	/**
+	 * Configures fields specifically for yellow fever samples
+	 */
+	protected void configureYellowFeverFields() {
+		// Filter sample material options for yellow fever: Blood, throat swab, urine, other
+		// Note: "gingival fluid" is not available in SampleMaterial enum, using available options
+		// Instead of removing all items, check each item and remove only those that don't match
+		ComboBox sampleMaterialField = (ComboBox) getField(SampleDto.SAMPLE_MATERIAL);
+		if (sampleMaterialField != null) {
+			// Allowed values for yellow fever
+			List<SampleMaterial> allowedMaterials = Arrays.asList(
+				SampleMaterial.BLOOD,
+				SampleMaterial.THROAT_SWAB,
+				SampleMaterial.URINE,
+				SampleMaterial.OTHER
+			);
+			
+			// Get all current items and remove only those that don't match allowed values
+			@SuppressWarnings("unchecked")
+			Collection<SampleMaterial> currentItems = (Collection<SampleMaterial>) sampleMaterialField.getItemIds();
+			List<SampleMaterial> itemsToRemove = new ArrayList<>();
+			
+			for (SampleMaterial item : currentItems) {
+				if (!allowedMaterials.contains(item)) {
+					itemsToRemove.add(item);
+				}
+			}
+			
+			// Remove items that are not in the allowed list
+			for (SampleMaterial item : itemsToRemove) {
+				sampleMaterialField.removeItem(item);
+			}
+			
+			// Add allowed items if they're not already present
+			for (SampleMaterial allowedItem : allowedMaterials) {
+				if (!sampleMaterialField.getItemIds().contains(allowedItem)) {
+					sampleMaterialField.addItem(allowedItem);
+				}
+			}
+		}
+
+		getField(SampleDto.SHIPMENT_DATE).setVisible(true);
+		Field<?> shippedField = getField(SampleDto.SHIPPED);
+		FieldHelper.setVisibleWhen(
+			getFieldGroup(),
+			Arrays.asList(SampleDto.SHIPMENT_DETAILS),
+			SampleDto.SHIPPED,
+			Arrays.asList(true),
+			true);
+		FieldHelper.setEnabledWhen(
+			getFieldGroup(),
+			shippedField,
+			Arrays.asList(true),
+			Arrays.asList(SampleDto.SHIPMENT_DETAILS),
+			true);
+
+		// Show yellow fever-specific fields
+	}
+
 	@Override
 	protected String createHtmlLayout() {
 		if (getCaseDisease() == Disease.MEASLES) {
 			return MEASLES_HTML_LAYOUT;
+		}
+		if (getCaseDisease() == Disease.YELLOW_FEVER) {
+			return YELLOW_FEVER_HTML_LAYOUT;
 		}
 		return SAMPLE_COMMON_HTML_LAYOUT;
 	}

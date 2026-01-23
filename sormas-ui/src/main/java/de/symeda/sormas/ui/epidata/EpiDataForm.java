@@ -96,6 +96,11 @@ public class EpiDataForm extends AbstractEditForm<EpiDataDto> {
 			loc(EpiDataDto.TRAVEL_HISTORY_KNOWN) +
 			loc(EpiDataDto.TRAVEL_LOCATION);
 
+	private static final String YELLOW_FEVER_HTML_LAYOUT =
+			loc(LOC_TRAVEL_LOCATION_HEADING) +
+			loc(EpiDataDto.TRAVEL_HISTORY_KNOWN) +
+			loc(EpiDataDto.TRAVEL_LOCATION);
+
 
 	private final Disease disease;
 	private final Class<? extends EntityDto> parentClass;
@@ -203,7 +208,7 @@ public class EpiDataForm extends AbstractEditForm<EpiDataDto> {
 		});
 	}
 	private void addTravelHistoryFields(NullableOptionGroup travelHistoryKnownField) {
-		if (disease != Disease.MEASLES) {
+		if (disease != Disease.MEASLES && disease != Disease.YELLOW_FEVER) {
 			return;
 		}
 
@@ -299,6 +304,9 @@ public class EpiDataForm extends AbstractEditForm<EpiDataDto> {
 			switch (disease) {
 				case MEASLES:
 					MAIN_HTML_LAYOUT = MEASLES_HTML_LAYOUT;
+					break;
+				case YELLOW_FEVER:
+					MAIN_HTML_LAYOUT = YELLOW_FEVER_HTML_LAYOUT;
 					break;
 				default:
 					MAIN_HTML_LAYOUT = MAIN_HTML_LAYOUT + SOURCE_CONTACTS_HTML_LAYOUT;

@@ -82,8 +82,6 @@ public class EpiDataDto extends PseudonymizableDto {
 		Disease.MEASLES })
 	private YesNo travelHistoryKnown;
 
-	@Diseases({
-		Disease.MEASLES })
 	@Valid
 	@EmbeddedPersonalData
 	@EmbeddedSensitiveData
@@ -196,9 +194,7 @@ public class EpiDataDto extends PseudonymizableDto {
 		clone.getExposures().clear();
 		clone.getExposures().addAll(exposureDtos);
 
-		if (getTravelLocation() != null) {
-			clone.setTravelLocation((LocationDto) getTravelLocation().clone());
-		}
+		clone.setTravelLocation((LocationDto) getTravelLocation().clone());
 
 		return clone;
 	}

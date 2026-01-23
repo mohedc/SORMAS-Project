@@ -39,6 +39,7 @@ import de.symeda.sormas.backend.contact.ContactFacadeEjb;
 import de.symeda.sormas.backend.contact.ContactService;
 import de.symeda.sormas.backend.exposure.Exposure;
 import de.symeda.sormas.backend.exposure.ExposureService;
+import de.symeda.sormas.backend.location.Location;
 import de.symeda.sormas.backend.location.LocationFacadeEjb;
 import de.symeda.sormas.backend.location.LocationFacadeEjb.LocationFacadeEjbLocal;
 import de.symeda.sormas.backend.user.UserFacadeEjb;
@@ -73,7 +74,16 @@ public class EpiDataFacadeEjb implements EpiDataFacade {
 		target.setLargeOutbreaksArea(source.getLargeOutbreaksArea());
 		target.setAreaInfectedAnimals(source.getAreaInfectedAnimals());
 		target.setTravelHistoryKnown(source.getTravelHistoryKnown());
-		target.setTravelLocation(locationFacade.fillOrBuildEntity(source.getTravelLocation(), target.getTravelLocation(), checkChangeDate));
+		// Fix: If target's travelLocation was auto-created by getter (has no ID) and UUIDs don't match,
+		// set it to null so fillOrBuildEntity can create a new one with the correct UUID from source
+		Location targetTravelLocation = target.getTravelLocation();
+		if (targetTravelLocation != null && targetTravelLocation.getId() == null 
+			&& source.getTravelLocation() != null && source.getTravelLocation().getUuid() != null
+			&& !source.getTravelLocation().getUuid().equals(targetTravelLocation.getUuid())) {
+			target.setTravelLocation(null);
+			targetTravelLocation = null;
+		}
+		target.setTravelLocation(locationFacade.fillOrBuildEntity(source.getTravelLocation(), targetTravelLocation, checkChangeDate));
 
 		List<Exposure> exposures = new ArrayList<>();
 		for (ExposureDto exposureDto : source.getExposures()) {

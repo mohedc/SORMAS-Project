@@ -136,6 +136,20 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 			fluidRowLocs(4, PathogenTestDto.TEST_RESULT, 4, PathogenTestDto.TEST_RESULT_VERIFIED) +
 			fluidRowLocs(PathogenTestDto.TEST_RESULT_TEXT, PathogenTestDto.DATE_RESULTS_SENT_TO_DISTRICT) +
 			fluidRowLocs(4, PathogenTestDto.FINAL_CLASSIFICATION);
+
+	private static final String YELLOW_FEVER_HTML_LAYOUT =
+			loc(PATHOGEN_TEST_HEADING_LOC) +
+			fluidRowLocs(PathogenTestDto.TESTED_DISEASE, PathogenTestDto.TESTED_DISEASE_DETAILS) +
+			fluidRowLocs(PathogenTestDto.TEST_TYPE, PathogenTestDto.TEST_TYPE_TEXT) +
+			fluidRowLocs(PathogenTestDto.TYPING_ID, "") +
+			fluidRowLocs(PathogenTestDto.TEST_DATE_TIME, PathogenTestDto.LAB) +
+			fluidRowLocs("", PathogenTestDto.LAB_DETAILS) +
+			fluidRowLocs(7, PathogenTestDto.DATE_RESULTS_SENT_TO_DISEASE_SURVEILLANCE, 5, PathogenTestDto.DATE_DISTRICT_RECEIVED_LAB_RESULTS) +
+			fluidRowLocs(PathogenTestDto.PERFORM_RUBELLA_TEST, PathogenTestDto.COMMUNITY_INVESTIGATION) +
+			fluidRowLocs(PathogenTestDto.INVESTIGATION_RESULTS, PathogenTestDto.SOURCE_OF_INFECTION_IDENTIFIED) +
+			fluidRowLocs(4, PathogenTestDto.TEST_RESULT, 4, PathogenTestDto.TEST_RESULT_VERIFIED) +
+			fluidRowLocs(PathogenTestDto.TEST_RESULT_TEXT, PathogenTestDto.DATE_RESULTS_SENT_TO_DISTRICT) +
+			fluidRowLocs(4, PathogenTestDto.FINAL_CLASSIFICATION);
 	//@formatter:on
 
 	private SampleDto sample;
@@ -298,6 +312,9 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 	protected String createHtmlLayout() {
 		if (disease == Disease.MEASLES) {
 			return MEASLES_HTML_LAYOUT;
+		}
+		if (disease == Disease.YELLOW_FEVER) {
+			return YELLOW_FEVER_HTML_LAYOUT;
 		}
 		return HTML_LAYOUT;
 	}
@@ -675,6 +692,10 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 			if (disease == Disease.MEASLES) {
 				configureMeaslesFields();
 			}
+			// Configure yellow fever-specific fields if disease is yellow fever
+			if (disease == Disease.YELLOW_FEVER) {
+				configureYellowFeverFields();
+			}
 
 			if (FacadeProvider.getConfigFacade().isConfiguredCountry(CountryHelper.COUNTRY_CODE_LUXEMBOURG)) {
 				FieldHelper.updateItems(
@@ -785,12 +806,37 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 		if (disease == Disease.MEASLES) {
 			configureMeaslesFields();
 		}
+		// Yellow fever-specific configuration (called after all other visibility logic)
+		if (disease == Disease.YELLOW_FEVER) {
+			configureYellowFeverFields();
+		}
 	}
 
 	/**
 	 * Configures fields specifically for measles pathogen tests
 	 */
 	protected void configureMeaslesFields() {
+		// Show investigation results when community investigation is yes
+		FieldHelper.setVisibleWhen(
+			getFieldGroup(),
+			Arrays.asList(PathogenTestDto.INVESTIGATION_RESULTS),
+			PathogenTestDto.COMMUNITY_INVESTIGATION,
+			Arrays.asList(true),
+			true);
+
+		// Hide tested disease details if not OTHER
+		FieldHelper.setVisibleWhen(
+			getFieldGroup(),
+			PathogenTestDto.TESTED_DISEASE_DETAILS,
+			PathogenTestDto.TESTED_DISEASE,
+			Arrays.asList(Disease.OTHER),
+			true);
+	}
+
+	/**
+	 * Configures fields specifically for yellow fever pathogen tests
+	 */
+	protected void configureYellowFeverFields() {
 		// Show investigation results when community investigation is yes
 		FieldHelper.setVisibleWhen(
 			getFieldGroup(),

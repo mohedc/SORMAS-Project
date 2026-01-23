@@ -447,8 +447,8 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 					setRequired(true, FACILITY_OR_HOME_LOC, FACILITY_TYPE_GROUP_LOC, CaseDataDto.FACILITY_TYPE, CaseDataDto.HEALTH_FACILITY);
 					setRequired(false, CaseDataDto.POINT_OF_ENTRY);
 					updateFacilityFields(facilityCombo, facilityDetails);
-					// Hide passport number for in-country cases (especially for Measles)
-					if (selectedDisease == Disease.MEASLES && personCreateForm != null) {
+					// Hide passport number for in-country cases (especially for Measles and Yellow Fever)
+					if ((selectedDisease == Disease.MEASLES || selectedDisease == Disease.YELLOW_FEVER) && personCreateForm != null) {
 						Field<?> passportField = personCreateForm.getField(PersonDto.PASSPORT_NUMBER);
 						if (passportField != null) {
 							passportField.setVisible(false);
@@ -463,8 +463,8 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 						setRequired(false, FACILITY_OR_HOME_LOC, FACILITY_TYPE_GROUP_LOC, CaseDataDto.FACILITY_TYPE, CaseDataDto.HEALTH_FACILITY);
 					}
 					updatePointOfEntryFields(cbPointOfEntry, tfPointOfEntryDetails);
-					// Show passport number for Point of Entry cases (if Measles)
-					if (selectedDisease == Disease.MEASLES && personCreateForm != null) {
+					// Show passport number for Point of Entry cases (if Measles or Yellow Fever)
+					if ((selectedDisease == Disease.MEASLES || selectedDisease == Disease.YELLOW_FEVER) && personCreateForm != null) {
 						Field<?> passportField = personCreateForm.getField(PersonDto.PASSPORT_NUMBER);
 						if (passportField != null) {
 							passportField.setVisible(true);
@@ -581,11 +581,11 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 				personCreateForm.getField(PersonDto.PHONE).setVisible(false);
 				personCreateForm.getField(PersonDto.EMAIL_ADDRESS).setVisible(false);
 				personCreateForm.getField(PersonDto.PRESENT_CONDITION).setVisible(false);
-			} else if (selectedDisease == Disease.MEASLES) {
-				// Show only Measles CIF fields for New Case
+			} else if (selectedDisease == Disease.MEASLES || selectedDisease == Disease.YELLOW_FEVER) {
+				// Show only Measles/Yellow Fever CIF fields for New Case
 				setVisible(true, epidField, diseaseField, ogCaseOrigin, responsibleRegionCombo, responsibleDistrictCombo, 
 						responsibleCommunityCombo, facilityOrHome, facilityDetails, facilityCombo, facilityType, reportDate);
-				// Show person fields relevant to Measles CIF
+				// Show person fields relevant to Measles/Yellow Fever CIF
 				if (personCreateForm != null) {
 					Field<?> firstNameField = personCreateForm.getField(PersonDto.FIRST_NAME);
 					if (firstNameField != null) firstNameField.setVisible(true);
@@ -602,7 +602,7 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 					Field<?> nationalityField = personCreateForm.getField(PersonDto.NATIONALITY);
 					if (nationalityField != null) nationalityField.setVisible(true);
 					// Passport number visibility depends on Case Origin (handled by case origin listener)
-					// Hide fields not in Measles CIF
+					// Hide fields not in Measles/Yellow Fever CIF
 					Field<?> nationalHealthIdField = personCreateForm.getField(PersonDto.NATIONAL_HEALTH_ID);
 					if (nationalHealthIdField != null) nationalHealthIdField.setVisible(false);
 					Field<?> phoneField = personCreateForm.getField(PersonDto.PHONE);
@@ -858,7 +858,8 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 
 	private final Set<Disease> mappedDiseases = EnumSet.of(
 			Disease.NEONATAL_TETANUS,
-			Disease.MEASLES
+			Disease.MEASLES,
+			Disease.YELLOW_FEVER
 	);
 
 }

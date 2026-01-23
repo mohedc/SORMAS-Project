@@ -815,7 +815,7 @@ public class LocationEditForm extends AbstractEditForm<LocationDto> {
 
 	@Override
 	protected String createHtmlLayout() {
-		if (caseDisease == Disease.MEASLES) {
+		if (caseDisease == Disease.MEASLES || caseDisease == Disease.YELLOW_FEVER) {
 			return MEASLES_LAYOUT;
 		}
 		return HTML_LAYOUT;
