@@ -3028,6 +3028,8 @@ public interface Captions {
 	String Symptoms_sidePain = "Symptoms.sidePain";
 	String Symptoms_skinBruising = "Symptoms.skinBruising";
 	String Symptoms_skinRash = "Symptoms.skinRash";
+	String Symptoms_generalizedRash = "Symptoms.generalizedRash";
+	String Symptoms_swollenLymphNodesBehindEars = "Symptoms.swollenLymphNodesBehindEars";
 	String Symptoms_skinUlcers = "Symptoms.skinUlcers";
 	String Symptoms_soreThroat = "Symptoms.soreThroat";
 	String Symptoms_splenomegaly = "Symptoms.splenomegaly";

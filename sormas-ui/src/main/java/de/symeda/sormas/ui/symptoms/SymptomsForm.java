@@ -186,7 +186,6 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 			fluidRowLocs(BABY_DIED, AGE_AT_DEATH_DAYS, AGE_AT_ONSET_DAYS);
 
 	public static final String MEASLES_LAYOUT = loc(SIGNS_AND_SYMPTOMS_HEADING_LOC) +
-	loc(SIGNS_AND_SYMPTOMS_HEADING_LOC) +
 					fluidRowCss(VSPACE_3,
 							//XXX #1620 fluidColumnLoc?
 							fluidColumn(8, 0, loc(SYMPTOMS_HINT_LOC))) +
@@ -196,7 +195,7 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 			fluidRowLocs(RUNNY_NOSE, SWOLLEN_LYMPH_NODES_BEHIND_EARS) +
 			fluidRowLocs(CONJUNCTIVITIS, JOINT_PAIN) +
 			locsCss(VSPACE_3) +
-			fluidRowLocs(OUTCOME);
+			fluidRowLocs(3, OUTCOME);
 	//@formatter:on
 
 	private static String createSymptomGroupLayout(SymptomGroup symptomGroup, String loc) {
@@ -563,6 +562,9 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 			OTHER_CLINICAL_PRESENTATION_TEXT };
 		addFields(clinicalPresentationFieldIds);
 
+		// Add OUTCOME field for NNT and Measles
+		addField(OUTCOME, ComboBox.class);
+
 		monkeypoxImageFieldIds = Arrays.asList(LESIONS_RESEMBLE_IMG1, LESIONS_RESEMBLE_IMG2, LESIONS_RESEMBLE_IMG3, LESIONS_RESEMBLE_IMG4);
 		for (String propertyId : monkeypoxImageFieldIds) {
 			@SuppressWarnings("rawtypes")
@@ -648,6 +650,8 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 			MUSCLE_PAIN,
 			FATIGUE_WEAKNESS,
 			SKIN_RASH,
+			GENERALIZED_RASH,
+			SWOLLEN_LYMPH_NODES_BEHIND_EARS,
 			NECK_STIFFNESS,
 			SORE_THROAT,
 			COUGH,
