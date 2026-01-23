@@ -381,6 +381,8 @@ public final class SymptomsHelper {
 		//otherHemorrhagicSymptoms
 		appendNotNullValue(string, symptomsDto.getOtherHemorrhagicSymptomsText(), SymptomsDto.OTHER_HEMORRHAGIC_SYMPTOMS_TEXT);
 		appendYesSymptom(string, symptomsDto.getSkinRash(), SymptomsDto.SKIN_RASH);
+		appendYesSymptom(string, symptomsDto.getGeneralizedRash(), SymptomsDto.GENERALIZED_RASH);
+		appendYesSymptom(string, symptomsDto.getSwollenLymphNodesBehindEars(), SymptomsDto.SWOLLEN_LYMPH_NODES_BEHIND_EARS);
 		appendYesSymptom(string, symptomsDto.getNeckStiffness(), SymptomsDto.NECK_STIFFNESS);
 		appendYesSymptom(string, symptomsDto.getSoreThroat(), SymptomsDto.SORE_THROAT);
 		appendYesSymptom(string, symptomsDto.getCough(), SymptomsDto.COUGH);

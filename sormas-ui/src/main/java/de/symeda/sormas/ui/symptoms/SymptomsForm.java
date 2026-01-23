@@ -191,9 +191,9 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 							//XXX #1620 fluidColumnLoc?
 							fluidColumn(8, 0, loc(SYMPTOMS_HINT_LOC))) +
 					fluidRow(fluidColumn(8,4, locCss(CssStyles.ALIGN_RIGHT,BUTTONS_LOC)))+
-			fluidRowLocs(FEVER, SKIN_RASH) +
+			fluidRowLocs(FEVER, GENERALIZED_RASH) +
 			fluidRowLocs(LESIONS_ONSET_DATE, COUGH) +
-			fluidRowLocs(RUNNY_NOSE, CONJUNCTIVITIS) +
+			fluidRowLocs(RUNNY_NOSE, SWOLLEN_LYMPH_NODES_BEHIND_EARS) +
 			fluidRowLocs(CONJUNCTIVITIS, JOINT_PAIN) +
 			locsCss(VSPACE_3) +
 			fluidRowLocs(OUTCOME);
@@ -523,7 +523,9 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 			NORMAL_CRY_AND_SUCK,
 			STOPPED_SUCKING_AFTER_TWO_DAYS,
 			STIFFNESS,
-			FEVER);
+			FEVER,
+			GENERALIZED_RASH,
+			SWOLLEN_LYMPH_NODES_BEHIND_EARS);
 
 		addField(SYMPTOMS_COMMENTS, TextField.class).setDescription(
 			I18nProperties.getPrefixDescription(I18N_PREFIX, SYMPTOMS_COMMENTS, "") + "\n" + I18nProperties.getDescription(Descriptions.descGdpr));
@@ -797,9 +799,9 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 
 		FieldHelper.setVisibleWhen(getFieldGroup(), lesionsLocationFieldIds, LESIONS, Arrays.asList(SymptomState.YES), true);
 
-		// For measles, LESIONS_ONSET_DATE should depend on SKIN_RASH instead of LESIONS
+		// For measles, LESIONS_ONSET_DATE should depend on GENERALIZED_RASH instead of LESIONS
 		if (disease == Disease.MEASLES) {
-			FieldHelper.setVisibleWhen(getFieldGroup(), LESIONS_ONSET_DATE, SKIN_RASH, Arrays.asList(SymptomState.YES), true);
+			FieldHelper.setVisibleWhen(getFieldGroup(), LESIONS_ONSET_DATE, GENERALIZED_RASH, Arrays.asList(SymptomState.YES), true);
 		} else {
 			FieldHelper.setVisibleWhen(getFieldGroup(), LESIONS_ONSET_DATE, LESIONS, Arrays.asList(SymptomState.YES), true);
 		}

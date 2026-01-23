@@ -14660,4 +14660,11 @@ ALTER TABLE hospitalization ADD COLUMN datefirstseenathealthfacility date;
 ALTER TABLE hospitalization_history ADD COLUMN seenathealthfacility varchar(255);
 ALTER TABLE hospitalization_history ADD COLUMN datefirstseenathealthfacility date;
 INSERT INTO schema_version (version_number, comment) VALUES (600, 'Add seenAtHealthFacility and dateFirstSeenAtHealthFacility fields for Measles CIF');
+
+-- Add generalizedRash and swollenLymphNodesBehindEars fields for Measles symptoms
+ALTER TABLE symptoms ADD COLUMN generalizedrash varchar(255);
+ALTER TABLE symptoms ADD COLUMN swollenlymphnodesbehindears varchar(255);
+ALTER TABLE symptoms_history ADD COLUMN generalizedrash varchar(255);
+ALTER TABLE symptoms_history ADD COLUMN swollenlymphnodesbehindears varchar(255);
+INSERT INTO schema_version (version_number, comment) VALUES (601, 'Add generalizedRash and swollenLymphNodesBehindEars fields for Measles symptoms');
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***

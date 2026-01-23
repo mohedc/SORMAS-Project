@@ -199,6 +199,8 @@ public class SymptomsDto extends PseudonymizableDto {
 	public static final String STOMACH_BLEEDING = "stomachBleeding";
 	public static final String SUNKEN_EYES_FONTANELLE = "sunkenEyesFontanelle";
 	public static final String SWOLLEN_GLANDS = "swollenGlands";
+	public static final String SWOLLEN_LYMPH_NODES_BEHIND_EARS = "swollenLymphNodesBehindEars";
+	public static final String GENERALIZED_RASH = "generalizedRash";
 	public static final String SYMPTOMATIC = "symptomatic";
 	public static final String SYMPTOMS_COMMENTS = "symptomsComments";
 	public static final String TEMPERATURE = "temperature";
@@ -1608,6 +1610,18 @@ public class SymptomsDto extends PseudonymizableDto {
 	@SymptomGrouping(SymptomGroup.OTHER)
 	/** Maculopapular rash */
 	private SymptomState skinRash;
+
+	@Diseases({
+		MEASLES })
+	@Outbreaks
+	@SymptomGrouping(SymptomGroup.SKIN)
+	private SymptomState generalizedRash;
+
+	@Diseases({
+		MEASLES })
+	@Outbreaks
+	@SymptomGrouping(SymptomGroup.OTHER)
+	private SymptomState swollenLymphNodesBehindEars;
 
 	@Diseases({
 		AFP,
@@ -3148,6 +3162,16 @@ public class SymptomsDto extends PseudonymizableDto {
 	}
 
 	@Order(243)
+	public SymptomState getGeneralizedRash() {
+		return generalizedRash;
+	}
+
+	@Order(244)
+	public SymptomState getSwollenLymphNodesBehindEars() {
+		return swollenLymphNodesBehindEars;
+	}
+
+	@Order(245)
 	public SymptomState getSoreThroat() {
 		return soreThroat;
 	}
@@ -3750,6 +3774,14 @@ public class SymptomsDto extends PseudonymizableDto {
 
 	public void setSkinRash(SymptomState skinRash) {
 		this.skinRash = skinRash;
+	}
+
+	public void setGeneralizedRash(SymptomState generalizedRash) {
+		this.generalizedRash = generalizedRash;
+	}
+
+	public void setSwollenLymphNodesBehindEars(SymptomState swollenLymphNodesBehindEars) {
+		this.swollenLymphNodesBehindEars = swollenLymphNodesBehindEars;
 	}
 
 	public void setSoreThroat(SymptomState soreThroat) {

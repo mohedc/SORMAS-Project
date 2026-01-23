@@ -93,6 +93,8 @@ public class Symptoms extends AbstractDomainObject {
 	private SymptomState otherHemorrhagicSymptoms;
 	private String otherHemorrhagicSymptomsText;
 	private SymptomState skinRash;
+	private SymptomState generalizedRash;
+	private SymptomState swollenLymphNodesBehindEars;
 	private SymptomState neckStiffness;
 	private SymptomState soreThroat;
 	private SymptomState apnoea;
@@ -449,6 +451,24 @@ public class Symptoms extends AbstractDomainObject {
 
 	public void setSkinRash(SymptomState skinRash) {
 		this.skinRash = skinRash;
+	}
+
+	@Enumerated(EnumType.STRING)
+	public SymptomState getGeneralizedRash() {
+		return generalizedRash;
+	}
+
+	public void setGeneralizedRash(SymptomState generalizedRash) {
+		this.generalizedRash = generalizedRash;
+	}
+
+	@Enumerated(EnumType.STRING)
+	public SymptomState getSwollenLymphNodesBehindEars() {
+		return swollenLymphNodesBehindEars;
+	}
+
+	public void setSwollenLymphNodesBehindEars(SymptomState swollenLymphNodesBehindEars) {
+		this.swollenLymphNodesBehindEars = swollenLymphNodesBehindEars;
 	}
 
 	@Enumerated(EnumType.STRING)
