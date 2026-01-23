@@ -184,6 +184,18 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 			locsCss(VSPACE_3) +
 			fluidRowLocs(CONVULSION, OUTCOME) +
 			fluidRowLocs(BABY_DIED, AGE_AT_DEATH_DAYS, AGE_AT_ONSET_DAYS);
+
+	public static final String MEASLES_LAYOUT = loc(SIGNS_AND_SYMPTOMS_HEADING_LOC) +
+					fluidRowCss(VSPACE_3,
+							//XXX #1620 fluidColumnLoc?
+							fluidColumn(8, 0, loc(SYMPTOMS_HINT_LOC))) +
+					fluidRow(fluidColumn(8,4, locCss(CssStyles.ALIGN_RIGHT,BUTTONS_LOC)))+
+			fluidRowLocs(FEVER, GENERALIZED_RASH) +
+			fluidRowLocs(LESIONS_ONSET_DATE, COUGH) +
+			fluidRowLocs(RUNNY_NOSE, SWOLLEN_LYMPH_NODES_BEHIND_EARS) +
+			fluidRowLocs(CONJUNCTIVITIS, JOINT_PAIN) +
+			locsCss(VSPACE_3) +
+			fluidRowLocs(3, OUTCOME);
 	//@formatter:on
 
 	private static String createSymptomGroupLayout(SymptomGroup symptomGroup, String loc) {
@@ -510,7 +522,9 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 			NORMAL_CRY_AND_SUCK,
 			STOPPED_SUCKING_AFTER_TWO_DAYS,
 			STIFFNESS,
-			FEVER);
+			FEVER,
+			GENERALIZED_RASH,
+			SWOLLEN_LYMPH_NODES_BEHIND_EARS);
 
 		addField(SYMPTOMS_COMMENTS, TextField.class).setDescription(
 			I18nProperties.getPrefixDescription(I18N_PREFIX, SYMPTOMS_COMMENTS, "") + "\n" + I18nProperties.getDescription(Descriptions.descGdpr));
@@ -547,6 +561,9 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 			OTHER_CLINICAL_PRESENTATION,
 			OTHER_CLINICAL_PRESENTATION_TEXT };
 		addFields(clinicalPresentationFieldIds);
+
+		// Add OUTCOME field for NNT and Measles
+		addField(OUTCOME, ComboBox.class);
 
 		monkeypoxImageFieldIds = Arrays.asList(LESIONS_RESEMBLE_IMG1, LESIONS_RESEMBLE_IMG2, LESIONS_RESEMBLE_IMG3, LESIONS_RESEMBLE_IMG4);
 		for (String propertyId : monkeypoxImageFieldIds) {
@@ -633,6 +650,8 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 			MUSCLE_PAIN,
 			FATIGUE_WEAKNESS,
 			SKIN_RASH,
+			GENERALIZED_RASH,
+			SWOLLEN_LYMPH_NODES_BEHIND_EARS,
 			NECK_STIFFNESS,
 			SORE_THROAT,
 			COUGH,
@@ -784,7 +803,12 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 
 		FieldHelper.setVisibleWhen(getFieldGroup(), lesionsLocationFieldIds, LESIONS, Arrays.asList(SymptomState.YES), true);
 
-		FieldHelper.setVisibleWhen(getFieldGroup(), LESIONS_ONSET_DATE, LESIONS, Arrays.asList(SymptomState.YES), true);
+		// For measles, LESIONS_ONSET_DATE should depend on GENERALIZED_RASH instead of LESIONS
+		if (disease == Disease.MEASLES) {
+			FieldHelper.setVisibleWhen(getFieldGroup(), LESIONS_ONSET_DATE, GENERALIZED_RASH, Arrays.asList(SymptomState.YES), true);
+		} else {
+			FieldHelper.setVisibleWhen(getFieldGroup(), LESIONS_ONSET_DATE, LESIONS, Arrays.asList(SymptomState.YES), true);
+		}
 
 		FieldHelper.setVisibleWhen(getFieldGroup(), CONGENITAL_HEART_DISEASE_TYPE, CONGENITAL_HEART_DISEASE, Arrays.asList(SymptomState.YES), true);
 		FieldHelper.setVisibleWhen(
@@ -1069,6 +1093,8 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 		switch (caze.getDisease()) {
 			case NEONATAL_TETANUS:
 				return NNT_LAYOUT;
+			case MEASLES:
+				return MEASLES_LAYOUT;
 			default:
 				return FINAL_HTML_LAYOUT;
 		}

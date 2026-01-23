@@ -22,6 +22,7 @@ import static de.symeda.sormas.ui.utils.LayoutUtil.divs;
 import static de.symeda.sormas.ui.utils.LayoutUtil.fluidColumnLoc;
 import static de.symeda.sormas.ui.utils.LayoutUtil.fluidRow;
 import static de.symeda.sormas.ui.utils.LayoutUtil.fluidRowLocs;
+import static de.symeda.sormas.ui.utils.LayoutUtil.loc;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -119,6 +120,18 @@ public class LocationEditForm extends AbstractEditForm<LocationDto> {
 				fluidColumnLoc(2, 0, LocationDto.LATITUDE),
 				fluidColumnLoc(2, 0, LocationDto.LONGITUDE),
 				fluidColumnLoc(2, 0, LocationDto.LAT_LON_ACCURACY)));
+
+	// Disease-specific layouts
+	private static final String MEASLES_LAYOUT =
+		fluidRowLocs(LocationDto.REGION, LocationDto.DISTRICT, LocationDto.COMMUNITY) +
+		fluidRowLocs(LocationDto.HOME_RESIDENTIAL_ADDRESS, LocationDto.COMPOUND_OWNER) +
+		fluidRowLocs(LocationDto.LANDMARK) +
+		fluidRowLocs(LocationDto.AREA_TYPE, LocationDto.POSTAL_CODE) +
+		fluidRow(
+				fluidColumnLoc(2, 0, GEO_BUTTONS_LOC),
+				fluidColumnLoc(2, 0, LocationDto.LATITUDE),
+				fluidColumnLoc(2, 0, LocationDto.LONGITUDE),
+				fluidColumnLoc(2, 0, LocationDto.LAT_LON_ACCURACY));
 
 	private MapPopupView leafletMapPopup;
 	private ComboBox addressType;
@@ -245,6 +258,9 @@ public class LocationEditForm extends AbstractEditForm<LocationDto> {
 		TextField houseNumberField = addField(LocationDto.HOUSE_NUMBER, TextField.class);
 		TextField additionalInformationField = addField(LocationDto.ADDITIONAL_INFORMATION, TextField.class);
 		addField(LocationDto.DETAILS, TextField.class);
+		addField(LocationDto.COMPOUND_OWNER, TextField.class);
+		addField(LocationDto.HOME_RESIDENTIAL_ADDRESS, TextField.class);
+		addField(LocationDto.LANDMARK, TextField.class);
 		TextField cityField = addField(LocationDto.CITY, TextField.class);
 		TextField postalCodeField = addField(LocationDto.POSTAL_CODE, TextField.class);
 		ComboBox areaType = addField(LocationDto.AREA_TYPE, ComboBox.class);
@@ -799,6 +815,9 @@ public class LocationEditForm extends AbstractEditForm<LocationDto> {
 
 	@Override
 	protected String createHtmlLayout() {
+		if (caseDisease == Disease.MEASLES) {
+			return MEASLES_LAYOUT;
+		}
 		return HTML_LAYOUT;
 	}
 
@@ -880,6 +899,23 @@ public class LocationEditForm extends AbstractEditForm<LocationDto> {
 
 	public void setHasEventParticipantsWithoutJurisdiction(boolean hasEventParticipantsWithoutJurisdiction) {
 		this.hasEventParticipantsWithoutJurisdiction = hasEventParticipantsWithoutJurisdiction;
+	}
+
+	/**
+	 * Shows only Region, District, and Community (sub-district) fields, hiding all other location fields.
+	 * This is useful for simplified location forms that only need jurisdiction information.
+	 */
+	public void hideFieldForMeaslesEpidataTravelLocation() {
+		setVisible(false,
+		LocationDto.HOME_RESIDENTIAL_ADDRESS,
+		LocationDto.COMPOUND_OWNER,
+		LocationDto.LANDMARK,
+		LocationDto.LANDMARK,
+		LocationDto.AREA_TYPE,
+		LocationDto.POSTAL_CODE,
+		LocationDto.LAT_LON_ACCURACY,
+		LocationDto.LATITUDE,
+		LocationDto.LONGITUDE);
 	}
 
 	private static class MapPopupView extends PopupView {

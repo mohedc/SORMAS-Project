@@ -24,6 +24,7 @@ import static de.symeda.sormas.ui.utils.LayoutUtil.h3;
 import static de.symeda.sormas.ui.utils.LayoutUtil.loc;
 import static de.symeda.sormas.ui.utils.LayoutUtil.locCss;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
@@ -43,12 +44,20 @@ import de.symeda.sormas.api.caze.CaseDataDto;
 import de.symeda.sormas.api.contact.ContactDto;
 import de.symeda.sormas.api.contact.ContactReferenceDto;
 import de.symeda.sormas.api.epidata.EpiDataDto;
+import de.symeda.sormas.api.i18n.Captions;
 import de.symeda.sormas.api.i18n.I18nProperties;
 import de.symeda.sormas.api.i18n.Strings;
+import de.symeda.sormas.api.infrastructure.community.CommunityReferenceDto;
+import de.symeda.sormas.api.infrastructure.district.DistrictReferenceDto;
+import de.symeda.sormas.api.infrastructure.region.RegionReferenceDto;
+import de.symeda.sormas.api.location.LocationDto;
+import de.symeda.sormas.api.utils.YesNo;
 import de.symeda.sormas.api.utils.YesNoUnknown;
 import de.symeda.sormas.api.utils.fieldvisibility.FieldVisibilityCheckers;
+import com.vaadin.v7.ui.ComboBox;
 import de.symeda.sormas.ui.ActivityAsCase.ActivityAsCaseField;
 import de.symeda.sormas.ui.exposure.ExposuresField;
+import de.symeda.sormas.ui.location.LocationEditForm;
 import de.symeda.sormas.ui.utils.AbstractEditForm;
 import de.symeda.sormas.ui.utils.FieldAccessHelper;
 import de.symeda.sormas.ui.utils.FieldHelper;
@@ -63,7 +72,7 @@ public class EpiDataForm extends AbstractEditForm<EpiDataDto> {
 	private static final String LOC_ACTIVITY_AS_CASE_INVESTIGATION_HEADING = "locActivityAsCaseInvestigationHeading";
 	private static final String LOC_SOURCE_CASE_CONTACTS_HEADING = "locSourceCaseContactsHeading";
 	private static final String LOC_EPI_DATA_FIELDS_HINT = "locEpiDataFieldsHint";
-
+	private static final String LOC_TRAVEL_LOCATION_HEADING = "locTravelLocationHeading";
 	//@formatter:off
 	private static final String MAIN_HTML_LAYOUT = 
 			loc(LOC_EXPOSURE_INVESTIGATION_HEADING) + 
@@ -76,16 +85,23 @@ public class EpiDataForm extends AbstractEditForm<EpiDataDto> {
 			loc(EpiDataDto.HIGH_TRANSMISSION_RISK_AREA) +
 			loc(EpiDataDto.LARGE_OUTBREAKS_AREA) + 
 			loc(EpiDataDto.AREA_INFECTED_ANIMALS);
-	
+
 	private static final String SOURCE_CONTACTS_HTML_LAYOUT =
 			locCss(VSPACE_TOP_3, LOC_SOURCE_CASE_CONTACTS_HEADING) +
 			loc(EpiDataDto.CONTACT_WITH_SOURCE_CASE_KNOWN);
 	//@formatter:on
 
+	private static final String MEASLES_HTML_LAYOUT =
+			loc(LOC_TRAVEL_LOCATION_HEADING) +
+			loc(EpiDataDto.TRAVEL_HISTORY_KNOWN) +
+			loc(EpiDataDto.TRAVEL_LOCATION);
+
+
 	private final Disease disease;
 	private final Class<? extends EntityDto> parentClass;
 	private final Consumer<Boolean> sourceContactsToggleCallback;
 	private final boolean isPseudonymized;
+	private LocationEditForm travelLocationForm;
 
 	public EpiDataForm(
 		Disease disease,
@@ -131,6 +147,12 @@ public class EpiDataForm extends AbstractEditForm<EpiDataDto> {
 		addField(EpiDataDto.HIGH_TRANSMISSION_RISK_AREA, NullableOptionGroup.class);
 		addField(EpiDataDto.LARGE_OUTBREAKS_AREA, NullableOptionGroup.class);
 		addField(EpiDataDto.AREA_INFECTED_ANIMALS, NullableOptionGroup.class);
+
+		// TRAVEL_HISTORY_KNOWN
+		NullableOptionGroup travelHistoryKnownField = addField(EpiDataDto.TRAVEL_HISTORY_KNOWN, NullableOptionGroup.class);
+
+		addTravelHistoryFields(travelHistoryKnownField);
+
 		NullableOptionGroup ogContactWithSourceCaseKnown = addField(EpiDataDto.CONTACT_WITH_SOURCE_CASE_KNOWN, NullableOptionGroup.class);
 
 		if (sourceContactsToggleCallback != null) {
@@ -180,7 +202,65 @@ public class EpiDataForm extends AbstractEditForm<EpiDataDto> {
 			ogActivityAsCaseDetailsKnown.setEnabled(CollectionUtils.isEmpty(activityAsCaseField.getValue()));
 		});
 	}
+	private void addTravelHistoryFields(NullableOptionGroup travelHistoryKnownField) {
+		if (disease != Disease.MEASLES) {
+			return;
+		}
 
+		// Add heading for travel location
+		getContent().addComponent(
+			new MultilineLabel(
+				h3(I18nProperties.getCaption(Captions.EpiData_travelLocation)),
+				ContentMode.HTML),
+			LOC_TRAVEL_LOCATION_HEADING);
+
+		// Create LocationEditForm for travel location
+		travelLocationForm = addField(
+			EpiDataDto.TRAVEL_LOCATION,
+			new LocationEditForm(
+				FieldVisibilityCheckers.withCountry(FacadeProvider.getConfigFacade().getCountryLocale()),
+				UiFieldAccessCheckers.getNoop(),
+				disease));
+		travelLocationForm.setCaption(null);
+
+		// Show only Region, District, Community fields
+		travelLocationForm.hideFieldForMeaslesEpidataTravelLocation();
+
+		// Populate region field since country is hidden
+		ComboBox regionField = (ComboBox) travelLocationForm.getField(LocationDto.REGION);
+		if (regionField != null) {
+			regionField.addItems(FacadeProvider.getRegionFacade().getAllActiveByServerCountry());
+		}
+
+		// Show travel location fields only when travelHistoryKnown is Yes
+		FieldHelper.setVisibleWhen(
+			getFieldGroup(),
+			EpiDataDto.TRAVEL_LOCATION,
+			EpiDataDto.TRAVEL_HISTORY_KNOWN,
+			Collections.singletonList(YesNo.YES),
+			true);
+
+		travelHistoryKnownField.addValueChangeListener(event -> {
+			YesNo travelHistoryKnown = (YesNo) FieldHelper.getNullableSourceFieldValue((Field) event.getProperty());
+			if (travelHistoryKnown == YesNo.YES && travelLocationForm != null && travelLocationForm.getValue() == null) {
+				LocationDto travelLocation = LocationDto.build();
+				travelLocationForm.setValue(travelLocation);
+			}
+		});
+	}
+
+	@Override
+	public void setValue(EpiDataDto newFieldValue) {
+		super.setValue(newFieldValue);
+
+		if (travelLocationForm != null && newFieldValue != null) {
+			if (newFieldValue.getTravelHistoryKnown() == YesNo.YES && newFieldValue.getTravelLocation() == null) {
+				LocationDto travelLocation = LocationDto.build();
+				newFieldValue.setTravelLocation(travelLocation);
+				travelLocationForm.setValue(travelLocation);
+			}
+		}
+	}
 	private void addHeadingsAndInfoTexts() {
 		getContent().addComponent(
 			new MultilineLabel(
@@ -214,6 +294,20 @@ public class EpiDataForm extends AbstractEditForm<EpiDataDto> {
 
 	@Override
 	protected String createHtmlLayout() {
-		return parentClass == CaseDataDto.class ? MAIN_HTML_LAYOUT + SOURCE_CONTACTS_HTML_LAYOUT : MAIN_HTML_LAYOUT;
+		String MAIN_HTML_LAYOUT = "";
+		if(parentClass == CaseDataDto.class) {
+			switch (disease) {
+				case MEASLES:
+					MAIN_HTML_LAYOUT = MEASLES_HTML_LAYOUT;
+					break;
+				default:
+					MAIN_HTML_LAYOUT = MAIN_HTML_LAYOUT + SOURCE_CONTACTS_HTML_LAYOUT;
+					break;
+			}
+		} else  {
+			MAIN_HTML_LAYOUT = MAIN_HTML_LAYOUT;
+		}
+
+		return MAIN_HTML_LAYOUT;
 	}
 }

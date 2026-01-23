@@ -56,6 +56,8 @@ public class Hospitalization extends AbstractDomainObject {
 	public static final String INTENSIVE_CARE_UNIT_START = "intensiveCareUnitStart";
 	public static final String INTENSIVE_CARE_UNIT_END = "intensiveCareUnitEnd";
 	public static final String DESCRIPTION = "description";
+	public static final String SEEN_AT_HEALTH_FACILITY = "seenAtHealthFacility";
+	public static final String DATE_FIRST_SEEN_AT_HEALTH_FACILITY = "dateFirstSeenAtHealthFacility";
 
 	private YesNoUnknown admittedToHealthFacility;
 	private Date admissionDate;
@@ -75,6 +77,9 @@ public class Hospitalization extends AbstractDomainObject {
 	private String description;
 	private String hospitalRecordNumber;
 	private InpatOutpat selectInpatientOutpatient;
+	private String address;
+	private YesNoUnknown seenAtHealthFacility;
+	private Date dateFirstSeenAtHealthFacility;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	public Date getAdmissionDate() {
@@ -228,5 +233,32 @@ public class Hospitalization extends AbstractDomainObject {
 
 	public void setSelectInpatientOutpatient(InpatOutpat selectInpatientOutpatient) {
 		this.selectInpatientOutpatient = selectInpatientOutpatient;
+	}
+
+	@Column(length = CHARACTER_LIMIT_BIG)
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	@Enumerated(EnumType.STRING)
+	public YesNoUnknown getSeenAtHealthFacility() {
+		return seenAtHealthFacility;
+	}
+
+	public void setSeenAtHealthFacility(YesNoUnknown seenAtHealthFacility) {
+		this.seenAtHealthFacility = seenAtHealthFacility;
+	}
+
+	@Temporal(TemporalType.DATE)
+	public Date getDateFirstSeenAtHealthFacility() {
+		return dateFirstSeenAtHealthFacility;
+	}
+
+	public void setDateFirstSeenAtHealthFacility(Date dateFirstSeenAtHealthFacility) {
+		this.dateFirstSeenAtHealthFacility = dateFirstSeenAtHealthFacility;
 	}
 }

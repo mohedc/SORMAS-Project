@@ -76,6 +76,9 @@ public class Location extends AbstractDomainObject {
 	public static final String CONTACT_PERSON_LAST_NAME = "contactPersonLastName";
 	public static final String CONTACT_PERSON_PHONE = "contactPersonPhone";
 	public static final String CONTACT_PERSON_EMAIL = "contactPersonEmail";
+	public static final String COMPOUND_OWNER = "compoundOwner";
+	public static final String HOME_RESIDENTIAL_ADDRESS = "homeResidentialAddress";
+	public static final String LANDMARK = "landmark";
 	public static final String PERSON = "person";
 
 	private String details;
@@ -107,6 +110,9 @@ public class Location extends AbstractDomainObject {
 	private String contactPersonLastName;
 	private String contactPersonPhone;
 	private String contactPersonEmail;
+	private String compoundOwner;
+	private String homeResidentialAddress;
+	private String landmark;
 
 	private Person person;
 
@@ -330,6 +336,33 @@ public class Location extends AbstractDomainObject {
 
 	public void setContactPersonEmail(String contactPersonEmail) {
 		this.contactPersonEmail = contactPersonEmail;
+	}
+
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	public String getCompoundOwner() {
+		return compoundOwner;
+	}
+
+	public void setCompoundOwner(String compoundOwner) {
+		this.compoundOwner = compoundOwner;
+	}
+
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	public String getHomeResidentialAddress() {
+		return homeResidentialAddress;
+	}
+
+	public void setHomeResidentialAddress(String homeResidentialAddress) {
+		this.homeResidentialAddress = homeResidentialAddress;
+	}
+
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	public String getLandmark() {
+		return landmark;
+	}
+
+	public void setLandmark(String landmark) {
+		this.landmark = landmark;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)

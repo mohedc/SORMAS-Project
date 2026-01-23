@@ -69,6 +69,7 @@ public class HospitalizationFacadeEjb implements HospitalizationFacade {
 		target.setLeftAgainstAdvice(source.getLeftAgainstAdvice());
 		target.setHospitalizationReason(source.getHospitalizationReason());
 		target.setOtherHospitalizationReason(source.getOtherHospitalizationReason());
+		target.setAddress(source.getAddress());
 
 		List<PreviousHospitalization> previousHospitalizations = new ArrayList<>();
 		for (PreviousHospitalizationDto prevDto : source.getPreviousHospitalizations()) {
@@ -90,6 +91,9 @@ public class HospitalizationFacadeEjb implements HospitalizationFacade {
 		target.setDescription(source.getDescription());
 		target.setHospitalRecordNumber(source.getHospitalRecordNumber());
 		target.setSelectInpatientOutpatient(source.getSelectInpatientOutpatient());
+		target.setAddress(source.getAddress());
+		target.setSeenAtHealthFacility(source.getSeenAtHealthFacility());
+		target.setDateFirstSeenAtHealthFacility(source.getDateFirstSeenAtHealthFacility());
 
 		return target;
 	}
@@ -160,6 +164,9 @@ public class HospitalizationFacadeEjb implements HospitalizationFacade {
 		target.setDescription(source.getDescription());
 		target.setHospitalRecordNumber(source.getHospitalRecordNumber());
 		target.setSelectInpatientOutpatient(source.getSelectInpatientOutpatient());
+		target.setAddress(source.getAddress());
+		target.setSeenAtHealthFacility(source.getSeenAtHealthFacility());
+		target.setDateFirstSeenAtHealthFacility(source.getDateFirstSeenAtHealthFacility());
 
 		return target;
 	}

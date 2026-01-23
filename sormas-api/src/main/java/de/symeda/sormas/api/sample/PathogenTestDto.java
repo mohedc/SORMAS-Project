@@ -113,6 +113,14 @@ public class PathogenTestDto extends PseudonymizableDto {
 	public static final String SERO_TYPING_METHOD_TEXT = "seroTypingMethodText";
 	public static final String SERO_GROUP_SPECIFICATION = "seroGroupSpecification";
 	public static final String SERO_GROUP_SPECIFICATION_TEXT = "seroGroupSpecificationText";
+	public static final String DATE_RESULTS_SENT_TO_DISTRICT = "dateResultsSentToDistrict";
+	public static final String DATE_DISTRICT_RECEIVED_LAB_RESULTS = "dateDistrictReceivedLabResults";
+	public static final String DATE_RESULTS_SENT_TO_DISEASE_SURVEILLANCE = "dateResultsSentToDiseaseSurveillance";
+	public static final String FINAL_CLASSIFICATION = "finalClassification";
+	public static final String COMMUNITY_INVESTIGATION = "communityInvestigation";
+	public static final String PERFORM_RUBELLA_TEST = "performRubellaTest";
+	public static final String INVESTIGATION_RESULTS = "investigationResults";
+	public static final String SOURCE_OF_INFECTION_IDENTIFIED = "sourceOfInfectionIdentified";
 
 	private SampleReferenceDto sample;
 	private EnvironmentSampleReferenceDto environmentSample;
@@ -234,6 +242,18 @@ public class PathogenTestDto extends PseudonymizableDto {
 	@HideForCountriesExcept(countries = CountryHelper.COUNTRY_CODE_LUXEMBOURG)
 	@Diseases(value = {Disease.INVASIVE_MENINGOCOCCAL_INFECTION})
 	private String seroGroupSpecificationText;
+	private Date dateResultsSentToDistrict;
+	private Date dateDistrictReceivedLabResults;
+	private Date dateResultsSentToDiseaseSurveillance;
+	private FinalClassification finalClassification;
+	private Boolean communityInvestigation;
+	private Boolean performRubellaTest;
+	@SensitiveData
+	@Size(max = FieldConstraints.CHARACTER_LIMIT_BIG, message = Validations.textTooLong)
+	private String investigationResults;
+	@SensitiveData
+	@Size(max = FieldConstraints.CHARACTER_LIMIT_DEFAULT, message = Validations.textTooLong)
+	private String sourceOfInfectionIdentified;
 
 	public static PathogenTestDto build(SampleDto sample, UserDto currentUser) {
 
@@ -740,6 +760,70 @@ public class PathogenTestDto extends PseudonymizableDto {
 
 	public void setSeroGroupSpecificationText(String seroGroupSpecificationText) {
 		this.seroGroupSpecificationText = seroGroupSpecificationText;
+	}
+
+	public Date getDateResultsSentToDistrict() {
+		return dateResultsSentToDistrict;
+	}
+
+	public void setDateResultsSentToDistrict(Date dateResultsSentToDistrict) {
+		this.dateResultsSentToDistrict = dateResultsSentToDistrict;
+	}
+
+	public Date getDateDistrictReceivedLabResults() {
+		return dateDistrictReceivedLabResults;
+	}
+
+	public void setDateDistrictReceivedLabResults(Date dateDistrictReceivedLabResults) {
+		this.dateDistrictReceivedLabResults = dateDistrictReceivedLabResults;
+	}
+
+	public Date getDateResultsSentToDiseaseSurveillance() {
+		return dateResultsSentToDiseaseSurveillance;
+	}
+
+	public void setDateResultsSentToDiseaseSurveillance(Date dateResultsSentToDiseaseSurveillance) {
+		this.dateResultsSentToDiseaseSurveillance = dateResultsSentToDiseaseSurveillance;
+	}
+
+	public FinalClassification getFinalClassification() {
+		return finalClassification;
+	}
+
+	public void setFinalClassification(FinalClassification finalClassification) {
+		this.finalClassification = finalClassification;
+	}
+
+	public Boolean getCommunityInvestigation() {
+		return communityInvestigation;
+	}
+
+	public void setCommunityInvestigation(Boolean communityInvestigation) {
+		this.communityInvestigation = communityInvestigation;
+	}
+
+	public Boolean getPerformRubellaTest() {
+		return performRubellaTest;
+	}
+
+	public void setPerformRubellaTest(Boolean performRubellaTest) {
+		this.performRubellaTest = performRubellaTest;
+	}
+
+	public String getInvestigationResults() {
+		return investigationResults;
+	}
+
+	public void setInvestigationResults(String investigationResults) {
+		this.investigationResults = investigationResults;
+	}
+
+	public String getSourceOfInfectionIdentified() {
+		return sourceOfInfectionIdentified;
+	}
+
+	public void setSourceOfInfectionIdentified(String sourceOfInfectionIdentified) {
+		this.sourceOfInfectionIdentified = sourceOfInfectionIdentified;
 	}
 
 	@Override

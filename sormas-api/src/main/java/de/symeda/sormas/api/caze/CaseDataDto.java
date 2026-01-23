@@ -142,6 +142,11 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 	public static final String HEALTH_CONDITIONS = "healthConditions";
 	public static final String PREGNANT = "pregnant";
 	public static final String VACCINATION_STATUS = "vaccinationStatus";
+	public static final String VACCINATED = "vaccinated";
+	public static final String ROUTINE_VACCINATION_TYPE = "routineVaccinationType";
+	public static final String VACCINATION_RECORD_TYPE = "vaccinationRecordType";
+	public static final String NUMBER_OF_VACCINATION_DOSES = "numberOfVaccinationDoses";
+	public static final String LAST_VACCINATION_DATE = "lastVaccinationDate";
 	public static final String SMALLPOX_VACCINATION_SCAR = "smallpoxVaccinationScar";
 	public static final String SMALLPOX_VACCINATION_RECEIVED = "smallpoxVaccinationReceived";
 	public static final String SMALLPOX_LAST_VACCINATION_DATE = "smallpoxLastVaccinationDate";
@@ -239,6 +244,7 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
     public static final String IDSR_DIAGNOSIS = "idsrDiagnosis";
     public static final String IDSR_DIAGNOSIS_DETAILS = "idsrDiagnosisDetails";
 	public static final String NOTIFIED_BY = "notifiedBy";
+	public static final String NOTIFIED_BY_DETAILS = "notifiedByDetails";
 	public static final String DATE_OF_NOTIFICATION = "dateOfNotification";
 	public static final String DATE_OF_INVESTIGATION = "dateOfInvestigation";
 	public static final String DIVISION = "division";
@@ -259,6 +265,9 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 	public static final String INVESTIGATOR_UNIT = "investigatorUnit";
 	public static final String INVESTIGATOR_ADDRESS = "investigatorAddress";
 	public static final String INVESTIGATOR_TEL = "investigatorTel";
+	public static final String INVESTIGATOR_EMAIL = "investigatorEmail";
+	public static final String DATE_RECEIVED_AT_DISTRICT_LEVEL = "dateReceivedAtDistrictLevel";
+	public static final String SOURCE_OF_INFECTION_IDENTIFIED = "sourceOfInfectionIdentified";
 	public static final String MOTHER_GIVEN_PROTECTIVE_DOSE_TT = "motherGivenProtectiveDoseTT";
 	public static final String MOTHER_GIVEN_PROTECTIVE_DOSE_TT_DATE = "motherGivenProtectiveDoseTTDate";
 	public static final String SUPPLEMENTAL_IMMUNIZATION = "supplementalImmunization";
@@ -411,6 +420,21 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 		Disease.OTHER })
 	@Outbreaks
 	private VaccinationStatus vaccinationStatus;
+	@Diseases({
+		Disease.MEASLES })
+	private VaccinationStatus vaccinated;
+	@Diseases({
+		Disease.MEASLES })
+	private RoutineVaccinationType routineVaccinationType;
+	@Diseases({
+		Disease.MEASLES })
+	private VaccinationRecordType vaccinationRecordType;
+	@Diseases({
+		Disease.MEASLES })
+	private Integer numberOfVaccinationDoses;
+	@Diseases({
+		Disease.MEASLES })
+	private Date lastVaccinationDate;
 	@Diseases({
 		Disease.MONKEYPOX })
 	private YesNoUnknown smallpoxVaccinationScar;
@@ -683,22 +707,31 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
     private String idsrDiagnosisDetails;
 
 	@Diseases({
-			Disease.NEONATAL_TETANUS})
-	private String notifiedBy;
+			Disease.NEONATAL_TETANUS,
+			Disease.MEASLES})
+	private NotifiedBy notifiedBy;
 	@Diseases({
-			Disease.NEONATAL_TETANUS})
+			Disease.MEASLES})
+	private String notifiedByDetails;
+	@Diseases({
+			Disease.NEONATAL_TETANUS,
+			Disease.MEASLES})
 	private Date dateOfNotification;
 	@Diseases({
-			Disease.NEONATAL_TETANUS})
+			Disease.NEONATAL_TETANUS,
+			Disease.MEASLES})
 	private Date dateOfInvestigation;
 	@Diseases({
-			Disease.NEONATAL_TETANUS})
+			Disease.NEONATAL_TETANUS,
+			Disease.MEASLES})
 	private String division;
 	@Diseases({
-			Disease.NEONATAL_TETANUS})
+			Disease.NEONATAL_TETANUS,
+			Disease.MEASLES})
 	private String compoundOwner;
 	@Diseases({
-			Disease.NEONATAL_TETANUS})
+			Disease.NEONATAL_TETANUS,
+			Disease.MEASLES})
 	private String nationality;
 	@Diseases({
 			Disease.NEONATAL_TETANUS})
@@ -731,20 +764,34 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 			Disease.NEONATAL_TETANUS})
 	private Date motherLastDoseDate;
 	@Diseases({
-			Disease.NEONATAL_TETANUS})
+			Disease.NEONATAL_TETANUS,
+			Disease.MEASLES})
 	private String investigatorName;
 	@Diseases({
-			Disease.NEONATAL_TETANUS})
+			Disease.NEONATAL_TETANUS,
+			Disease.MEASLES})
 	private String investigatorTitle;
 	@Diseases({
-			Disease.NEONATAL_TETANUS})
+			Disease.NEONATAL_TETANUS,
+			Disease.MEASLES})
 	private String investigatorUnit;
 	@Diseases({
-			Disease.NEONATAL_TETANUS})
+			Disease.NEONATAL_TETANUS,
+			Disease.MEASLES})
 	private String investigatorAddress;
 	@Diseases({
-			Disease.NEONATAL_TETANUS})
+			Disease.NEONATAL_TETANUS,
+			Disease.MEASLES})
 	private String investigatorTel;
+	@Diseases({
+			Disease.MEASLES})
+	private String investigatorEmail;
+	@Diseases({
+			Disease.MEASLES})
+	private Date dateReceivedAtDistrictLevel;
+	@Diseases({
+			Disease.MEASLES})
+	private YesNoUnknown sourceOfInfectionIdentified;
 	@Diseases({
 			Disease.NEONATAL_TETANUS})
 	private YesNoUnknown motherGivenProtectiveDoseTT;
@@ -1258,6 +1305,46 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 
 	public void setVaccinationStatus(VaccinationStatus vaccinationStatus) {
 		this.vaccinationStatus = vaccinationStatus;
+	}
+
+	public VaccinationStatus getVaccinated() {
+		return vaccinated;
+	}
+
+	public void setVaccinated(VaccinationStatus vaccinated) {
+		this.vaccinated = vaccinated;
+	}
+
+	public RoutineVaccinationType getRoutineVaccinationType() {
+		return routineVaccinationType;
+	}
+
+	public void setRoutineVaccinationType(RoutineVaccinationType routineVaccinationType) {
+		this.routineVaccinationType = routineVaccinationType;
+	}
+
+	public VaccinationRecordType getVaccinationRecordType() {
+		return vaccinationRecordType;
+	}
+
+	public void setVaccinationRecordType(VaccinationRecordType vaccinationRecordType) {
+		this.vaccinationRecordType = vaccinationRecordType;
+	}
+
+	public Integer getNumberOfVaccinationDoses() {
+		return numberOfVaccinationDoses;
+	}
+
+	public void setNumberOfVaccinationDoses(Integer numberOfVaccinationDoses) {
+		this.numberOfVaccinationDoses = numberOfVaccinationDoses;
+	}
+
+	public Date getLastVaccinationDate() {
+		return lastVaccinationDate;
+	}
+
+	public void setLastVaccinationDate(Date lastVaccinationDate) {
+		this.lastVaccinationDate = lastVaccinationDate;
 	}
 
 	public YesNoUnknown getSmallpoxVaccinationScar() {
@@ -1970,12 +2057,20 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
     public void setIdsrDiagnosisDetails(String idsrDiagnosisDetails) {
         this.idsrDiagnosisDetails = idsrDiagnosisDetails;
     }
-	public String getNotifiedBy() {
+	public NotifiedBy getNotifiedBy() {
 		return notifiedBy;
 	}
 
-	public void setNotifiedBy(String notifiedBy) {
+	public void setNotifiedBy(NotifiedBy notifiedBy) {
 		this.notifiedBy = notifiedBy;
+	}
+
+	public String getNotifiedByDetails() {
+		return notifiedByDetails;
+	}
+
+	public void setNotifiedByDetails(String notifiedByDetails) {
+		this.notifiedByDetails = notifiedByDetails;
 	}
 
 	public Date getDateOfNotification() {
@@ -2133,6 +2228,30 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 
 	public void setInvestigatorTel(String investigatorTel) {
 		this.investigatorTel = investigatorTel;
+	}
+
+	public String getInvestigatorEmail() {
+		return investigatorEmail;
+	}
+
+	public void setInvestigatorEmail(String investigatorEmail) {
+		this.investigatorEmail = investigatorEmail;
+	}
+
+	public Date getDateReceivedAtDistrictLevel() {
+		return dateReceivedAtDistrictLevel;
+	}
+
+	public void setDateReceivedAtDistrictLevel(Date dateReceivedAtDistrictLevel) {
+		this.dateReceivedAtDistrictLevel = dateReceivedAtDistrictLevel;
+	}
+
+	public YesNoUnknown getSourceOfInfectionIdentified() {
+		return sourceOfInfectionIdentified;
+	}
+
+	public void setSourceOfInfectionIdentified(YesNoUnknown sourceOfInfectionIdentified) {
+		this.sourceOfInfectionIdentified = sourceOfInfectionIdentified;
 	}
 
 	public YesNoUnknown getMotherGivenProtectiveDoseTT() {

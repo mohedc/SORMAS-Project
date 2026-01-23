@@ -31,7 +31,10 @@ import de.symeda.sormas.api.location.LocationDto;
 import de.symeda.sormas.api.utils.DataHelper;
 import de.symeda.sormas.api.utils.DependingOnFeatureType;
 import de.symeda.sormas.api.utils.Diseases;
+import de.symeda.sormas.api.utils.YesNo;
 import de.symeda.sormas.api.utils.YesNoUnknown;
+import de.symeda.sormas.api.utils.EmbeddedPersonalData;
+import de.symeda.sormas.api.utils.EmbeddedSensitiveData;
 import de.symeda.sormas.api.utils.pseudonymization.PseudonymizableDto;
 
 @DependingOnFeatureType(featureType = {
@@ -51,6 +54,8 @@ public class EpiDataDto extends PseudonymizableDto {
 	public static final String AREA_INFECTED_ANIMALS = "areaInfectedAnimals";
 	public static final String HIGH_TRANSMISSION_RISK_AREA = "highTransmissionRiskArea";
 	public static final String LARGE_OUTBREAKS_AREA = "largeOutbreaksArea";
+	public static final String TRAVEL_HISTORY_KNOWN = "travelHistoryKnown";
+	public static final String TRAVEL_LOCATION = "travelLocation";
 
 	private YesNoUnknown exposureDetailsKnown;
 	private YesNoUnknown activityAsCaseDetailsKnown;
@@ -72,6 +77,17 @@ public class EpiDataDto extends PseudonymizableDto {
 
 	@Valid
 	private List<ActivityAsCaseDto> activitiesAsCase = new ArrayList<>();
+
+	@Diseases({
+		Disease.MEASLES })
+	private YesNo travelHistoryKnown;
+
+	@Diseases({
+		Disease.MEASLES })
+	@Valid
+	@EmbeddedPersonalData
+	@EmbeddedSensitiveData
+	private LocationDto travelLocation;
 
 	public YesNoUnknown getExposureDetailsKnown() {
 		return exposureDetailsKnown;
@@ -139,10 +155,27 @@ public class EpiDataDto extends PseudonymizableDto {
 		this.areaInfectedAnimals = areaInfectedAnimals;
 	}
 
+	public YesNo getTravelHistoryKnown() {
+		return travelHistoryKnown;
+	}
+
+	public void setTravelHistoryKnown(YesNo travelHistoryKnown) {
+		this.travelHistoryKnown = travelHistoryKnown;
+	}
+
+	public LocationDto getTravelLocation() {
+		return travelLocation;
+	}
+
+	public void setTravelLocation(LocationDto travelLocation) {
+		this.travelLocation = travelLocation;
+	}
+
 	public static EpiDataDto build() {
 
 		EpiDataDto epiData = new EpiDataDto();
 		epiData.setUuid(DataHelper.createUuid());
+		epiData.setTravelLocation(LocationDto.build());
 		return epiData;
 	}
 
@@ -162,6 +195,10 @@ public class EpiDataDto extends PseudonymizableDto {
 		}
 		clone.getExposures().clear();
 		clone.getExposures().addAll(exposureDtos);
+
+		if (getTravelLocation() != null) {
+			clone.setTravelLocation((LocationDto) getTravelLocation().clone());
+		}
 
 		return clone;
 	}

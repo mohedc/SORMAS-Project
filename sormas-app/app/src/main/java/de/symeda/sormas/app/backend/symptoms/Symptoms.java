@@ -177,6 +177,10 @@ public class Symptoms extends PseudonymizableAdo {
 	@Enumerated(EnumType.STRING)
 	private SymptomState skinRash;
 	@Enumerated(EnumType.STRING)
+	private SymptomState generalizedRash;
+	@Enumerated(EnumType.STRING)
+	private SymptomState swollenLymphNodesBehindEars;
+	@Enumerated(EnumType.STRING)
 	private SymptomState neckStiffness;
 	@Enumerated(EnumType.STRING)
 	private SymptomState soreThroat;
@@ -765,6 +769,22 @@ public class Symptoms extends PseudonymizableAdo {
 
 	public void setSkinRash(SymptomState skinRash) {
 		this.skinRash = skinRash;
+	}
+
+	public SymptomState getGeneralizedRash() {
+		return generalizedRash;
+	}
+
+	public void setGeneralizedRash(SymptomState generalizedRash) {
+		this.generalizedRash = generalizedRash;
+	}
+
+	public SymptomState getSwollenLymphNodesBehindEars() {
+		return swollenLymphNodesBehindEars;
+	}
+
+	public void setSwollenLymphNodesBehindEars(SymptomState swollenLymphNodesBehindEars) {
+		this.swollenLymphNodesBehindEars = swollenLymphNodesBehindEars;
 	}
 
 	public SymptomState getHiccups() {

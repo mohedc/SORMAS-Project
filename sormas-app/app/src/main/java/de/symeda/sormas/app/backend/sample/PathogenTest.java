@@ -37,6 +37,7 @@ import de.symeda.sormas.api.customizableenum.CustomizableEnumType;
 import de.symeda.sormas.api.disease.DiseaseVariant;
 import de.symeda.sormas.api.environment.environmentsample.Pathogen;
 import de.symeda.sormas.api.sample.PCRTestSpecification;
+import de.symeda.sormas.api.sample.FinalClassification;
 import de.symeda.sormas.api.sample.PathogenTestResultType;
 import de.symeda.sormas.api.sample.PathogenTestType;
 import de.symeda.sormas.app.backend.common.DatabaseHelper;
@@ -136,6 +137,31 @@ public class PathogenTest extends PseudonymizableAdo {
 
 	@Column
 	private boolean viaLims;
+
+	@DatabaseField(dataType = DataType.DATE_LONG, canBeNull = true)
+	private Date dateResultsSentToDistrict;
+
+	@DatabaseField(dataType = DataType.DATE_LONG, canBeNull = true)
+	private Date dateDistrictReceivedLabResults;
+
+	@DatabaseField(dataType = DataType.DATE_LONG, canBeNull = true)
+	private Date dateResultsSentToDiseaseSurveillance;
+
+	@Enumerated(EnumType.STRING)
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	private FinalClassification finalClassification;
+
+	@Column
+	private Boolean communityInvestigation;
+
+	@Column
+	private Boolean performRubellaTest;
+
+	@Column(columnDefinition = "text")
+	private String investigationResults;
+
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	private String sourceOfInfectionIdentified;
 
 	public Sample getSample() {
 		return sample;
@@ -363,6 +389,70 @@ public class PathogenTest extends PseudonymizableAdo {
 
 	public void setViaLims(boolean viaLims) {
 		this.viaLims = viaLims;
+	}
+
+	public Date getDateResultsSentToDistrict() {
+		return dateResultsSentToDistrict;
+	}
+
+	public void setDateResultsSentToDistrict(Date dateResultsSentToDistrict) {
+		this.dateResultsSentToDistrict = dateResultsSentToDistrict;
+	}
+
+	public Date getDateDistrictReceivedLabResults() {
+		return dateDistrictReceivedLabResults;
+	}
+
+	public void setDateDistrictReceivedLabResults(Date dateDistrictReceivedLabResults) {
+		this.dateDistrictReceivedLabResults = dateDistrictReceivedLabResults;
+	}
+
+	public Date getDateResultsSentToDiseaseSurveillance() {
+		return dateResultsSentToDiseaseSurveillance;
+	}
+
+	public void setDateResultsSentToDiseaseSurveillance(Date dateResultsSentToDiseaseSurveillance) {
+		this.dateResultsSentToDiseaseSurveillance = dateResultsSentToDiseaseSurveillance;
+	}
+
+	public FinalClassification getFinalClassification() {
+		return finalClassification;
+	}
+
+	public void setFinalClassification(FinalClassification finalClassification) {
+		this.finalClassification = finalClassification;
+	}
+
+	public Boolean getCommunityInvestigation() {
+		return communityInvestigation;
+	}
+
+	public void setCommunityInvestigation(Boolean communityInvestigation) {
+		this.communityInvestigation = communityInvestigation;
+	}
+
+	public Boolean getPerformRubellaTest() {
+		return performRubellaTest;
+	}
+
+	public void setPerformRubellaTest(Boolean performRubellaTest) {
+		this.performRubellaTest = performRubellaTest;
+	}
+
+	public String getInvestigationResults() {
+		return investigationResults;
+	}
+
+	public void setInvestigationResults(String investigationResults) {
+		this.investigationResults = investigationResults;
+	}
+
+	public String getSourceOfInfectionIdentified() {
+		return sourceOfInfectionIdentified;
+	}
+
+	public void setSourceOfInfectionIdentified(String sourceOfInfectionIdentified) {
+		this.sourceOfInfectionIdentified = sourceOfInfectionIdentified;
 	}
 
 	@Override

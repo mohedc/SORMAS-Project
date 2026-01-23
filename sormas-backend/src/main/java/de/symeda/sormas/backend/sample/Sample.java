@@ -112,6 +112,8 @@ public class Sample extends DeletableAdo implements IsSample, SormasToSormasShar
 	public static final String SORMAS_TO_SORMAS_SHARES = "sormasToSormasShares";
 	public static final String IDSR_DIAGNOSIS = "idsrDiagnosis";
 	public static final String IDSR_DIAGNOSIS_DETAILS = "idsrDiagnosisDetails";
+	public static final String DATE_FORM_SENT_TO_HIGHER_LEVEL = "dateFormSentToHigherLevel";
+	public static final String NAME_CONTACT_PERSON_COMPLETING_FORM = "nameContactPersonCompletingForm";
 
 	private Case associatedCase;
 	private Contact associatedContact;
@@ -156,6 +158,8 @@ public class Sample extends DeletableAdo implements IsSample, SormasToSormasShar
 	private String samplingReasonDetails;
 	private IdsrType idsrDiagnosis;
 	private String idsrDiagnosisDetails;
+	private Date dateFormSentToHigherLevel;
+	private String nameContactPersonCompletingForm;
 
 	private List<PathogenTest> pathogenTests;
 	private List<AdditionalTest> additionalTests;
@@ -634,5 +638,23 @@ public class Sample extends DeletableAdo implements IsSample, SormasToSormasShar
 
 	public void setIdsrDiagnosisDetails(String idsrDiagnosisDetails) {
 		this.idsrDiagnosisDetails = idsrDiagnosisDetails;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getDateFormSentToHigherLevel() {
+		return dateFormSentToHigherLevel;
+	}
+
+	public void setDateFormSentToHigherLevel(Date dateFormSentToHigherLevel) {
+		this.dateFormSentToHigherLevel = dateFormSentToHigherLevel;
+	}
+
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	public String getNameContactPersonCompletingForm() {
+		return nameContactPersonCompletingForm;
+	}
+
+	public void setNameContactPersonCompletingForm(String nameContactPersonCompletingForm) {
+		this.nameContactPersonCompletingForm = nameContactPersonCompletingForm;
 	}
 }

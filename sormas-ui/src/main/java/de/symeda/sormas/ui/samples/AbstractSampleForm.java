@@ -8,7 +8,9 @@ import static de.symeda.sormas.ui.utils.LayoutUtil.fluidRowLocs;
 import static de.symeda.sormas.ui.utils.LayoutUtil.loc;
 import static de.symeda.sormas.ui.utils.LayoutUtil.locCss;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -112,7 +114,23 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 					fluidRowLocs(CaseDataDto.OTHER_DELETION_REASON) +
 					fluidRowLocs(SampleDto.IDSR_DIAGNOSIS) +
 					fluidRowLocs(SampleDto.IDSR_DIAGNOSIS_DETAILS);
-    //@formatter:on
+
+    protected static final String MEASLES_HTML_LAYOUT =
+			fluidRowLocs(4, SampleDto.UUID, 4, REPORT_INFO_LABEL_LOC, 3,SampleDto.REPORTING_USER, 1, "") +
+					fluidRowLocs(SampleDto.SAMPLE_PURPOSE, SampleDto.FIELD_SAMPLE_ID) +
+                    fluidRowLocs(SampleDto.SAMPLE_DATE_TIME) +
+                    fluidRowLocs(SampleDto.LAB, SampleDto.LAB_DETAILS) +
+                    fluidRowLocs(SampleDto.LAB_SAMPLE_ID) +
+                    fluidRowLocs(SampleDto.SAMPLE_MATERIAL, SampleDto.SAMPLE_MATERIAL_TEXT) +
+					 locCss(VSPACE_TOP_3, SampleDto.SHIPPED) +
+					fluidRowLocs(SampleDto.SHIPMENT_DATE, SampleDto.SHIPMENT_DETAILS) +
+					fluidRowLocs(SampleDto.DATE_FORM_SENT_TO_HIGHER_LEVEL, SampleDto.NAME_CONTACT_PERSON_COMPLETING_FORM) +
+                    locCss(VSPACE_TOP_3, SampleDto.RECEIVED) +
+					fluidRowLocs(SampleDto.RECEIVED_DATE, SampleDto.LAB_SAMPLE_ID) +
+					fluidRowLocs(SampleDto.PATHOGEN_TEST_RESULT);
+
+
+	//@formatter:on
 
 	protected AbstractSampleForm(Class<SampleDto> type, String propertyI18nPrefix, Disease disease, UiFieldAccessCheckers fieldAccessCheckers) {
 		super(
@@ -120,7 +138,8 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 			propertyI18nPrefix,
 			true,
 			FieldVisibilityCheckers.withDisease(disease).andWithCountry(FacadeProvider.getConfigFacade().getCountryLocale()),
-			fieldAccessCheckers);
+			fieldAccessCheckers,
+				disease);
 	}
 
 	protected void addCommonFields() {
@@ -175,6 +194,10 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 		TextField idsrDiagnosisDetailsField = addField(SampleDto.IDSR_DIAGNOSIS_DETAILS, TextField.class);
 		idsrDiagnosisDetailsField.setVisible(false);
 		idsrDiagnosisDetailsField.setCaption(I18nProperties.getPrefixCaption(SampleDto.I18N_PREFIX, SampleDto.IDSR_DIAGNOSIS_DETAILS));
+
+		// Measles-specific fields (hidden by default, shown in configureMeaslesFields)
+		addDateField(SampleDto.DATE_FORM_SENT_TO_HIGHER_LEVEL, DateField.class, 7);
+		addField(SampleDto.NAME_CONTACT_PERSON_COMPLETING_FORM, TextField.class);
 
 	}
 
@@ -282,6 +305,11 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 		UserField reportingUserField = addField(SampleDto.REPORTING_USER, UserField.class);
 		reportingUserField.setParentPseudonymizedSupplier(() -> getValue().isPseudonymized());
 		reportingUserField.setReadOnly(true);
+
+		// Measles-specific configuration (called after all other visibility logic)
+		if (disease == Disease.MEASLES) {
+			configureMeaslesFields();
+		}
 	}
 
 	protected void updateLabDetailsVisibility(TextField labDetails, Property.ValueChangeEvent event) {
@@ -502,5 +530,72 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 		} else {
 			getContent().removeComponent(REQUESTED_ADDITIONAL_TESTS_READ_LOC);
 		}
+	}
+
+	/**
+	 * Configures fields specifically for measles samples
+	 */
+	protected void configureMeaslesFields() {
+		// Filter sample material options for measles: Blood, throat swab, urine, other
+		// Note: "gingival fluid" is not available in SampleMaterial enum, using available options
+		// Instead of removing all items, check each item and remove only those that don't match
+		ComboBox sampleMaterialField = (ComboBox) getField(SampleDto.SAMPLE_MATERIAL);
+		if (sampleMaterialField != null) {
+			// Allowed values for measles
+			List<SampleMaterial> allowedMaterials = Arrays.asList(
+				SampleMaterial.BLOOD,
+				SampleMaterial.THROAT_SWAB,
+				SampleMaterial.URINE,
+				SampleMaterial.OTHER
+			);
+			
+			// Get all current items and remove only those that don't match allowed values
+			@SuppressWarnings("unchecked")
+			Collection<SampleMaterial> currentItems = (Collection<SampleMaterial>) sampleMaterialField.getItemIds();
+			List<SampleMaterial> itemsToRemove = new ArrayList<>();
+			
+			for (SampleMaterial item : currentItems) {
+				if (!allowedMaterials.contains(item)) {
+					itemsToRemove.add(item);
+				}
+			}
+			
+			// Remove items that are not in the allowed list
+			for (SampleMaterial item : itemsToRemove) {
+				sampleMaterialField.removeItem(item);
+			}
+			
+			// Add allowed items if they're not already present
+			for (SampleMaterial allowedItem : allowedMaterials) {
+				if (!sampleMaterialField.getItemIds().contains(allowedItem)) {
+					sampleMaterialField.addItem(allowedItem);
+				}
+			}
+		}
+
+		getField(SampleDto.SHIPMENT_DATE).setVisible(true);
+		Field<?> shippedField = getField(SampleDto.SHIPPED);
+		FieldHelper.setVisibleWhen(
+			getFieldGroup(),
+			Arrays.asList(SampleDto.SHIPMENT_DETAILS),
+			SampleDto.SHIPPED,
+			Arrays.asList(true),
+			true);
+		FieldHelper.setEnabledWhen(
+			getFieldGroup(),
+			shippedField,
+			Arrays.asList(true),
+			Arrays.asList(SampleDto.SHIPMENT_DETAILS),
+			true);
+
+		// Show measles-specific fields
+	}
+
+	@Override
+	protected String createHtmlLayout() {
+		if (getCaseDisease() == Disease.MEASLES) {
+			return MEASLES_HTML_LAYOUT;
+		}
+		return SAMPLE_COMMON_HTML_LAYOUT;
 	}
 }

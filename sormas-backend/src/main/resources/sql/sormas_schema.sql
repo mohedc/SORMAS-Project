@@ -14607,4 +14607,90 @@ alter table person_history add column othernames character varying(255);
 
 INSERT INTO schema_version (version_number, comment) VALUES (592, 'Add otherNames field to person table');
 
+
+-- Add generic vaccination and case fields for Measles CIF
+ALTER TABLE cases ADD COLUMN routinevaccinationtype varchar(255);
+ALTER TABLE cases ADD COLUMN vaccinationrecordtype varchar(255);
+ALTER TABLE cases ADD COLUMN numberofvaccinationdoses integer;
+ALTER TABLE cases ADD COLUMN lastvaccinationdate date;
+ALTER TABLE cases ADD COLUMN datereceivedatdistrictlevel date;
+ALTER TABLE cases ADD COLUMN sourceofinfectionidentified varchar(255);
+
+-- Add to history tables
+ALTER TABLE cases_history ADD COLUMN routinevaccinationtype varchar(255);
+ALTER TABLE cases_history ADD COLUMN vaccinationrecordtype varchar(255);
+ALTER TABLE cases_history ADD COLUMN numberofvaccinationdoses integer;
+ALTER TABLE cases_history ADD COLUMN lastvaccinationdate date;
+ALTER TABLE cases_history ADD COLUMN datereceivedatdistrictlevel date;
+ALTER TABLE cases_history ADD COLUMN sourceofinfectionidentified varchar(255);
+
+-- Add address field to hospitalization
+ALTER TABLE hospitalization ADD COLUMN address text;
+ALTER TABLE hospitalization_history ADD COLUMN address text;
+
+INSERT INTO schema_version (version_number, comment) VALUES (593, 'Add generic vaccination and case fields for Measles CIF');
+
+ALTER TABLE cases ADD COLUMN vaccinated varchar(255);
+ALTER TABLE cases_history ADD COLUMN vaccinated varchar(255);
+INSERT INTO schema_version (version_number, comment) VALUES (594, 'Add vaccinated field to cases for Measles CIF');
+
+ALTER TABLE cases ADD COLUMN investigatoremail varchar(255);
+ALTER TABLE cases_history ADD COLUMN investigatoremail varchar(255);
+INSERT INTO schema_version (version_number, comment) VALUES (595, 'Add investigatorEmail field to cases for Measles CIF');
+
+ALTER TABLE cases ADD COLUMN notifiedbydetails varchar(255);
+ALTER TABLE cases_history ADD COLUMN notifiedbydetails varchar(255);
+INSERT INTO schema_version (version_number, comment) VALUES (596, 'Add notifiedByDetails field to cases for Measles CIF');
+
+ALTER TABLE location ADD COLUMN compoundowner varchar(255);
+ALTER TABLE location ADD COLUMN homeresidentialaddress varchar(255);
+ALTER TABLE location ADD COLUMN landmark varchar(255);
+
+ALTER TABLE location_history ADD COLUMN compoundowner varchar(255);
+ALTER TABLE location_history ADD COLUMN homeresidentialaddress varchar(255);
+ALTER TABLE location_history ADD COLUMN landmark varchar(255);
+INSERT INTO schema_version (version_number, comment) VALUES (598, 'Add homeResidentialAddress and landmark fields to location for Measles CIF');
+
+ALTER TABLE person ADD COLUMN maritalstatus varchar(255);
+ALTER TABLE person_history ADD COLUMN maritalstatus varchar(255);
+INSERT INTO schema_version (version_number, comment) VALUES (599, 'Add maritalStatus field to person for Measles CIF');
+
+ALTER TABLE hospitalization ADD COLUMN seenathealthfacility varchar(255);
+ALTER TABLE hospitalization ADD COLUMN datefirstseenathealthfacility date;
+ALTER TABLE hospitalization_history ADD COLUMN seenathealthfacility varchar(255);
+ALTER TABLE hospitalization_history ADD COLUMN datefirstseenathealthfacility date;
+INSERT INTO schema_version (version_number, comment) VALUES (600, 'Add seenAtHealthFacility and dateFirstSeenAtHealthFacility fields for Measles CIF');
+
+-- Add generalizedRash and swollenLymphNodesBehindEars fields for Measles symptoms
+ALTER TABLE symptoms ADD COLUMN generalizedrash varchar(255);
+ALTER TABLE symptoms ADD COLUMN swollenlymphnodesbehindears varchar(255);
+ALTER TABLE symptoms_history ADD COLUMN generalizedrash varchar(255);
+ALTER TABLE symptoms_history ADD COLUMN swollenlymphnodesbehindears varchar(255);
+INSERT INTO schema_version (version_number, comment) VALUES (601, 'Add generalizedRash and swollenLymphNodesBehindEars fields for Measles symptoms');
+
+-- Add travel history fields for Measles EpiData
+ALTER TABLE epidata ADD COLUMN travelhistoryknown varchar(255);
+ALTER TABLE epidata ADD COLUMN location_id bigint;
+
+ALTER TABLE epidata_history ADD COLUMN travelhistoryknown varchar(255);
+INSERT INTO schema_version (version_number, comment) VALUES (602, 'Add travelHistoryKnown and travelLocation fields for Measles EpiData');
+
+-- Add dateFormSentToHigherLevel and nameContactPersonCompletingForm fields for Measles samples
+ALTER TABLE samples ADD COLUMN dateformsenttohigherlevel timestamp;
+ALTER TABLE samples ADD COLUMN namecontactpersoncompletingform varchar(512);
+ALTER TABLE samples_history ADD COLUMN dateformsenttohigherlevel timestamp;
+ALTER TABLE samples_history ADD COLUMN namecontactpersoncompletingform varchar(512);
+INSERT INTO schema_version (version_number, comment) VALUES (603, 'Add dateFormSentToHigherLevel and nameContactPersonCompletingForm fields for Measles samples');
+
+ALTER TABLE pathogentest ADD COLUMN dateresultssenttodistrict timestamp;
+ALTER TABLE pathogentest ADD COLUMN datedistrictreceivedlabresults timestamp;
+ALTER TABLE pathogentest ADD COLUMN dateresultssenttodiseasesurveillance timestamp;
+ALTER TABLE pathogentest ADD COLUMN finalclassification varchar(512);
+ALTER TABLE pathogentest ADD COLUMN communityinvestigation boolean;
+ALTER TABLE pathogentest ADD COLUMN performrubellatest boolean;
+ALTER TABLE pathogentest ADD COLUMN investigationresults text;
+ALTER TABLE pathogentest ADD COLUMN sourceofinfectionidentified varchar(512);
+INSERT INTO schema_version (version_number, comment) VALUES (604, 'Add measles-specific fields to PathogenTest');
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***
+
+
