@@ -124,6 +124,7 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
                     fluidRowLocs(SampleDto.SAMPLE_MATERIAL, SampleDto.SAMPLE_MATERIAL_TEXT) +
 					 locCss(VSPACE_TOP_3, SampleDto.SHIPPED) +
 					fluidRowLocs(SampleDto.SHIPMENT_DATE, SampleDto.SHIPMENT_DETAILS) +
+					fluidRowLocs(SampleDto.DATE_FORM_SENT_TO_HIGHER_LEVEL, SampleDto.NAME_CONTACT_PERSON_COMPLETING_FORM) +
                     locCss(VSPACE_TOP_3, SampleDto.RECEIVED) +
 					fluidRowLocs(SampleDto.RECEIVED_DATE, SampleDto.LAB_SAMPLE_ID) +
 					fluidRowLocs(SampleDto.PATHOGEN_TEST_RESULT);
@@ -193,6 +194,10 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 		TextField idsrDiagnosisDetailsField = addField(SampleDto.IDSR_DIAGNOSIS_DETAILS, TextField.class);
 		idsrDiagnosisDetailsField.setVisible(false);
 		idsrDiagnosisDetailsField.setCaption(I18nProperties.getPrefixCaption(SampleDto.I18N_PREFIX, SampleDto.IDSR_DIAGNOSIS_DETAILS));
+
+		// Measles-specific fields (hidden by default, shown in configureMeaslesFields)
+		addDateField(SampleDto.DATE_FORM_SENT_TO_HIGHER_LEVEL, DateField.class, 7);
+		addField(SampleDto.NAME_CONTACT_PERSON_COMPLETING_FORM, TextField.class);
 
 	}
 
@@ -582,6 +587,8 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 			Arrays.asList(true),
 			Arrays.asList(SampleDto.SHIPMENT_DETAILS),
 			true);
+
+		// Show measles-specific fields
 	}
 
 	@Override

@@ -14674,6 +14674,13 @@ ALTER TABLE epidata ADD COLUMN location_id bigint;
 
 ALTER TABLE epidata_history ADD COLUMN travelhistoryknown varchar(255);
 INSERT INTO schema_version (version_number, comment) VALUES (602, 'Add travelHistoryKnown and travelLocation fields for Measles EpiData');
+
+-- Add dateFormSentToHigherLevel and nameContactPersonCompletingForm fields for Measles samples
+ALTER TABLE samples ADD COLUMN dateformsenttohigherlevel timestamp;
+ALTER TABLE samples ADD COLUMN namecontactpersoncompletingform varchar(512);
+ALTER TABLE samples_history ADD COLUMN dateformsenttohigherlevel timestamp;
+ALTER TABLE samples_history ADD COLUMN namecontactpersoncompletingform varchar(512);
+INSERT INTO schema_version (version_number, comment) VALUES (603, 'Add dateFormSentToHigherLevel and nameContactPersonCompletingForm fields for Measles samples');
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***
 
 

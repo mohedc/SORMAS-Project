@@ -81,6 +81,8 @@ public class SampleDto extends SormasToSormasShareableDto implements IsSample {
 	public static final String OTHER_DELETION_REASON = "otherDeletionReason";
 	public static final String IDSR_DIAGNOSIS = "idsrDiagnosis";
 	public static final String IDSR_DIAGNOSIS_DETAILS = "idsrDiagnosisDetails";
+	public static final String DATE_FORM_SENT_TO_HIGHER_LEVEL = "dateFormSentToHigherLevel";
+	public static final String NAME_CONTACT_PERSON_COMPLETING_FORM = "nameContactPersonCompletingForm";
 
 	private CaseReferenceDto associatedCase;
 	private ContactReferenceDto associatedContact;
@@ -157,6 +159,10 @@ public class SampleDto extends SormasToSormasShareableDto implements IsSample {
 	private IdsrType idsrDiagnosis;
 	@Size(max = FieldConstraints.CHARACTER_LIMIT_DEFAULT, message = Validations.textTooLong)
 	private String idsrDiagnosisDetails;
+	private Date dateFormSentToHigherLevel;
+	@SensitiveData
+	@Size(max = FieldConstraints.CHARACTER_LIMIT_DEFAULT, message = Validations.textTooLong)
+	private String nameContactPersonCompletingForm;
 
 	@ImportIgnore
 	public CaseReferenceDto getAssociatedCase() {
@@ -582,5 +588,21 @@ public class SampleDto extends SormasToSormasShareableDto implements IsSample {
 
 	public void setIdsrDiagnosisDetails(String idsrDiagnosisDetails) {
 		this.idsrDiagnosisDetails = idsrDiagnosisDetails;
+	}
+
+	public Date getDateFormSentToHigherLevel() {
+		return dateFormSentToHigherLevel;
+	}
+
+	public void setDateFormSentToHigherLevel(Date dateFormSentToHigherLevel) {
+		this.dateFormSentToHigherLevel = dateFormSentToHigherLevel;
+	}
+
+	public String getNameContactPersonCompletingForm() {
+		return nameContactPersonCompletingForm;
+	}
+
+	public void setNameContactPersonCompletingForm(String nameContactPersonCompletingForm) {
+		this.nameContactPersonCompletingForm = nameContactPersonCompletingForm;
 	}
 }

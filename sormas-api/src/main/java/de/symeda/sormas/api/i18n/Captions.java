@@ -2529,6 +2529,7 @@ public interface Captions {
 	String Sample_caseRegion = "Sample.caseRegion";
 	String Sample_comment = "Sample.comment";
 	String Sample_community = "Sample.community";
+	String Sample_dateFormSentToHigherLevel = "Sample.dateFormSentToHigherLevel";
 	String Sample_deletionReason = "Sample.deletionReason";
 	String Sample_diseaseShort = "Sample.diseaseShort";
 	String Sample_district = "Sample.district";
@@ -2537,6 +2538,7 @@ public interface Captions {
 	String Sample_labDetails = "Sample.labDetails";
 	String Sample_labSampleID = "Sample.labSampleID";
 	String Sample_labUser = "Sample.labUser";
+	String Sample_nameContactPersonCompletingForm = "Sample.nameContactPersonCompletingForm";
 	String Sample_noTestPossibleReason = "Sample.noTestPossibleReason";
 	String Sample_otherDeletionReason = "Sample.otherDeletionReason";
 	String Sample_otherLab = "Sample.otherLab";
