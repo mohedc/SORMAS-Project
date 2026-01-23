@@ -2292,6 +2292,14 @@ public interface Captions {
 	String PathogenTest_testTypeText = "PathogenTest.testTypeText";
 	String PathogenTest_typingId = "PathogenTest.typingId";
 	String PathogenTest_viaLims = "PathogenTest.viaLims";
+	String PathogenTest_dateResultsSentToDistrict = "PathogenTest.dateResultsSentToDistrict";
+	String PathogenTest_dateDistrictReceivedLabResults = "PathogenTest.dateDistrictReceivedLabResults";
+	String PathogenTest_dateResultsSentToDiseaseSurveillance = "PathogenTest.dateResultsSentToDiseaseSurveillance";
+	String PathogenTest_finalClassification = "PathogenTest.finalClassification";
+	String PathogenTest_communityInvestigation = "PathogenTest.communityInvestigation";
+	String PathogenTest_performRubellaTest = "PathogenTest.performRubellaTest";
+	String PathogenTest_investigationResults = "PathogenTest.investigationResults";
+	String PathogenTest_sourceOfInfectionIdentified = "PathogenTest.sourceOfInfectionIdentified";
 	String pathogenTestAdd = "pathogenTestAdd";
 	String pathogenTestCreateNew = "pathogenTestCreateNew";
 	String pathogenTestNewResult = "pathogenTestNewResult";

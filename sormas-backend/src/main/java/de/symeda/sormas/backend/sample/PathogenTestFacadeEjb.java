@@ -326,6 +326,14 @@ public class PathogenTestFacadeEjb implements PathogenTestFacade {
 		target.setSeroTypingMethodText(source.getSeroTypingMethodText());
 		target.setSeroGroupSpecification(source.getSeroGroupSpecification());
 		target.setSeroGroupSpecificationText(source.getSeroGroupSpecificationText());
+		target.setDateResultsSentToDistrict(source.getDateResultsSentToDistrict());
+		target.setDateDistrictReceivedLabResults(source.getDateDistrictReceivedLabResults());
+		target.setDateResultsSentToDiseaseSurveillance(source.getDateResultsSentToDiseaseSurveillance());
+		target.setFinalClassification(source.getFinalClassification());
+		target.setCommunityInvestigation(source.getCommunityInvestigation());
+		target.setPerformRubellaTest(source.getPerformRubellaTest());
+		target.setInvestigationResults(source.getInvestigationResults());
+		target.setSourceOfInfectionIdentified(source.getSourceOfInfectionIdentified());
 		return target;
 	}
 
@@ -593,6 +601,14 @@ public class PathogenTestFacadeEjb implements PathogenTestFacade {
 		target.setSeroTypingMethodText(source.getSeroTypingMethodText());
 		target.setSeroGroupSpecification(source.getSeroGroupSpecification());
 		target.setSeroGroupSpecificationText(source.getSeroGroupSpecificationText());
+		target.setDateResultsSentToDistrict(source.getDateResultsSentToDistrict());
+		target.setDateDistrictReceivedLabResults(source.getDateDistrictReceivedLabResults());
+		target.setDateResultsSentToDiseaseSurveillance(source.getDateResultsSentToDiseaseSurveillance());
+		target.setFinalClassification(source.getFinalClassification());
+		target.setCommunityInvestigation(source.getCommunityInvestigation());
+		target.setPerformRubellaTest(source.getPerformRubellaTest());
+		target.setInvestigationResults(source.getInvestigationResults());
+		target.setSourceOfInfectionIdentified(source.getSourceOfInfectionIdentified());
 		return target;
 	}
 

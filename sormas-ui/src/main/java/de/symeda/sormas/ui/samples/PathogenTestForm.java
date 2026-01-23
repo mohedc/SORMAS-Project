@@ -55,6 +55,7 @@ import de.symeda.sormas.api.i18n.I18nProperties;
 import de.symeda.sormas.api.i18n.Validations;
 import de.symeda.sormas.api.infrastructure.facility.FacilityDto;
 import de.symeda.sormas.api.infrastructure.facility.FacilityReferenceDto;
+import de.symeda.sormas.api.sample.FinalClassification;
 import de.symeda.sormas.api.sample.PathogenStrainCallStatus;
 import de.symeda.sormas.api.sample.PathogenTestDto;
 import de.symeda.sormas.api.sample.PathogenTestResultType;
@@ -121,6 +122,20 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 			fluidRowLocs(PathogenTestDto.PRESCRIBER_CITY, PathogenTestDto.PRESCRIBER_COUNTRY) +
 			fluidRowLocs(PathogenTestDto.DELETION_REASON) +
 			fluidRowLocs(PathogenTestDto.OTHER_DELETION_REASON);
+
+	private static final String MEASLES_HTML_LAYOUT =
+			loc(PATHOGEN_TEST_HEADING_LOC) +
+			fluidRowLocs(PathogenTestDto.TESTED_DISEASE, PathogenTestDto.TESTED_DISEASE_DETAILS) +
+			fluidRowLocs(PathogenTestDto.TEST_TYPE, PathogenTestDto.TEST_TYPE_TEXT) +
+			fluidRowLocs(PathogenTestDto.TYPING_ID, "") +
+			fluidRowLocs(PathogenTestDto.TEST_DATE_TIME, PathogenTestDto.LAB) +
+			fluidRowLocs("", PathogenTestDto.LAB_DETAILS) +
+			fluidRowLocs(7, PathogenTestDto.DATE_RESULTS_SENT_TO_DISEASE_SURVEILLANCE, 5, PathogenTestDto.DATE_DISTRICT_RECEIVED_LAB_RESULTS) +
+			fluidRowLocs(PathogenTestDto.PERFORM_RUBELLA_TEST, PathogenTestDto.COMMUNITY_INVESTIGATION) +
+			fluidRowLocs(PathogenTestDto.INVESTIGATION_RESULTS, PathogenTestDto.SOURCE_OF_INFECTION_IDENTIFIED) +
+			fluidRowLocs(4, PathogenTestDto.TEST_RESULT, 4, PathogenTestDto.TEST_RESULT_VERIFIED) +
+			fluidRowLocs(PathogenTestDto.TEST_RESULT_TEXT, PathogenTestDto.DATE_RESULTS_SENT_TO_DISTRICT) +
+			fluidRowLocs(4, PathogenTestDto.FINAL_CLASSIFICATION);
 	//@formatter:on
 
 	private SampleDto sample;
@@ -190,7 +205,8 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 			PathogenTestDto.I18N_PREFIX,
 			false,
 			FieldVisibilityCheckers.withDisease(disease).andWithCountry(FacadeProvider.getConfigFacade().getCountryLocale()),
-			FieldAccessHelper.getFieldAccessCheckers(create || inJurisdiction, !create && isPseudonymized));// Jurisdiction doesn't matter for creation forms  // Pseudonymization doesn't matter for creation forms
+			FieldAccessHelper.getFieldAccessCheckers(create || inJurisdiction, !create && isPseudonymized),
+			disease);// Jurisdiction doesn't matter for creation forms  // Pseudonymization doesn't matter for creation forms
 
 		this.caseSampleCount = caseSampleCount;
 		this.create = create;
@@ -280,6 +296,9 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 
 	@Override
 	protected String createHtmlLayout() {
+		if (disease == Disease.MEASLES) {
+			return MEASLES_HTML_LAYOUT;
+		}
 		return HTML_LAYOUT;
 	}
 
@@ -540,6 +559,19 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 
 		addField(PathogenTestDto.TEST_RESULT_TEXT, TextArea.class).setRows(6);
 
+		// Measles-specific fields (hidden by default, shown in configureMeaslesFields)
+		addDateField(PathogenTestDto.DATE_RESULTS_SENT_TO_DISTRICT, DateField.class, 7);
+		addDateField(PathogenTestDto.DATE_DISTRICT_RECEIVED_LAB_RESULTS, DateField.class, 7);
+		addDateField(PathogenTestDto.DATE_RESULTS_SENT_TO_DISEASE_SURVEILLANCE, DateField.class, 7);
+		addField(PathogenTestDto.COMMUNITY_INVESTIGATION, CheckBox.class);
+		addField(PathogenTestDto.PERFORM_RUBELLA_TEST, CheckBox.class);
+		TextArea investigationResultsField = addField(PathogenTestDto.INVESTIGATION_RESULTS, TextArea.class);
+		investigationResultsField.setRows(4);
+		addField(PathogenTestDto.SOURCE_OF_INFECTION_IDENTIFIED, TextField.class);
+		ComboBox finalClassificationField = addField(PathogenTestDto.FINAL_CLASSIFICATION, ComboBox.class);
+		finalClassificationField.addItems(FinalClassification.values());
+		finalClassificationField.setItemCaptionMode(ItemCaptionMode.ID_TOSTRING);
+
 		addFields(PathogenTestDto.PRESCRIBER_PHYSICIAN_CODE, PathogenTestDto.PRESCRIBER_FIRST_NAME, PathogenTestDto.PRESCRIBER_LAST_NAME);
 		TextField proscriberPhoneField = addField(PathogenTestDto.PRESCRIBER_PHONE_NUMBER, TextField.class);
 		proscriberPhoneField.addValidator(
@@ -638,6 +670,11 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 				Arrays.asList(PathogenTestType.values()),
 				FieldVisibilityCheckers.withDisease(disease),
 				PathogenTestType.class);
+
+			// Configure measles-specific fields if disease is measles
+			if (disease == Disease.MEASLES) {
+				configureMeaslesFields();
+			}
 
 			if (FacadeProvider.getConfigFacade().isConfiguredCountry(CountryHelper.COUNTRY_CODE_LUXEMBOURG)) {
 				FieldHelper.updateItems(
@@ -743,5 +780,31 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 			setRequired(true, PathogenTestDto.LAB);
 		}
 		setRequired(true, PathogenTestDto.TEST_TYPE, PathogenTestDto.TEST_RESULT);
+
+		// Measles-specific configuration (called after all other visibility logic)
+		if (disease == Disease.MEASLES) {
+			configureMeaslesFields();
+		}
+	}
+
+	/**
+	 * Configures fields specifically for measles pathogen tests
+	 */
+	protected void configureMeaslesFields() {
+		// Show investigation results when community investigation is yes
+		FieldHelper.setVisibleWhen(
+			getFieldGroup(),
+			Arrays.asList(PathogenTestDto.INVESTIGATION_RESULTS),
+			PathogenTestDto.COMMUNITY_INVESTIGATION,
+			Arrays.asList(true),
+			true);
+
+		// Hide tested disease details if not OTHER
+		FieldHelper.setVisibleWhen(
+			getFieldGroup(),
+			PathogenTestDto.TESTED_DISEASE_DETAILS,
+			PathogenTestDto.TESTED_DISEASE,
+			Arrays.asList(Disease.OTHER),
+			true);
 	}
 }

@@ -44,6 +44,7 @@ import de.symeda.sormas.api.sample.PCRTestSpecification;
 import de.symeda.sormas.api.sample.PathogenSpecie;
 import de.symeda.sormas.api.sample.PathogenStrainCallStatus;
 import de.symeda.sormas.api.sample.PathogenTestReferenceDto;
+import de.symeda.sormas.api.sample.FinalClassification;
 import de.symeda.sormas.api.sample.PathogenTestResultType;
 import de.symeda.sormas.api.sample.PathogenTestScale;
 import de.symeda.sormas.api.sample.PathogenTestType;
@@ -107,6 +108,14 @@ public class PathogenTest extends DeletableAdo {
 	public static final String STRAIN_CALL_STATUS = "strainCallStatus";
 	public static final String TEST_SCALE = "testScale";
 	public static final String DRUG_SUSCEPTIBILITY = "drugSusceptibility";
+	public static final String DATE_RESULTS_SENT_TO_DISTRICT = "dateResultsSentToDistrict";
+	public static final String DATE_DISTRICT_RECEIVED_LAB_RESULTS = "dateDistrictReceivedLabResults";
+	public static final String DATE_RESULTS_SENT_TO_DISEASE_SURVEILLANCE = "dateResultsSentToDiseaseSurveillance";
+	public static final String FINAL_CLASSIFICATION = "finalClassification";
+	public static final String COMMUNITY_INVESTIGATION = "communityInvestigation";
+	public static final String PERFORM_RUBELLA_TEST = "performRubellaTest";
+	public static final String INVESTIGATION_RESULTS = "investigationResults";
+	public static final String SOURCE_OF_INFECTION_IDENTIFIED = "sourceOfInfectionIdentified";
 
 	private Sample sample;
 	private EnvironmentSample environmentSample;
@@ -163,6 +172,14 @@ public class PathogenTest extends DeletableAdo {
 	private String seroTypingMethodText;
 	private SeroGroupSpecification seroGroupSpecification;
 	private String seroGroupSpecificationText;
+	private Date dateResultsSentToDistrict;
+	private Date dateDistrictReceivedLabResults;
+	private Date dateResultsSentToDiseaseSurveillance;
+	private FinalClassification finalClassification;
+	private Boolean communityInvestigation;
+	private Boolean performRubellaTest;
+	private String investigationResults;
+	private String sourceOfInfectionIdentified;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	public Sample getSample() {
@@ -657,5 +674,78 @@ public class PathogenTest extends DeletableAdo {
 
 	public void setSeroGroupSpecificationText(String seroGroupSpecificationText) {
 		this.seroGroupSpecificationText = seroGroupSpecificationText;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getDateResultsSentToDistrict() {
+		return dateResultsSentToDistrict;
+	}
+
+	public void setDateResultsSentToDistrict(Date dateResultsSentToDistrict) {
+		this.dateResultsSentToDistrict = dateResultsSentToDistrict;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getDateDistrictReceivedLabResults() {
+		return dateDistrictReceivedLabResults;
+	}
+
+	public void setDateDistrictReceivedLabResults(Date dateDistrictReceivedLabResults) {
+		this.dateDistrictReceivedLabResults = dateDistrictReceivedLabResults;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getDateResultsSentToDiseaseSurveillance() {
+		return dateResultsSentToDiseaseSurveillance;
+	}
+
+	public void setDateResultsSentToDiseaseSurveillance(Date dateResultsSentToDiseaseSurveillance) {
+		this.dateResultsSentToDiseaseSurveillance = dateResultsSentToDiseaseSurveillance;
+	}
+
+	@Enumerated(EnumType.STRING)
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	public FinalClassification getFinalClassification() {
+		return finalClassification;
+	}
+
+	public void setFinalClassification(FinalClassification finalClassification) {
+		this.finalClassification = finalClassification;
+	}
+
+	@Column
+	public Boolean getCommunityInvestigation() {
+		return communityInvestigation;
+	}
+
+	public void setCommunityInvestigation(Boolean communityInvestigation) {
+		this.communityInvestigation = communityInvestigation;
+	}
+
+	@Column
+	public Boolean getPerformRubellaTest() {
+		return performRubellaTest;
+	}
+
+	public void setPerformRubellaTest(Boolean performRubellaTest) {
+		this.performRubellaTest = performRubellaTest;
+	}
+
+	@Column(columnDefinition = "text")
+	public String getInvestigationResults() {
+		return investigationResults;
+	}
+
+	public void setInvestigationResults(String investigationResults) {
+		this.investigationResults = investigationResults;
+	}
+
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	public String getSourceOfInfectionIdentified() {
+		return sourceOfInfectionIdentified;
+	}
+
+	public void setSourceOfInfectionIdentified(String sourceOfInfectionIdentified) {
+		this.sourceOfInfectionIdentified = sourceOfInfectionIdentified;
 	}
 }

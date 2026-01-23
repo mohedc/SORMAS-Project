@@ -14681,6 +14681,16 @@ ALTER TABLE samples ADD COLUMN namecontactpersoncompletingform varchar(512);
 ALTER TABLE samples_history ADD COLUMN dateformsenttohigherlevel timestamp;
 ALTER TABLE samples_history ADD COLUMN namecontactpersoncompletingform varchar(512);
 INSERT INTO schema_version (version_number, comment) VALUES (603, 'Add dateFormSentToHigherLevel and nameContactPersonCompletingForm fields for Measles samples');
+
+ALTER TABLE pathogentest ADD COLUMN dateresultssenttodistrict timestamp;
+ALTER TABLE pathogentest ADD COLUMN datedistrictreceivedlabresults timestamp;
+ALTER TABLE pathogentest ADD COLUMN dateresultssenttodiseasesurveillance timestamp;
+ALTER TABLE pathogentest ADD COLUMN finalclassification varchar(512);
+ALTER TABLE pathogentest ADD COLUMN communityinvestigation boolean;
+ALTER TABLE pathogentest ADD COLUMN performrubellatest boolean;
+ALTER TABLE pathogentest ADD COLUMN investigationresults text;
+ALTER TABLE pathogentest ADD COLUMN sourceofinfectionidentified varchar(512);
+INSERT INTO schema_version (version_number, comment) VALUES (604, 'Add measles-specific fields to PathogenTest');
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***
 
 
