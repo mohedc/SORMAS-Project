@@ -46,6 +46,9 @@ public class SampleCreateForm extends AbstractSampleForm {
 
 	@Override
 	protected String createHtmlLayout() {
+		if (getCaseDisease() == Disease.MEASLES) {
+			return MEASLES_HTML_LAYOUT;
+		}
 		return SAMPLE_COMMON_HTML_LAYOUT;
 	}
 }
