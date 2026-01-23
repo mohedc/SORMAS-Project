@@ -102,6 +102,7 @@ public class HospitalizationForm extends AbstractEditForm<HospitalizationDto> {
 
 	private static final String YELLOW_FEVER_LAYOUT =
 			loc(HOSPITALIZATION_HEADING_LOC) +
+			fluidRowLocs(HEALTH_FACILITY, HEALTH_FACILITY_DEPARTMENT) +
 			fluidRowLocs(6, HospitalizationDto.SELECT_INPATIENT_OUTPATIENT) +
 			fluidRowLocs(HospitalizationDto.ADMISSION_DATE, HospitalizationDto.DISCHARGE_DATE) +
 			fluidRowLocs(6, HospitalizationDto.SEEN_AT_HEALTH_FACILITY) +

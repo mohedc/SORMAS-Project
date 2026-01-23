@@ -604,13 +604,13 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 					// Passport number visibility depends on Case Origin (handled by case origin listener)
 					// Hide fields not in Measles/Yellow Fever CIF
 					Field<?> nationalHealthIdField = personCreateForm.getField(PersonDto.NATIONAL_HEALTH_ID);
-					if (nationalHealthIdField != null) nationalHealthIdField.setVisible(false);
+					if (nationalHealthIdField != null) nationalHealthIdField.setVisible(selectedDisease == Disease.YELLOW_FEVER);
 					Field<?> phoneField = personCreateForm.getField(PersonDto.PHONE);
-					if (phoneField != null) phoneField.setVisible(false);
+					if (phoneField != null) phoneField.setVisible(true);
 					Field<?> emailField = personCreateForm.getField(PersonDto.EMAIL_ADDRESS);
 					if (emailField != null) emailField.setVisible(false);
 					Field<?> presentConditionField = personCreateForm.getField(PersonDto.PRESENT_CONDITION);
-					if (presentConditionField != null) presentConditionField.setVisible(false);
+					if (presentConditionField != null) presentConditionField.setVisible(selectedDisease == Disease.YELLOW_FEVER);
 				}
 			}
 
