@@ -56,6 +56,8 @@ public class HospitalizationDto extends EntityDto {
 	public static final String HOSPITAL_RECORD_NUMBER = "hospitalRecordNumber";
 	public static final String SELECT_INPATIENT_OUTPATIENT = "selectInpatientOutpatient";
 	public static final String ADDRESS = "address";
+	public static final String SEEN_AT_HEALTH_FACILITY = "seenAtHealthFacility";
+	public static final String DATE_FIRST_SEEN_AT_HEALTH_FACILITY = "dateFirstSeenAtHealthFacility";
 
 	// Fields are declared in the order they should appear in the import template
 
@@ -85,6 +87,12 @@ public class HospitalizationDto extends EntityDto {
 		Disease.MEASLES })
 	@Size(max = FieldConstraints.CHARACTER_LIMIT_BIG, message = Validations.textTooLong)
 	private String address;
+	@Diseases({
+		Disease.MEASLES })
+	private YesNoUnknown seenAtHealthFacility;
+	@Diseases({
+		Disease.MEASLES })
+	private Date dateFirstSeenAtHealthFacility;
 
 	public static HospitalizationDto build() {
 		HospitalizationDto hospitalization = new HospitalizationDto();
@@ -228,5 +236,21 @@ public class HospitalizationDto extends EntityDto {
 
 	public void setAddress(String address) {
 		this.address = address;
+	}
+
+	public YesNoUnknown getSeenAtHealthFacility() {
+		return seenAtHealthFacility;
+	}
+
+	public void setSeenAtHealthFacility(YesNoUnknown seenAtHealthFacility) {
+		this.seenAtHealthFacility = seenAtHealthFacility;
+	}
+
+	public Date getDateFirstSeenAtHealthFacility() {
+		return dateFirstSeenAtHealthFacility;
+	}
+
+	public void setDateFirstSeenAtHealthFacility(Date dateFirstSeenAtHealthFacility) {
+		this.dateFirstSeenAtHealthFacility = dateFirstSeenAtHealthFacility;
 	}
 }

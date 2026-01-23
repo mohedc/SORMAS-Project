@@ -14654,4 +14654,10 @@ INSERT INTO schema_version (version_number, comment) VALUES (598, 'Add homeResid
 ALTER TABLE person ADD COLUMN maritalstatus varchar(255);
 ALTER TABLE person_history ADD COLUMN maritalstatus varchar(255);
 INSERT INTO schema_version (version_number, comment) VALUES (599, 'Add maritalStatus field to person for Measles CIF');
+
+ALTER TABLE hospitalization ADD COLUMN seenathealthfacility varchar(255);
+ALTER TABLE hospitalization ADD COLUMN datefirstseenathealthfacility date;
+ALTER TABLE hospitalization_history ADD COLUMN seenathealthfacility varchar(255);
+ALTER TABLE hospitalization_history ADD COLUMN datefirstseenathealthfacility date;
+INSERT INTO schema_version (version_number, comment) VALUES (600, 'Add seenAtHealthFacility and dateFirstSeenAtHealthFacility fields for Measles CIF');
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***

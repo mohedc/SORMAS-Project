@@ -52,6 +52,7 @@ import de.symeda.sormas.api.infrastructure.facility.FacilityType;
 import de.symeda.sormas.api.symptoms.SymptomsDto;
 import de.symeda.sormas.api.user.UserRight;
 import de.symeda.sormas.api.utils.DateComparator;
+import de.symeda.sormas.api.utils.InpatOutpat;
 import de.symeda.sormas.api.utils.YesNoUnknown;
 import de.symeda.sormas.api.utils.fieldvisibility.FieldVisibilityCheckers;
 import de.symeda.sormas.ui.UiUtil;
@@ -90,12 +91,23 @@ public class HospitalizationForm extends AbstractEditForm<HospitalizationDto> {
 			loc(PREVIOUS_HOSPITALIZATIONS_HEADING_LOC) +
 			fluidRowLocs(HospitalizationDto.HOSPITALIZED_PREVIOUSLY) +
 			fluidRowLocs(HospitalizationDto.PREVIOUS_HOSPITALIZATIONS);
+
+	// Disease-specific layouts
+	private static final String MEASLES_LAYOUT =
+			loc(HOSPITALIZATION_HEADING_LOC) +
+			fluidRowLocs(6, HospitalizationDto.SELECT_INPATIENT_OUTPATIENT) +
+			fluidRowLocs(HospitalizationDto.ADMISSION_DATE, HospitalizationDto.DISCHARGE_DATE) +
+			fluidRowLocs(6, HospitalizationDto.SEEN_AT_HEALTH_FACILITY) +
+			fluidRowLocs(6, HospitalizationDto.DATE_FIRST_SEEN_AT_HEALTH_FACILITY);
+
 	private final CaseDataDto caze;
 	private final ViewMode viewMode;
 	private NullableOptionGroup intensiveCareUnit;
 	private DateField intensiveCareUnitStart;
 	private DateField intensiveCareUnitEnd;
 	private ComboBox selectInpatientOutpatient;
+	private NullableOptionGroup seenAtHealthFacility;
+	private DateField dateFirstSeenAtHealthFacility;
 	//@formatter:on
 
 	public HospitalizationForm(CaseDataDto caze, ViewMode viewMode, boolean isPseudonymized, boolean inJurisdiction, boolean isEditAllowed) {
@@ -164,23 +176,27 @@ public class HospitalizationForm extends AbstractEditForm<HospitalizationDto> {
 		PreviousHospitalizationsField previousHospitalizationsField =
 			addField(HospitalizationDto.PREVIOUS_HOSPITALIZATIONS, PreviousHospitalizationsField.class);
 
-		FieldHelper.setEnabledWhen(
-			admittedToHealthFacilityField,
-			Arrays.asList(YesNoUnknown.YES, YesNoUnknown.NO, YesNoUnknown.UNKNOWN),
-			Arrays.asList(
-				facilityField,
-				admissionDateField,
-				dischargeDateField,
-				intensiveCareUnit,
-				intensiveCareUnitStart,
-				intensiveCareUnitEnd,
-				isolationDateField,
-				descriptionField,
-				isolatedField,
-				leftAgainstAdviceField,
-				hospitalizationReason,
-				otherHospitalizationReason),
-			false);
+		// For measles, ADMITTED_TO_HEALTH_FACILITY is not in the layout, so skip the setEnabledWhen logic
+		// For measles, admission and discharge dates should be enabled based on SELECT_INPATIENT_OUTPATIENT
+		if (caze.getDisease() != Disease.MEASLES) {
+			FieldHelper.setEnabledWhen(
+				admittedToHealthFacilityField,
+				Arrays.asList(YesNoUnknown.YES, YesNoUnknown.NO, YesNoUnknown.UNKNOWN),
+				Arrays.asList(
+					facilityField,
+					admissionDateField,
+					dischargeDateField,
+					intensiveCareUnit,
+					intensiveCareUnitStart,
+					intensiveCareUnitEnd,
+					isolationDateField,
+					descriptionField,
+					isolatedField,
+					leftAgainstAdviceField,
+					hospitalizationReason,
+					otherHospitalizationReason),
+				false);
+		}
 
 		initializeVisibilitiesAndAllowedVisibilities();
 		initializeAccessAndAllowedAccesses();
@@ -286,7 +302,34 @@ public class HospitalizationForm extends AbstractEditForm<HospitalizationDto> {
 		previousHospitalizationsField.addValueChangeListener(e -> updatePrevHospHint(hospitalizedPreviouslyField, previousHospitalizationsField));
 
 		TextField hospitalRecordNumber = addField(HospitalizationDto.HOSPITAL_RECORD_NUMBER, TextField.class);
-		selectInpatientOutpatient = addField(HospitalizationDto.SELECT_INPATIENT_OUTPATIENT ,ComboBox.class);
+		addField(HospitalizationDto.SELECT_INPATIENT_OUTPATIENT, NullableOptionGroup.class);
+		addField(HospitalizationDto.SEEN_AT_HEALTH_FACILITY, NullableOptionGroup.class);
+		addDateField(HospitalizationDto.DATE_FIRST_SEEN_AT_HEALTH_FACILITY, DateField.class, 7);
+
+		FieldHelper.setVisibleWhen(
+			getFieldGroup(),
+			HospitalizationDto.DATE_FIRST_SEEN_AT_HEALTH_FACILITY,
+			HospitalizationDto.SEEN_AT_HEALTH_FACILITY,
+			Arrays.asList(YesNoUnknown.YES),
+			true);
+
+		
+		// if SELECT_INPATIENT_OUTPATIENT is not null then show ADMISSION_DATE and DISCHARGE_DATE
+		FieldHelper.setVisibleWhen(
+			getFieldGroup(),
+			HospitalizationDto.ADMISSION_DATE,
+			HospitalizationDto.SELECT_INPATIENT_OUTPATIENT,
+			Arrays.asList(InpatOutpat.INPATIENT, InpatOutpat.OUTPATIENT),
+			true);
+
+
+		FieldHelper.setVisibleWhen(
+			getFieldGroup(),
+			HospitalizationDto.DISCHARGE_DATE,
+			HospitalizationDto.SELECT_INPATIENT_OUTPATIENT,
+			Arrays.asList(InpatOutpat.INPATIENT, InpatOutpat.OUTPATIENT),
+			true);
+
 
 		if (caze.getDisease() == Disease.NEONATAL_TETANUS) {
 			hideAllFields();
@@ -316,6 +359,9 @@ public class HospitalizationForm extends AbstractEditForm<HospitalizationDto> {
 
 	@Override
 	protected String createHtmlLayout() {
+		if (caze != null && caze.getDisease() == Disease.MEASLES) {
+			return MEASLES_LAYOUT;
+		}
 		return HTML_LAYOUT;
 	}
 
