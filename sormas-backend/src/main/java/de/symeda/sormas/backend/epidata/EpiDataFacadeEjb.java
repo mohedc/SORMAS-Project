@@ -72,6 +72,8 @@ public class EpiDataFacadeEjb implements EpiDataFacade {
 		target.setHighTransmissionRiskArea(source.getHighTransmissionRiskArea());
 		target.setLargeOutbreaksArea(source.getLargeOutbreaksArea());
 		target.setAreaInfectedAnimals(source.getAreaInfectedAnimals());
+		target.setTravelHistoryKnown(source.getTravelHistoryKnown());
+		target.setTravelLocation(locationFacade.fillOrBuildEntity(source.getTravelLocation(), target.getTravelLocation(), checkChangeDate));
 
 		List<Exposure> exposures = new ArrayList<>();
 		for (ExposureDto exposureDto : source.getExposures()) {
@@ -227,6 +229,8 @@ public class EpiDataFacadeEjb implements EpiDataFacade {
 		target.setHighTransmissionRiskArea(source.getHighTransmissionRiskArea());
 		target.setLargeOutbreaksArea(source.getLargeOutbreaksArea());
 		target.setAreaInfectedAnimals(source.getAreaInfectedAnimals());
+		target.setTravelHistoryKnown(source.getTravelHistoryKnown());
+		target.setTravelLocation(LocationFacadeEjb.toDto(source.getTravelLocation()));
 
 		List<ExposureDto> exposureDtos = new ArrayList<>();
 		for (Exposure exposure : source.getExposures()) {

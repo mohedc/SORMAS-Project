@@ -25,13 +25,18 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
+import de.symeda.sormas.api.utils.YesNo;
 import de.symeda.sormas.api.utils.YesNoUnknown;
 import de.symeda.sormas.backend.activityascase.ActivityAsCase;
 import de.symeda.sormas.backend.common.AbstractDomainObject;
 import de.symeda.sormas.backend.common.NotExposedToApi;
 import de.symeda.sormas.backend.exposure.Exposure;
+import de.symeda.sormas.backend.location.Location;
 
 @Entity
 public class EpiData extends AbstractDomainObject {
@@ -50,11 +55,13 @@ public class EpiData extends AbstractDomainObject {
 	private YesNoUnknown highTransmissionRiskArea;
 	private YesNoUnknown largeOutbreaksArea;
 	private YesNoUnknown areaInfectedAnimals;
+	private YesNo travelHistoryKnown;
 
 	private List<Exposure> exposures = new ArrayList<>();
 	private List<ActivityAsCase> activitiesAsCase = new ArrayList<>();
 	@NotExposedToApi
 	private Date changeDateOfEmbeddedLists;
+	private Location travelLocation;
 
 	@Enumerated(EnumType.STRING)
 	public YesNoUnknown getExposureDetailsKnown() {
@@ -137,5 +144,26 @@ public class EpiData extends AbstractDomainObject {
 
 	public void setContactWithSourceCaseKnown(YesNoUnknown contactWithSourceCaseKnown) {
 		this.contactWithSourceCaseKnown = contactWithSourceCaseKnown;
+	}
+
+	@Enumerated(EnumType.STRING)
+	public YesNo getTravelHistoryKnown() {
+		return travelHistoryKnown;
+	}
+
+	public void setTravelHistoryKnown(YesNo travelHistoryKnown) {
+		this.travelHistoryKnown = travelHistoryKnown;
+	}
+
+	@OneToOne(cascade = CascadeType.ALL)
+	public Location getTravelLocation() {
+		if (travelLocation == null) {
+			travelLocation = new Location();
+		}
+		return travelLocation;
+	}
+
+	public void setTravelLocation(Location travelLocation) {
+		this.travelLocation = travelLocation;
 	}
 }

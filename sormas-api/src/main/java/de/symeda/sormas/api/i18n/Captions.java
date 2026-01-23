@@ -1589,6 +1589,11 @@ public interface Captions {
 	String EpiData_exposures = "EpiData.exposures";
 	String EpiData_highTransmissionRiskArea = "EpiData.highTransmissionRiskArea";
 	String EpiData_largeOutbreaksArea = "EpiData.largeOutbreaksArea";
+	String EpiData_travelHistoryKnown = "EpiData.travelHistoryKnown";
+	String EpiData_travelLocation = "EpiData.travelLocation";
+	String EpiData_travelLocation_region = "EpiData.travelLocation.region";
+	String EpiData_travelLocation_district = "EpiData.travelLocation.district";
+	String EpiData_travelLocation_community = "EpiData.travelLocation.community";
 	String epiDataNoSourceContacts = "epiDataNoSourceContacts";
 	String epiWeekFrom = "epiWeekFrom";
 	String epiWeekTo = "epiWeekTo";

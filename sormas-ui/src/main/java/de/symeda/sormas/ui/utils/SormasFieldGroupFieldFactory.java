@@ -24,6 +24,7 @@ import de.symeda.sormas.api.adverseeventsfollowingimmunization.AdverseEventState
 import de.symeda.sormas.api.i18n.I18nProperties;
 import de.symeda.sormas.api.symptoms.SymptomState;
 import de.symeda.sormas.api.utils.FieldConstraints;
+import de.symeda.sormas.api.utils.YesNo;
 import de.symeda.sormas.api.utils.YesNoUnknown;
 import de.symeda.sormas.api.utils.fieldaccess.UiFieldAccessCheckers;
 import de.symeda.sormas.api.utils.fieldvisibility.FieldVisibilityCheckers;
@@ -81,6 +82,7 @@ public class SormasFieldGroupFieldFactory extends DefaultFieldGroupFieldFactory 
 			if (fieldType.isAssignableFrom(Field.class) // no specific fieldType defined?
 				&& (SymptomState.class.isAssignableFrom(type)
 					|| YesNoUnknown.class.isAssignableFrom(type)
+					|| YesNo.class.isAssignableFrom(type)
 					|| AdverseEventState.class.isAssignableFrom(type))) {
 				NullableOptionGroup field = new NullableOptionGroup();
 				field.setImmediate(true);

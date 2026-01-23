@@ -901,6 +901,23 @@ public class LocationEditForm extends AbstractEditForm<LocationDto> {
 		this.hasEventParticipantsWithoutJurisdiction = hasEventParticipantsWithoutJurisdiction;
 	}
 
+	/**
+	 * Shows only Region, District, and Community (sub-district) fields, hiding all other location fields.
+	 * This is useful for simplified location forms that only need jurisdiction information.
+	 */
+	public void hideFieldForMeaslesEpidataTravelLocation() {
+		setVisible(false,
+		LocationDto.HOME_RESIDENTIAL_ADDRESS,
+		LocationDto.COMPOUND_OWNER,
+		LocationDto.LANDMARK,
+		LocationDto.LANDMARK,
+		LocationDto.AREA_TYPE,
+		LocationDto.POSTAL_CODE,
+		LocationDto.LAT_LON_ACCURACY,
+		LocationDto.LATITUDE,
+		LocationDto.LONGITUDE);
+	}
+
 	private static class MapPopupView extends PopupView {
 
 		private static final long serialVersionUID = 6119339732442336000L;

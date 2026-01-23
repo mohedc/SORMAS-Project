@@ -14667,4 +14667,13 @@ ALTER TABLE symptoms ADD COLUMN swollenlymphnodesbehindears varchar(255);
 ALTER TABLE symptoms_history ADD COLUMN generalizedrash varchar(255);
 ALTER TABLE symptoms_history ADD COLUMN swollenlymphnodesbehindears varchar(255);
 INSERT INTO schema_version (version_number, comment) VALUES (601, 'Add generalizedRash and swollenLymphNodesBehindEars fields for Measles symptoms');
+
+-- Add travel history fields for Measles EpiData
+ALTER TABLE epidata ADD COLUMN travelhistoryknown varchar(255);
+ALTER TABLE epidata ADD COLUMN location_id bigint;
+
+ALTER TABLE epidata_history ADD COLUMN travelhistoryknown varchar(255);
+INSERT INTO schema_version (version_number, comment) VALUES (602, 'Add travelHistoryKnown and travelLocation fields for Measles EpiData');
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***
+
+

@@ -24,11 +24,13 @@ import javax.persistence.Enumerated;
 
 import com.j256.ormlite.table.DatabaseTable;
 
+import de.symeda.sormas.api.utils.YesNo;
 import de.symeda.sormas.api.utils.YesNoUnknown;
 import de.symeda.sormas.app.backend.activityascase.ActivityAsCase;
 import de.symeda.sormas.app.backend.common.EmbeddedAdo;
 import de.symeda.sormas.app.backend.common.PseudonymizableAdo;
 import de.symeda.sormas.app.backend.exposure.Exposure;
+import de.symeda.sormas.app.backend.location.Location;
 
 @Entity(name = EpiData.TABLE_NAME)
 @DatabaseTable(tableName = EpiData.TABLE_NAME)
@@ -52,10 +54,15 @@ public class EpiData extends PseudonymizableAdo {
 	private YesNoUnknown largeOutbreaksArea;
 	@Enumerated(EnumType.STRING)
 	private YesNoUnknown areaInfectedAnimals;
+	@Enumerated(EnumType.STRING)
+	private YesNo travelHistoryKnown;
 
 	private List<Exposure> exposures = new ArrayList<>();
 
 	private List<ActivityAsCase> activitiesAsCase = new ArrayList<>();
+
+	@com.j256.ormlite.field.DatabaseField(foreign = true, foreignAutoRefresh = true)
+	private Location travelLocation;
 
 	public YesNoUnknown getExposureDetailsKnown() {
 		return exposureDetailsKnown;
@@ -119,6 +126,22 @@ public class EpiData extends PseudonymizableAdo {
 
 	public void setActivitiesAsCase(List<ActivityAsCase> activitiesAsCase) {
 		this.activitiesAsCase = activitiesAsCase;
+	}
+
+	public YesNo getTravelHistoryKnown() {
+		return travelHistoryKnown;
+	}
+
+	public void setTravelHistoryKnown(YesNo travelHistoryKnown) {
+		this.travelHistoryKnown = travelHistoryKnown;
+	}
+
+	public Location getTravelLocation() {
+		return travelLocation;
+	}
+
+	public void setTravelLocation(Location travelLocation) {
+		this.travelLocation = travelLocation;
 	}
 
 	@Override
