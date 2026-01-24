@@ -14692,6 +14692,10 @@ ALTER TABLE pathogentest ADD COLUMN performrubellatest boolean;
 ALTER TABLE pathogentest ADD COLUMN investigationresults text;
 ALTER TABLE pathogentest ADD COLUMN sourceofinfectionidentified varchar(512);
 INSERT INTO schema_version (version_number, comment) VALUES (604, 'Add measles-specific fields to PathogenTest');
+
+ALTER TABLE hospitalization ADD COLUMN datehealthfacilitynotifieddistrict date;
+ALTER TABLE hospitalization_history ADD COLUMN datehealthfacilitynotifieddistrict date;
+INSERT INTO schema_version (version_number, comment) VALUES (605, 'Add dateHealthFacilityNotifiedDistrict field');
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***
 
 

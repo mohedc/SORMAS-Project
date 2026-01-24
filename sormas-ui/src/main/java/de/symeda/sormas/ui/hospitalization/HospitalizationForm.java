@@ -106,7 +106,7 @@ public class HospitalizationForm extends AbstractEditForm<HospitalizationDto> {
 			fluidRowLocs(6, HospitalizationDto.SELECT_INPATIENT_OUTPATIENT) +
 			fluidRowLocs(HospitalizationDto.ADMISSION_DATE, HospitalizationDto.DISCHARGE_DATE) +
 			fluidRowLocs(6, HospitalizationDto.SEEN_AT_HEALTH_FACILITY) +
-			fluidRowLocs(6, HospitalizationDto.DATE_FIRST_SEEN_AT_HEALTH_FACILITY);
+			fluidRowLocs(HospitalizationDto.DATE_FIRST_SEEN_AT_HEALTH_FACILITY, HospitalizationDto.DATE_HEALTH_FACILITY_NOTIFIED_DISTRICT);
 
 	private final CaseDataDto caze;
 	private final ViewMode viewMode;
@@ -314,6 +314,7 @@ public class HospitalizationForm extends AbstractEditForm<HospitalizationDto> {
 		addField(HospitalizationDto.SELECT_INPATIENT_OUTPATIENT, NullableOptionGroup.class);
 		addField(HospitalizationDto.SEEN_AT_HEALTH_FACILITY, NullableOptionGroup.class);
 		addDateField(HospitalizationDto.DATE_FIRST_SEEN_AT_HEALTH_FACILITY, DateField.class, 7);
+		addDateField(HospitalizationDto.DATE_HEALTH_FACILITY_NOTIFIED_DISTRICT, DateField.class, 7);
 
 		FieldHelper.setVisibleWhen(
 			getFieldGroup(),
@@ -321,6 +322,12 @@ public class HospitalizationForm extends AbstractEditForm<HospitalizationDto> {
 			HospitalizationDto.SEEN_AT_HEALTH_FACILITY,
 			Arrays.asList(YesNoUnknown.YES),
 			true);
+
+		// Show dateHealthFacilityNotifiedDistrict only for Yellow Fever
+		Field<?> dateHealthFacilityNotifiedDistrictField = getField(HospitalizationDto.DATE_HEALTH_FACILITY_NOTIFIED_DISTRICT);
+		if (dateHealthFacilityNotifiedDistrictField != null) {
+			dateHealthFacilityNotifiedDistrictField.setVisible(caze != null && caze.getDisease() == Disease.YELLOW_FEVER);
+		}
 
 		
 		// if SELECT_INPATIENT_OUTPATIENT is not null then show ADMISSION_DATE and DISCHARGE_DATE
