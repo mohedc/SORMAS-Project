@@ -847,6 +847,7 @@ public class SampleFacadeEjb implements SampleFacade {
 		target.setLabDetails(source.getLabDetails());
 		target.setShipmentDate(source.getShipmentDate());
 		target.setShipmentDetails(source.getShipmentDetails());
+		target.setSentToIpDakar(source.getSentToIpDakar());
 		target.setReceivedDate(source.getReceivedDate());
 		target.setSpecimenCondition(source.getSpecimenCondition());
 		target.setNoTestPossibleReason(source.getNoTestPossibleReason());
@@ -1007,6 +1008,7 @@ public class SampleFacadeEjb implements SampleFacade {
 		target.setLabDetails(source.getLabDetails());
 		target.setShipmentDate(source.getShipmentDate());
 		target.setShipmentDetails(source.getShipmentDetails());
+		target.setSentToIpDakar(source.getSentToIpDakar());
 		target.setReceivedDate(source.getReceivedDate());
 		target.setSpecimenCondition(source.getSpecimenCondition());
 		target.setNoTestPossibleReason(source.getNoTestPossibleReason());

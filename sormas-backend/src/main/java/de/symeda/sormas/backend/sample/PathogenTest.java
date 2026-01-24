@@ -82,6 +82,7 @@ public class PathogenTest extends DeletableAdo {
 	public static final String LAB_USER = "labUser";
 	public static final String TEST_RESULT = "testResult";
 	public static final String TEST_RESULT_TEXT = "testResultText";
+	public static final String VIRUS_DETECTION_GENOTYPE = "virusDetectionGenotype";
 	public static final String TEST_RESULT_VERIFIED = "testResultVerified";
 	public static final String FOUR_FOLD_INCREASE_ANTIBODY_TITER = "fourFoldIncreaseAntibodyTiter";
 	public static final String SEROTYPE = "serotype";
@@ -137,6 +138,7 @@ public class PathogenTest extends DeletableAdo {
 	private User labUser;
 	private PathogenTestResultType testResult;
 	private String testResultText;
+	private String virusDetectionGenotype;
 	private Boolean testResultVerified;
 	private boolean fourFoldIncreaseAntibodyTiter;
 	private String serotype;
@@ -367,6 +369,15 @@ public class PathogenTest extends DeletableAdo {
 
 	public void setTestResultText(String testResultText) {
 		this.testResultText = testResultText;
+	}
+
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	public String getVirusDetectionGenotype() {
+		return virusDetectionGenotype;
+	}
+
+	public void setVirusDetectionGenotype(String virusDetectionGenotype) {
+		this.virusDetectionGenotype = virusDetectionGenotype;
 	}
 
 	@Column(nullable = false)

@@ -14705,6 +14705,13 @@ ALTER TABLE samples_history ADD COLUMN dispatchedtoregionalcoldroomdate timestam
 ALTER TABLE samples_history ADD COLUMN dispatchedtonationallabbycourierdate timestamp;
 ALTER TABLE samples_history ADD COLUMN dispatchedtonationallabbyregiondistrictdate timestamp;
 INSERT INTO schema_version (version_number, comment) VALUES (606, 'Add Yellow fever sample dispatch date fields');
+
+-- Add sentToIpDakar field to samples
+ALTER TABLE samples ADD COLUMN senttoipdakar varchar(255);
+ALTER TABLE samples_history ADD COLUMN senttoipdakar varchar(255);
+ALTER TABLE pathogentest ADD COLUMN virusdetectiongenotype varchar(512);
+ALTER TABLE pathogentest_history ADD COLUMN virusdetectiongenotype varchar(512);
+INSERT INTO schema_version (version_number, comment) VALUES (607, 'Add Yellow fever sample dispatch date fields');
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***
 
 

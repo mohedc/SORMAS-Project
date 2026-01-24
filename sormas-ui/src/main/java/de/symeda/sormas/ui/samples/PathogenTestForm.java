@@ -141,14 +141,10 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 			loc(PATHOGEN_TEST_HEADING_LOC) +
 			fluidRowLocs(PathogenTestDto.TESTED_DISEASE, PathogenTestDto.TESTED_DISEASE_DETAILS) +
 			fluidRowLocs(PathogenTestDto.TEST_TYPE, PathogenTestDto.TEST_TYPE_TEXT) +
-			fluidRowLocs(PathogenTestDto.TYPING_ID, "") +
 			fluidRowLocs(PathogenTestDto.TEST_DATE_TIME, PathogenTestDto.LAB) +
-			fluidRowLocs("", PathogenTestDto.LAB_DETAILS) +
-			fluidRowLocs(7, PathogenTestDto.DATE_RESULTS_SENT_TO_DISEASE_SURVEILLANCE, 5, PathogenTestDto.DATE_DISTRICT_RECEIVED_LAB_RESULTS) +
-			fluidRowLocs(PathogenTestDto.PERFORM_RUBELLA_TEST, PathogenTestDto.COMMUNITY_INVESTIGATION) +
-			fluidRowLocs(PathogenTestDto.INVESTIGATION_RESULTS, PathogenTestDto.SOURCE_OF_INFECTION_IDENTIFIED) +
+			fluidRowLocs(5, PathogenTestDto.LAB_DETAILS, 7, PathogenTestDto.DATE_RESULTS_SENT_TO_DISTRICT) +
 			fluidRowLocs(4, PathogenTestDto.TEST_RESULT, 4, PathogenTestDto.TEST_RESULT_VERIFIED) +
-			fluidRowLocs(PathogenTestDto.TEST_RESULT_TEXT, PathogenTestDto.DATE_RESULTS_SENT_TO_DISTRICT) +
+			fluidRowLocs(PathogenTestDto.TEST_RESULT_TEXT, PathogenTestDto.VIRUS_DETECTION_GENOTYPE) +
 			fluidRowLocs(4, PathogenTestDto.FINAL_CLASSIFICATION);
 	//@formatter:on
 
@@ -575,6 +571,7 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 		fourFoldIncrease.setEnabled(false);
 
 		addField(PathogenTestDto.TEST_RESULT_TEXT, TextArea.class).setRows(6);
+		addField(PathogenTestDto.VIRUS_DETECTION_GENOTYPE, TextField.class);
 
 		// Measles-specific fields (hidden by default, shown in configureMeaslesFields)
 		addDateField(PathogenTestDto.DATE_RESULTS_SENT_TO_DISTRICT, DateField.class, 7);

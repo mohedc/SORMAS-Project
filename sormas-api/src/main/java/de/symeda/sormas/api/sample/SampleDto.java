@@ -39,6 +39,7 @@ import de.symeda.sormas.api.utils.DependingOnFeatureType;
 import de.symeda.sormas.api.utils.Diseases;
 import de.symeda.sormas.api.utils.FieldConstraints;
 import de.symeda.sormas.api.utils.SensitiveData;
+import de.symeda.sormas.api.utils.YesNo;
 
 @DependingOnFeatureType(featureType = FeatureType.SAMPLES_LAB)
 public class SampleDto extends SormasToSormasShareableDto implements IsSample {
@@ -62,6 +63,7 @@ public class SampleDto extends SormasToSormasShareableDto implements IsSample {
 	public static final String SAMPLE_PURPOSE = "samplePurpose";
 	public static final String SHIPMENT_DATE = "shipmentDate";
 	public static final String SHIPMENT_DETAILS = "shipmentDetails";
+	public static final String SENT_TO_IP_DAKAR = "sentToIpDakar";
 	public static final String RECEIVED_DATE = "receivedDate";
 	public static final String SPECIMEN_CONDITION = "specimenCondition";
 	public static final String NO_TEST_POSSIBLE_REASON = "noTestPossibleReason";
@@ -129,6 +131,7 @@ public class SampleDto extends SormasToSormasShareableDto implements IsSample {
 	@SensitiveData
 	@Size(max = FieldConstraints.CHARACTER_LIMIT_DEFAULT, message = Validations.textTooLong)
 	private String shipmentDetails;
+	private YesNo sentToIpDakar;
 	private Date receivedDate;
 	private SpecimenCondition specimenCondition;
 	@SensitiveData
@@ -301,6 +304,14 @@ public class SampleDto extends SormasToSormasShareableDto implements IsSample {
 
 	public void setShipmentDetails(String shipmentDetails) {
 		this.shipmentDetails = shipmentDetails;
+	}
+
+	public YesNo getSentToIpDakar() {
+		return sentToIpDakar;
+	}
+
+	public void setSentToIpDakar(YesNo sentToIpDakar) {
+		this.sentToIpDakar = sentToIpDakar;
 	}
 
 	public Date getReceivedDate() {
