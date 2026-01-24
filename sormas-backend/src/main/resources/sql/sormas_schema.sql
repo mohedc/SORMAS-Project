@@ -14712,6 +14712,11 @@ ALTER TABLE samples_history ADD COLUMN senttoipdakar varchar(255);
 ALTER TABLE pathogentest ADD COLUMN virusdetectiongenotype varchar(512);
 ALTER TABLE pathogentest_history ADD COLUMN virusdetectiongenotype varchar(512);
 INSERT INTO schema_version (version_number, comment) VALUES (607, 'Add Yellow fever sample dispatch date fields');
+
+-- Add virusIsolated field to pathogen test
+ALTER TABLE pathogentest ADD COLUMN virusisolated boolean;
+ALTER TABLE pathogentest_history ADD COLUMN virusisolated boolean;
+INSERT INTO schema_version (version_number, comment) VALUES (608, 'Add virusIsolated field to pathogen test');
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***
 
 

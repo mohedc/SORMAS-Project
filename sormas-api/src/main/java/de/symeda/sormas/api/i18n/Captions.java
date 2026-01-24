@@ -2287,6 +2287,7 @@ public interface Captions {
 	String PathogenTest_testResult = "PathogenTest.testResult";
 	String PathogenTest_testResultText = "PathogenTest.testResultText";
 	String PathogenTest_virusDetectionGenotype = "PathogenTest.virusDetectionGenotype";
+	String PathogenTest_virusIsolated = "PathogenTest.virusIsolated";
 	String PathogenTest_testResultVerified = "PathogenTest.testResultVerified";
 	String PathogenTest_testScale = "PathogenTest.testScale";
 	String PathogenTest_testType = "PathogenTest.testType";
