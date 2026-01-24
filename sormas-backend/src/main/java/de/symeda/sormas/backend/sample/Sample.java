@@ -114,6 +114,9 @@ public class Sample extends DeletableAdo implements IsSample, SormasToSormasShar
 	public static final String IDSR_DIAGNOSIS_DETAILS = "idsrDiagnosisDetails";
 	public static final String DATE_FORM_SENT_TO_HIGHER_LEVEL = "dateFormSentToHigherLevel";
 	public static final String NAME_CONTACT_PERSON_COMPLETING_FORM = "nameContactPersonCompletingForm";
+	public static final String DISPATCHED_TO_REGIONAL_COLDROOM_DATE = "dispatchedToRegionalColdroomDate";
+	public static final String DISPATCHED_TO_NATIONAL_LAB_BY_COURIER_DATE = "dispatchedToNationalLabByCourierDate";
+	public static final String DISPATCHED_TO_NATIONAL_LAB_BY_REGION_DISTRICT_DATE = "dispatchedToNationalLabByRegionDistrictDate";
 
 	private Case associatedCase;
 	private Contact associatedContact;
@@ -160,6 +163,9 @@ public class Sample extends DeletableAdo implements IsSample, SormasToSormasShar
 	private String idsrDiagnosisDetails;
 	private Date dateFormSentToHigherLevel;
 	private String nameContactPersonCompletingForm;
+	private Date dispatchedToRegionalColdroomDate;
+	private Date dispatchedToNationalLabByCourierDate;
+	private Date dispatchedToNationalLabByRegionDistrictDate;
 
 	private List<PathogenTest> pathogenTests;
 	private List<AdditionalTest> additionalTests;
@@ -656,5 +662,32 @@ public class Sample extends DeletableAdo implements IsSample, SormasToSormasShar
 
 	public void setNameContactPersonCompletingForm(String nameContactPersonCompletingForm) {
 		this.nameContactPersonCompletingForm = nameContactPersonCompletingForm;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getDispatchedToRegionalColdroomDate() {
+		return dispatchedToRegionalColdroomDate;
+	}
+
+	public void setDispatchedToRegionalColdroomDate(Date dispatchedToRegionalColdroomDate) {
+		this.dispatchedToRegionalColdroomDate = dispatchedToRegionalColdroomDate;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getDispatchedToNationalLabByCourierDate() {
+		return dispatchedToNationalLabByCourierDate;
+	}
+
+	public void setDispatchedToNationalLabByCourierDate(Date dispatchedToNationalLabByCourierDate) {
+		this.dispatchedToNationalLabByCourierDate = dispatchedToNationalLabByCourierDate;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getDispatchedToNationalLabByRegionDistrictDate() {
+		return dispatchedToNationalLabByRegionDistrictDate;
+	}
+
+	public void setDispatchedToNationalLabByRegionDistrictDate(Date dispatchedToNationalLabByRegionDistrictDate) {
+		this.dispatchedToNationalLabByRegionDistrictDate = dispatchedToNationalLabByRegionDistrictDate;
 	}
 }

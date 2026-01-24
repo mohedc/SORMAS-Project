@@ -122,6 +122,15 @@ public class Sample extends PseudonymizableAdo {
 	private String shipmentDetails;
 
 	@DatabaseField(dataType = DataType.DATE_LONG)
+	private Date dispatchedToRegionalColdroomDate;
+
+	@DatabaseField(dataType = DataType.DATE_LONG)
+	private Date dispatchedToNationalLabByCourierDate;
+
+	@DatabaseField(dataType = DataType.DATE_LONG)
+	private Date dispatchedToNationalLabByRegionDistrictDate;
+
+	@DatabaseField(dataType = DataType.DATE_LONG)
 	private Date receivedDate;
 
 	@Enumerated(EnumType.STRING)
@@ -300,6 +309,30 @@ public class Sample extends PseudonymizableAdo {
 
 	public void setShipmentDetails(String shipmentDetails) {
 		this.shipmentDetails = shipmentDetails;
+	}
+
+	public Date getDispatchedToRegionalColdroomDate() {
+		return dispatchedToRegionalColdroomDate;
+	}
+
+	public void setDispatchedToRegionalColdroomDate(Date dispatchedToRegionalColdroomDate) {
+		this.dispatchedToRegionalColdroomDate = dispatchedToRegionalColdroomDate;
+	}
+
+	public Date getDispatchedToNationalLabByCourierDate() {
+		return dispatchedToNationalLabByCourierDate;
+	}
+
+	public void setDispatchedToNationalLabByCourierDate(Date dispatchedToNationalLabByCourierDate) {
+		this.dispatchedToNationalLabByCourierDate = dispatchedToNationalLabByCourierDate;
+	}
+
+	public Date getDispatchedToNationalLabByRegionDistrictDate() {
+		return dispatchedToNationalLabByRegionDistrictDate;
+	}
+
+	public void setDispatchedToNationalLabByRegionDistrictDate(Date dispatchedToNationalLabByRegionDistrictDate) {
+		this.dispatchedToNationalLabByRegionDistrictDate = dispatchedToNationalLabByRegionDistrictDate;
 	}
 
 	public Date getReceivedDate() {

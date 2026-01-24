@@ -14696,6 +14696,15 @@ INSERT INTO schema_version (version_number, comment) VALUES (604, 'Add measles-s
 ALTER TABLE hospitalization ADD COLUMN datehealthfacilitynotifieddistrict date;
 ALTER TABLE hospitalization_history ADD COLUMN datehealthfacilitynotifieddistrict date;
 INSERT INTO schema_version (version_number, comment) VALUES (605, 'Add dateHealthFacilityNotifiedDistrict field');
+
+-- Add Yellow fever sample dispatch date fields
+ALTER TABLE samples ADD COLUMN dispatchedtoregionalcoldroomdate timestamp;
+ALTER TABLE samples ADD COLUMN dispatchedtonationallabbycourierdate timestamp;
+ALTER TABLE samples ADD COLUMN dispatchedtonationallabbyregiondistrictdate timestamp;
+ALTER TABLE samples_history ADD COLUMN dispatchedtoregionalcoldroomdate timestamp;
+ALTER TABLE samples_history ADD COLUMN dispatchedtonationallabbycourierdate timestamp;
+ALTER TABLE samples_history ADD COLUMN dispatchedtonationallabbyregiondistrictdate timestamp;
+INSERT INTO schema_version (version_number, comment) VALUES (606, 'Add Yellow fever sample dispatch date fields');
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***
 
 

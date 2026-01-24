@@ -2576,6 +2576,9 @@ public interface Captions {
 	String Sample_samplingReasonDetails = "Sample.samplingReasonDetails";
 	String Sample_shipmentDate = "Sample.shipmentDate";
 	String Sample_shipmentDetails = "Sample.shipmentDetails";
+	String Sample_dispatchedToRegionalColdroomDate = "Sample.dispatchedToRegionalColdroomDate";
+	String Sample_dispatchedToNationalLabByCourierDate = "Sample.dispatchedToNationalLabByCourierDate";
+	String Sample_dispatchedToNationalLabByRegionDistrictDate = "Sample.dispatchedToNationalLabByRegionDistrictDate";
 	String Sample_shipped = "Sample.shipped";
 	String Sample_specimenCondition = "Sample.specimenCondition";
 	String Sample_suggestedTypeOfTest = "Sample.suggestedTypeOfTest";

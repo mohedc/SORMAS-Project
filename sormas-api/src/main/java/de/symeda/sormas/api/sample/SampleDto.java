@@ -22,6 +22,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import de.symeda.sormas.api.Disease;
 import de.symeda.sormas.api.ImportIgnore;
 import de.symeda.sormas.api.caze.CaseReferenceDto;
 import de.symeda.sormas.api.caze.IdsrType;
@@ -35,6 +36,7 @@ import de.symeda.sormas.api.sormastosormas.SormasToSormasShareableDto;
 import de.symeda.sormas.api.user.UserReferenceDto;
 import de.symeda.sormas.api.utils.DataHelper;
 import de.symeda.sormas.api.utils.DependingOnFeatureType;
+import de.symeda.sormas.api.utils.Diseases;
 import de.symeda.sormas.api.utils.FieldConstraints;
 import de.symeda.sormas.api.utils.SensitiveData;
 
@@ -83,6 +85,9 @@ public class SampleDto extends SormasToSormasShareableDto implements IsSample {
 	public static final String IDSR_DIAGNOSIS_DETAILS = "idsrDiagnosisDetails";
 	public static final String DATE_FORM_SENT_TO_HIGHER_LEVEL = "dateFormSentToHigherLevel";
 	public static final String NAME_CONTACT_PERSON_COMPLETING_FORM = "nameContactPersonCompletingForm";
+	public static final String DISPATCHED_TO_REGIONAL_COLDROOM_DATE = "dispatchedToRegionalColdroomDate";
+	public static final String DISPATCHED_TO_NATIONAL_LAB_BY_COURIER_DATE = "dispatchedToNationalLabByCourierDate";
+	public static final String DISPATCHED_TO_NATIONAL_LAB_BY_REGION_DISTRICT_DATE = "dispatchedToNationalLabByRegionDistrictDate";
 
 	private CaseReferenceDto associatedCase;
 	private ContactReferenceDto associatedContact;
@@ -163,6 +168,15 @@ public class SampleDto extends SormasToSormasShareableDto implements IsSample {
 	@SensitiveData
 	@Size(max = FieldConstraints.CHARACTER_LIMIT_DEFAULT, message = Validations.textTooLong)
 	private String nameContactPersonCompletingForm;
+	@Diseases(value = {
+		Disease.YELLOW_FEVER })
+	private Date dispatchedToRegionalColdroomDate;
+	@Diseases(value = {
+		Disease.YELLOW_FEVER })
+	private Date dispatchedToNationalLabByCourierDate;
+	@Diseases(value = {
+		Disease.YELLOW_FEVER })
+	private Date dispatchedToNationalLabByRegionDistrictDate;
 
 	@ImportIgnore
 	public CaseReferenceDto getAssociatedCase() {
@@ -604,5 +618,29 @@ public class SampleDto extends SormasToSormasShareableDto implements IsSample {
 
 	public void setNameContactPersonCompletingForm(String nameContactPersonCompletingForm) {
 		this.nameContactPersonCompletingForm = nameContactPersonCompletingForm;
+	}
+
+	public Date getDispatchedToRegionalColdroomDate() {
+		return dispatchedToRegionalColdroomDate;
+	}
+
+	public void setDispatchedToRegionalColdroomDate(Date dispatchedToRegionalColdroomDate) {
+		this.dispatchedToRegionalColdroomDate = dispatchedToRegionalColdroomDate;
+	}
+
+	public Date getDispatchedToNationalLabByCourierDate() {
+		return dispatchedToNationalLabByCourierDate;
+	}
+
+	public void setDispatchedToNationalLabByCourierDate(Date dispatchedToNationalLabByCourierDate) {
+		this.dispatchedToNationalLabByCourierDate = dispatchedToNationalLabByCourierDate;
+	}
+
+	public Date getDispatchedToNationalLabByRegionDistrictDate() {
+		return dispatchedToNationalLabByRegionDistrictDate;
+	}
+
+	public void setDispatchedToNationalLabByRegionDistrictDate(Date dispatchedToNationalLabByRegionDistrictDate) {
+		this.dispatchedToNationalLabByRegionDistrictDate = dispatchedToNationalLabByRegionDistrictDate;
 	}
 }

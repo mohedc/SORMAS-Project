@@ -120,14 +120,13 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 					fluidRowLocs(SampleDto.SAMPLE_PURPOSE, SampleDto.FIELD_SAMPLE_ID) +
                     fluidRowLocs(SampleDto.SAMPLE_DATE_TIME) +
                     fluidRowLocs(SampleDto.LAB, SampleDto.LAB_DETAILS) +
-                    fluidRowLocs(SampleDto.LAB_SAMPLE_ID) +
+                    fluidRowLocs(SampleDto.LAB_SAMPLE_ID, SampleDto.SPECIMEN_CONDITION) +
                     fluidRowLocs(SampleDto.SAMPLE_MATERIAL, SampleDto.SAMPLE_MATERIAL_TEXT) +
 					 locCss(VSPACE_TOP_3, SampleDto.SHIPPED) +
 					fluidRowLocs(SampleDto.SHIPMENT_DATE, SampleDto.SHIPMENT_DETAILS) +
 					fluidRowLocs(SampleDto.DATE_FORM_SENT_TO_HIGHER_LEVEL, SampleDto.NAME_CONTACT_PERSON_COMPLETING_FORM) +
                     locCss(VSPACE_TOP_3, SampleDto.RECEIVED) +
-					fluidRowLocs(SampleDto.RECEIVED_DATE, SampleDto.LAB_SAMPLE_ID) +
-					fluidRowLocs(SampleDto.PATHOGEN_TEST_RESULT);
+					fluidRowLocs(SampleDto.RECEIVED_DATE, SampleDto.PATHOGEN_TEST_RESULT);
 
     protected static final String YELLOW_FEVER_HTML_LAYOUT =
 			fluidRowLocs(4, SampleDto.UUID, 4, REPORT_INFO_LABEL_LOC, 3,SampleDto.REPORTING_USER, 1, "") +
@@ -138,11 +137,13 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
                     fluidRowLocs(SampleDto.SAMPLE_MATERIAL, SampleDto.SAMPLE_MATERIAL_TEXT) +
 					 locCss(VSPACE_TOP_3, SampleDto.SHIPPED) +
 					fluidRowLocs(SampleDto.SHIPMENT_DATE, SampleDto.SHIPMENT_DETAILS) +
-					fluidRowLocs(SampleDto.DATE_FORM_SENT_TO_HIGHER_LEVEL, SampleDto.NAME_CONTACT_PERSON_COMPLETING_FORM) +
-                    locCss(VSPACE_TOP_3, SampleDto.RECEIVED) +
+					fluidRowLocs(SampleDto.DISPATCHED_TO_REGIONAL_COLDROOM_DATE, SampleDto.DISPATCHED_TO_NATIONAL_LAB_BY_COURIER_DATE) +
+					fluidRowLocs(6, SampleDto.DISPATCHED_TO_NATIONAL_LAB_BY_REGION_DISTRICT_DATE) +
+					locCss(VSPACE_TOP_3, "") +
+					fluidRowLocs(6, SampleDto.RECEIVED) +
 					fluidRowLocs(SampleDto.RECEIVED_DATE, SampleDto.LAB_SAMPLE_ID) +
+					fluidRowLocs(SampleDto.SPECIMEN_CONDITION, SampleDto.NO_TEST_POSSIBLE_REASON) +
 					fluidRowLocs(SampleDto.PATHOGEN_TEST_RESULT);
-
 
 	//@formatter:on
 
@@ -170,6 +171,9 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 		addField(SampleDto.FIELD_SAMPLE_ID, TextField.class);
 		addDateField(SampleDto.SHIPMENT_DATE, DateField.class, 7);
 		addField(SampleDto.SHIPMENT_DETAILS, TextField.class);
+		addDateField(SampleDto.DISPATCHED_TO_REGIONAL_COLDROOM_DATE, DateField.class, 7);
+		addDateField(SampleDto.DISPATCHED_TO_NATIONAL_LAB_BY_COURIER_DATE, DateField.class, 7);
+		addDateField(SampleDto.DISPATCHED_TO_NATIONAL_LAB_BY_REGION_DISTRICT_DATE, DateField.class, 7);
 		addField(SampleDto.RECEIVED_DATE, DateField.class);
 		final ComboBox lab = addInfrastructureField(SampleDto.LAB);
 		lab.addItems(FacadeProvider.getFacilityFacade().getAllActiveLaboratories(true));
@@ -304,6 +308,9 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 			shippedField.setEnabled(false);
 			getField(SampleDto.SHIPMENT_DATE).setEnabled(false);
 			getField(SampleDto.SHIPMENT_DETAILS).setEnabled(false);
+			getField(SampleDto.DISPATCHED_TO_REGIONAL_COLDROOM_DATE).setEnabled(false);
+			getField(SampleDto.DISPATCHED_TO_NATIONAL_LAB_BY_COURIER_DATE).setEnabled(false);
+			getField(SampleDto.DISPATCHED_TO_NATIONAL_LAB_BY_REGION_DISTRICT_DATE).setEnabled(false);
 			getField(SampleDto.SAMPLE_SOURCE).setEnabled(false);
 		}
 
@@ -627,6 +634,24 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 			shippedField,
 			Arrays.asList(true),
 			Arrays.asList(SampleDto.SHIPMENT_DETAILS),
+			true);
+		FieldHelper.setVisibleWhen(
+			getFieldGroup(),
+			Arrays.asList(
+				SampleDto.DISPATCHED_TO_REGIONAL_COLDROOM_DATE,
+				SampleDto.DISPATCHED_TO_NATIONAL_LAB_BY_COURIER_DATE,
+				SampleDto.DISPATCHED_TO_NATIONAL_LAB_BY_REGION_DISTRICT_DATE),
+			SampleDto.SHIPPED,
+			Arrays.asList(true),
+			true);
+		FieldHelper.setEnabledWhen(
+			getFieldGroup(),
+			shippedField,
+			Arrays.asList(true),
+			Arrays.asList(
+				SampleDto.DISPATCHED_TO_REGIONAL_COLDROOM_DATE,
+				SampleDto.DISPATCHED_TO_NATIONAL_LAB_BY_COURIER_DATE,
+				SampleDto.DISPATCHED_TO_NATIONAL_LAB_BY_REGION_DISTRICT_DATE),
 			true);
 
 		// Show yellow fever-specific fields
