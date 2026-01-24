@@ -99,6 +99,7 @@ public class EpiDataForm extends AbstractEditForm<EpiDataDto> {
 	private static final String YELLOW_FEVER_HTML_LAYOUT =
 		loc(LOC_ACTIVITY_AS_CASE_INVESTIGATION_HEADING) + 
 			loc(EpiDataDto.ACTIVITY_AS_CASE_DETAILS_KNOWN)+
+			loc((EpiDataDto.HIGH_TRANSMISSION_RISK_AREA)) +
 			loc(EpiDataDto.ACTIVITIES_AS_CASE);
 
 
