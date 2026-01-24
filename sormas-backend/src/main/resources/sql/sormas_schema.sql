@@ -14670,8 +14670,8 @@ INSERT INTO schema_version (version_number, comment) VALUES (601, 'Add generaliz
 
 -- Add travel history fields for Measles EpiData
 ALTER TABLE epidata ADD COLUMN travelhistoryknown varchar(255);
-ALTER TABLE epidata ADD COLUMN location_id bigint;
-ALTER TABLE epidata ADD CONSTRAINT fk_location_id FOREIGN KEY (location_id) REFERENCES location (id);
+ALTER TABLE epidata ADD COLUMN travellocation_id bigint;
+ALTER TABLE epidata ADD CONSTRAINT fk_travellocation_id FOREIGN KEY (travellocation_id) REFERENCES location (id);
 
 ALTER TABLE epidata_history ADD COLUMN travelhistoryknown varchar(255);
 INSERT INTO schema_version (version_number, comment) VALUES (602, 'Add travelHistoryKnown and travelLocation fields for Measles EpiData');
