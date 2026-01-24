@@ -164,7 +164,7 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 
 		final NullableOptionGroup samplePurpose = addField(SampleDto.SAMPLE_PURPOSE, NullableOptionGroup.class);
 		addField(SampleDto.UUID).setReadOnly(true);
-		samplePurpose.addValueChangeListener(e -> updateRequestedTestFields());
+		 samplePurpose.addValueChangeListener(e -> updateRequestedTestFields());
 		addField(SampleDto.LAB_SAMPLE_ID, TextField.class);
 		final DateTimeField sampleDateField = addField(SampleDto.SAMPLE_DATE_TIME, DateTimeField.class);
 		sampleDateField.setInvalidCommitted(false);
@@ -298,11 +298,11 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 				Arrays.asList(true),
 				Arrays.asList(SampleDto.SHIPMENT_DATE, SampleDto.SHIPMENT_DETAILS),
 				true);
-			FieldHelper.setRequiredWhen(
-				getFieldGroup(),
-				SampleDto.SAMPLE_PURPOSE,
-				Arrays.asList(SampleDto.LAB),
-				Arrays.asList(SamplePurpose.EXTERNAL, null));
+//			FieldHelper.setRequiredWhen(
+//				getFieldGroup(),
+//				SampleDto.SAMPLE_PURPOSE,
+//				Arrays.asList(SampleDto.LAB),
+//				Arrays.asList(SamplePurpose.EXTERNAL, null));
 			setRequired(true, SampleDto.SAMPLE_DATE_TIME, SampleDto.SAMPLE_MATERIAL);
 		} else {
 			getField(SampleDto.SAMPLE_DATE_TIME).setEnabled(false);
@@ -430,12 +430,12 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 			SampleDto.SPECIMEN_CONDITION,
 			Arrays.asList(SampleDto.NO_TEST_POSSIBLE_REASON),
 			Arrays.asList(SpecimenCondition.NOT_ADEQUATE));
-		FieldHelper.setVisibleWhen(
-			getFieldGroup(),
-			Arrays.asList(SampleDto.LAB, SampleDto.SHIPPED, SampleDto.RECEIVED),
-			SampleDto.SAMPLE_PURPOSE,
-			Arrays.asList(SamplePurpose.EXTERNAL, null),
-			true);
+//		FieldHelper.setVisibleWhen(
+//			getFieldGroup(),
+//			Arrays.asList(SampleDto.LAB, SampleDto.SHIPPED, SampleDto.RECEIVED),
+//			SampleDto.SAMPLE_PURPOSE,
+//			Arrays.asList(SamplePurpose.EXTERNAL, null),
+//			true);
 	}
 
 	protected void initializeRequestedTestFields() {
