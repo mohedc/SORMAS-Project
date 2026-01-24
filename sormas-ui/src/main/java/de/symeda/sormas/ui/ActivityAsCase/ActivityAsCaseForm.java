@@ -43,6 +43,7 @@ import com.vaadin.v7.ui.TextArea;
 import com.vaadin.v7.ui.TextField;
 
 import de.symeda.sormas.api.CountryHelper;
+import de.symeda.sormas.api.Disease;
 import de.symeda.sormas.api.FacadeProvider;
 import de.symeda.sormas.api.activityascase.ActivityAsCaseDto;
 import de.symeda.sormas.api.activityascase.ActivityAsCaseType;
@@ -102,6 +103,7 @@ public class ActivityAsCaseForm extends AbstractEditForm<ActivityAsCaseDto> {
         //@formatter:on
 
 	private LocationEditForm locationForm;
+	private Disease disease;
 
 	public ActivityAsCaseForm(boolean create, FieldVisibilityCheckers fieldVisibilityCheckers, UiFieldAccessCheckers fieldAccessCheckers) {
 		super(ActivityAsCaseDto.class, ActivityAsCaseDto.I18N_PREFIX, false, fieldVisibilityCheckers, fieldAccessCheckers);
@@ -111,9 +113,21 @@ public class ActivityAsCaseForm extends AbstractEditForm<ActivityAsCaseDto> {
 		if (create) {
 			hideValidationUntilNextCommit();
 		}
+		addFields();
+	}
+
+	public ActivityAsCaseForm(boolean create, FieldVisibilityCheckers fieldVisibilityCheckers, UiFieldAccessCheckers fieldAccessCheckers, Disease disease) {
+		super(ActivityAsCaseDto.class, ActivityAsCaseDto.I18N_PREFIX, false, fieldVisibilityCheckers, fieldAccessCheckers, disease);
+		this.disease = disease;
+		setWidth(960, Unit.PIXELS);
+
+		if (create) {
+			hideValidationUntilNextCommit();
+		}
 
 		addFields();
 	}
+	
 
 	@SuppressWarnings("deprecation")
 	@Override
@@ -126,6 +140,12 @@ public class ActivityAsCaseForm extends AbstractEditForm<ActivityAsCaseDto> {
 		locationForm = addField(ActivityAsCaseDto.LOCATION, LocationEditForm.class);
 		locationForm.setSkipFacilityTypeUpdate(true);
 		locationForm.setCaption(null);
+
+		// Hide additional fields for yellow fever
+		if (disease == Disease.YELLOW_FEVER) {
+			locationForm.hideFieldsForYellowFeverActivityCase();
+		}
+
 		addField(ActivityAsCaseDto.CONNECTION_NUMBER, TextField.class);
 		getField(ActivityAsCaseDto.MEANS_OF_TRANSPORT).addValueChangeListener(e -> {
 			if (e.getProperty().getValue() == MeansOfTransport.PLANE) {

@@ -285,6 +285,8 @@ public class PathogenTestFacadeEjb implements PathogenTestFacade {
 		target.setLabUser(UserFacadeEjb.toReferenceDto(source.getLabUser()));
 		target.setTestResult(source.getTestResult());
 		target.setTestResultText(source.getTestResultText());
+		target.setVirusDetectionGenotype(source.getVirusDetectionGenotype());
+		target.setVirusIsolated(source.getVirusIsolated());
 		target.setTestResultVerified(source.getTestResultVerified());
 		target.setFourFoldIncreaseAntibodyTiter(source.isFourFoldIncreaseAntibodyTiter());
 		target.setSerotype(source.getSerotype());
@@ -557,6 +559,8 @@ public class PathogenTestFacadeEjb implements PathogenTestFacade {
 		target.setLabUser(userService.getByReferenceDto(source.getLabUser()));
 		target.setTestResult(source.getTestResult());
 		target.setTestResultText(source.getTestResultText());
+		target.setVirusDetectionGenotype(source.getVirusDetectionGenotype());
+		target.setVirusIsolated(source.getVirusIsolated());
 		target.setTestResultVerified(source.getTestResultVerified());
 		target.setFourFoldIncreaseAntibodyTiter(source.isFourFoldIncreaseAntibodyTiter());
 		target.setSerotype(source.getSerotype());

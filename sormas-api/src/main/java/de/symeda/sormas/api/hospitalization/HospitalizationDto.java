@@ -58,6 +58,7 @@ public class HospitalizationDto extends EntityDto {
 	public static final String ADDRESS = "address";
 	public static final String SEEN_AT_HEALTH_FACILITY = "seenAtHealthFacility";
 	public static final String DATE_FIRST_SEEN_AT_HEALTH_FACILITY = "dateFirstSeenAtHealthFacility";
+	public static final String DATE_HEALTH_FACILITY_NOTIFIED_DISTRICT = "dateHealthFacilityNotifiedDistrict";
 
 	// Fields are declared in the order they should appear in the import template
 
@@ -93,6 +94,9 @@ public class HospitalizationDto extends EntityDto {
 	@Diseases({
 		Disease.MEASLES })
 	private Date dateFirstSeenAtHealthFacility;
+	@Diseases({
+		Disease.YELLOW_FEVER })
+	private Date dateHealthFacilityNotifiedDistrict;
 
 	public static HospitalizationDto build() {
 		HospitalizationDto hospitalization = new HospitalizationDto();
@@ -252,5 +256,13 @@ public class HospitalizationDto extends EntityDto {
 
 	public void setDateFirstSeenAtHealthFacility(Date dateFirstSeenAtHealthFacility) {
 		this.dateFirstSeenAtHealthFacility = dateFirstSeenAtHealthFacility;
+	}
+
+	public Date getDateHealthFacilityNotifiedDistrict() {
+		return dateHealthFacilityNotifiedDistrict;
+	}
+
+	public void setDateHealthFacilityNotifiedDistrict(Date dateHealthFacilityNotifiedDistrict) {
+		this.dateHealthFacilityNotifiedDistrict = dateHealthFacilityNotifiedDistrict;
 	}
 }

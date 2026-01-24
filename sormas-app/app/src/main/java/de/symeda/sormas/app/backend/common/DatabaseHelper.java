@@ -196,7 +196,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	public static final String DATABASE_NAME = "sormas.db";
 	// any time you make changes to your database objects, you may have to increase the database version
 
-	public static final int DATABASE_VERSION = 363;
+	public static final int DATABASE_VERSION = 364;
 
 	private static DatabaseHelper instance = null;
 
@@ -847,7 +847,9 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 						+ "labDetails VARCHAR, labSampleID VARCHAR, noTestPossibleReason VARCHAR, received SMALLINT, receivedDate BIGINT, referredToUuid VARCHAR, "
 						+ "reportDateTime BIGINT, reportLat DOUBLE PRECISION, reportLatLonAccuracy FLOAT, reportLon DOUBLE PRECISION, "
 						+ "reportingUser_id BIGINT, sampleCode VARCHAR, sampleDateTime BIGINT, sampleMaterial VARCHAR, sampleMaterialText VARCHAR, "
-						+ "sampleSource VARCHAR, shipmentDate BIGINT, shipmentDetails VARCHAR, shipped SMALLINT, specimenCondition VARCHAR, "
+						+ "sampleSource VARCHAR, shipmentDate BIGINT, shipmentDetails VARCHAR, "
+						+ "dispatchedToRegionalColdroomDate BIGINT, dispatchedToNationalLabByCourierDate BIGINT, dispatchedToNationalLabByRegionDistrictDate BIGINT, "
+						+ "shipped SMALLINT, specimenCondition VARCHAR, "
 						+ "pathogenTestingRequested SMALLINT, additionalTestingRequested SMALLINT, requestedPathogenTestsString VARCHAR, requestedAdditionalTestsString VARCHAR, "
 						+ "changeDate BIGINT NOT NULL, creationDate BIGINT NOT NULL, id INTEGER PRIMARY KEY AUTOINCREMENT, lastOpenedDate BIGINT, "
 						+ "localChangeDate BIGINT NOT NULL, modified SMALLINT, snapshot SMALLINT, uuid VARCHAR NOT NULL, UNIQUE (snapshot, uuid));");
@@ -1195,7 +1197,9 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 							+ "labDetails VARCHAR, labSampleID VARCHAR, noTestPossibleReason VARCHAR, received SMALLINT, receivedDate BIGINT, referredToUuid VARCHAR, "
 							+ "reportDateTime BIGINT, reportLat DOUBLE PRECISION, reportLatLonAccuracy FLOAT, reportLon DOUBLE PRECISION, "
 							+ "reportingUser_id BIGINT, sampleDateTime BIGINT, sampleMaterial VARCHAR, sampleMaterialText VARCHAR, "
-							+ "sampleSource VARCHAR, shipmentDate BIGINT, shipmentDetails VARCHAR, shipped SMALLINT, specimenCondition VARCHAR, "
+							+ "sampleSource VARCHAR, shipmentDate BIGINT, shipmentDetails VARCHAR, "
+							+ "dispatchedToRegionalColdroomDate BIGINT, dispatchedToNationalLabByCourierDate BIGINT, dispatchedToNationalLabByRegionDistrictDate BIGINT, "
+							+ "shipped SMALLINT, specimenCondition VARCHAR, "
 							+ "pathogenTestingRequested SMALLINT, additionalTestingRequested SMALLINT, requestedPathogenTestsString VARCHAR, requestedAdditionalTestsString VARCHAR, "
 							+ "requestedOtherPathogenTests varchar(512), requestedOtherAdditionalTests varchar(512), samplePurpose varchar(255), pathogenTestResult varchar(255), "
 							+ "changeDate BIGINT NOT NULL, creationDate BIGINT NOT NULL, id INTEGER PRIMARY KEY AUTOINCREMENT, lastOpenedDate BIGINT, "
@@ -3231,6 +3235,11 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 			case 363:
 				currentVersion = 363;
 				getDao(Person.class).executeRaw("ALTER TABLE person ADD COLUMN otherNames varchar(255);");
+			case 364:
+				currentVersion = 364;
+				getDao(Sample.class).executeRaw("ALTER TABLE samples ADD COLUMN dispatchedToRegionalColdroomDate BIGINT;");
+				getDao(Sample.class).executeRaw("ALTER TABLE samples ADD COLUMN dispatchedToNationalLabByCourierDate BIGINT;");
+				getDao(Sample.class).executeRaw("ALTER TABLE samples ADD COLUMN dispatchedToNationalLabByRegionDistrictDate BIGINT;");
 				// ATTENTION: break should only be done after last version
 				break;
 

@@ -2286,6 +2286,8 @@ public interface Captions {
 	String PathogenTest_testedPathogenDetails = "PathogenTest.testedPathogenDetails";
 	String PathogenTest_testResult = "PathogenTest.testResult";
 	String PathogenTest_testResultText = "PathogenTest.testResultText";
+	String PathogenTest_virusDetectionGenotype = "PathogenTest.virusDetectionGenotype";
+	String PathogenTest_virusIsolated = "PathogenTest.virusIsolated";
 	String PathogenTest_testResultVerified = "PathogenTest.testResultVerified";
 	String PathogenTest_testScale = "PathogenTest.testScale";
 	String PathogenTest_testType = "PathogenTest.testType";
@@ -2576,6 +2578,10 @@ public interface Captions {
 	String Sample_samplingReasonDetails = "Sample.samplingReasonDetails";
 	String Sample_shipmentDate = "Sample.shipmentDate";
 	String Sample_shipmentDetails = "Sample.shipmentDetails";
+	String Sample_sentToIpDakar = "Sample.sentToIpDakar";
+	String Sample_dispatchedToRegionalColdroomDate = "Sample.dispatchedToRegionalColdroomDate";
+	String Sample_dispatchedToNationalLabByCourierDate = "Sample.dispatchedToNationalLabByCourierDate";
+	String Sample_dispatchedToNationalLabByRegionDistrictDate = "Sample.dispatchedToNationalLabByRegionDistrictDate";
 	String Sample_shipped = "Sample.shipped";
 	String Sample_specimenCondition = "Sample.specimenCondition";
 	String Sample_suggestedTypeOfTest = "Sample.suggestedTypeOfTest";

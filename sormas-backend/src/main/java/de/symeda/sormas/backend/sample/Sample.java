@@ -55,6 +55,7 @@ import de.symeda.sormas.api.sample.SampleReferenceDto;
 import de.symeda.sormas.api.sample.SampleSource;
 import de.symeda.sormas.api.sample.SamplingReason;
 import de.symeda.sormas.api.sample.SpecimenCondition;
+import de.symeda.sormas.api.utils.YesNo;
 import de.symeda.sormas.backend.caze.Case;
 import de.symeda.sormas.backend.common.DeletableAdo;
 import de.symeda.sormas.backend.contact.Contact;
@@ -88,6 +89,7 @@ public class Sample extends DeletableAdo implements IsSample, SormasToSormasShar
 	public static final String LAB_DETAILS = "labDetails";
 	public static final String SHIPMENT_DATE = "shipmentDate";
 	public static final String SHIPMENT_DETAILS = "shipmentDetails";
+	public static final String SENT_TO_IP_DAKAR = "sentToIpDakar";
 	public static final String RECEIVED_DATE = "receivedDate";
 	public static final String NO_TEST_POSSIBLE_REASON = "noTestPossibleReason";
 	public static final String COMMENT = "comment";
@@ -114,6 +116,9 @@ public class Sample extends DeletableAdo implements IsSample, SormasToSormasShar
 	public static final String IDSR_DIAGNOSIS_DETAILS = "idsrDiagnosisDetails";
 	public static final String DATE_FORM_SENT_TO_HIGHER_LEVEL = "dateFormSentToHigherLevel";
 	public static final String NAME_CONTACT_PERSON_COMPLETING_FORM = "nameContactPersonCompletingForm";
+	public static final String DISPATCHED_TO_REGIONAL_COLDROOM_DATE = "dispatchedToRegionalColdroomDate";
+	public static final String DISPATCHED_TO_NATIONAL_LAB_BY_COURIER_DATE = "dispatchedToNationalLabByCourierDate";
+	public static final String DISPATCHED_TO_NATIONAL_LAB_BY_REGION_DISTRICT_DATE = "dispatchedToNationalLabByRegionDistrictDate";
 
 	private Case associatedCase;
 	private Contact associatedContact;
@@ -135,6 +140,7 @@ public class Sample extends DeletableAdo implements IsSample, SormasToSormasShar
 	private String labDetails;
 	private Date shipmentDate;
 	private String shipmentDetails;
+	private YesNo sentToIpDakar;
 	private Date receivedDate;
 	private SpecimenCondition specimenCondition;
 	private String noTestPossibleReason;
@@ -160,6 +166,9 @@ public class Sample extends DeletableAdo implements IsSample, SormasToSormasShar
 	private String idsrDiagnosisDetails;
 	private Date dateFormSentToHigherLevel;
 	private String nameContactPersonCompletingForm;
+	private Date dispatchedToRegionalColdroomDate;
+	private Date dispatchedToNationalLabByCourierDate;
+	private Date dispatchedToNationalLabByRegionDistrictDate;
 
 	private List<PathogenTest> pathogenTests;
 	private List<AdditionalTest> additionalTests;
@@ -311,6 +320,15 @@ public class Sample extends DeletableAdo implements IsSample, SormasToSormasShar
 
 	public void setShipmentDetails(String shipmentDetails) {
 		this.shipmentDetails = shipmentDetails;
+	}
+
+	@Enumerated(EnumType.STRING)
+	public YesNo getSentToIpDakar() {
+		return sentToIpDakar;
+	}
+
+	public void setSentToIpDakar(YesNo sentToIpDakar) {
+		this.sentToIpDakar = sentToIpDakar;
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)
@@ -656,5 +674,32 @@ public class Sample extends DeletableAdo implements IsSample, SormasToSormasShar
 
 	public void setNameContactPersonCompletingForm(String nameContactPersonCompletingForm) {
 		this.nameContactPersonCompletingForm = nameContactPersonCompletingForm;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getDispatchedToRegionalColdroomDate() {
+		return dispatchedToRegionalColdroomDate;
+	}
+
+	public void setDispatchedToRegionalColdroomDate(Date dispatchedToRegionalColdroomDate) {
+		this.dispatchedToRegionalColdroomDate = dispatchedToRegionalColdroomDate;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getDispatchedToNationalLabByCourierDate() {
+		return dispatchedToNationalLabByCourierDate;
+	}
+
+	public void setDispatchedToNationalLabByCourierDate(Date dispatchedToNationalLabByCourierDate) {
+		this.dispatchedToNationalLabByCourierDate = dispatchedToNationalLabByCourierDate;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getDispatchedToNationalLabByRegionDistrictDate() {
+		return dispatchedToNationalLabByRegionDistrictDate;
+	}
+
+	public void setDispatchedToNationalLabByRegionDistrictDate(Date dispatchedToNationalLabByRegionDistrictDate) {
+		this.dispatchedToNationalLabByRegionDistrictDate = dispatchedToNationalLabByRegionDistrictDate;
 	}
 }

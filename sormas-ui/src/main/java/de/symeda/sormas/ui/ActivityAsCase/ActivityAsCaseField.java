@@ -23,6 +23,7 @@ package de.symeda.sormas.ui.ActivityAsCase;
 import java.util.Collection;
 import java.util.function.Consumer;
 
+import de.symeda.sormas.api.Disease;
 import org.apache.commons.lang3.StringUtils;
 
 import com.vaadin.ui.Window;
@@ -64,6 +65,7 @@ public class ActivityAsCaseField extends AbstractTableField<ActivityAsCaseDto> {
 	private final FieldVisibilityCheckers fieldVisibilityCheckers;
 	private boolean isPseudonymized;
 	private boolean isEditAllowed;
+	private Disease disease;
 
 	public ActivityAsCaseField(FieldVisibilityCheckers fieldVisibilityCheckers, UiFieldAccessCheckers fieldAccessCheckers, boolean isEditAllowed) {
 		super(fieldAccessCheckers, isEditAllowed);
@@ -162,7 +164,7 @@ public class ActivityAsCaseField extends AbstractTableField<ActivityAsCaseDto> {
 			entry.setUuid(DataHelper.createUuid());
 		}
 
-		ActivityAsCaseForm activityAsCaseForm = new ActivityAsCaseForm(create, fieldVisibilityCheckers, fieldAccessCheckers);
+		ActivityAsCaseForm activityAsCaseForm = new ActivityAsCaseForm(create, fieldVisibilityCheckers, fieldAccessCheckers, disease);
 		activityAsCaseForm.setValue(entry);
 
 		final CommitDiscardWrapperComponent<ActivityAsCaseForm> component = new CommitDiscardWrapperComponent<>(
@@ -212,6 +214,10 @@ public class ActivityAsCaseField extends AbstractTableField<ActivityAsCaseDto> {
 
 	public void setPseudonymized(boolean isPseudonymized) {
 		this.isPseudonymized = isPseudonymized;
+	}
+
+	public void setDisease(Disease disease) {
+		this.disease = disease;
 	}
 
 	@Override
