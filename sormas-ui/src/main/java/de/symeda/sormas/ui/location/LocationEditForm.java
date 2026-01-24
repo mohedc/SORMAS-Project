@@ -827,6 +827,7 @@ public class LocationEditForm extends AbstractEditForm<LocationDto> {
 
 	@Override
 	protected String createHtmlLayout() {
+		if (caseDisease == null) return HTML_LAYOUT;
 		switch (caseDisease) {
 			case MEASLES:
 				return MEASLES_LAYOUT;
@@ -984,6 +985,23 @@ public class LocationEditForm extends AbstractEditForm<LocationDto> {
 		public void setCoordinates(GeoLatLon coordinates) {
 			this.coordinates = coordinates;
 		}
+	}
+
+	public void hideFieldsForYellowFeverActivityCase() {
+		setVisible(false,
+		LocationDto.COUNTRY,
+		LocationDto.STREET,
+		LocationDto.HOUSE_NUMBER,
+		LocationDto.HOUSE_NUMBER,
+		LocationDto.ADDITIONAL_INFORMATION,
+		LocationDto.POSTAL_CODE,
+		LocationDto.CITY,
+		LocationDto.POSTAL_CODE,
+		LocationDto.DETAILS,
+		LocationDto.AREA_TYPE,
+		LocationDto.LAT_LON_ACCURACY,
+		LocationDto.LATITUDE,
+		LocationDto.LONGITUDE);
 	}
 
 }

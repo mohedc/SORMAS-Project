@@ -97,9 +97,10 @@ public class EpiDataForm extends AbstractEditForm<EpiDataDto> {
 			loc(EpiDataDto.TRAVEL_LOCATION);
 
 	private static final String YELLOW_FEVER_HTML_LAYOUT =
-			loc(LOC_TRAVEL_LOCATION_HEADING) +
-			loc(EpiDataDto.TRAVEL_HISTORY_KNOWN) +
-			loc(EpiDataDto.TRAVEL_LOCATION);
+		loc(LOC_ACTIVITY_AS_CASE_INVESTIGATION_HEADING) + 
+			loc(EpiDataDto.ACTIVITY_AS_CASE_DETAILS_KNOWN)+
+			loc(EpiDataDto.ACTIVITIES_AS_CASE);
+
 
 
 	private final Disease disease;
@@ -195,6 +196,7 @@ public class EpiDataForm extends AbstractEditForm<EpiDataDto> {
 		ActivityAsCaseField activityAsCaseField = addField(EpiDataDto.ACTIVITIES_AS_CASE, ActivityAsCaseField.class);
 		activityAsCaseField.setWidthFull();
 		activityAsCaseField.setPseudonymized(isPseudonymized);
+		activityAsCaseField.setDisease(disease);
 
 		FieldHelper.setVisibleWhen(
 			getFieldGroup(),
@@ -230,6 +232,11 @@ public class EpiDataForm extends AbstractEditForm<EpiDataDto> {
 
 		// Show only Region, District, Community fields
 		travelLocationForm.hideFieldForMeaslesEpidataTravelLocation();
+
+		// Hide additional fields for yellow fever
+		if (disease == Disease.YELLOW_FEVER) {
+			travelLocationForm.hideFieldsForYellowFeverActivityCase();
+		}
 
 		// Populate region field since country is hidden
 		ComboBox regionField = (ComboBox) travelLocationForm.getField(LocationDto.REGION);
