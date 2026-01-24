@@ -197,17 +197,22 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 			locsCss(VSPACE_3) +
 			fluidRowLocs(3, OUTCOME);
 
-	public static final String YELLOW_FEVER_LAYOUT = loc(SIGNS_AND_SYMPTOMS_HEADING_LOC) +
+	public static final String YELLOW_FEVER_LAYOUT = loc(CLINICAL_MEASUREMENTS_HEADING_LOC) +
+					fluidRowLocs(TEMPERATURE, TEMPERATURE_SOURCE) +
+					loc(SIGNS_AND_SYMPTOMS_HEADING_LOC) +
 					fluidRowCss(VSPACE_3,
 							//XXX #1620 fluidColumnLoc?
 							fluidColumn(8, 0, loc(SYMPTOMS_HINT_LOC))) +
 					fluidRow(fluidColumn(8,4, locCss(CssStyles.ALIGN_RIGHT,BUTTONS_LOC)))+
-			fluidRowLocs(FEVER, GENERALIZED_RASH) +
-			fluidRowLocs(LESIONS_ONSET_DATE, COUGH) +
-			fluidRowLocs(RUNNY_NOSE, SWOLLEN_LYMPH_NODES_BEHIND_EARS) +
-			fluidRowLocs(CONJUNCTIVITIS, JOINT_PAIN) +
-			locsCss(VSPACE_3) +
-			fluidRowLocs(3, OUTCOME);
+					fluidRowLocs(BACKACHE, HEADACHE) +
+					fluidRowLocs(MUSCLE_PAIN, JAUNDICE) +
+					fluidRowLocs(CHILLS_SWEATS, VOMITING) +
+					fluidRowLocs(FATIGUE_WEAKNESS, FEVER) +
+					fluidRowLocs(NAUSEA, HEMORRHAGIC_SYNDROME) +
+					fluidRowLocs(OTHER_NON_HEMORRHAGIC_SYMPTOMS, OTHER_NON_HEMORRHAGIC_SYMPTOMS_TEXT) +
+					locsCss(VSPACE_3) +
+					fluidRowLocsCss(VSPACE_3, ONSET_SYMPTOM, ONSET_DATE) +
+					fluidRowLocs(3, OUTCOME);
 	//@formatter:on
 
 	private static String createSymptomGroupLayout(SymptomGroup symptomGroup, String loc) {

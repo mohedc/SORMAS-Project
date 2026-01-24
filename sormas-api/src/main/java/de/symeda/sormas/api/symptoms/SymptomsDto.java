@@ -457,6 +457,7 @@ public class SymptomsDto extends PseudonymizableDto {
 		PLAGUE,
 		ANTHRAX,
 		POLIO,
+		YELLOW_FEVER,
 		CORONAVIRUS,
 		UNDEFINED,
 		OTHER })
@@ -2562,7 +2563,8 @@ public class SymptomsDto extends PseudonymizableDto {
 
 	@Diseases({
 			NEONATAL_TETANUS,
-			MEASLES
+			MEASLES,
+			YELLOW_FEVER
 	})
 	@Outbreaks
 	private CaseOutcome outcome;
