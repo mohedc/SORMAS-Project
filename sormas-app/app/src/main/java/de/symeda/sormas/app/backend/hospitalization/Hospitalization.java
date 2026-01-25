@@ -31,6 +31,7 @@ import com.j256.ormlite.table.DatabaseTable;
 import de.symeda.sormas.api.hospitalization.AccommodationType;
 import de.symeda.sormas.api.hospitalization.HospitalizationReasonType;
 import de.symeda.sormas.api.utils.YesNoUnknown;
+import de.symeda.sormas.api.utils.InpatOutpat;
 import de.symeda.sormas.app.backend.common.AbstractDomainObject;
 import de.symeda.sormas.app.backend.common.EmbeddedAdo;
 
@@ -78,6 +79,18 @@ public class Hospitalization extends AbstractDomainObject {
 
 	@Column(columnDefinition = "text")
 	private String otherHospitalizationReason;
+
+	@Enumerated(EnumType.STRING)
+	private InpatOutpat selectInpatientOutpatient;
+
+	@Enumerated(EnumType.STRING)
+	private YesNoUnknown seenAtHealthFacility;
+
+	@DatabaseField(dataType = DataType.DATE_LONG)
+	private Date dateFirstSeenAtHealthFacility;
+
+	@DatabaseField(dataType = DataType.DATE_LONG)
+	private Date dateHealthFacilityNotifiedDistrict;
 
 	// just for reference, not persisted in DB
 	private List<PreviousHospitalization> previousHospitalizations = new ArrayList<>();
@@ -212,5 +225,37 @@ public class Hospitalization extends AbstractDomainObject {
 
 	public void setOtherHospitalizationReason(String otherHospitalizationReason) {
 		this.otherHospitalizationReason = otherHospitalizationReason;
+	}
+
+	public InpatOutpat getSelectInpatientOutpatient() {
+		return selectInpatientOutpatient;
+	}
+
+	public void setSelectInpatientOutpatient(InpatOutpat selectInpatientOutpatient) {
+		this.selectInpatientOutpatient = selectInpatientOutpatient;
+	}
+
+	public YesNoUnknown getSeenAtHealthFacility() {
+		return seenAtHealthFacility;
+	}
+
+	public void setSeenAtHealthFacility(YesNoUnknown seenAtHealthFacility) {
+		this.seenAtHealthFacility = seenAtHealthFacility;
+	}
+
+	public Date getDateFirstSeenAtHealthFacility() {
+		return dateFirstSeenAtHealthFacility;
+	}
+
+	public void setDateFirstSeenAtHealthFacility(Date dateFirstSeenAtHealthFacility) {
+		this.dateFirstSeenAtHealthFacility = dateFirstSeenAtHealthFacility;
+	}
+
+	public Date getDateHealthFacilityNotifiedDistrict() {
+		return dateHealthFacilityNotifiedDistrict;
+	}
+
+	public void setDateHealthFacilityNotifiedDistrict(Date dateHealthFacilityNotifiedDistrict) {
+		this.dateHealthFacilityNotifiedDistrict = dateHealthFacilityNotifiedDistrict;
 	}
 }
