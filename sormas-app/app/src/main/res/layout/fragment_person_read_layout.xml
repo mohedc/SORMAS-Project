@@ -95,6 +95,11 @@
 
             </LinearLayout>
 
+            <de.symeda.sormas.app.component.controls.ControlTextReadField
+                android:id="@+id/person_maritalStatus"
+                app:value="@{data.maritalStatus}"
+                style="@style/ControlSingleColumnStyle" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

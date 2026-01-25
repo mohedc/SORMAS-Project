@@ -499,6 +499,20 @@
                 style="@style/ControlSingleColumnStyle" />
 
             <de.symeda.sormas.app.component.controls.ControlSwitchField
+                android:id="@+id/symptoms_generalizedRash"
+                app:enumClass="@{symptomStateClass}"
+                app:slim="true"
+                app:value="@={data.generalizedRash}"
+                style="@style/ControlSingleColumnStyle" />
+
+            <de.symeda.sormas.app.component.controls.ControlSwitchField
+                android:id="@+id/symptoms_swollenLymphNodesBehindEars"
+                app:enumClass="@{symptomStateClass}"
+                app:slim="true"
+                app:value="@={data.swollenLymphNodesBehindEars}"
+                style="@style/ControlSingleColumnStyle" />
+
+            <de.symeda.sormas.app.component.controls.ControlSwitchField
                 android:id="@+id/symptoms_malaise"
                 app:enumClass="@{symptomStateClass}"
                 app:slim="true"
