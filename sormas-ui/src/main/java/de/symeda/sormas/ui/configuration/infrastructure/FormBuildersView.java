@@ -26,6 +26,7 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.ValoTheme;
 import com.vaadin.v7.ui.ComboBox;
 
@@ -51,6 +52,7 @@ import de.symeda.sormas.ui.utils.CssStyles;
 import de.symeda.sormas.ui.utils.FieldHelper;
 import de.symeda.sormas.ui.utils.MenuBarHelper;
 import de.symeda.sormas.ui.utils.RowCount;
+import de.symeda.sormas.ui.utils.VaadinUiUtil;
 import de.symeda.sormas.ui.utils.ViewConfiguration;
 
 public class FormBuildersView extends AbstractConfigurationView {
@@ -71,6 +73,7 @@ public class FormBuildersView extends AbstractConfigurationView {
 	private VerticalLayout gridLayout;
 	private FormBuilderGrid grid;
 	protected Button createButton;
+	protected Button importButton;
 	private MenuBar bulkOperationsDropdown;
 	private RowCount rowCount;
 
@@ -104,6 +107,18 @@ public class FormBuildersView extends AbstractConfigurationView {
 			infrastructureDataLocked.setValue(I18nProperties.getString(Strings.messageInfrastructureLocked));
 			infrastructureDataLocked.setIcon(VaadinIcons.WARNING);
 			addHeaderComponent(infrastructureDataLocked);
+		}
+
+		if (UiUtil.permitted(infrastructureDataEditable, UserRight.INFRASTRUCTURE_IMPORT)) {
+			importButton = ButtonHelper.createIconButton(Captions.actionImport, VaadinIcons.UPLOAD, e -> {
+				Window window = VaadinUiUtil.showPopupWindow(new FormBuilderImportLayout());
+				window.setCaption(I18nProperties.getString(Strings.headingImportCsvFile));
+				window.addCloseListener(c -> {
+					grid.reload();
+				});
+			}, ValoTheme.BUTTON_PRIMARY);
+
+			addHeaderComponent(importButton);
 		}
 
 		if (UiUtil.permitted(infrastructureDataEditable, UserRight.INFRASTRUCTURE_CREATE)) {

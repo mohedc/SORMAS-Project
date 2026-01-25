@@ -37,6 +37,7 @@ import com.vaadin.v7.ui.Table;
 import com.vaadin.v7.ui.TextField;
 
 import de.symeda.sormas.api.Disease;
+import de.symeda.sormas.api.EntityRelevanceStatus;
 import de.symeda.sormas.api.FacadeProvider;
 import de.symeda.sormas.api.FormType;
 import de.symeda.sormas.api.i18n.Captions;
@@ -91,6 +92,8 @@ public class FormBuilderEditForm extends AbstractEditForm<FormBuilderDto> {
 		}
 
 		criteria = new FormFieldsCriteria();
+		// Set default to show only active fields
+		criteria.relevanceStatus(EntityRelevanceStatus.ACTIVE);
 		addFields();
 	}
 
@@ -164,7 +167,7 @@ public class FormBuilderEditForm extends AbstractEditForm<FormBuilderDto> {
 		selectedFieldsTable.setContainerDataSource(selectedFieldsContainer);
 
 		selectedFieldsTable.setColumnHeader(PROPERTY_ORDER, "Order");
-		selectedFieldsTable.setColumnHeader(PROPERTY_NAME, "Field Name");
+		selectedFieldsTable.setColumnHeader(PROPERTY_NAME, "Description");
 		selectedFieldsTable.setVisibleColumns(PROPERTY_ORDER, PROPERTY_NAME);
 		selectedFieldsTable.setColumnAlignment(PROPERTY_ORDER, Table.Align.CENTER);
 		
@@ -190,24 +193,18 @@ public class FormBuilderEditForm extends AbstractEditForm<FormBuilderDto> {
 			Set<FormFieldIndexDto> selected = (Set<FormFieldIndexDto>) availableFields.getValue();
 			if (selected != null) {
 				for (FormFieldIndexDto field : selected) {
-					// Check for duplicates
-					boolean isDuplicate = false;
-					for (Object itemId : selectedFieldsContainer.getItemIds()) {
-						Item existingItem = selectedFieldsContainer.getItem(itemId);
-						String existingName = (String) existingItem.getItemProperty(PROPERTY_NAME).getValue();
-						if (existingName != null && existingName.equals(field.getFieldName())) {
-							isDuplicate = true;
-							break;
-						}
-					}
-
-					if (!isDuplicate && selectedFieldsContainer.getItem(field.getUuid()) == null) {
+					// Check for duplicates by UUID
+					if (selectedFieldsContainer.getItem(field.getUuid()) == null) {
 						Item item = selectedFieldsContainer.addItem(field.getUuid());
 						if (item != null) {
 							int order = selectedFieldsContainer.size();
 							item.getItemProperty(PROPERTY_FIELD).setValue(field);
 							item.getItemProperty(PROPERTY_ORDER).setValue(order);
-							item.getItemProperty(PROPERTY_NAME).setValue(field.getFieldName());
+							// Show description instead of fieldName
+							String description = field.getDescription() != null && !field.getDescription().isEmpty() 
+								? field.getDescription() 
+								: field.getFieldName();
+							item.getItemProperty(PROPERTY_NAME).setValue(description);
 						}
 						availableFields.removeItem(field);
 					}
@@ -230,8 +227,19 @@ public class FormBuilderEditForm extends AbstractEditForm<FormBuilderDto> {
 						FormFieldIndexDto field = (FormFieldIndexDto) item.getItemProperty(PROPERTY_FIELD).getValue();
 						if (field != null) {
 							selectedFieldsContainer.removeItem(id);
+							// Add back to availableFieldsContainer if it doesn't exist
+							if (availableFieldsContainer != null && availableFieldsContainer.getItem(field) == null) {
+								Item containerItem = availableFieldsContainer.addItem(field);
+								if (containerItem != null) {
+									containerItem.getItemProperty("field").setValue(field);
+								}
+							}
 							availableFields.addItem(field);
-							availableFields.setItemCaption(field, field.getFieldName());
+							// Show description instead of fieldName
+							String caption = field.getDescription() != null && !field.getDescription().isEmpty() 
+								? field.getDescription() 
+								: field.getFieldName();
+							availableFields.setItemCaption(field, caption);
 						}
 					}
 				}
@@ -314,6 +322,10 @@ public class FormBuilderEditForm extends AbstractEditForm<FormBuilderDto> {
 			if (selectedFormType != null) {
 				FormType previousFormType = criteria.getFormType();
 				criteria.setFormType(selectedFormType);
+				// Ensure relevanceStatus is set to ACTIVE
+				if (criteria.getRelevanceStatus() == null) {
+					criteria.relevanceStatus(EntityRelevanceStatus.ACTIVE);
+				}
 				// Only clear fields if formType actually changed (not on initial load)
 				if (previousFormType != null && !previousFormType.equals(selectedFormType)) {
 					// User changed formType - clear selected fields
@@ -365,7 +377,7 @@ public class FormBuilderEditForm extends AbstractEditForm<FormBuilderDto> {
 			selectedFieldsContainer = newContainer;
 			selectedFieldsTable.setContainerDataSource(selectedFieldsContainer);
 			selectedFieldsTable.setColumnHeader(PROPERTY_ORDER, "Order");
-			selectedFieldsTable.setColumnHeader(PROPERTY_NAME, "Field Name");
+			selectedFieldsTable.setColumnHeader(PROPERTY_NAME, "Description");
 			selectedFieldsTable.setVisibleColumns(PROPERTY_ORDER, PROPERTY_NAME);
 			selectedFieldsTable.setColumnAlignment(PROPERTY_ORDER, Table.Align.CENTER);
 			reorderItems();
@@ -398,7 +410,7 @@ public class FormBuilderEditForm extends AbstractEditForm<FormBuilderDto> {
 		selectedFieldsContainer = newContainer;
 		selectedFieldsTable.setContainerDataSource(selectedFieldsContainer);
 		selectedFieldsTable.setColumnHeader(PROPERTY_ORDER, "Order");
-		selectedFieldsTable.setColumnHeader(PROPERTY_NAME, "Field Name");
+		selectedFieldsTable.setColumnHeader(PROPERTY_NAME, "Description");
 		selectedFieldsTable.setVisibleColumns(PROPERTY_ORDER, PROPERTY_NAME);
 		selectedFieldsTable.setColumnAlignment(PROPERTY_ORDER, Table.Align.CENTER);
 		updateCounters();
@@ -517,7 +529,11 @@ public class FormBuilderEditForm extends AbstractEditForm<FormBuilderDto> {
 						// Backend uses 0-based index, convert to 1-based for display
 						int displayOrder = fieldRef.getDisplayOrder() != null ? fieldRef.getDisplayOrder() + 1 : 1;
 						item.getItemProperty(PROPERTY_ORDER).setValue(displayOrder);
-						item.getItemProperty(PROPERTY_NAME).setValue(field.getFieldName());
+						// Show description instead of fieldName
+						String description = field.getDescription() != null && !field.getDescription().isEmpty() 
+							? field.getDescription() 
+							: field.getFieldName();
+						item.getItemProperty(PROPERTY_NAME).setValue(description);
 					}
 				}
 			}
@@ -532,9 +548,16 @@ public class FormBuilderEditForm extends AbstractEditForm<FormBuilderDto> {
 		
 		for (FormFieldIndexDto dto : formFieldIndexDtos) {
 			if (!selectedFieldUuids.contains(dto.getUuid())) {
-				availableFieldsContainer.addItem(dto);
+				Item containerItem = availableFieldsContainer.addItem(dto);
+				if (containerItem != null) {
+					containerItem.getItemProperty("field").setValue(dto);
+				}
 				availableFields.addItem(dto);
-				availableFields.setItemCaption(dto, dto.getFieldName());
+				// Show description instead of fieldName
+				String caption = dto.getDescription() != null && !dto.getDescription().isEmpty() 
+					? dto.getDescription() 
+					: dto.getFieldName();
+				availableFields.setItemCaption(dto, caption);
 			}
 		}
 		
@@ -572,7 +595,11 @@ public class FormBuilderEditForm extends AbstractEditForm<FormBuilderDto> {
 					
 					if (filterText.isEmpty() || fieldName.contains(filterText) || description.contains(filterText)) {
 						availableFields.addItem(field);
-						availableFields.setItemCaption(field, field.getFieldName());
+						// Show description instead of fieldName
+						String caption = field.getDescription() != null && !field.getDescription().isEmpty() 
+							? field.getDescription() 
+							: field.getFieldName();
+						availableFields.setItemCaption(field, caption);
 					}
 				}
 			}
@@ -597,19 +624,19 @@ public class FormBuilderEditForm extends AbstractEditForm<FormBuilderDto> {
 		for (Object itemId : selectedFieldsContainer.getItemIds()) {
 			Item item = selectedFieldsContainer.getItem(itemId);
 			if (item != null) {
-				String fieldName = (String) item.getItemProperty(PROPERTY_NAME).getValue();
+				String description = (String) item.getItemProperty(PROPERTY_NAME).getValue();
 				FormFieldIndexDto field = (FormFieldIndexDto) item.getItemProperty(PROPERTY_FIELD).getValue();
 				
-				if (fieldName != null) {
-					String nameLower = fieldName.toLowerCase();
-					String description = field != null && field.getDescription() != null ? field.getDescription().toLowerCase() : "";
+				if (description != null || field != null) {
+					String descriptionLower = description != null ? description.toLowerCase() : "";
+					String fieldName = field != null && field.getFieldName() != null ? field.getFieldName().toLowerCase() : "";
 					
-					if (filterText.isEmpty() || nameLower.contains(filterText) || description.contains(filterText)) {
+					if (filterText.isEmpty() || descriptionLower.contains(filterText) || fieldName.contains(filterText)) {
 						Item newItem = filteredContainer.addItem(itemId);
 						if (newItem != null) {
 							newItem.getItemProperty(PROPERTY_FIELD).setValue(field);
 							newItem.getItemProperty(PROPERTY_ORDER).setValue(item.getItemProperty(PROPERTY_ORDER).getValue());
-							newItem.getItemProperty(PROPERTY_NAME).setValue(fieldName);
+							newItem.getItemProperty(PROPERTY_NAME).setValue(description);
 						}
 					}
 				}
@@ -618,7 +645,7 @@ public class FormBuilderEditForm extends AbstractEditForm<FormBuilderDto> {
 		
 		selectedFieldsTable.setContainerDataSource(filteredContainer);
 		selectedFieldsTable.setColumnHeader(PROPERTY_ORDER, "Order");
-		selectedFieldsTable.setColumnHeader(PROPERTY_NAME, "Field Name");
+		selectedFieldsTable.setColumnHeader(PROPERTY_NAME, "Description");
 		selectedFieldsTable.setVisibleColumns(PROPERTY_ORDER, PROPERTY_NAME);
 		selectedFieldsTable.setColumnAlignment(PROPERTY_ORDER, Table.Align.CENTER);
 		
@@ -654,6 +681,10 @@ public class FormBuilderEditForm extends AbstractEditForm<FormBuilderDto> {
 			}
 			if (newFieldValue.getFormType() != null) {
 				criteria.formType(newFieldValue.getFormType());
+				// Ensure relevanceStatus is set to ACTIVE
+				if (criteria.getRelevanceStatus() == null) {
+					criteria.relevanceStatus(EntityRelevanceStatus.ACTIVE);
+				}
 				// Delay updateDataProvider to ensure formFields are loaded
 				updateDataProvider();
 			}
