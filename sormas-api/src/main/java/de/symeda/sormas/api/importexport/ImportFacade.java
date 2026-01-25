@@ -69,6 +69,8 @@ public interface ImportFacade {
 
 	void generateFormFieldImportTemplateFile(List<FeatureConfigurationDto> featureConfigurations) throws IOException;
 
+	void generateFormBuilderImportTemplateFile(List<FeatureConfigurationDto> featureConfigurations) throws IOException;
+
 	void generateContactImportTemplateFile(List<FeatureConfigurationDto> featureConfigurations) throws IOException;
 
 	void generateEnvironmentImportTemplateFile(List<FeatureConfigurationDto> featureConfigurations) throws IOException;
@@ -168,4 +170,8 @@ public interface ImportFacade {
 	String getFormFieldImportTemplateFileName();
 
 	String getFormFieldImportTemplateFilePath();
+
+	String getFormBuilderImportTemplateFileName();
+
+	String getFormBuilderImportTemplateFilePath();
 }

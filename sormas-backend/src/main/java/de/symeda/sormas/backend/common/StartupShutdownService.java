@@ -1036,6 +1036,12 @@ public class StartupShutdownService {
 		} catch (IOException e) {
 			logger.error("Could not create form field import template .csv file.");
 		}
+
+		try {
+			importFacade.generateFormBuilderImportTemplateFile(featureConfigurations);
+		} catch (IOException e) {
+			logger.error("Could not create form builder import template .csv file.");
+		}
 	}
 
 	private void createMissingDiseaseConfigurations() {

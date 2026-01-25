@@ -122,6 +122,7 @@ import de.symeda.sormas.api.infrastructure.facility.FacilityDto;
 import de.symeda.sormas.api.infrastructure.facility.FacilityReferenceDto;
 import de.symeda.sormas.api.infrastructure.facility.FacilityType;
 import de.symeda.sormas.api.infrastructure.fields.FormFieldsDto;
+import de.symeda.sormas.api.infrastructure.forms.FormBuilderDto;
 import de.symeda.sormas.api.infrastructure.pointofentry.PointOfEntryDto;
 import de.symeda.sormas.api.infrastructure.pointofentry.PointOfEntryReferenceDto;
 import de.symeda.sormas.api.infrastructure.region.RegionDto;
@@ -225,6 +226,7 @@ public class ImportFacadeEjb implements ImportFacade {
 	private static final String SURVEY_TOKENS_IMPORT_TEMPLATE_FILE_NAME = "import_survey_tokens_template.csv";
 	private static final String SURVEY_TOKEN_RESPONSES_IMPORT_TEMPLATE_FILE_NAME = "import_survey_token_responses_template.csv";
 	private static final String FORM_FIELD_IMPORT_TEMPLATE_FILE_NAME = "import_form_field_template.csv";
+	private static final String FORM_BUILDER_IMPORT_TEMPLATE_FILE_NAME = "import_form_builder_template.csv";
 
 	private static final String ALL_COUNTRIES_IMPORT_FILE_NAME = "sormas_import_all_countries.csv";
 	private static final String ALL_SUBCONTINENTS_IMPORT_FILE_NAME = "sormas_import_all_subcontinents.csv";
@@ -515,6 +517,23 @@ public class ImportFacadeEjb implements ImportFacade {
 		appendListOfFields(importColumns, FormFieldsDto.class, "", separator, featureConfigurations);
 
 		writeFormFieldTemplate(Paths.get(getFormFieldImportTemplateFilePath()), importColumns);
+	}
+
+	@Override
+	public void generateFormBuilderImportTemplateFile(List<FeatureConfigurationDto> featureConfigurations) throws IOException {
+		createExportDirectoryIfNecessary();
+
+		char separator = configFacade.getCsvSeparator();
+
+		List<ImportColumn> importColumns = new ArrayList<>();
+		// Explicitly add uuid column first (it's in parent class EntityDto, so appendListOfFields skips it)
+		importColumns.add(ImportColumn.from(FormBuilderDto.class, FormBuilderDto.UUID, String.class, separator));
+		// Then add all other fields from FormBuilderDto (formFields is a Collection, so it will be skipped by appendListOfFields)
+		appendListOfFields(importColumns, FormBuilderDto.class, "", separator, featureConfigurations);
+		// Explicitly add formFields column since it's a Collection and gets skipped
+		importColumns.add(ImportColumn.from(FormBuilderDto.class, FormBuilderDto.FORM_FIELDS, String.class, separator));
+
+		writeFormBuilderTemplate(Paths.get(getFormBuilderImportTemplateFilePath()), importColumns);
 	}
 
 	private <T extends EntityDto> void generateImportTemplateFile(Class<T> clazz, Path filePath, List<FeatureConfigurationDto> featureConfigurations)
@@ -970,6 +989,46 @@ public class ImportFacadeEjb implements ImportFacade {
 	}
 
 	/**
+	 * Writes FormBuilder template file with header row and sample data row (no commented lines).
+	 *
+	 * @param templatePath
+	 *            path to write the template to
+	 * @param importColumns
+	 *            details about each CSV column
+	 * @throws IOException
+	 */
+	private void writeFormBuilderTemplate(Path templatePath, List<ImportColumn> importColumns) throws IOException {
+		try (CSVWriter writer = CSVUtils.createCSVWriter(
+			new OutputStreamWriter(new FileOutputStream(templatePath.toString()), StandardCharsets.UTF_8.newEncoder()),
+			configFacade.getCsvSeparator())) {
+			// Write header row
+			writer.writeNext(importColumns.stream().map(ImportColumn::getColumnName).toArray(String[]::new));
+			
+			// Write sample data row
+			String[] sampleRow = new String[importColumns.size()];
+			for (int i = 0; i < importColumns.size(); i++) {
+				ImportColumn column = importColumns.get(i);
+				String columnName = column.getColumnName();
+				if (FormBuilderDto.UUID.equals(columnName)) {
+					sampleRow[i] = ""; // Empty UUID for new entries
+				} else if (FormBuilderDto.FORM_TYPE.equals(columnName)) {
+					sampleRow[i] = "CASE_CREATE"; // Sample FormType value
+				} else if (FormBuilderDto.DISEASE.equals(columnName)) {
+					sampleRow[i] = "MEASLES"; // Sample Disease value
+				} else if (FormBuilderDto.ACTIVE.equals(columnName)) {
+					sampleRow[i] = "true"; // Sample active value
+				} else if (FormBuilderDto.FORM_FIELDS.equals(columnName)) {
+					sampleRow[i] = "uuid1,uuid2,uuid3"; // Sample formFields (comma-separated UUIDs or field names)
+				} else {
+					sampleRow[i] = ""; // Empty for other fields
+				}
+			}
+			writer.writeNext(sampleRow);
+			writer.flush();
+		}
+	}
+
+	/**
 	 * Writes template files with the following lines:
 	 * <ul>
 	 * <li><code>entityNames</code> - only if <code>includeEntityNames</code> is <code>true</code></li>
@@ -1041,6 +1100,16 @@ public class ImportFacadeEjb implements ImportFacade {
 	@Override
 	public String getFormFieldImportTemplateFilePath() {
 		return getImportTemplateFilePath(FORM_FIELD_IMPORT_TEMPLATE_FILE_NAME);
+	}
+
+	@Override
+	public String getFormBuilderImportTemplateFileName() {
+		return getImportTemplateFileName(FORM_BUILDER_IMPORT_TEMPLATE_FILE_NAME);
+	}
+
+	@Override
+	public String getFormBuilderImportTemplateFilePath() {
+		return getImportTemplateFilePath(FORM_BUILDER_IMPORT_TEMPLATE_FILE_NAME);
 	}
 
 	@Override
