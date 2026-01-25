@@ -67,6 +67,10 @@ public interface ImportFacade {
 
 	void generateFacilityImportTemplateFile(List<FeatureConfigurationDto> featureConfigurations) throws IOException;
 
+	void generateFormFieldImportTemplateFile(List<FeatureConfigurationDto> featureConfigurations) throws IOException;
+
+	void generateFormBuilderImportTemplateFile(List<FeatureConfigurationDto> featureConfigurations) throws IOException;
+
 	void generateContactImportTemplateFile(List<FeatureConfigurationDto> featureConfigurations) throws IOException;
 
 	void generateEnvironmentImportTemplateFile(List<FeatureConfigurationDto> featureConfigurations) throws IOException;
@@ -162,4 +166,12 @@ public interface ImportFacade {
 	String getSurveyTokenImportTemplateFilePath();
 
 	String getSurveyTokenResponsesImportTemplateFilePath();
+
+	String getFormFieldImportTemplateFileName();
+
+	String getFormFieldImportTemplateFilePath();
+
+	String getFormBuilderImportTemplateFileName();
+
+	String getFormBuilderImportTemplateFilePath();
 }

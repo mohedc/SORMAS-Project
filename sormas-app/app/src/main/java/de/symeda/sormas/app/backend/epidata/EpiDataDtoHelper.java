@@ -25,8 +25,11 @@ import de.symeda.sormas.api.exposure.ExposureDto;
 import de.symeda.sormas.app.backend.activityascase.ActivityAsCase;
 import de.symeda.sormas.app.backend.activityascase.ActivityAsCaseDtoHelper;
 import de.symeda.sormas.app.backend.common.AdoDtoHelper;
+import de.symeda.sormas.app.backend.common.DatabaseHelper;
 import de.symeda.sormas.app.backend.exposure.Exposure;
 import de.symeda.sormas.app.backend.exposure.ExposureDtoHelper;
+import de.symeda.sormas.app.backend.location.Location;
+import de.symeda.sormas.app.backend.location.LocationDtoHelper;
 import de.symeda.sormas.app.rest.NoConnectionException;
 import retrofit2.Call;
 
@@ -34,10 +37,12 @@ public class EpiDataDtoHelper extends AdoDtoHelper<EpiData, EpiDataDto> {
 
 	private final ExposureDtoHelper exposureDtoHelper;
 	private final ActivityAsCaseDtoHelper activityAsCaseDtoHelper;
+	private final LocationDtoHelper locationDtoHelper;
 
 	public EpiDataDtoHelper() {
 		exposureDtoHelper = new ExposureDtoHelper();
 		activityAsCaseDtoHelper = new ActivityAsCaseDtoHelper();
+		locationDtoHelper = new LocationDtoHelper();
 	}
 
 	@Override
@@ -74,6 +79,8 @@ public class EpiDataDtoHelper extends AdoDtoHelper<EpiData, EpiDataDto> {
 		target.setHighTransmissionRiskArea(source.getHighTransmissionRiskArea());
 		target.setLargeOutbreaksArea(source.getLargeOutbreaksArea());
 		target.setAreaInfectedAnimals(source.getAreaInfectedAnimals());
+		target.setTravelHistoryKnown(source.getTravelHistoryKnown());
+		target.setTravelLocation(locationDtoHelper.fillOrCreateFromDto(target.getTravelLocation(), source.getTravelLocation()));
 
 		List<Exposure> exposures = new ArrayList<>();
 		if (!source.getExposures().isEmpty()) {
@@ -107,6 +114,7 @@ public class EpiDataDtoHelper extends AdoDtoHelper<EpiData, EpiDataDto> {
 		target.setHighTransmissionRiskArea(source.getHighTransmissionRiskArea());
 		target.setLargeOutbreaksArea(source.getLargeOutbreaksArea());
 		target.setAreaInfectedAnimals(source.getAreaInfectedAnimals());
+		target.setTravelHistoryKnown(source.getTravelHistoryKnown());
 
 		List<ExposureDto> exposureDtos = new ArrayList<>();
 		if (!source.getExposures().isEmpty()) {
@@ -125,6 +133,13 @@ public class EpiDataDtoHelper extends AdoDtoHelper<EpiData, EpiDataDto> {
 			}
 		}
 		target.setActivitiesAsCase(activityAsCaseDtos);
+
+		if (source.getTravelLocation() != null) {
+			Location travelLocation = DatabaseHelper.getLocationDao().queryForId(source.getTravelLocation().getId());
+			target.setTravelLocation(locationDtoHelper.adoToDto(travelLocation));
+		} else {
+			target.setTravelLocation(null);
+		}
 
 		target.setPseudonymized(source.isPseudonymized());
 	}

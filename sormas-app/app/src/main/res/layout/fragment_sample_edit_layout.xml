@@ -34,6 +34,7 @@
         <import type="de.symeda.sormas.app.component.controls.ControlButtonType"/>
         <import type="de.symeda.sormas.api.i18n.I18nProperties" />
         <import type="de.symeda.sormas.api.i18n.Captions" />
+        <import type="de.symeda.sormas.api.utils.YesNo" />
 
         <variable name="data" type="de.symeda.sormas.app.backend.sample.Sample"/>
         <variable name="referredSample" type="de.symeda.sormas.app.backend.sample.Sample"/>
@@ -41,6 +42,7 @@
         <variable name="additionalTest" type="de.symeda.sormas.app.backend.sample.AdditionalTest" />
         <variable name="pathogenTestTypeClass" type="Class" />
         <variable name="additionalTestTypeClass" type="Class" />
+        <variable name="yesNoClass" type="Class" />
     </data>
 
     <ScrollView
@@ -292,6 +294,63 @@
                     <de.symeda.sormas.app.component.controls.ControlTextEditField
                         android:id="@+id/sample_shipmentDetails"
                         app:value="@={data.shipmentDetails}"
+                        app:dependencyParentField="@{sampleShipped}"
+                        app:dependencyParentValue="@{true}"
+                        style="@style/ControlSingleColumnStyle" />
+
+                    <de.symeda.sormas.app.component.controls.ControlSwitchField
+                        android:id="@+id/sample_sentToIpDakar"
+                        app:enumClass="@{yesNoClass}"
+                        app:value="@={data.sentToIpDakar}"
+                        app:dependencyParentField="@{sampleShipped}"
+                        app:dependencyParentValue="@{true}"
+                        style="@style/ControlSingleColumnStyle" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <de.symeda.sormas.app.component.controls.ControlDateField
+                            android:id="@+id/sample_dateFormSentToHigherLevel"
+                            app:value="@={data.dateFormSentToHigherLevel}"
+                            app:dependencyParentField="@{sampleShipped}"
+                            app:dependencyParentValue="@{true}"
+                            style="@style/ControlFirstOfTwoColumnsStyle" />
+
+                        <de.symeda.sormas.app.component.controls.ControlTextEditField
+                            android:id="@+id/sample_nameContactPersonCompletingForm"
+                            app:value="@={data.nameContactPersonCompletingForm}"
+                            app:dependencyParentField="@{sampleShipped}"
+                            app:dependencyParentValue="@{true}"
+                            style="@style/ControlSecondOfTwoColumnsStyle" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <de.symeda.sormas.app.component.controls.ControlDateField
+                            android:id="@+id/sample_dispatchedToRegionalColdroomDate"
+                            app:value="@={data.dispatchedToRegionalColdroomDate}"
+                            app:dependencyParentField="@{sampleShipped}"
+                            app:dependencyParentValue="@{true}"
+                            style="@style/ControlFirstOfTwoColumnsStyle" />
+
+                        <de.symeda.sormas.app.component.controls.ControlDateField
+                            android:id="@+id/sample_dispatchedToNationalLabByCourierDate"
+                            app:value="@={data.dispatchedToNationalLabByCourierDate}"
+                            app:dependencyParentField="@{sampleShipped}"
+                            app:dependencyParentValue="@{true}"
+                            style="@style/ControlSecondOfTwoColumnsStyle" />
+
+                    </LinearLayout>
+
+                    <de.symeda.sormas.app.component.controls.ControlDateField
+                        android:id="@+id/sample_dispatchedToNationalLabByRegionDistrictDate"
+                        app:value="@={data.dispatchedToNationalLabByRegionDistrictDate}"
                         app:dependencyParentField="@{sampleShipped}"
                         app:dependencyParentValue="@{true}"
                         style="@style/ControlSingleColumnStyle" />

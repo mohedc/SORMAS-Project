@@ -16,6 +16,7 @@
 package de.symeda.sormas.backend.infrastructure.formbuilder;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,6 +27,7 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
@@ -35,6 +37,7 @@ import org.apache.commons.collections4.CollectionUtils;
 
 import de.symeda.sormas.api.Disease;
 import de.symeda.sormas.api.FormType;
+import de.symeda.sormas.api.RequestContextHolder;
 import de.symeda.sormas.api.infrastructure.forms.FormBuilderCriteria;
 import de.symeda.sormas.api.infrastructure.forms.FormBuilderDto;
 import de.symeda.sormas.api.infrastructure.forms.FormBuilderFacade;
@@ -42,6 +45,8 @@ import de.symeda.sormas.api.infrastructure.forms.FormBuilderReferenceDto;
 import de.symeda.sormas.api.infrastructure.fields.FormFieldReferenceDto;
 import de.symeda.sormas.api.user.UserRight;
 import de.symeda.sormas.api.utils.SortProperty;
+import de.symeda.sormas.backend.common.AbstractDomainObject;
+import de.symeda.sormas.backend.common.CriteriaBuilderHelper;
 import de.symeda.sormas.backend.feature.FeatureConfigurationFacadeEjb.FeatureConfigurationFacadeEjbLocal;
 import de.symeda.sormas.backend.util.QueryHelper;
 import de.symeda.sormas.backend.infrastructure.AbstractInfrastructureFacadeEjb;
@@ -90,16 +95,19 @@ public class FormBuilderFacadeEjb
 		dto.setActive(source.getActive());
 
 		// Map formFields with displayOrder
+		// With @OrderColumn, the list is already in the correct order, so list index matches displayOrder
 		List<FormFieldReferenceDto> formFieldRefs = new ArrayList<>();
 		List<FormField> formFields = source.getFormFields();
 
 		if (formFields != null) {
 			for (int i = 0; i < formFields.size(); i++) {
 				FormField field = formFields.get(i);
-				FormFieldReferenceDto refDto = toFormFieldReferenceDto(field);
-				// Set displayOrder from list index (JPA OrderColumn maintains order)
-				refDto.setDisplayOrder(i);
-				formFieldRefs.add(refDto);
+				if (field != null) {
+					FormFieldReferenceDto refDto = toFormFieldReferenceDto(field);
+					// @OrderColumn maintains order in the list, so index matches displayOrder
+					refDto.setDisplayOrder(i);
+					formFieldRefs.add(refDto);
+				}
 			}
 		}
 
@@ -253,6 +261,59 @@ public class FormBuilderFacadeEjb
 	public List<FormBuilderReferenceDto> getReferencesByExternalId(String externalId, boolean includeArchivedEntities) {
 		// FormBuilder doesn't have externalId, so return empty list
 		return new ArrayList<>();
+	}
+
+	/**
+	 * Override getAllAfter to eagerly fetch formFields relationship using Criteria API fetch join.
+	 * This ensures that when entities are converted to DTOs, the formFields are already loaded.
+	 */
+	@Override
+	@PermitAll
+	public List<FormBuilderDto> getAllAfter(Date date, Integer batchSize, String lastSynchronizedUuid) {
+		if (userService.getCurrentUser() == null) {
+			return new ArrayList<>();
+		}
+
+		// Use Criteria API with fetch join to eagerly load formFields
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		CriteriaQuery<FormBuilder> cq = cb.createQuery(FormBuilder.class);
+		Root<FormBuilder> root = cq.from(FormBuilder.class);
+		
+		// Eagerly fetch formFields relationship
+		root.fetch("formFields", JoinType.LEFT);
+		
+		// Build filter predicate - use createUserFilter which is public
+		Predicate filter = service.createUserFilter(cb, cq, root);
+		
+		if (date != null) {
+			Predicate dateFilter = service.createChangeDateFilter(cb, root, date, lastSynchronizedUuid);
+			filter = CriteriaBuilderHelper.and(cb, filter, dateFilter);
+		}
+
+		// Note: Limited change date filter is typically not needed for infrastructure entities
+		// and the method is protected, so we skip it here
+
+		if (filter != null) {
+			cq.where(filter);
+		}
+
+		// Order by changeDate and uuid for consistent pagination
+		cq.orderBy(
+			cb.asc(root.get(AbstractDomainObject.CHANGE_DATE)),
+			cb.asc(root.get(AbstractDomainObject.UUID)));
+
+		cq.select(root).distinct(true);
+
+		javax.persistence.TypedQuery<FormBuilder> query = em.createQuery(cq);
+		
+		// Apply batch size if specified
+		if (batchSize != null) {
+			query.setMaxResults(batchSize);
+		}
+
+		List<FormBuilder> entities = query.getResultList();
+		
+		return toPseudonymizedDtos(entities);
 	}
 
 	@LocalBean

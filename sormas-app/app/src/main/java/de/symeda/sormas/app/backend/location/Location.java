@@ -93,6 +93,12 @@ public class Location extends PseudonymizableAdo {
 	@Column(length = CHARACTER_LIMIT_DEFAULT)
 	private String houseNumber;
 	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	private String homeResidentialAddress;
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	private String compoundOwner;
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	private String landmark;
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
 	private String additionalInformation;
 	@Column
 	private PersonAddressType addressType;
@@ -236,6 +242,33 @@ public class Location extends PseudonymizableAdo {
 
 	public void setHouseNumber(String houseNumber) {
 		this.houseNumber = houseNumber;
+	}
+
+	@Bindable
+	public String getHomeResidentialAddress() {
+		return homeResidentialAddress;
+	}
+
+	public void setHomeResidentialAddress(String homeResidentialAddress) {
+		this.homeResidentialAddress = homeResidentialAddress;
+	}
+
+	@Bindable
+	public String getCompoundOwner() {
+		return compoundOwner;
+	}
+
+	public void setCompoundOwner(String compoundOwner) {
+		this.compoundOwner = compoundOwner;
+	}
+
+	@Bindable
+	public String getLandmark() {
+		return landmark;
+	}
+
+	public void setLandmark(String landmark) {
+		this.landmark = landmark;
 	}
 
 	@Bindable

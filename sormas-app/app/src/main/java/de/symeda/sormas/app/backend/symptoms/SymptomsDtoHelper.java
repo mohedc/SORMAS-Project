@@ -99,6 +99,8 @@ public class SymptomsDtoHelper extends AdoDtoHelper<Symptoms, SymptomsDto> {
 		target.setShock(source.getShock());
 		target.setSkinBruising(source.getSkinBruising());
 		target.setSkinRash(source.getSkinRash());
+		target.setGeneralizedRash(source.getGeneralizedRash());
+		target.setSwollenLymphNodesBehindEars(source.getSwollenLymphNodesBehindEars());
 		target.setSoreThroat(source.getSoreThroat());
 		target.setSymptomatic(source.getSymptomatic());
 		target.setSymptomsComments(source.getSymptomsComments());
@@ -293,6 +295,8 @@ public class SymptomsDtoHelper extends AdoDtoHelper<Symptoms, SymptomsDto> {
 		target.setShock(source.getShock());
 		target.setSkinBruising(source.getSkinBruising());
 		target.setSkinRash(source.getSkinRash());
+		target.setGeneralizedRash(source.getGeneralizedRash());
+		target.setSwollenLymphNodesBehindEars(source.getSwollenLymphNodesBehindEars());
 		target.setSoreThroat(source.getSoreThroat());
 		target.setSymptomatic(source.getSymptomatic());
 		target.setSymptomsComments(source.getSymptomsComments());

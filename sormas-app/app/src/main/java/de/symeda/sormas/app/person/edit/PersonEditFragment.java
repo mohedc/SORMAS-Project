@@ -47,6 +47,7 @@ import de.symeda.sormas.api.person.BurialConductor;
 import de.symeda.sormas.api.person.CauseOfDeath;
 import de.symeda.sormas.api.person.DeathPlaceType;
 import de.symeda.sormas.api.person.EducationType;
+import de.symeda.sormas.api.person.MaritalStatus;
 import de.symeda.sormas.api.person.PersonContactDetailDto;
 import de.symeda.sormas.api.person.PersonDto;
 import de.symeda.sormas.api.person.PresentCondition;
@@ -149,6 +150,7 @@ public class PersonEditFragment extends BaseEditFragment<FragmentPersonEditLayou
 		List<Item> yearList = DataUtils.toItems(DateHelper.getYearsToNow(), true);
 		List<Item> approximateAgeTypeList = DataUtils.getEnumItems(ApproximateAgeType.class, true);
 		List<Item> sexList = DataUtils.getEnumItems(Sex.class, true);
+		List<Item> maritalStatusList = DataUtils.getEnumItems(MaritalStatus.class, true);
 		List<Item> causeOfDeathList = DataUtils.getEnumItems(CauseOfDeath.class, true);
 		List<Item> diseaseList = DataUtils.toItems(DiseaseConfigurationCache.getInstance().getAllDiseases(true, true, true));
 		if (record.getCauseOfDeathDisease() != null && !diseaseList.contains(record.getCauseOfDeathDisease())) {
@@ -225,6 +227,7 @@ public class PersonEditFragment extends BaseEditFragment<FragmentPersonEditLayou
 		contentBinding.personBirthdateYYYY.setSelectionOnOpen(year - 35);
 		contentBinding.personApproximateAgeType.initializeSpinner(approximateAgeTypeList);
 		contentBinding.personSex.initializeSpinner(sexList);
+		contentBinding.personMaritalStatus.initializeSpinner(maritalStatusList);
 		contentBinding.personCauseOfDeath.initializeSpinner(causeOfDeathList);
 		contentBinding.personCauseOfDeathDisease.initializeSpinner(diseaseList);
 		contentBinding.personDeathPlaceType.initializeSpinner(deathPlaceTypeList);

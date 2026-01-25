@@ -81,6 +81,12 @@ public class SampleDtoHelper extends AdoDtoHelper<Sample, SampleDto> {
 		target.setSamplePurpose(source.getSamplePurpose());
 		target.setShipmentDate(source.getShipmentDate());
 		target.setShipmentDetails(source.getShipmentDetails());
+		target.setSentToIpDakar(source.getSentToIpDakar());
+		target.setDateFormSentToHigherLevel(source.getDateFormSentToHigherLevel());
+		target.setNameContactPersonCompletingForm(source.getNameContactPersonCompletingForm());
+		target.setDispatchedToRegionalColdroomDate(source.getDispatchedToRegionalColdroomDate());
+		target.setDispatchedToNationalLabByCourierDate(source.getDispatchedToNationalLabByCourierDate());
+		target.setDispatchedToNationalLabByRegionDistrictDate(source.getDispatchedToNationalLabByRegionDistrictDate());
 		target.setReceivedDate(source.getReceivedDate());
 		target.setSpecimenCondition(source.getSpecimenCondition());
 		target.setNoTestPossibleReason(source.getNoTestPossibleReason());
@@ -154,6 +160,12 @@ public class SampleDtoHelper extends AdoDtoHelper<Sample, SampleDto> {
 		target.setSamplePurpose(source.getSamplePurpose());
 		target.setShipmentDate(source.getShipmentDate());
 		target.setShipmentDetails(source.getShipmentDetails());
+		target.setSentToIpDakar(source.getSentToIpDakar());
+		target.setDateFormSentToHigherLevel(source.getDateFormSentToHigherLevel());
+		target.setNameContactPersonCompletingForm(source.getNameContactPersonCompletingForm());
+		target.setDispatchedToRegionalColdroomDate(source.getDispatchedToRegionalColdroomDate());
+		target.setDispatchedToNationalLabByCourierDate(source.getDispatchedToNationalLabByCourierDate());
+		target.setDispatchedToNationalLabByRegionDistrictDate(source.getDispatchedToNationalLabByRegionDistrictDate());
 		target.setReceivedDate(source.getReceivedDate());
 		target.setSpecimenCondition(source.getSpecimenCondition());
 		target.setNoTestPossibleReason(source.getNoTestPossibleReason());
