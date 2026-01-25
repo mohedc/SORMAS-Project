@@ -20,6 +20,8 @@ import java.util.Set;
 
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.server.FileDownloader;
+import com.vaadin.server.StreamResource;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
@@ -50,6 +52,8 @@ import de.symeda.sormas.ui.utils.ArchiveMessages;
 import de.symeda.sormas.ui.utils.ButtonHelper;
 import de.symeda.sormas.ui.utils.ComboBoxHelper;
 import de.symeda.sormas.ui.utils.CssStyles;
+import de.symeda.sormas.ui.utils.ExportEntityName;
+import de.symeda.sormas.ui.utils.GridExportStreamResource;
 import de.symeda.sormas.ui.utils.MenuBarHelper;
 import de.symeda.sormas.ui.utils.RowCount;
 import de.symeda.sormas.ui.utils.VaadinUiUtil;
@@ -107,6 +111,29 @@ public class FormFieldsView extends AbstractConfigurationView {
 			infrastructureDataLocked.setValue(I18nProperties.getString(Strings.messageInfrastructureLocked));
 			infrastructureDataLocked.setIcon(VaadinIcons.WARNING);
 			addHeaderComponent(infrastructureDataLocked);
+		}
+
+		if (UiUtil.permitted(infrastructureDataEditable, UserRight.INFRASTRUCTURE_IMPORT)) {
+			importButton = ButtonHelper.createIconButton(Captions.actionImport, VaadinIcons.UPLOAD, e -> {
+				Window window = VaadinUiUtil.showPopupWindow(new FormFieldImportLayout());
+				window.setCaption(I18nProperties.getString(Strings.headingImportCsvFile));
+				window.addCloseListener(c -> {
+					grid.reload();
+				});
+			}, ValoTheme.BUTTON_PRIMARY);
+
+			addHeaderComponent(importButton);
+		}
+
+		if (UiUtil.permitted(UserRight.INFRASTRUCTURE_EXPORT)) {
+			Button exportButton = ButtonHelper.createIconButton(Captions.export, VaadinIcons.TABLE, null, ValoTheme.BUTTON_PRIMARY);
+			exportButton.setDescription(I18nProperties.getDescription(de.symeda.sormas.api.i18n.Descriptions.descExportButton));
+			addHeaderComponent(exportButton);
+
+			StreamResource streamResource = GridExportStreamResource
+				.createStreamResourceWithSelectedItems(grid, this::getSelectedRows, ExportEntityName.FORM_FIELDS);
+			FileDownloader fileDownloader = new FileDownloader(streamResource);
+			fileDownloader.extend(exportButton);
 		}
 
 		if (UiUtil.permitted(infrastructureDataEditable, UserRight.INFRASTRUCTURE_CREATE)) {
