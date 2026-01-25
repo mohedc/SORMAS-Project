@@ -155,6 +155,11 @@ public class CaseDtoHelper extends PersonDependentDtoHelper<Case, CaseDataDto> {
 		target.setHealthConditions(healthConditionsDtoHelper.fillOrCreateFromDto(target.getHealthConditions(), source.getHealthConditions()));
 
 		target.setVaccinationStatus(source.getVaccinationStatus());
+		target.setVaccinated(source.getVaccinated());
+		target.setRoutineVaccinationType(source.getRoutineVaccinationType());
+		target.setVaccinationRecordType(source.getVaccinationRecordType());
+		target.setNumberOfVaccinationDoses(source.getNumberOfVaccinationDoses());
+		target.setLastVaccinationDate(source.getLastVaccinationDate());
 		target.setSmallpoxVaccinationScar(source.getSmallpoxVaccinationScar());
 		target.setSmallpoxVaccinationReceived(source.getSmallpoxVaccinationReceived());
 		target.setSmallpoxLastVaccinationDate(source.getSmallpoxLastVaccinationDate());
@@ -248,7 +253,10 @@ public class CaseDtoHelper extends PersonDependentDtoHelper<Case, CaseDataDto> {
 		target.setMotherLastDoseDate(source.getMotherLastDoseDate());
 		target.setDateOfNotification(source.getDateOfNotification());
 		target.setNotifiedBy(source.getNotifiedBy());
+		target.setNotifiedByDetails(source.getNotifiedByDetails());
 		target.setDateOfInvestigation(source.getDateOfInvestigation());
+		target.setDateReceivedAtDistrictLevel(source.getDateReceivedAtDistrictLevel());
+		target.setSourceOfInfectionIdentified(source.getSourceOfInfectionIdentified());
 		target.setMotherGivenProtectiveDoseTT(source.getMotherGivenProtectiveDoseTT());
 		target.setMotherGivenProtectiveDoseTTDate(source.getMotherGivenProtectiveDoseTTDate());
 		target.setSupplementalImmunization(source.getSupplementalImmunization());
@@ -257,6 +265,8 @@ public class CaseDtoHelper extends PersonDependentDtoHelper<Case, CaseDataDto> {
 		target.setInvestigatorTitle(source.getInvestigatorTitle());
 		target.setInvestigatorUnit(source.getInvestigatorUnit());
 		target.setInvestigatorAddress(source.getInvestigatorAddress());
+		target.setInvestigatorTel(source.getInvestigatorTel());
+		target.setInvestigatorEmail(source.getInvestigatorEmail());
 	}
 
 	@Override
@@ -425,6 +435,11 @@ public class CaseDtoHelper extends PersonDependentDtoHelper<Case, CaseDataDto> {
 		target.setClinicianEmail(source.getClinicianEmail());
 		target.setPregnant(source.getPregnant());
 		target.setVaccinationStatus(source.getVaccinationStatus());
+		target.setVaccinated(source.getVaccinated());
+		target.setRoutineVaccinationType(source.getRoutineVaccinationType());
+		target.setVaccinationRecordType(source.getVaccinationRecordType());
+		target.setNumberOfVaccinationDoses(source.getNumberOfVaccinationDoses());
+		target.setLastVaccinationDate(source.getLastVaccinationDate());
 		target.setSmallpoxVaccinationScar(source.getSmallpoxVaccinationScar());
 		target.setSmallpoxVaccinationReceived(source.getSmallpoxVaccinationReceived());
 		target.setSmallpoxLastVaccinationDate(source.getSmallpoxLastVaccinationDate());
@@ -519,7 +534,10 @@ public class CaseDtoHelper extends PersonDependentDtoHelper<Case, CaseDataDto> {
 		target.setMotherLastDoseDate(source.getMotherLastDoseDate());
 		target.setDateOfNotification(source.getDateOfNotification());
 		target.setNotifiedBy(source.getNotifiedBy());
+		target.setNotifiedByDetails(source.getNotifiedByDetails());
 		target.setDateOfInvestigation(source.getDateOfInvestigation());
+		target.setDateReceivedAtDistrictLevel(source.getDateReceivedAtDistrictLevel());
+		target.setSourceOfInfectionIdentified(source.getSourceOfInfectionIdentified());
 		target.setMotherGivenProtectiveDoseTT(source.getMotherGivenProtectiveDoseTT());
 		target.setMotherGivenProtectiveDoseTTDate(source.getMotherGivenProtectiveDoseTTDate());
 		target.setSupplementalImmunization(source.getSupplementalImmunization());
@@ -528,6 +546,8 @@ public class CaseDtoHelper extends PersonDependentDtoHelper<Case, CaseDataDto> {
 		target.setInvestigatorTitle(source.getInvestigatorTitle());
 		target.setInvestigatorUnit(source.getInvestigatorUnit());
 		target.setInvestigatorAddress(source.getInvestigatorAddress());
+		target.setInvestigatorTel(source.getInvestigatorTel());
+		target.setInvestigatorEmail(source.getInvestigatorEmail());
 
 		if (source.getHealthConditions() != null) {
 			HealthConditions healthConditions = DatabaseHelper.getHealthConditionsDao().queryForId(source.getHealthConditions().getId());
