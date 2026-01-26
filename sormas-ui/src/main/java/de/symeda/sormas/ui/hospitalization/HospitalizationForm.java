@@ -108,12 +108,16 @@ public class HospitalizationForm extends AbstractEditForm<HospitalizationDto> {
 			fluidRowLocs(6, HospitalizationDto.SEEN_AT_HEALTH_FACILITY) +
 			fluidRowLocs(HospitalizationDto.DATE_FIRST_SEEN_AT_HEALTH_FACILITY, HospitalizationDto.DATE_HEALTH_FACILITY_NOTIFIED_DISTRICT);
 
+	private static final String AFP_LAYOUT =
+			loc(HOSPITALIZATION_HEADING_LOC) +
+					fluidRowLocs(HEALTH_FACILITY, HospitalizationDto.HOSPITAL_RECORD_NUMBER) +
+					fluidRowLocs(HospitalizationDto.SELECT_INPATIENT_OUTPATIENT, HospitalizationDto.ADMISSION_DATE);
+
 	private final CaseDataDto caze;
 	private final ViewMode viewMode;
 	private NullableOptionGroup intensiveCareUnit;
 	private DateField intensiveCareUnitStart;
 	private DateField intensiveCareUnitEnd;
-	private ComboBox selectInpatientOutpatient;
 	private NullableOptionGroup seenAtHealthFacility;
 	private DateField dateFirstSeenAtHealthFacility;
 	//@formatter:on
@@ -140,6 +144,8 @@ public class HospitalizationForm extends AbstractEditForm<HospitalizationDto> {
 		if (caze == null || viewMode == null) {
 			return;
 		}
+
+		Disease disease = caze.getDisease();
 
 		Label hospitalizationHeadingLabel = new Label(I18nProperties.getString(Strings.headingHospitalization));
 		hospitalizationHeadingLabel.addStyleName(H3);
@@ -311,7 +317,7 @@ public class HospitalizationForm extends AbstractEditForm<HospitalizationDto> {
 		previousHospitalizationsField.addValueChangeListener(e -> updatePrevHospHint(hospitalizedPreviouslyField, previousHospitalizationsField));
 
 		TextField hospitalRecordNumber = addField(HospitalizationDto.HOSPITAL_RECORD_NUMBER, TextField.class);
-		addField(HospitalizationDto.SELECT_INPATIENT_OUTPATIENT, NullableOptionGroup.class);
+		NullableOptionGroup selectInpatientOutpatient = addField(HospitalizationDto.SELECT_INPATIENT_OUTPATIENT, NullableOptionGroup.class);
 		addField(HospitalizationDto.SEEN_AT_HEALTH_FACILITY, NullableOptionGroup.class);
 		addDateField(HospitalizationDto.DATE_FIRST_SEEN_AT_HEALTH_FACILITY, DateField.class, 7);
 		addDateField(HospitalizationDto.DATE_HEALTH_FACILITY_NOTIFIED_DISTRICT, DateField.class, 7);
@@ -347,10 +353,16 @@ public class HospitalizationForm extends AbstractEditForm<HospitalizationDto> {
 			true);
 
 
-		if (caze.getDisease() == Disease.NEONATAL_TETANUS) {
+		if (disease == Disease.NEONATAL_TETANUS) {
 			hideAllFields();
 			previousHospitalizationsHeadingLabel.setVisible(false);
 			setVisible(true, HospitalizationDto.HOSPITAL_RECORD_NUMBER,HospitalizationDto.ADMITTED_TO_HEALTH_FACILITY, HospitalizationDto.ADMISSION_DATE, HEALTH_FACILITY);
+		}
+
+		if (disease == Disease.AFP){
+			FieldHelper.setVisibleWhen(selectInpatientOutpatient, Arrays.asList(admissionDateField), Arrays.asList(YesNoUnknown.YES),true);
+			FieldHelper
+					.setVisibleWhen(intensiveCareUnit, Arrays.asList(intensiveCareUnitStart, intensiveCareUnitEnd), Arrays.asList(YesNoUnknown.YES), true);
 		}
 	}
 
@@ -375,12 +387,16 @@ public class HospitalizationForm extends AbstractEditForm<HospitalizationDto> {
 
 	@Override
 	protected String createHtmlLayout() {
+
+		Disease disease = caze != null ? caze.getDisease() : null;
+
 		if (caze != null && caze.getDisease() == Disease.MEASLES) {
 			return MEASLES_LAYOUT;
 		}
 		if (caze != null && caze.getDisease() == Disease.YELLOW_FEVER) {
 			return YELLOW_FEVER_LAYOUT;
 		}
+		if (disease == Disease.AFP) return AFP_LAYOUT;
 		return HTML_LAYOUT;
 	}
 
