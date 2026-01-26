@@ -244,6 +244,7 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
     public static final String IDSR_DIAGNOSIS = "idsrDiagnosis";
     public static final String IDSR_DIAGNOSIS_DETAILS = "idsrDiagnosisDetails";
 	public static final String NOTIFIED_BY = "notifiedBy";
+	public static final String NOTIFIED_BY_TEXT = "notifiedByText";
 	public static final String NOTIFIED_BY_DETAILS = "notifiedByDetails";
 	public static final String DATE_OF_NOTIFICATION = "dateOfNotification";
 	public static final String DATE_OF_INVESTIGATION = "dateOfInvestigation";
@@ -714,20 +715,28 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 	@Diseases({
 			Disease.NEONATAL_TETANUS,
 			Disease.MEASLES,
-			Disease.YELLOW_FEVER})
+			Disease.YELLOW_FEVER,
+			Disease.AFP})
 	private NotifiedBy notifiedBy;
+
+	@Diseases({
+			Disease.NEONATAL_TETANUS,
+			Disease.AFP})
+	private String notifiedByText;
 	@Diseases({
 			Disease.MEASLES})
 	private String notifiedByDetails;
 	@Diseases({
 			Disease.NEONATAL_TETANUS,
 			Disease.MEASLES,
-			Disease.YELLOW_FEVER})
+			Disease.YELLOW_FEVER,
+			Disease.AFP})
 	private Date dateOfNotification;
 	@Diseases({
 			Disease.NEONATAL_TETANUS,
 			Disease.MEASLES,
-			Disease.YELLOW_FEVER})
+			Disease.YELLOW_FEVER,
+			Disease.AFP})
 	private Date dateOfInvestigation;
 	@Diseases({
 			Disease.NEONATAL_TETANUS,
@@ -2297,6 +2306,14 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 
 	public void setSupplementalImmunizationDetails(String supplementalImmunizationDetails) {
 		this.supplementalImmunizationDetails = supplementalImmunizationDetails;
+	}
+
+	public String getNotifiedByText() {
+		return notifiedByText;
+	}
+
+	public void setNotifiedByText(String notifiedByText) {
+		this.notifiedByText = notifiedByText;
 	}
 
     @JsonIgnore

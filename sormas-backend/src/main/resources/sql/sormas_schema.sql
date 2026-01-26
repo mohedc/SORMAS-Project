@@ -14717,6 +14717,9 @@ INSERT INTO schema_version (version_number, comment) VALUES (607, 'Add Yellow fe
 ALTER TABLE pathogentest ADD COLUMN virusisolated boolean;
 ALTER TABLE pathogentest_history ADD COLUMN virusisolated boolean;
 INSERT INTO schema_version (version_number, comment) VALUES (608, 'Add virusIsolated field to pathogen test');
+
+ALTER TABLE cases ADD COLUMN notifiedbytext varchar(255);
+INSERT INTO schema_version (version_number, comment) VALUES (609, 'Add notifiedbytext field to cases');
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***
 
 

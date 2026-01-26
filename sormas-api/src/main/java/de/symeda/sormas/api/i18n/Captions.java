@@ -743,6 +743,7 @@ public interface Captions {
 	String CaseData_otherDeletionReason = "CaseData.otherDeletionReason";
 	String CaseData_otherDiagnosticCriteria = "CaseData.otherDiagnosticCriteria";
 	String CaseData_notifiedBy = "CaseData.notifiedBy";
+	String CaseData_notifiedByText = "CaseData.notifiedByText";
 	String CaseData_notifiedByDetails = "CaseData.notifiedByDetails";
 	String CaseData_dateOfNotification = "CaseData.dateOfNotification";
 	String CaseData_dateOfInvestigation = "CaseData.dateOfInvestigation";

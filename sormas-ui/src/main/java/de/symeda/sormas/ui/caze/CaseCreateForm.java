@@ -856,7 +856,7 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 	private final Set<Disease> mappedDiseases = EnumSet.of(
 			Disease.NEONATAL_TETANUS,
 			Disease.MEASLES,
-			Disease.AFP
+			Disease.AFP,
 			Disease.YELLOW_FEVER
 	);
 

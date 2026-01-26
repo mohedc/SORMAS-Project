@@ -468,6 +468,7 @@ public class Case extends CoreAdo implements IsCase, SormasToSormasShareable, Ha
 	private Date motherGivenProtectiveDoseTTDate;
 	private YesNoUnknown supplementalImmunization;
 	private String supplementalImmunizationDetails;
+	private String notifiedByText;
 
     public static Case build() {
 		Case caze = new Case();
@@ -2181,5 +2182,13 @@ public class Case extends CoreAdo implements IsCase, SormasToSormasShareable, Ha
 
 	public void setSupplementalImmunizationDetails(String supplementalImmunizationDetails) {
 		this.supplementalImmunizationDetails = supplementalImmunizationDetails;
+	}
+
+	public String getNotifiedByText() {
+		return notifiedByText;
+	}
+
+	public void setNotifiedByText(String notifiedByText) {
+		this.notifiedByText = notifiedByText;
 	}
 }
