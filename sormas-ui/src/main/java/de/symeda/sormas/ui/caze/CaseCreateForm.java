@@ -437,9 +437,11 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 		}
 
 		if (!UiUtil.isPortHealthUser()) {
+			Field<?> passportField = personCreateForm.getField(PersonDto.PASSPORT_NUMBER);
+			passportField.setVisible(false);
 			ogCaseOrigin.addValueChangeListener(ev -> {
 				CaseOrigin caseOrigin = (CaseOrigin) ev.getProperty().getValue();
-				Disease selectedDisease = diseaseField != null ? (Disease) diseaseField.getValue() : null;
+//				Disease selectedDisease = diseaseField != null ? (Disease) diseaseField.getValue() : null;
 				
 				if (caseOrigin == CaseOrigin.IN_COUNTRY) {
 					setVisible(false, CaseDataDto.POINT_OF_ENTRY, CaseDataDto.POINT_OF_ENTRY_DETAILS);
@@ -447,13 +449,7 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 					setRequired(true, FACILITY_OR_HOME_LOC, FACILITY_TYPE_GROUP_LOC, CaseDataDto.FACILITY_TYPE, CaseDataDto.HEALTH_FACILITY);
 					setRequired(false, CaseDataDto.POINT_OF_ENTRY);
 					updateFacilityFields(facilityCombo, facilityDetails);
-					// Hide passport number for in-country cases (especially for Measles)
-					if (selectedDisease == Disease.MEASLES && personCreateForm != null) {
-						Field<?> passportField = personCreateForm.getField(PersonDto.PASSPORT_NUMBER);
-						if (passportField != null) {
-							passportField.setVisible(false);
-						}
-					}
+					passportField.setVisible(false);
 				} else {
 					setVisible(true, CaseDataDto.POINT_OF_ENTRY);
 					differentPointOfEntryJurisdiction.setVisible(true);
@@ -463,13 +459,7 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 						setRequired(false, FACILITY_OR_HOME_LOC, FACILITY_TYPE_GROUP_LOC, CaseDataDto.FACILITY_TYPE, CaseDataDto.HEALTH_FACILITY);
 					}
 					updatePointOfEntryFields(cbPointOfEntry, tfPointOfEntryDetails);
-					// Show passport number for Point of Entry cases (if Measles)
-					if (selectedDisease == Disease.MEASLES && personCreateForm != null) {
-						Field<?> passportField = personCreateForm.getField(PersonDto.PASSPORT_NUMBER);
-						if (passportField != null) {
-							passportField.setVisible(true);
-						}
-					}
+                        passportField.setVisible(true);
 				}
 			});
 
@@ -571,12 +561,11 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 				return;
 			}
 
-
 			hideAllFields();
 
 			if (selectedDisease == Disease.NEONATAL_TETANUS) {
-				setVisible(true, epidField, diseaseField, responsibleRegionCombo, responsibleDistrictCombo, responsibleCommunityCombo, facilityOrHome, facilityDetails, facilityCombo, facilityType, reportDate);
-				personCreateForm.getField(PersonDto.PASSPORT_NUMBER).setVisible(false);
+				setVisible(true, ogCaseOrigin, epidField, diseaseField, responsibleRegionCombo, responsibleDistrictCombo, responsibleCommunityCombo,
+						facilityOrHome, facilityDetails, facilityCombo, facilityType, reportDate);
 				personCreateForm.getField(PersonDto.NATIONAL_HEALTH_ID).setVisible(false);
 				personCreateForm.getField(PersonDto.PHONE).setVisible(false);
 				personCreateForm.getField(PersonDto.EMAIL_ADDRESS).setVisible(false);
@@ -612,6 +601,14 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 					Field<?> presentConditionField = personCreateForm.getField(PersonDto.PRESENT_CONDITION);
 					if (presentConditionField != null) presentConditionField.setVisible(false);
 				}
+			} else if (selectedDisease == Disease.AFP){
+				setVisible(true, ogCaseOrigin, epidField, diseaseField, responsibleRegionCombo, responsibleDistrictCombo, responsibleCommunityCombo,
+						facilityOrHome, facilityDetails, facilityCombo, facilityType, reportDate);
+				personCreateForm.getField(PersonDto.NATIONAL_HEALTH_ID).setVisible(false);
+				personCreateForm.getField(PersonDto.PHONE).setVisible(false);
+				personCreateForm.getField(PersonDto.EMAIL_ADDRESS).setVisible(false);
+				personCreateForm.getField(PersonDto.PRESENT_CONDITION).setVisible(false);
+				personCreateForm.getField(PersonDto.NATIONALITY).setVisible(false);
 			}
 
 		});
@@ -858,7 +855,8 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 
 	private final Set<Disease> mappedDiseases = EnumSet.of(
 			Disease.NEONATAL_TETANUS,
-			Disease.MEASLES
+			Disease.MEASLES,
+			Disease.AFP
 	);
 
 }

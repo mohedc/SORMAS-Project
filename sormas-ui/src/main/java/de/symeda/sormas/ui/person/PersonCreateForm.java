@@ -94,6 +94,7 @@ public class PersonCreateForm extends AbstractEditForm<PersonDto> {
 	private final boolean showSymptomsOnsetDate;
 	private final boolean showPersonSearchButton;
 	private SormasTextField nationalHealthIdField;
+	private SormasTextField nationalityField;
 	private Window warningSimilarPersons;
 	private TextField approximateAgeField;
 	private ComboBox approximateAgeTypeField;
@@ -105,6 +106,7 @@ public class PersonCreateForm extends AbstractEditForm<PersonDto> {
 				fluidRowLocs(PersonDto.APPROXIMATE_AGE, PersonDto.APPROXIMATE_AGE_TYPE, PersonDto.APPROXIMATE_AGE_REFERENCE_DATE))
 			+ fluidRowLocs(6, PersonDto.SEX, 6, PersonDto.CITIZENSHIP)
 			+ fluidRowLocs(PersonDto.NATIONAL_HEALTH_ID, PersonDto.PASSPORT_NUMBER)
+			+ fluidRowLocs(6, PersonDto.NATIONALITY)
 			+ fluidRowLocs(PersonDto.BIRTH_COUNTRY)
 			+ fluidRowLocs(PersonDto.PRESENT_CONDITION, SymptomsDto.ONSET_DATE) + fluidRowLocs(PersonDto.PHONE, PersonDto.EMAIL_ADDRESS)
 			+ fluidRowLocs(ENTER_HOME_ADDRESS_NOW) + loc(HOME_ADDRESS_HEADER) + divsCss(VSPACE_3, fluidRowLocs(HOME_ADDRESS_LOC));
@@ -219,7 +221,8 @@ public class PersonCreateForm extends AbstractEditForm<PersonDto> {
 		nationalHealthIdField = addField(PersonDto.NATIONAL_HEALTH_ID, SormasTextField.class);
 		nationalHealthIdField.setNullRepresentation("");
 
-		addField(PersonDto.NATIONALITY, TextField.class);
+		nationalityField = addField(PersonDto.NATIONALITY, SormasTextField.class);
+		nationalityField.setNullRepresentation("");
 
 		List<de.symeda.sormas.api.infrastructure.country.CountryReferenceDto> countries = FacadeProvider.getCountryFacade().getAllActiveAsReference();
 		addInfrastructureField(PersonDto.BIRTH_COUNTRY).addItems(countries);
@@ -406,6 +409,7 @@ public class PersonCreateForm extends AbstractEditForm<PersonDto> {
 		person.setBirthCountry(personCreated.getBirthCountry());
 		person.setPresentCondition(personCreated.getPresentCondition());
 		person.setNationalHealthId(personCreated.getNationalHealthId());
+		person.setNationality(personCreated.getNationality());
 		person.setPassportNumber(personCreated.getPassportNumber());
 
 		if (StringUtils.isNotEmpty(getPhone())) {
