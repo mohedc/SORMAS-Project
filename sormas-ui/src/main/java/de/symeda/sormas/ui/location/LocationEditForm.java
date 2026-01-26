@@ -126,7 +126,7 @@ public class LocationEditForm extends AbstractEditForm<LocationDto> {
 		fluidRowLocs(LocationDto.REGION, LocationDto.DISTRICT, LocationDto.COMMUNITY) +
 		fluidRowLocs(LocationDto.HOME_RESIDENTIAL_ADDRESS, LocationDto.COMPOUND_OWNER) +
 		fluidRowLocs(LocationDto.LANDMARK) +
-		fluidRowLocs(LocationDto.AREA_TYPE, LocationDto.POSTAL_CODE) +
+		fluidRowLocs(LocationDto.AREA_TYPE, "") +
 		fluidRow(
 				fluidColumnLoc(2, 0, GEO_BUTTONS_LOC),
 				fluidColumnLoc(2, 0, LocationDto.LATITUDE),
@@ -137,8 +137,7 @@ public class LocationEditForm extends AbstractEditForm<LocationDto> {
 	private static final String YELLOW_FEVER_LAYOUT =
 			fluidRowLocs(LocationDto.REGION, LocationDto.DISTRICT, LocationDto.COMMUNITY) +
 					fluidRowLocs(LocationDto.HOME_RESIDENTIAL_ADDRESS, LocationDto.HOUSE_NUMBER, LocationDto.COMPOUND_OWNER) +
-					fluidRowLocs(LocationDto.LANDMARK) +
-					fluidRowLocs(LocationDto.AREA_TYPE, LocationDto.POSTAL_CODE) +
+					fluidRowLocs(LocationDto.LANDMARK, LocationDto.AREA_TYPE) +
 					fluidRow(
 							fluidColumnLoc(2, 0, GEO_BUTTONS_LOC),
 							fluidColumnLoc(2, 0, LocationDto.LATITUDE),
