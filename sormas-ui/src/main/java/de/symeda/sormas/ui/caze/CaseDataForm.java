@@ -327,12 +327,11 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 				loc(ADDITIONAL_MEDICAL_INFORMATION) +
 				fluidRowLocs(CaseDataDto.VACCINATED, CaseDataDto.ROUTINE_VACCINATION_TYPE) +
 				fluidRowLocs(CaseDataDto.VACCINATION_RECORD_TYPE, CaseDataDto.NUMBER_OF_VACCINATION_DOSES) +
-				fluidRowLocs(CaseDataDto.LAST_VACCINATION_DATE, CaseDataDto.DATE_RECEIVED_AT_DISTRICT_LEVEL) +
-				fluidRowLocs(CaseDataDto.SOURCE_OF_INFECTION_IDENTIFIED) +
+				fluidRowLocs(CaseDataDto.LAST_VACCINATION_DATE, "") +
 				loc(INVESTIGATING_OFFICER_INFO) +
 					locCss(VSPACE_TOP_3, CaseDataDto.INVESTIGATOR_NAME) +
 					fluidRowLocs(CaseDataDto.INVESTIGATOR_TITLE, CaseDataDto.INVESTIGATOR_UNIT) +
-					fluidRowLocs(CaseDataDto.INVESTIGATOR_TEL, CaseDataDto.INVESTIGATOR_EMAIL);
+					fluidRowLocs(CaseDataDto.INVESTIGATOR_TEL, CaseDataDto.INVESTIGATOR_ADDRESS);
 
 	private static final String YELLOW_FEVER_LAYOUT =
 			loc(CASE_DATA_HEADING_LOC) +
@@ -364,12 +363,11 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 				loc(ADDITIONAL_MEDICAL_INFORMATION) +
 				fluidRowLocs(CaseDataDto.VACCINATED, CaseDataDto.ROUTINE_VACCINATION_TYPE) +
 				fluidRowLocs(CaseDataDto.VACCINATION_RECORD_TYPE, CaseDataDto.NUMBER_OF_VACCINATION_DOSES) +
-				fluidRowLocs(CaseDataDto.LAST_VACCINATION_DATE, CaseDataDto.DATE_RECEIVED_AT_DISTRICT_LEVEL) +
-				fluidRowLocs(CaseDataDto.SOURCE_OF_INFECTION_IDENTIFIED) +
+				fluidRowLocs(CaseDataDto.LAST_VACCINATION_DATE, "") +
 				loc(INVESTIGATING_OFFICER_INFO) +
 					locCss(VSPACE_TOP_3, CaseDataDto.INVESTIGATOR_NAME) +
 					fluidRowLocs(CaseDataDto.INVESTIGATOR_TITLE, CaseDataDto.INVESTIGATOR_UNIT) +
-					fluidRowLocs(CaseDataDto.INVESTIGATOR_TEL, CaseDataDto.INVESTIGATOR_EMAIL);
+					fluidRowLocs(CaseDataDto.INVESTIGATOR_TEL, CaseDataDto.INVESTIGATOR_ADDRESS);
 	//@formatter:on
 
 	private final String caseUuid;
@@ -1042,7 +1040,6 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 		notifiedByField.setNullSelectionAllowed(true);
 		FieldHelper.updateEnumData(notifiedByField, Arrays.asList(NotifiedBy.values()));
 		addField(CaseDataDto.NOTIFIED_BY_DETAILS, TextField.class);
-		// Add conditional visibility: notifiedByDetails visible when notifiedBy is OTHER
 		FieldHelper.setVisibleWhen(getFieldGroup(), CaseDataDto.NOTIFIED_BY_DETAILS, CaseDataDto.NOTIFIED_BY, Arrays.asList(NotifiedBy.OTHER), true);
 		addField(CaseDataDto.DATE_OF_NOTIFICATION, DateField.class);
 		addField(CaseDataDto.DATE_OF_INVESTIGATION, DateField.class);

@@ -589,7 +589,7 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 			} else if (selectedDisease == Disease.MEASLES || selectedDisease == Disease.YELLOW_FEVER) {
 				// Show only Measles/Yellow Fever CIF fields for New Case
 				setVisible(true, epidField, diseaseField, ogCaseOrigin, responsibleRegionCombo, responsibleDistrictCombo, 
-						responsibleCommunityCombo, facilityOrHome, facilityDetails, facilityCombo, facilityType, reportDate);
+						responsibleCommunityCombo, facilityOrHome, facilityDetails, facilityCombo, facilityType, reportDate, tfDepartment);
 				// Show person fields relevant to Measles/Yellow Fever CIF
 				if (personCreateForm != null) {
 					Field<?> firstNameField = personCreateForm.getField(PersonDto.FIRST_NAME);
