@@ -83,6 +83,9 @@ public class LocationDtoHelper extends AdoDtoHelper<Location, LocationDto> {
 		target.setPseudonymized(source.isPseudonymized());
 		target.setStreet(source.getStreet());
 		target.setHouseNumber(source.getHouseNumber());
+		target.setHomeResidentialAddress(source.getHomeResidentialAddress());
+		target.setCompoundOwner(source.getCompoundOwner());
+		target.setLandmark(source.getLandmark());
 		target.setAdditionalInformation(source.getAdditionalInformation());
 		target.setAddressType(source.getAddressType());
 		target.setAddressTypeDetails(source.getAddressTypeDetails());
@@ -141,6 +144,9 @@ public class LocationDtoHelper extends AdoDtoHelper<Location, LocationDto> {
 		target.setPseudonymized(source.isPseudonymized());
 		target.setStreet(source.getStreet());
 		target.setHouseNumber(source.getHouseNumber());
+		target.setHomeResidentialAddress(source.getHomeResidentialAddress());
+		target.setCompoundOwner(source.getCompoundOwner());
+		target.setLandmark(source.getLandmark());
 		target.setAdditionalInformation(source.getAdditionalInformation());
 		target.setAddressType(source.getAddressType());
 		target.setAddressTypeDetails(source.getAddressTypeDetails());

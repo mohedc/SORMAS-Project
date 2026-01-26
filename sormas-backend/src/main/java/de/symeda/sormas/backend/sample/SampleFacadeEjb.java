@@ -847,6 +847,7 @@ public class SampleFacadeEjb implements SampleFacade {
 		target.setLabDetails(source.getLabDetails());
 		target.setShipmentDate(source.getShipmentDate());
 		target.setShipmentDetails(source.getShipmentDetails());
+		target.setSentToIpDakar(source.getSentToIpDakar());
 		target.setReceivedDate(source.getReceivedDate());
 		target.setSpecimenCondition(source.getSpecimenCondition());
 		target.setNoTestPossibleReason(source.getNoTestPossibleReason());
@@ -868,6 +869,9 @@ public class SampleFacadeEjb implements SampleFacade {
 		target.setIdsrDiagnosisDetails(source.getIdsrDiagnosisDetails());
 		target.setDateFormSentToHigherLevel(source.getDateFormSentToHigherLevel());
 		target.setNameContactPersonCompletingForm(source.getNameContactPersonCompletingForm());
+		target.setDispatchedToRegionalColdroomDate(source.getDispatchedToRegionalColdroomDate());
+		target.setDispatchedToNationalLabByCourierDate(source.getDispatchedToNationalLabByCourierDate());
+		target.setDispatchedToNationalLabByRegionDistrictDate(source.getDispatchedToNationalLabByRegionDistrictDate());
 
 		target.setReportLat(source.getReportLat());
 		target.setReportLon(source.getReportLon());
@@ -1004,6 +1008,7 @@ public class SampleFacadeEjb implements SampleFacade {
 		target.setLabDetails(source.getLabDetails());
 		target.setShipmentDate(source.getShipmentDate());
 		target.setShipmentDetails(source.getShipmentDetails());
+		target.setSentToIpDakar(source.getSentToIpDakar());
 		target.setReceivedDate(source.getReceivedDate());
 		target.setSpecimenCondition(source.getSpecimenCondition());
 		target.setNoTestPossibleReason(source.getNoTestPossibleReason());
@@ -1025,6 +1030,9 @@ public class SampleFacadeEjb implements SampleFacade {
 		target.setIdsrDiagnosisDetails(source.getIdsrDiagnosisDetails());
 		target.setDateFormSentToHigherLevel(source.getDateFormSentToHigherLevel());
 		target.setNameContactPersonCompletingForm(source.getNameContactPersonCompletingForm());
+		target.setDispatchedToRegionalColdroomDate(source.getDispatchedToRegionalColdroomDate());
+		target.setDispatchedToNationalLabByCourierDate(source.getDispatchedToNationalLabByCourierDate());
+		target.setDispatchedToNationalLabByRegionDistrictDate(source.getDispatchedToNationalLabByRegionDistrictDate());
 
 		target.setReportLat(source.getReportLat());
 		target.setReportLon(source.getReportLon());

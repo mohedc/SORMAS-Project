@@ -570,11 +570,11 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 				personCreateForm.getField(PersonDto.PHONE).setVisible(false);
 				personCreateForm.getField(PersonDto.EMAIL_ADDRESS).setVisible(false);
 				personCreateForm.getField(PersonDto.PRESENT_CONDITION).setVisible(false);
-			} else if (selectedDisease == Disease.MEASLES) {
-				// Show only Measles CIF fields for New Case
+			} else if (selectedDisease == Disease.MEASLES || selectedDisease == Disease.YELLOW_FEVER) {
+				// Show only Measles/Yellow Fever CIF fields for New Case
 				setVisible(true, epidField, diseaseField, ogCaseOrigin, responsibleRegionCombo, responsibleDistrictCombo, 
 						responsibleCommunityCombo, facilityOrHome, facilityDetails, facilityCombo, facilityType, reportDate);
-				// Show person fields relevant to Measles CIF
+				// Show person fields relevant to Measles/Yellow Fever CIF
 				if (personCreateForm != null) {
 					Field<?> firstNameField = personCreateForm.getField(PersonDto.FIRST_NAME);
 					if (firstNameField != null) firstNameField.setVisible(true);
@@ -591,15 +591,15 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 					Field<?> nationalityField = personCreateForm.getField(PersonDto.NATIONALITY);
 					if (nationalityField != null) nationalityField.setVisible(true);
 					// Passport number visibility depends on Case Origin (handled by case origin listener)
-					// Hide fields not in Measles CIF
+					// Hide fields not in Measles/Yellow Fever CIF
 					Field<?> nationalHealthIdField = personCreateForm.getField(PersonDto.NATIONAL_HEALTH_ID);
-					if (nationalHealthIdField != null) nationalHealthIdField.setVisible(false);
+					if (nationalHealthIdField != null) nationalHealthIdField.setVisible(selectedDisease == Disease.YELLOW_FEVER);
 					Field<?> phoneField = personCreateForm.getField(PersonDto.PHONE);
-					if (phoneField != null) phoneField.setVisible(false);
+					if (phoneField != null) phoneField.setVisible(true);
 					Field<?> emailField = personCreateForm.getField(PersonDto.EMAIL_ADDRESS);
 					if (emailField != null) emailField.setVisible(false);
 					Field<?> presentConditionField = personCreateForm.getField(PersonDto.PRESENT_CONDITION);
-					if (presentConditionField != null) presentConditionField.setVisible(false);
+					if (presentConditionField != null) presentConditionField.setVisible(selectedDisease == Disease.YELLOW_FEVER);
 				}
 			} else if (selectedDisease == Disease.AFP){
 				setVisible(true, ogCaseOrigin, epidField, diseaseField, responsibleRegionCombo, responsibleDistrictCombo, responsibleCommunityCombo,
@@ -857,6 +857,7 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 			Disease.NEONATAL_TETANUS,
 			Disease.MEASLES,
 			Disease.AFP
+			Disease.YELLOW_FEVER
 	);
 
 }

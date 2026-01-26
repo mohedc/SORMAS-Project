@@ -42,6 +42,7 @@ import de.symeda.sormas.api.sample.SamplePurpose;
 import de.symeda.sormas.api.sample.SampleSource;
 import de.symeda.sormas.api.sample.SamplingReason;
 import de.symeda.sormas.api.sample.SpecimenCondition;
+import de.symeda.sormas.api.utils.YesNo;
 import de.symeda.sormas.app.backend.caze.Case;
 import de.symeda.sormas.app.backend.common.PseudonymizableAdo;
 import de.symeda.sormas.app.backend.contact.Contact;
@@ -120,6 +121,24 @@ public class Sample extends PseudonymizableAdo {
 
 	@Column(length = CHARACTER_LIMIT_DEFAULT)
 	private String shipmentDetails;
+
+	@Enumerated(EnumType.STRING)
+	private YesNo sentToIpDakar;
+
+	@DatabaseField(dataType = DataType.DATE_LONG)
+	private Date dateFormSentToHigherLevel;
+
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	private String nameContactPersonCompletingForm;
+
+	@DatabaseField(dataType = DataType.DATE_LONG)
+	private Date dispatchedToRegionalColdroomDate;
+
+	@DatabaseField(dataType = DataType.DATE_LONG)
+	private Date dispatchedToNationalLabByCourierDate;
+
+	@DatabaseField(dataType = DataType.DATE_LONG)
+	private Date dispatchedToNationalLabByRegionDistrictDate;
 
 	@DatabaseField(dataType = DataType.DATE_LONG)
 	private Date receivedDate;
@@ -300,6 +319,54 @@ public class Sample extends PseudonymizableAdo {
 
 	public void setShipmentDetails(String shipmentDetails) {
 		this.shipmentDetails = shipmentDetails;
+	}
+
+	public YesNo getSentToIpDakar() {
+		return sentToIpDakar;
+	}
+
+	public void setSentToIpDakar(YesNo sentToIpDakar) {
+		this.sentToIpDakar = sentToIpDakar;
+	}
+
+	public Date getDateFormSentToHigherLevel() {
+		return dateFormSentToHigherLevel;
+	}
+
+	public void setDateFormSentToHigherLevel(Date dateFormSentToHigherLevel) {
+		this.dateFormSentToHigherLevel = dateFormSentToHigherLevel;
+	}
+
+	public String getNameContactPersonCompletingForm() {
+		return nameContactPersonCompletingForm;
+	}
+
+	public void setNameContactPersonCompletingForm(String nameContactPersonCompletingForm) {
+		this.nameContactPersonCompletingForm = nameContactPersonCompletingForm;
+	}
+
+	public Date getDispatchedToRegionalColdroomDate() {
+		return dispatchedToRegionalColdroomDate;
+	}
+
+	public void setDispatchedToRegionalColdroomDate(Date dispatchedToRegionalColdroomDate) {
+		this.dispatchedToRegionalColdroomDate = dispatchedToRegionalColdroomDate;
+	}
+
+	public Date getDispatchedToNationalLabByCourierDate() {
+		return dispatchedToNationalLabByCourierDate;
+	}
+
+	public void setDispatchedToNationalLabByCourierDate(Date dispatchedToNationalLabByCourierDate) {
+		this.dispatchedToNationalLabByCourierDate = dispatchedToNationalLabByCourierDate;
+	}
+
+	public Date getDispatchedToNationalLabByRegionDistrictDate() {
+		return dispatchedToNationalLabByRegionDistrictDate;
+	}
+
+	public void setDispatchedToNationalLabByRegionDistrictDate(Date dispatchedToNationalLabByRegionDistrictDate) {
+		this.dispatchedToNationalLabByRegionDistrictDate = dispatchedToNationalLabByRegionDistrictDate;
 	}
 
 	public Date getReceivedDate() {

@@ -87,6 +87,21 @@
                 style="@style/ControlSingleColumnStyle"
                 app:value="@={data.community}" />
 
+            <de.symeda.sormas.app.component.controls.ControlTextEditField
+                android:id="@+id/location_homeResidentialAddress"
+                style="@style/ControlSingleColumnStyle"
+                app:value="@={data.homeResidentialAddress}" />
+
+            <de.symeda.sormas.app.component.controls.ControlTextEditField
+                android:id="@+id/location_compoundOwner"
+                style="@style/ControlSingleColumnStyle"
+                app:value="@={data.compoundOwner}" />
+
+            <de.symeda.sormas.app.component.controls.ControlTextEditField
+                android:id="@+id/location_landmark"
+                style="@style/ControlSingleColumnStyle"
+                app:value="@={data.landmark}" />
+
             <de.symeda.sormas.app.component.controls.ControlSpinnerField
                 android:id="@+id/facilityTypeGroup"
                 style="@style/ControlSingleColumnStyle"

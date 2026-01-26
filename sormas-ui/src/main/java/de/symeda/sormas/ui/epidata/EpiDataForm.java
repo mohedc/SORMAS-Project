@@ -96,6 +96,13 @@ public class EpiDataForm extends AbstractEditForm<EpiDataDto> {
 			loc(EpiDataDto.TRAVEL_HISTORY_KNOWN) +
 			loc(EpiDataDto.TRAVEL_LOCATION);
 
+	private static final String YELLOW_FEVER_HTML_LAYOUT =
+		loc(LOC_ACTIVITY_AS_CASE_INVESTIGATION_HEADING) + 
+			loc(EpiDataDto.ACTIVITY_AS_CASE_DETAILS_KNOWN)+
+			loc((EpiDataDto.HIGH_TRANSMISSION_RISK_AREA)) +
+			loc(EpiDataDto.ACTIVITIES_AS_CASE);
+
+
 
 	private final Disease disease;
 	private final Class<? extends EntityDto> parentClass;
@@ -190,6 +197,7 @@ public class EpiDataForm extends AbstractEditForm<EpiDataDto> {
 		ActivityAsCaseField activityAsCaseField = addField(EpiDataDto.ACTIVITIES_AS_CASE, ActivityAsCaseField.class);
 		activityAsCaseField.setWidthFull();
 		activityAsCaseField.setPseudonymized(isPseudonymized);
+		activityAsCaseField.setDisease(disease);
 
 		FieldHelper.setVisibleWhen(
 			getFieldGroup(),
@@ -203,7 +211,7 @@ public class EpiDataForm extends AbstractEditForm<EpiDataDto> {
 		});
 	}
 	private void addTravelHistoryFields(NullableOptionGroup travelHistoryKnownField) {
-		if (disease != Disease.MEASLES) {
+		if (disease != Disease.MEASLES && disease != Disease.YELLOW_FEVER) {
 			return;
 		}
 
@@ -225,6 +233,11 @@ public class EpiDataForm extends AbstractEditForm<EpiDataDto> {
 
 		// Show only Region, District, Community fields
 		travelLocationForm.hideFieldForMeaslesEpidataTravelLocation();
+
+		// Hide additional fields for yellow fever
+		if (disease == Disease.YELLOW_FEVER) {
+			travelLocationForm.hideFieldsForYellowFeverActivityCase();
+		}
 
 		// Populate region field since country is hidden
 		ComboBox regionField = (ComboBox) travelLocationForm.getField(LocationDto.REGION);
@@ -299,6 +312,9 @@ public class EpiDataForm extends AbstractEditForm<EpiDataDto> {
 			switch (disease) {
 				case MEASLES:
 					MAIN_HTML_LAYOUT = MEASLES_HTML_LAYOUT;
+					break;
+				case YELLOW_FEVER:
+					MAIN_HTML_LAYOUT = YELLOW_FEVER_HTML_LAYOUT;
 					break;
 				default:
 					MAIN_HTML_LAYOUT = MAIN_HTML_LAYOUT + SOURCE_CONTACTS_HTML_LAYOUT;

@@ -33,6 +33,7 @@ import android.view.View;
 import androidx.annotation.Nullable;
 
 import de.symeda.sormas.api.Disease;
+import de.symeda.sormas.api.FormType;
 import de.symeda.sormas.api.feature.FeatureType;
 import de.symeda.sormas.api.infrastructure.facility.FacilityDto;
 import de.symeda.sormas.api.sample.AdditionalTestType;
@@ -45,6 +46,7 @@ import de.symeda.sormas.api.sample.SampleSource;
 import de.symeda.sormas.api.sample.SamplingReason;
 import de.symeda.sormas.api.sample.SpecimenCondition;
 import de.symeda.sormas.api.user.UserRight;
+import de.symeda.sormas.api.utils.YesNo;
 import de.symeda.sormas.api.utils.fieldaccess.UiFieldAccessCheckers;
 import de.symeda.sormas.api.utils.fieldvisibility.FieldVisibilityCheckers;
 import de.symeda.sormas.app.BaseEditFragment;
@@ -211,6 +213,7 @@ public class SampleEditFragment extends BaseEditFragment<FragmentSampleEditLayou
 		contentBinding.setPathogenTest(mostRecentTest);
 		contentBinding.setAdditionalTest(mostRecentAdditionalTests);
 		contentBinding.setReferredSample(referredSample);
+		contentBinding.setYesNoClass(YesNo.class);
 
 		SampleValidator.initializeSampleValidation(contentBinding);
 
@@ -223,6 +226,11 @@ public class SampleEditFragment extends BaseEditFragment<FragmentSampleEditLayou
 		super.onAfterLayoutBinding(contentBinding);
 		setFieldVisibilitiesAndAccesses(SampleDto.class, contentBinding.mainContent);
 		setUpFieldVisibilities(contentBinding);
+		Disease disease = getDiseaseOfAssociatedEntity(record);
+		if (disease != null) {
+			FormType formType = record.getId() == null ? FormType.SAMPLE_CREATE : FormType.SAMPLE_EDIT;
+			super.hideFieldsForDisease(disease, contentBinding.mainContent, formType);
+		}
 
 		// Initialize ControlSpinnerFields
 		contentBinding.sampleSampleMaterial.initializeSpinner(sampleMaterialList);
@@ -267,6 +275,10 @@ public class SampleEditFragment extends BaseEditFragment<FragmentSampleEditLayou
 		// Initialize ControlDateFields and ControlDateTimeFields
 		contentBinding.sampleSampleDateTime.initializeDateTimeField(getFragmentManager());
 		contentBinding.sampleShipmentDate.initializeDateField(getFragmentManager());
+		contentBinding.sampleDateFormSentToHigherLevel.initializeDateField(getFragmentManager());
+		contentBinding.sampleDispatchedToRegionalColdroomDate.initializeDateField(getFragmentManager());
+		contentBinding.sampleDispatchedToNationalLabByCourierDate.initializeDateField(getFragmentManager());
+		contentBinding.sampleDispatchedToNationalLabByRegionDistrictDate.initializeDateField(getFragmentManager());
 
 		// Initialize on clicks
 		contentBinding.buttonScanFieldSampleId.setOnClickListener((View v) -> {

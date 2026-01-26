@@ -46,10 +46,13 @@ import de.symeda.sormas.api.caze.HospitalWardType;
 import de.symeda.sormas.api.caze.IdsrType;
 import de.symeda.sormas.api.caze.InfectionSetting;
 import de.symeda.sormas.api.caze.PlagueType;
+import de.symeda.sormas.api.caze.NotifiedBy;
 import de.symeda.sormas.api.caze.QuarantineReason;
 import de.symeda.sormas.api.caze.RabiesType;
+import de.symeda.sormas.api.caze.RoutineVaccinationType;
 import de.symeda.sormas.api.caze.ScreeningType;
 import de.symeda.sormas.api.caze.Trimester;
+import de.symeda.sormas.api.caze.VaccinationRecordType;
 import de.symeda.sormas.api.caze.VaccinationStatus;
 import de.symeda.sormas.api.caze.caseimport.MotherVaccinationStatus;
 import de.symeda.sormas.api.contact.QuarantineType;
@@ -109,6 +112,7 @@ public class CaseEditFragment extends BaseEditFragment<FragmentCaseEditLayoutBin
 	private List<Item> humanRabiesTypeList;
 	private List<Item> idsrDiagnosisList;
 	private List<Item> hospitalWardTypeList;
+	private List<Item> notifiedByList;
 	private List<Item> initialResponsibleDistricts;
 	private List<Item> initialResponsibleCommunities;
 	private List<Item> initialRegions;
@@ -371,6 +375,7 @@ public class CaseEditFragment extends BaseEditFragment<FragmentCaseEditLayoutBin
 		humanRabiesTypeList = DataUtils.getEnumItems(RabiesType.class, true);
 		idsrDiagnosisList = DataUtils.getEnumItems(IdsrType.class, true);
 		hospitalWardTypeList = DataUtils.getEnumItems(HospitalWardType.class, true);
+		notifiedByList = DataUtils.getEnumItems(NotifiedBy.class, true);
 		quarantineList = DataUtils.getEnumItems(QuarantineType.class, true);
 
 		initialRegions = InfrastructureDaoHelper.loadRegionsByServerCountry();
@@ -462,6 +467,8 @@ public class CaseEditFragment extends BaseEditFragment<FragmentCaseEditLayoutBin
 		contentBinding.setData(record);
 		contentBinding.setYesNoUnknownClass(YesNoUnknown.class);
 		contentBinding.setVaccinationStatusClass(VaccinationStatus.class);
+		contentBinding.setRoutineVaccinationTypeClass(RoutineVaccinationType.class);
+		contentBinding.setVaccinationRecordTypeClass(VaccinationRecordType.class);
 		contentBinding.setTrimesterClass(Trimester.class);
 		contentBinding.setDifferentPlaceOfStayJurisdiction(differentPlaceOfStayJurisdiction);
 		contentBinding.setMotherVaccinationStatusClass(MotherVaccinationStatus.class);
@@ -672,6 +679,7 @@ public class CaseEditFragment extends BaseEditFragment<FragmentCaseEditLayoutBin
 		contentBinding.caseDataRabiesType.initializeSpinner(humanRabiesTypeList);
 		contentBinding.caseDataIdsrDiagnosis.initializeSpinner(idsrDiagnosisList);
 		contentBinding.caseDataNotifyingClinic.initializeSpinner(hospitalWardTypeList);
+		contentBinding.caseDataNotifiedBy.initializeSpinner(notifiedByList);
 		contentBinding.caseDataQuarantine.initializeSpinner(quarantineList);
 		contentBinding.caseDataCaseConfirmationBasis.initializeSpinner(caseConfirmationBasisList);
 
@@ -679,6 +687,8 @@ public class CaseEditFragment extends BaseEditFragment<FragmentCaseEditLayoutBin
 		contentBinding.caseDataReportDate.initializeDateField(getFragmentManager());
 		contentBinding.caseDataOutcomeDate.initializeDateField(getFragmentManager());
 		contentBinding.caseDataSmallpoxLastVaccinationDate.initializeDateField(getFragmentManager());
+		contentBinding.caseDataLastVaccinationDate.initializeDateField(getFragmentManager());
+		contentBinding.caseDataDateReceivedAtDistrictLevel.initializeDateField(getFragmentManager());
 		contentBinding.caseDataDistrictLevelDate.initializeDateField(getFragmentManager());
 		contentBinding.caseDataQuarantineFrom.initializeDateField(getFragmentManager());
 		contentBinding.caseDataQuarantineTo.initializeDateField(getFragmentManager());

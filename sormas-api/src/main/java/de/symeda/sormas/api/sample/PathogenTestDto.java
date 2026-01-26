@@ -76,6 +76,8 @@ public class PathogenTestDto extends PseudonymizableDto {
 	public static final String LAB_USER = "labUser";
 	public static final String TEST_RESULT = "testResult";
 	public static final String TEST_RESULT_TEXT = "testResultText";
+	public static final String VIRUS_DETECTION_GENOTYPE = "virusDetectionGenotype";
+	public static final String VIRUS_ISOLATED = "virusIsolated";
 	public static final String TEST_RESULT_VERIFIED = "testResultVerified";
 	public static final String FOUR_FOLD_INCREASE_ANTIBODY_TITER = "fourFoldIncreaseAntibodyTiter";
 	public static final String SEROTYPE = "serotype";
@@ -154,6 +156,11 @@ public class PathogenTestDto extends PseudonymizableDto {
 	@SensitiveData
 	@Size(max = FieldConstraints.CHARACTER_LIMIT_BIG, message = Validations.textTooLong)
 	private String testResultText;
+	@Diseases(value = { Disease.YELLOW_FEVER })
+	@Size(max = FieldConstraints.CHARACTER_LIMIT_DEFAULT, message = Validations.textTooLong)
+	private String virusDetectionGenotype;
+	@Diseases(value = { Disease.YELLOW_FEVER })
+	private Boolean virusIsolated;
 	@NotNull(message = Validations.requiredField)
 	private Boolean testResultVerified;
 	private boolean fourFoldIncreaseAntibodyTiter;
@@ -450,6 +457,22 @@ public class PathogenTestDto extends PseudonymizableDto {
 
 	public void setTestResultText(String testResultText) {
 		this.testResultText = testResultText;
+	}
+
+	public String getVirusDetectionGenotype() {
+		return virusDetectionGenotype;
+	}
+
+	public void setVirusDetectionGenotype(String virusDetectionGenotype) {
+		this.virusDetectionGenotype = virusDetectionGenotype;
+	}
+
+	public Boolean getVirusIsolated() {
+		return virusIsolated;
+	}
+
+	public void setVirusIsolated(Boolean virusIsolated) {
+		this.virusIsolated = virusIsolated;
 	}
 
 	public Boolean getTestResultVerified() {

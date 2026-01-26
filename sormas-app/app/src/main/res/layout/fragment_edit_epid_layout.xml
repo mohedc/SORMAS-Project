@@ -26,6 +26,7 @@
 
     <data>
         <import type="de.symeda.sormas.api.utils.YesNoUnknown" />
+        <import type="de.symeda.sormas.api.utils.YesNo" />
         <import type="de.symeda.sormas.app.component.controls.ControlButtonType" />
         <import type="de.symeda.sormas.api.i18n.I18nProperties" />
         <import type="de.symeda.sormas.api.i18n.Strings" />
@@ -33,6 +34,7 @@
         <import type="de.symeda.sormas.api.epidata.EpiDataDto" />
 
         <variable name="data" type="de.symeda.sormas.app.backend.epidata.EpiData" />
+        <variable name="yesNoClass" type="Class" />
 
         <variable name="exposureList" type="androidx.databinding.ObservableList&lt;de.symeda.sormas.app.backend.exposure.Exposure&gt;" />
         <variable name="exposureItemClickCallback" type="de.symeda.sormas.app.core.IEntryItemOnClickListener" />
@@ -155,6 +157,28 @@
                         app:bindCallback="@{exposureListBindCallback}" />
 
                 </LinearLayout>
+
+                <TextView
+                    android:id="@+id/travel_location_heading"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{I18nProperties.getCaption(Captions.EpiData_travelLocation)}"
+                    style="@style/SubHeadingCompactStyle" />
+
+                <de.symeda.sormas.app.component.controls.ControlSwitchField
+                    android:id="@+id/epiData_travelHistoryKnown"
+                    app:enumClass="@{yesNoClass}"
+                    app:value="@={data.travelHistoryKnown}"
+                    style="@style/ControlSingleColumnStyle" />
+
+                <de.symeda.sormas.app.component.controls.ControlTextPopupField
+                    android:id="@+id/epiData_travelLocation"
+                    app:hint="@string/hint_enter_location"
+                    app:iconStart="@drawable/ic_edit_location_black_24dp"
+                    app:locationValue="@={data.travelLocation}"
+                    app:dependencyParentField="@{epiDataTravelHistoryKnown}"
+                    app:dependencyParentValue="@{YesNo.YES}"
+                    style="@style/ControlSingleColumnStyle" />
 
                 <TextView
                     android:id="@+id/activityascase_investigation_info"

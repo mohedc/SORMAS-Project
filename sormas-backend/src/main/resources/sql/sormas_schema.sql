@@ -14670,8 +14670,8 @@ INSERT INTO schema_version (version_number, comment) VALUES (601, 'Add generaliz
 
 -- Add travel history fields for Measles EpiData
 ALTER TABLE epidata ADD COLUMN travelhistoryknown varchar(255);
-ALTER TABLE epidata ADD COLUMN location_id bigint;
-ALTER TABLE epidata ADD CONSTRAINT fk_location_id FOREIGN KEY (location_id) REFERENCES location (id);
+ALTER TABLE epidata ADD COLUMN travellocation_id bigint;
+ALTER TABLE epidata ADD CONSTRAINT fk_travellocation_id FOREIGN KEY (travellocation_id) REFERENCES location (id);
 
 ALTER TABLE epidata_history ADD COLUMN travelhistoryknown varchar(255);
 INSERT INTO schema_version (version_number, comment) VALUES (602, 'Add travelHistoryKnown and travelLocation fields for Measles EpiData');
@@ -14692,6 +14692,31 @@ ALTER TABLE pathogentest ADD COLUMN performrubellatest boolean;
 ALTER TABLE pathogentest ADD COLUMN investigationresults text;
 ALTER TABLE pathogentest ADD COLUMN sourceofinfectionidentified varchar(512);
 INSERT INTO schema_version (version_number, comment) VALUES (604, 'Add measles-specific fields to PathogenTest');
+
+ALTER TABLE hospitalization ADD COLUMN datehealthfacilitynotifieddistrict date;
+ALTER TABLE hospitalization_history ADD COLUMN datehealthfacilitynotifieddistrict date;
+INSERT INTO schema_version (version_number, comment) VALUES (605, 'Add dateHealthFacilityNotifiedDistrict field');
+
+-- Add Yellow fever sample dispatch date fields
+ALTER TABLE samples ADD COLUMN dispatchedtoregionalcoldroomdate timestamp;
+ALTER TABLE samples ADD COLUMN dispatchedtonationallabbycourierdate timestamp;
+ALTER TABLE samples ADD COLUMN dispatchedtonationallabbyregiondistrictdate timestamp;
+ALTER TABLE samples_history ADD COLUMN dispatchedtoregionalcoldroomdate timestamp;
+ALTER TABLE samples_history ADD COLUMN dispatchedtonationallabbycourierdate timestamp;
+ALTER TABLE samples_history ADD COLUMN dispatchedtonationallabbyregiondistrictdate timestamp;
+INSERT INTO schema_version (version_number, comment) VALUES (606, 'Add Yellow fever sample dispatch date fields');
+
+-- Add sentToIpDakar field to samples
+ALTER TABLE samples ADD COLUMN senttoipdakar varchar(255);
+ALTER TABLE samples_history ADD COLUMN senttoipdakar varchar(255);
+ALTER TABLE pathogentest ADD COLUMN virusdetectiongenotype varchar(512);
+ALTER TABLE pathogentest_history ADD COLUMN virusdetectiongenotype varchar(512);
+INSERT INTO schema_version (version_number, comment) VALUES (607, 'Add Yellow fever sample dispatch date fields');
+
+-- Add virusIsolated field to pathogen test
+ALTER TABLE pathogentest ADD COLUMN virusisolated boolean;
+ALTER TABLE pathogentest_history ADD COLUMN virusisolated boolean;
+INSERT INTO schema_version (version_number, comment) VALUES (608, 'Add virusIsolated field to pathogen test');
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***
 
 

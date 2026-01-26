@@ -28,6 +28,7 @@ import de.symeda.sormas.api.FormType;
 import de.symeda.sormas.api.hospitalization.HospitalizationDto;
 import de.symeda.sormas.api.hospitalization.HospitalizationReasonType;
 import de.symeda.sormas.api.hospitalization.PreviousHospitalizationDto;
+import de.symeda.sormas.api.utils.InpatOutpat;
 import de.symeda.sormas.api.utils.YesNoUnknown;
 import de.symeda.sormas.api.utils.fieldaccess.UiFieldAccessCheckers;
 import de.symeda.sormas.api.utils.fieldvisibility.FieldVisibilityCheckers;
@@ -163,6 +164,7 @@ public class CaseEditHospitalizationFragment extends BaseEditFragment<FragmentCa
 
 		contentBinding.setData(record);
 		contentBinding.setCaze(caze);
+		contentBinding.setInpatOutpatClass(InpatOutpat.class);
 		contentBinding.setPreviousHospitalizationList(getPreviousHospitalizations());
 		contentBinding.setPrevHosItemClickCallback(onPrevHosItemClickListener);
 		getContentBinding().setPreviousHospitalizationBindCallback(this::setFieldVisibilitiesAndAccesses);
@@ -195,6 +197,8 @@ public class CaseEditHospitalizationFragment extends BaseEditFragment<FragmentCa
 		// Initialize ControlDateFields
 		contentBinding.caseHospitalizationAdmissionDate.initializeDateField(getFragmentManager());
 		contentBinding.caseHospitalizationDischargeDate.initializeDateField(getFragmentManager());
+		contentBinding.caseHospitalizationDateFirstSeenAtHealthFacility.initializeDateField(getFragmentManager());
+		contentBinding.caseHospitalizationDateHealthFacilityNotifiedDistrict.initializeDateField(getFragmentManager());
 		contentBinding.caseHospitalizationIntensiveCareUnitStart.initializeDateField(getFragmentManager());
 		contentBinding.caseHospitalizationIntensiveCareUnitEnd.initializeDateField(getFragmentManager());
 		contentBinding.caseHospitalizationIsolationDate.initializeDateField(getFragmentManager());

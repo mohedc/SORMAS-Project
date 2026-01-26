@@ -25,22 +25,30 @@ import de.symeda.sormas.api.utils.Diseases;
 public enum PathogenTestType {
 
 	@Diseases(value = {
-		Disease.RESPIRATORY_SYNCYTIAL_VIRUS }, hide = true)
+		Disease.RESPIRATORY_SYNCYTIAL_VIRUS,
+		Disease.YELLOW_FEVER }, hide = true)
 	ANTIBODY_DETECTION,
+	@Diseases(value = {
+		Disease.YELLOW_FEVER }, hide = true)
 	ANTIGEN_DETECTION,
+	@Diseases(value = {
+		Disease.YELLOW_FEVER }, hide = true)
 	RAPID_TEST,
 	@Diseases(value = {
-		Disease.RESPIRATORY_SYNCYTIAL_VIRUS }, hide = true)
+		Disease.RESPIRATORY_SYNCYTIAL_VIRUS,
+		Disease.YELLOW_FEVER }, hide = true)
 	CULTURE,
 	@Diseases(value = {
 		Disease.RESPIRATORY_SYNCYTIAL_VIRUS,
 		Disease.INVASIVE_MENINGOCOCCAL_INFECTION,
-		Disease.INVASIVE_PNEUMOCOCCAL_INFECTION }, hide = true)
+		Disease.INVASIVE_PNEUMOCOCCAL_INFECTION,
+		Disease.YELLOW_FEVER }, hide = true)
 	HISTOPATHOLOGY,
 	@Diseases(value = {
 		Disease.RESPIRATORY_SYNCYTIAL_VIRUS,
 		Disease.INVASIVE_MENINGOCOCCAL_INFECTION,
-		Disease.INVASIVE_PNEUMOCOCCAL_INFECTION }, hide = true)
+		Disease.INVASIVE_PNEUMOCOCCAL_INFECTION,
+		Disease.YELLOW_FEVER }, hide = true)
 	ISOLATION,
 	@Diseases(value = {
 		Disease.RESPIRATORY_SYNCYTIAL_VIRUS,
@@ -50,30 +58,35 @@ public enum PathogenTestType {
 	@Diseases(value = {
 		Disease.RESPIRATORY_SYNCYTIAL_VIRUS,
 		Disease.INVASIVE_MENINGOCOCCAL_INFECTION,
-		Disease.INVASIVE_PNEUMOCOCCAL_INFECTION }, hide = true)
+		Disease.INVASIVE_PNEUMOCOCCAL_INFECTION,
+		Disease.YELLOW_FEVER }, hide = true)
 	IGG_SERUM_ANTIBODY,
 	@Diseases(value = {
 		Disease.RESPIRATORY_SYNCYTIAL_VIRUS,
 		Disease.INVASIVE_MENINGOCOCCAL_INFECTION,
-		Disease.INVASIVE_PNEUMOCOCCAL_INFECTION }, hide = true)
+		Disease.INVASIVE_PNEUMOCOCCAL_INFECTION,
+		Disease.YELLOW_FEVER }, hide = true)
 	IGA_SERUM_ANTIBODY,
 	@Diseases(value = {
 		Disease.CORONAVIRUS,
 		Disease.RESPIRATORY_SYNCYTIAL_VIRUS,
 		Disease.INVASIVE_MENINGOCOCCAL_INFECTION,
-		Disease.INVASIVE_PNEUMOCOCCAL_INFECTION }, hide = true)
+		Disease.INVASIVE_PNEUMOCOCCAL_INFECTION,
+		Disease.YELLOW_FEVER }, hide = true)
 	INCUBATION_TIME,
 	@Diseases(value = {
 		Disease.CORONAVIRUS,
 		Disease.RESPIRATORY_SYNCYTIAL_VIRUS,
 		Disease.INVASIVE_MENINGOCOCCAL_INFECTION,
-		Disease.INVASIVE_PNEUMOCOCCAL_INFECTION }, hide = true)
+		Disease.INVASIVE_PNEUMOCOCCAL_INFECTION,
+		Disease.YELLOW_FEVER }, hide = true)
 	INDIRECT_FLUORESCENT_ANTIBODY,
 	@Diseases(value = {
 		Disease.CORONAVIRUS,
 		Disease.RESPIRATORY_SYNCYTIAL_VIRUS,
 		Disease.INVASIVE_MENINGOCOCCAL_INFECTION,
-		Disease.INVASIVE_PNEUMOCOCCAL_INFECTION }, hide = true)
+		Disease.INVASIVE_PNEUMOCOCCAL_INFECTION,
+		Disease.YELLOW_FEVER }, hide = true)
 	DIRECT_FLUORESCENT_ANTIBODY,
 	@Diseases(value = {
 		Disease.CORONAVIRUS,
@@ -82,36 +95,45 @@ public enum PathogenTestType {
 	@Diseases(value = {
 		Disease.RESPIRATORY_SYNCYTIAL_VIRUS,
 		Disease.INVASIVE_MENINGOCOCCAL_INFECTION,
-		Disease.INVASIVE_PNEUMOCOCCAL_INFECTION }, hide = true)
+		Disease.INVASIVE_PNEUMOCOCCAL_INFECTION,
+		Disease.YELLOW_FEVER }, hide = true)
 	NEUTRALIZING_ANTIBODIES,
+	@Diseases(value = {
+		Disease.YELLOW_FEVER }, hide = true)
 	PCR_RT_PCR,
 	@Diseases(value = {
 		Disease.CORONAVIRUS,
-		Disease.RESPIRATORY_SYNCYTIAL_VIRUS }, hide = true)
+		Disease.RESPIRATORY_SYNCYTIAL_VIRUS,
+		Disease.YELLOW_FEVER }, hide = true)
 	GRAM_STAIN,
 	@Diseases(value = {
 		Disease.CORONAVIRUS,
 		Disease.RESPIRATORY_SYNCYTIAL_VIRUS,
 		Disease.INVASIVE_MENINGOCOCCAL_INFECTION,
-		Disease.INVASIVE_PNEUMOCOCCAL_INFECTION }, hide = true)
+		Disease.INVASIVE_PNEUMOCOCCAL_INFECTION,
+		Disease.YELLOW_FEVER }, hide = true)
 	LATEX_AGGLUTINATION,
 	@Diseases(value = {
 		Disease.RESPIRATORY_SYNCYTIAL_VIRUS,
 		Disease.INVASIVE_MENINGOCOCCAL_INFECTION,
-		Disease.INVASIVE_PNEUMOCOCCAL_INFECTION }, hide = true)
+		Disease.INVASIVE_PNEUMOCOCCAL_INFECTION,
+		Disease.YELLOW_FEVER }, hide = true)
 	CQ_VALUE_DETECTION,
 	@Diseases(value = {
-		Disease.RESPIRATORY_SYNCYTIAL_VIRUS }, hide = true)
+		Disease.RESPIRATORY_SYNCYTIAL_VIRUS,
+		Disease.YELLOW_FEVER }, hide = true)
 	SEQUENCING,
 	@Diseases(value = {
 		Disease.RESPIRATORY_SYNCYTIAL_VIRUS,
 		Disease.INVASIVE_MENINGOCOCCAL_INFECTION,
-		Disease.INVASIVE_PNEUMOCOCCAL_INFECTION }, hide = true)
+		Disease.INVASIVE_PNEUMOCOCCAL_INFECTION,
+		Disease.YELLOW_FEVER }, hide = true)
 	DNA_MICROARRAY,
 	@Diseases(value = {
 		Disease.RESPIRATORY_SYNCYTIAL_VIRUS,
 		Disease.INVASIVE_MENINGOCOCCAL_INFECTION,
-		Disease.INVASIVE_PNEUMOCOCCAL_INFECTION }, hide = true)
+		Disease.INVASIVE_PNEUMOCOCCAL_INFECTION,
+		Disease.YELLOW_FEVER }, hide = true)
 	TMA,
 	@Diseases(value = {
 		Disease.TUBERCULOSIS })
@@ -149,6 +171,8 @@ public enum PathogenTestType {
 		Disease.INVASIVE_MENINGOCOCCAL_INFECTION,
 		Disease.INVASIVE_PNEUMOCOCCAL_INFECTION })
 	SEROGROUPING,
+	@Diseases(value = {
+		Disease.YELLOW_FEVER }, hide = true)
 	OTHER;
 
 	@Override

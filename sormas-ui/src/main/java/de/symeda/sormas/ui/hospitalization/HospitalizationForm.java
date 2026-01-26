@@ -100,6 +100,14 @@ public class HospitalizationForm extends AbstractEditForm<HospitalizationDto> {
 			fluidRowLocs(6, HospitalizationDto.SEEN_AT_HEALTH_FACILITY) +
 			fluidRowLocs(6, HospitalizationDto.DATE_FIRST_SEEN_AT_HEALTH_FACILITY);
 
+	private static final String YELLOW_FEVER_LAYOUT =
+			loc(HOSPITALIZATION_HEADING_LOC) +
+			fluidRowLocs(HEALTH_FACILITY, HEALTH_FACILITY_DEPARTMENT) +
+			fluidRowLocs(6, HospitalizationDto.SELECT_INPATIENT_OUTPATIENT) +
+			fluidRowLocs(HospitalizationDto.ADMISSION_DATE, HospitalizationDto.DISCHARGE_DATE) +
+			fluidRowLocs(6, HospitalizationDto.SEEN_AT_HEALTH_FACILITY) +
+			fluidRowLocs(HospitalizationDto.DATE_FIRST_SEEN_AT_HEALTH_FACILITY, HospitalizationDto.DATE_HEALTH_FACILITY_NOTIFIED_DISTRICT);
+
 	private final CaseDataDto caze;
 	private final ViewMode viewMode;
 	private NullableOptionGroup intensiveCareUnit;
@@ -178,7 +186,8 @@ public class HospitalizationForm extends AbstractEditForm<HospitalizationDto> {
 
 		// For measles, ADMITTED_TO_HEALTH_FACILITY is not in the layout, so skip the setEnabledWhen logic
 		// For measles, admission and discharge dates should be enabled based on SELECT_INPATIENT_OUTPATIENT
-		if (caze.getDisease() != Disease.MEASLES) {
+		// For yellow fever, same logic applies
+		if (caze.getDisease() != Disease.MEASLES && caze.getDisease() != Disease.YELLOW_FEVER) {
 			FieldHelper.setEnabledWhen(
 				admittedToHealthFacilityField,
 				Arrays.asList(YesNoUnknown.YES, YesNoUnknown.NO, YesNoUnknown.UNKNOWN),
@@ -305,6 +314,7 @@ public class HospitalizationForm extends AbstractEditForm<HospitalizationDto> {
 		addField(HospitalizationDto.SELECT_INPATIENT_OUTPATIENT, NullableOptionGroup.class);
 		addField(HospitalizationDto.SEEN_AT_HEALTH_FACILITY, NullableOptionGroup.class);
 		addDateField(HospitalizationDto.DATE_FIRST_SEEN_AT_HEALTH_FACILITY, DateField.class, 7);
+		addDateField(HospitalizationDto.DATE_HEALTH_FACILITY_NOTIFIED_DISTRICT, DateField.class, 7);
 
 		FieldHelper.setVisibleWhen(
 			getFieldGroup(),
@@ -312,6 +322,12 @@ public class HospitalizationForm extends AbstractEditForm<HospitalizationDto> {
 			HospitalizationDto.SEEN_AT_HEALTH_FACILITY,
 			Arrays.asList(YesNoUnknown.YES),
 			true);
+
+		// Show dateHealthFacilityNotifiedDistrict only for Yellow Fever
+		Field<?> dateHealthFacilityNotifiedDistrictField = getField(HospitalizationDto.DATE_HEALTH_FACILITY_NOTIFIED_DISTRICT);
+		if (dateHealthFacilityNotifiedDistrictField != null) {
+			dateHealthFacilityNotifiedDistrictField.setVisible(caze != null && caze.getDisease() == Disease.YELLOW_FEVER);
+		}
 
 		
 		// if SELECT_INPATIENT_OUTPATIENT is not null then show ADMISSION_DATE and DISCHARGE_DATE
@@ -361,6 +377,9 @@ public class HospitalizationForm extends AbstractEditForm<HospitalizationDto> {
 	protected String createHtmlLayout() {
 		if (caze != null && caze.getDisease() == Disease.MEASLES) {
 			return MEASLES_LAYOUT;
+		}
+		if (caze != null && caze.getDisease() == Disease.YELLOW_FEVER) {
+			return YELLOW_FEVER_LAYOUT;
 		}
 		return HTML_LAYOUT;
 	}

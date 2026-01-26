@@ -169,7 +169,9 @@ public final class DownloadUtil {
 	}
 
 	public static StreamResource createStringStreamResource(String content, String fileName, String mimeType) {
-		return createByteArrayStreamResource(content.getBytes(StandardCharsets.UTF_8), fileName, mimeType);
+		StreamResource streamResource = createByteArrayStreamResource(content.getBytes(StandardCharsets.UTF_8), fileName, mimeType);
+		streamResource.setCacheTime(0);
+		return streamResource;
 	}
 
 	public static StreamResource createByteArrayStreamResource(byte[] content, String fileName, String mimeType) {

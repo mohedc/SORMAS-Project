@@ -27,11 +27,14 @@ import android.view.ViewGroup;
 
 import androidx.databinding.ObservableArrayList;
 
+import de.symeda.sormas.api.Disease;
 import de.symeda.sormas.api.activityascase.ActivityAsCaseDto;
+import de.symeda.sormas.api.FormType;
 import de.symeda.sormas.api.epidata.EpiDataDto;
 import de.symeda.sormas.api.exposure.ExposureDto;
 import de.symeda.sormas.api.i18n.I18nProperties;
 import de.symeda.sormas.api.i18n.Strings;
+import de.symeda.sormas.api.utils.YesNo;
 import de.symeda.sormas.api.utils.YesNoUnknown;
 import de.symeda.sormas.api.utils.fieldaccess.UiFieldAccessCheckers;
 import de.symeda.sormas.api.utils.fieldvisibility.FieldVisibilityCheckers;
@@ -45,9 +48,11 @@ import de.symeda.sormas.app.backend.config.ConfigProvider;
 import de.symeda.sormas.app.backend.contact.Contact;
 import de.symeda.sormas.app.backend.epidata.EpiData;
 import de.symeda.sormas.app.backend.exposure.Exposure;
+import de.symeda.sormas.app.backend.location.Location;
 import de.symeda.sormas.app.caze.edit.CaseEditActivity;
 import de.symeda.sormas.app.core.IEntryItemOnClickListener;
 import de.symeda.sormas.app.databinding.FragmentEditEpidLayoutBinding;
+import de.symeda.sormas.app.component.dialog.LocationDialog;
 import de.symeda.sormas.app.util.FieldVisibilityAndAccessHelper;
 
 public class EpidemiologicalDataEditFragment extends BaseEditFragment<FragmentEditEpidLayoutBinding, EpiData, PseudonymizableAdo> {
@@ -144,6 +149,29 @@ public class EpidemiologicalDataEditFragment extends BaseEditFragment<FragmentEd
 			getContentBinding().epiDataActivityAsCaseDetailsKnown.setEnabled(getActivityAsCaseList().isEmpty());
 		});
 
+		contentBinding.epiDataTravelLocation.setOnClickListener(v -> openTravelLocationPopup());
+		contentBinding.epiDataTravelHistoryKnown.addValueChangedListener(field -> {
+			YesNo value = (YesNo) field.getValue();
+			if (value == YesNo.YES && record.getTravelLocation() == null) {
+				Location travelLocation = DatabaseHelper.getLocationDao().build();
+				record.setTravelLocation(travelLocation);
+				contentBinding.epiDataTravelLocation.setValue(travelLocation);
+			}
+		});
+	}
+
+	private void openTravelLocationPopup() {
+		Location travelLocation = (Location) getContentBinding().epiDataTravelLocation.getValue();
+		if (travelLocation == null) {
+			travelLocation = DatabaseHelper.getLocationDao().build();
+		}
+		final Location travelLocationClone = (Location) travelLocation.clone();
+		final LocationDialog locationDialog = new LocationDialog(CaseEditActivity.getActiveActivity(), travelLocationClone, getFieldAccessCheckers());
+		locationDialog.show();
+		locationDialog.setPositiveCallback(() -> {
+			getContentBinding().epiDataTravelLocation.setValue(travelLocationClone);
+			record.setTravelLocation(travelLocationClone);
+		});
 	}
 
 	private ObservableArrayList<Exposure> getExposureList() {
@@ -221,6 +249,7 @@ public class EpidemiologicalDataEditFragment extends BaseEditFragment<FragmentEd
 		setUpControlListeners(contentBinding);
 
 		contentBinding.setData(record);
+		contentBinding.setYesNoClass(YesNo.class);
 		contentBinding.setExposureList(getExposureList());
 		contentBinding.setExposureItemClickCallback(onExposureItemClickListener);
 		contentBinding.setExposureListBindCallback(
@@ -239,6 +268,10 @@ public class EpidemiologicalDataEditFragment extends BaseEditFragment<FragmentEd
 		setFieldVisibilitiesAndAccesses(EpiDataDto.class, contentBinding.mainContent);
 		contentBinding.epiDataExposureDetailsKnown.setEnabled(getExposureList().isEmpty());
 		contentBinding.epiDataActivityAsCaseDetailsKnown.setEnabled(getActivityAsCaseList().isEmpty());
+		Disease disease = getDiseaseOfCaseOrContact(getActivityRootData());
+		if (disease != null) {
+			super.hideFieldsForDisease(disease, contentBinding.mainContent, FormType.EPIDEMIOLOGICAL_EDIT);
+		}
 
 		if (!(getActivityRootData() instanceof Case)) {
 			contentBinding.epiDataContactWithSourceCaseKnown.setVisibility(GONE);

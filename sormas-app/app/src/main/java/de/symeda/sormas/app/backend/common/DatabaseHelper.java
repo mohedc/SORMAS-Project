@@ -196,7 +196,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	public static final String DATABASE_NAME = "sormas.db";
 	// any time you make changes to your database objects, you may have to increase the database version
 
-	public static final int DATABASE_VERSION = 363;
+	public static final int DATABASE_VERSION = 369;
 
 	private static DatabaseHelper instance = null;
 
@@ -843,14 +843,14 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 				getDao(PathogenTest.class).executeRaw("ALTER TABLE sampleTests RENAME TO pathogenTests;");
 				getDao(Sample.class).executeRaw("ALTER TABLE samples RENAME TO tmp_samples;");
 				getDao(Sample.class).executeRaw(
-					"CREATE TABLE samples (associatedCase_id BIGINT, comment VARCHAR, lab_id BIGINT, "
-						+ "labDetails VARCHAR, labSampleID VARCHAR, noTestPossibleReason VARCHAR, received SMALLINT, receivedDate BIGINT, referredToUuid VARCHAR, "
-						+ "reportDateTime BIGINT, reportLat DOUBLE PRECISION, reportLatLonAccuracy FLOAT, reportLon DOUBLE PRECISION, "
-						+ "reportingUser_id BIGINT, sampleCode VARCHAR, sampleDateTime BIGINT, sampleMaterial VARCHAR, sampleMaterialText VARCHAR, "
-						+ "sampleSource VARCHAR, shipmentDate BIGINT, shipmentDetails VARCHAR, shipped SMALLINT, specimenCondition VARCHAR, "
-						+ "pathogenTestingRequested SMALLINT, additionalTestingRequested SMALLINT, requestedPathogenTestsString VARCHAR, requestedAdditionalTestsString VARCHAR, "
-						+ "changeDate BIGINT NOT NULL, creationDate BIGINT NOT NULL, id INTEGER PRIMARY KEY AUTOINCREMENT, lastOpenedDate BIGINT, "
-						+ "localChangeDate BIGINT NOT NULL, modified SMALLINT, snapshot SMALLINT, uuid VARCHAR NOT NULL, UNIQUE (snapshot, uuid));");
+						"CREATE TABLE samples (associatedCase_id BIGINT, comment VARCHAR, lab_id BIGINT, "
+								+ "labDetails VARCHAR, labSampleID VARCHAR, noTestPossibleReason VARCHAR, received SMALLINT, receivedDate BIGINT, referredToUuid VARCHAR, "
+								+ "reportDateTime BIGINT, reportLat DOUBLE PRECISION, reportLatLonAccuracy FLOAT, reportLon DOUBLE PRECISION, "
+								+ "reportingUser_id BIGINT, sampleCode VARCHAR, sampleDateTime BIGINT, sampleMaterial VARCHAR, sampleMaterialText VARCHAR, "
+								+ "sampleSource VARCHAR, shipmentDate BIGINT, shipmentDetails VARCHAR, shipped SMALLINT, specimenCondition VARCHAR, "
+								+ "pathogenTestingRequested SMALLINT, additionalTestingRequested SMALLINT, requestedPathogenTestsString VARCHAR, requestedAdditionalTestsString VARCHAR, "
+								+ "changeDate BIGINT NOT NULL, creationDate BIGINT NOT NULL, id INTEGER PRIMARY KEY AUTOINCREMENT, lastOpenedDate BIGINT, "
+								+ "localChangeDate BIGINT NOT NULL, modified SMALLINT, snapshot SMALLINT, uuid VARCHAR NOT NULL, UNIQUE (snapshot, uuid));");
 				getDao(Sample.class).executeRaw(
 					"INSERT INTO samples(associatedCase_id, comment, lab_id, labDetails, labSampleID, noTestPossibleReason, "
 						+ "received, receivedDate, referredToUuid, reportDateTime, reportLat, reportLatLonAccuracy, reportLon, reportingUser_id, sampleCode, "
@@ -1191,15 +1191,15 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 					currentVersion = 167;
 					getDao(Sample.class).executeRaw("ALTER TABLE samples RENAME TO tmp_samples;");
 					getDao(Sample.class).executeRaw(
-						"CREATE TABLE samples (associatedCase_id BIGINT, comment VARCHAR, lab_id BIGINT, "
-							+ "labDetails VARCHAR, labSampleID VARCHAR, noTestPossibleReason VARCHAR, received SMALLINT, receivedDate BIGINT, referredToUuid VARCHAR, "
-							+ "reportDateTime BIGINT, reportLat DOUBLE PRECISION, reportLatLonAccuracy FLOAT, reportLon DOUBLE PRECISION, "
-							+ "reportingUser_id BIGINT, sampleDateTime BIGINT, sampleMaterial VARCHAR, sampleMaterialText VARCHAR, "
-							+ "sampleSource VARCHAR, shipmentDate BIGINT, shipmentDetails VARCHAR, shipped SMALLINT, specimenCondition VARCHAR, "
-							+ "pathogenTestingRequested SMALLINT, additionalTestingRequested SMALLINT, requestedPathogenTestsString VARCHAR, requestedAdditionalTestsString VARCHAR, "
-							+ "requestedOtherPathogenTests varchar(512), requestedOtherAdditionalTests varchar(512), samplePurpose varchar(255), pathogenTestResult varchar(255), "
-							+ "changeDate BIGINT NOT NULL, creationDate BIGINT NOT NULL, id INTEGER PRIMARY KEY AUTOINCREMENT, lastOpenedDate BIGINT, "
-							+ "localChangeDate BIGINT NOT NULL, modified SMALLINT, snapshot SMALLINT, uuid VARCHAR NOT NULL, UNIQUE (snapshot, uuid));");
+							"CREATE TABLE samples (associatedCase_id BIGINT, comment VARCHAR, lab_id BIGINT, "
+									+ "labDetails VARCHAR, labSampleID VARCHAR, noTestPossibleReason VARCHAR, received SMALLINT, receivedDate BIGINT, referredToUuid VARCHAR, "
+									+ "reportDateTime BIGINT, reportLat DOUBLE PRECISION, reportLatLonAccuracy FLOAT, reportLon DOUBLE PRECISION, "
+									+ "reportingUser_id BIGINT, sampleDateTime BIGINT, sampleMaterial VARCHAR, sampleMaterialText VARCHAR, "
+									+ "sampleSource VARCHAR, shipmentDate BIGINT, shipmentDetails VARCHAR, shipped SMALLINT, specimenCondition VARCHAR, "
+									+ "pathogenTestingRequested SMALLINT, additionalTestingRequested SMALLINT, requestedPathogenTestsString VARCHAR, requestedAdditionalTestsString VARCHAR, "
+									+ "requestedOtherPathogenTests varchar(512), requestedOtherAdditionalTests varchar(512), samplePurpose varchar(255), pathogenTestResult varchar(255), "
+									+ "changeDate BIGINT NOT NULL, creationDate BIGINT NOT NULL, id INTEGER PRIMARY KEY AUTOINCREMENT, lastOpenedDate BIGINT, "
+									+ "localChangeDate BIGINT NOT NULL, modified SMALLINT, snapshot SMALLINT, uuid VARCHAR NOT NULL, UNIQUE (snapshot, uuid));");
 					getDao(Sample.class).executeRaw(
 						"INSERT INTO samples(associatedCase_id, comment, lab_id, labDetails, labSampleID, noTestPossibleReason, "
 							+ "received, receivedDate, referredToUuid, reportDateTime, reportLat, reportLatLonAccuracy, reportLon, reportingUser_id, "
@@ -3231,6 +3231,40 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 			case 363:
 				currentVersion = 363;
 				getDao(Person.class).executeRaw("ALTER TABLE person ADD COLUMN otherNames varchar(255);");
+			case 364:
+				currentVersion = 364;
+				getDao(Sample.class).executeRaw("ALTER TABLE samples ADD COLUMN dispatchedToRegionalColdroomDate BIGINT;");
+				getDao(Sample.class).executeRaw("ALTER TABLE samples ADD COLUMN dispatchedToNationalLabByCourierDate BIGINT;");
+				getDao(Sample.class).executeRaw("ALTER TABLE samples ADD COLUMN dispatchedToNationalLabByRegionDistrictDate BIGINT;");
+			case 365:
+				getDao(Case.class).executeRaw("ALTER TABLE cases ADD COLUMN vaccinated varchar(255);");
+				getDao(Case.class).executeRaw("ALTER TABLE cases ADD COLUMN routineVaccinationType varchar(255);");
+				getDao(Case.class).executeRaw("ALTER TABLE cases ADD COLUMN vaccinationRecordType varchar(255);");
+				getDao(Case.class).executeRaw("ALTER TABLE cases ADD COLUMN numberOfVaccinationDoses integer;");
+				getDao(Case.class).executeRaw("ALTER TABLE cases ADD COLUMN lastVaccinationDate BIGINT;");
+				getDao(Case.class).executeRaw("ALTER TABLE cases ADD COLUMN dateReceivedAtDistrictLevel BIGINT;");
+				getDao(Case.class).executeRaw("ALTER TABLE cases ADD COLUMN sourceOfInfectionIdentified varchar(255);");
+				getDao(Case.class).executeRaw("ALTER TABLE cases ADD COLUMN notifiedByDetails varchar(255);");
+				getDao(Case.class).executeRaw("ALTER TABLE cases ADD COLUMN investigatorTel varchar(255);");
+				getDao(Case.class).executeRaw("ALTER TABLE cases ADD COLUMN investigatorEmail varchar(255);");
+				getDao(Hospitalization.class).executeRaw("ALTER TABLE hospitalizations ADD COLUMN selectInpatientOutpatient varchar(255);");
+				getDao(Hospitalization.class).executeRaw("ALTER TABLE hospitalizations ADD COLUMN seenAtHealthFacility varchar(255);");
+				getDao(Hospitalization.class).executeRaw("ALTER TABLE hospitalizations ADD COLUMN dateFirstSeenAtHealthFacility BIGINT;");
+				getDao(Hospitalization.class).executeRaw("ALTER TABLE hospitalizations ADD COLUMN dateHealthFacilityNotifiedDistrict BIGINT;");
+				getDao(Sample.class).executeRaw("ALTER TABLE samples ADD COLUMN sentToIpDakar varchar(255);");
+				getDao(Sample.class).executeRaw("ALTER TABLE samples ADD COLUMN dateFormSentToHigherLevel BIGINT;");
+				getDao(Sample.class).executeRaw("ALTER TABLE samples ADD COLUMN nameContactPersonCompletingForm varchar(255);");
+				getDao(Location.class).executeRaw("ALTER TABLE location ADD COLUMN compoundOwner varchar(255);");
+				getDao(Location.class).executeRaw("ALTER TABLE location ADD COLUMN homeResidentialAddress varchar(255);");
+				getDao(Location.class).executeRaw("ALTER TABLE location ADD COLUMN landmark varchar(255);");
+				getDao(Person.class).executeRaw("ALTER TABLE person ADD COLUMN maritalStatus varchar(255);");
+				getDao(Symptoms.class).executeRaw("ALTER TABLE symptoms ADD COLUMN generalizedRash varchar(255);");
+				getDao(Symptoms.class).executeRaw("ALTER TABLE symptoms ADD COLUMN swollenLymphNodesBehindEars varchar(255);");
+			case 368:
+				getDao(Case.class).executeRaw("ALTER TABLE cases ADD COLUMN notifiedBy varchar(255);");
+				getDao(Case.class).executeRaw("ALTER TABLE cases ADD COLUMN dateOfNotification BIGINT;");
+				getDao(Case.class).executeRaw("ALTER TABLE cases ADD COLUMN dateOfInvestigation BIGINT;");
+				getDao(Case.class).executeRaw("ALTER TABLE cases ADD COLUMN compoundOwner varchar(255);");
 				// ATTENTION: break should only be done after last version
 				break;
 

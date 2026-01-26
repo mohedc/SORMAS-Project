@@ -1,6 +1,7 @@
 package de.symeda.sormas.ui.importer;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.function.Function;
 
 import com.vaadin.icons.VaadinIcons;
@@ -29,6 +30,7 @@ import de.symeda.sormas.api.i18n.I18nProperties;
 import de.symeda.sormas.api.i18n.Strings;
 import de.symeda.sormas.api.importexport.ValueSeparator;
 import de.symeda.sormas.api.user.UserDto;
+import de.symeda.sormas.api.utils.DateHelper;
 import de.symeda.sormas.ui.UiUtil;
 import de.symeda.sormas.ui.utils.ButtonHelper;
 import de.symeda.sormas.ui.utils.CssStyles;
@@ -74,6 +76,15 @@ public class AbstractImportLayout extends VerticalLayout {
 	}
 
 	protected void addDownloadImportTemplateComponent(int step, String templateFilePath, String templateFileName) {
+		addDownloadImportTemplateComponent(step, templateFilePath, templateFileName, null);
+	}
+
+	protected void addDownloadImportTemplateComponent(int step, String templateFilePath, String templateFileName, String templateContent) {
+		// Skip adding the component if both templateFilePath and templateContent are null
+		if (templateFilePath == null && templateContent == null) {
+			return;
+		}
+		
 		String headline = I18nProperties.getString(Strings.headingDownloadImportTemplate);
 		String infoText = I18nProperties.getString(Strings.infoDownloadImportTemplate);
 		Resource buttonIcon = VaadinIcons.DOWNLOAD;
@@ -81,7 +92,23 @@ public class AbstractImportLayout extends VerticalLayout {
 		ImportLayoutComponent importTemplateComponent = new ImportLayoutComponent(step, headline, infoText, buttonIcon, buttonCaption);
 
 		try {
-			String content = FacadeProvider.getImportFacade().getImportTemplateContent(templateFilePath);
+			String content;
+			if (templateContent != null) {
+				// Use provided template content directly
+				content = templateContent;
+			} else {
+				// Load content from file
+				content = FacadeProvider.getImportFacade().getImportTemplateContent(templateFilePath);
+			}
+			
+			// Add timestamp to filename to prevent browser caching
+			String baseFileName = templateFileName;
+			if (baseFileName != null && baseFileName.endsWith(".csv")) {
+				String nameWithoutExt = baseFileName.substring(0, baseFileName.length() - 4);
+				String timestamp = DateHelper.formatDateForExport(new Date());
+				templateFileName = nameWithoutExt + "_" + timestamp + ".csv";
+			}
+			
 			StreamResource templateResource = DownloadUtil.createStringStreamResource(content, templateFileName, "text/csv");
 
 			FileDownloader templateFileDownloader = new FileDownloader(templateResource);

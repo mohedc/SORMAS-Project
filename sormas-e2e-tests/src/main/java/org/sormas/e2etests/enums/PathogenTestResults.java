@@ -28,7 +28,8 @@ public enum PathogenTestResults {
   PENDING("Pending", "Ausstehend"),
   NEGATIVE("Negative", "Negativ"),
   POSITIVE("Positive", "Positiv"),
-  NOT_DONE("Not done", "Nicht durchgef\u00FChrt");
+  NOT_DONE("Not done", "Nicht durchgef\u00FChrt"),
+  VIRUS_DETECTION_GENOTYPE("Virus detection (Genotype)", "Virusnachweis (Genotyp)");
 
   private final String pathogenResults;
   private final String pathogenResultsDE;
