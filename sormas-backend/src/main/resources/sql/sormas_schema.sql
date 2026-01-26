@@ -14720,6 +14720,9 @@ INSERT INTO schema_version (version_number, comment) VALUES (608, 'Add virusIsol
 
 ALTER TABLE cases ADD COLUMN notifiedbytext varchar(255);
 INSERT INTO schema_version (version_number, comment) VALUES (609, 'Add notifiedbytext field to cases');
+
+ALTER TABLE location ADD COLUMN village varchar(255);
+INSERT INTO schema_version (version_number, comment) VALUES (610, 'Add village field to persons');
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***
 
 

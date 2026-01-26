@@ -100,6 +100,7 @@ public class LocationEditForm extends AbstractEditForm<LocationDto> {
 	private static final String FACILITY_TYPE_GROUP_LOC = "typeGroupLoc";
 	private static final String GEO_BUTTONS_LOC = "geoButtons";
 	private static final String COUNTRY_HINT_LOC = "countryHintLoc";
+	private static final String AFP_CASE_COORDINATES_HEADING_LOC = "afpCaseCoordinatesHeadingLoc";
 
 	private static final String HTML_LAYOUT =
 		//XXX #1620 are the divs needed?
@@ -139,6 +140,17 @@ public class LocationEditForm extends AbstractEditForm<LocationDto> {
 					fluidRowLocs(LocationDto.HOME_RESIDENTIAL_ADDRESS, LocationDto.HOUSE_NUMBER, LocationDto.COMPOUND_OWNER) +
 					fluidRowLocs(LocationDto.LANDMARK) +
 					fluidRowLocs(LocationDto.AREA_TYPE, LocationDto.POSTAL_CODE) +
+					fluidRow(
+							fluidColumnLoc(2, 0, GEO_BUTTONS_LOC),
+							fluidColumnLoc(2, 0, LocationDto.LATITUDE),
+							fluidColumnLoc(2, 0, LocationDto.LONGITUDE),
+							fluidColumnLoc(2, 0, LocationDto.LAT_LON_ACCURACY));
+
+	private static final String AFP_LAYOUT =
+			fluidRowLocs(LocationDto.REGION, LocationDto.DISTRICT, LocationDto.COMMUNITY) +
+					fluidRowLocs(LocationDto.HOME_RESIDENTIAL_ADDRESS, LocationDto.AREA_TYPE) +
+					fluidRowLocs(LocationDto.CITY, LocationDto.VILLAGE) +
+					loc(AFP_CASE_COORDINATES_HEADING_LOC) +
 					fluidRow(
 							fluidColumnLoc(2, 0, GEO_BUTTONS_LOC),
 							fluidColumnLoc(2, 0, LocationDto.LATITUDE),
@@ -238,6 +250,10 @@ public class LocationEditForm extends AbstractEditForm<LocationDto> {
 			Arrays.asList(LocationDto.ADDRESS_TYPE_DETAILS),
 			Arrays.asList(PersonAddressType.OTHER_ADDRESS));
 
+		Label afpCaseCoordinatesHeadingLabel = new Label(I18nProperties.getString(Strings.afpCaseCoordinates));
+		afpCaseCoordinatesHeadingLabel.addStyleName(H3);
+		getContent().addComponent(afpCaseCoordinatesHeadingLabel, AFP_CASE_COORDINATES_HEADING_LOC);
+
 		facilityTypeGroup = ComboBoxHelper.createComboBoxV7();;
 		facilityTypeGroup.setId("typeGroup");
 		facilityTypeGroup.setCaption(I18nProperties.getCaption(Captions.Facility_typeGroup));
@@ -274,6 +290,7 @@ public class LocationEditForm extends AbstractEditForm<LocationDto> {
 		addField(LocationDto.HOME_RESIDENTIAL_ADDRESS, TextField.class);
 		addField(LocationDto.LANDMARK, TextField.class);
 		TextField cityField = addField(LocationDto.CITY, TextField.class);
+		TextField villageField = addField(LocationDto.VILLAGE, TextField.class);
 		TextField postalCodeField = addField(LocationDto.POSTAL_CODE, TextField.class);
 		ComboBox areaType = addField(LocationDto.AREA_TYPE, ComboBox.class);
 		areaType.setDescription(I18nProperties.getDescription(getPropertyI18nPrefix() + "." + LocationDto.AREA_TYPE));
@@ -833,6 +850,8 @@ public class LocationEditForm extends AbstractEditForm<LocationDto> {
 				return MEASLES_LAYOUT;
 			case YELLOW_FEVER:
 				return YELLOW_FEVER_LAYOUT;
+			case AFP:
+				return AFP_LAYOUT;
 			default:
 				return HTML_LAYOUT;
 		}

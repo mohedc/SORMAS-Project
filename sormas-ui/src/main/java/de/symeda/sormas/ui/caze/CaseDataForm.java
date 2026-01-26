@@ -358,7 +358,6 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 							loc(CASE_DATA_HEADING_LOC) +
 					loc(NOTIFY_INVESTIGATE_HEADING_LOC) +
 					fluidRowLocs(CaseDataDto.NOTIFIED_BY_TEXT, CaseDataDto.DATE_OF_NOTIFICATION, CaseDataDto.DATE_OF_INVESTIGATION) +
-					fluidRowLocs(CaseDataDto.REPORT_LAT, CaseDataDto.REPORT_LON, CaseDataDto.REPORT_LAT_LON_ACCURACY) +
 					loc(INVESTIGATING_OFFICER_INFO) +
 					locCss(VSPACE_TOP_3, CaseDataDto.INVESTIGATOR_NAME) +
 					fluidRowLocs(CaseDataDto.INVESTIGATOR_TITLE, CaseDataDto.INVESTIGATOR_UNIT) +

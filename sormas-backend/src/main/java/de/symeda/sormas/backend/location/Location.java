@@ -113,6 +113,7 @@ public class Location extends AbstractDomainObject {
 	private String compoundOwner;
 	private String homeResidentialAddress;
 	private String landmark;
+	private String village;
 
 	private Person person;
 
@@ -363,6 +364,14 @@ public class Location extends AbstractDomainObject {
 
 	public void setLandmark(String landmark) {
 		this.landmark = landmark;
+	}
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	public String getVillage() {
+		return village;
+	}
+
+	public void setVillage(String village) {
+		this.village = village;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)

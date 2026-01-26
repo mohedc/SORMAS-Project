@@ -221,6 +221,21 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
                     divsCss(VSPACE_3, fluidRowLocs(PersonDto.ADDRESS)) +
 					fluidRowLocs(PersonDto.PERSON_CONTACT_DETAILS);
 
+	private static final String AFP_LAYOUT =
+			loc(PERSON_INFORMATION_HEADING_LOC) +
+					fluidRowLocs(PersonDto.UUID, "") +
+					fluidRowLocs(PersonDto.FIRST_NAME, PersonDto.LAST_NAME) +
+					fluidRowLocs(6, PersonDto.OTHER_NAMES) +
+					fluidRow(
+							fluidRowLocs(PersonDto.BIRTH_DATE_YYYY, PersonDto.BIRTH_DATE_MM, PersonDto.BIRTH_DATE_DD),
+							fluidRowLocs(PersonDto.APPROXIMATE_AGE, PersonDto.APPROXIMATE_AGE_TYPE, PersonDto.APPROXIMATE_AGE_REFERENCE_DATE)
+					) +
+					fluidRowLocs(PersonDto.SEX, PersonDto.MARITAL_STATUS) +
+					fluidRowLocs(PersonDto.PASSPORT_NUMBER, "") +
+
+					fluidRowLocs(PersonDto.MOTHERS_NAME, PersonDto.FATHERS_NAME) +
+					loc(ADDRESS_HEADER) +
+					divsCss(VSPACE_3, fluidRowLocs(PersonDto.ADDRESS));
 
 	private final Label occupationHeader = new Label(I18nProperties.getString(Strings.headingPersonOccupation));
 	private final Label addressHeader = new Label(I18nProperties.getPrefixCaption(PersonDto.I18N_PREFIX, PersonDto.ADDRESS));
@@ -1088,6 +1103,9 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 		}
 		if (disease == Disease.YELLOW_FEVER) {
 			return YELLOW_FEVER_LAYOUT;
+		}
+		if (disease == Disease.AFP) {
+			return AFP_LAYOUT;
 		}
 		return HTML_LAYOUT;
 	}
