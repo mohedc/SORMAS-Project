@@ -574,6 +574,11 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 
 			hideAllFields();
 
+			//check if case origin is point of entry
+			if (ogCaseOrigin.getValue() == CaseOrigin.POINT_OF_ENTRY) {
+				setVisible(true, CaseDataDto.POINT_OF_ENTRY);
+			}
+
 			if (selectedDisease == Disease.NEONATAL_TETANUS) {
 				setVisible(true, epidField, diseaseField, responsibleRegionCombo, responsibleDistrictCombo, responsibleCommunityCombo, facilityOrHome, facilityDetails, facilityCombo, facilityType, reportDate);
 				personCreateForm.getField(PersonDto.PASSPORT_NUMBER).setVisible(false);
