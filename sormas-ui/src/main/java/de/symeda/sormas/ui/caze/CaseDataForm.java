@@ -333,6 +333,9 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 					locCss(VSPACE_TOP_3, CaseDataDto.INVESTIGATOR_NAME) +
 					fluidRowLocs(CaseDataDto.INVESTIGATOR_TITLE, CaseDataDto.INVESTIGATOR_UNIT) +
 					fluidRowLocs(CaseDataDto.INVESTIGATOR_TEL, CaseDataDto.INVESTIGATOR_EMAIL);
+
+	private static final String AFP_LAYOUT =
+			loc(CASE_DATA_HEADING_LOC) ;
 	//@formatter:on
 
 	private final String caseUuid;
@@ -2043,9 +2046,16 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 		String SORMAS_MAIN_HTML_LAYOUT = MAIN_HTML_LAYOUT + (caseFollowUpEnabled ? FOLLOWUP_LAYOUT : "") + PAPER_FORM_DATES_AND_HEALTH_CONDITIONS_HTML_LAYOUT;
 		String DISEASE_LAYOUT = "";
 
+		if (disease == null) {
+			return SORMAS_MAIN_HTML_LAYOUT;
+		}
+
 		switch (disease) {
 			case MEASLES:
 				DISEASE_LAYOUT = MEASLES_LAYOUT;
+				break;
+			case AFP:
+				DISEASE_LAYOUT = AFP_LAYOUT;
 				break;
 			default:
 				DISEASE_LAYOUT = SORMAS_MAIN_HTML_LAYOUT;
