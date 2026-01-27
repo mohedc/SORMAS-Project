@@ -2540,6 +2540,8 @@ public interface Captions {
 	String Sample_comment = "Sample.comment";
 	String Sample_community = "Sample.community";
 	String Sample_dateFormSentToHigherLevel = "Sample.dateFormSentToHigherLevel";
+	String Sample_dateSpecimenSentFromFieldToNationalLab = "Sample.dateSpecimenSentFromFieldToNationalLab";
+	String Sample_dateSpecimenSentToRegionalReferenceLab = "Sample.dateSpecimenSentToRegionalReferenceLab";
 	String Sample_deletionReason = "Sample.deletionReason";
 	String Sample_diseaseShort = "Sample.diseaseShort";
 	String Sample_district = "Sample.district";

@@ -125,8 +125,8 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
                     fluidRowLocs(SampleDto.SAMPLE_MATERIAL, SampleDto.SAMPLE_MATERIAL_TEXT) +
 					 locCss(VSPACE_TOP_3, SampleDto.SHIPPED) +
 					fluidRowLocs(SampleDto.SHIPMENT_DATE, SampleDto.SHIPMENT_DETAILS) +
-					fluidRowLocs(SampleDto.SENT_TO_IP_DAKAR) +
 					fluidRowLocs(SampleDto.DATE_FORM_SENT_TO_HIGHER_LEVEL, SampleDto.NAME_CONTACT_PERSON_COMPLETING_FORM) +
+					fluidRowLocs(SampleDto.DATE_SPECIMEN_SENT_FROM_FIELD_TO_NATIONAL_LAB, SampleDto.DATE_SPECIMEN_SENT_TO_REGIONAL_REFERENCE_LAB) +
                     locCss(VSPACE_TOP_3, SampleDto.RECEIVED) +
 					fluidRowLocs(SampleDto.RECEIVED_DATE, SampleDto.PATHOGEN_TEST_RESULT);
 
@@ -220,6 +220,8 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 		// Measles-specific fields (hidden by default, shown in configureMeaslesFields)
 		addDateField(SampleDto.DATE_FORM_SENT_TO_HIGHER_LEVEL, DateField.class, 7);
 		addField(SampleDto.NAME_CONTACT_PERSON_COMPLETING_FORM, TextField.class);
+		addDateField(SampleDto.DATE_SPECIMEN_SENT_FROM_FIELD_TO_NATIONAL_LAB, DateField.class, 7);
+		addDateField(SampleDto.DATE_SPECIMEN_SENT_TO_REGIONAL_REFERENCE_LAB, DateField.class, 7);
 
 	}
 
@@ -315,6 +317,8 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 			getField(SampleDto.DISPATCHED_TO_REGIONAL_COLDROOM_DATE).setEnabled(false);
 			getField(SampleDto.DISPATCHED_TO_NATIONAL_LAB_BY_COURIER_DATE).setEnabled(false);
 			getField(SampleDto.DISPATCHED_TO_NATIONAL_LAB_BY_REGION_DISTRICT_DATE).setEnabled(false);
+			getField(SampleDto.DATE_SPECIMEN_SENT_FROM_FIELD_TO_NATIONAL_LAB).setEnabled(false);
+			getField(SampleDto.DATE_SPECIMEN_SENT_TO_REGIONAL_REFERENCE_LAB).setEnabled(false);
 			getField(SampleDto.SAMPLE_SOURCE).setEnabled(false);
 		}
 
@@ -582,6 +586,23 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 			shippedField,
 			Arrays.asList(true),
 			Arrays.asList(SampleDto.SHIPMENT_DETAILS),
+			true);
+		FieldHelper.setVisibleWhen(
+			getFieldGroup(),
+			Arrays.asList(
+				SampleDto.DATE_SPECIMEN_SENT_FROM_FIELD_TO_NATIONAL_LAB,
+				SampleDto.DATE_SPECIMEN_SENT_TO_REGIONAL_REFERENCE_LAB),
+			SampleDto.SHIPPED,
+			Arrays.asList(true),
+			true);
+			
+		FieldHelper.setEnabledWhen(
+			getFieldGroup(),
+			shippedField,
+			Arrays.asList(true),
+			Arrays.asList(
+				SampleDto.DATE_SPECIMEN_SENT_FROM_FIELD_TO_NATIONAL_LAB,
+				SampleDto.DATE_SPECIMEN_SENT_TO_REGIONAL_REFERENCE_LAB),
 			true);
 
 		// Show measles-specific fields
