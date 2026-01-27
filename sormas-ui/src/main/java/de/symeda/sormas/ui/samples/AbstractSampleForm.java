@@ -568,39 +568,6 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 		// Filter sample material options for measles: Blood, throat swab, urine, other
 		// Note: "gingival fluid" is not available in SampleMaterial enum, using available options
 		// Instead of removing all items, check each item and remove only those that don't match
-		ComboBox sampleMaterialField = (ComboBox) getField(SampleDto.SAMPLE_MATERIAL);
-		if (sampleMaterialField != null) {
-			// Allowed values for measles
-			List<SampleMaterial> allowedMaterials = Arrays.asList(
-				SampleMaterial.BLOOD,
-				SampleMaterial.THROAT_SWAB,
-				SampleMaterial.URINE,
-				SampleMaterial.OTHER
-			);
-			
-			// Get all current items and remove only those that don't match allowed values
-			@SuppressWarnings("unchecked")
-			Collection<SampleMaterial> currentItems = (Collection<SampleMaterial>) sampleMaterialField.getItemIds();
-			List<SampleMaterial> itemsToRemove = new ArrayList<>();
-			
-			for (SampleMaterial item : currentItems) {
-				if (!allowedMaterials.contains(item)) {
-					itemsToRemove.add(item);
-				}
-			}
-			
-			// Remove items that are not in the allowed list
-			for (SampleMaterial item : itemsToRemove) {
-				sampleMaterialField.removeItem(item);
-			}
-			
-			// Add allowed items if they're not already present
-			for (SampleMaterial allowedItem : allowedMaterials) {
-				if (!sampleMaterialField.getItemIds().contains(allowedItem)) {
-					sampleMaterialField.addItem(allowedItem);
-				}
-			}
-		}
 
 		getField(SampleDto.SHIPMENT_DATE).setVisible(true);
 		Field<?> shippedField = getField(SampleDto.SHIPPED);
