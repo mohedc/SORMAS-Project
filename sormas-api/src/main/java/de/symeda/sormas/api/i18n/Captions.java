@@ -2542,6 +2542,8 @@ public interface Captions {
 	String Sample_dateFormSentToHigherLevel = "Sample.dateFormSentToHigherLevel";
 	String Sample_dateSpecimenSentFromFieldToNationalLab = "Sample.dateSpecimenSentFromFieldToNationalLab";
 	String Sample_dateSpecimenSentToRegionalReferenceLab = "Sample.dateSpecimenSentToRegionalReferenceLab";
+	String Sample_dateSpecimenReceivedAtNationalLab = "Sample.dateSpecimenReceivedAtNationalLab";
+	String Sample_dateSpecimenReceivedAtRegionalReferenceLab = "Sample.dateSpecimenReceivedAtRegionalReferenceLab";
 	String Sample_deletionReason = "Sample.deletionReason";
 	String Sample_diseaseShort = "Sample.diseaseShort";
 	String Sample_district = "Sample.district";

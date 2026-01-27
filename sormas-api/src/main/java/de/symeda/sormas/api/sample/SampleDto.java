@@ -92,6 +92,8 @@ public class SampleDto extends SormasToSormasShareableDto implements IsSample {
 	public static final String DISPATCHED_TO_NATIONAL_LAB_BY_REGION_DISTRICT_DATE = "dispatchedToNationalLabByRegionDistrictDate";
 	public static final String DATE_SPECIMEN_SENT_FROM_FIELD_TO_NATIONAL_LAB = "dateSpecimenSentFromFieldToNationalLab";
 	public static final String DATE_SPECIMEN_SENT_TO_REGIONAL_REFERENCE_LAB = "dateSpecimenSentToRegionalReferenceLab";
+	public static final String DATE_SPECIMEN_RECEIVED_AT_NATIONAL_LAB = "dateSpecimenReceivedAtNationalLab";
+	public static final String DATE_SPECIMEN_RECEIVED_AT_REGIONAL_REFERENCE_LAB = "dateSpecimenReceivedAtRegionalReferenceLab";
 
 	private CaseReferenceDto associatedCase;
 	private ContactReferenceDto associatedContact;
@@ -188,6 +190,12 @@ public class SampleDto extends SormasToSormasShareableDto implements IsSample {
 	@Diseases(value = {
 		Disease.MEASLES })
 	private Date dateSpecimenSentToRegionalReferenceLab;
+	@Diseases(value = {
+		Disease.MEASLES })
+	private Date dateSpecimenReceivedAtNationalLab;
+	@Diseases(value = {
+		Disease.MEASLES })
+	private Date dateSpecimenReceivedAtRegionalReferenceLab;
 
 	@ImportIgnore
 	public CaseReferenceDto getAssociatedCase() {
@@ -677,5 +685,21 @@ public class SampleDto extends SormasToSormasShareableDto implements IsSample {
 
 	public void setDateSpecimenSentToRegionalReferenceLab(Date dateSpecimenSentToRegionalReferenceLab) {
 		this.dateSpecimenSentToRegionalReferenceLab = dateSpecimenSentToRegionalReferenceLab;
+	}
+
+	public Date getDateSpecimenReceivedAtNationalLab() {
+		return dateSpecimenReceivedAtNationalLab;
+	}
+
+	public void setDateSpecimenReceivedAtNationalLab(Date dateSpecimenReceivedAtNationalLab) {
+		this.dateSpecimenReceivedAtNationalLab = dateSpecimenReceivedAtNationalLab;
+	}
+
+	public Date getDateSpecimenReceivedAtRegionalReferenceLab() {
+		return dateSpecimenReceivedAtRegionalReferenceLab;
+	}
+
+	public void setDateSpecimenReceivedAtRegionalReferenceLab(Date dateSpecimenReceivedAtRegionalReferenceLab) {
+		this.dateSpecimenReceivedAtRegionalReferenceLab = dateSpecimenReceivedAtRegionalReferenceLab;
 	}
 }

@@ -3269,6 +3269,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 				currentVersion = 369;
 				getDao(Sample.class).executeRaw("ALTER TABLE samples ADD COLUMN dateSpecimenSentFromFieldToNationalLab BIGINT;");
 				getDao(Sample.class).executeRaw("ALTER TABLE samples ADD COLUMN dateSpecimenSentToRegionalReferenceLab BIGINT;");
+				getDao(Sample.class).executeRaw("ALTER TABLE samples ADD COLUMN dateSpecimenReceivedAtNationalLab BIGINT;");
+				getDao(Sample.class).executeRaw("ALTER TABLE samples ADD COLUMN dateSpecimenReceivedAtRegionalReferenceLab BIGINT;");
 				// ATTENTION: break should only be done after last version
 				break;
 

@@ -147,6 +147,12 @@ public class Sample extends PseudonymizableAdo {
 	private Date dateSpecimenSentToRegionalReferenceLab;
 
 	@DatabaseField(dataType = DataType.DATE_LONG)
+	private Date dateSpecimenReceivedAtNationalLab;
+
+	@DatabaseField(dataType = DataType.DATE_LONG)
+	private Date dateSpecimenReceivedAtRegionalReferenceLab;
+
+	@DatabaseField(dataType = DataType.DATE_LONG)
 	private Date receivedDate;
 
 	@Enumerated(EnumType.STRING)
@@ -389,6 +395,22 @@ public class Sample extends PseudonymizableAdo {
 
 	public void setDateSpecimenSentToRegionalReferenceLab(Date dateSpecimenSentToRegionalReferenceLab) {
 		this.dateSpecimenSentToRegionalReferenceLab = dateSpecimenSentToRegionalReferenceLab;
+	}
+
+	public Date getDateSpecimenReceivedAtNationalLab() {
+		return dateSpecimenReceivedAtNationalLab;
+	}
+
+	public void setDateSpecimenReceivedAtNationalLab(Date dateSpecimenReceivedAtNationalLab) {
+		this.dateSpecimenReceivedAtNationalLab = dateSpecimenReceivedAtNationalLab;
+	}
+
+	public Date getDateSpecimenReceivedAtRegionalReferenceLab() {
+		return dateSpecimenReceivedAtRegionalReferenceLab;
+	}
+
+	public void setDateSpecimenReceivedAtRegionalReferenceLab(Date dateSpecimenReceivedAtRegionalReferenceLab) {
+		this.dateSpecimenReceivedAtRegionalReferenceLab = dateSpecimenReceivedAtRegionalReferenceLab;
 	}
 
 	public Date getReceivedDate() {

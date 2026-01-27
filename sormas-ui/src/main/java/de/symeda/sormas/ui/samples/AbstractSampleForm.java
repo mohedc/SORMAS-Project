@@ -128,7 +128,8 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 					fluidRowLocs(SampleDto.DATE_FORM_SENT_TO_HIGHER_LEVEL, SampleDto.NAME_CONTACT_PERSON_COMPLETING_FORM) +
 					fluidRowLocs(SampleDto.DATE_SPECIMEN_SENT_FROM_FIELD_TO_NATIONAL_LAB, SampleDto.DATE_SPECIMEN_SENT_TO_REGIONAL_REFERENCE_LAB) +
                     locCss(VSPACE_TOP_3, SampleDto.RECEIVED) +
-					fluidRowLocs(SampleDto.RECEIVED_DATE, SampleDto.PATHOGEN_TEST_RESULT);
+					fluidRowLocs(SampleDto.RECEIVED_DATE, SampleDto.DATE_SPECIMEN_RECEIVED_AT_REGIONAL_REFERENCE_LAB) +
+					fluidRowLocs(SampleDto.DATE_SPECIMEN_RECEIVED_AT_NATIONAL_LAB, SampleDto.PATHOGEN_TEST_RESULT);
 
     protected static final String YELLOW_FEVER_HTML_LAYOUT =
 			fluidRowLocs(4, SampleDto.UUID, 4, REPORT_INFO_LABEL_LOC, 3,SampleDto.REPORTING_USER, 1, "") +
@@ -222,6 +223,8 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 		addField(SampleDto.NAME_CONTACT_PERSON_COMPLETING_FORM, TextField.class);
 		addDateField(SampleDto.DATE_SPECIMEN_SENT_FROM_FIELD_TO_NATIONAL_LAB, DateField.class, 7);
 		addDateField(SampleDto.DATE_SPECIMEN_SENT_TO_REGIONAL_REFERENCE_LAB, DateField.class, 7);
+		addDateField(SampleDto.DATE_SPECIMEN_RECEIVED_AT_NATIONAL_LAB, DateField.class, 7);
+		addDateField(SampleDto.DATE_SPECIMEN_RECEIVED_AT_REGIONAL_REFERENCE_LAB, DateField.class, 7);
 
 	}
 
@@ -319,6 +322,8 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 			getField(SampleDto.DISPATCHED_TO_NATIONAL_LAB_BY_REGION_DISTRICT_DATE).setEnabled(false);
 			getField(SampleDto.DATE_SPECIMEN_SENT_FROM_FIELD_TO_NATIONAL_LAB).setEnabled(false);
 			getField(SampleDto.DATE_SPECIMEN_SENT_TO_REGIONAL_REFERENCE_LAB).setEnabled(false);
+			getField(SampleDto.DATE_SPECIMEN_RECEIVED_AT_NATIONAL_LAB).setEnabled(false);
+			getField(SampleDto.DATE_SPECIMEN_RECEIVED_AT_REGIONAL_REFERENCE_LAB).setEnabled(false);
 			getField(SampleDto.SAMPLE_SOURCE).setEnabled(false);
 		}
 
@@ -603,6 +608,23 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 			Arrays.asList(
 				SampleDto.DATE_SPECIMEN_SENT_FROM_FIELD_TO_NATIONAL_LAB,
 				SampleDto.DATE_SPECIMEN_SENT_TO_REGIONAL_REFERENCE_LAB),
+			true);
+		Field<?> receivedField = getField(SampleDto.RECEIVED);
+		FieldHelper.setVisibleWhen(
+			getFieldGroup(),
+			Arrays.asList(
+				SampleDto.DATE_SPECIMEN_RECEIVED_AT_NATIONAL_LAB,
+				SampleDto.DATE_SPECIMEN_RECEIVED_AT_REGIONAL_REFERENCE_LAB),
+			SampleDto.RECEIVED,
+			Arrays.asList(true),
+			true);
+		FieldHelper.setEnabledWhen(
+			getFieldGroup(),
+			receivedField,
+			Arrays.asList(true),
+			Arrays.asList(
+				SampleDto.DATE_SPECIMEN_RECEIVED_AT_NATIONAL_LAB,
+				SampleDto.DATE_SPECIMEN_RECEIVED_AT_REGIONAL_REFERENCE_LAB),
 			true);
 
 		// Show measles-specific fields
