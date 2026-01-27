@@ -201,10 +201,8 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 							//XXX #1620 fluidColumnLoc?
 							fluidColumn(8, 0, loc(SYMPTOMS_HINT_LOC))) +
 					fluidRow(fluidColumn(8,4, locCss(CssStyles.ALIGN_RIGHT,BUTTONS_LOC)))+
-					fluidRowLocs(BACKACHE, HEADACHE) +
 					fluidRowLocs(MUSCLE_PAIN, JAUNDICE) +
-					fluidRowLocs(CHILLS_SWEATS, VOMITING) +
-					fluidRowLocs(FATIGUE_WEAKNESS, FEVER) +
+					fluidRowLocs(FEVER) +
 					fluidRowLocs(NAUSEA, HEMORRHAGIC_SYNDROME) +
 					fluidRowLocs(OTHER_NON_HEMORRHAGIC_SYMPTOMS, OTHER_NON_HEMORRHAGIC_SYMPTOMS_TEXT) +
 					locsCss(VSPACE_3) +

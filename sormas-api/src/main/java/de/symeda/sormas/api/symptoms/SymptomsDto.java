@@ -1129,7 +1129,6 @@ public class SymptomsDto extends PseudonymizableDto {
 		NEW_INFLUENZA,
 		CSM,
 		CHOLERA,
-		YELLOW_FEVER,
 		DENGUE,
 		MONKEYPOX,
 		PLAGUE,
