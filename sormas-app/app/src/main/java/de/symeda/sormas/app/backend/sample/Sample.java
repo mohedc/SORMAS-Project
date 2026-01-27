@@ -141,6 +141,18 @@ public class Sample extends PseudonymizableAdo {
 	private Date dispatchedToNationalLabByRegionDistrictDate;
 
 	@DatabaseField(dataType = DataType.DATE_LONG)
+	private Date dateSpecimenSentFromFieldToNationalLab;
+
+	@DatabaseField(dataType = DataType.DATE_LONG)
+	private Date dateSpecimenSentToRegionalReferenceLab;
+
+	@DatabaseField(dataType = DataType.DATE_LONG)
+	private Date dateSpecimenReceivedAtNationalLab;
+
+	@DatabaseField(dataType = DataType.DATE_LONG)
+	private Date dateSpecimenReceivedAtRegionalReferenceLab;
+
+	@DatabaseField(dataType = DataType.DATE_LONG)
 	private Date receivedDate;
 
 	@Enumerated(EnumType.STRING)
@@ -367,6 +379,38 @@ public class Sample extends PseudonymizableAdo {
 
 	public void setDispatchedToNationalLabByRegionDistrictDate(Date dispatchedToNationalLabByRegionDistrictDate) {
 		this.dispatchedToNationalLabByRegionDistrictDate = dispatchedToNationalLabByRegionDistrictDate;
+	}
+
+	public Date getDateSpecimenSentFromFieldToNationalLab() {
+		return dateSpecimenSentFromFieldToNationalLab;
+	}
+
+	public void setDateSpecimenSentFromFieldToNationalLab(Date dateSpecimenSentFromFieldToNationalLab) {
+		this.dateSpecimenSentFromFieldToNationalLab = dateSpecimenSentFromFieldToNationalLab;
+	}
+
+	public Date getDateSpecimenSentToRegionalReferenceLab() {
+		return dateSpecimenSentToRegionalReferenceLab;
+	}
+
+	public void setDateSpecimenSentToRegionalReferenceLab(Date dateSpecimenSentToRegionalReferenceLab) {
+		this.dateSpecimenSentToRegionalReferenceLab = dateSpecimenSentToRegionalReferenceLab;
+	}
+
+	public Date getDateSpecimenReceivedAtNationalLab() {
+		return dateSpecimenReceivedAtNationalLab;
+	}
+
+	public void setDateSpecimenReceivedAtNationalLab(Date dateSpecimenReceivedAtNationalLab) {
+		this.dateSpecimenReceivedAtNationalLab = dateSpecimenReceivedAtNationalLab;
+	}
+
+	public Date getDateSpecimenReceivedAtRegionalReferenceLab() {
+		return dateSpecimenReceivedAtRegionalReferenceLab;
+	}
+
+	public void setDateSpecimenReceivedAtRegionalReferenceLab(Date dateSpecimenReceivedAtRegionalReferenceLab) {
+		this.dateSpecimenReceivedAtRegionalReferenceLab = dateSpecimenReceivedAtRegionalReferenceLab;
 	}
 
 	public Date getReceivedDate() {

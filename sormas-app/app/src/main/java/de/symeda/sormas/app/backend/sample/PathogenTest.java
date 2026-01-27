@@ -147,6 +147,12 @@ public class PathogenTest extends PseudonymizableAdo {
 	@DatabaseField(dataType = DataType.DATE_LONG, canBeNull = true)
 	private Date dateResultsSentToDiseaseSurveillance;
 
+	@DatabaseField(dataType = DataType.DATE_LONG, canBeNull = true)
+	private Date dateIndirectResultsReceivedAtNationalEPIOffice;
+
+	@DatabaseField(dataType = DataType.DATE_LONG, canBeNull = true)
+	private Date dateCapturedResultsReceivedAtNationalEPIOffice;
+
 	@Enumerated(EnumType.STRING)
 	@Column(length = CHARACTER_LIMIT_DEFAULT)
 	private FinalClassification finalClassification;
@@ -413,6 +419,22 @@ public class PathogenTest extends PseudonymizableAdo {
 
 	public void setDateResultsSentToDiseaseSurveillance(Date dateResultsSentToDiseaseSurveillance) {
 		this.dateResultsSentToDiseaseSurveillance = dateResultsSentToDiseaseSurveillance;
+	}
+
+	public Date getDateIndirectResultsReceivedAtNationalEPIOffice() {
+		return dateIndirectResultsReceivedAtNationalEPIOffice;
+	}
+
+	public void setDateIndirectResultsReceivedAtNationalEPIOffice(Date dateIndirectResultsReceivedAtNationalEPIOffice) {
+		this.dateIndirectResultsReceivedAtNationalEPIOffice = dateIndirectResultsReceivedAtNationalEPIOffice;
+	}
+
+	public Date getDateCapturedResultsReceivedAtNationalEPIOffice() {
+		return dateCapturedResultsReceivedAtNationalEPIOffice;
+	}
+
+	public void setDateCapturedResultsReceivedAtNationalEPIOffice(Date dateCapturedResultsReceivedAtNationalEPIOffice) {
+		this.dateCapturedResultsReceivedAtNationalEPIOffice = dateCapturedResultsReceivedAtNationalEPIOffice;
 	}
 
 	public FinalClassification getFinalClassification() {

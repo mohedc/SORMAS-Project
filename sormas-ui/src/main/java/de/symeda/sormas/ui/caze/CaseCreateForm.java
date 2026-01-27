@@ -574,6 +574,11 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 
 			hideAllFields();
 
+			//check if case origin is point of entry
+			if (ogCaseOrigin.getValue() == CaseOrigin.POINT_OF_ENTRY) {
+				setVisible(true, CaseDataDto.POINT_OF_ENTRY);
+			}
+
 			if (selectedDisease == Disease.NEONATAL_TETANUS) {
 				setVisible(true, epidField, diseaseField, responsibleRegionCombo, responsibleDistrictCombo, responsibleCommunityCombo, facilityOrHome, facilityDetails, facilityCombo, facilityType, reportDate);
 				personCreateForm.getField(PersonDto.PASSPORT_NUMBER).setVisible(false);
@@ -584,7 +589,7 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 			} else if (selectedDisease == Disease.MEASLES || selectedDisease == Disease.YELLOW_FEVER) {
 				// Show only Measles/Yellow Fever CIF fields for New Case
 				setVisible(true, epidField, diseaseField, ogCaseOrigin, responsibleRegionCombo, responsibleDistrictCombo, 
-						responsibleCommunityCombo, facilityOrHome, facilityDetails, facilityCombo, facilityType, reportDate);
+						responsibleCommunityCombo, facilityOrHome, facilityDetails, facilityCombo, facilityType, reportDate, tfDepartment);
 				// Show person fields relevant to Measles/Yellow Fever CIF
 				if (personCreateForm != null) {
 					Field<?> firstNameField = personCreateForm.getField(PersonDto.FIRST_NAME);

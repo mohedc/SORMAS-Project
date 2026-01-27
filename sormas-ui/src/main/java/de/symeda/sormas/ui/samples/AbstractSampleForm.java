@@ -125,10 +125,11 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
                     fluidRowLocs(SampleDto.SAMPLE_MATERIAL, SampleDto.SAMPLE_MATERIAL_TEXT) +
 					 locCss(VSPACE_TOP_3, SampleDto.SHIPPED) +
 					fluidRowLocs(SampleDto.SHIPMENT_DATE, SampleDto.SHIPMENT_DETAILS) +
-					fluidRowLocs(SampleDto.SENT_TO_IP_DAKAR) +
 					fluidRowLocs(SampleDto.DATE_FORM_SENT_TO_HIGHER_LEVEL, SampleDto.NAME_CONTACT_PERSON_COMPLETING_FORM) +
+					fluidRowLocs(SampleDto.DATE_SPECIMEN_SENT_FROM_FIELD_TO_NATIONAL_LAB, SampleDto.DATE_SPECIMEN_SENT_TO_REGIONAL_REFERENCE_LAB) +
                     locCss(VSPACE_TOP_3, SampleDto.RECEIVED) +
-					fluidRowLocs(SampleDto.RECEIVED_DATE, SampleDto.PATHOGEN_TEST_RESULT);
+					fluidRowLocs(SampleDto.RECEIVED_DATE, SampleDto.DATE_SPECIMEN_RECEIVED_AT_REGIONAL_REFERENCE_LAB) +
+					fluidRowLocs(SampleDto.DATE_SPECIMEN_RECEIVED_AT_NATIONAL_LAB, SampleDto.PATHOGEN_TEST_RESULT);
 
     protected static final String YELLOW_FEVER_HTML_LAYOUT =
 			fluidRowLocs(4, SampleDto.UUID, 4, REPORT_INFO_LABEL_LOC, 3,SampleDto.REPORTING_USER, 1, "") +
@@ -220,6 +221,10 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 		// Measles-specific fields (hidden by default, shown in configureMeaslesFields)
 		addDateField(SampleDto.DATE_FORM_SENT_TO_HIGHER_LEVEL, DateField.class, 7);
 		addField(SampleDto.NAME_CONTACT_PERSON_COMPLETING_FORM, TextField.class);
+		addDateField(SampleDto.DATE_SPECIMEN_SENT_FROM_FIELD_TO_NATIONAL_LAB, DateField.class, 7);
+		addDateField(SampleDto.DATE_SPECIMEN_SENT_TO_REGIONAL_REFERENCE_LAB, DateField.class, 7);
+		addDateField(SampleDto.DATE_SPECIMEN_RECEIVED_AT_NATIONAL_LAB, DateField.class, 7);
+		addDateField(SampleDto.DATE_SPECIMEN_RECEIVED_AT_REGIONAL_REFERENCE_LAB, DateField.class, 7);
 
 	}
 
@@ -315,6 +320,10 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 			getField(SampleDto.DISPATCHED_TO_REGIONAL_COLDROOM_DATE).setEnabled(false);
 			getField(SampleDto.DISPATCHED_TO_NATIONAL_LAB_BY_COURIER_DATE).setEnabled(false);
 			getField(SampleDto.DISPATCHED_TO_NATIONAL_LAB_BY_REGION_DISTRICT_DATE).setEnabled(false);
+			getField(SampleDto.DATE_SPECIMEN_SENT_FROM_FIELD_TO_NATIONAL_LAB).setEnabled(false);
+			getField(SampleDto.DATE_SPECIMEN_SENT_TO_REGIONAL_REFERENCE_LAB).setEnabled(false);
+			getField(SampleDto.DATE_SPECIMEN_RECEIVED_AT_NATIONAL_LAB).setEnabled(false);
+			getField(SampleDto.DATE_SPECIMEN_RECEIVED_AT_REGIONAL_REFERENCE_LAB).setEnabled(false);
 			getField(SampleDto.SAMPLE_SOURCE).setEnabled(false);
 		}
 
@@ -568,39 +577,6 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 		// Filter sample material options for measles: Blood, throat swab, urine, other
 		// Note: "gingival fluid" is not available in SampleMaterial enum, using available options
 		// Instead of removing all items, check each item and remove only those that don't match
-		ComboBox sampleMaterialField = (ComboBox) getField(SampleDto.SAMPLE_MATERIAL);
-		if (sampleMaterialField != null) {
-			// Allowed values for measles
-			List<SampleMaterial> allowedMaterials = Arrays.asList(
-				SampleMaterial.BLOOD,
-				SampleMaterial.THROAT_SWAB,
-				SampleMaterial.URINE,
-				SampleMaterial.OTHER
-			);
-			
-			// Get all current items and remove only those that don't match allowed values
-			@SuppressWarnings("unchecked")
-			Collection<SampleMaterial> currentItems = (Collection<SampleMaterial>) sampleMaterialField.getItemIds();
-			List<SampleMaterial> itemsToRemove = new ArrayList<>();
-			
-			for (SampleMaterial item : currentItems) {
-				if (!allowedMaterials.contains(item)) {
-					itemsToRemove.add(item);
-				}
-			}
-			
-			// Remove items that are not in the allowed list
-			for (SampleMaterial item : itemsToRemove) {
-				sampleMaterialField.removeItem(item);
-			}
-			
-			// Add allowed items if they're not already present
-			for (SampleMaterial allowedItem : allowedMaterials) {
-				if (!sampleMaterialField.getItemIds().contains(allowedItem)) {
-					sampleMaterialField.addItem(allowedItem);
-				}
-			}
-		}
 
 		getField(SampleDto.SHIPMENT_DATE).setVisible(true);
 		Field<?> shippedField = getField(SampleDto.SHIPPED);
@@ -615,6 +591,40 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 			shippedField,
 			Arrays.asList(true),
 			Arrays.asList(SampleDto.SHIPMENT_DETAILS),
+			true);
+		FieldHelper.setVisibleWhen(
+			getFieldGroup(),
+			Arrays.asList(
+				SampleDto.DATE_SPECIMEN_SENT_FROM_FIELD_TO_NATIONAL_LAB,
+				SampleDto.DATE_SPECIMEN_SENT_TO_REGIONAL_REFERENCE_LAB),
+			SampleDto.SHIPPED,
+			Arrays.asList(true),
+			true);
+			
+		FieldHelper.setEnabledWhen(
+			getFieldGroup(),
+			shippedField,
+			Arrays.asList(true),
+			Arrays.asList(
+				SampleDto.DATE_SPECIMEN_SENT_FROM_FIELD_TO_NATIONAL_LAB,
+				SampleDto.DATE_SPECIMEN_SENT_TO_REGIONAL_REFERENCE_LAB),
+			true);
+		Field<?> receivedField = getField(SampleDto.RECEIVED);
+		FieldHelper.setVisibleWhen(
+			getFieldGroup(),
+			Arrays.asList(
+				SampleDto.DATE_SPECIMEN_RECEIVED_AT_NATIONAL_LAB,
+				SampleDto.DATE_SPECIMEN_RECEIVED_AT_REGIONAL_REFERENCE_LAB),
+			SampleDto.RECEIVED,
+			Arrays.asList(true),
+			true);
+		FieldHelper.setEnabledWhen(
+			getFieldGroup(),
+			receivedField,
+			Arrays.asList(true),
+			Arrays.asList(
+				SampleDto.DATE_SPECIMEN_RECEIVED_AT_NATIONAL_LAB,
+				SampleDto.DATE_SPECIMEN_RECEIVED_AT_REGIONAL_REFERENCE_LAB),
 			true);
 
 		// Show measles-specific fields

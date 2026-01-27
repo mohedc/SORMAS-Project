@@ -131,6 +131,7 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 			fluidRowLocs(PathogenTestDto.TEST_DATE_TIME, PathogenTestDto.LAB) +
 			fluidRowLocs("", PathogenTestDto.LAB_DETAILS) +
 			fluidRowLocs(7, PathogenTestDto.DATE_RESULTS_SENT_TO_DISEASE_SURVEILLANCE, 5, PathogenTestDto.DATE_DISTRICT_RECEIVED_LAB_RESULTS) +
+			fluidRowLocs(PathogenTestDto.DATE_INDIRECT_RESULTS_RECEIVED_AT_NATIONAL_EPI_OFFICE, PathogenTestDto.DATE_CAPTURED_RESULTS_RECEIVED_AT_NATIONAL_EPI_OFFICE) +
 			fluidRowLocs(PathogenTestDto.PERFORM_RUBELLA_TEST, PathogenTestDto.COMMUNITY_INVESTIGATION) +
 			fluidRowLocs(PathogenTestDto.INVESTIGATION_RESULTS, PathogenTestDto.SOURCE_OF_INFECTION_IDENTIFIED) +
 			fluidRowLocs(4, PathogenTestDto.TEST_RESULT, 4, PathogenTestDto.TEST_RESULT_VERIFIED) +
@@ -578,6 +579,8 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 		addDateField(PathogenTestDto.DATE_RESULTS_SENT_TO_DISTRICT, DateField.class, 7);
 		addDateField(PathogenTestDto.DATE_DISTRICT_RECEIVED_LAB_RESULTS, DateField.class, 7);
 		addDateField(PathogenTestDto.DATE_RESULTS_SENT_TO_DISEASE_SURVEILLANCE, DateField.class, 7);
+		addDateField(PathogenTestDto.DATE_INDIRECT_RESULTS_RECEIVED_AT_NATIONAL_EPI_OFFICE, DateField.class, 7);
+		addDateField(PathogenTestDto.DATE_CAPTURED_RESULTS_RECEIVED_AT_NATIONAL_EPI_OFFICE, DateField.class, 7);
 		addField(PathogenTestDto.COMMUNITY_INVESTIGATION, CheckBox.class);
 		addField(PathogenTestDto.PERFORM_RUBELLA_TEST, CheckBox.class);
 		TextArea investigationResultsField = addField(PathogenTestDto.INVESTIGATION_RESULTS, TextArea.class);
