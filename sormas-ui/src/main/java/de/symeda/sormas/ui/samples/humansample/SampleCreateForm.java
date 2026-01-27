@@ -52,6 +52,9 @@ public class SampleCreateForm extends AbstractSampleForm {
 		if (getCaseDisease() == Disease.YELLOW_FEVER) {
 			return YELLOW_FEVER_HTML_LAYOUT;
 		}
+		if (getCaseDisease() == Disease.AFP) {
+			return AFP_HTML_LAYOUT;
+		}
 		return SAMPLE_COMMON_HTML_LAYOUT;
 	}
 }

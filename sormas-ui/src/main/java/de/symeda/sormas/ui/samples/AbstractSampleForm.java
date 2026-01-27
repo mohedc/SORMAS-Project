@@ -41,16 +41,10 @@ import de.symeda.sormas.api.i18n.Strings;
 import de.symeda.sormas.api.i18n.Validations;
 import de.symeda.sormas.api.infrastructure.facility.FacilityDto;
 import de.symeda.sormas.api.infrastructure.facility.FacilityReferenceDto;
-import de.symeda.sormas.api.sample.AdditionalTestType;
-import de.symeda.sormas.api.sample.PathogenTestResultType;
-import de.symeda.sormas.api.sample.PathogenTestType;
-import de.symeda.sormas.api.sample.SampleDto;
-import de.symeda.sormas.api.sample.SampleMaterial;
-import de.symeda.sormas.api.sample.SamplePurpose;
-import de.symeda.sormas.api.sample.SamplingReason;
-import de.symeda.sormas.api.sample.SpecimenCondition;
+import de.symeda.sormas.api.sample.*;
 import de.symeda.sormas.api.user.UserReferenceDto;
 import de.symeda.sormas.api.user.UserRight;
+import de.symeda.sormas.api.utils.InjectionSite;
 import de.symeda.sormas.api.utils.fieldaccess.UiFieldAccessCheckers;
 import de.symeda.sormas.api.utils.fieldvisibility.FieldVisibilityCheckers;
 import de.symeda.sormas.ui.UiUtil;
@@ -75,6 +69,11 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 	protected static final String REQUESTED_ADDITIONAL_TESTS_READ_LOC = "requestedAdditionalTestsReadLoc";
 	protected static final String REPORT_INFO_LABEL_LOC = "reportInfoLabelLoc";
 	protected static final String REFERRED_FROM_BUTTON_LOC = "referredFromButtonLoc";
+	protected static final String STOOL_SPECIMEN_COLLECTION_HEADLINE_LOC = "stoolSpecimenCollectionLoc";
+	protected static final String STOOL_SPECIMEN_RESULTS_HEADLINE_LOC = "stoolSpecimenResultsLoc";
+	protected static final String FINAL_LAB_RESULTS_HEADLINE_LOC = "finalLabResultsLoc";
+	protected static final String FOLLOW_UP_EXAMINATION_HEADLINE_LOC = "followUpExaminationLoc";
+	public ComboBox sampleMaterialComboBox;
 
 	//@formatter:off
     protected static final String SAMPLE_COMMON_HTML_LAYOUT =
@@ -148,6 +147,36 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 					fluidRowLocs(SampleDto.SPECIMEN_CONDITION, SampleDto.NO_TEST_POSSIBLE_REASON) +
 					fluidRowLocs(SampleDto.PATHOGEN_TEST_RESULT);
 
+	protected static final String AFP_HTML_LAYOUT =
+			loc(STOOL_SPECIMEN_COLLECTION_HEADLINE_LOC) +
+					fluidRowLocs(SampleDto.UUID, SampleDto.FIELD_SAMPLE_ID) +
+					fluidRowLocs(SampleDto.SAMPLE_PURPOSE, SampleDto.SAMPLE_MATERIAL) +
+					fluidRowLocs(SampleDto.LAB, SampleDto.LAB_DETAILS) +
+					fluidRowLocs(SampleDto.LAB_SAMPLE_ID) +
+					fluidRowLocs(SampleDto.DATE_FIRST_SPECIMEN, SampleDto.DATE_SECOND_SPECIMEN, SampleDto.DATE_SPECIMEN_SENT_NATIONAL_LEVEL) +
+					fluidRowLocs(SampleDto.DATE_SPECIMEN_RECEIVED_NATIONAL_LEVEL, SampleDto.DATE_SPECIMEN_SENT_INTERCOUNTY_NATLAB) +
+					loc(STOOL_SPECIMEN_RESULTS_HEADLINE_LOC) +
+					fluidRowLocs(SampleDto.DATE_SPECIMEN_RECEIVED_INTERCOUNTY_NATLAB, SampleDto.STATUS_SPECIMEN_RECEPTION_AT_LAB) +
+					fluidRowLocs(6,SampleDto.DATE_COMBINED_CELL_CULTURE_RESULTS) +
+
+					fluidRowLocs(SampleDto.DATE_SENT_NATIONAL_REG_LAB, SampleDto.DATE_DIFFERENTIATION_SENT_EPI) +
+					fluidRowLocs(6,SampleDto.DATE_DIFFERENTIATION_RECEIVED_EPI) +
+					fluidRowLocs(SampleDto.DATE_ISOLATE_SENT_SEQUENCING, SampleDto.DATE_SEQ_RESULTS_SENT_PROGRAM) +
+
+					loc(FINAL_LAB_RESULTS_HEADLINE_LOC) +
+					fluidRowLocs(SampleDto.W1, SampleDto.W2, SampleDto.W3) +
+					fluidRowLocs(SampleDto.SL1, SampleDto.SL2, SampleDto.SL3) +
+					fluidRowLocs(SampleDto.DISCORDANT, SampleDto.FINAL_LAB_RESULTS) +
+
+					loc(FOLLOW_UP_EXAMINATION_HEADLINE_LOC) +
+					fluidRowLocs(SampleDto.DATE_FOLLOWUP_EXAM, SampleDto.RESIDUAL_ANALYSIS, SampleDto.RESULT_EXAM) +
+					fluidRowLocs(6,SampleDto.IMMUNOCOMPROMISED_STATUS_SUSPECTED) +
+					fluidRowLocs(6,SampleDto.AFP_FINAL_CLASSIFICATION) +
+					locCss(VSPACE_TOP_3, SampleDto.SHIPPED) +
+					fluidRowLocs(SampleDto.SHIPMENT_DATE, SampleDto.SHIPMENT_DETAILS) +
+					locCss(VSPACE_TOP_3, SampleDto.RECEIVED) +
+					fluidRowLocs(SampleDto.RECEIVED_DATE, SampleDto.LAB_SAMPLE_ID);
+
 	//@formatter:on
 
 	protected AbstractSampleForm(Class<SampleDto> type, String propertyI18nPrefix, Disease disease, UiFieldAccessCheckers fieldAccessCheckers) {
@@ -168,7 +197,7 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 		addField(SampleDto.LAB_SAMPLE_ID, TextField.class);
 		final DateTimeField sampleDateField = addField(SampleDto.SAMPLE_DATE_TIME, DateTimeField.class);
 		sampleDateField.setInvalidCommitted(false);
-		addField(SampleDto.SAMPLE_MATERIAL, ComboBox.class);
+		sampleMaterialComboBox = addField(SampleDto.SAMPLE_MATERIAL, ComboBox.class);
 		addField(SampleDto.SAMPLE_MATERIAL_TEXT, TextField.class);
 		addField(SampleDto.SAMPLE_SOURCE, ComboBox.class);
 		addField(SampleDto.FIELD_SAMPLE_ID, TextField.class);
@@ -338,6 +367,10 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 		// Yellow fever-specific configuration (called after all other visibility logic)
 		if (disease == Disease.YELLOW_FEVER) {
 			configureYellowFeverFields();
+		}
+
+		if(disease == Disease.AFP){
+			handleAFP();
 		}
 	}
 
@@ -661,6 +694,63 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 		// Show yellow fever-specific fields
 	}
 
+	private void handleAFP() {
+
+		Label stoolSpecimenCollection = new Label(I18nProperties.getString(Strings.headingStoolSpecimenCollection));
+		CssStyles.style(stoolSpecimenCollection, CssStyles.LABEL_BOLD, CssStyles.LABEL_SECONDARY, VSPACE_4);
+		getContent().addComponent(stoolSpecimenCollection, STOOL_SPECIMEN_COLLECTION_HEADLINE_LOC);
+
+		Label stoolSpecimenResults = new Label(I18nProperties.getString(Strings.headingStoolSpecimenResults));
+		CssStyles.style(stoolSpecimenResults, CssStyles.LABEL_BOLD, CssStyles.LABEL_SECONDARY, VSPACE_4);
+		getContent().addComponent(stoolSpecimenResults, STOOL_SPECIMEN_RESULTS_HEADLINE_LOC);
+
+		Label followUpExamination = new Label(I18nProperties.getString(Strings.headingFollowUpExamination));
+		CssStyles.style(followUpExamination, CssStyles.LABEL_BOLD, CssStyles.LABEL_SECONDARY, VSPACE_4);
+		getContent().addComponent(followUpExamination, FOLLOW_UP_EXAMINATION_HEADLINE_LOC);
+
+		addField(SampleDto.DATE_FIRST_SPECIMEN, DateField.class);
+		addField(SampleDto.DATE_SECOND_SPECIMEN, DateField.class);
+		addField(SampleDto.DATE_SPECIMEN_SENT_NATIONAL_LEVEL, DateField.class);
+		addField(SampleDto.DATE_SPECIMEN_RECEIVED_NATIONAL_LEVEL, DateField.class);
+		addField(SampleDto.DATE_SPECIMEN_SENT_INTERCOUNTY_NATLAB, DateField.class);
+		addField(SampleDto.DATE_SPECIMEN_RECEIVED_INTERCOUNTY_NATLAB, DateField.class);
+
+		addField(SampleDto.STATUS_SPECIMEN_RECEPTION_AT_LAB, OptionGroup.class);
+		addField(SampleDto.DATE_COMBINED_CELL_CULTURE_RESULTS, DateField.class);
+		addField(SampleDto.W1, OptionGroup.class);
+		addField(SampleDto.W2, OptionGroup.class);
+		addField(SampleDto.W3, OptionGroup.class);
+		addField(SampleDto.SL1, OptionGroup.class);
+		addField(SampleDto.SL2, OptionGroup.class);
+		addField(SampleDto.SL3, OptionGroup.class);
+		addField(SampleDto.DISCORDANT, NullableOptionGroup.class);
+
+		addField(SampleDto.DATE_FOLLOWUP_EXAM, DateField.class);
+		NullableOptionGroup residualAnalysis = addField(SampleDto.RESIDUAL_ANALYSIS, NullableOptionGroup.class);
+
+		List<InjectionSite> paralysisSite = Arrays.asList(InjectionSite.LEFT_ARM, InjectionSite.LEFT_LEG, InjectionSite.RIGHT_ARM, InjectionSite.RIGHT_LEG);
+		FieldHelper.updateEnumData(residualAnalysis, paralysisSite);
+
+		addField(SampleDto.RESULT_EXAM, ComboBox.class);
+		addField(SampleDto.DATE_SENT_NATIONAL_REG_LAB, DateField.class);
+		addField(SampleDto.DATE_DIFFERENTIATION_SENT_EPI, DateField.class);
+		addField(SampleDto.DATE_DIFFERENTIATION_RECEIVED_EPI, DateField.class);
+		addField(SampleDto.DATE_ISOLATE_SENT_SEQUENCING, DateField.class);
+		addField(SampleDto.DATE_SEQ_RESULTS_SENT_PROGRAM, DateField.class);
+		addField(SampleDto.FINAL_LAB_RESULTS, NullableOptionGroup.class);
+		addField(SampleDto.IMMUNOCOMPROMISED_STATUS_SUSPECTED, NullableOptionGroup.class);
+		ComboBox afpFinalClassification = addField(SampleDto.AFP_FINAL_CLASSIFICATION, ComboBox.class);
+		FieldHelper.updateEnumData(afpFinalClassification, FinalClassification.AFP_CLASSIFICATION);
+
+		setRequired(false, SampleDto.SAMPLE_PURPOSE, SampleDto.SAMPLE_DATE_TIME, SampleDto.SAMPLE_MATERIAL);
+		FieldHelper.updateEnumData(sampleMaterialComboBox, Arrays.asList(SampleMaterial.STOOL));
+		sampleMaterialComboBox.setValue(SampleMaterial.STOOL);
+		sampleMaterialComboBox.setEnabled(false);
+
+		getValue().setSampleDateTime(new Date());
+
+	}
+
 	@Override
 	protected String createHtmlLayout() {
 		if (getCaseDisease() == Disease.MEASLES) {
@@ -668,6 +758,9 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 		}
 		if (getCaseDisease() == Disease.YELLOW_FEVER) {
 			return YELLOW_FEVER_HTML_LAYOUT;
+		}
+		if (getCaseDisease() == Disease.AFP) {
+			return AFP_HTML_LAYOUT;
 		}
 		return SAMPLE_COMMON_HTML_LAYOUT;
 	}

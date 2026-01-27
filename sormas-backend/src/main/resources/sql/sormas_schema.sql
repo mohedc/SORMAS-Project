@@ -14762,6 +14762,34 @@ CREATE TABLE afpimmunization (
 ALTER TABLE cases ADD COLUMN afpimmunization_id BIGINT;
 
 INSERT INTO schema_version (version_number, comment) VALUES (612, 'Created afpimmunization table and altered cases table');
+
+ALTER TABLE samples ADD COLUMN datefirstspecimen DATE;
+ALTER TABLE samples ADD COLUMN datesecondspecimen DATE;
+ALTER TABLE samples ADD COLUMN datespecimensentnationallevel DATE;
+ALTER TABLE samples ADD COLUMN datespecimenreceivednationallevel DATE;
+ALTER TABLE samples ADD COLUMN datespecimensentinter DATE;
+ALTER TABLE samples ADD COLUMN datespecimenreceivedinter DATE;
+ALTER TABLE samples ADD COLUMN statusspecimenreceptionatlab varchar(255);
+ALTER TABLE samples ADD COLUMN datecombinedcellcultureresults varchar(255);
+ALTER TABLE samples ADD COLUMN w1 varchar(255);
+ALTER TABLE samples ADD COLUMN w2 varchar(255);
+ALTER TABLE samples ADD COLUMN w3 varchar(255);
+ALTER TABLE samples ADD COLUMN discordant varchar(255);
+ALTER TABLE samples ADD COLUMN sl1 varchar(255);
+ALTER TABLE samples ADD COLUMN sl2 varchar(255);
+ALTER TABLE samples ADD COLUMN sl3 varchar(255);
+ALTER TABLE samples ADD COLUMN datefollowupexam DATE;
+ALTER TABLE samples ADD COLUMN residualanalysis varchar(255);
+ALTER TABLE samples ADD COLUMN resultexam varchar(255);
+ALTER TABLE samples ADD COLUMN datesenttonationalreglab DATE;
+ALTER TABLE samples ADD COLUMN datedifferentiationsenttoepi DATE;
+ALTER TABLE samples ADD COLUMN datedifferentiationreceivedfromepi DATE;
+ALTER TABLE samples ADD COLUMN dateisolatesentforSequencing DATE;
+ALTER TABLE samples ADD COLUMN dateseqresultssenttoprogram DATE;
+ALTER TABLE samples ADD COLUMN finallabresults varchar(512);
+ALTER TABLE samples ADD COLUMN immunocompromisedstatussuspected varchar(255);
+ALTER TABLE samples ADD COLUMN afpfinalclassification varchar(255);
+INSERT INTO schema_version (version_number, comment) VALUES (613, 'Added multiple fields to the samples table for AFP');
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***
 
 

@@ -186,7 +186,8 @@ public abstract class AbstractCaseView extends AbstractEditAllowedDetailView<Cas
 			if (UiUtil.enabled(FeatureType.VIEW_TAB_CASES_SYMPTOMS)) {
 				menu.addView(CaseSymptomsView.VIEW_NAME, I18nProperties.getPrefixCaption(CaseDataDto.I18N_PREFIX, CaseDataDto.SYMPTOMS), params);
 			}
-			if (UiUtil.enabled(FeatureType.VIEW_TAB_CASES_EPIDEMIOLOGICAL_DATA) && caze.getDisease() != Disease.CONGENITAL_RUBELLA && caze.getDisease() != Disease.NEONATAL_TETANUS) {
+			if (UiUtil.enabled(FeatureType.VIEW_TAB_CASES_EPIDEMIOLOGICAL_DATA) && caze.getDisease() != Disease.CONGENITAL_RUBELLA && caze.getDisease() != Disease.NEONATAL_TETANUS &&
+					caze.getDisease() != Disease.AFP) {
 				menu.addView(CaseEpiDataView.VIEW_NAME, I18nProperties.getPrefixCaption(CaseDataDto.I18N_PREFIX, CaseDataDto.EPI_DATA), params);
 			}
 			if (UiUtil.permitted(FeatureType.VIEW_TAB_CASES_THERAPY, UserRight.THERAPY_VIEW)

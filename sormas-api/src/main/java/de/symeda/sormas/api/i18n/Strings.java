@@ -816,6 +816,9 @@ public interface Strings {
 	String headingReduceQuarantine = "headingReduceQuarantine";
 	String headingReferCaseFromPointOfEntry = "headingReferCaseFromPointOfEntry";
 	String headingReferSample = "headingReferSample";
+	String headingStoolSpecimenCollection = "headingStoolSpecimenCollection";
+	String headingStoolSpecimenResults = "headingStoolSpecimenResults";
+	String headingFollowUpExamination = "headingFollowUpExamination";
 	String headingRejectSormasToSormasShareRequest = "headingRejectSormasToSormasShareRequest";
 	String headingRemoveCaseFromContact = "headingRemoveCaseFromContact";
 	String headingRequestedAdditionalTests = "headingRequestedAdditionalTests";
