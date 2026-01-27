@@ -14730,6 +14730,12 @@ ALTER TABLE samples ADD COLUMN datespecimenreceivedatregionalreferencelab timest
 ALTER TABLE samples_history ADD COLUMN datespecimenreceivedatnationallab timestamp;
 ALTER TABLE samples_history ADD COLUMN datespecimenreceivedatregionalreferencelab timestamp;
 INSERT INTO schema_version (version_number, comment) VALUES (610, 'Add Measles sample date fields');
+
+ALTER TABLE pathogentest ADD COLUMN dateindirectresultsreceivedatnationalepioffice timestamp;
+ALTER TABLE pathogentest ADD COLUMN datecapturedresultsreceivedatnationalepioffice timestamp;
+ALTER TABLE pathogentest_history ADD COLUMN dateindirectresultsreceivedatnationalepioffice timestamp;
+ALTER TABLE pathogentest_history ADD COLUMN datecapturedresultsreceivedatnationalepioffice timestamp;
+INSERT INTO schema_version (version_number, comment) VALUES (611, 'Add Measles sample date fields');
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***
 
 
