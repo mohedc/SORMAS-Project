@@ -14723,6 +14723,19 @@ INSERT INTO schema_version (version_number, comment) VALUES (609, 'Add notifiedb
 
 ALTER TABLE location ADD COLUMN village varchar(255);
 INSERT INTO schema_version (version_number, comment) VALUES (610, 'Add village field to persons');
+
+ALTER TABLE symptoms ADD COLUMN feveronsetparalysis varchar(255);
+ALTER TABLE symptoms ADD COLUMN progressiveparalysis varchar(255);
+ALTER TABLE symptoms ADD COLUMN dateonsetparalysis DATE;
+ALTER TABLE symptoms ADD COLUMN progressiveflaccidacute varchar(255);
+ALTER TABLE symptoms ADD COLUMN assymetric varchar(255);
+ALTER TABLE symptoms ADD COLUMN paralysedlimbsensitivetopain varchar(255);
+ALTER TABLE symptoms ADD COLUMN injectionsitebeforeonsetparalysis varchar(255);
+ALTER TABLE symptoms ADD COLUMN trueafp varchar(255);
+ALTER TABLE symptoms ADD COLUMN injectionsitestring VARCHAR(512);
+ALTER TABLE symptoms ADD COLUMN requestedsiteofparalysisstring varchar(512);
+ALTER TABLE symptoms ADD COLUMN provisionaldiagnosis varchar(512);
+INSERT INTO schema_version (version_number, comment) VALUES (611, 'Add multiple columns to symptoms for afp');
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***
 
 

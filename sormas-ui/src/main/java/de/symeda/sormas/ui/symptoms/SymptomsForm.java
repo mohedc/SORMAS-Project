@@ -16,7 +16,6 @@
 package de.symeda.sormas.ui.symptoms;
 
 import static de.symeda.sormas.api.symptoms.SymptomsDto.*;
-import static de.symeda.sormas.api.symptoms.SymptomsDto.AGE_AT_ONSET_DAYS;
 import static de.symeda.sormas.ui.utils.CssStyles.H3;
 import static de.symeda.sormas.ui.utils.CssStyles.H4;
 import static de.symeda.sormas.ui.utils.CssStyles.VSPACE_3;
@@ -30,15 +29,7 @@ import static de.symeda.sormas.ui.utils.LayoutUtil.loc;
 import static de.symeda.sormas.ui.utils.LayoutUtil.locCss;
 import static de.symeda.sormas.ui.utils.LayoutUtil.locsCss;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -57,12 +48,7 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.themes.ValoTheme;
 import com.vaadin.v7.data.fieldgroup.FieldGroup;
 import com.vaadin.v7.data.util.converter.Converter.ConversionException;
-import com.vaadin.v7.ui.AbstractField;
-import com.vaadin.v7.ui.ComboBox;
-import com.vaadin.v7.ui.DateField;
-import com.vaadin.v7.ui.Field;
-import com.vaadin.v7.ui.OptionGroup;
-import com.vaadin.v7.ui.TextField;
+import com.vaadin.v7.ui.*;
 
 import de.symeda.sormas.api.CountryHelper;
 import de.symeda.sormas.api.Disease;
@@ -84,10 +70,7 @@ import de.symeda.sormas.api.symptoms.SymptomState;
 import de.symeda.sormas.api.symptoms.SymptomsContext;
 import de.symeda.sormas.api.symptoms.SymptomsDto;
 import de.symeda.sormas.api.symptoms.SymptomsHelper;
-import de.symeda.sormas.api.utils.DateComparator;
-import de.symeda.sormas.api.utils.SymptomGroup;
-import de.symeda.sormas.api.utils.SymptomGrouping;
-import de.symeda.sormas.api.utils.YesNoUnknown;
+import de.symeda.sormas.api.utils.*;
 import de.symeda.sormas.api.utils.fieldaccess.UiFieldAccessCheckers;
 import de.symeda.sormas.api.utils.fieldvisibility.FieldVisibilityCheckers;
 import de.symeda.sormas.api.visit.VisitStatus;
@@ -196,6 +179,14 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 			fluidRowLocs(CONJUNCTIVITIS, JOINT_PAIN) +
 			locsCss(VSPACE_3) +
 			fluidRowLocs(3, OUTCOME);
+
+	public static final String AFP_LAYOUT = fluidRowLocs(FEVER_ONSET_PARALYSIS, PROGRESSIVE_PARALYSIS) +
+			fluidRowLocs(PROGRESSIVE_FLACID_ACUTE, ASSYMETRIC, DATE_ONSET_PARALYSIS) +
+			fluidRowLocs(6,SITE_OF_PARALYSIS) +
+			fluidRowLocs(PARALYSED_LIMB_SENSITIVE_TO_PAIN, INJECTION_SITE_BEFORE_ONSET_PARALYSIS) +
+			fluidRowLocs(INJECTION_SITE) +
+			fluidRowLocs(PROVISONAL_DIAGNOSIS)+
+			fluidRowLocs(6, TRUEAFP);
 
 	public static final String YELLOW_FEVER_LAYOUT = loc(CLINICAL_MEASUREMENTS_HEADING_LOC) +
 					fluidRowLocs(TEMPERATURE, TEMPERATURE_SOURCE) +
@@ -600,6 +591,45 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 				onsetDate.setEnabled(true);
 				onsetDate.setReadOnly(false);
 			}
+		}
+		if (disease == Disease.AFP) {
+
+			addField(FEVER_ONSET_PARALYSIS, NullableOptionGroup.class);
+			addField(PROGRESSIVE_PARALYSIS, NullableOptionGroup.class);
+			addField(DATE_ONSET_PARALYSIS, DateField.class);
+			addField(PROGRESSIVE_FLACID_ACUTE, NullableOptionGroup.class);
+			addField(ASSYMETRIC, NullableOptionGroup.class);
+
+			OptionGroup siteOfParalysis = addField(SITE_OF_PARALYSIS, OptionGroup.class);
+			CssStyles.style(siteOfParalysis, CssStyles.OPTIONGROUP_CHECKBOXES_HORIZONTAL);
+			siteOfParalysis.setMultiSelect(true);
+
+			siteOfParalysis.addItems(
+					Arrays.stream(InjectionSite.ParalysisSite())
+							.filter(c -> fieldVisibilityCheckers.isVisible(InjectionSite.class, c.name()))
+							.collect(Collectors.toList()));
+
+			addField(PARALYSED_LIMB_SENSITIVE_TO_PAIN, OptionGroup.class);
+			OptionGroup injectionSiteBeforeOnsetParalysis = addField(INJECTION_SITE_BEFORE_ONSET_PARALYSIS, OptionGroup.class);
+
+			OptionGroup leftRightInjectionSite = addField(INJECTION_SITE, OptionGroup.class);
+			CssStyles.style(leftRightInjectionSite, CssStyles.OPTIONGROUP_CHECKBOXES_HORIZONTAL);
+			leftRightInjectionSite.setMultiSelect(true);
+
+			List<InjectionSite> sortedInjectionSites = Arrays.stream(InjectionSite.values())
+					.filter(x -> fieldVisibilityCheckers.isVisible(InjectionSite.class, x.name()))
+					.sorted(Comparator.comparing(Enum::name))
+					.collect(Collectors.toList());
+
+			leftRightInjectionSite.addItems(new LinkedHashSet<>(sortedInjectionSites));
+			leftRightInjectionSite.setVisible(false);
+			FieldHelper.setVisibleWhen(injectionSiteBeforeOnsetParalysis, Arrays.asList(leftRightInjectionSite), Arrays.asList(YesNo.YES), true);
+
+			addField(TRUEAFP, OptionGroup.class);
+			TextArea provisionalDiagnosis = addField(PROVISONAL_DIAGNOSIS, TextArea.class);
+			provisionalDiagnosis.setRows(4);
+
+			clinicalMeasurementsHeadingLabel.setVisible(false);
 		}
 
 		if (symptomsContext != SymptomsContext.CLINICAL_VISIT) {
@@ -1115,6 +1145,8 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 				return MEASLES_LAYOUT;
 			case YELLOW_FEVER:
 				return YELLOW_FEVER_LAYOUT;
+			case AFP:
+				return AFP_LAYOUT;
 			default:
 				return FINAL_HTML_LAYOUT;
 		}

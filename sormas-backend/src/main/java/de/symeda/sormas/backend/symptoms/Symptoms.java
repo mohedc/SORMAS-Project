@@ -20,14 +20,13 @@ package de.symeda.sormas.backend.symptoms;
 import static de.symeda.sormas.api.Disease.NEONATAL_TETANUS;
 import static de.symeda.sormas.api.utils.FieldConstraints.CHARACTER_LIMIT_DEFAULT;
 
+import java.util.Arrays;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 
 import de.symeda.sormas.api.caze.CaseOutcome;
 import de.symeda.sormas.api.symptoms.ClinicalPresentationStatus;
@@ -38,6 +37,7 @@ import de.symeda.sormas.api.symptoms.SymptomState;
 import de.symeda.sormas.api.symptoms.TemperatureSource;
 import de.symeda.sormas.api.utils.*;
 import de.symeda.sormas.backend.common.AbstractDomainObject;
+import org.apache.commons.lang3.StringUtils;
 
 @Entity
 public class Symptoms extends AbstractDomainObject {
@@ -273,6 +273,20 @@ public class Symptoms extends AbstractDomainObject {
 	private CaseOutcome outcome;
 	@Column(name = "babydied")
 	private SymptomState babyDied;
+
+	private YesNoUnknown feverOnsetParalysis;
+	private YesNoUnknown progressiveParalysis;
+	private YesNoUnknown progressiveFlaccidAcute;
+	private YesNoUnknown assymetric;
+	private Date dateOnsetParalysis;
+	private Set<InjectionSite> siteOfParalysis;
+	private String requestedSiteOfParalysisString;
+	private YesNo paralysedLimbSensitiveToPain;
+	private YesNo injectionSiteBeforeOnsetParalysis;
+	private Set<InjectionSite> injectionSite;
+	private String injectionSiteString;
+	private String provisionalDiagnosis;
+	private YesNo trueAfp;
 
 	// when adding new fields make sure to extend toHumanString
 
@@ -2120,5 +2134,157 @@ public class Symptoms extends AbstractDomainObject {
 
 	public void setNocturnalCough(SymptomState nocturnalCough) {
 		this.nocturnalCough = nocturnalCough;
+	}
+
+	public YesNoUnknown getFeverOnsetParalysis() {
+		return feverOnsetParalysis;
+	}
+
+	public void setFeverOnsetParalysis(YesNoUnknown feverOnsetParalysis) {
+		this.feverOnsetParalysis = feverOnsetParalysis;
+	}
+
+	public YesNoUnknown getProgressiveParalysis() {
+		return progressiveParalysis;
+	}
+
+	public void setProgressiveParalysis(YesNoUnknown progressiveParalysis) {
+		this.progressiveParalysis = progressiveParalysis;
+	}
+
+	public YesNoUnknown getProgressiveFlaccidAcute() {
+		return progressiveFlaccidAcute;
+	}
+
+	public void setProgressiveFlaccidAcute(YesNoUnknown progressiveFlaccidAcute) {
+		this.progressiveFlaccidAcute = progressiveFlaccidAcute;
+	}
+
+	public YesNoUnknown getAssymetric() {
+		return assymetric;
+	}
+
+	public void setAssymetric(YesNoUnknown assymetric) {
+		this.assymetric = assymetric;
+	}
+
+	public Date getDateOnsetParalysis() {
+		return dateOnsetParalysis;
+	}
+
+	public void setDateOnsetParalysis(Date dateOnsetParalysis) {
+		this.dateOnsetParalysis = dateOnsetParalysis;
+	}
+
+	@Transient
+	public Set<InjectionSite> getSiteOfParalysis() {
+		if (siteOfParalysis == null) {
+			if (StringUtils.isEmpty(requestedSiteOfParalysisString)) {
+				siteOfParalysis = new HashSet<>();
+			} else {
+				siteOfParalysis =
+						Arrays.stream(requestedSiteOfParalysisString.split(",")).map(InjectionSite::valueOf).collect(Collectors.toSet());
+			}
+		}
+		return siteOfParalysis;
+	}
+
+	public void setSiteOfParalysis(Set<InjectionSite> siteOfParalysis) {
+		this.siteOfParalysis = siteOfParalysis;
+
+		if (this.siteOfParalysis == null) {
+			return;
+		}
+
+		StringBuilder sb = new StringBuilder();
+		siteOfParalysis.stream().forEach(t -> {
+			sb.append(t.name());
+			sb.append(",");
+		});
+		if (sb.length() > 0) {
+			sb.substring(0, sb.lastIndexOf(","));
+		}
+		requestedSiteOfParalysisString = sb.toString();
+	}
+
+	public String getRequestedSiteOfParalysisString() {
+		return requestedSiteOfParalysisString;
+	}
+
+	public void setRequestedSiteOfParalysisString(String requestedSiteOfParalysisString) {
+		this.requestedSiteOfParalysisString = requestedSiteOfParalysisString;
+		siteOfParalysis = null;
+	}
+
+	public YesNo getParalysedLimbSensitiveToPain() {
+		return paralysedLimbSensitiveToPain;
+	}
+
+	public void setParalysedLimbSensitiveToPain(YesNo paralysedLimbSensitiveToPain) {
+		this.paralysedLimbSensitiveToPain = paralysedLimbSensitiveToPain;
+	}
+
+	public YesNo getInjectionSiteBeforeOnsetParalysis() {
+		return injectionSiteBeforeOnsetParalysis;
+	}
+
+	public void setInjectionSiteBeforeOnsetParalysis(YesNo injectionSiteBeforeOnsetParalysis) {
+		this.injectionSiteBeforeOnsetParalysis = injectionSiteBeforeOnsetParalysis;
+	}
+
+	@Transient
+	public Set<InjectionSite> getInjectionSite() {
+		if (injectionSite == null) {
+			if (StringUtils.isEmpty(injectionSiteString)) {
+				injectionSite = new HashSet<>();
+			} else {
+				injectionSite =
+						Arrays.stream(injectionSiteString.split(",")).map(InjectionSite::valueOf).collect(Collectors.toSet());
+			}
+		}
+		return injectionSite;
+	}
+
+	public void setInjectionSite(Set<InjectionSite> injectionSite) {
+		this.injectionSite = injectionSite;
+
+		if (this.injectionSite == null) {
+			return;
+		}
+
+		StringBuilder sb = new StringBuilder();
+		injectionSite.stream().forEach(t -> {
+			sb.append(t.name());
+			sb.append(",");
+		});
+		if (sb.length() > 0) {
+			sb.substring(0, sb.lastIndexOf(","));
+		}
+		injectionSiteString = sb.toString();
+	}
+
+	public String getInjectionSiteString() {
+		return injectionSiteString;
+	}
+
+	public void setInjectionSiteString(String injectionSiteString) {
+		this.injectionSiteString = injectionSiteString;
+		injectionSite = null;
+	}
+
+	public String getProvisionalDiagnosis() {
+		return provisionalDiagnosis;
+	}
+
+	public void setProvisionalDiagnosis(String provisionalDiagnosis) {
+		this.provisionalDiagnosis = provisionalDiagnosis;
+	}
+
+	public YesNo getTrueAfp() {
+		return trueAfp;
+	}
+
+	public void setTrueAfp(YesNo trueAfp) {
+		this.trueAfp = trueAfp;
 	}
 }
