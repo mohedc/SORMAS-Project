@@ -14721,13 +14721,15 @@ INSERT INTO schema_version (version_number, comment) VALUES (608, 'Add virusIsol
 -- Add Measles sample date fields
 ALTER TABLE samples ADD COLUMN datespecimensentfromfieldtonationallab timestamp;
 ALTER TABLE samples ADD COLUMN datespecimensenttoregionalreferencelab timestamp;
-ALTER TABLE samples ADD COLUMN datespecimenreceivedatnationallab timestamp;
-ALTER TABLE samples ADD COLUMN datespecimenreceivedatregionalreferencelab timestamp;
 ALTER TABLE samples_history ADD COLUMN datespecimensentfromfieldtonationallab timestamp;
 ALTER TABLE samples_history ADD COLUMN datespecimensenttoregionalreferencelab timestamp;
+INSERT INTO schema_version (version_number, comment) VALUES (609, 'Add Measles sample date fields');
+
+ALTER TABLE samples ADD COLUMN datespecimenreceivedatnationallab timestamp;
+ALTER TABLE samples ADD COLUMN datespecimenreceivedatregionalreferencelab timestamp;
 ALTER TABLE samples_history ADD COLUMN datespecimenreceivedatnationallab timestamp;
 ALTER TABLE samples_history ADD COLUMN datespecimenreceivedatregionalreferencelab timestamp;
-INSERT INTO schema_version (version_number, comment) VALUES (609, 'Add Measles sample date fields');
+INSERT INTO schema_version (version_number, comment) VALUES (610, 'Add Measles sample date fields');
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***
 
 
