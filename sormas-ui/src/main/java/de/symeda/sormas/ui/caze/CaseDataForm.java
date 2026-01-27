@@ -366,6 +366,7 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 				fluidRowLocs(CaseDataDto.VACCINATED, CaseDataDto.ROUTINE_VACCINATION_TYPE) +
 				fluidRowLocs(CaseDataDto.VACCINATION_RECORD_TYPE, CaseDataDto.NUMBER_OF_VACCINATION_DOSES) +
 				fluidRowLocs(CaseDataDto.LAST_VACCINATION_DATE, "") +
+				fluidRowLocs(CaseDataDto.AT_LEAST_ONE_YELLOW_FEVER_DOSE) +
 				loc(INVESTIGATING_OFFICER_INFO) +
 					locCss(VSPACE_TOP_3, CaseDataDto.INVESTIGATOR_NAME) +
 					fluidRowLocs(CaseDataDto.INVESTIGATOR_TITLE, CaseDataDto.INVESTIGATOR_UNIT) +
@@ -1056,9 +1057,14 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 		
 		DateField lastVaccinationDateField = addField(CaseDataDto.LAST_VACCINATION_DATE, DateField.class);
 
+		// Add field for "At least one yellow fever dose"
+		addField(CaseDataDto.AT_LEAST_ONE_YELLOW_FEVER_DOSE, NullableOptionGroup.class);
 		
 		// Add conditional visibility: lastVaccinationDate visible when vaccinationRecordType is CARD
 		FieldHelper.setVisibleWhen(getFieldGroup(), CaseDataDto.LAST_VACCINATION_DATE, CaseDataDto.VACCINATION_RECORD_TYPE, Arrays.asList(VaccinationRecordType.CARD), true);
+		
+		// Make "At least one yellow fever dose" visible only for yellow fever
+		FieldHelper.setVisibleWhen(getFieldGroup(), CaseDataDto.AT_LEAST_ONE_YELLOW_FEVER_DOSE, CaseDataDto.DISEASE, Arrays.asList(Disease.YELLOW_FEVER), true);
 
 		// vaccinationRecordTypeField.addValueChangeListener(e -> {
 		// 	VaccinationRecordType recordType = (VaccinationRecordType) e.getProperty().getValue();
@@ -1720,6 +1726,11 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 				setVisible(false,
 						CaseDataDto.MOTHER_TT_DATE_ONE,	CaseDataDto.MOTHER_TT_DATE_TWO,	CaseDataDto.MOTHER_TT_DATE_THREE, CaseDataDto.MOTHER_TT_DATE_FOUR, CaseDataDto.MOTHER_TT_DATE_FIVE, CaseDataDto.MOTHER_LAST_DOSE_DATE
 				);
+				break;
+			case MEASLES:
+			case YELLOW_FEVER:
+				// Make INVESTIGATOR subtitle visible for Measles and Yellow Fever
+				headingInvestigatingOfficerLabel.setVisible(true);
 				break;
 			default:
 				break;
