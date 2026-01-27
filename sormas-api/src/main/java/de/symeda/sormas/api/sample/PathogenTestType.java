@@ -59,8 +59,7 @@ public enum PathogenTestType {
 	@Diseases(value = {
 		Disease.RESPIRATORY_SYNCYTIAL_VIRUS,
 		Disease.INVASIVE_MENINGOCOCCAL_INFECTION,
-		Disease.INVASIVE_PNEUMOCOCCAL_INFECTION,
-		Disease.MEASLES }, hide = true)
+		Disease.INVASIVE_PNEUMOCOCCAL_INFECTION }, hide = true)
 	IGM_SERUM_ANTIBODY,
 	@Diseases(value = {
 		Disease.RESPIRATORY_SYNCYTIAL_VIRUS,
