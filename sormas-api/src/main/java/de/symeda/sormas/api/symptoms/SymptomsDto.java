@@ -2292,6 +2292,8 @@ public class SymptomsDto extends PseudonymizableDto {
 		ANTHRAX,
 		CORONAVIRUS,
 		NEONATAL_TETANUS,
+		YELLOW_FEVER,
+		MEASLES,
 		UNDEFINED,
 		OTHER })
 	@Complication
