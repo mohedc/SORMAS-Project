@@ -14736,6 +14736,32 @@ ALTER TABLE symptoms ADD COLUMN injectionsitestring VARCHAR(512);
 ALTER TABLE symptoms ADD COLUMN requestedsiteofparalysisstring varchar(512);
 ALTER TABLE symptoms ADD COLUMN provisionaldiagnosis varchar(512);
 INSERT INTO schema_version (version_number, comment) VALUES (611, 'Add multiple columns to symptoms for afp');
+
+CREATE TABLE afpimmunization (
+                                 id BIGINT PRIMARY KEY NOT NULL,
+                                 totalnumberdoses INTEGER,
+                                 opvdoseatbirth DATE,
+                                 seconddose DATE,
+                                 fourthdose DATE,
+                                 firstdose DATE,
+                                 thirddose DATE,
+                                 lastdose DATE,
+                                 totalopvdosesreceivedthroughsia VARCHAR(255),
+                                 totalopvdosesreceivedthroughri VARCHAR(255),
+                                 datelastopvdosesreceivedthroughsia DATE,
+                                 totalipvdosesreceivedthroughsia VARCHAR(255),
+                                 totalipvdosesreceivedthroughri VARCHAR(255),
+                                 datelastipvreceivedthroughsia DATE,
+                                 sourcerivaccinationinformation VARCHAR(255),
+                                 changedate TIMESTAMP(3),
+                                 change_user_id BIGINT,
+                                 creationdate DATE,
+                                 datelastipvdosesreceivedthroughsia DATE,
+                                 uuid VARCHAR(512)
+);
+ALTER TABLE cases ADD COLUMN afpimmunization_id BIGINT;
+
+INSERT INTO schema_version (version_number, comment) VALUES (612, 'Created afpimmunization table and altered cases table');
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***
 
 

@@ -74,6 +74,9 @@ import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
+import de.symeda.sormas.backend.afpimmunization.AfpImmunization;
+import de.symeda.sormas.backend.afpimmunization.AfpImmunizationFacadeEjb;
+import de.symeda.sormas.backend.afpimmunization.AfpImmunizationFacadeEjb.AfpImmunizationEjbLocal;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -417,6 +420,8 @@ public class CaseFacadeEjb extends AbstractCoreFacadeEjb<Case, CaseDataDto, Case
 	private PathogenTestFacadeEjbLocal sampleTestFacade;
 	@EJB
 	private HospitalizationFacadeEjbLocal hospitalizationFacade;
+	@EJB
+	private AfpImmunizationEjbLocal afpImmunizationFacade;
 	@EJB
 	private EpiDataFacadeEjbLocal epiDataFacade;
 	@EJB
@@ -804,6 +809,7 @@ public class CaseFacadeEjb extends AbstractCoreFacadeEjb<Case, CaseDataDto, Case
 				joins.getEpiData().get(EpiData.ID),
 				joins.getRoot().get(Case.SYMPTOMS).get(Symptoms.ID),
 				joins.getHospitalization().get(Hospitalization.ID),
+				joins.getAfpImmunization().get(AfpImmunization.ID),
 				joins.getRoot().get(Case.HEALTH_CONDITIONS).get(HealthConditions.ID),
 				caseRoot.get(Case.UUID),
 				caseRoot.get(Case.EPID_NUMBER), caseRoot.get(Case.DISEASE), caseRoot.get(Case.DISEASE_VARIANT_VALUE), caseRoot.get(Case.DISEASE_DETAILS),
@@ -3069,6 +3075,7 @@ public class CaseFacadeEjb extends AbstractCoreFacadeEjb<Case, CaseDataDto, Case
 		target.setPerson(PersonFacadeEjb.toReferenceDto(source.getPerson()));
 		target.setHospitalization(HospitalizationFacadeEjb.toDto(source.getHospitalization()));
 		target.setEpiData(EpiDataFacadeEjb.toDto(source.getEpiData()));
+		target.setAfpImmunization(AfpImmunizationFacadeEjb.toDto(source.getAfpImmunization()));
 		if (source.getTherapy() != null) {
 			target.setTherapy(TherapyFacadeEjb.toDto(source.getTherapy()));
 		}
@@ -3266,6 +3273,7 @@ public class CaseFacadeEjb extends AbstractCoreFacadeEjb<Case, CaseDataDto, Case
 			FacadeHelper.setUuidIfDtoExists(target.getHospitalization(), source.getHospitalization());
 			FacadeHelper.setUuidIfDtoExists(target.getEpiData(), source.getEpiData());
 			FacadeHelper.setUuidIfDtoExists(target.getSymptoms(), source.getSymptoms());
+			FacadeHelper.setUuidIfDtoExists(target.getAfpImmunization(), source.getAfpImmunization());
 		}
 
 		target.setDisease(source.getDisease());
@@ -3311,6 +3319,7 @@ public class CaseFacadeEjb extends AbstractCoreFacadeEjb<Case, CaseDataDto, Case
 			target.setInvestigationStatus(source.getInvestigationStatus());
 		}
 		target.setHospitalization(hospitalizationFacade.fillOrBuildEntity(source.getHospitalization(), target.getHospitalization(), checkChangeDate));
+		target.setAfpImmunization(afpImmunizationFacade.fillOrBuildEntity(source.getAfpImmunization(), target.getAfpImmunization(),checkChangeDate));
 		target.setEpiData(epiDataFacade.fillOrBuildEntity(source.getEpiData(), target.getEpiData(), checkChangeDate));
 		if (source.getTherapy() == null) {
 			source.setTherapy(TherapyDto.build());

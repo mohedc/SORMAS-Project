@@ -25,6 +25,8 @@ import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
+import de.symeda.sormas.ui.afpimmunization.AfpImmunizationForm;
+import de.symeda.sormas.ui.afpimmunization.AfpImmunizationView;
 import org.apache.commons.collections4.CollectionUtils;
 
 import com.vaadin.icons.VaadinIcons;
@@ -183,6 +185,7 @@ public class CaseController {
 		}
 		navigator.addView(HospitalizationView.VIEW_NAME, HospitalizationView.class);
 		navigator.addView(CaseEpiDataView.VIEW_NAME, CaseEpiDataView.class);
+		navigator.addView(AfpImmunizationView.VIEW_NAME, AfpImmunizationView.class);
 		if (UiUtil.permitted(UserRight.THERAPY_VIEW)) {
 			navigator.addView(TherapyView.VIEW_NAME, TherapyView.class);
 		}
@@ -1301,6 +1304,31 @@ public class CaseController {
 			}
 			cazeDto.setHospitalization(hospitalizationForm.getValue());
 			saveCase(cazeDto);
+		});
+
+		return editView;
+	}
+
+	public CommitDiscardWrapperComponent<AfpImmunizationForm> getAfpImmunizationComponent(final String caseUuid, ViewMode viewMode, boolean isEditAllowed) {
+
+		CaseDataDto caze = findCase(caseUuid);
+		AfpImmunizationForm afpImmunizationForm = new AfpImmunizationForm(
+				caze.getDisease(),
+				CaseDataDto.class,
+				caze.isPseudonymized(),
+				caze.isInJurisdiction(),
+				isEditAllowed);
+		afpImmunizationForm.setValue(caze.getAfpImmunization());
+
+		final CommitDiscardWrapperComponent<AfpImmunizationForm> editView = new CommitDiscardWrapperComponent<AfpImmunizationForm>(
+				afpImmunizationForm,
+				afpImmunizationForm.getFieldGroup());
+
+		editView.addCommitListener(() -> {
+			CaseDataDto cazeDto = findCase(caseUuid);
+			cazeDto.setAfpImmunization(afpImmunizationForm.getValue());
+			saveCase(cazeDto);
+
 		});
 
 		return editView;

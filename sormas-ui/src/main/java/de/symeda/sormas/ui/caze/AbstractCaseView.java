@@ -41,6 +41,7 @@ import de.symeda.sormas.ui.ControllerProvider;
 import de.symeda.sormas.ui.SubMenu;
 import de.symeda.sormas.ui.UiUtil;
 import de.symeda.sormas.ui.ViewModelProviders;
+import de.symeda.sormas.ui.afpimmunization.AfpImmunizationView;
 import de.symeda.sormas.ui.caze.maternalhistory.MaternalHistoryView;
 import de.symeda.sormas.ui.caze.porthealthinfo.PortHealthInfoView;
 import de.symeda.sormas.ui.clinicalcourse.ClinicalCourseView;
@@ -171,6 +172,9 @@ public abstract class AbstractCaseView extends AbstractEditAllowedDetailView<Cas
 					I18nProperties.getPrefixCaption(CaseDataDto.I18N_PREFIX, CaseDataDto.HOSPITALIZATION),
 					params);
 			}
+			if (UiUtil.enabled(FeatureType.VIEW_TAB_CASES_AFP_IMMUNIZATION) && caze.getDisease() == Disease.AFP) {
+				menu.addView(AfpImmunizationView.VIEW_NAME, I18nProperties.getPrefixCaption(CaseDataDto.I18N_PREFIX, CaseDataDto.AFP_IMMUNIZATION), params);
+			}
 			if (caze.getCaseOrigin() == CaseOrigin.POINT_OF_ENTRY
 				&& ControllerProvider.getCaseController().hasPointOfEntry(caze)
 				&& UiUtil.permitted(UserRight.PORT_HEALTH_INFO_VIEW)) {
@@ -186,7 +190,7 @@ public abstract class AbstractCaseView extends AbstractEditAllowedDetailView<Cas
 				menu.addView(CaseEpiDataView.VIEW_NAME, I18nProperties.getPrefixCaption(CaseDataDto.I18N_PREFIX, CaseDataDto.EPI_DATA), params);
 			}
 			if (UiUtil.permitted(FeatureType.VIEW_TAB_CASES_THERAPY, UserRight.THERAPY_VIEW)
-				&& !caze.checkIsUnreferredPortHealthCase()
+				&& !caze.checkIsUnreferredPortHealthCase() && caze.getDisease() != Disease.AFP
 				&& UiUtil.enabled(FeatureType.CLINICAL_MANAGEMENT )) {
 				if (caze.getDisease() != Disease.NEONATAL_TETANUS) {
 					menu.addView(TherapyView.VIEW_NAME, I18nProperties.getPrefixCaption(CaseDataDto.I18N_PREFIX, CaseDataDto.THERAPY), params);
@@ -204,7 +208,7 @@ public abstract class AbstractCaseView extends AbstractEditAllowedDetailView<Cas
 			if (UiUtil.permitted(
 				EnumSet.of(FeatureType.VIEW_TAB_CASES_FOLLOW_UP, FeatureType.VIEW_TAB_CASES_CLINICAL_COURSE, FeatureType.CLINICAL_MANAGEMENT),
 				UserRight.CLINICAL_COURSE_VIEW) && !caze.checkIsUnreferredPortHealthCase() && !DiseaseHelper.checkDiseaseIsInvasiveBacterialDiseases(caze.getDisease())) {
-				if (caze.getDisease() != Disease.NEONATAL_TETANUS) {
+				if (caze.getDisease() != Disease.NEONATAL_TETANUS && caze.getDisease() != Disease.AFP) {
 					menu.addView(
 							ClinicalCourseView.VIEW_NAME,
 							I18nProperties.getPrefixCaption(CaseDataDto.I18N_PREFIX, CaseDataDto.CLINICAL_COURSE),

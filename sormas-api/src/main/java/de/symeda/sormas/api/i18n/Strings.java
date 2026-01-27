@@ -431,6 +431,7 @@ public interface Strings {
 	String headingActivityAsCaseDetails = "headingActivityAsCaseDetails";
 	String headingAdditionalTests = "headingAdditionalTests";
 	String headingAdjustQuarantine = "headingAdjustQuarantine";
+	String headingAfpImmunization = "headingAfpImmunization";
 	String headingAefiAdverseEvents = "headingAefiAdverseEvents";
 	String headingAefiDashboardEpiCurve = "headingAefiDashboardEpiCurve";
 	String headingAefiDashboardMap = "headingAefiDashboardMap";

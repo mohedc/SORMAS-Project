@@ -31,6 +31,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import de.symeda.sormas.api.afpimmunization.AfpImmunizationDto;
 import de.symeda.sormas.api.caze.caseimport.MotherVaccinationStatus;
 import org.apache.commons.lang3.StringUtils;
 
@@ -140,6 +141,7 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 	public static final String MATERNAL_HISTORY = "maternalHistory";
 	public static final String PORT_HEALTH_INFO = "portHealthInfo";
 	public static final String HEALTH_CONDITIONS = "healthConditions";
+	public static final String AFP_IMMUNIZATION = "afpImmunization";
 	public static final String PREGNANT = "pregnant";
 	public static final String VACCINATION_STATUS = "vaccinationStatus";
 	public static final String VACCINATED = "vaccinated";
@@ -490,6 +492,8 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 	@Valid
 	private HospitalizationDto hospitalization;
 	@Valid
+	private AfpImmunizationDto afpImmunization;
+	@Valid
 	@EmbeddedPersonalData
 	@EmbeddedSensitiveData
 	private SymptomsDto symptoms;
@@ -837,6 +841,7 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 		caze.setUuid(DataHelper.createUuid());
 		caze.setPerson(person);
 		caze.setHospitalization(HospitalizationDto.build());
+		caze.setAfpImmunization(AfpImmunizationDto.build());
 		caze.setEpiData(EpiDataDto.build());
 		caze.setSymptoms(SymptomsDto.build());
 		caze.setTherapy(TherapyDto.build());
@@ -1271,6 +1276,12 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 
 	public void setHospitalization(HospitalizationDto hospitalization) {
 		this.hospitalization = hospitalization;
+	}
+	public AfpImmunizationDto getAfpImmunization() {
+		return afpImmunization;
+	}
+	public void setAfpImmunization(AfpImmunizationDto afpImmunization) {
+		this.afpImmunization = afpImmunization;
 	}
 
 	public EpiDataDto getEpiData() {

@@ -44,6 +44,7 @@ import javax.persistence.Transient;
 import de.symeda.sormas.api.caze.*;
 import de.symeda.sormas.api.caze.caseimport.MotherVaccinationStatus;
 import de.symeda.sormas.api.utils.Diseases;
+import de.symeda.sormas.backend.afpimmunization.AfpImmunization;
 import org.hibernate.annotations.Type;
 
 import de.symeda.sormas.api.Disease;
@@ -131,6 +132,7 @@ public class Case extends CoreAdo implements IsCase, SormasToSormasShareable, Ha
 	public static final String DISTRICT = "district";
 	public static final String COMMUNITY = "community";
 	public static final String HOSPITALIZATION = "hospitalization";
+	public static final String AFP_IMMUNIZATION = "afpImmunization";
 	public static final String EPI_DATA = "epiData";
 	public static final String CLINICAL_COURSE = "clinicalCourse";
 	public static final String MATERNAL_HISTORY = "maternalHistory";
@@ -262,6 +264,7 @@ public class Case extends CoreAdo implements IsCase, SormasToSormasShareable, Ha
 
 	private InvestigationStatus investigationStatus;
 	private Hospitalization hospitalization;
+	private AfpImmunization afpImmunization;
 	private EpiData epiData;
 	private Therapy therapy;
 	private ClinicalCourse clinicalCourse;
@@ -880,6 +883,17 @@ public class Case extends CoreAdo implements IsCase, SormasToSormasShareable, Ha
 	public void setEpiData(EpiData epiData) {
 		this.epiData = epiData;
 	}
+
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	//@AuditedIgnore
+	public AfpImmunization getAfpImmunization(){
+		if (afpImmunization == null){
+			afpImmunization = new AfpImmunization();
+		}
+		return afpImmunization;
+	}
+
+	public void setAfpImmunization(AfpImmunization afpImmunization) {this.afpImmunization = afpImmunization; }
 
 	// It's necessary to do a lazy fetch here because having three eager fetching
 	// one to one relations
