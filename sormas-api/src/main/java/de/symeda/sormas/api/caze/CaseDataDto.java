@@ -739,7 +739,8 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 	private String compoundOwner;
 	@Diseases({
 			Disease.NEONATAL_TETANUS,
-			Disease.MEASLES})
+			Disease.MEASLES,
+			Disease.YELLOW_FEVER})
 	private String nationality;
 	@Diseases({
 			Disease.NEONATAL_TETANUS})
