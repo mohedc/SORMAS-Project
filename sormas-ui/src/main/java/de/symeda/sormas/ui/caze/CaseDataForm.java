@@ -137,7 +137,7 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 	private static final long serialVersionUID = 1L;
 
 	private static final String CASE_DATA_HEADING_LOC = "caseDataHeadingLoc";
-	private static final String NOTIFY_INVESTIGATE_HEADING_LOC = "caseDataHeadingLoc";
+	private static final String NOTIFY_INVESTIGATE_HEADING_LOC = "notifyInvestigateHeadingLoc";
 	private static final String MEDICAL_INFORMATION_LOC = "medicalInformationLoc";
 	private static final String PAPER_FORM_DATES_LOC = "paperFormDatesLoc";
 	private static final String SMALLPOX_VACCINATION_SCAR_IMG = "smallpoxVaccinationScarImg";
@@ -321,6 +321,7 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 					fluidRowLocs(TYPE_GROUP_LOC, CaseDataDto.FACILITY_TYPE) +
 					fluidRowLocs(CaseDataDto.HEALTH_FACILITY, CaseDataDto.HEALTH_FACILITY_DETAILS) +
 					fluidRowLocs(CaseDataDto.REPORT_LON, CaseDataDto.REPORT_LAT) +
+				loc(NOTIFY_INVESTIGATE_HEADING_LOC) +
 				loc(NOTIFY_INVESTIGATE) +
 				fluidRowLocs(CaseDataDto.NOTIFIED_BY, CaseDataDto.NOTIFIED_BY_DETAILS) +
 				fluidRowLocs(CaseDataDto.DATE_OF_NOTIFICATION, CaseDataDto.DATE_OF_INVESTIGATION) +
@@ -357,6 +358,7 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 					fluidRowLocs(TYPE_GROUP_LOC, CaseDataDto.FACILITY_TYPE) +
 					fluidRowLocs(CaseDataDto.HEALTH_FACILITY, CaseDataDto.HEALTH_FACILITY_DETAILS) +
 					fluidRowLocs(CaseDataDto.REPORT_LON, CaseDataDto.REPORT_LAT) +
+				loc(NOTIFY_INVESTIGATE_HEADING_LOC) +
 				loc(NOTIFY_INVESTIGATE) +
 				fluidRowLocs(CaseDataDto.NOTIFIED_BY, CaseDataDto.NOTIFIED_BY_DETAILS) +
 				fluidRowLocs(CaseDataDto.DATE_OF_NOTIFICATION, CaseDataDto.DATE_OF_INVESTIGATION) +
