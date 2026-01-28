@@ -169,6 +169,7 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 	public static final String DIAGNOSIS_CRITERIA_LAB_TEST_PANEL_LOC = "diagnosisCriteriaLoc";
 	private static final String ADDITIONAL_MEDICAL_INFORMATION = "additionalMedicalInformationLoc";
 	private static final String INVESTIGATING_OFFICER_INFO = "investigatingOfficerInfoLoc";
+	private static final String NOTIFY_INVESTIGATE = "notifyInvestigateLoc";
 
 	//@formatter:off
 	private static final String MAIN_HTML_LAYOUT =
@@ -433,7 +434,6 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 					locCss(VSPACE_TOP_3, CaseDataDto.INVESTIGATOR_NAME) +
 					fluidRowLocs(CaseDataDto.INVESTIGATOR_TITLE, CaseDataDto.INVESTIGATOR_UNIT) +
 					fluidRowLocs(CaseDataDto.INVESTIGATOR_ADDRESS, CaseDataDto.INVESTIGATOR_TEL);
-					fluidRowLocs(CaseDataDto.INVESTIGATOR_TEL, CaseDataDto.INVESTIGATOR_ADDRESS);
 	//@formatter:on
 
 	private final String caseUuid;
