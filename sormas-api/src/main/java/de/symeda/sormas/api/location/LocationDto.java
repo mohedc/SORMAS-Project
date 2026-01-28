@@ -62,6 +62,7 @@ public class LocationDto extends PseudonymizableDto {
 
 	public static final String DETAILS = "details";
 	public static final String CITY = "city";
+	public static final String VILLAGE = "village";
 	public static final String AREA_TYPE = "areaType";
 	public static final String CONTINENT = "continent";
 	public static final String SUB_CONTINENT = "subcontinent";
@@ -110,6 +111,9 @@ public class LocationDto extends PseudonymizableDto {
 		CountryHelper.COUNTRY_CODE_LUXEMBOURG })
 	@Size(max = FieldConstraints.CHARACTER_LIMIT_DEFAULT, message = Validations.textTooLong)
 	private String city;
+	@PersonalData
+	@SensitiveData
+	private String village;
 	@PersonalData
 	@SensitiveData
 	private AreaType areaType;
@@ -407,6 +411,14 @@ public class LocationDto extends PseudonymizableDto {
 
 	public void setLandmark(String landmark) {
 		this.landmark = landmark;
+	}
+
+	public String getVillage() {
+		return village;
+	}
+
+	public void setVillage(String village) {
+		this.village = village;
 	}
 
 	@Override

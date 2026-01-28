@@ -7,6 +7,7 @@
 		<jta-data-source>jdbc/sormasDataPool</jta-data-source>
         
 		<class>de.symeda.sormas.backend.action.Action</class>
+		<class>de.symeda.sormas.backend.afpimmunization.AfpImmunization</class>
 		<class>de.symeda.sormas.backend.caze.Case</class>
 		<class>de.symeda.sormas.backend.common.AbstractDomainObject</class>
 		<class>de.symeda.sormas.backend.common.DeletableAdo</class>

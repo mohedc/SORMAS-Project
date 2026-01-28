@@ -224,6 +224,18 @@ public class Person extends AbstractDomainObject implements IsPerson, HasExterna
 	private LocationOfBirth locationOfBirth;
 	private YesNoUnknown birthInInstitution;
 	private String describeTreatmentOfCard;
+	private String place;
+	private String durationMonths;
+	private String durationDays;
+	private String place2;
+	private String durationMonths2;
+	private String durationDays2;
+	private String place3;
+	private String durationMonths3;
+	private String durationDays3;
+	private String place4;
+	private String durationMonths4;
+	private String durationDays4;
 
 	private List<Case> cases = new ArrayList<>();
 	private List<Contact> contacts = new ArrayList<>();
@@ -881,7 +893,7 @@ public class Person extends AbstractDomainObject implements IsPerson, HasExterna
 	public void setReceivedAntenatalCare(YesNoUnknown receivedAntenatalCare) {
 		this.receivedAntenatalCare = receivedAntenatalCare;
 	}
-
+	@Column
 	public String getReceivedAntenatalCareWhere() {
 		return receivedAntenatalCareWhere;
 	}
@@ -897,7 +909,7 @@ public class Person extends AbstractDomainObject implements IsPerson, HasExterna
 	public void setPrenatalTotalVisits(Integer prenatalTotalVisits) {
 		this.prenatalTotalVisits = prenatalTotalVisits;
 	}
-
+	@Enumerated(EnumType.STRING)
 	public YesNoUnknown getAttendedByTrainedTBA() {
 		return attendedByTrainedTBA;
 	}
@@ -905,7 +917,7 @@ public class Person extends AbstractDomainObject implements IsPerson, HasExterna
 	public void setAttendedByTrainedTBA(YesNoUnknown attendedByTrainedTBA) {
 		this.attendedByTrainedTBA = attendedByTrainedTBA;
 	}
-
+	@Column
 	public String getAttendedByTrainedTBAMidwifeName() {
 		return attendedByTrainedTBAMidwifeName;
 	}
@@ -913,7 +925,7 @@ public class Person extends AbstractDomainObject implements IsPerson, HasExterna
 	public void setAttendedByTrainedTBAMidwifeName(String attendedByTrainedTBAMidwifeName) {
 		this.attendedByTrainedTBAMidwifeName = attendedByTrainedTBAMidwifeName;
 	}
-
+	@Enumerated(EnumType.STRING)
 	public AttendedBy getAttendedByDoctorNurse() {
 		return attendedByDoctorNurse;
 	}
@@ -921,7 +933,7 @@ public class Person extends AbstractDomainObject implements IsPerson, HasExterna
 	public void setAttendedByDoctorNurse(AttendedBy attendedByDoctorNurse) {
 		this.attendedByDoctorNurse = attendedByDoctorNurse;
 	}
-
+	@Enumerated(EnumType.STRING)
 	public YesNoUnknown getCutCordWithSterileBlade() {
 		return cutCordWithSterileBlade;
 	}
@@ -929,7 +941,7 @@ public class Person extends AbstractDomainObject implements IsPerson, HasExterna
 	public void setCutCordWithSterileBlade(YesNoUnknown cutCordWithSterileBlade) {
 		this.cutCordWithSterileBlade = cutCordWithSterileBlade;
 	}
-
+	@Enumerated(EnumType.STRING)
 	public YesNoUnknown getCordTreatedWithAnything() {
 		return cordTreatedWithAnything;
 	}
@@ -937,7 +949,7 @@ public class Person extends AbstractDomainObject implements IsPerson, HasExterna
 	public void setCordTreatedWithAnything(YesNoUnknown cordTreatedWithAnything) {
 		this.cordTreatedWithAnything = cordTreatedWithAnything;
 	}
-
+	@Column
 	public String getCordTreatedWithAnythingWhere() {
 		return cordTreatedWithAnythingWhere;
 	}
@@ -945,7 +957,7 @@ public class Person extends AbstractDomainObject implements IsPerson, HasExterna
 	public void setCordTreatedWithAnythingWhere(String cordTreatedWithAnythingWhere) {
 		this.cordTreatedWithAnythingWhere = cordTreatedWithAnythingWhere;
 	}
-
+	@Enumerated(EnumType.STRING)
 	public LocationOfBirth getLocationOfBirth() {
 		return locationOfBirth;
 	}
@@ -953,7 +965,7 @@ public class Person extends AbstractDomainObject implements IsPerson, HasExterna
 	public void setLocationOfBirth(LocationOfBirth locationOfBirth) {
 		this.locationOfBirth = locationOfBirth;
 	}
-
+	@Enumerated(EnumType.STRING)
 	public YesNoUnknown getBirthInInstitution() {
 		return birthInInstitution;
 	}
@@ -961,13 +973,109 @@ public class Person extends AbstractDomainObject implements IsPerson, HasExterna
 	public void setBirthInInstitution(YesNoUnknown birthInInstitution) {
 		this.birthInInstitution = birthInInstitution;
 	}
-
+	@Column
 	public String getDescribeTreatmentOfCard() {
 		return describeTreatmentOfCard;
 	}
 
 	public void setDescribeTreatmentOfCard(String describeTreatmentOfCard) {
 		this.describeTreatmentOfCard = describeTreatmentOfCard;
+	}
+	@Column
+	public String getPlace() {
+		return place;
+	}
+
+	public void setPlace(String place) {
+		this.place = place;
+	}
+	@Column
+	public String getDurationMonths() {
+		return durationMonths;
+	}
+
+	public void setDurationMonths(String durationMonths) {
+		this.durationMonths = durationMonths;
+	}
+	@Column
+	public String getDurationDays() {
+		return durationDays;
+	}
+
+	public void setDurationDays(String durationDays) {
+		this.durationDays = durationDays;
+	}
+	@Column
+	public String getPlace2() {
+		return place2;
+	}
+
+	public void setPlace2(String place2) {
+		this.place2 = place2;
+	}
+	@Column
+	public String getDurationMonths2() {
+		return durationMonths2;
+	}
+
+	public void setDurationMonths2(String durationMonths2) {
+		this.durationMonths2 = durationMonths2;
+	}
+	@Column
+	public String getDurationDays2() {
+		return durationDays2;
+	}
+
+	public void setDurationDays2(String durationDays2) {
+		this.durationDays2 = durationDays2;
+	}
+	@Column
+	public String getPlace3() {
+		return place3;
+	}
+
+	public void setPlace3(String place3) {
+		this.place3 = place3;
+	}
+	@Column
+	public String getDurationMonths3() {
+		return durationMonths3;
+	}
+
+	public void setDurationMonths3(String durationMonths3) {
+		this.durationMonths3 = durationMonths3;
+	}
+	@Column
+	public String getDurationDays3() {
+		return durationDays3;
+	}
+
+	public void setDurationDays3(String durationDays3) {
+		this.durationDays3 = durationDays3;
+	}
+	@Column
+	public String getPlace4() {
+		return place4;
+	}
+
+	public void setPlace4(String place4) {
+		this.place4 = place4;
+	}
+	@Column
+	public String getDurationMonths4() {
+		return durationMonths4;
+	}
+
+	public void setDurationMonths4(String durationMonths4) {
+		this.durationMonths4 = durationMonths4;
+	}
+	@Column
+	public String getDurationDays4() {
+		return durationDays4;
+	}
+
+	public void setDurationDays4(String durationDays4) {
+		this.durationDays4 = durationDays4;
 	}
 
 	@Transient

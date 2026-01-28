@@ -34,12 +34,7 @@ import de.symeda.sormas.api.i18n.Validations;
 import de.symeda.sormas.api.infrastructure.facility.FacilityReferenceDto;
 import de.symeda.sormas.api.sormastosormas.SormasToSormasShareableDto;
 import de.symeda.sormas.api.user.UserReferenceDto;
-import de.symeda.sormas.api.utils.DataHelper;
-import de.symeda.sormas.api.utils.DependingOnFeatureType;
-import de.symeda.sormas.api.utils.Diseases;
-import de.symeda.sormas.api.utils.FieldConstraints;
-import de.symeda.sormas.api.utils.SensitiveData;
-import de.symeda.sormas.api.utils.YesNo;
+import de.symeda.sormas.api.utils.*;
 
 @DependingOnFeatureType(featureType = FeatureType.SAMPLES_LAB)
 public class SampleDto extends SormasToSormasShareableDto implements IsSample {
@@ -90,6 +85,32 @@ public class SampleDto extends SormasToSormasShareableDto implements IsSample {
 	public static final String DISPATCHED_TO_REGIONAL_COLDROOM_DATE = "dispatchedToRegionalColdroomDate";
 	public static final String DISPATCHED_TO_NATIONAL_LAB_BY_COURIER_DATE = "dispatchedToNationalLabByCourierDate";
 	public static final String DISPATCHED_TO_NATIONAL_LAB_BY_REGION_DISTRICT_DATE = "dispatchedToNationalLabByRegionDistrictDate";
+	public static final String DATE_FIRST_SPECIMEN = "dateFirstSpecimen";
+	public static final String DATE_SECOND_SPECIMEN = "dateSecondSpecimen";
+	public static final String DATE_SPECIMEN_SENT_NATIONAL_LEVEL = "dateSpecimenSentNationalLevel";
+	public static final String DATE_SPECIMEN_RECEIVED_NATIONAL_LEVEL = "dateSpecimenReceivedNationalLevel";
+	public static final String DATE_SPECIMEN_SENT_INTERCOUNTY_NATLAB = "dateSpecimenSentInter";
+	public static final String DATE_SPECIMEN_RECEIVED_INTERCOUNTY_NATLAB = "dateSpecimenReceivedInter";
+	public static final String STATUS_SPECIMEN_RECEPTION_AT_LAB = "statusSpecimenReceptionAtLab";
+	public static final String DATE_COMBINED_CELL_CULTURE_RESULTS = "dateCombinedCellCultureResults";
+	public static final String W1 = "w1";
+	public static final String W2 = "w2";
+	public static final String W3 = "w3";
+	public static final String DISCORDANT = "discordant";
+	public static final String SL1 = "sL1";
+	public static final String SL2 = "sL2";
+	public static final String SL3 = "sL3";
+	public static final String DATE_FOLLOWUP_EXAM = "dateFollowUpExam";
+	public static final String RESIDUAL_ANALYSIS = "residualAnalysis";
+	public static final String RESULT_EXAM = "resultExam";
+	public static final String DATE_SENT_NATIONAL_REG_LAB = "dateSentToNationalRegLab";
+	public static final String DATE_DIFFERENTIATION_SENT_EPI = "dateDifferentiationSentToEpi";
+	public static final String DATE_DIFFERENTIATION_RECEIVED_EPI = "dateDifferentiationReceivedFromEpi";
+	public static final String DATE_ISOLATE_SENT_SEQUENCING = "dateIsolateSentForSequencing";
+	public static final String DATE_SEQ_RESULTS_SENT_PROGRAM = "dateSeqResultsSentToProgram";
+	public static final String FINAL_LAB_RESULTS = "finalLabResults";
+	public static final String IMMUNOCOMPROMISED_STATUS_SUSPECTED = "immunocompromisedStatusSuspected";
+	public static final String AFP_FINAL_CLASSIFICATION = "afpFinalClassification";
 	public static final String DATE_SPECIMEN_SENT_FROM_FIELD_TO_NATIONAL_LAB = "dateSpecimenSentFromFieldToNationalLab";
 	public static final String DATE_SPECIMEN_SENT_TO_REGIONAL_REFERENCE_LAB = "dateSpecimenSentToRegionalReferenceLab";
 	public static final String DATE_SPECIMEN_RECEIVED_AT_NATIONAL_LAB = "dateSpecimenReceivedAtNationalLab";
@@ -104,7 +125,6 @@ public class SampleDto extends SormasToSormasShareableDto implements IsSample {
 	private String fieldSampleID;
 	@NotNull(message = Validations.requiredField)
 	private Date sampleDateTime;
-
 	@NotNull(message = Validations.validReportDateTime)
 	private Date reportDateTime;
 	private UserReferenceDto reportingUser;
@@ -184,6 +204,32 @@ public class SampleDto extends SormasToSormasShareableDto implements IsSample {
 	@Diseases(value = {
 		Disease.YELLOW_FEVER })
 	private Date dispatchedToNationalLabByRegionDistrictDate;
+	private Date dateFirstSpecimen;
+	private Date dateSecondSpecimen;
+	private Date dateSpecimenSentNationalLevel;
+	private Date dateSpecimenReceivedNationalLevel;
+	private Date dateSpecimenSentInter;
+	private Date dateSpecimenReceivedInter;
+	private SpecimenCondition statusSpecimenReceptionAtLab;
+	private Date dateCombinedCellCultureResults;
+	private YesNo w1;
+	private YesNo w2;
+	private YesNo w3;
+	private YesNoUnknown discordant;
+	private YesNo sL1;
+	private YesNo sL2;
+	private YesNo sL3;
+	private Date dateFollowUpExam;
+	private InjectionSite residualAnalysis;
+	private ExamResult resultExam;
+	private Date dateSentToNationalRegLab;
+	private Date dateDifferentiationSentToEpi;
+	private Date dateDifferentiationReceivedFromEpi;
+	private Date dateIsolateSentForSequencing;
+	private Date dateSeqResultsSentToProgram;
+	private PosNeg finalLabResults;
+	private YesNoUnknown immunocompromisedStatusSuspected;
+	private FinalClassification afpFinalClassification;
 	@Diseases(value = {
 		Disease.MEASLES })
 	private Date dateSpecimenSentFromFieldToNationalLab;
@@ -671,6 +717,214 @@ public class SampleDto extends SormasToSormasShareableDto implements IsSample {
 		this.dispatchedToNationalLabByRegionDistrictDate = dispatchedToNationalLabByRegionDistrictDate;
 	}
 
+	public Date getDateFirstSpecimen() {
+		return dateFirstSpecimen;
+	}
+
+	public void setDateFirstSpecimen(Date dateFirstSpecimen) {
+		this.dateFirstSpecimen = dateFirstSpecimen;
+	}
+
+	public Date getDateSecondSpecimen() {
+		return dateSecondSpecimen;
+	}
+
+	public void setDateSecondSpecimen(Date dateSecondSpecimen) {
+		this.dateSecondSpecimen = dateSecondSpecimen;
+	}
+
+	public Date getDateSpecimenSentNationalLevel() {
+		return dateSpecimenSentNationalLevel;
+	}
+
+	public void setDateSpecimenSentNationalLevel(Date dateSpecimenSentNationalLevel) {
+		this.dateSpecimenSentNationalLevel = dateSpecimenSentNationalLevel;
+	}
+
+	public Date getDateSpecimenReceivedNationalLevel() {
+		return dateSpecimenReceivedNationalLevel;
+	}
+
+	public void setDateSpecimenReceivedNationalLevel(Date dateSpecimenReceivedNationalLevel) {
+		this.dateSpecimenReceivedNationalLevel = dateSpecimenReceivedNationalLevel;
+	}
+
+	public Date getDateSpecimenSentInter() {
+		return dateSpecimenSentInter;
+	}
+
+	public void setDateSpecimenSentInter(Date dateSpecimenSentInter) {
+		this.dateSpecimenSentInter = dateSpecimenSentInter;
+	}
+
+	public Date getDateSpecimenReceivedInter() {
+		return dateSpecimenReceivedInter;
+	}
+
+	public void setDateSpecimenReceivedInter(Date dateSpecimenReceivedInter) {
+		this.dateSpecimenReceivedInter = dateSpecimenReceivedInter;
+	}
+
+	public SpecimenCondition getStatusSpecimenReceptionAtLab() {
+		return statusSpecimenReceptionAtLab;
+	}
+
+	public void setStatusSpecimenReceptionAtLab(SpecimenCondition statusSpecimenReceptionAtLab) {
+		this.statusSpecimenReceptionAtLab = statusSpecimenReceptionAtLab;
+	}
+
+	public Date getDateCombinedCellCultureResults() {
+		return dateCombinedCellCultureResults;
+	}
+
+	public void setDateCombinedCellCultureResults(Date dateCombinedCellCultureResults) {
+		this.dateCombinedCellCultureResults = dateCombinedCellCultureResults;
+	}
+
+	public YesNo getW1() {
+		return w1;
+	}
+
+	public void setW1(YesNo w1) {
+		this.w1 = w1;
+	}
+
+	public YesNo getW2() {
+		return w2;
+	}
+
+	public void setW2(YesNo w2) {
+		this.w2 = w2;
+	}
+
+	public YesNo getW3() {
+		return w3;
+	}
+
+	public void setW3(YesNo w3) {
+		this.w3 = w3;
+	}
+
+	public YesNoUnknown getDiscordant() {
+		return discordant;
+	}
+
+	public void setDiscordant(YesNoUnknown discordant) {
+		this.discordant = discordant;
+	}
+
+	public YesNo getsL1() {
+		return sL1;
+	}
+
+	public void setsL1(YesNo sL1) {
+		this.sL1 = sL1;
+	}
+
+	public YesNo getsL2() {
+		return sL2;
+	}
+
+	public void setsL2(YesNo sL2) {
+		this.sL2 = sL2;
+	}
+
+	public YesNo getsL3() {
+		return sL3;
+	}
+
+	public void setsL3(YesNo sL3) {
+		this.sL3 = sL3;
+	}
+
+	public Date getDateFollowUpExam() {
+		return dateFollowUpExam;
+	}
+
+	public void setDateFollowUpExam(Date dateFollowUpExam) {
+		this.dateFollowUpExam = dateFollowUpExam;
+	}
+
+	public InjectionSite getResidualAnalysis() {
+		return residualAnalysis;
+	}
+
+	public void setResidualAnalysis(InjectionSite residualAnalysis) {
+		this.residualAnalysis = residualAnalysis;
+	}
+
+	public ExamResult getResultExam() {
+		return resultExam;
+	}
+
+	public void setResultExam(ExamResult resultExam) {
+		this.resultExam = resultExam;
+	}
+
+	public Date getDateSentToNationalRegLab() {
+		return dateSentToNationalRegLab;
+	}
+
+	public void setDateSentToNationalRegLab(Date dateSentToNationalRegLab) {
+		this.dateSentToNationalRegLab = dateSentToNationalRegLab;
+	}
+
+	public Date getDateDifferentiationSentToEpi() {
+		return dateDifferentiationSentToEpi;
+	}
+
+	public void setDateDifferentiationSentToEpi(Date dateDifferentiationSentToEpi) {
+		this.dateDifferentiationSentToEpi = dateDifferentiationSentToEpi;
+	}
+
+	public Date getDateDifferentiationReceivedFromEpi() {
+		return dateDifferentiationReceivedFromEpi;
+	}
+
+	public void setDateDifferentiationReceivedFromEpi(Date dateDifferentiationReceivedFromEpi) {
+		this.dateDifferentiationReceivedFromEpi = dateDifferentiationReceivedFromEpi;
+	}
+
+	public Date getDateIsolateSentForSequencing() {
+		return dateIsolateSentForSequencing;
+	}
+
+	public void setDateIsolateSentForSequencing(Date dateIsolateSentForSequencing) {
+		this.dateIsolateSentForSequencing = dateIsolateSentForSequencing;
+	}
+
+	public Date getDateSeqResultsSentToProgram() {
+		return dateSeqResultsSentToProgram;
+	}
+
+	public void setDateSeqResultsSentToProgram(Date dateSeqResultsSentToProgram) {
+		this.dateSeqResultsSentToProgram = dateSeqResultsSentToProgram;
+	}
+
+	public PosNeg getFinalLabResults() {
+		return finalLabResults;
+	}
+
+	public void setFinalLabResults(PosNeg finalLabResults) {
+		this.finalLabResults = finalLabResults;
+	}
+
+	public YesNoUnknown getImmunocompromisedStatusSuspected() {
+		return immunocompromisedStatusSuspected;
+	}
+
+	public void setImmunocompromisedStatusSuspected(YesNoUnknown immunocompromisedStatusSuspected) {
+		this.immunocompromisedStatusSuspected = immunocompromisedStatusSuspected;
+	}
+
+	public FinalClassification getAfpFinalClassification() {
+		return afpFinalClassification;
+	}
+
+	public void setAfpFinalClassification(FinalClassification afpFinalClassification) {
+		this.afpFinalClassification = afpFinalClassification;
+	}
+	
 	public Date getDateSpecimenSentFromFieldToNationalLab() {
 		return dateSpecimenSentFromFieldToNationalLab;
 	}

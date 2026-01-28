@@ -22,28 +22,17 @@ import static de.symeda.sormas.api.CountryHelper.COUNTRY_CODE_SWITZERLAND;
 import static de.symeda.sormas.api.Disease.*;
 
 import java.util.Date;
+import java.util.Set;
 
 import javax.validation.constraints.Size;
 
 import de.symeda.sormas.api.CountryHelper;
+import de.symeda.sormas.api.Disease;
 import de.symeda.sormas.api.ImportIgnore;
 import de.symeda.sormas.api.caze.CaseOutcome;
 import de.symeda.sormas.api.feature.FeatureType;
 import de.symeda.sormas.api.i18n.Validations;
-import de.symeda.sormas.api.utils.Complication;
-import de.symeda.sormas.api.utils.DataHelper;
-import de.symeda.sormas.api.utils.DependantOn;
-import de.symeda.sormas.api.utils.DependingOnFeatureType;
-import de.symeda.sormas.api.utils.Diseases;
-import de.symeda.sormas.api.utils.FieldConstraints;
-import de.symeda.sormas.api.utils.HideForCountries;
-import de.symeda.sormas.api.utils.HideForCountriesExcept;
-import de.symeda.sormas.api.utils.Order;
-import de.symeda.sormas.api.utils.Outbreaks;
-import de.symeda.sormas.api.utils.SensitiveData;
-import de.symeda.sormas.api.utils.SymptomGroup;
-import de.symeda.sormas.api.utils.SymptomGrouping;
-import de.symeda.sormas.api.utils.YesNoUnknown;
+import de.symeda.sormas.api.utils.*;
 import de.symeda.sormas.api.utils.pseudonymization.PseudonymizableDto;
 
 @DependingOnFeatureType(featureType = {
@@ -271,6 +260,17 @@ public class SymptomsDto extends PseudonymizableDto {
 	public static final String STIFFNESS = "stiffness";
 	public static final String OUTCOME = "outcome";
 	public static final String BABY_DIED = "babyDied";
+	public static final String FEVER_ONSET_PARALYSIS = "feverOnsetParalysis";
+	public static final String PROGRESSIVE_PARALYSIS = "progressiveParalysis";
+	public static final String PROGRESSIVE_FLACID_ACUTE = "progressiveFlaccidAcute";
+	public static final String ASSYMETRIC = "assymetric";
+	public static final String DATE_ONSET_PARALYSIS = "dateOnsetParalysis";
+	public static final String SITE_OF_PARALYSIS = "siteOfParalysis";
+	public static final String PARALYSED_LIMB_SENSITIVE_TO_PAIN = "paralysedLimbSensitiveToPain";
+	public static final String INJECTION_SITE_BEFORE_ONSET_PARALYSIS = "injectionSiteBeforeOnsetParalysis";
+	public static final String INJECTION_SITE = "injectionSite";
+	public static final String PROVISONAL_DIAGNOSIS = "provisionalDiagnosis";
+	public static final String TRUEAFP = "trueAfp";
 
 	// Fields are declared in the order they should appear in the import template
 
@@ -279,6 +279,41 @@ public class SymptomsDto extends PseudonymizableDto {
 		symptoms.setUuid(DataHelper.createUuid());
 		return symptoms;
 	}
+
+	@Diseases({
+			Disease.AFP})
+	private YesNoUnknown feverOnsetParalysis;
+	@Diseases({
+			Disease.AFP})
+	private YesNoUnknown progressiveParalysis;
+	@Diseases({
+			Disease.AFP})
+	private YesNoUnknown progressiveFlaccidAcute;
+	@Diseases({
+			Disease.AFP})
+	private YesNoUnknown assymetric;
+	@Diseases({
+			Disease.AFP})
+	private Date dateOnsetParalysis;
+	@Diseases({
+			Disease.AFP})
+	private Set<InjectionSite> siteOfParalysis;
+		@Diseases({
+			Disease.AFP})
+	private YesNo paralysedLimbSensitiveToPain;
+	@Diseases({
+			Disease.AFP})
+	private YesNo injectionSiteBeforeOnsetParalysis;
+	@Diseases({
+			Disease.AFP})
+	private Set<InjectionSite> injectionSite;
+
+	@Diseases({
+			Disease.AFP})
+	private String provisionalDiagnosis;
+	@Diseases({
+			Disease.AFP})
+	private YesNo trueAfp;
 	@Diseases({
 		AFP,
 		EVD,
@@ -323,6 +358,7 @@ public class SymptomsDto extends PseudonymizableDto {
 		YELLOW_FEVER,
 		UNSPECIFIED_VHF,
 		UNDEFINED,
+		NEONATAL_TETANUS,
 		OTHER })
 	@HideForCountries
 	@SymptomGrouping(SymptomGroup.GENERAL)
@@ -1687,6 +1723,7 @@ public class SymptomsDto extends PseudonymizableDto {
 		CONGENITAL_RUBELLA,
 		CORONAVIRUS,
 		UNDEFINED,
+		NEONATAL_TETANUS,
 		OTHER })
 	@SensitiveData
 	@Size(max = FieldConstraints.CHARACTER_LIMIT_DEFAULT, message = Validations.textTooLong)
@@ -1990,7 +2027,8 @@ public class SymptomsDto extends PseudonymizableDto {
 	private SymptomState coma;
 
 	@Diseases({
-		ANTHRAX })
+		ANTHRAX,
+	NEONATAL_TETANUS})
 	@HideForCountries
 	@SymptomGrouping(SymptomGroup.NERVOUS_SYSTEM)
 	private SymptomState convulsion;
@@ -4418,5 +4456,90 @@ public class SymptomsDto extends PseudonymizableDto {
 
 	public void setBabyDied(SymptomState babyDied) {
 		this.babyDied = babyDied;
+	}
+
+	public YesNoUnknown getFeverOnsetParalysis() {
+		return feverOnsetParalysis;
+	}
+
+	public void setFeverOnsetParalysis(YesNoUnknown feverOnsetParalysis) {
+		this.feverOnsetParalysis = feverOnsetParalysis;
+	}
+
+	public YesNoUnknown getProgressiveParalysis() {
+		return progressiveParalysis;
+	}
+
+	public void setProgressiveParalysis(YesNoUnknown progressiveParalysis) {
+		this.progressiveParalysis = progressiveParalysis;
+	}
+
+	public YesNoUnknown getProgressiveFlaccidAcute() {
+		return progressiveFlaccidAcute;
+	}
+
+	public void setProgressiveFlaccidAcute(YesNoUnknown progressiveFlaccidAcute) {
+		this.progressiveFlaccidAcute = progressiveFlaccidAcute;
+	}
+
+	public YesNoUnknown getAssymetric() {
+		return assymetric;
+	}
+
+	public void setAssymetric(YesNoUnknown assymetric) {
+		this.assymetric = assymetric;
+	}
+
+	public Date getDateOnsetParalysis() {
+		return dateOnsetParalysis;
+	}
+
+	public void setDateOnsetParalysis(Date dateOnsetParalysis) {
+		this.dateOnsetParalysis = dateOnsetParalysis;
+	}
+
+	public Set<InjectionSite> getSiteOfParalysis(){return siteOfParalysis;}
+	public void setSiteOfParalysis(Set<InjectionSite> siteOfParalysis) {
+		this.siteOfParalysis = siteOfParalysis;
+	}
+
+	public YesNo getParalysedLimbSensitiveToPain() {
+		return paralysedLimbSensitiveToPain;
+	}
+
+	public void setParalysedLimbSensitiveToPain(YesNo paralysedLimbSensitiveToPain) {
+		this.paralysedLimbSensitiveToPain = paralysedLimbSensitiveToPain;
+	}
+
+	public YesNo getInjectionSiteBeforeOnsetParalysis() {
+		return injectionSiteBeforeOnsetParalysis;
+	}
+
+	public void setInjectionSiteBeforeOnsetParalysis(YesNo injectionSiteBeforeOnsetParalysis) {
+		this.injectionSiteBeforeOnsetParalysis = injectionSiteBeforeOnsetParalysis;
+	}
+
+	public Set<InjectionSite> getInjectionSite() {
+		return injectionSite;
+	}
+
+	public void setInjectionSite(Set<InjectionSite> injectionSite) {
+		this.injectionSite = injectionSite;
+	}
+
+	public String getProvisionalDiagnosis() {
+		return provisionalDiagnosis;
+	}
+
+	public void setProvisionalDiagnosis(String provisionalDiagnosis) {
+		this.provisionalDiagnosis = provisionalDiagnosis;
+	}
+
+	public YesNo getTrueAfp() {
+		return trueAfp;
+	}
+
+	public void setTrueAfp(YesNo trueAfp) {
+		this.trueAfp = trueAfp;
 	}
 }

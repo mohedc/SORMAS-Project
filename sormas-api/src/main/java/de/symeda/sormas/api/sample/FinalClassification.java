@@ -19,11 +19,27 @@ package de.symeda.sormas.api.sample;
 
 import de.symeda.sormas.api.i18n.I18nProperties;
 
+import java.util.Arrays;
+import java.util.List;
+
 public enum FinalClassification {
 
+	LAB_CONFIRMED,
+	CONFIRMED_BY_EPIDEMIOLOGICAL_LINKAGE,
+	COMPATIBLE,
+	DISCARDED_IGM_NEGATIVE,
+	PENDING_SUSPECTED_WITH_SPECIMEN_LAB_RESULTS_PENDING,
+	CONFIRMED_POLIO,
+	DISCARDED,
+	NOT_AN_AFP_CASE,
+	cVDPV,
+	aVDPV,
+	iVDPV,
+	SERO_TYPE,
 	CONFIRMED_BY_LAB_TEST_OR_EPIDEMIOLOGICAL_LINK,
-	CLINICAL_SUSPECTED_NO_BLOOD_SPECIMEN,
-	DISCARDED;
+	CLINICAL_SUSPECTED_NO_BLOOD_SPECIMEN;
+
+	public static final List<FinalClassification> AFP_CLASSIFICATION = Arrays.asList(CONFIRMED_POLIO, COMPATIBLE, DISCARDED, NOT_AN_AFP_CASE, cVDPV, aVDPV, iVDPV, SERO_TYPE);
 
 	@Override
 	public String toString() {

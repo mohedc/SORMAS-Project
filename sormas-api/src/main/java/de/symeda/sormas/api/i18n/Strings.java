@@ -12,6 +12,7 @@ public interface Strings {
 
 	String active = "active";
 	String address = "address";
+	String afpCaseCoordinates = "afpCaseCoordinates";
 	String aggregateReportLegend = "aggregateReportLegend";
 	String all = "all";
 	String and = "and";
@@ -430,6 +431,7 @@ public interface Strings {
 	String headingActivityAsCaseDetails = "headingActivityAsCaseDetails";
 	String headingAdditionalTests = "headingAdditionalTests";
 	String headingAdjustQuarantine = "headingAdjustQuarantine";
+	String headingAfpImmunization = "headingAfpImmunization";
 	String headingAefiAdverseEvents = "headingAefiAdverseEvents";
 	String headingAefiDashboardEpiCurve = "headingAefiDashboardEpiCurve";
 	String headingAefiDashboardMap = "headingAefiDashboardMap";
@@ -783,6 +785,8 @@ public interface Strings {
 	String headingPathogenTestsDeleted = "headingPathogenTestsDeleted";
 	String headingPersonData = "headingPersonData";
 	String headingPersonInformation = "headingPersonInformation";
+	String headingfillSection = "headingfillSection";
+	String headingseekHelp = "headingseekHelp";
 	String headingPersonOccupation = "headingPersonOccupation";
 	String headingPickEventGroup = "headingPickEventGroup";
 	String headingPickEventParticipants = "headingPickEventParticipants";
@@ -814,6 +818,9 @@ public interface Strings {
 	String headingReduceQuarantine = "headingReduceQuarantine";
 	String headingReferCaseFromPointOfEntry = "headingReferCaseFromPointOfEntry";
 	String headingReferSample = "headingReferSample";
+	String headingStoolSpecimenCollection = "headingStoolSpecimenCollection";
+	String headingStoolSpecimenResults = "headingStoolSpecimenResults";
+	String headingFollowUpExamination = "headingFollowUpExamination";
 	String headingRejectSormasToSormasShareRequest = "headingRejectSormasToSormasShareRequest";
 	String headingRemoveCaseFromContact = "headingRemoveCaseFromContact";
 	String headingRequestedAdditionalTests = "headingRequestedAdditionalTests";

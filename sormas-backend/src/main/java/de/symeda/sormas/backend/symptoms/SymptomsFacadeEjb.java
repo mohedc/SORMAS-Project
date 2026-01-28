@@ -242,6 +242,18 @@ public class SymptomsFacadeEjb implements SymptomsFacade {
 		target.setStiffness(source.getStiffness());
 		target.setOutcome(source.getOutcome());
 		target.setBabyDied(source.getBabyDied());
+		target.setFeverOnsetParalysis(source.getFeverOnsetParalysis());
+		target.setProgressiveParalysis(source.getProgressiveParalysis());
+		target.setProgressiveFlaccidAcute(source.getProgressiveFlaccidAcute());
+		target.setAssymetric(source.getAssymetric());
+		target.setDateOnsetParalysis(source.getDateOnsetParalysis());
+		target.setSiteOfParalysis(source.getSiteOfParalysis());
+		target.setParalysedLimbSensitiveToPain(source.getParalysedLimbSensitiveToPain());
+		target.setInjectionSiteBeforeOnsetParalysis(source.getInjectionSiteBeforeOnsetParalysis());
+		target.setInjectionSite(source.getInjectionSite());
+		target.setProvisionalDiagnosis(source.getProvisionalDiagnosis());
+		target.setTrueAfp(source.getTrueAfp());
+
 		return target;
 	}
 
@@ -466,6 +478,18 @@ public class SymptomsFacadeEjb implements SymptomsFacade {
 		target.setStiffness(source.getStiffness());
 		target.setOutcome(source.getOutcome());
 		target.setBabyDied(source.getBabyDied());
+		target.setFeverOnsetParalysis(source.getFeverOnsetParalysis());
+		target.setProgressiveParalysis(source.getProgressiveParalysis());
+		target.setProgressiveFlaccidAcute(source.getProgressiveFlaccidAcute());
+		target.setAssymetric(source.getAssymetric());
+		target.setDateOnsetParalysis(source.getDateOnsetParalysis());
+		target.setSiteOfParalysis(source.getSiteOfParalysis());
+		target.setParalysedLimbSensitiveToPain(source.getParalysedLimbSensitiveToPain());
+		target.setInjectionSiteBeforeOnsetParalysis(source.getInjectionSiteBeforeOnsetParalysis());
+		target.setInjectionSite(source.getInjectionSite());
+		target.setProvisionalDiagnosis(source.getProvisionalDiagnosis());
+		target.setTrueAfp(source.getTrueAfp());
+
 		return target;
 	}
 

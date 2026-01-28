@@ -31,6 +31,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import de.symeda.sormas.api.afpimmunization.AfpImmunizationDto;
 import de.symeda.sormas.api.caze.caseimport.MotherVaccinationStatus;
 import org.apache.commons.lang3.StringUtils;
 
@@ -140,6 +141,7 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 	public static final String MATERNAL_HISTORY = "maternalHistory";
 	public static final String PORT_HEALTH_INFO = "portHealthInfo";
 	public static final String HEALTH_CONDITIONS = "healthConditions";
+	public static final String AFP_IMMUNIZATION = "afpImmunization";
 	public static final String PREGNANT = "pregnant";
 	public static final String VACCINATION_STATUS = "vaccinationStatus";
 	public static final String VACCINATED = "vaccinated";
@@ -245,6 +247,7 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
     public static final String IDSR_DIAGNOSIS = "idsrDiagnosis";
     public static final String IDSR_DIAGNOSIS_DETAILS = "idsrDiagnosisDetails";
 	public static final String NOTIFIED_BY = "notifiedBy";
+	public static final String NOTIFIED_BY_TEXT = "notifiedByText";
 	public static final String NOTIFIED_BY_DETAILS = "notifiedByDetails";
 	public static final String DATE_OF_NOTIFICATION = "dateOfNotification";
 	public static final String DATE_OF_INVESTIGATION = "dateOfInvestigation";
@@ -493,6 +496,8 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 	@Valid
 	private HospitalizationDto hospitalization;
 	@Valid
+	private AfpImmunizationDto afpImmunization;
+	@Valid
 	@EmbeddedPersonalData
 	@EmbeddedSensitiveData
 	private SymptomsDto symptoms;
@@ -718,20 +723,28 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 	@Diseases({
 			Disease.NEONATAL_TETANUS,
 			Disease.MEASLES,
-			Disease.YELLOW_FEVER})
+			Disease.YELLOW_FEVER,
+			Disease.AFP})
 	private NotifiedBy notifiedBy;
+
+	@Diseases({
+			Disease.NEONATAL_TETANUS,
+			Disease.AFP})
+	private String notifiedByText;
 	@Diseases({
 			Disease.MEASLES})
 	private String notifiedByDetails;
 	@Diseases({
 			Disease.NEONATAL_TETANUS,
 			Disease.MEASLES,
-			Disease.YELLOW_FEVER})
+			Disease.YELLOW_FEVER,
+			Disease.AFP})
 	private Date dateOfNotification;
 	@Diseases({
 			Disease.NEONATAL_TETANUS,
 			Disease.MEASLES,
-			Disease.YELLOW_FEVER})
+			Disease.YELLOW_FEVER,
+			Disease.AFP})
 	private Date dateOfInvestigation;
 	@Diseases({
 			Disease.NEONATAL_TETANUS,
@@ -779,26 +792,31 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 	@Diseases({
 			Disease.NEONATAL_TETANUS,
 			Disease.MEASLES,
-			Disease.YELLOW_FEVER})
+			Disease.YELLOW_FEVER,
+			Disease.AFP})
 	private String investigatorName;
 	@Diseases({
 			Disease.NEONATAL_TETANUS,
 			Disease.MEASLES,
-			Disease.YELLOW_FEVER})
+			Disease.YELLOW_FEVER,
+			Disease.AFP})
 	private String investigatorTitle;
 	@Diseases({
 			Disease.NEONATAL_TETANUS,
 			Disease.MEASLES,
-			Disease.YELLOW_FEVER})
+			Disease.YELLOW_FEVER,
+			Disease.AFP})
 	private String investigatorUnit;
 	@Diseases({
 			Disease.NEONATAL_TETANUS,
-			Disease.MEASLES})
+			Disease.MEASLES,
+			Disease.AFP})
 	private String investigatorAddress;
 	@Diseases({
 			Disease.NEONATAL_TETANUS,
 			Disease.MEASLES,
-			Disease.YELLOW_FEVER})
+			Disease.YELLOW_FEVER,
+			Disease.AFP})
 	private String investigatorTel;
 	@Diseases({
 			Disease.MEASLES,
@@ -833,6 +851,7 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 		caze.setUuid(DataHelper.createUuid());
 		caze.setPerson(person);
 		caze.setHospitalization(HospitalizationDto.build());
+		caze.setAfpImmunization(AfpImmunizationDto.build());
 		caze.setEpiData(EpiDataDto.build());
 		caze.setSymptoms(SymptomsDto.build());
 		caze.setTherapy(TherapyDto.build());
@@ -1268,6 +1287,12 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 
 	public void setHospitalization(HospitalizationDto hospitalization) {
 		this.hospitalization = hospitalization;
+	}
+	public AfpImmunizationDto getAfpImmunization() {
+		return afpImmunization;
+	}
+	public void setAfpImmunization(AfpImmunizationDto afpImmunization) {
+		this.afpImmunization = afpImmunization;
 	}
 
 	public EpiDataDto getEpiData() {
@@ -2311,6 +2336,14 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 
 	public void setSupplementalImmunizationDetails(String supplementalImmunizationDetails) {
 		this.supplementalImmunizationDetails = supplementalImmunizationDetails;
+	}
+
+	public String getNotifiedByText() {
+		return notifiedByText;
+	}
+
+	public void setNotifiedByText(String notifiedByText) {
+		this.notifiedByText = notifiedByText;
 	}
 
     @JsonIgnore

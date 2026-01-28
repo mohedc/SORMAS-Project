@@ -215,6 +215,12 @@ public enum FeatureType {
 			CASE_SURVEILANCE },
 		null,
 		null),
+	VIEW_TAB_CASES_AFP_IMMUNIZATION(true,
+			true,
+			new FeatureType[] {
+					CASE_SURVEILANCE },
+			null,
+			null),
 	VIEW_TAB_CASES_SYMPTOMS(true,
 		true,
 		new FeatureType[] {

@@ -100,6 +100,8 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 	private static final String NATIONAL_HEALTH_ID_WARNING_LABEL = "nationalHealthIdWarningLoc";
 	private static final String GENERAL_COMMENT_LOC = "generalCommentLoc";
 	public static final String HAS_GUARDIAN = "hasGuardian";
+	public static final String SEEK_HELP_HEADING_LOC = "seekHelpHeadingLoc";
+	private static final String FILL_SECTION_HEADING_LOC = "fillSectionHeadingLoc";
 	//@formatter:off
     private static final String HTML_LAYOUT =
             loc(PERSON_INFORMATION_HEADING_LOC) +
@@ -206,6 +208,53 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 					  loc(ADDRESS_HEADER) +
                     divsCss(VSPACE_3, fluidRowLocs(PersonDto.ADDRESS));
 
+	private static final String AFP_LAYOUT =
+			loc(PERSON_INFORMATION_HEADING_LOC) +
+					fluidRowLocs(PersonDto.UUID, "") +
+					fluidRowLocs(PersonDto.FIRST_NAME, PersonDto.LAST_NAME) +
+					fluidRowLocs(6, PersonDto.OTHER_NAMES) +
+					fluidRow(
+							fluidRowLocs(PersonDto.BIRTH_DATE_YYYY, PersonDto.BIRTH_DATE_MM, PersonDto.BIRTH_DATE_DD),
+							fluidRowLocs(PersonDto.APPROXIMATE_AGE, PersonDto.APPROXIMATE_AGE_TYPE, PersonDto.APPROXIMATE_AGE_REFERENCE_DATE)
+					) +
+					fluidRowLocs(PersonDto.SEX, PersonDto.MARITAL_STATUS) +
+					fluidRowLocs(PersonDto.PASSPORT_NUMBER, "") +
+
+					fluidRowLocs(PersonDto.MOTHERS_NAME, PersonDto.FATHERS_NAME) +
+
+					loc(FILL_SECTION_HEADING_LOC) +
+					loc(SEEK_HELP_HEADING_LOC) +
+					fluidRowLocs(PersonDto.PLACE, PersonDto.DURATION_MONTHS, PersonDto.DURATION_DAYS) +
+					fluidRowLocs(PersonDto.PLACE2, PersonDto.DURATION_MONTHS2, PersonDto.DURATION_DAYS2) +
+					fluidRowLocs(PersonDto.PLACE3, PersonDto.DURATION_MONTHS3, PersonDto.DURATION_DAYS3) +
+					fluidRowLocs(PersonDto.PLACE4, PersonDto.DURATION_MONTHS4, PersonDto.DURATION_DAYS4) +
+
+					loc(ADDRESS_HEADER) +
+					divsCss(VSPACE_3, fluidRowLocs(PersonDto.ADDRESS));
+
+	private static final String NNT_LAYOUT =
+			loc(PERSON_INFORMATION_HEADING_LOC) +
+					fluidRowLocs(PersonDto.UUID, "") +
+					fluidRowLocs(PersonDto.FIRST_NAME, PersonDto.LAST_NAME) +
+					fluidRowLocs(6, PersonDto.OTHER_NAMES) +
+					fluidRow(
+							fluidRowLocs(PersonDto.BIRTH_DATE_YYYY, PersonDto.BIRTH_DATE_MM, PersonDto.BIRTH_DATE_DD),
+							fluidRowLocs(PersonDto.APPROXIMATE_AGE, PersonDto.APPROXIMATE_AGE_TYPE, PersonDto.APPROXIMATE_AGE_REFERENCE_DATE)
+					) +
+					fluidRowLocs(PersonDto.SEX, PersonDto.MARITAL_STATUS) +
+					fluidRowLocs(PersonDto.PASSPORT_NUMBER, PersonDto.NATIONALITY) +
+					fluidRowLocs(PersonDto.MOTHERS_NAME, PersonDto.FATHERS_NAME) +
+					fluidRowLocs(PersonDto.LOCATION_OF_BIRTH, PersonDto.BIRTH_IN_INSTITUTION) +
+					fluidRowLocs(PersonDto.PLACE_OF_BIRTH_REGION, PersonDto.PLACE_OF_BIRTH_DISTRICT, PersonDto.PLACE_OF_BIRTH_COMMUNITY) +
+					fluidRowLocs(PersonDto.PLACE_OF_BIRTH_FACILITY, PersonDto.PLACE_OF_BIRTH_FACILITY_DETAILS) +
+					fluidRowLocs(PersonDto.RECEIVED_ANTENATAL_CARE, PersonDto.RECEIVED_ANTENATAL_CARE_WHERE)+
+					fluidRowLocs(PersonDto.DESCRIBE_TREATMENT_OF_CARD, PersonDto.PRENATAL_TOTAL_VISITS)+
+					fluidRowLocs(PersonDto.ATTENDED_BY_TRAINED_TBA, PersonDto.ATTENDED_BY_TRAINED_TBA_MIDWIFE_NAME)+
+					fluidRowLocs(PersonDto.ATTENDED_BY_DOCTOR_NURSE, PersonDto.CUT_CORD_WITH_STERILE_BLADE)+
+					fluidRowLocs(PersonDto.CORD_TREATED_WITH_ANYTHING, PersonDto.CORD_TREATED_WITH_ANYTHING_WHERE)+
+
+					loc(ADDRESS_HEADER) +
+					divsCss(VSPACE_3, fluidRowLocs(PersonDto.ADDRESS));
 
 	private final Label occupationHeader = new Label(I18nProperties.getString(Strings.headingPersonOccupation));
 	private final Label addressHeader = new Label(I18nProperties.getPrefixCaption(PersonDto.I18N_PREFIX, PersonDto.ADDRESS));
@@ -337,6 +386,14 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 		personInformationHeadingLabel = new Label(I18nProperties.getString(Strings.headingPersonInformation));
 		personInformationHeadingLabel.addStyleName(H3);
 		getContent().addComponent(personInformationHeadingLabel, PERSON_INFORMATION_HEADING_LOC);
+
+		Label fillSectionHeadingLabel = new Label(I18nProperties.getString(Strings.headingfillSection));
+		fillSectionHeadingLabel.addStyleName(H3);
+		getContent().addComponent(fillSectionHeadingLabel, FILL_SECTION_HEADING_LOC);
+
+		Label seekHelpHeadingLabel = new Label(I18nProperties.getString(Strings.headingseekHelp));
+		seekHelpHeadingLabel.addStyleName(H3);
+		getContent().addComponent(seekHelpHeadingLabel, SEEK_HELP_HEADING_LOC);
 
 		addField(PersonDto.UUID).setReadOnly(true);
 		firstNameField = addField(PersonDto.FIRST_NAME, TextField.class);
@@ -514,6 +571,19 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 		causeOfDeathField = addField(PersonDto.CAUSE_OF_DEATH, ComboBox.class);
 		causeOfDeathDiseaseField = addDiseaseField(PersonDto.CAUSE_OF_DEATH_DISEASE, true, false);
 		causeOfDeathDetailsField = addField(PersonDto.CAUSE_OF_DEATH_DETAILS, TextField.class);
+
+		addField(PersonDto.PLACE, TextField.class);
+		addField(PersonDto.DURATION_MONTHS, TextField.class);
+		addField(PersonDto.DURATION_DAYS, TextField.class);
+		addField(PersonDto.PLACE2, TextField.class);
+		addField(PersonDto.DURATION_MONTHS2, TextField.class);
+		addField(PersonDto.DURATION_DAYS2, TextField.class);
+		addField(PersonDto.PLACE3, TextField.class);
+		addField(PersonDto.DURATION_MONTHS3, TextField.class);
+		addField(PersonDto.DURATION_DAYS3, TextField.class);
+		addField(PersonDto.PLACE4, TextField.class);
+		addField(PersonDto.DURATION_MONTHS4, TextField.class);
+		addField(PersonDto.DURATION_DAYS4, TextField.class);
 
 		// Set requirements that don't need visibility changes and read only status
 
@@ -740,71 +810,43 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 		minimumAdultAge = FacadeProvider.getConfigFacade().getMinimumAdultAge();
 		minimumEmancipatedAge = FacadeProvider.getConfigFacade().getMinimumEmancipatedAge();
 
-		addressForm.handleIncomingDisease(disease);
+//		addressForm.handleIncomingDisease(disease);
 
 		if (disease == Disease.NEONATAL_TETANUS) {
-			hideAllFields();
-			addressesHeader.setVisible(false);
-			contactInformationHeader.setVisible(false);
-			occupationHeader.setVisible(false);
-			addressHeader.setVisible(false);
 
-			if (receivedAntenatalCare == null) {
-
-				receivedAntenatalCare = addField(PersonDto.RECEIVED_ANTENATAL_CARE, NullableOptionGroup.class);
-				prenatalTotalVisits = addField(PersonDto.PRENATAL_TOTAL_VISITS, TextField.class);
-				describeTreatmentOfCard = addField(PersonDto.DESCRIBE_TREATMENT_OF_CARD, TextArea.class);
-				describeTreatmentOfCard.setRows(4);
-
-				attendedByTrainedTba = addField(PersonDto.ATTENDED_BY_TRAINED_TBA, NullableOptionGroup.class);
-				attendedByTrainedTbaMidwifeName = addField(PersonDto.ATTENDED_BY_TRAINED_TBA_MIDWIFE_NAME, TextField.class);
-
-				attendedByDoctorNurse = addField(PersonDto.ATTENDED_BY_DOCTOR_NURSE, NullableOptionGroup.class);
-				birthInInstitutionField = addField(PersonDto.BIRTH_IN_INSTITUTION, NullableOptionGroup.class);
-				locationOfBirthField = addField(PersonDto.LOCATION_OF_BIRTH, ComboBox.class);
-
-				cutCordWithSterileBlade = addField(PersonDto.CUT_CORD_WITH_STERILE_BLADE, NullableOptionGroup.class);
-				cordTreatedWithAnything = addField(PersonDto.CORD_TREATED_WITH_ANYTHING, NullableOptionGroup.class);
-				cordTreatedWithAnythingWhere = addField(PersonDto.CORD_TREATED_WITH_ANYTHING_WHERE, TextField.class);
-
-				attendedByDoctorNurse.addItems(AttendedBy.values());
-
-				FieldHelper.setVisibleWhen(
-						getFieldGroup(),
-						PersonDto.ATTENDED_BY_TRAINED_TBA_MIDWIFE_NAME,
-						PersonDto.ATTENDED_BY_TRAINED_TBA,
-						YesNoUnknown.YES,
-						true
-				);
-
-				FieldHelper.setVisibleWhen(
-						getFieldGroup(),
-						PersonDto.CORD_TREATED_WITH_ANYTHING_WHERE,
-						PersonDto.CORD_TREATED_WITH_ANYTHING,
-						YesNoUnknown.YES,
-						true
-				);
-			}
-			//PERSON DATA
-			setVisible(true,
-					PersonDto.UUID,PersonDto.FIRST_NAME, PersonDto.LAST_NAME, PersonDto.BIRTH_DATE_YYYY, PersonDto.BIRTH_DATE_MM, PersonDto.BIRTH_DATE_DD, PersonDto.APPROXIMATE_AGE,
-			PersonDto.APPROXIMATE_AGE_TYPE, PersonDto.APPROXIMATE_AGE_GROUP, PersonDto.SEX);
-
-			setVisible(true,
-					PersonDto.RECEIVED_ANTENATAL_CARE,
-					PersonDto.RECEIVED_ANTENATAL_CARE_WHERE,
-					PersonDto.PRENATAL_TOTAL_VISITS,
-					PersonDto.ATTENDED_BY_TRAINED_TBA,
+			receivedAntenatalCare = addField(PersonDto.RECEIVED_ANTENATAL_CARE, NullableOptionGroup.class);
+			prenatalTotalVisits = addField(PersonDto.PRENATAL_TOTAL_VISITS, TextField.class);
+			describeTreatmentOfCard = addField(PersonDto.DESCRIBE_TREATMENT_OF_CARD, TextArea.class);
+			describeTreatmentOfCard.setRows(4);
+			attendedByTrainedTba = addField(PersonDto.ATTENDED_BY_TRAINED_TBA, NullableOptionGroup.class);
+			attendedByTrainedTbaMidwifeName = addField(PersonDto.ATTENDED_BY_TRAINED_TBA_MIDWIFE_NAME, TextField.class);
+			attendedByDoctorNurse = addField(PersonDto.ATTENDED_BY_DOCTOR_NURSE, NullableOptionGroup.class);
+			birthInInstitutionField = addField(PersonDto.BIRTH_IN_INSTITUTION, NullableOptionGroup.class);
+			locationOfBirthField = addField(PersonDto.LOCATION_OF_BIRTH, ComboBox.class);
+			cutCordWithSterileBlade = addField(PersonDto.CUT_CORD_WITH_STERILE_BLADE, NullableOptionGroup.class);
+			cordTreatedWithAnything = addField(PersonDto.CORD_TREATED_WITH_ANYTHING, NullableOptionGroup.class);
+			cordTreatedWithAnythingWhere = addField(PersonDto.CORD_TREATED_WITH_ANYTHING_WHERE, TextField.class);
+			attendedByDoctorNurse.addItems(AttendedBy.values());
+			FieldHelper.setVisibleWhen(
+					getFieldGroup(),
 					PersonDto.ATTENDED_BY_TRAINED_TBA_MIDWIFE_NAME,
-					PersonDto.ATTENDED_BY_DOCTOR_NURSE,
-					PersonDto.CUT_CORD_WITH_STERILE_BLADE,
-					PersonDto.CORD_TREATED_WITH_ANYTHING,
+					PersonDto.ATTENDED_BY_TRAINED_TBA,
+					YesNoUnknown.YES,
+					true
+			);
+			FieldHelper.setVisibleWhen(
+					getFieldGroup(),
 					PersonDto.CORD_TREATED_WITH_ANYTHING_WHERE,
-					PersonDto.LOCATION_OF_BIRTH,
-					PersonDto.BIRTH_IN_INSTITUTION,
-					PersonDto.DESCRIBE_TREATMENT_OF_CARD
+					PersonDto.CORD_TREATED_WITH_ANYTHING,
+					YesNoUnknown.YES,
+					true
 			);
 
+			FieldHelper.setVisibleWhen(
+					birthInInstitutionField,
+					Arrays.asList(cbPlaceOfBirthRegion, cbPlaceOfBirthDistrict, cbPlaceOfBirthCommunity, cbPlaceOfBirthFacility),
+					Arrays.asList(YesNoUnknown.YES),
+					true);
 		}
 	}
 
@@ -1073,6 +1115,12 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 		}
 		if (disease == Disease.YELLOW_FEVER) {
 			return YELLOW_FEVER_LAYOUT;
+		}
+		if (disease == Disease.AFP) {
+			return AFP_LAYOUT;
+		}
+		if (disease == Disease.NEONATAL_TETANUS) {
+			return NNT_LAYOUT;
 		}
 		return HTML_LAYOUT;
 	}

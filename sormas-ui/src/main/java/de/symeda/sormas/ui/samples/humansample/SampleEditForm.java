@@ -127,6 +127,10 @@ public class SampleEditForm extends AbstractSampleForm {
 
 	@Override
 	protected String createHtmlLayout() {
+		if (getCaseDisease() == Disease.AFP) {
+			return AFP_HTML_LAYOUT;
+		}
+
 		return HTML_LAYOUT;
 	}
 
