@@ -787,26 +787,31 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 	@Diseases({
 			Disease.NEONATAL_TETANUS,
 			Disease.MEASLES,
-			Disease.YELLOW_FEVER})
+			Disease.YELLOW_FEVER,
+			Disease.AFP})
 	private String investigatorName;
 	@Diseases({
 			Disease.NEONATAL_TETANUS,
 			Disease.MEASLES,
-			Disease.YELLOW_FEVER})
+			Disease.YELLOW_FEVER,
+			Disease.AFP})
 	private String investigatorTitle;
 	@Diseases({
 			Disease.NEONATAL_TETANUS,
 			Disease.MEASLES,
-			Disease.YELLOW_FEVER})
+			Disease.YELLOW_FEVER,
+			Disease.AFP})
 	private String investigatorUnit;
 	@Diseases({
 			Disease.NEONATAL_TETANUS,
-			Disease.MEASLES})
+			Disease.MEASLES,
+			Disease.AFP})
 	private String investigatorAddress;
 	@Diseases({
 			Disease.NEONATAL_TETANUS,
 			Disease.MEASLES,
-			Disease.YELLOW_FEVER})
+			Disease.YELLOW_FEVER,
+			Disease.AFP})
 	private String investigatorTel;
 	@Diseases({
 			Disease.MEASLES,

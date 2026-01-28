@@ -153,7 +153,8 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 					fluidRowLocs(SampleDto.SAMPLE_PURPOSE, SampleDto.SAMPLE_MATERIAL) +
 					fluidRowLocs(SampleDto.LAB, SampleDto.LAB_DETAILS) +
 					fluidRowLocs(SampleDto.LAB_SAMPLE_ID) +
-					fluidRowLocs(SampleDto.DATE_FIRST_SPECIMEN, SampleDto.DATE_SECOND_SPECIMEN, SampleDto.DATE_SPECIMEN_SENT_NATIONAL_LEVEL) +
+					fluidRowLocs(SampleDto.DATE_FIRST_SPECIMEN, SampleDto.DATE_SECOND_SPECIMEN) +
+					fluidRowLocs(6,SampleDto.DATE_SPECIMEN_SENT_NATIONAL_LEVEL) +
 					fluidRowLocs(SampleDto.DATE_SPECIMEN_RECEIVED_NATIONAL_LEVEL, SampleDto.DATE_SPECIMEN_SENT_INTERCOUNTY_NATLAB) +
 					loc(STOOL_SPECIMEN_RESULTS_HEADLINE_LOC) +
 					fluidRowLocs(SampleDto.DATE_SPECIMEN_RECEIVED_INTERCOUNTY_NATLAB, SampleDto.STATUS_SPECIMEN_RECEPTION_AT_LAB) +

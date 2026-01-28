@@ -14790,6 +14790,20 @@ ALTER TABLE samples ADD COLUMN finallabresults varchar(512);
 ALTER TABLE samples ADD COLUMN immunocompromisedstatussuspected varchar(255);
 ALTER TABLE samples ADD COLUMN afpfinalclassification varchar(255);
 INSERT INTO schema_version (version_number, comment) VALUES (613, 'Added multiple fields to the samples table for AFP');
+
+ALTER TABLE person ADD COLUMN place varchar(255);
+ALTER TABLE person ADD COLUMN durationmonths varchar(255);
+ALTER TABLE person ADD COLUMN durationdays varchar(255);
+ALTER TABLE person ADD COLUMN place2 varchar(255);
+ALTER TABLE person ADD COLUMN durationmonths2 varchar(255);
+ALTER TABLE person ADD COLUMN durationdays2 varchar(255);
+ALTER TABLE person ADD COLUMN place3 varchar(255);
+ALTER TABLE person ADD COLUMN durationmonths3 varchar(255);
+ALTER TABLE person ADD COLUMN durationdays3 varchar(255);
+ALTER TABLE person ADD COLUMN place4 varchar(255);
+ALTER TABLE person ADD COLUMN durationmonths4 varchar(255);
+ALTER TABLE person ADD COLUMN durationdays4 varchar(255);
+INSERT INTO schema_version (version_number, comment) VALUES (614, 'Added place, duration etc to person');
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***
 
 
