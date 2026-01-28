@@ -14736,6 +14736,12 @@ ALTER TABLE pathogentest ADD COLUMN datecapturedresultsreceivedatnationalepioffi
 ALTER TABLE pathogentest_history ADD COLUMN dateindirectresultsreceivedatnationalepioffice timestamp;
 ALTER TABLE pathogentest_history ADD COLUMN datecapturedresultsreceivedatnationalepioffice timestamp;
 INSERT INTO schema_version (version_number, comment) VALUES (611, 'Add Measles sample date fields');
+
+
+ALTER TABLE cases ADD COLUMN atleastoneyellowfeverdose varchar(255);
+ALTER TABLE cases_history ADD COLUMN atleastoneyellowfeverdose varchar(255);
+INSERT INTO schema_version (version_number, comment) VALUES (612, 'Add atLeastOneYellowFeverDose field to cases for Yellow Fever');
+
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***
 
 

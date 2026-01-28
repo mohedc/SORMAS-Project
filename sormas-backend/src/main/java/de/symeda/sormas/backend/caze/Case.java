@@ -311,6 +311,7 @@ public class Case extends CoreAdo implements IsCase, SormasToSormasShareable, Ha
 	private VaccinationRecordType vaccinationRecordType;
 	private Integer numberOfVaccinationDoses;
 	private Date lastVaccinationDate;
+	private YesNoUnknown atLeastOneYellowFeverDose;
 	private YesNoUnknown smallpoxVaccinationScar;
 	private YesNoUnknown smallpoxVaccinationReceived;
 	private Date smallpoxLastVaccinationDate;
@@ -1014,6 +1015,15 @@ public class Case extends CoreAdo implements IsCase, SormasToSormasShareable, Ha
 
 	public void setLastVaccinationDate(Date lastVaccinationDate) {
 		this.lastVaccinationDate = lastVaccinationDate;
+	}
+
+	@Enumerated(EnumType.STRING)
+	public YesNoUnknown getAtLeastOneYellowFeverDose() {
+		return atLeastOneYellowFeverDose;
+	}
+
+	public void setAtLeastOneYellowFeverDose(YesNoUnknown atLeastOneYellowFeverDose) {
+		this.atLeastOneYellowFeverDose = atLeastOneYellowFeverDose;
 	}
 
 	@Enumerated(EnumType.STRING)

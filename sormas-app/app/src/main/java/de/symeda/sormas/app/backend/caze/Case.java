@@ -260,6 +260,9 @@ public class Case extends PseudonymizableAdo {
 	private Date lastVaccinationDate;
 
 	@Enumerated(EnumType.STRING)
+	private YesNoUnknown atLeastOneYellowFeverDose;
+
+	@Enumerated(EnumType.STRING)
 	private YesNoUnknown smallpoxVaccinationScar;
 
 	@Enumerated(EnumType.STRING)
@@ -836,6 +839,14 @@ public class Case extends PseudonymizableAdo {
 
 	public void setLastVaccinationDate(Date lastVaccinationDate) {
 		this.lastVaccinationDate = lastVaccinationDate;
+	}
+
+	public YesNoUnknown getAtLeastOneYellowFeverDose() {
+		return atLeastOneYellowFeverDose;
+	}
+
+	public void setAtLeastOneYellowFeverDose(YesNoUnknown atLeastOneYellowFeverDose) {
+		this.atLeastOneYellowFeverDose = atLeastOneYellowFeverDose;
 	}
 
 	public Date getDateReceivedAtDistrictLevel() {

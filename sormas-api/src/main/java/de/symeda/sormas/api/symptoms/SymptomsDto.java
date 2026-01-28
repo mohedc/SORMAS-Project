@@ -1129,7 +1129,6 @@ public class SymptomsDto extends PseudonymizableDto {
 		NEW_INFLUENZA,
 		CSM,
 		CHOLERA,
-		YELLOW_FEVER,
 		DENGUE,
 		MONKEYPOX,
 		PLAGUE,
@@ -2293,6 +2292,8 @@ public class SymptomsDto extends PseudonymizableDto {
 		ANTHRAX,
 		CORONAVIRUS,
 		NEONATAL_TETANUS,
+		YELLOW_FEVER,
+		MEASLES,
 		UNDEFINED,
 		OTHER })
 	@Complication
