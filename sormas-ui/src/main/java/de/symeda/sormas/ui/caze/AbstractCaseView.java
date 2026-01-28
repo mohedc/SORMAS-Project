@@ -167,10 +167,13 @@ public abstract class AbstractCaseView extends AbstractEditAllowedDetailView<Cas
 			if (UiUtil.enabled(FeatureType.VIEW_TAB_CASES_HOSPITALIZATION)
 				&& !caze.checkIsUnreferredPortHealthCase()
 				&& !UiUtil.isPortHealthUser()) {
+					Disease[] excludedDiseases = { Disease.MEASLES };
+				if (!Arrays.asList(excludedDiseases).contains(caze.getDisease())) {
 				menu.addView(
 					HospitalizationView.VIEW_NAME,
 					I18nProperties.getPrefixCaption(CaseDataDto.I18N_PREFIX, CaseDataDto.HOSPITALIZATION),
 					params);
+				}
 			}
 			if (UiUtil.enabled(FeatureType.VIEW_TAB_CASES_AFP_IMMUNIZATION) && caze.getDisease() == Disease.AFP) {
 				menu.addView(AfpImmunizationView.VIEW_NAME, I18nProperties.getPrefixCaption(CaseDataDto.I18N_PREFIX, CaseDataDto.AFP_IMMUNIZATION), params);
@@ -186,14 +189,17 @@ public abstract class AbstractCaseView extends AbstractEditAllowedDetailView<Cas
 			if (UiUtil.enabled(FeatureType.VIEW_TAB_CASES_SYMPTOMS)) {
 				menu.addView(CaseSymptomsView.VIEW_NAME, I18nProperties.getPrefixCaption(CaseDataDto.I18N_PREFIX, CaseDataDto.SYMPTOMS), params);
 			}
-			if (UiUtil.enabled(FeatureType.VIEW_TAB_CASES_EPIDEMIOLOGICAL_DATA) && caze.getDisease() != Disease.CONGENITAL_RUBELLA && caze.getDisease() != Disease.NEONATAL_TETANUS &&
-					caze.getDisease() != Disease.AFP) {
-				menu.addView(CaseEpiDataView.VIEW_NAME, I18nProperties.getPrefixCaption(CaseDataDto.I18N_PREFIX, CaseDataDto.EPI_DATA), params);
+			if (UiUtil.enabled(FeatureType.VIEW_TAB_CASES_EPIDEMIOLOGICAL_DATA) && caze.getDisease() != Disease.CONGENITAL_RUBELLA) {
+				Disease[] excludedDiseases = { Disease.NEONATAL_TETANUS, Disease.MEASLES, Disease.AFP };
+				if (!Arrays.asList(excludedDiseases).contains(caze.getDisease())) {
+					menu.addView(CaseEpiDataView.VIEW_NAME, I18nProperties.getPrefixCaption(CaseDataDto.I18N_PREFIX, CaseDataDto.EPI_DATA), params);
+				}
 			}
 			if (UiUtil.permitted(FeatureType.VIEW_TAB_CASES_THERAPY, UserRight.THERAPY_VIEW)
 				&& !caze.checkIsUnreferredPortHealthCase() && caze.getDisease() != Disease.AFP
 				&& UiUtil.enabled(FeatureType.CLINICAL_MANAGEMENT )) {
-				if (caze.getDisease() != Disease.NEONATAL_TETANUS) {
+				Disease[] excludedDiseases = { Disease.NEONATAL_TETANUS, Disease.MEASLES, Disease.YELLOW_FEVER };
+				if (!Arrays.asList(excludedDiseases).contains(caze.getDisease())) {
 					menu.addView(TherapyView.VIEW_NAME, I18nProperties.getPrefixCaption(CaseDataDto.I18N_PREFIX, CaseDataDto.THERAPY), params);
 				}
 			}
@@ -209,7 +215,8 @@ public abstract class AbstractCaseView extends AbstractEditAllowedDetailView<Cas
 			if (UiUtil.permitted(
 				EnumSet.of(FeatureType.VIEW_TAB_CASES_FOLLOW_UP, FeatureType.VIEW_TAB_CASES_CLINICAL_COURSE, FeatureType.CLINICAL_MANAGEMENT),
 				UserRight.CLINICAL_COURSE_VIEW) && !caze.checkIsUnreferredPortHealthCase() && !DiseaseHelper.checkDiseaseIsInvasiveBacterialDiseases(caze.getDisease())) {
-				if (caze.getDisease() != Disease.NEONATAL_TETANUS && caze.getDisease() != Disease.AFP) {
+				Disease[] excludedDiseases = { Disease.MEASLES, Disease.YELLOW_FEVER, Disease.NEONATAL_TETANUS, Disease.AFP };
+				if (!Arrays.asList(excludedDiseases).contains(caze.getDisease())) {
 					menu.addView(
 							ClinicalCourseView.VIEW_NAME,
 							I18nProperties.getPrefixCaption(CaseDataDto.I18N_PREFIX, CaseDataDto.CLINICAL_COURSE),

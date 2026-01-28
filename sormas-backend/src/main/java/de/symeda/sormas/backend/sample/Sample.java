@@ -110,6 +110,10 @@ public class Sample extends DeletableAdo implements IsSample, SormasToSormasShar
 	public static final String DISPATCHED_TO_REGIONAL_COLDROOM_DATE = "dispatchedToRegionalColdroomDate";
 	public static final String DISPATCHED_TO_NATIONAL_LAB_BY_COURIER_DATE = "dispatchedToNationalLabByCourierDate";
 	public static final String DISPATCHED_TO_NATIONAL_LAB_BY_REGION_DISTRICT_DATE = "dispatchedToNationalLabByRegionDistrictDate";
+	public static final String DATE_SPECIMEN_SENT_FROM_FIELD_TO_NATIONAL_LAB = "dateSpecimenSentFromFieldToNationalLab";
+	public static final String DATE_SPECIMEN_SENT_TO_REGIONAL_REFERENCE_LAB = "dateSpecimenSentToRegionalReferenceLab";
+	public static final String DATE_SPECIMEN_RECEIVED_AT_NATIONAL_LAB = "dateSpecimenReceivedAtNationalLab";
+	public static final String DATE_SPECIMEN_RECEIVED_AT_REGIONAL_REFERENCE_LAB = "dateSpecimenReceivedAtRegionalReferenceLab";
 
 	private Case associatedCase;
 	private Contact associatedContact;
@@ -186,6 +190,10 @@ public class Sample extends DeletableAdo implements IsSample, SormasToSormasShar
 	private PosNeg finalLabResults;
 	private YesNoUnknown immunocompromisedStatusSuspected;
 	private FinalClassification afpFinalClassification;
+	private Date dateSpecimenSentFromFieldToNationalLab;
+	private Date dateSpecimenSentToRegionalReferenceLab;
+	private Date dateSpecimenReceivedAtNationalLab;
+	private Date dateSpecimenReceivedAtRegionalReferenceLab;
 
 	private List<PathogenTest> pathogenTests;
 	private List<AdditionalTest> additionalTests;
@@ -926,5 +934,41 @@ public class Sample extends DeletableAdo implements IsSample, SormasToSormasShar
 
 	public void setAfpFinalClassification(FinalClassification afpFinalClassification) {
 		this.afpFinalClassification = afpFinalClassification;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getDateSpecimenSentFromFieldToNationalLab() {
+		return dateSpecimenSentFromFieldToNationalLab;
+	}
+
+	public void setDateSpecimenSentFromFieldToNationalLab(Date dateSpecimenSentFromFieldToNationalLab) {
+		this.dateSpecimenSentFromFieldToNationalLab = dateSpecimenSentFromFieldToNationalLab;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getDateSpecimenSentToRegionalReferenceLab() {
+		return dateSpecimenSentToRegionalReferenceLab;
+	}
+
+	public void setDateSpecimenSentToRegionalReferenceLab(Date dateSpecimenSentToRegionalReferenceLab) {
+		this.dateSpecimenSentToRegionalReferenceLab = dateSpecimenSentToRegionalReferenceLab;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getDateSpecimenReceivedAtNationalLab() {
+		return dateSpecimenReceivedAtNationalLab;
+	}
+
+	public void setDateSpecimenReceivedAtNationalLab(Date dateSpecimenReceivedAtNationalLab) {
+		this.dateSpecimenReceivedAtNationalLab = dateSpecimenReceivedAtNationalLab;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getDateSpecimenReceivedAtRegionalReferenceLab() {
+		return dateSpecimenReceivedAtRegionalReferenceLab;
+	}
+
+	public void setDateSpecimenReceivedAtRegionalReferenceLab(Date dateSpecimenReceivedAtRegionalReferenceLab) {
+		this.dateSpecimenReceivedAtRegionalReferenceLab = dateSpecimenReceivedAtRegionalReferenceLab;
 	}
 }

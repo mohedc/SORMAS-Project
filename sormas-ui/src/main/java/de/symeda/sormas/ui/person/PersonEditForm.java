@@ -190,15 +190,8 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 					fluidRowLocs(PersonDto.SEX, PersonDto.MARITAL_STATUS) +
 					fluidRowLocs(PersonDto.NATIONALITY, "") +
 					fluidRowLocs(PersonDto.PASSPORT_NUMBER, "") +
-					 loc(OCCUPATION_HEADER) +
-                    divsCss(VSPACE_3,
-                            fluidRowLocs(PersonDto.OCCUPATION_TYPE, PersonDto.OCCUPATION_DETAILS) +
-                            fluidRow(oneOfTwoCol(PersonDto.ARMED_FORCES_RELATION_TYPE)),
-                            fluidRowLocs(PersonDto.EDUCATION_TYPE, PersonDto.EDUCATION_DETAILS)
-                    ) +
 					  loc(ADDRESS_HEADER) +
-                    divsCss(VSPACE_3, fluidRowLocs(PersonDto.ADDRESS)) +
-					fluidRowLocs(PersonDto.PERSON_CONTACT_DETAILS);
+                    divsCss(VSPACE_3, fluidRowLocs(PersonDto.ADDRESS));
 
 	private static final String YELLOW_FEVER_LAYOUT =
 			loc(PERSON_INFORMATION_HEADING_LOC) +
@@ -210,18 +203,10 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 							fluidRowLocs(PersonDto.APPROXIMATE_AGE, PersonDto.APPROXIMATE_AGE_TYPE, PersonDto.APPROXIMATE_AGE_REFERENCE_DATE)
 					) +
 					fluidRowLocs(PersonDto.SEX, PersonDto.MARITAL_STATUS) +
-					fluidRowLocs(PersonDto.NATIONALITY, PersonDto.NATIONAL_HEALTH_ID) +
-					fluidRowLocs(PersonDto.PASSPORT_NUMBER, "") +
-					 loc(OCCUPATION_HEADER) +
-                    divsCss(VSPACE_3,
-                            fluidRowLocs(PersonDto.OCCUPATION_TYPE, PersonDto.OCCUPATION_DETAILS) +
-                            fluidRow(oneOfTwoCol(PersonDto.ARMED_FORCES_RELATION_TYPE)),
-                            fluidRowLocs(PersonDto.EDUCATION_TYPE, PersonDto.EDUCATION_DETAILS)
-                    ) +
+					fluidRowLocs(PersonDto.NATIONALITY, PersonDto.PASSPORT_NUMBER) +
 					fluidRowLocs(PersonDto.MOTHERS_NAME, PersonDto.FATHERS_NAME) +
 					  loc(ADDRESS_HEADER) +
-                    divsCss(VSPACE_3, fluidRowLocs(PersonDto.ADDRESS)) +
-					fluidRowLocs(PersonDto.PERSON_CONTACT_DETAILS);
+                    divsCss(VSPACE_3, fluidRowLocs(PersonDto.ADDRESS));
 
 	private static final String AFP_LAYOUT =
 			loc(PERSON_INFORMATION_HEADING_LOC) +

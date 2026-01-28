@@ -563,6 +563,11 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 
 			hideAllFields();
 
+			//check if case origin is point of entry
+			if (ogCaseOrigin.getValue() == CaseOrigin.POINT_OF_ENTRY) {
+				setVisible(true, CaseDataDto.POINT_OF_ENTRY);
+			}
+
 			if (selectedDisease == Disease.NEONATAL_TETANUS) {
 				setVisible(true, ogCaseOrigin, epidField, diseaseField, responsibleRegionCombo, responsibleDistrictCombo, responsibleCommunityCombo,
 						facilityOrHome, facilityDetails, facilityCombo, facilityType, reportDate);
@@ -573,8 +578,10 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 			} else if (selectedDisease == Disease.MEASLES || selectedDisease == Disease.YELLOW_FEVER) {
 				// Show only Measles/Yellow Fever CIF fields for New Case
 				setVisible(true, epidField, diseaseField, ogCaseOrigin, responsibleRegionCombo, responsibleDistrictCombo, 
-						responsibleCommunityCombo, facilityOrHome, facilityDetails, facilityCombo, facilityType, reportDate);
-				// Show person fields relevant to Measles/Yellow Fever CIF
+						responsibleCommunityCombo, facilityOrHome, facilityDetails, facilityCombo, facilityType, reportDate, tfDepartment);
+
+
+				//add FieldHelper passport visible when case origin is point of entry
 				if (personCreateForm != null) {
 					Field<?> firstNameField = personCreateForm.getField(PersonDto.FIRST_NAME);
 					if (firstNameField != null) firstNameField.setVisible(true);
@@ -590,10 +597,13 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 					if (sexField != null) sexField.setVisible(true);
 					Field<?> nationalityField = personCreateForm.getField(PersonDto.NATIONALITY);
 					if (nationalityField != null) nationalityField.setVisible(true);
+
+					FieldHelper.setVisibleWhen(personCreateForm.getFieldGroup(), Arrays.asList(PersonDto.PASSPORT_NUMBER), ogCaseOrigin, Arrays.asList(CaseOrigin.POINT_OF_ENTRY), true);
+
 					// Passport number visibility depends on Case Origin (handled by case origin listener)
 					// Hide fields not in Measles/Yellow Fever CIF
 					Field<?> nationalHealthIdField = personCreateForm.getField(PersonDto.NATIONAL_HEALTH_ID);
-					if (nationalHealthIdField != null) nationalHealthIdField.setVisible(selectedDisease == Disease.YELLOW_FEVER);
+					if (nationalHealthIdField != null) nationalHealthIdField.setVisible(false);
 					Field<?> phoneField = personCreateForm.getField(PersonDto.PHONE);
 					if (phoneField != null) phoneField.setVisible(true);
 					Field<?> emailField = personCreateForm.getField(PersonDto.EMAIL_ADDRESS);

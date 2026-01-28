@@ -113,6 +113,8 @@ public class PathogenTest extends DeletableAdo {
 	public static final String DATE_RESULTS_SENT_TO_DISTRICT = "dateResultsSentToDistrict";
 	public static final String DATE_DISTRICT_RECEIVED_LAB_RESULTS = "dateDistrictReceivedLabResults";
 	public static final String DATE_RESULTS_SENT_TO_DISEASE_SURVEILLANCE = "dateResultsSentToDiseaseSurveillance";
+	public static final String DATE_INDIRECT_RESULTS_RECEIVED_AT_NATIONAL_EPI_OFFICE = "dateIndirectResultsReceivedAtNationalEPIOffice";
+	public static final String DATE_CAPTURED_RESULTS_RECEIVED_AT_NATIONAL_EPI_OFFICE = "dateCapturedResultsReceivedAtNationalEPIOffice";
 	public static final String FINAL_CLASSIFICATION = "finalClassification";
 	public static final String COMMUNITY_INVESTIGATION = "communityInvestigation";
 	public static final String PERFORM_RUBELLA_TEST = "performRubellaTest";
@@ -179,6 +181,8 @@ public class PathogenTest extends DeletableAdo {
 	private Date dateResultsSentToDistrict;
 	private Date dateDistrictReceivedLabResults;
 	private Date dateResultsSentToDiseaseSurveillance;
+	private Date dateIndirectResultsReceivedAtNationalEPIOffice;
+	private Date dateCapturedResultsReceivedAtNationalEPIOffice;
 	private FinalClassification finalClassification;
 	private Boolean communityInvestigation;
 	private Boolean performRubellaTest;
@@ -723,6 +727,24 @@ public class PathogenTest extends DeletableAdo {
 
 	public void setDateResultsSentToDiseaseSurveillance(Date dateResultsSentToDiseaseSurveillance) {
 		this.dateResultsSentToDiseaseSurveillance = dateResultsSentToDiseaseSurveillance;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getDateIndirectResultsReceivedAtNationalEPIOffice() {
+		return dateIndirectResultsReceivedAtNationalEPIOffice;
+	}
+
+	public void setDateIndirectResultsReceivedAtNationalEPIOffice(Date dateIndirectResultsReceivedAtNationalEPIOffice) {
+		this.dateIndirectResultsReceivedAtNationalEPIOffice = dateIndirectResultsReceivedAtNationalEPIOffice;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getDateCapturedResultsReceivedAtNationalEPIOffice() {
+		return dateCapturedResultsReceivedAtNationalEPIOffice;
+	}
+
+	public void setDateCapturedResultsReceivedAtNationalEPIOffice(Date dateCapturedResultsReceivedAtNationalEPIOffice) {
+		this.dateCapturedResultsReceivedAtNationalEPIOffice = dateCapturedResultsReceivedAtNationalEPIOffice;
 	}
 
 	@Enumerated(EnumType.STRING)

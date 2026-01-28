@@ -152,6 +152,7 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 	public static final String SMALLPOX_VACCINATION_SCAR = "smallpoxVaccinationScar";
 	public static final String SMALLPOX_VACCINATION_RECEIVED = "smallpoxVaccinationReceived";
 	public static final String SMALLPOX_LAST_VACCINATION_DATE = "smallpoxLastVaccinationDate";
+	public static final String AT_LEAST_ONE_YELLOW_FEVER_DOSE = "atLeastOneYellowFeverDose";
 	public static final String EPID_NUMBER = "epidNumber";
 	public static final String REPORT_LAT = "reportLat";
 	public static final String REPORT_LON = "reportLon";
@@ -443,6 +444,9 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 		Disease.MEASLES,
 		Disease.YELLOW_FEVER})
 	private Date lastVaccinationDate;
+	@Diseases({
+		Disease.YELLOW_FEVER})
+	private YesNoUnknown atLeastOneYellowFeverDose;
 	@Diseases({
 		Disease.MONKEYPOX })
 	private YesNoUnknown smallpoxVaccinationScar;
@@ -752,7 +756,8 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 	private String compoundOwner;
 	@Diseases({
 			Disease.NEONATAL_TETANUS,
-			Disease.MEASLES})
+			Disease.MEASLES,
+			Disease.YELLOW_FEVER})
 	private String nationality;
 	@Diseases({
 			Disease.NEONATAL_TETANUS})
@@ -859,6 +864,7 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 		caze.setCaseClassification(CaseClassification.NOT_CLASSIFIED);
 		caze.setOutcome(CaseOutcome.NO_OUTCOME);
 		caze.setCaseOrigin(CaseOrigin.IN_COUNTRY);
+		caze.setNotifiedBy(NotifiedBy.OTHER);
 		// TODO This is a workaround for transferring the followup comment while converting a contact to a case. This can be removed if the followup for cases is implemented in the mobile app
 		caze.setFollowUpStatus(FollowUpStatus.NO_FOLLOW_UP);
 		return caze;
@@ -1407,6 +1413,14 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 
 	public void setSmallpoxLastVaccinationDate(Date smallpoxLastVaccinationDate) {
 		this.smallpoxLastVaccinationDate = smallpoxLastVaccinationDate;
+	}
+
+	public YesNoUnknown getAtLeastOneYellowFeverDose() {
+		return atLeastOneYellowFeverDose;
+	}
+
+	public void setAtLeastOneYellowFeverDose(YesNoUnknown atLeastOneYellowFeverDose) {
+		this.atLeastOneYellowFeverDose = atLeastOneYellowFeverDose;
 	}
 
 	public String getEpidNumber() {

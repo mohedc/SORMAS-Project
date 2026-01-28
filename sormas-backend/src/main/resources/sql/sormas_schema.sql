@@ -14718,11 +14718,35 @@ ALTER TABLE pathogentest ADD COLUMN virusisolated boolean;
 ALTER TABLE pathogentest_history ADD COLUMN virusisolated boolean;
 INSERT INTO schema_version (version_number, comment) VALUES (608, 'Add virusIsolated field to pathogen test');
 
+-- Add Measles sample date fields
+ALTER TABLE samples ADD COLUMN datespecimensentfromfieldtonationallab timestamp;
+ALTER TABLE samples ADD COLUMN datespecimensenttoregionalreferencelab timestamp;
+ALTER TABLE samples_history ADD COLUMN datespecimensentfromfieldtonationallab timestamp;
+ALTER TABLE samples_history ADD COLUMN datespecimensenttoregionalreferencelab timestamp;
+INSERT INTO schema_version (version_number, comment) VALUES (609, 'Add Measles sample date fields');
+
+ALTER TABLE samples ADD COLUMN datespecimenreceivedatnationallab timestamp;
+ALTER TABLE samples ADD COLUMN datespecimenreceivedatregionalreferencelab timestamp;
+ALTER TABLE samples_history ADD COLUMN datespecimenreceivedatnationallab timestamp;
+ALTER TABLE samples_history ADD COLUMN datespecimenreceivedatregionalreferencelab timestamp;
+INSERT INTO schema_version (version_number, comment) VALUES (610, 'Add Measles sample date fields');
+
+ALTER TABLE pathogentest ADD COLUMN dateindirectresultsreceivedatnationalepioffice timestamp;
+ALTER TABLE pathogentest ADD COLUMN datecapturedresultsreceivedatnationalepioffice timestamp;
+ALTER TABLE pathogentest_history ADD COLUMN dateindirectresultsreceivedatnationalepioffice timestamp;
+ALTER TABLE pathogentest_history ADD COLUMN datecapturedresultsreceivedatnationalepioffice timestamp;
+INSERT INTO schema_version (version_number, comment) VALUES (611, 'Add Measles sample date fields');
+
+
+ALTER TABLE cases ADD COLUMN atleastoneyellowfeverdose varchar(255);
+ALTER TABLE cases_history ADD COLUMN atleastoneyellowfeverdose varchar(255);
+INSERT INTO schema_version (version_number, comment) VALUES (612, 'Add atLeastOneYellowFeverDose field to cases for Yellow Fever');
+
 ALTER TABLE cases ADD COLUMN notifiedbytext varchar(255);
-INSERT INTO schema_version (version_number, comment) VALUES (609, 'Add notifiedbytext field to cases');
+INSERT INTO schema_version (version_number, comment) VALUES (613, 'Add notifiedbytext field to cases');
 
 ALTER TABLE location ADD COLUMN village varchar(255);
-INSERT INTO schema_version (version_number, comment) VALUES (610, 'Add village field to persons');
+INSERT INTO schema_version (version_number, comment) VALUES (614, 'Add village field to persons');
 
 ALTER TABLE symptoms ADD COLUMN feveronsetparalysis varchar(255);
 ALTER TABLE symptoms ADD COLUMN progressiveparalysis varchar(255);
@@ -14735,7 +14759,7 @@ ALTER TABLE symptoms ADD COLUMN trueafp varchar(255);
 ALTER TABLE symptoms ADD COLUMN injectionsitestring VARCHAR(512);
 ALTER TABLE symptoms ADD COLUMN requestedsiteofparalysisstring varchar(512);
 ALTER TABLE symptoms ADD COLUMN provisionaldiagnosis varchar(512);
-INSERT INTO schema_version (version_number, comment) VALUES (611, 'Add multiple columns to symptoms for afp');
+INSERT INTO schema_version (version_number, comment) VALUES (615, 'Add multiple columns to symptoms for afp');
 
 CREATE TABLE afpimmunization (
                                  id BIGINT PRIMARY KEY NOT NULL,
@@ -14761,7 +14785,7 @@ CREATE TABLE afpimmunization (
 );
 ALTER TABLE cases ADD COLUMN afpimmunization_id BIGINT;
 
-INSERT INTO schema_version (version_number, comment) VALUES (612, 'Created afpimmunization table and altered cases table');
+INSERT INTO schema_version (version_number, comment) VALUES (616, 'Created afpimmunization table and altered cases table');
 
 ALTER TABLE samples ADD COLUMN datefirstspecimen DATE;
 ALTER TABLE samples ADD COLUMN datesecondspecimen DATE;
@@ -14789,7 +14813,7 @@ ALTER TABLE samples ADD COLUMN dateseqresultssenttoprogram DATE;
 ALTER TABLE samples ADD COLUMN finallabresults varchar(512);
 ALTER TABLE samples ADD COLUMN immunocompromisedstatussuspected varchar(255);
 ALTER TABLE samples ADD COLUMN afpfinalclassification varchar(255);
-INSERT INTO schema_version (version_number, comment) VALUES (613, 'Added multiple fields to the samples table for AFP');
+INSERT INTO schema_version (version_number, comment) VALUES (617, 'Added multiple fields to the samples table for AFP');
 
 ALTER TABLE person ADD COLUMN place varchar(255);
 ALTER TABLE person ADD COLUMN durationmonths varchar(255);
@@ -14803,7 +14827,9 @@ ALTER TABLE person ADD COLUMN durationdays3 varchar(255);
 ALTER TABLE person ADD COLUMN place4 varchar(255);
 ALTER TABLE person ADD COLUMN durationmonths4 varchar(255);
 ALTER TABLE person ADD COLUMN durationdays4 varchar(255);
-INSERT INTO schema_version (version_number, comment) VALUES (614, 'Added place, duration etc to person');
+INSERT INTO schema_version (version_number, comment) VALUES (618, 'Added place, duration etc to person');
+
+
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***
 
 

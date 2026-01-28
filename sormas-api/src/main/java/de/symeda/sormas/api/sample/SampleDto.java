@@ -111,6 +111,10 @@ public class SampleDto extends SormasToSormasShareableDto implements IsSample {
 	public static final String FINAL_LAB_RESULTS = "finalLabResults";
 	public static final String IMMUNOCOMPROMISED_STATUS_SUSPECTED = "immunocompromisedStatusSuspected";
 	public static final String AFP_FINAL_CLASSIFICATION = "afpFinalClassification";
+	public static final String DATE_SPECIMEN_SENT_FROM_FIELD_TO_NATIONAL_LAB = "dateSpecimenSentFromFieldToNationalLab";
+	public static final String DATE_SPECIMEN_SENT_TO_REGIONAL_REFERENCE_LAB = "dateSpecimenSentToRegionalReferenceLab";
+	public static final String DATE_SPECIMEN_RECEIVED_AT_NATIONAL_LAB = "dateSpecimenReceivedAtNationalLab";
+	public static final String DATE_SPECIMEN_RECEIVED_AT_REGIONAL_REFERENCE_LAB = "dateSpecimenReceivedAtRegionalReferenceLab";
 
 	private CaseReferenceDto associatedCase;
 	private ContactReferenceDto associatedContact;
@@ -226,6 +230,18 @@ public class SampleDto extends SormasToSormasShareableDto implements IsSample {
 	private PosNeg finalLabResults;
 	private YesNoUnknown immunocompromisedStatusSuspected;
 	private FinalClassification afpFinalClassification;
+	@Diseases(value = {
+		Disease.MEASLES })
+	private Date dateSpecimenSentFromFieldToNationalLab;
+	@Diseases(value = {
+		Disease.MEASLES })
+	private Date dateSpecimenSentToRegionalReferenceLab;
+	@Diseases(value = {
+		Disease.MEASLES })
+	private Date dateSpecimenReceivedAtNationalLab;
+	@Diseases(value = {
+		Disease.MEASLES })
+	private Date dateSpecimenReceivedAtRegionalReferenceLab;
 
 	@ImportIgnore
 	public CaseReferenceDto getAssociatedCase() {
@@ -907,5 +923,37 @@ public class SampleDto extends SormasToSormasShareableDto implements IsSample {
 
 	public void setAfpFinalClassification(FinalClassification afpFinalClassification) {
 		this.afpFinalClassification = afpFinalClassification;
+	}
+	
+	public Date getDateSpecimenSentFromFieldToNationalLab() {
+		return dateSpecimenSentFromFieldToNationalLab;
+	}
+
+	public void setDateSpecimenSentFromFieldToNationalLab(Date dateSpecimenSentFromFieldToNationalLab) {
+		this.dateSpecimenSentFromFieldToNationalLab = dateSpecimenSentFromFieldToNationalLab;
+	}
+
+	public Date getDateSpecimenSentToRegionalReferenceLab() {
+		return dateSpecimenSentToRegionalReferenceLab;
+	}
+
+	public void setDateSpecimenSentToRegionalReferenceLab(Date dateSpecimenSentToRegionalReferenceLab) {
+		this.dateSpecimenSentToRegionalReferenceLab = dateSpecimenSentToRegionalReferenceLab;
+	}
+
+	public Date getDateSpecimenReceivedAtNationalLab() {
+		return dateSpecimenReceivedAtNationalLab;
+	}
+
+	public void setDateSpecimenReceivedAtNationalLab(Date dateSpecimenReceivedAtNationalLab) {
+		this.dateSpecimenReceivedAtNationalLab = dateSpecimenReceivedAtNationalLab;
+	}
+
+	public Date getDateSpecimenReceivedAtRegionalReferenceLab() {
+		return dateSpecimenReceivedAtRegionalReferenceLab;
+	}
+
+	public void setDateSpecimenReceivedAtRegionalReferenceLab(Date dateSpecimenReceivedAtRegionalReferenceLab) {
+		this.dateSpecimenReceivedAtRegionalReferenceLab = dateSpecimenReceivedAtRegionalReferenceLab;
 	}
 }

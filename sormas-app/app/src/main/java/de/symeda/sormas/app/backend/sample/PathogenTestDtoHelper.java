@@ -88,6 +88,8 @@ public class PathogenTestDtoHelper extends AdoDtoHelper<PathogenTest, PathogenTe
 		target.setDateResultsSentToDistrict(source.getDateResultsSentToDistrict());
 		target.setDateDistrictReceivedLabResults(source.getDateDistrictReceivedLabResults());
 		target.setDateResultsSentToDiseaseSurveillance(source.getDateResultsSentToDiseaseSurveillance());
+		target.setDateIndirectResultsReceivedAtNationalEPIOffice(source.getDateIndirectResultsReceivedAtNationalEPIOffice());
+		target.setDateCapturedResultsReceivedAtNationalEPIOffice(source.getDateCapturedResultsReceivedAtNationalEPIOffice());
 		target.setFinalClassification(source.getFinalClassification());
 		target.setCommunityInvestigation(source.getCommunityInvestigation());
 		target.setPerformRubellaTest(source.getPerformRubellaTest());
@@ -149,6 +151,8 @@ public class PathogenTestDtoHelper extends AdoDtoHelper<PathogenTest, PathogenTe
 		target.setDateResultsSentToDistrict(source.getDateResultsSentToDistrict());
 		target.setDateDistrictReceivedLabResults(source.getDateDistrictReceivedLabResults());
 		target.setDateResultsSentToDiseaseSurveillance(source.getDateResultsSentToDiseaseSurveillance());
+		target.setDateIndirectResultsReceivedAtNationalEPIOffice(source.getDateIndirectResultsReceivedAtNationalEPIOffice());
+		target.setDateCapturedResultsReceivedAtNationalEPIOffice(source.getDateCapturedResultsReceivedAtNationalEPIOffice());
 		target.setFinalClassification(source.getFinalClassification());
 		target.setCommunityInvestigation(source.getCommunityInvestigation());
 		target.setPerformRubellaTest(source.getPerformRubellaTest());

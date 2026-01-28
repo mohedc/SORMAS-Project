@@ -2312,6 +2312,8 @@ public interface Captions {
 	String PathogenTest_dateResultsSentToDistrict = "PathogenTest.dateResultsSentToDistrict";
 	String PathogenTest_dateDistrictReceivedLabResults = "PathogenTest.dateDistrictReceivedLabResults";
 	String PathogenTest_dateResultsSentToDiseaseSurveillance = "PathogenTest.dateResultsSentToDiseaseSurveillance";
+	String PathogenTest_dateIndirectResultsReceivedAtNationalEPIOffice = "PathogenTest.dateIndirectResultsReceivedAtNationalEPIOffice";
+	String PathogenTest_dateCapturedResultsReceivedAtNationalEPIOffice = "PathogenTest.dateCapturedResultsReceivedAtNationalEPIOffice";
 	String PathogenTest_finalClassification = "PathogenTest.finalClassification";
 	String PathogenTest_communityInvestigation = "PathogenTest.communityInvestigation";
 	String PathogenTest_performRubellaTest = "PathogenTest.performRubellaTest";
@@ -2568,6 +2570,10 @@ public interface Captions {
 	String Sample_comment = "Sample.comment";
 	String Sample_community = "Sample.community";
 	String Sample_dateFormSentToHigherLevel = "Sample.dateFormSentToHigherLevel";
+	String Sample_dateSpecimenSentFromFieldToNationalLab = "Sample.dateSpecimenSentFromFieldToNationalLab";
+	String Sample_dateSpecimenSentToRegionalReferenceLab = "Sample.dateSpecimenSentToRegionalReferenceLab";
+	String Sample_dateSpecimenReceivedAtNationalLab = "Sample.dateSpecimenReceivedAtNationalLab";
+	String Sample_dateSpecimenReceivedAtRegionalReferenceLab = "Sample.dateSpecimenReceivedAtRegionalReferenceLab";
 	String Sample_deletionReason = "Sample.deletionReason";
 	String Sample_diseaseShort = "Sample.diseaseShort";
 	String Sample_district = "Sample.district";

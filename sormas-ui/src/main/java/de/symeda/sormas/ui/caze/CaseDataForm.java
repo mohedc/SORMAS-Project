@@ -137,7 +137,7 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 	private static final long serialVersionUID = 1L;
 
 	private static final String CASE_DATA_HEADING_LOC = "caseDataHeadingLoc";
-	private static final String NOTIFY_INVESTIGATE_HEADING_LOC = "caseDataHeadingLoc";
+	private static final String NOTIFY_INVESTIGATE_HEADING_LOC = "notifyInvestigateHeadingLoc";
 	private static final String MEDICAL_INFORMATION_LOC = "medicalInformationLoc";
 	private static final String PAPER_FORM_DATES_LOC = "paperFormDatesLoc";
 	private static final String SMALLPOX_VACCINATION_SCAR_IMG = "smallpoxVaccinationScarImg";
@@ -322,17 +322,17 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 					fluidRowLocs(CaseDataDto.HEALTH_FACILITY, CaseDataDto.HEALTH_FACILITY_DETAILS) +
 					fluidRowLocs(CaseDataDto.REPORT_LON, CaseDataDto.REPORT_LAT) +
 				loc(NOTIFY_INVESTIGATE_HEADING_LOC) +
+				loc(NOTIFY_INVESTIGATE) +
 				fluidRowLocs(CaseDataDto.NOTIFIED_BY, CaseDataDto.NOTIFIED_BY_DETAILS) +
 				fluidRowLocs(CaseDataDto.DATE_OF_NOTIFICATION, CaseDataDto.DATE_OF_INVESTIGATION) +
 				loc(ADDITIONAL_MEDICAL_INFORMATION) +
 				fluidRowLocs(CaseDataDto.VACCINATED, CaseDataDto.ROUTINE_VACCINATION_TYPE) +
 				fluidRowLocs(CaseDataDto.VACCINATION_RECORD_TYPE, CaseDataDto.NUMBER_OF_VACCINATION_DOSES) +
-				fluidRowLocs(CaseDataDto.LAST_VACCINATION_DATE, CaseDataDto.DATE_RECEIVED_AT_DISTRICT_LEVEL) +
-				fluidRowLocs(CaseDataDto.SOURCE_OF_INFECTION_IDENTIFIED) +
+				fluidRowLocs(CaseDataDto.LAST_VACCINATION_DATE, "") +
 				loc(INVESTIGATING_OFFICER_INFO) +
 					locCss(VSPACE_TOP_3, CaseDataDto.INVESTIGATOR_NAME) +
 					fluidRowLocs(CaseDataDto.INVESTIGATOR_TITLE, CaseDataDto.INVESTIGATOR_UNIT) +
-					fluidRowLocs(CaseDataDto.INVESTIGATOR_TEL, CaseDataDto.INVESTIGATOR_EMAIL);
+					fluidRowLocs(CaseDataDto.INVESTIGATOR_TEL, CaseDataDto.INVESTIGATOR_ADDRESS);
 
 	private static final String AFP_LAYOUT =
 					fluidRowLocs(4, CaseDataDto.UUID, 3, CaseDataDto.REPORT_DATE, 3, CaseDataDto.REPORTING_USER, 2, "") +
@@ -387,13 +387,14 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 					fluidRowLocs(CaseDataDto.HEALTH_FACILITY, CaseDataDto.HEALTH_FACILITY_DETAILS) +
 					fluidRowLocs(CaseDataDto.REPORT_LON, CaseDataDto.REPORT_LAT) +
 				loc(NOTIFY_INVESTIGATE_HEADING_LOC) +
+				loc(NOTIFY_INVESTIGATE) +
 				fluidRowLocs(CaseDataDto.NOTIFIED_BY, CaseDataDto.NOTIFIED_BY_DETAILS) +
 				fluidRowLocs(CaseDataDto.DATE_OF_NOTIFICATION, CaseDataDto.DATE_OF_INVESTIGATION) +
 				loc(ADDITIONAL_MEDICAL_INFORMATION) +
 				fluidRowLocs(CaseDataDto.VACCINATED, CaseDataDto.ROUTINE_VACCINATION_TYPE) +
 				fluidRowLocs(CaseDataDto.VACCINATION_RECORD_TYPE, CaseDataDto.NUMBER_OF_VACCINATION_DOSES) +
-				fluidRowLocs(CaseDataDto.LAST_VACCINATION_DATE, CaseDataDto.DATE_RECEIVED_AT_DISTRICT_LEVEL) +
-				fluidRowLocs(CaseDataDto.SOURCE_OF_INFECTION_IDENTIFIED) +
+				fluidRowLocs(CaseDataDto.LAST_VACCINATION_DATE, "") +
+				fluidRowLocs(CaseDataDto.AT_LEAST_ONE_YELLOW_FEVER_DOSE) +
 				loc(INVESTIGATING_OFFICER_INFO) +
 					locCss(VSPACE_TOP_3, CaseDataDto.INVESTIGATOR_NAME) +
 					fluidRowLocs(CaseDataDto.INVESTIGATOR_TITLE, CaseDataDto.INVESTIGATOR_UNIT) +
@@ -432,6 +433,7 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 					locCss(VSPACE_TOP_3, CaseDataDto.INVESTIGATOR_NAME) +
 					fluidRowLocs(CaseDataDto.INVESTIGATOR_TITLE, CaseDataDto.INVESTIGATOR_UNIT) +
 					fluidRowLocs(CaseDataDto.INVESTIGATOR_ADDRESS, CaseDataDto.INVESTIGATOR_TEL);
+					fluidRowLocs(CaseDataDto.INVESTIGATOR_TEL, CaseDataDto.INVESTIGATOR_ADDRESS);
 	//@formatter:on
 
 	private final String caseUuid;
@@ -1120,9 +1122,14 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 		
 		DateField lastVaccinationDateField = addField(CaseDataDto.LAST_VACCINATION_DATE, DateField.class);
 
+		// Add field for "At least one yellow fever dose"
+		addField(CaseDataDto.AT_LEAST_ONE_YELLOW_FEVER_DOSE, NullableOptionGroup.class);
 		
 		// Add conditional visibility: lastVaccinationDate visible when vaccinationRecordType is CARD
 		FieldHelper.setVisibleWhen(getFieldGroup(), CaseDataDto.LAST_VACCINATION_DATE, CaseDataDto.VACCINATION_RECORD_TYPE, Arrays.asList(VaccinationRecordType.CARD), true);
+		
+		// Make "At least one yellow fever dose" visible only for yellow fever
+		FieldHelper.setVisibleWhen(getFieldGroup(), CaseDataDto.AT_LEAST_ONE_YELLOW_FEVER_DOSE, CaseDataDto.DISEASE, Arrays.asList(Disease.YELLOW_FEVER), true);
 
 		// vaccinationRecordTypeField.addValueChangeListener(e -> {
 		// 	VaccinationRecordType recordType = (VaccinationRecordType) e.getProperty().getValue();
@@ -1758,6 +1765,11 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 				setVisible(false,
 						CaseDataDto.MOTHER_TT_DATE_ONE,	CaseDataDto.MOTHER_TT_DATE_TWO,	CaseDataDto.MOTHER_TT_DATE_THREE, CaseDataDto.MOTHER_TT_DATE_FOUR, CaseDataDto.MOTHER_TT_DATE_FIVE, CaseDataDto.MOTHER_LAST_DOSE_DATE
 				);
+				break;
+			case MEASLES:
+			case YELLOW_FEVER:
+				// Make INVESTIGATOR subtitle visible for Measles and Yellow Fever
+				headingInvestigatingOfficerLabel.setVisible(true);
 				break;
 			default:
 				break;

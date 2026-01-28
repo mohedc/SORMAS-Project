@@ -882,6 +882,10 @@ public class SampleFacadeEjb implements SampleFacade {
 		target.setFinalLabResults(source.getFinalLabResults());
 		target.setImmunocompromisedStatusSuspected(source.getImmunocompromisedStatusSuspected());
 		target.setAfpFinalClassification(source.getAfpFinalClassification());
+		target.setDateSpecimenSentFromFieldToNationalLab(source.getDateSpecimenSentFromFieldToNationalLab());
+		target.setDateSpecimenSentToRegionalReferenceLab(source.getDateSpecimenSentToRegionalReferenceLab());
+		target.setDateSpecimenReceivedAtNationalLab(source.getDateSpecimenReceivedAtNationalLab());
+		target.setDateSpecimenReceivedAtRegionalReferenceLab(source.getDateSpecimenReceivedAtRegionalReferenceLab());
 
 		target.setReportLat(source.getReportLat());
 		target.setReportLon(source.getReportLon());
@@ -1069,6 +1073,10 @@ public class SampleFacadeEjb implements SampleFacade {
 		target.setFinalLabResults(source.getFinalLabResults());
 		target.setImmunocompromisedStatusSuspected(source.getImmunocompromisedStatusSuspected());
 		target.setAfpFinalClassification(source.getAfpFinalClassification());
+		target.setDateSpecimenSentFromFieldToNationalLab(source.getDateSpecimenSentFromFieldToNationalLab());
+		target.setDateSpecimenSentToRegionalReferenceLab(source.getDateSpecimenSentToRegionalReferenceLab());
+		target.setDateSpecimenReceivedAtNationalLab(source.getDateSpecimenReceivedAtNationalLab());
+		target.setDateSpecimenReceivedAtRegionalReferenceLab(source.getDateSpecimenReceivedAtRegionalReferenceLab());
 
 		target.setReportLat(source.getReportLat());
 		target.setReportLon(source.getReportLon());
