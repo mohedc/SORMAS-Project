@@ -85,7 +85,8 @@ public class HospitalizationDto extends EntityDto {
 	private String hospitalRecordNumber;
 	private InpatOutpat selectInpatientOutpatient;
 	@Diseases({
-		Disease.MEASLES })
+		Disease.MEASLES,
+		Disease.AFP})
 	@Size(max = FieldConstraints.CHARACTER_LIMIT_BIG, message = Validations.textTooLong)
 	private String address;
 	@Diseases({

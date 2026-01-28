@@ -358,6 +358,7 @@ public class SymptomsDto extends PseudonymizableDto {
 		YELLOW_FEVER,
 		UNSPECIFIED_VHF,
 		UNDEFINED,
+		NEONATAL_TETANUS,
 		OTHER })
 	@HideForCountries
 	@SymptomGrouping(SymptomGroup.GENERAL)
@@ -1730,6 +1731,7 @@ public class SymptomsDto extends PseudonymizableDto {
 		CONGENITAL_RUBELLA,
 		CORONAVIRUS,
 		UNDEFINED,
+		NEONATAL_TETANUS,
 		OTHER })
 	@SensitiveData
 	@Size(max = FieldConstraints.CHARACTER_LIMIT_DEFAULT, message = Validations.textTooLong)
@@ -2033,7 +2035,8 @@ public class SymptomsDto extends PseudonymizableDto {
 	private SymptomState coma;
 
 	@Diseases({
-		ANTHRAX })
+		ANTHRAX,
+	NEONATAL_TETANUS})
 	@HideForCountries
 	@SymptomGrouping(SymptomGroup.NERVOUS_SYSTEM)
 	private SymptomState convulsion;

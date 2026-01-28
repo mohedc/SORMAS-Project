@@ -158,15 +158,18 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 					);
 
 	public static final String NNT_LAYOUT = loc(SIGNS_AND_SYMPTOMS_HEADING_LOC) +
-			fluidRowLocs(SYMPTOMS_COMMENTS) +
 			fluidRowLocs(6, ONSET_DATE) +
-			fluidRowLocs(BABY_NORMAL_AT_BIRTH, STOPPED_SUCKING_AFTER_TWO_DAYS, BACKACHE) +
+			fluidRowLocs(6, BABY_NORMAL_AT_BIRTH) +
+			fluidRowLocs(6, STOPPED_SUCKING_AFTER_TWO_DAYS) +
+			fluidRowLocs(6, BACKACHE) +
 			fluidRowLocs(6, NORMAL_CRY_AND_SUCK) +
 			fluidRowLocs(6, STIFFNESS) +
 			fluidRowLocs(OTHER_COMPLICATIONS, OTHER_COMPLICATIONS_TEXT) +
 			locsCss(VSPACE_3) +
-			fluidRowLocs(CONVULSION, OUTCOME) +
-			fluidRowLocs(BABY_DIED, AGE_AT_DEATH_DAYS, AGE_AT_ONSET_DAYS);
+			fluidRowLocs(6, CONVULSION) +
+			fluidRowLocs(BABY_DIED, AGE_AT_DEATH_DAYS, AGE_AT_ONSET_DAYS) +
+			fluidRowLocs(6, OUTCOME) +
+			fluidRowLocs(SYMPTOMS_COMMENTS);
 
 	public static final String MEASLES_LAYOUT = loc(SIGNS_AND_SYMPTOMS_HEADING_LOC) +
 					fluidRowCss(VSPACE_3,
@@ -309,8 +312,7 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 
 		DateField onsetDateField = addField(ONSET_DATE, DateField.class);
 		ComboBox onsetSymptom = addField(ONSET_SYMPTOM, ComboBox.class);
-		if (symptomsContext == SymptomsContext.CASE
-				&& disease != Disease.NEONATAL_TETANUS) {
+		if (symptomsContext == SymptomsContext.CASE) {
 			// If the symptom onset date is after the hospital admission date, show a warning but don't prevent the user from saving
 			onsetDateField.addValueChangeListener(event -> {
 				if (caze.getHospitalization().getAdmissionDate() != null
@@ -585,13 +587,6 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 		initializeVisibilitiesAndAllowedVisibilities();
 		initializeAccessAndAllowedAccesses();
 
-		if (disease == Disease.NEONATAL_TETANUS) {
-			Field<?> onsetDate = getFieldGroup().getField(ONSET_DATE);
-			if (onsetDate != null) {
-				onsetDate.setEnabled(true);
-				onsetDate.setReadOnly(false);
-			}
-		}
 		if (disease == Disease.AFP) {
 
 			addField(FEVER_ONSET_PARALYSIS, NullableOptionGroup.class);
@@ -643,8 +638,6 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 				HEIGHT,
 				MID_UPPER_ARM_CIRCUMFERENCE,
 				GLASGOW_COMA_SCALE);
-		} else if (disease != Disease.NEONATAL_TETANUS) {
-			setVisible(false, ONSET_SYMPTOM, ONSET_DATE);
 		}
 
 		// Hide clinical measurements heading if no clinical measurements are visible
@@ -1070,7 +1063,11 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 
 			addField(DATE_OF_ONSET_KNOWN, OptionGroup.class);
 
-            FieldHelper.setEnabledWhen(getFieldGroup(), DATE_OF_ONSET_KNOWN, YesNoUnknown.YES, ONSET_DATE, true);
+			if (caze != null
+					&& caze.getDisease() != null
+					&& caze.getDisease() != Disease.NEONATAL_TETANUS) {
+				FieldHelper.setEnabledWhen(getFieldGroup(), DATE_OF_ONSET_KNOWN, YesNoUnknown.YES, ONSET_DATE, true);
+			}
 
             ComboBox clinicalPresentationStatusField = addField(CLINICAL_PRESENTATION_STATUS, ComboBox.class);
 			clinicalPresentationStatusField
@@ -1308,6 +1305,11 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 
 	@SuppressWarnings("rawtypes")
 	private void addListenerForOnsetFields(ComboBox onsetSymptom, DateField onsetDateField) {
+
+		if (disease == Disease.NEONATAL_TETANUS) {
+			onsetDateField.setEnabled(true);
+			return;
+		}
 		List<String> allPropertyIds =
 			Stream.concat(unconditionalSymptomFieldIds.stream(), conditionalBleedingSymptomFieldIds.stream()).collect(Collectors.toList());
 		allPropertyIds.add(LESIONS_THAT_ITCH);

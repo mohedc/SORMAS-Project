@@ -157,6 +157,11 @@ public class LocationEditForm extends AbstractEditForm<LocationDto> {
 							fluidColumnLoc(2, 0, LocationDto.LONGITUDE),
 							fluidColumnLoc(2, 0, LocationDto.LAT_LON_ACCURACY));
 
+	private static final String NNT_LAYOUT =
+			fluidRowLocs(LocationDto.REGION, LocationDto.DISTRICT, LocationDto.COMMUNITY) +
+					fluidRowLocs(LocationDto.COMPOUND_OWNER, LocationDto.AREA_TYPE) +
+					fluidRowLocs(6,LocationDto.VILLAGE);
+
 	private MapPopupView leafletMapPopup;
 	private ComboBox addressType;
 	private ComboBoxWithPlaceholder facilityTypeGroup;
@@ -632,18 +637,12 @@ public class LocationEditForm extends AbstractEditForm<LocationDto> {
 		setFacilityContactPersonFieldsVisible(facilityType.getValue() != null, true);
 	}
 
-	public void handleIncomingDisease(Disease disease){
+	/*public void handleIncomingDisease(Disease disease){
 		if (disease == null) {
 			return;
 		}
 
-		if (disease == Disease.NEONATAL_TETANUS) {
-			hideAllFields();
-			setVisible(true, LocationDto.REGION, LocationDto.DISTRICT, LocationDto.COMMUNITY);
-
-		}
-
-	}
+	}*/
 
 	private void hideAndFillJurisdictionFields() {
 
@@ -852,6 +851,8 @@ public class LocationEditForm extends AbstractEditForm<LocationDto> {
 				return YELLOW_FEVER_LAYOUT;
 			case AFP:
 				return AFP_LAYOUT;
+			case NEONATAL_TETANUS:
+				return NNT_LAYOUT;
 			default:
 				return HTML_LAYOUT;
 		}

@@ -113,6 +113,12 @@ public class HospitalizationForm extends AbstractEditForm<HospitalizationDto> {
 					fluidRowLocs(HEALTH_FACILITY, HospitalizationDto.HOSPITAL_RECORD_NUMBER) +
 					fluidRowLocs(HospitalizationDto.SELECT_INPATIENT_OUTPATIENT, HospitalizationDto.ADMISSION_DATE);
 
+	private static final String NNT_LAYOUT =
+			loc(HOSPITALIZATION_HEADING_LOC) +
+					fluidRowLocs(HEALTH_FACILITY, HospitalizationDto.HOSPITAL_RECORD_NUMBER) +
+					fluidRowLocs(HospitalizationDto.SELECT_INPATIENT_OUTPATIENT, HospitalizationDto.ADMITTED_TO_HEALTH_FACILITY) +
+					fluidRowLocs(HospitalizationDto.ADMISSION_DATE, HospitalizationDto.ADDRESS);
+
 	private final CaseDataDto caze;
 	private final ViewMode viewMode;
 	private NullableOptionGroup intensiveCareUnit;
@@ -155,6 +161,7 @@ public class HospitalizationForm extends AbstractEditForm<HospitalizationDto> {
 		previousHospitalizationsHeadingLabel.addStyleName(H3);
 		getContent().addComponent(previousHospitalizationsHeadingLabel, PREVIOUS_HOSPITALIZATIONS_HEADING_LOC);
 
+		addField(HospitalizationDto.ADDRESS, TextField.class);
 		TextField facilityField = addCustomField(HEALTH_FACILITY, FacilityReferenceDto.class, TextField.class);
 		FacilityReferenceDto healthFacility = caze.getHealthFacility();
 		facilityField.setValue(getHospitalName(healthFacility, caze));
@@ -344,6 +351,13 @@ public class HospitalizationForm extends AbstractEditForm<HospitalizationDto> {
 			Arrays.asList(InpatOutpat.INPATIENT, InpatOutpat.OUTPATIENT),
 			true);
 
+		FieldHelper.setVisibleWhen(
+				getFieldGroup(),
+				HospitalizationDto.ADMISSION_DATE,
+				HospitalizationDto.ADMITTED_TO_HEALTH_FACILITY,
+				Arrays.asList(YesNoUnknown.YES),
+				true);
+
 
 		FieldHelper.setVisibleWhen(
 			getFieldGroup(),
@@ -352,12 +366,6 @@ public class HospitalizationForm extends AbstractEditForm<HospitalizationDto> {
 			Arrays.asList(InpatOutpat.INPATIENT, InpatOutpat.OUTPATIENT),
 			true);
 
-
-		if (disease == Disease.NEONATAL_TETANUS) {
-			hideAllFields();
-			previousHospitalizationsHeadingLabel.setVisible(false);
-			setVisible(true, HospitalizationDto.HOSPITAL_RECORD_NUMBER,HospitalizationDto.ADMITTED_TO_HEALTH_FACILITY, HospitalizationDto.ADMISSION_DATE, HEALTH_FACILITY);
-		}
 
 		if (disease == Disease.AFP){
 			FieldHelper.setVisibleWhen(selectInpatientOutpatient, Arrays.asList(admissionDateField), Arrays.asList(YesNoUnknown.YES),true);
@@ -397,6 +405,7 @@ public class HospitalizationForm extends AbstractEditForm<HospitalizationDto> {
 			return YELLOW_FEVER_LAYOUT;
 		}
 		if (disease == Disease.AFP) return AFP_LAYOUT;
+		if (disease == Disease.NEONATAL_TETANUS) return NNT_LAYOUT;
 		return HTML_LAYOUT;
 	}
 
