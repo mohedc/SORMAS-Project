@@ -145,6 +145,16 @@ public class LocationEditForm extends AbstractEditForm<LocationDto> {
 							fluidColumnLoc(2, 0, LocationDto.LONGITUDE),
 							fluidColumnLoc(2, 0, LocationDto.LAT_LON_ACCURACY));
 
+	private static final String MENINGITIS_LAYOUT =
+			fluidRowLocs(LocationDto.REGION, LocationDto.DISTRICT, LocationDto.COMMUNITY) +
+					fluidRowLocs(LocationDto.HOME_RESIDENTIAL_ADDRESS, LocationDto.HOUSE_NUMBER, LocationDto.COMPOUND_OWNER) +
+					fluidRowLocs(LocationDto.LANDMARK, LocationDto.AREA_TYPE) +
+					fluidRow(
+							fluidColumnLoc(2, 0, GEO_BUTTONS_LOC),
+							fluidColumnLoc(2, 0, LocationDto.LATITUDE),
+							fluidColumnLoc(2, 0, LocationDto.LONGITUDE),
+							fluidColumnLoc(2, 0, LocationDto.LAT_LON_ACCURACY));
+
 	private static final String AFP_LAYOUT =
 			fluidRowLocs(LocationDto.REGION, LocationDto.DISTRICT, LocationDto.COMMUNITY) +
 					fluidRowLocs(LocationDto.HOME_RESIDENTIAL_ADDRESS, LocationDto.AREA_TYPE) +
@@ -852,6 +862,8 @@ public class LocationEditForm extends AbstractEditForm<LocationDto> {
 				return AFP_LAYOUT;
 			case NEONATAL_TETANUS:
 				return NNT_LAYOUT;
+			case CSM:
+				return MENINGITIS_LAYOUT;
 			default:
 				return HTML_LAYOUT;
 		}

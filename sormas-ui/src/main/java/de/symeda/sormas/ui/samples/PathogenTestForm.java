@@ -146,6 +146,15 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 			fluidRowLocs(5, PathogenTestDto.LAB_DETAILS, 7, PathogenTestDto.DATE_RESULTS_SENT_TO_DISTRICT) +
 			fluidRowLocs(4, PathogenTestDto.TEST_RESULT, 4, PathogenTestDto.TEST_RESULT_VERIFIED, 4, PathogenTestDto.VIRUS_ISOLATED) +
 			fluidRowLocs(PathogenTestDto.TEST_RESULT_TEXT, PathogenTestDto.FINAL_CLASSIFICATION);
+
+	private static final String MENINGITIS_HTML_LAYOUT =
+			loc(PATHOGEN_TEST_HEADING_LOC) +
+			fluidRowLocs(PathogenTestDto.TESTED_DISEASE, PathogenTestDto.TESTED_DISEASE_DETAILS) +
+			fluidRowLocs(PathogenTestDto.TEST_TYPE, PathogenTestDto.TEST_TYPE_TEXT) +
+			fluidRowLocs(PathogenTestDto.TEST_DATE_TIME, PathogenTestDto.LAB) +
+			fluidRowLocs(5, PathogenTestDto.LAB_DETAILS, 7, PathogenTestDto.DATE_RESULTS_SENT_TO_DISTRICT) +
+			fluidRowLocs(4, PathogenTestDto.TEST_RESULT, 4, PathogenTestDto.TEST_RESULT_VERIFIED, 4, "") +
+			fluidRowLocs(PathogenTestDto.TEST_RESULT_TEXT, PathogenTestDto.FINAL_CLASSIFICATION);
 	//@formatter:on
 
 	private SampleDto sample;
@@ -311,6 +320,9 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 		}
 		if (disease == Disease.YELLOW_FEVER) {
 			return YELLOW_FEVER_HTML_LAYOUT;
+		}
+		if (disease == Disease.CSM) {
+			return MENINGITIS_HTML_LAYOUT;
 		}
 		return HTML_LAYOUT;
 	}

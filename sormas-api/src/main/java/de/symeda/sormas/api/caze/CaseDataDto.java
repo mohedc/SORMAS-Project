@@ -426,23 +426,28 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 	private VaccinationStatus vaccinationStatus;
 	@Diseases({
 		Disease.MEASLES,
-		Disease.YELLOW_FEVER})
+		Disease.YELLOW_FEVER,
+		Disease.CSM})
 	private VaccinationStatus vaccinated;
 	@Diseases({
 		Disease.MEASLES,
-		Disease.YELLOW_FEVER})
+		Disease.YELLOW_FEVER,
+		Disease.CSM})
 	private RoutineVaccinationType routineVaccinationType;
 	@Diseases({
 		Disease.MEASLES,
-		Disease.YELLOW_FEVER})
+		Disease.YELLOW_FEVER,
+		Disease.CSM})
 	private VaccinationRecordType vaccinationRecordType;
 	@Diseases({
 		Disease.MEASLES,
-		Disease.YELLOW_FEVER})
+		Disease.YELLOW_FEVER,
+		Disease.CSM})
 	private Integer numberOfVaccinationDoses;
 	@Diseases({
 		Disease.MEASLES,
-		Disease.YELLOW_FEVER})
+		Disease.YELLOW_FEVER,
+		Disease.CSM})
 	private Date lastVaccinationDate;
 	@Diseases({
 		Disease.YELLOW_FEVER})
@@ -724,7 +729,8 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 			Disease.NEONATAL_TETANUS,
 			Disease.MEASLES,
 			Disease.YELLOW_FEVER,
-			Disease.AFP})
+			Disease.AFP,
+			Disease.CSM})
 	private NotifiedBy notifiedBy;
 
 	@Diseases({
@@ -738,13 +744,15 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 			Disease.NEONATAL_TETANUS,
 			Disease.MEASLES,
 			Disease.YELLOW_FEVER,
-			Disease.AFP})
+			Disease.AFP,
+			Disease.CSM})
 	private Date dateOfNotification;
 	@Diseases({
 			Disease.NEONATAL_TETANUS,
 			Disease.MEASLES,
 			Disease.YELLOW_FEVER,
-			Disease.AFP})
+			Disease.AFP,
+			Disease.CSM})
 	private Date dateOfInvestigation;
 	@Diseases({
 			Disease.NEONATAL_TETANUS,
@@ -757,7 +765,8 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 	@Diseases({
 			Disease.NEONATAL_TETANUS,
 			Disease.MEASLES,
-			Disease.YELLOW_FEVER})
+			Disease.YELLOW_FEVER,
+			Disease.CSM})
 	private String nationality;
 	@Diseases({
 			Disease.NEONATAL_TETANUS})

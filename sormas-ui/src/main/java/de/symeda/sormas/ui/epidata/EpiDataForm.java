@@ -102,6 +102,15 @@ public class EpiDataForm extends AbstractEditForm<EpiDataDto> {
 			loc((EpiDataDto.HIGH_TRANSMISSION_RISK_AREA)) +
 			loc(EpiDataDto.ACTIVITIES_AS_CASE);
 
+	private static final String RUBELLA_HTML_LAYOUT =
+		loc(LOC_ACTIVITY_AS_CASE_INVESTIGATION_HEADING) + 
+			loc(EpiDataDto.ACTIVITY_AS_CASE_DETAILS_KNOWN)+
+			loc((EpiDataDto.HIGH_TRANSMISSION_RISK_AREA)) +
+			loc(EpiDataDto.ACTIVITIES_AS_CASE);
+
+	private static final String MENINGITIS_HTML_LAYOUT =
+		MAIN_HTML_LAYOUT + SOURCE_CONTACTS_HTML_LAYOUT;
+
 
 
 	private final Disease disease;
@@ -211,7 +220,7 @@ public class EpiDataForm extends AbstractEditForm<EpiDataDto> {
 		});
 	}
 	private void addTravelHistoryFields(NullableOptionGroup travelHistoryKnownField) {
-		if (disease != Disease.MEASLES && disease != Disease.YELLOW_FEVER) {
+		if (disease != Disease.MEASLES && disease != Disease.YELLOW_FEVER && disease != Disease.CONGENITAL_RUBELLA) {
 			return;
 		}
 
@@ -234,8 +243,8 @@ public class EpiDataForm extends AbstractEditForm<EpiDataDto> {
 		// Show only Region, District, Community fields
 		travelLocationForm.hideFieldForMeaslesEpidataTravelLocation();
 
-		// Hide additional fields for yellow fever
-		if (disease == Disease.YELLOW_FEVER) {
+		// Hide additional fields for yellow fever and congenital rubella
+		if (disease == Disease.YELLOW_FEVER || disease == Disease.CONGENITAL_RUBELLA) {
 			travelLocationForm.hideFieldsForYellowFeverActivityCase();
 		}
 
@@ -315,6 +324,12 @@ public class EpiDataForm extends AbstractEditForm<EpiDataDto> {
 					break;
 				case YELLOW_FEVER:
 					MAIN_HTML_LAYOUT = YELLOW_FEVER_HTML_LAYOUT;
+					break;
+				case CONGENITAL_RUBELLA:
+					MAIN_HTML_LAYOUT = RUBELLA_HTML_LAYOUT;
+					break;
+				case CSM:
+					MAIN_HTML_LAYOUT = MENINGITIS_HTML_LAYOUT;
 					break;
 				default:
 					MAIN_HTML_LAYOUT = MAIN_HTML_LAYOUT + SOURCE_CONTACTS_HTML_LAYOUT;

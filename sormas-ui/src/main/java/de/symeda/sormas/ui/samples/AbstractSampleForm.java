@@ -148,6 +148,21 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 					fluidRowLocs(SampleDto.SPECIMEN_CONDITION, SampleDto.NO_TEST_POSSIBLE_REASON) +
 					fluidRowLocs(SampleDto.PATHOGEN_TEST_RESULT);
 
+	protected static final String MENINGITIS_HTML_LAYOUT =
+			fluidRowLocs(4, SampleDto.UUID, 4, REPORT_INFO_LABEL_LOC, 3, SampleDto.REPORTING_USER, 1, "") +
+					fluidRowLocs(SampleDto.SAMPLE_PURPOSE, SampleDto.FIELD_SAMPLE_ID) +
+					fluidRowLocs(SampleDto.SAMPLE_DATE_TIME) +
+					fluidRowLocs(SampleDto.LAB, SampleDto.LAB_DETAILS) +
+					fluidRowLocs(SampleDto.LAB_SAMPLE_ID) +
+					fluidRowLocs(SampleDto.SAMPLE_MATERIAL, SampleDto.SAMPLE_MATERIAL_TEXT) +
+					locCss(VSPACE_TOP_3, SampleDto.SHIPPED) +
+					fluidRowLocs(SampleDto.SHIPMENT_DATE, SampleDto.SHIPMENT_DETAILS) +
+					locCss(VSPACE_TOP_3, "") +
+					fluidRowLocs(6, SampleDto.RECEIVED) +
+					fluidRowLocs(SampleDto.RECEIVED_DATE, SampleDto.LAB_SAMPLE_ID) +
+					fluidRowLocs(SampleDto.SPECIMEN_CONDITION, SampleDto.NO_TEST_POSSIBLE_REASON) +
+					fluidRowLocs(SampleDto.PATHOGEN_TEST_RESULT);
+
 	protected static final String AFP_HTML_LAYOUT =
 			loc(STOOL_SPECIMEN_COLLECTION_HEADLINE_LOC) +
 					fluidRowLocs(SampleDto.UUID, SampleDto.FIELD_SAMPLE_ID) +
@@ -772,6 +787,9 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 		}
 		if (getCaseDisease() == Disease.AFP) {
 			return AFP_HTML_LAYOUT;
+		}
+		if (getCaseDisease() == Disease.CSM) {
+			return MENINGITIS_HTML_LAYOUT;
 		}
 		return SAMPLE_COMMON_HTML_LAYOUT;
 	}

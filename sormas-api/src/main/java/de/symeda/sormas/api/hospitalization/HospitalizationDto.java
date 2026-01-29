@@ -96,7 +96,8 @@ public class HospitalizationDto extends EntityDto {
 		Disease.MEASLES })
 	private Date dateFirstSeenAtHealthFacility;
 	@Diseases({
-		Disease.YELLOW_FEVER })
+		Disease.YELLOW_FEVER,
+		Disease.CSM })
 	private Date dateHealthFacilityNotifiedDistrict;
 
 	public static HospitalizationDto build() {
