@@ -106,6 +106,12 @@ public class HospitalizationForm extends AbstractEditForm<HospitalizationDto> {
 			fluidRowLocs(6, HospitalizationDto.SELECT_INPATIENT_OUTPATIENT) +
 			fluidRowLocs(HospitalizationDto.ADMISSION_DATE, HospitalizationDto.DISCHARGE_DATE);
 
+	private static final String MENINGITIS_LAYOUT =
+			loc(HOSPITALIZATION_HEADING_LOC) +
+			fluidRowLocs(HEALTH_FACILITY, HEALTH_FACILITY_DEPARTMENT) +
+			fluidRowLocs(HospitalizationDto.HOSPITAL_RECORD_NUMBER, HospitalizationDto.SELECT_INPATIENT_OUTPATIENT) +
+			fluidRowLocs(HospitalizationDto.ADMISSION_DATE, HospitalizationDto.DISCHARGE_DATE);
+
 	private static final String AFP_LAYOUT =
 			loc(HOSPITALIZATION_HEADING_LOC) +
 					fluidRowLocs(HEALTH_FACILITY, HospitalizationDto.HOSPITAL_RECORD_NUMBER) +
@@ -401,6 +407,9 @@ public class HospitalizationForm extends AbstractEditForm<HospitalizationDto> {
 		}
 		if (caze != null && caze.getDisease() == Disease.YELLOW_FEVER) {
 			return YELLOW_FEVER_LAYOUT;
+		}
+		if (caze != null && caze.getDisease() == Disease.CSM) {
+			return MENINGITIS_LAYOUT;
 		}
 		if (disease == Disease.AFP) return AFP_LAYOUT;
 		if (disease == Disease.NEONATAL_TETANUS) return NNT_LAYOUT;

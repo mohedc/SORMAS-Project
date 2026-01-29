@@ -102,6 +102,9 @@ public class EpiDataForm extends AbstractEditForm<EpiDataDto> {
 			loc((EpiDataDto.HIGH_TRANSMISSION_RISK_AREA)) +
 			loc(EpiDataDto.ACTIVITIES_AS_CASE);
 
+	private static final String MENINGITIS_HTML_LAYOUT =
+		MAIN_HTML_LAYOUT + SOURCE_CONTACTS_HTML_LAYOUT;
+
 
 
 	private final Disease disease;
@@ -315,6 +318,9 @@ public class EpiDataForm extends AbstractEditForm<EpiDataDto> {
 					break;
 				case YELLOW_FEVER:
 					MAIN_HTML_LAYOUT = YELLOW_FEVER_HTML_LAYOUT;
+					break;
+				case CSM:
+					MAIN_HTML_LAYOUT = MENINGITIS_HTML_LAYOUT;
 					break;
 				default:
 					MAIN_HTML_LAYOUT = MAIN_HTML_LAYOUT + SOURCE_CONTACTS_HTML_LAYOUT;

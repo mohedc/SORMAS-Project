@@ -202,6 +202,10 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 					locsCss(VSPACE_3) +
 					fluidRowLocsCss(VSPACE_3, ONSET_SYMPTOM, ONSET_DATE) +
 					fluidRowLocs(3, OUTCOME);
+
+	public static final String MENINGITIS_LAYOUT = loc(SIGNS_AND_SYMPTOMS_HEADING_LOC) +
+					fluidRowLocsCss(VSPACE_3, ONSET_SYMPTOM, ONSET_DATE) +
+					fluidRowLocs(3, OUTCOME);
 	//@formatter:on
 
 	private static String createSymptomGroupLayout(SymptomGroup symptomGroup, String loc) {
@@ -1139,6 +1143,8 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 				return YELLOW_FEVER_LAYOUT;
 			case AFP:
 				return AFP_LAYOUT;
+			case CSM:
+				return MENINGITIS_LAYOUT;
 			default:
 				return FINAL_HTML_LAYOUT;
 		}
