@@ -401,6 +401,43 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 					fluidRowLocs(CaseDataDto.INVESTIGATOR_TITLE, CaseDataDto.INVESTIGATOR_UNIT) +
 					fluidRowLocs(CaseDataDto.INVESTIGATOR_TEL, CaseDataDto.INVESTIGATOR_EMAIL);
 
+	private static final String RUBELLA_LAYOUT =
+			loc(CASE_DATA_HEADING_LOC) +
+					fluidRowLocs(4, CaseDataDto.UUID, 3, CaseDataDto.REPORT_DATE, 5, CaseDataDto.REPORTING_USER) +
+					inlineLocs(CaseDataDto.CASE_CLASSIFICATION,
+							CLASSIFICATION_RULES_LOC,
+							CASE_CONFIRMATION_BASIS,
+							CASE_CLASSIFICATION_CALCULATE_BTN_LOC) +
+					fluidRow(
+							fluidColumnLoc(3, 0, CaseDataDto.CLASSIFICATION_DATE),
+							fluidColumnLocCss(LAYOUT_COL_HIDE_INVSIBLE, 5, 0, CaseDataDto.CLASSIFICATION_USER)) +
+					fluidRowLocs(9, CaseDataDto.INVESTIGATION_STATUS, 3, CaseDataDto.INVESTIGATED_DATE) +
+					fluidRowLocs(6, CaseDataDto.EPID_NUMBER, 3, ASSIGN_NEW_EPID_NUMBER_LOC) +
+					loc(EPID_NUMBER_WARNING_LOC) +
+					fluidRow(fluidColumnLoc(6, 0, CaseDataDto.DISEASE)) +
+					fluidRowLocs(CaseDataDto.CASE_ORIGIN) +
+					fluidRowLocs(RESPONSIBLE_JURISDICTION_HEADING_LOC) +
+					fluidRowLocs(CaseDataDto.RESPONSIBLE_REGION, CaseDataDto.RESPONSIBLE_DISTRICT, CaseDataDto.RESPONSIBLE_COMMUNITY) +
+					fluidRowLocs(DIFFERENT_PLACE_OF_STAY_JURISDICTION) +
+					fluidRowLocs(PLACE_OF_STAY_HEADING_LOC) +
+					fluidRowLocs(FACILITY_OR_HOME_LOC) +
+					fluidRowLocs(CaseDataDto.REGION, CaseDataDto.DISTRICT, CaseDataDto.COMMUNITY) +
+					fluidRowLocs(TYPE_GROUP_LOC, CaseDataDto.FACILITY_TYPE) +
+					fluidRowLocs(CaseDataDto.HEALTH_FACILITY, CaseDataDto.HEALTH_FACILITY_DETAILS) +
+					fluidRowLocs(CaseDataDto.REPORT_LON, CaseDataDto.REPORT_LAT) +
+				loc(NOTIFY_INVESTIGATE_HEADING_LOC) +
+				loc(NOTIFY_INVESTIGATE) +
+				fluidRowLocs(CaseDataDto.NOTIFIED_BY, CaseDataDto.NOTIFIED_BY_DETAILS) +
+				fluidRowLocs(CaseDataDto.DATE_OF_NOTIFICATION, CaseDataDto.DATE_OF_INVESTIGATION) +
+				loc(ADDITIONAL_MEDICAL_INFORMATION) +
+				fluidRowLocs(CaseDataDto.VACCINATED, CaseDataDto.ROUTINE_VACCINATION_TYPE) +
+				fluidRowLocs(CaseDataDto.VACCINATION_RECORD_TYPE, CaseDataDto.NUMBER_OF_VACCINATION_DOSES) +
+				fluidRowLocs(CaseDataDto.LAST_VACCINATION_DATE, "") +
+				loc(INVESTIGATING_OFFICER_INFO) +
+					locCss(VSPACE_TOP_3, CaseDataDto.INVESTIGATOR_NAME) +
+					fluidRowLocs(CaseDataDto.INVESTIGATOR_TITLE, CaseDataDto.INVESTIGATOR_UNIT) +
+					fluidRowLocs(CaseDataDto.INVESTIGATOR_TEL, CaseDataDto.INVESTIGATOR_EMAIL);
+
 	private static final String MENINGITIS_LAYOUT =
 			loc(CASE_DATA_HEADING_LOC) +
 					fluidRowLocs(4, CaseDataDto.UUID, 3, CaseDataDto.REPORT_DATE, 5, CaseDataDto.REPORTING_USER) +
@@ -1806,7 +1843,8 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 				break;
 			case MEASLES:
 			case YELLOW_FEVER:
-				// Make INVESTIGATOR subtitle visible for Measles and Yellow Fever
+			case CONGENITAL_RUBELLA:
+				// Make INVESTIGATOR subtitle visible for Measles, Yellow Fever and Congenital Rubella
 				headingInvestigatingOfficerLabel.setVisible(true);
 				break;
 			default:
@@ -2180,6 +2218,9 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 				break;
 			case YELLOW_FEVER:
 				DISEASE_LAYOUT = YELLOW_FEVER_LAYOUT;
+				break;
+			case CONGENITAL_RUBELLA:
+				DISEASE_LAYOUT = RUBELLA_LAYOUT;
 				break;
 			case NEONATAL_TETANUS:
 				DISEASE_LAYOUT = NNT_LAYOUT;

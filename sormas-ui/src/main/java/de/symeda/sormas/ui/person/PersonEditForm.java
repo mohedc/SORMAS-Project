@@ -208,6 +208,21 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 					  loc(ADDRESS_HEADER) +
                     divsCss(VSPACE_3, fluidRowLocs(PersonDto.ADDRESS));
 
+	private static final String RUBELLA_LAYOUT =
+			loc(PERSON_INFORMATION_HEADING_LOC) +
+					fluidRowLocs(PersonDto.UUID, "") +
+					fluidRowLocs(PersonDto.FIRST_NAME, PersonDto.LAST_NAME) +
+					fluidRowLocs(PersonDto.OTHER_NAMES) +
+					fluidRow(
+							fluidRowLocs(PersonDto.BIRTH_DATE_YYYY, PersonDto.BIRTH_DATE_MM, PersonDto.BIRTH_DATE_DD),
+							fluidRowLocs(PersonDto.APPROXIMATE_AGE, PersonDto.APPROXIMATE_AGE_TYPE, PersonDto.APPROXIMATE_AGE_REFERENCE_DATE)
+					) +
+					fluidRowLocs(PersonDto.SEX, PersonDto.MARITAL_STATUS) +
+					fluidRowLocs(PersonDto.NATIONALITY, PersonDto.PASSPORT_NUMBER) +
+					fluidRowLocs(PersonDto.MOTHERS_NAME, PersonDto.FATHERS_NAME) +
+					  loc(ADDRESS_HEADER) +
+                    divsCss(VSPACE_3, fluidRowLocs(PersonDto.ADDRESS));
+
 	private static final String MENINGITIS_LAYOUT =
 			loc(PERSON_INFORMATION_HEADING_LOC) +
 					fluidRowLocs(PersonDto.UUID, "") +
@@ -1003,6 +1018,29 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 			}
 		}
 
+		// Handle passport number visibility for Congenital Rubella when Case Origin is Point of Entry
+		if (disease == Disease.CONGENITAL_RUBELLA && personContext == PersonContext.CASE && passportNumberField != null) {
+			if (newFieldValue != null && newFieldValue.getUuid() != null) {
+				List<CaseDataDto> personCases = FacadeProvider.getCaseFacade().getAllCasesOfPerson(newFieldValue.getUuid());
+				// Find the case with matching disease
+				CaseDataDto congenitalRubellaCase = personCases.stream()
+						.filter(c -> c.getDisease() == Disease.CONGENITAL_RUBELLA)
+						.findFirst()
+						.orElse(null);
+				
+				if (congenitalRubellaCase != null) {
+					boolean isPointOfEntry = congenitalRubellaCase.getCaseOrigin() == CaseOrigin.POINT_OF_ENTRY;
+					passportNumberField.setVisible(isPointOfEntry);
+				} else {
+					// If no case found yet, hide passport number by default
+					passportNumberField.setVisible(false);
+				}
+			} else {
+				// If person not yet set, hide passport number by default
+				passportNumberField.setVisible(false);
+			}
+		}
+
 		// HACK: Binding to the fields will call field listeners that may clear/modify the values of other fields.
 		// this hopefully resets everything to its correct value
 		addressForm.discard();
@@ -1129,6 +1167,9 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 		}
 		if (disease == Disease.YELLOW_FEVER) {
 			return YELLOW_FEVER_LAYOUT;
+		}
+		if (disease == Disease.CONGENITAL_RUBELLA) {
+			return RUBELLA_LAYOUT;
 		}
 		if (disease == Disease.AFP) {
 			return AFP_LAYOUT;

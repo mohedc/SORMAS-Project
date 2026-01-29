@@ -203,6 +203,21 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 					fluidRowLocsCss(VSPACE_3, ONSET_SYMPTOM, ONSET_DATE) +
 					fluidRowLocs(3, OUTCOME);
 
+	public static final String RUBELLA_LAYOUT = loc(CLINICAL_MEASUREMENTS_HEADING_LOC) +
+					fluidRowLocs(TEMPERATURE, TEMPERATURE_SOURCE) +
+					loc(SIGNS_AND_SYMPTOMS_HEADING_LOC) +
+					fluidRowCss(VSPACE_3,
+							//XXX #1620 fluidColumnLoc?
+							fluidColumn(8, 0, loc(SYMPTOMS_HINT_LOC))) +
+					fluidRow(fluidColumn(8,4, locCss(CssStyles.ALIGN_RIGHT,BUTTONS_LOC)))+
+					fluidRowLocs(MUSCLE_PAIN, JAUNDICE) +
+					fluidRowLocs(FEVER, HEMORRHAGIC_SYNDROME) +
+					fluidRowLocs(OTHER_NON_HEMORRHAGIC_SYMPTOMS, OTHER_NON_HEMORRHAGIC_SYMPTOMS_TEXT) +
+					fluidRowLocs(OTHER_COMPLICATIONS, OTHER_COMPLICATIONS_TEXT) +
+					locsCss(VSPACE_3) +
+					fluidRowLocsCss(VSPACE_3, ONSET_SYMPTOM, ONSET_DATE) +
+					fluidRowLocs(3, OUTCOME);
+
 	public static final String MENINGITIS_LAYOUT = loc(SIGNS_AND_SYMPTOMS_HEADING_LOC) +
 					fluidRowLocsCss(VSPACE_3, ONSET_SYMPTOM, ONSET_DATE) +
 					fluidRowLocs(3, OUTCOME);
@@ -843,8 +858,8 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 		FieldHelper.setVisibleWhen(getFieldGroup(), lesionsLocationFieldIds, LESIONS, Arrays.asList(SymptomState.YES), true);
 
 		// For measles, LESIONS_ONSET_DATE should depend on GENERALIZED_RASH instead of LESIONS
-		// For yellow fever, same logic applies
-		if (disease == Disease.MEASLES || disease == Disease.YELLOW_FEVER) {
+		// For yellow fever and congenital rubella, same logic applies
+		if (disease == Disease.MEASLES || disease == Disease.YELLOW_FEVER || disease == Disease.CONGENITAL_RUBELLA) {
 			FieldHelper.setVisibleWhen(getFieldGroup(), LESIONS_ONSET_DATE, GENERALIZED_RASH, Arrays.asList(SymptomState.YES), true);
 		} else {
 			FieldHelper.setVisibleWhen(getFieldGroup(), LESIONS_ONSET_DATE, LESIONS, Arrays.asList(SymptomState.YES), true);
@@ -1141,6 +1156,8 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 				return MEASLES_LAYOUT;
 			case YELLOW_FEVER:
 				return YELLOW_FEVER_LAYOUT;
+			case CONGENITAL_RUBELLA:
+				return RUBELLA_LAYOUT;
 			case AFP:
 				return AFP_LAYOUT;
 			case CSM:
