@@ -575,8 +575,8 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 				personCreateForm.getField(PersonDto.PHONE).setVisible(false);
 				personCreateForm.getField(PersonDto.EMAIL_ADDRESS).setVisible(false);
 				personCreateForm.getField(PersonDto.PRESENT_CONDITION).setVisible(false);
-			} else if (selectedDisease == Disease.CONGENITAL_RUBELLA) {
-				// Show only Congenital Rubella CIF fields for New Case
+			} else if (selectedDisease == Disease.CONGENITAL_RUBELLA || selectedDisease == Disease.CSM) {
+				// Show only Congenital Rubella/Meningitis CIF fields for New Case
 				handleCongenitalRubellaFields();
 			} else if (selectedDisease == Disease.MEASLES || selectedDisease == Disease.YELLOW_FEVER) {
 				// Show only Measles/Yellow Fever CIF fields for New Case
@@ -930,7 +930,8 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 			Disease.MEASLES,
 			Disease.AFP,
 			Disease.YELLOW_FEVER,
-			Disease.CONGENITAL_RUBELLA
+			Disease.CONGENITAL_RUBELLA,
+			Disease.CSM
 		);
 
 }
