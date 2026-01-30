@@ -61,6 +61,7 @@ import com.vaadin.v7.ui.TextField;
 
 import de.symeda.sormas.api.CountryHelper;
 import de.symeda.sormas.api.Disease;
+import de.symeda.sormas.api.EntityDto;
 import de.symeda.sormas.api.FacadeProvider;
 import de.symeda.sormas.api.caze.CaseDataDto;
 import de.symeda.sormas.api.caze.CaseOrigin;
@@ -232,10 +233,11 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 							fluidRowLocs(PersonDto.BIRTH_DATE_YYYY, PersonDto.BIRTH_DATE_MM, PersonDto.BIRTH_DATE_DD),
 							fluidRowLocs(PersonDto.APPROXIMATE_AGE, PersonDto.APPROXIMATE_AGE_TYPE, PersonDto.APPROXIMATE_AGE_REFERENCE_DATE)
 					) +
-					fluidRowLocs(PersonDto.SEX, PersonDto.MARITAL_STATUS) +
-					fluidRowLocs(PersonDto.MOTHERS_NAME, PersonDto.FATHERS_NAME) +
-					  loc(ADDRESS_HEADER) +
-                    divsCss(VSPACE_3, fluidRowLocs(PersonDto.ADDRESS));
+					fluidRowLocs(EntityDto.CHANGE_DATE, "") +
+					fluidRowLocs(PersonDto.SEX, PersonDto.PRESENT_CONDITION) +
+					loc(ADDRESS_HEADER) +
+					divsCss(VSPACE_3, fluidRowLocs(PersonDto.ADDRESS)) +
+					fluidRowLocs(PersonDto.MOTHERS_NAME, PersonDto.FATHERS_NAME);
 
 	private static final String AFP_LAYOUT =
 			loc(PERSON_INFORMATION_HEADING_LOC) +
@@ -425,6 +427,10 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 		getContent().addComponent(seekHelpHeadingLabel, SEEK_HELP_HEADING_LOC);
 
 		addField(PersonDto.UUID).setReadOnly(true);
+		// Add CHANGE_DATE field for Meningitis (read-only)
+		if (disease == Disease.CSM) {
+			addField(EntityDto.CHANGE_DATE, DateField.class).setReadOnly(true);
+		}
 		firstNameField = addField(PersonDto.FIRST_NAME, TextField.class);
 		lastNameField = addField(PersonDto.LAST_NAME, TextField.class);
 		addField(PersonDto.OTHER_NAMES, TextField.class);

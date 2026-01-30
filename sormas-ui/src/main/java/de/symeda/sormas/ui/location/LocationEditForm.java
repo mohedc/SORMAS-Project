@@ -147,8 +147,7 @@ public class LocationEditForm extends AbstractEditForm<LocationDto> {
 
 	private static final String MENINGITIS_LAYOUT =
 			fluidRowLocs(LocationDto.REGION, LocationDto.DISTRICT, LocationDto.COMMUNITY) +
-					fluidRowLocs(LocationDto.HOME_RESIDENTIAL_ADDRESS, LocationDto.HOUSE_NUMBER, LocationDto.COMPOUND_OWNER) +
-					fluidRowLocs(LocationDto.LANDMARK, LocationDto.AREA_TYPE) +
+					fluidRowLocs(LocationDto.HOME_RESIDENTIAL_ADDRESS, LocationDto.AREA_TYPE) +
 					fluidRow(
 							fluidColumnLoc(2, 0, GEO_BUTTONS_LOC),
 							fluidColumnLoc(2, 0, LocationDto.LATITUDE),
