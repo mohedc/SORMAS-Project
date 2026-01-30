@@ -219,6 +219,15 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 					fluidRowLocs(3, OUTCOME);
 
 	public static final String MENINGITIS_LAYOUT = loc(SIGNS_AND_SYMPTOMS_HEADING_LOC) +
+					fluidRowCss(VSPACE_3,
+							//XXX #1620 fluidColumnLoc?
+							fluidColumn(8, 0, loc(SYMPTOMS_HINT_LOC))) +
+					fluidRow(fluidColumn(8,4, locCss(CssStyles.ALIGN_RIGHT,BUTTONS_LOC)))+
+					fluidRowLocs(FEVER, VOMITING) +
+					fluidRowLocs(ALTERED_CONSCIOUSNESS, SEIZURES) +
+					fluidRowLocs(RAPID_BREATHING) +
+					fluidRowLocs(OTHER_NON_HEMORRHAGIC_SYMPTOMS, OTHER_NON_HEMORRHAGIC_SYMPTOMS_TEXT) +
+					locsCss(VSPACE_3, SYMPTOMS_COMMENTS) +
 					fluidRowLocsCss(VSPACE_3, ONSET_SYMPTOM, ONSET_DATE) +
 					fluidRowLocs(3, OUTCOME);
 	//@formatter:on

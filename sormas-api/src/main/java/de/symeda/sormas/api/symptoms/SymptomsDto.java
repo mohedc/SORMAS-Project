@@ -1540,6 +1540,7 @@ public class SymptomsDto extends PseudonymizableDto {
 
 	@Diseases({
 		AFP,
+		CSM,
 		CORONAVIRUS,
 		DENGUE,
 		GUINEA_WORM,
@@ -2594,6 +2595,7 @@ public class SymptomsDto extends PseudonymizableDto {
 	private SymptomState stiffness;
 
 	@Diseases({
+			CSM,
 			NEONATAL_TETANUS,
 			MEASLES,
 			YELLOW_FEVER
