@@ -14829,6 +14829,15 @@ ALTER TABLE person ADD COLUMN durationmonths4 varchar(255);
 ALTER TABLE person ADD COLUMN durationdays4 varchar(255);
 INSERT INTO schema_version (version_number, comment) VALUES (618, 'Added place, duration etc to person');
 
+-- Add serial number in consultation register and date of consultation at health facility for meningitis
+ALTER TABLE hospitalization ADD COLUMN serialnumberinconsultationregister varchar(255);
+ALTER TABLE hospitalization_history ADD COLUMN serialnumberinconsultationregister varchar(255);
+ALTER TABLE hospitalization ADD COLUMN dateofconsultationathealthfacility date;
+ALTER TABLE hospitalization_history ADD COLUMN dateofconsultationathealthfacility date;
+ALTER TABLE hospitalization ADD COLUMN datehealthregionnotified date;
+ALTER TABLE hospitalization_history ADD COLUMN datehealthregionnotified date;
+INSERT INTO schema_version (version_number, comment) VALUES (619, 'Add serial number in consultation register, date of consultation at health facility and date health region notified for meningitis');
+
 
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***
 

@@ -59,6 +59,9 @@ public class HospitalizationDto extends EntityDto {
 	public static final String SEEN_AT_HEALTH_FACILITY = "seenAtHealthFacility";
 	public static final String DATE_FIRST_SEEN_AT_HEALTH_FACILITY = "dateFirstSeenAtHealthFacility";
 	public static final String DATE_HEALTH_FACILITY_NOTIFIED_DISTRICT = "dateHealthFacilityNotifiedDistrict";
+	public static final String SERIAL_NUMBER_IN_CONSULTATION_REGISTER = "serialNumberInConsultationRegister";
+	public static final String DATE_OF_CONSULTATION_AT_HEALTH_FACILITY = "dateOfConsultationAtHealthFacility";
+	public static final String DATE_HEALTH_REGION_NOTIFIED = "dateHealthRegionNotified";
 
 	// Fields are declared in the order they should appear in the import template
 
@@ -99,6 +102,16 @@ public class HospitalizationDto extends EntityDto {
 		Disease.YELLOW_FEVER,
 		Disease.CSM })
 	private Date dateHealthFacilityNotifiedDistrict;
+	@Diseases({
+		Disease.CSM })
+	@Size(max = FieldConstraints.CHARACTER_LIMIT_DEFAULT, message = Validations.textTooLong)
+	private String serialNumberInConsultationRegister;
+	@Diseases({
+		Disease.CSM })
+	private Date dateOfConsultationAtHealthFacility;
+	@Diseases({
+		Disease.CSM })
+	private Date dateHealthRegionNotified;
 
 	public static HospitalizationDto build() {
 		HospitalizationDto hospitalization = new HospitalizationDto();
@@ -266,5 +279,29 @@ public class HospitalizationDto extends EntityDto {
 
 	public void setDateHealthFacilityNotifiedDistrict(Date dateHealthFacilityNotifiedDistrict) {
 		this.dateHealthFacilityNotifiedDistrict = dateHealthFacilityNotifiedDistrict;
+	}
+
+	public String getSerialNumberInConsultationRegister() {
+		return serialNumberInConsultationRegister;
+	}
+
+	public void setSerialNumberInConsultationRegister(String serialNumberInConsultationRegister) {
+		this.serialNumberInConsultationRegister = serialNumberInConsultationRegister;
+	}
+
+	public Date getDateOfConsultationAtHealthFacility() {
+		return dateOfConsultationAtHealthFacility;
+	}
+
+	public void setDateOfConsultationAtHealthFacility(Date dateOfConsultationAtHealthFacility) {
+		this.dateOfConsultationAtHealthFacility = dateOfConsultationAtHealthFacility;
+	}
+
+	public Date getDateHealthRegionNotified() {
+		return dateHealthRegionNotified;
+	}
+
+	public void setDateHealthRegionNotified(Date dateHealthRegionNotified) {
+		this.dateHealthRegionNotified = dateHealthRegionNotified;
 	}
 }

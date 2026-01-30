@@ -95,6 +95,9 @@ public class HospitalizationFacadeEjb implements HospitalizationFacade {
 		target.setSeenAtHealthFacility(source.getSeenAtHealthFacility());
 		target.setDateFirstSeenAtHealthFacility(source.getDateFirstSeenAtHealthFacility());
 		target.setDateHealthFacilityNotifiedDistrict(source.getDateHealthFacilityNotifiedDistrict());
+		target.setSerialNumberInConsultationRegister(source.getSerialNumberInConsultationRegister());
+		target.setDateOfConsultationAtHealthFacility(source.getDateOfConsultationAtHealthFacility());
+		target.setDateHealthRegionNotified(source.getDateHealthRegionNotified());
 
 		return target;
 	}
@@ -169,6 +172,9 @@ public class HospitalizationFacadeEjb implements HospitalizationFacade {
 		target.setSeenAtHealthFacility(source.getSeenAtHealthFacility());
 		target.setDateFirstSeenAtHealthFacility(source.getDateFirstSeenAtHealthFacility());
 		target.setDateHealthFacilityNotifiedDistrict(source.getDateHealthFacilityNotifiedDistrict());
+		target.setSerialNumberInConsultationRegister(source.getSerialNumberInConsultationRegister());
+		target.setDateOfConsultationAtHealthFacility(source.getDateOfConsultationAtHealthFacility());
+		target.setDateHealthRegionNotified(source.getDateHealthRegionNotified());
 
 		return target;
 	}

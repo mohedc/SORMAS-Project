@@ -59,6 +59,9 @@ public class Hospitalization extends AbstractDomainObject {
 	public static final String SEEN_AT_HEALTH_FACILITY = "seenAtHealthFacility";
 	public static final String DATE_FIRST_SEEN_AT_HEALTH_FACILITY = "dateFirstSeenAtHealthFacility";
 	public static final String DATE_HEALTH_FACILITY_NOTIFIED_DISTRICT = "dateHealthFacilityNotifiedDistrict";
+	public static final String SERIAL_NUMBER_IN_CONSULTATION_REGISTER = "serialNumberInConsultationRegister";
+	public static final String DATE_OF_CONSULTATION_AT_HEALTH_FACILITY = "dateOfConsultationAtHealthFacility";
+	public static final String DATE_HEALTH_REGION_NOTIFIED = "dateHealthRegionNotified";
 
 	private YesNoUnknown admittedToHealthFacility;
 	private Date admissionDate;
@@ -82,6 +85,9 @@ public class Hospitalization extends AbstractDomainObject {
 	private YesNoUnknown seenAtHealthFacility;
 	private Date dateFirstSeenAtHealthFacility;
 	private Date dateHealthFacilityNotifiedDistrict;
+	private String serialNumberInConsultationRegister;
+	private Date dateOfConsultationAtHealthFacility;
+	private Date dateHealthRegionNotified;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	public Date getAdmissionDate() {
@@ -271,5 +277,31 @@ public class Hospitalization extends AbstractDomainObject {
 
 	public void setDateHealthFacilityNotifiedDistrict(Date dateHealthFacilityNotifiedDistrict) {
 		this.dateHealthFacilityNotifiedDistrict = dateHealthFacilityNotifiedDistrict;
+	}
+
+	public String getSerialNumberInConsultationRegister() {
+		return serialNumberInConsultationRegister;
+	}
+
+	public void setSerialNumberInConsultationRegister(String serialNumberInConsultationRegister) {
+		this.serialNumberInConsultationRegister = serialNumberInConsultationRegister;
+	}
+
+	@Temporal(TemporalType.DATE)
+	public Date getDateOfConsultationAtHealthFacility() {
+		return dateOfConsultationAtHealthFacility;
+	}
+
+	public void setDateOfConsultationAtHealthFacility(Date dateOfConsultationAtHealthFacility) {
+		this.dateOfConsultationAtHealthFacility = dateOfConsultationAtHealthFacility;
+	}
+
+	@Temporal(TemporalType.DATE)
+	public Date getDateHealthRegionNotified() {
+		return dateHealthRegionNotified;
+	}
+
+	public void setDateHealthRegionNotified(Date dateHealthRegionNotified) {
+		this.dateHealthRegionNotified = dateHealthRegionNotified;
 	}
 }
