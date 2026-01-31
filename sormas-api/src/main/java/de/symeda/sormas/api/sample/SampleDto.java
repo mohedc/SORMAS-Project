@@ -115,6 +115,19 @@ public class SampleDto extends SormasToSormasShareableDto implements IsSample {
 	public static final String DATE_SPECIMEN_SENT_TO_REGIONAL_REFERENCE_LAB = "dateSpecimenSentToRegionalReferenceLab";
 	public static final String DATE_SPECIMEN_RECEIVED_AT_NATIONAL_LAB = "dateSpecimenReceivedAtNationalLab";
 	public static final String DATE_SPECIMEN_RECEIVED_AT_REGIONAL_REFERENCE_LAB = "dateSpecimenReceivedAtRegionalReferenceLab";
+	public static final String DATE_FORM_CSF_DISPATCHED_TO_HEALTH_DISTRICT = "dateFormCsfDispatchedToHealthDistrict";
+	public static final String DATE_HEALTH_FACILITY_NOTIFY_REGION = "dateHealthFacilityNotifyRegion";
+	public static final String LUMBAR_PUNCTURE_PERFORMED = "lumbarPuncturePerformed";
+	public static final String DATE_OF_LP = "dateOfLp";
+	public static final String LP_ASPECT = "lpAspect";
+	public static final String LP_PACKAGING = "lpPackaging";
+	public static final String LP_PACKAGING_OTHER = "lpPackagingOther";
+	public static final String WAS_SPECIMEN_TAKEN = "wasSpecimenTaken";
+	public static final String LABORATORY_TYPE = "laboratoryType";
+	public static final String LABORATORY_NAME = "laboratoryName";
+	public static final String DATE_SPECIMEN_SENT_TO_LABORATORY_TYPE = "dateSpecimenSentToLaboratoryType";
+	public static final String PACKAGING = "packaging";
+	public static final String PACKAGING_OTHER = "packagingOther";
 
 	private CaseReferenceDto associatedCase;
 	private ContactReferenceDto associatedContact;
@@ -242,6 +255,51 @@ public class SampleDto extends SormasToSormasShareableDto implements IsSample {
 	@Diseases(value = {
 		Disease.MEASLES })
 	private Date dateSpecimenReceivedAtRegionalReferenceLab;
+	@Diseases(value = {
+		Disease.CSM })
+	private Date dateFormCsfDispatchedToHealthDistrict;
+	@Diseases(value = {
+		Disease.CSM })
+	private Date dateHealthFacilityNotifyRegion;
+	@Diseases(value = {
+		Disease.CSM })
+	private YesNo lumbarPuncturePerformed;
+	@Diseases(value = {
+		Disease.CSM })
+	private Date dateOfLp;
+	@Diseases(value = {
+		Disease.CSM })
+	private LpAspect lpAspect;
+	@Diseases(value = {
+		Disease.CSM })
+	private LpPackaging lpPackaging;
+	@SensitiveData
+	@Size(max = FieldConstraints.CHARACTER_LIMIT_DEFAULT, message = Validations.textTooLong)
+	@Diseases(value = {
+		Disease.CSM })
+	private String lpPackagingOther;
+	@Diseases(value = {
+		Disease.CSM })
+	private YesNo wasSpecimenTaken;
+	@Diseases(value = {
+		Disease.CSM })
+	private LaboratoryType laboratoryType;
+	@SensitiveData
+	@Size(max = FieldConstraints.CHARACTER_LIMIT_DEFAULT, message = Validations.textTooLong)
+	@Diseases(value = {
+		Disease.CSM })
+	private String laboratoryName;
+	@Diseases(value = {
+		Disease.CSM })
+	private Date dateSpecimenSentToLaboratoryType;
+	@Diseases(value = {
+		Disease.CSM })
+	private Packaging packaging;
+	@SensitiveData
+	@Size(max = FieldConstraints.CHARACTER_LIMIT_DEFAULT, message = Validations.textTooLong)
+	@Diseases(value = {
+		Disease.CSM })
+	private String packagingOther;
 
 	@ImportIgnore
 	public CaseReferenceDto getAssociatedCase() {
@@ -955,5 +1013,109 @@ public class SampleDto extends SormasToSormasShareableDto implements IsSample {
 
 	public void setDateSpecimenReceivedAtRegionalReferenceLab(Date dateSpecimenReceivedAtRegionalReferenceLab) {
 		this.dateSpecimenReceivedAtRegionalReferenceLab = dateSpecimenReceivedAtRegionalReferenceLab;
+	}
+
+	public Date getDateFormCsfDispatchedToHealthDistrict() {
+		return dateFormCsfDispatchedToHealthDistrict;
+	}
+
+	public void setDateFormCsfDispatchedToHealthDistrict(Date dateFormCsfDispatchedToHealthDistrict) {
+		this.dateFormCsfDispatchedToHealthDistrict = dateFormCsfDispatchedToHealthDistrict;
+	}
+
+	public Date getDateHealthFacilityNotifyRegion() {
+		return dateHealthFacilityNotifyRegion;
+	}
+
+	public void setDateHealthFacilityNotifyRegion(Date dateHealthFacilityNotifyRegion) {
+		this.dateHealthFacilityNotifyRegion = dateHealthFacilityNotifyRegion;
+	}
+
+	public YesNo getLumbarPuncturePerformed() {
+		return lumbarPuncturePerformed;
+	}
+
+	public void setLumbarPuncturePerformed(YesNo lumbarPuncturePerformed) {
+		this.lumbarPuncturePerformed = lumbarPuncturePerformed;
+	}
+
+	public Date getDateOfLp() {
+		return dateOfLp;
+	}
+
+	public void setDateOfLp(Date dateOfLp) {
+		this.dateOfLp = dateOfLp;
+	}
+
+	public LpAspect getLpAspect() {
+		return lpAspect;
+	}
+
+	public void setLpAspect(LpAspect lpAspect) {
+		this.lpAspect = lpAspect;
+	}
+
+	public LpPackaging getLpPackaging() {
+		return lpPackaging;
+	}
+
+	public void setLpPackaging(LpPackaging lpPackaging) {
+		this.lpPackaging = lpPackaging;
+	}
+
+	public String getLpPackagingOther() {
+		return lpPackagingOther;
+	}
+
+	public void setLpPackagingOther(String lpPackagingOther) {
+		this.lpPackagingOther = lpPackagingOther;
+	}
+
+	public YesNo getWasSpecimenTaken() {
+		return wasSpecimenTaken;
+	}
+
+	public void setWasSpecimenTaken(YesNo wasSpecimenTaken) {
+		this.wasSpecimenTaken = wasSpecimenTaken;
+	}
+
+	public LaboratoryType getLaboratoryType() {
+		return laboratoryType;
+	}
+
+	public void setLaboratoryType(LaboratoryType laboratoryType) {
+		this.laboratoryType = laboratoryType;
+	}
+
+	public String getLaboratoryName() {
+		return laboratoryName;
+	}
+
+	public void setLaboratoryName(String laboratoryName) {
+		this.laboratoryName = laboratoryName;
+	}
+
+	public Date getDateSpecimenSentToLaboratoryType() {
+		return dateSpecimenSentToLaboratoryType;
+	}
+
+	public void setDateSpecimenSentToLaboratoryType(Date dateSpecimenSentToLaboratoryType) {
+		this.dateSpecimenSentToLaboratoryType = dateSpecimenSentToLaboratoryType;
+	}
+
+	public Packaging getPackaging() {
+		return packaging;
+	}
+
+	public void setPackaging(Packaging packaging) {
+		this.packaging = packaging;
+	}
+
+	public String getPackagingOther() {
+		return packagingOther;
+	}
+
+	public void setPackagingOther(String packagingOther) {
+		this.packagingOther = packagingOther;
 	}
 }

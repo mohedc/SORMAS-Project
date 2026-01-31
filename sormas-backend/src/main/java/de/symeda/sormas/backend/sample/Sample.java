@@ -114,6 +114,19 @@ public class Sample extends DeletableAdo implements IsSample, SormasToSormasShar
 	public static final String DATE_SPECIMEN_SENT_TO_REGIONAL_REFERENCE_LAB = "dateSpecimenSentToRegionalReferenceLab";
 	public static final String DATE_SPECIMEN_RECEIVED_AT_NATIONAL_LAB = "dateSpecimenReceivedAtNationalLab";
 	public static final String DATE_SPECIMEN_RECEIVED_AT_REGIONAL_REFERENCE_LAB = "dateSpecimenReceivedAtRegionalReferenceLab";
+	public static final String DATE_FORM_CSF_DISPATCHED_TO_HEALTH_DISTRICT = "dateFormCsfDispatchedToHealthDistrict";
+	public static final String DATE_HEALTH_FACILITY_NOTIFY_REGION = "dateHealthFacilityNotifyRegion";
+	public static final String LUMBAR_PUNCTURE_PERFORMED = "lumbarPuncturePerformed";
+	public static final String DATE_OF_LP = "dateOfLp";
+	public static final String LP_ASPECT = "lpAspect";
+	public static final String LP_PACKAGING = "lpPackaging";
+	public static final String LP_PACKAGING_OTHER = "lpPackagingOther";
+	public static final String WAS_SPECIMEN_TAKEN = "wasSpecimenTaken";
+	public static final String LABORATORY_TYPE = "laboratoryType";
+	public static final String LABORATORY_NAME = "laboratoryName";
+	public static final String DATE_SPECIMEN_SENT_TO_LABORATORY_TYPE = "dateSpecimenSentToLaboratoryType";
+	public static final String PACKAGING = "packaging";
+	public static final String PACKAGING_OTHER = "packagingOther";
 
 	private Case associatedCase;
 	private Contact associatedContact;
@@ -194,6 +207,19 @@ public class Sample extends DeletableAdo implements IsSample, SormasToSormasShar
 	private Date dateSpecimenSentToRegionalReferenceLab;
 	private Date dateSpecimenReceivedAtNationalLab;
 	private Date dateSpecimenReceivedAtRegionalReferenceLab;
+	private Date dateFormCsfDispatchedToHealthDistrict;
+	private Date dateHealthFacilityNotifyRegion;
+	private YesNo lumbarPuncturePerformed;
+	private Date dateOfLp;
+	private LpAspect lpAspect;
+	private LpPackaging lpPackaging;
+	private String lpPackagingOther;
+	private YesNo wasSpecimenTaken;
+	private LaboratoryType laboratoryType;
+	private String laboratoryName;
+	private Date dateSpecimenSentToLaboratoryType;
+	private Packaging packaging;
+	private String packagingOther;
 
 	private List<PathogenTest> pathogenTests;
 	private List<AdditionalTest> additionalTests;
@@ -970,5 +996,122 @@ public class Sample extends DeletableAdo implements IsSample, SormasToSormasShar
 
 	public void setDateSpecimenReceivedAtRegionalReferenceLab(Date dateSpecimenReceivedAtRegionalReferenceLab) {
 		this.dateSpecimenReceivedAtRegionalReferenceLab = dateSpecimenReceivedAtRegionalReferenceLab;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getDateFormCsfDispatchedToHealthDistrict() {
+		return dateFormCsfDispatchedToHealthDistrict;
+	}
+
+	public void setDateFormCsfDispatchedToHealthDistrict(Date dateFormCsfDispatchedToHealthDistrict) {
+		this.dateFormCsfDispatchedToHealthDistrict = dateFormCsfDispatchedToHealthDistrict;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getDateHealthFacilityNotifyRegion() {
+		return dateHealthFacilityNotifyRegion;
+	}
+
+	public void setDateHealthFacilityNotifyRegion(Date dateHealthFacilityNotifyRegion) {
+		this.dateHealthFacilityNotifyRegion = dateHealthFacilityNotifyRegion;
+	}
+
+	@Enumerated(EnumType.STRING)
+	public YesNo getLumbarPuncturePerformed() {
+		return lumbarPuncturePerformed;
+	}
+
+	public void setLumbarPuncturePerformed(YesNo lumbarPuncturePerformed) {
+		this.lumbarPuncturePerformed = lumbarPuncturePerformed;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getDateOfLp() {
+		return dateOfLp;
+	}
+
+	public void setDateOfLp(Date dateOfLp) {
+		this.dateOfLp = dateOfLp;
+	}
+
+	@Enumerated(EnumType.STRING)
+	public LpAspect getLpAspect() {
+		return lpAspect;
+	}
+
+	public void setLpAspect(LpAspect lpAspect) {
+		this.lpAspect = lpAspect;
+	}
+
+	@Enumerated(EnumType.STRING)
+	public LpPackaging getLpPackaging() {
+		return lpPackaging;
+	}
+
+	public void setLpPackaging(LpPackaging lpPackaging) {
+		this.lpPackaging = lpPackaging;
+	}
+
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	public String getLpPackagingOther() {
+		return lpPackagingOther;
+	}
+
+	public void setLpPackagingOther(String lpPackagingOther) {
+		this.lpPackagingOther = lpPackagingOther;
+	}
+
+	@Enumerated(EnumType.STRING)
+	public YesNo getWasSpecimenTaken() {
+		return wasSpecimenTaken;
+	}
+
+	public void setWasSpecimenTaken(YesNo wasSpecimenTaken) {
+		this.wasSpecimenTaken = wasSpecimenTaken;
+	}
+
+	@Enumerated(EnumType.STRING)
+	public LaboratoryType getLaboratoryType() {
+		return laboratoryType;
+	}
+
+	public void setLaboratoryType(LaboratoryType laboratoryType) {
+		this.laboratoryType = laboratoryType;
+	}
+
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	public String getLaboratoryName() {
+		return laboratoryName;
+	}
+
+	public void setLaboratoryName(String laboratoryName) {
+		this.laboratoryName = laboratoryName;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getDateSpecimenSentToLaboratoryType() {
+		return dateSpecimenSentToLaboratoryType;
+	}
+
+	public void setDateSpecimenSentToLaboratoryType(Date dateSpecimenSentToLaboratoryType) {
+		this.dateSpecimenSentToLaboratoryType = dateSpecimenSentToLaboratoryType;
+	}
+
+	@Enumerated(EnumType.STRING)
+	public Packaging getPackaging() {
+		return packaging;
+	}
+
+	public void setPackaging(Packaging packaging) {
+		this.packaging = packaging;
+	}
+
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	public String getPackagingOther() {
+		return packagingOther;
+	}
+
+	public void setPackagingOther(String packagingOther) {
+		this.packagingOther = packagingOther;
 	}
 }

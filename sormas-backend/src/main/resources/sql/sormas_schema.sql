@@ -14838,6 +14838,35 @@ ALTER TABLE hospitalization ADD COLUMN datehealthregionnotified date;
 ALTER TABLE hospitalization_history ADD COLUMN datehealthregionnotified date;
 INSERT INTO schema_version (version_number, comment) VALUES (619, 'Add serial number in consultation register, date of consultation at health facility and date health region notified for meningitis');
 
+-- Add meningitis-specific fields to samples table
+ALTER TABLE samples ADD COLUMN IF NOT EXISTS dateformcsfdispatchedtohealthdistrict timestamp;
+ALTER TABLE samples ADD COLUMN IF NOT EXISTS datehealthfacilitynotifyregion timestamp;
+ALTER TABLE samples ADD COLUMN IF NOT EXISTS lumbarpunctureperformed varchar(255);
+ALTER TABLE samples ADD COLUMN IF NOT EXISTS dateoflp timestamp;
+ALTER TABLE samples ADD COLUMN IF NOT EXISTS lpaspect varchar(255);
+ALTER TABLE samples ADD COLUMN IF NOT EXISTS lppackaging varchar(255);
+ALTER TABLE samples ADD COLUMN IF NOT EXISTS lppackagingother varchar(512);
+ALTER TABLE samples ADD COLUMN IF NOT EXISTS wasspecimentaken varchar(255);
+ALTER TABLE samples ADD COLUMN IF NOT EXISTS laboratorytype varchar(255);
+ALTER TABLE samples ADD COLUMN IF NOT EXISTS laboratoryname varchar(512);
+ALTER TABLE samples ADD COLUMN IF NOT EXISTS datespecimensenttolaboratorytype timestamp;
+ALTER TABLE samples ADD COLUMN IF NOT EXISTS packaging varchar(255);
+ALTER TABLE samples ADD COLUMN IF NOT EXISTS packagingother varchar(512);
+ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS dateformcsfdispatchedtohealthdistrict timestamp;
+ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS datehealthfacilitynotifyregion timestamp;
+ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS lumbarpunctureperformed varchar(255);
+ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS dateoflp timestamp;
+ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS lpaspect varchar(255);
+ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS lppackaging varchar(255);
+ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS lppackagingother varchar(512);
+ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS wasspecimentaken varchar(255);
+ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS laboratorytype varchar(255);
+ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS laboratoryname varchar(512);
+ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS datespecimensenttolaboratorytype timestamp;
+ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS packaging varchar(255);
+ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS packagingother varchar(512);
+INSERT INTO schema_version (version_number, comment) VALUES (620, 'Add meningitis-specific fields to samples table');
+
 
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***
 
