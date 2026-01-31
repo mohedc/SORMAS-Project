@@ -2651,7 +2651,8 @@ public class SymptomsDto extends PseudonymizableDto {
 			CSM,
 			NEONATAL_TETANUS,
 			MEASLES,
-			YELLOW_FEVER
+			YELLOW_FEVER,
+			CONGENITAL_RUBELLA
 	})
 	@Outbreaks
 	private CaseOutcome outcome;
