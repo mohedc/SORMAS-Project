@@ -14915,6 +14915,21 @@ ALTER TABLE person_history ADD COLUMN caregivertelephonenumber character varying
 ALTER TABLE person_history ADD COLUMN currentweight integer;
 
 INSERT INTO schema_version (version_number, comment) VALUES (623, 'Add caregiver telephone number and current weight fields to person table');
+
+-- Add rubella vaccination and congenital rubella fields to maternalhistory
+ALTER TABLE maternalhistory ADD COLUMN rubellavaccination varchar(255);
+ALTER TABLE maternalhistory ADD COLUMN rubellavaccinationdate timestamp;
+ALTER TABLE maternalhistory ADD COLUMN rubellamonth integer;
+ALTER TABLE maternalhistory ADD COLUMN congenitalrubella varchar(255);
+ALTER TABLE maternalhistory ADD COLUMN congenitalrubelladate timestamp;
+
+ALTER TABLE maternalhistory_history ADD COLUMN rubellavaccination varchar(255);
+ALTER TABLE maternalhistory_history ADD COLUMN rubellavaccinationdate timestamp;
+ALTER TABLE maternalhistory_history ADD COLUMN rubellamonth integer;
+ALTER TABLE maternalhistory_history ADD COLUMN congenitalrubella varchar(255);
+ALTER TABLE maternalhistory_history ADD COLUMN congenitalrubelladate timestamp;
+
+INSERT INTO schema_version (version_number, comment) VALUES (624, 'Add rubella vaccination and congenital rubella fields to maternalhistory');
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***
 
 

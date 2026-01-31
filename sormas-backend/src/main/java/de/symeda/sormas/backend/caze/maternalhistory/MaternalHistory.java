@@ -46,6 +46,11 @@ public class MaternalHistory extends AbstractDomainObject {
 	private String otherComplicationsDetails;
 	private YesNoUnknown rubella;
 	private Date rubellaOnset;
+	private YesNoUnknown rubellaVaccination;
+	private Date rubellaVaccinationDate;
+	private Integer rubellaMonth;
+	private YesNoUnknown congenitalRubella;
+	private Date congenitalRubellaDate;
 	private YesNoUnknown rashExposure;
 	private Date rashExposureDate;
 	private Integer rashExposureMonth;
@@ -224,6 +229,50 @@ public class MaternalHistory extends AbstractDomainObject {
 
 	public void setRubellaOnset(Date rubellaOnset) {
 		this.rubellaOnset = rubellaOnset;
+	}
+
+	@Enumerated(EnumType.STRING)
+	public YesNoUnknown getRubellaVaccination() {
+		return rubellaVaccination;
+	}
+
+	public void setRubellaVaccination(YesNoUnknown rubellaVaccination) {
+		this.rubellaVaccination = rubellaVaccination;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getRubellaVaccinationDate() {
+		return rubellaVaccinationDate;
+	}
+
+	public void setRubellaVaccinationDate(Date rubellaVaccinationDate) {
+		this.rubellaVaccinationDate = rubellaVaccinationDate;
+	}
+
+	public Integer getRubellaMonth() {
+		return rubellaMonth;
+	}
+
+	public void setRubellaMonth(Integer rubellaMonth) {
+		this.rubellaMonth = rubellaMonth;
+	}
+
+	@Enumerated(EnumType.STRING)
+	public YesNoUnknown getCongenitalRubella() {
+		return congenitalRubella;
+	}
+
+	public void setCongenitalRubella(YesNoUnknown congenitalRubella) {
+		this.congenitalRubella = congenitalRubella;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getCongenitalRubellaDate() {
+		return congenitalRubellaDate;
+	}
+
+	public void setCongenitalRubellaDate(Date congenitalRubellaDate) {
+		this.congenitalRubellaDate = congenitalRubellaDate;
 	}
 
 	@Enumerated(EnumType.STRING)

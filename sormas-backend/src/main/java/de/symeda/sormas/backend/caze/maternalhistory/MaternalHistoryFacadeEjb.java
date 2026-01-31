@@ -46,6 +46,11 @@ public class MaternalHistoryFacadeEjb implements MaternalHistoryFacade {
 		target.setMaculopapularRashMonth(source.getMaculopapularRashMonth());
 		target.setRubella(source.getRubella());
 		target.setRubellaOnset(source.getRubellaOnset());
+		target.setRubellaVaccination(source.getRubellaVaccination());
+		target.setRubellaVaccinationDate(source.getRubellaVaccinationDate());
+		target.setRubellaMonth(source.getRubellaMonth());
+		target.setCongenitalRubella(source.getCongenitalRubella());
+		target.setCongenitalRubellaDate(source.getCongenitalRubellaDate());
 		target.setSwollenLymphs(source.getSwollenLymphs());
 		target.setSwollenLymphsOnset(source.getSwollenLymphsOnset());
 		target.setSwollenLymphsMonth(source.getSwollenLymphsMonth());
@@ -79,6 +84,11 @@ public class MaternalHistoryFacadeEjb implements MaternalHistoryFacade {
 		target.setMaculopapularRashMonth(source.getMaculopapularRashMonth());
 		target.setRubella(source.getRubella());
 		target.setRubellaOnset(source.getRubellaOnset());
+		target.setRubellaVaccination(source.getRubellaVaccination());
+		target.setRubellaVaccinationDate(source.getRubellaVaccinationDate());
+		target.setRubellaMonth(source.getRubellaMonth());
+		target.setCongenitalRubella(source.getCongenitalRubella());
+		target.setCongenitalRubellaDate(source.getCongenitalRubellaDate());
 		target.setSwollenLymphs(source.getSwollenLymphs());
 		target.setSwollenLymphsOnset(source.getSwollenLymphsOnset());
 		target.setSwollenLymphsMonth(source.getSwollenLymphsMonth());
