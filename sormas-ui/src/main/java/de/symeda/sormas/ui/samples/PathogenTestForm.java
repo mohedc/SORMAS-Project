@@ -55,6 +55,9 @@ import de.symeda.sormas.api.i18n.I18nProperties;
 import de.symeda.sormas.api.i18n.Validations;
 import de.symeda.sormas.api.infrastructure.facility.FacilityDto;
 import de.symeda.sormas.api.infrastructure.facility.FacilityReferenceDto;
+import de.symeda.sormas.api.sample.AgglutinationPositiveResult;
+import de.symeda.sormas.api.sample.GramStainResult;
+import de.symeda.sormas.api.sample.MacroscopicExamination;
 import de.symeda.sormas.api.sample.FinalClassification;
 import de.symeda.sormas.api.sample.PathogenStrainCallStatus;
 import de.symeda.sormas.api.sample.PathogenTestDto;
@@ -150,9 +153,20 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 	private static final String MENINGITIS_HTML_LAYOUT =
 			loc(PATHOGEN_TEST_HEADING_LOC) +
 			fluidRowLocs(PathogenTestDto.TESTED_DISEASE, PathogenTestDto.TESTED_DISEASE_DETAILS) +
+			fluidRowLocs(PathogenTestDto.MACROSCOPIC_EXAMINATION, "") +
 			fluidRowLocs(PathogenTestDto.TEST_TYPE, PathogenTestDto.TEST_TYPE_TEXT) +
 			fluidRowLocs(PathogenTestDto.TEST_DATE_TIME, PathogenTestDto.LAB) +
 			fluidRowLocs(5, PathogenTestDto.LAB_DETAILS, 7, PathogenTestDto.DATE_RESULTS_SENT_TO_DISTRICT) +
+			fluidRowLocs(PathogenTestDto.CELL_COUNT_NORMAL, PathogenTestDto.CELL_COUNT_ABNORMAL) +
+			fluidRowLocs(PathogenTestDto.WBC_COUNT_POLYCYTES_PERCENT, PathogenTestDto.WBC_COUNT_MONOCYTES_PERCENT) +
+			fluidRowLocs(PathogenTestDto.GRAM_STAIN_RESULT, "") +
+			fluidRowLocs(PathogenTestDto.AGGLUTINATION_RESULT, "") +
+			fluidRowLocs(PathogenTestDto.AGGLUTINATION_POSITIVE_RESULTS, "") +
+			fluidRowLocs(PathogenTestDto.AGGLUTINATION_OTHER_MICROORGANISM, "") +
+			fluidRowLocs(PathogenTestDto.DATE_RESULTS_SENT_TO_REGION, PathogenTestDto.DATE_RESULTS_SENT_TO_DISEASE_SURVEILLANCE) +
+			fluidRowLocs(PathogenTestDto.DATE_DISTRICT_RECEIVED_LAB_RESULTS, PathogenTestDto.DATE_RESULTS_SENT_TO_REFERENCE_LABORATORY) +
+			fluidRowLocs(PathogenTestDto.REFERENCE_LABORATORY, "") +
+			fluidRowLocs(PathogenTestDto.OTHER_TESTS_PENDING, PathogenTestDto.OTHER_TESTS_PENDING_SPECIFY) +
 			fluidRowLocs(4, PathogenTestDto.TEST_RESULT, 4, PathogenTestDto.TEST_RESULT_VERIFIED, 4, "") +
 			fluidRowLocs(PathogenTestDto.TEST_RESULT_TEXT, PathogenTestDto.FINAL_CLASSIFICATION);
 	//@formatter:on
@@ -601,6 +615,37 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 		finalClassificationField.addItems(FinalClassification.values());
 		finalClassificationField.setItemCaptionMode(ItemCaptionMode.ID_TOSTRING);
 
+		// Meningitis-specific fields (hidden by default, shown in configureMeningitisFields)
+		ComboBox macroscopicExaminationField = addField(PathogenTestDto.MACROSCOPIC_EXAMINATION, ComboBox.class);
+		macroscopicExaminationField.setVisible(false);
+		NullableOptionGroup cellCountNormalField = addField(PathogenTestDto.CELL_COUNT_NORMAL, NullableOptionGroup.class);
+		cellCountNormalField.setVisible(false);
+		NullableOptionGroup cellCountAbnormalField = addField(PathogenTestDto.CELL_COUNT_ABNORMAL, NullableOptionGroup.class);
+		cellCountAbnormalField.setVisible(false);
+		TextField wbcCountPolycytesField = addField(PathogenTestDto.WBC_COUNT_POLYCYTES_PERCENT, TextField.class);
+		wbcCountPolycytesField.setVisible(false);
+		TextField wbcCountMonocytesField = addField(PathogenTestDto.WBC_COUNT_MONOCYTES_PERCENT, TextField.class);
+		wbcCountMonocytesField.setVisible(false);
+		ComboBox gramStainResultField = addField(PathogenTestDto.GRAM_STAIN_RESULT, ComboBox.class);
+		gramStainResultField.setVisible(false);
+		ComboBox agglutinationResultField = addField(PathogenTestDto.AGGLUTINATION_RESULT, ComboBox.class);
+		agglutinationResultField.setVisible(false);
+		// For agglutination positive results, we'll use checkboxes
+		// Note: This will need special handling as it's a Set
+		TextField agglutinationPositiveResultsField = addField(PathogenTestDto.AGGLUTINATION_POSITIVE_RESULTS, TextField.class);
+		agglutinationPositiveResultsField.setVisible(false);
+		TextField agglutinationOtherMicroorganismField = addField(PathogenTestDto.AGGLUTINATION_OTHER_MICROORGANISM, TextField.class);
+		agglutinationOtherMicroorganismField.setVisible(false);
+		addDateField(PathogenTestDto.DATE_RESULTS_SENT_TO_REGION, DateField.class, 7);
+		addDateField(PathogenTestDto.DATE_RESULTS_SENT_TO_REFERENCE_LABORATORY, DateField.class, 7);
+		ComboBox referenceLaboratoryField = addInfrastructureField(PathogenTestDto.REFERENCE_LABORATORY);
+		referenceLaboratoryField.addItems(FacadeProvider.getFacilityFacade().getAllActiveLaboratories(true));
+		referenceLaboratoryField.setVisible(false);
+		NullableOptionGroup otherTestsPendingField = addField(PathogenTestDto.OTHER_TESTS_PENDING, NullableOptionGroup.class);
+		otherTestsPendingField.setVisible(false);
+		TextField otherTestsPendingSpecifyField = addField(PathogenTestDto.OTHER_TESTS_PENDING_SPECIFY, TextField.class);
+		otherTestsPendingSpecifyField.setVisible(false);
+
 		addFields(PathogenTestDto.PRESCRIBER_PHYSICIAN_CODE, PathogenTestDto.PRESCRIBER_FIRST_NAME, PathogenTestDto.PRESCRIBER_LAST_NAME);
 		TextField proscriberPhoneField = addField(PathogenTestDto.PRESCRIBER_PHONE_NUMBER, TextField.class);
 		proscriberPhoneField.addValidator(
@@ -707,6 +752,10 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 			// Configure yellow fever-specific fields if disease is yellow fever
 			if (disease == Disease.YELLOW_FEVER) {
 				configureYellowFeverFields();
+			}
+			// Configure meningitis-specific fields if disease is CSM
+			if (disease == Disease.CSM) {
+				configureMeningitisFields();
 			}
 
 			if (FacadeProvider.getConfigFacade().isConfiguredCountry(CountryHelper.COUNTRY_CODE_LUXEMBOURG)) {
@@ -822,6 +871,10 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 		if (disease == Disease.YELLOW_FEVER) {
 			configureYellowFeverFields();
 		}
+		// Meningitis-specific configuration (called after all other visibility logic)
+		if (disease == Disease.CSM) {
+			configureMeningitisFields();
+		}
 	}
 
 	/**
@@ -864,5 +917,78 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 			PathogenTestDto.TESTED_DISEASE,
 			Arrays.asList(Disease.OTHER),
 			true);
+	}
+
+	/**
+	 * Configures fields specifically for meningitis pathogen tests
+	 */
+	protected void configureMeningitisFields() {
+		// Show macroscopic examination
+		getField(PathogenTestDto.MACROSCOPIC_EXAMINATION).setVisible(true);
+		ComboBox macroscopicExaminationField = (ComboBox) getField(PathogenTestDto.MACROSCOPIC_EXAMINATION);
+		macroscopicExaminationField.addItems(MacroscopicExamination.values());
+		macroscopicExaminationField.setItemCaptionMode(ItemCaptionMode.ID_TOSTRING);
+
+		// Show cell count fields when test type is CELL_COUNT
+		FieldHelper.setVisibleWhen(
+			getFieldGroup(),
+			Arrays.asList(PathogenTestDto.CELL_COUNT_NORMAL, PathogenTestDto.CELL_COUNT_ABNORMAL),
+			PathogenTestDto.TEST_TYPE,
+			Arrays.asList(PathogenTestType.CELL_COUNT),
+			true);
+
+		// Show WBC count fields when test type is WBC_COUNT
+		FieldHelper.setVisibleWhen(
+			getFieldGroup(),
+			Arrays.asList(PathogenTestDto.WBC_COUNT_POLYCYTES_PERCENT, PathogenTestDto.WBC_COUNT_MONOCYTES_PERCENT),
+			PathogenTestDto.TEST_TYPE,
+			Arrays.asList(PathogenTestType.WBC_COUNT),
+			true);
+
+		// Show Gram stain result when test type is GRAM_STAIN
+		FieldHelper.setVisibleWhen(
+			getFieldGroup(),
+			PathogenTestDto.GRAM_STAIN_RESULT,
+			PathogenTestDto.TEST_TYPE,
+			Arrays.asList(PathogenTestType.GRAM_STAIN),
+			true);
+		ComboBox gramStainResultField = (ComboBox) getField(PathogenTestDto.GRAM_STAIN_RESULT);
+		gramStainResultField.addItems(GramStainResult.values());
+		gramStainResultField.setItemCaptionMode(ItemCaptionMode.ID_TOSTRING);
+
+		// Show agglutination fields when test type is LATEX_AGGLUTINATION or SLIDE_AGGLUTINATION
+		FieldHelper.setVisibleWhen(
+			getFieldGroup(),
+			Arrays.asList(PathogenTestDto.AGGLUTINATION_RESULT, PathogenTestDto.AGGLUTINATION_POSITIVE_RESULTS, PathogenTestDto.AGGLUTINATION_OTHER_MICROORGANISM),
+			PathogenTestDto.TEST_TYPE,
+			Arrays.asList(PathogenTestType.LATEX_AGGLUTINATION, PathogenTestType.SLIDE_AGGLUTINATION),
+			true);
+		ComboBox agglutinationResultField = (ComboBox) getField(PathogenTestDto.AGGLUTINATION_RESULT);
+		agglutinationResultField.addItems(PathogenTestResultType.NEGATIVE, PathogenTestResultType.CONTAMINATED, PathogenTestResultType.POSITIVE);
+		agglutinationResultField.setItemCaptionMode(ItemCaptionMode.ID_TOSTRING);
+
+		// Show agglutination positive results when agglutination result is POSITIVE
+		FieldHelper.setVisibleWhen(
+			getFieldGroup(),
+			Arrays.asList(PathogenTestDto.AGGLUTINATION_POSITIVE_RESULTS, PathogenTestDto.AGGLUTINATION_OTHER_MICROORGANISM),
+			PathogenTestDto.AGGLUTINATION_RESULT,
+			Arrays.asList(PathogenTestResultType.POSITIVE),
+			true);
+
+		// Show other tests pending specify when other tests pending is Yes
+		FieldHelper.setVisibleWhen(
+			getFieldGroup(),
+			PathogenTestDto.OTHER_TESTS_PENDING_SPECIFY,
+			PathogenTestDto.OTHER_TESTS_PENDING,
+			Arrays.asList(true),
+			true);
+
+		// Show meningitis-specific date and reference lab fields
+		getField(PathogenTestDto.DATE_RESULTS_SENT_TO_REGION).setVisible(true);
+		getField(PathogenTestDto.DATE_RESULTS_SENT_TO_DISEASE_SURVEILLANCE).setVisible(true);
+		getField(PathogenTestDto.DATE_DISTRICT_RECEIVED_LAB_RESULTS).setVisible(true);
+		getField(PathogenTestDto.DATE_RESULTS_SENT_TO_REFERENCE_LABORATORY).setVisible(true);
+		getField(PathogenTestDto.REFERENCE_LABORATORY).setVisible(true);
+		getField(PathogenTestDto.OTHER_TESTS_PENDING).setVisible(true);
 	}
 }

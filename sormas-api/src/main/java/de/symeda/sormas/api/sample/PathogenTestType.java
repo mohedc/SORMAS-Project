@@ -192,6 +192,12 @@ public enum PathogenTestType {
 		Disease.INVASIVE_PNEUMOCOCCAL_INFECTION })
 	SEROGROUPING,
 	@Diseases(value = {
+		Disease.CSM })
+	CELL_COUNT,
+	@Diseases(value = {
+		Disease.CSM })
+	WBC_COUNT,
+	@Diseases(value = {
 		Disease.YELLOW_FEVER,
 		Disease.MEASLES }, hide = true)
 	OTHER;

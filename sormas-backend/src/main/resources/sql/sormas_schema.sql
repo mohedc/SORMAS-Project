@@ -14868,6 +14868,45 @@ ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS packagingother varchar(512)
 INSERT INTO schema_version (version_number, comment) VALUES (620, 'Add meningitis-specific fields to samples table');
 
 
+-- 2025-01-XX Add meningitis-specific fields to PathogenTest
+ALTER TABLE pathogentest ADD COLUMN macroscopicexamination varchar(255);
+ALTER TABLE pathogentest ADD COLUMN cellcountnormal boolean;
+ALTER TABLE pathogentest ADD COLUMN cellcountabnormal boolean;
+ALTER TABLE pathogentest ADD COLUMN wbccountpolycytespercent varchar(255);
+ALTER TABLE pathogentest ADD COLUMN wbccountmonocytespercent varchar(255);
+ALTER TABLE pathogentest ADD COLUMN gramstainresult varchar(255);
+ALTER TABLE pathogentest ADD COLUMN agglutinationresult varchar(255);
+ALTER TABLE pathogentest ADD COLUMN agglutinationpositiveresults varchar(255);
+ALTER TABLE pathogentest ADD COLUMN agglutinationothermicroorganism varchar(255);
+ALTER TABLE pathogentest ADD COLUMN dateresultssenttoregion timestamp;
+ALTER TABLE pathogentest ADD COLUMN othertestspending boolean;
+ALTER TABLE pathogentest ADD COLUMN othertestspendingspecify varchar(255);
+ALTER TABLE pathogentest ADD COLUMN dateresultssenttoreferencelaboratory timestamp;
+ALTER TABLE pathogentest ADD COLUMN referencelaboratory_id bigint;
+ALTER TABLE pathogentest ADD CONSTRAINT fk_pathogentest_referencelaboratory FOREIGN KEY (referencelaboratory_id) REFERENCES facility(id);
+
+ALTER TABLE pathogentest_history ADD COLUMN macroscopicexamination varchar(255);
+ALTER TABLE pathogentest_history ADD COLUMN cellcountnormal boolean;
+ALTER TABLE pathogentest_history ADD COLUMN cellcountabnormal boolean;
+ALTER TABLE pathogentest_history ADD COLUMN wbccountpolycytespercent varchar(255);
+ALTER TABLE pathogentest_history ADD COLUMN wbccountmonocytespercent varchar(255);
+ALTER TABLE pathogentest_history ADD COLUMN gramstainresult varchar(255);
+ALTER TABLE pathogentest_history ADD COLUMN agglutinationresult varchar(255);
+ALTER TABLE pathogentest_history ADD COLUMN agglutinationpositiveresults varchar(255);
+ALTER TABLE pathogentest_history ADD COLUMN agglutinationothermicroorganism varchar(255);
+ALTER TABLE pathogentest_history ADD COLUMN dateresultssenttoregion timestamp;
+ALTER TABLE pathogentest_history ADD COLUMN othertestspending boolean;
+ALTER TABLE pathogentest_history ADD COLUMN othertestspendingspecify varchar(255);
+ALTER TABLE pathogentest_history ADD COLUMN dateresultssenttoreferencelaboratory timestamp;
+ALTER TABLE pathogentest_history ADD COLUMN referencelaboratory_id bigint;
+
+INSERT INTO schema_version (version_number, comment) VALUES (621, 'Add meningitis-specific fields to PathogenTest');
+
+-- 2025-01-XX Fix column name typo: microscopicexamination -> macroscopicexamination
+ALTER TABLE pathogentest RENAME COLUMN microscopicexamination TO macroscopicexamination;
+ALTER TABLE pathogentest_history RENAME COLUMN microscopicexamination TO macroscopicexamination;
+
+INSERT INTO schema_version (version_number, comment) VALUES (622, 'Fix column name: microscopicexamination to macroscopicexamination');
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***
 
 

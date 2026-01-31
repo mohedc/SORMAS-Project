@@ -338,6 +338,27 @@ public class PathogenTestFacadeEjb implements PathogenTestFacade {
 		target.setPerformRubellaTest(source.getPerformRubellaTest());
 		target.setInvestigationResults(source.getInvestigationResults());
 		target.setSourceOfInfectionIdentified(source.getSourceOfInfectionIdentified());
+		target.setMacroscopicExamination(source.getMacroscopicExamination());
+		target.setCellCountNormal(source.getCellCountNormal());
+		target.setCellCountAbnormal(source.getCellCountAbnormal());
+		target.setWbcCountPolycytesPercent(source.getWbcCountPolycytesPercent());
+		target.setWbcCountMonocytesPercent(source.getWbcCountMonocytesPercent());
+		target.setGramStainResult(source.getGramStainResult());
+		target.setAgglutinationResult(source.getAgglutinationResult());
+		// Convert comma-separated string to Set
+		if (source.getAgglutinationPositiveResults() != null && !source.getAgglutinationPositiveResults().isEmpty()) {
+			Set<de.symeda.sormas.api.sample.AgglutinationPositiveResult> positiveResults = java.util.Arrays.stream(source.getAgglutinationPositiveResults().split(","))
+				.map(String::trim)
+				.map(de.symeda.sormas.api.sample.AgglutinationPositiveResult::valueOf)
+				.collect(Collectors.toSet());
+			target.setAgglutinationPositiveResults(positiveResults);
+		}
+		target.setAgglutinationOtherMicroorganism(source.getAgglutinationOtherMicroorganism());
+		target.setDateResultsSentToRegion(source.getDateResultsSentToRegion());
+		target.setOtherTestsPending(source.getOtherTestsPending());
+		target.setOtherTestsPendingSpecify(source.getOtherTestsPendingSpecify());
+		target.setDateResultsSentToReferenceLaboratory(source.getDateResultsSentToReferenceLaboratory());
+		target.setReferenceLaboratory(FacilityFacadeEjb.toReferenceDto(source.getReferenceLaboratory()));
 		return target;
 	}
 
@@ -617,6 +638,28 @@ public class PathogenTestFacadeEjb implements PathogenTestFacade {
 		target.setPerformRubellaTest(source.getPerformRubellaTest());
 		target.setInvestigationResults(source.getInvestigationResults());
 		target.setSourceOfInfectionIdentified(source.getSourceOfInfectionIdentified());
+		target.setMacroscopicExamination(source.getMacroscopicExamination());
+		target.setCellCountNormal(source.getCellCountNormal());
+		target.setCellCountAbnormal(source.getCellCountAbnormal());
+		target.setWbcCountPolycytesPercent(source.getWbcCountPolycytesPercent());
+		target.setWbcCountMonocytesPercent(source.getWbcCountMonocytesPercent());
+		target.setGramStainResult(source.getGramStainResult());
+		target.setAgglutinationResult(source.getAgglutinationResult());
+		// Convert Set to comma-separated string
+		if (source.getAgglutinationPositiveResults() != null && !source.getAgglutinationPositiveResults().isEmpty()) {
+			String positiveResultsString = source.getAgglutinationPositiveResults().stream()
+				.map(Enum::name)
+				.collect(Collectors.joining(","));
+			target.setAgglutinationPositiveResults(positiveResultsString);
+		} else {
+			target.setAgglutinationPositiveResults(null);
+		}
+		target.setAgglutinationOtherMicroorganism(source.getAgglutinationOtherMicroorganism());
+		target.setDateResultsSentToRegion(source.getDateResultsSentToRegion());
+		target.setOtherTestsPending(source.getOtherTestsPending());
+		target.setOtherTestsPendingSpecify(source.getOtherTestsPendingSpecify());
+		target.setDateResultsSentToReferenceLaboratory(source.getDateResultsSentToReferenceLaboratory());
+		target.setReferenceLaboratory(facilityService.getByReferenceDto(source.getReferenceLaboratory()));
 		return target;
 	}
 
