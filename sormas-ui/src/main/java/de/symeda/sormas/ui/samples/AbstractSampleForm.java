@@ -156,6 +156,7 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 	protected static final String MENINGITIS_HTML_LAYOUT =
 			fluidRowLocs(4, SampleDto.UUID, 4, REPORT_INFO_LABEL_LOC, 3, SampleDto.REPORTING_USER, 1, "") +
 					fluidRowLocs(SampleDto.SAMPLE_PURPOSE, SampleDto.FIELD_SAMPLE_ID) +
+					fluidRowLocs(SampleDto.SAMPLE_DATE_TIME, "") +
 					fluidRowLocs(SampleDto.DATE_FORM_CSF_DISPATCHED_TO_HEALTH_DISTRICT, SampleDto.DATE_HEALTH_FACILITY_NOTIFY_REGION) +
 					locCss(VSPACE_TOP_3, SampleDto.LUMBAR_PUNCTURE_PERFORMED) +
 					fluidRowLocs(SampleDto.DATE_OF_LP, SampleDto.LP_ASPECT) +
@@ -164,6 +165,7 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 					fluidRowLocs(SampleDto.LABORATORY_TYPE, SampleDto.LABORATORY_NAME) +
 					fluidRowLocs(SampleDto.DATE_SPECIMEN_SENT_TO_LABORATORY_TYPE) +
 					fluidRowLocs(SampleDto.SAMPLE_MATERIAL, SampleDto.SAMPLE_MATERIAL_TEXT) +
+					fluidRowLocs(SampleDto.LAB, SampleDto.LAB_DETAILS) +
 					locCss(VSPACE_TOP_3, SampleDto.SHIPPED) +
 					fluidRowLocs(SampleDto.SHIPMENT_DATE, SampleDto.SHIPMENT_DETAILS) +
 					locCss(VSPACE_TOP_3, SampleDto.RECEIVED) +
