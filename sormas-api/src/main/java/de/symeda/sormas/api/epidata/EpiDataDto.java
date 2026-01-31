@@ -18,9 +18,11 @@
 package de.symeda.sormas.api.epidata;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Size;
 
 import de.symeda.sormas.api.Disease;
 import de.symeda.sormas.api.ImportIgnore;
@@ -35,6 +37,9 @@ import de.symeda.sormas.api.utils.YesNo;
 import de.symeda.sormas.api.utils.YesNoUnknown;
 import de.symeda.sormas.api.utils.EmbeddedPersonalData;
 import de.symeda.sormas.api.utils.EmbeddedSensitiveData;
+import de.symeda.sormas.api.utils.FieldConstraints;
+import de.symeda.sormas.api.utils.SensitiveData;
+import de.symeda.sormas.api.i18n.Validations;
 import de.symeda.sormas.api.utils.pseudonymization.PseudonymizableDto;
 
 @DependingOnFeatureType(featureType = {
@@ -56,6 +61,16 @@ public class EpiDataDto extends PseudonymizableDto {
 	public static final String LARGE_OUTBREAKS_AREA = "largeOutbreaksArea";
 	public static final String TRAVEL_HISTORY_KNOWN = "travelHistoryKnown";
 	public static final String TRAVEL_LOCATION = "travelLocation";
+	public static final String MOTHER_RUBELLA_LAB_CONFIRMED = "motherRubellaLabConfirmed";
+	public static final String MOTHER_RUBELLA_LAB_CONFIRMED_DATE = "motherRubellaLabConfirmedDate";
+	public static final String MOTHER_EXPOSED_DURING_PREGNANCY = "motherExposedDuringPregnancy";
+	public static final String MOTHER_EXPOSED_DURING_PREGNANCY_DATE = "motherExposedDuringPregnancyDate";
+	public static final String GESTATIONAL_AGE_AT_EXPOSURE = "gestationalAgeAtExposure";
+	public static final String EXPOSURE_LOCATION_DESCRIPTION = "exposureLocationDescription";
+	public static final String MOTHER_TRAVELED_DURING_PREGNANCY = "motherTraveledDuringPregnancy";
+	public static final String MOTHER_TRAVELED_DURING_PREGNANCY_DATE = "motherTraveledDuringPregnancyDate";
+	public static final String GESTATIONAL_AGE_AT_TRAVEL = "gestationalAgeAtTravel";
+	public static final String TRAVEL_LOCATION_DESCRIPTION = "travelLocationDescription";
 
 	private YesNoUnknown exposureDetailsKnown;
 	private YesNoUnknown activityAsCaseDetailsKnown;
@@ -86,6 +101,50 @@ public class EpiDataDto extends PseudonymizableDto {
 	@EmbeddedPersonalData
 	@EmbeddedSensitiveData
 	private LocationDto travelLocation;
+
+	@Diseases({
+		Disease.CONGENITAL_RUBELLA })
+	private YesNoUnknown motherRubellaLabConfirmed;
+
+	@Diseases({
+		Disease.CONGENITAL_RUBELLA })
+	private Date motherRubellaLabConfirmedDate;
+
+	@Diseases({
+		Disease.CONGENITAL_RUBELLA })
+	private YesNoUnknown motherExposedDuringPregnancy;
+
+	@Diseases({
+		Disease.CONGENITAL_RUBELLA })
+	private Date motherExposedDuringPregnancyDate;
+
+	@Diseases({
+		Disease.CONGENITAL_RUBELLA })
+	private Integer gestationalAgeAtExposure;
+
+	@Diseases({
+		Disease.CONGENITAL_RUBELLA })
+	@SensitiveData
+	@Size(max = FieldConstraints.CHARACTER_LIMIT_DEFAULT, message = Validations.textTooLong)
+	private String exposureLocationDescription;
+
+	@Diseases({
+		Disease.CONGENITAL_RUBELLA })
+	private YesNoUnknown motherTraveledDuringPregnancy;
+
+	@Diseases({
+		Disease.CONGENITAL_RUBELLA })
+	private Date motherTraveledDuringPregnancyDate;
+
+	@Diseases({
+		Disease.CONGENITAL_RUBELLA })
+	private Integer gestationalAgeAtTravel;
+
+	@Diseases({
+		Disease.CONGENITAL_RUBELLA })
+	@SensitiveData
+	@Size(max = FieldConstraints.CHARACTER_LIMIT_DEFAULT, message = Validations.textTooLong)
+	private String travelLocationDescription;
 
 	public YesNoUnknown getExposureDetailsKnown() {
 		return exposureDetailsKnown;
@@ -167,6 +226,86 @@ public class EpiDataDto extends PseudonymizableDto {
 
 	public void setTravelLocation(LocationDto travelLocation) {
 		this.travelLocation = travelLocation;
+	}
+
+	public YesNoUnknown getMotherRubellaLabConfirmed() {
+		return motherRubellaLabConfirmed;
+	}
+
+	public void setMotherRubellaLabConfirmed(YesNoUnknown motherRubellaLabConfirmed) {
+		this.motherRubellaLabConfirmed = motherRubellaLabConfirmed;
+	}
+
+	public Date getMotherRubellaLabConfirmedDate() {
+		return motherRubellaLabConfirmedDate;
+	}
+
+	public void setMotherRubellaLabConfirmedDate(Date motherRubellaLabConfirmedDate) {
+		this.motherRubellaLabConfirmedDate = motherRubellaLabConfirmedDate;
+	}
+
+	public YesNoUnknown getMotherExposedDuringPregnancy() {
+		return motherExposedDuringPregnancy;
+	}
+
+	public void setMotherExposedDuringPregnancy(YesNoUnknown motherExposedDuringPregnancy) {
+		this.motherExposedDuringPregnancy = motherExposedDuringPregnancy;
+	}
+
+	public Date getMotherExposedDuringPregnancyDate() {
+		return motherExposedDuringPregnancyDate;
+	}
+
+	public void setMotherExposedDuringPregnancyDate(Date motherExposedDuringPregnancyDate) {
+		this.motherExposedDuringPregnancyDate = motherExposedDuringPregnancyDate;
+	}
+
+	public Integer getGestationalAgeAtExposure() {
+		return gestationalAgeAtExposure;
+	}
+
+	public void setGestationalAgeAtExposure(Integer gestationalAgeAtExposure) {
+		this.gestationalAgeAtExposure = gestationalAgeAtExposure;
+	}
+
+	public String getExposureLocationDescription() {
+		return exposureLocationDescription;
+	}
+
+	public void setExposureLocationDescription(String exposureLocationDescription) {
+		this.exposureLocationDescription = exposureLocationDescription;
+	}
+
+	public YesNoUnknown getMotherTraveledDuringPregnancy() {
+		return motherTraveledDuringPregnancy;
+	}
+
+	public void setMotherTraveledDuringPregnancy(YesNoUnknown motherTraveledDuringPregnancy) {
+		this.motherTraveledDuringPregnancy = motherTraveledDuringPregnancy;
+	}
+
+	public Date getMotherTraveledDuringPregnancyDate() {
+		return motherTraveledDuringPregnancyDate;
+	}
+
+	public void setMotherTraveledDuringPregnancyDate(Date motherTraveledDuringPregnancyDate) {
+		this.motherTraveledDuringPregnancyDate = motherTraveledDuringPregnancyDate;
+	}
+
+	public Integer getGestationalAgeAtTravel() {
+		return gestationalAgeAtTravel;
+	}
+
+	public void setGestationalAgeAtTravel(Integer gestationalAgeAtTravel) {
+		this.gestationalAgeAtTravel = gestationalAgeAtTravel;
+	}
+
+	public String getTravelLocationDescription() {
+		return travelLocationDescription;
+	}
+
+	public void setTravelLocationDescription(String travelLocationDescription) {
+		this.travelLocationDescription = travelLocationDescription;
 	}
 
 	public static EpiDataDto build() {

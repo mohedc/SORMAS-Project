@@ -61,6 +61,7 @@ import com.vaadin.v7.ui.TextField;
 
 import de.symeda.sormas.api.CountryHelper;
 import de.symeda.sormas.api.Disease;
+import de.symeda.sormas.api.EntityDto;
 import de.symeda.sormas.api.FacadeProvider;
 import de.symeda.sormas.api.caze.CaseDataDto;
 import de.symeda.sormas.api.caze.CaseOrigin;
@@ -102,6 +103,8 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 	public static final String HAS_GUARDIAN = "hasGuardian";
 	public static final String SEEK_HELP_HEADING_LOC = "seekHelpHeadingLoc";
 	private static final String FILL_SECTION_HEADING_LOC = "fillSectionHeadingLoc";
+	private static final String DATE_OF_BIRTH_HEADING_LOC = "dateOfBirthHeadingLoc";
+	private static final String HOME_ADDRESS_HEADING_LOC = "homeAddressHeadingLoc";
 	//@formatter:off
     private static final String HTML_LAYOUT =
             loc(PERSON_INFORMATION_HEADING_LOC) +
@@ -213,15 +216,20 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 					fluidRowLocs(PersonDto.UUID, "") +
 					fluidRowLocs(PersonDto.FIRST_NAME, PersonDto.LAST_NAME) +
 					fluidRowLocs(PersonDto.OTHER_NAMES) +
+					loc(DATE_OF_BIRTH_HEADING_LOC) +
 					fluidRow(
 							fluidRowLocs(PersonDto.BIRTH_DATE_YYYY, PersonDto.BIRTH_DATE_MM, PersonDto.BIRTH_DATE_DD),
 							fluidRowLocs(PersonDto.APPROXIMATE_AGE, PersonDto.APPROXIMATE_AGE_TYPE, PersonDto.APPROXIMATE_AGE_REFERENCE_DATE)
 					) +
-					fluidRowLocs(PersonDto.SEX, PersonDto.MARITAL_STATUS) +
-					fluidRowLocs(PersonDto.NATIONALITY, PersonDto.PASSPORT_NUMBER) +
-					fluidRowLocs(PersonDto.MOTHERS_NAME, PersonDto.FATHERS_NAME) +
-					  loc(ADDRESS_HEADER) +
-                    divsCss(VSPACE_3, fluidRowLocs(PersonDto.ADDRESS));
+					fluidRowLocs(EntityDto.CHANGE_DATE, "") +
+					fluidRowLocs(PersonDto.SEX, PersonDto.PRESENT_CONDITION) +
+					loc(HOME_ADDRESS_HEADING_LOC) +
+					divsCss(VSPACE_3, fluidRowLocs(PersonDto.ADDRESS)) +
+					fluidRowLocs(PersonDto.LOCATION_OF_BIRTH) +
+					fluidRowLocs(PersonDto.GESTATION_AGE_AT_BIRTH, PersonDto.BIRTH_WEIGHT) +
+					fluidRowLocs(PersonDto.CURRENT_WEIGHT) +
+					fluidRowLocs(PersonDto.MOTHERS_NAME) +
+					fluidRowLocs(PersonDto.CAREGIVER_TELEPHONE_NUMBER);
 
 	private static final String MENINGITIS_LAYOUT =
 			loc(PERSON_INFORMATION_HEADING_LOC) +
@@ -232,10 +240,11 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 							fluidRowLocs(PersonDto.BIRTH_DATE_YYYY, PersonDto.BIRTH_DATE_MM, PersonDto.BIRTH_DATE_DD),
 							fluidRowLocs(PersonDto.APPROXIMATE_AGE, PersonDto.APPROXIMATE_AGE_TYPE, PersonDto.APPROXIMATE_AGE_REFERENCE_DATE)
 					) +
-					fluidRowLocs(PersonDto.SEX, PersonDto.MARITAL_STATUS) +
-					fluidRowLocs(PersonDto.MOTHERS_NAME, PersonDto.FATHERS_NAME) +
-					  loc(ADDRESS_HEADER) +
-                    divsCss(VSPACE_3, fluidRowLocs(PersonDto.ADDRESS));
+					fluidRowLocs(EntityDto.CHANGE_DATE, "") +
+					fluidRowLocs(PersonDto.SEX, PersonDto.PRESENT_CONDITION) +
+					loc(ADDRESS_HEADER) +
+					divsCss(VSPACE_3, fluidRowLocs(PersonDto.ADDRESS)) +
+					fluidRowLocs(PersonDto.MOTHERS_NAME, PersonDto.FATHERS_NAME);
 
 	private static final String AFP_LAYOUT =
 			loc(PERSON_INFORMATION_HEADING_LOC) +
@@ -424,7 +433,19 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 		seekHelpHeadingLabel.addStyleName(H3);
 		getContent().addComponent(seekHelpHeadingLabel, SEEK_HELP_HEADING_LOC);
 
+		Label dateOfBirthHeadingLabel = new Label(I18nProperties.getPrefixCaption(PersonDto.I18N_PREFIX, PersonDto.BIRTH_DATE));
+		dateOfBirthHeadingLabel.addStyleName(H3);
+		getContent().addComponent(dateOfBirthHeadingLabel, DATE_OF_BIRTH_HEADING_LOC);
+
+		Label homeAddressHeadingLabel = new Label(I18nProperties.getPrefixCaption(PersonDto.I18N_PREFIX, PersonDto.ADDRESS));
+		homeAddressHeadingLabel.addStyleName(H3);
+		getContent().addComponent(homeAddressHeadingLabel, HOME_ADDRESS_HEADING_LOC);
+
 		addField(PersonDto.UUID).setReadOnly(true);
+		// Add CHANGE_DATE field for Meningitis and Congenital Rubella (read-only)
+		if (disease == Disease.CSM || disease == Disease.CONGENITAL_RUBELLA) {
+			addField(EntityDto.CHANGE_DATE, DateField.class).setReadOnly(true);
+		}
 		firstNameField = addField(PersonDto.FIRST_NAME, TextField.class);
 		lastNameField = addField(PersonDto.LAST_NAME, TextField.class);
 		addField(PersonDto.OTHER_NAMES, TextField.class);
@@ -876,6 +897,16 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 					Arrays.asList(cbPlaceOfBirthRegion, cbPlaceOfBirthDistrict, cbPlaceOfBirthCommunity, cbPlaceOfBirthFacility),
 					Arrays.asList(YesNoUnknown.YES),
 					true);
+		}
+
+		// Add fields for Congenital Rubella
+		if (disease == Disease.CONGENITAL_RUBELLA) {
+			if (locationOfBirthField == null) {
+				locationOfBirthField = addField(PersonDto.LOCATION_OF_BIRTH, ComboBox.class);
+			}
+			TextField tfCurrentWeight = addField(PersonDto.CURRENT_WEIGHT, TextField.class);
+			tfCurrentWeight.setConversionError(I18nProperties.getValidationError(Validations.onlyIntegerNumbersAllowed, tfCurrentWeight.getCaption()));
+			TextField tfCaregiverTelephoneNumber = addField(PersonDto.CAREGIVER_TELEPHONE_NUMBER, TextField.class);
 		}
 	}
 

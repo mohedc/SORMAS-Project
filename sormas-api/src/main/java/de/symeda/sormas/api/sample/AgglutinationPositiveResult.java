@@ -19,15 +19,17 @@ package de.symeda.sormas.api.sample;
 
 import de.symeda.sormas.api.i18n.I18nProperties;
 
-public enum PathogenTestResultType {
+public enum AgglutinationPositiveResult {
 
-	INDETERMINATE,
-	PENDING,
-	NEGATIVE,
-	POSITIVE,
-	CONTAMINATED,
-	NOT_DONE,
-	NOT_APPLICABLE;
+	NMA,
+	NmW135,
+	NmX,
+	NmC,
+	NmY,
+	INDETERMINATE_NM,
+	S_PNEUMO,
+	HIB,
+	OTHER_MICROORGANISMS;
 
 	@Override
 	public String toString() {

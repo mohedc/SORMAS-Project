@@ -14829,7 +14829,151 @@ ALTER TABLE person ADD COLUMN durationmonths4 varchar(255);
 ALTER TABLE person ADD COLUMN durationdays4 varchar(255);
 INSERT INTO schema_version (version_number, comment) VALUES (618, 'Added place, duration etc to person');
 
+-- Add serial number in consultation register and date of consultation at health facility for meningitis
+ALTER TABLE hospitalization ADD COLUMN serialnumberinconsultationregister varchar(255);
+ALTER TABLE hospitalization_history ADD COLUMN serialnumberinconsultationregister varchar(255);
+ALTER TABLE hospitalization ADD COLUMN dateofconsultationathealthfacility date;
+ALTER TABLE hospitalization_history ADD COLUMN dateofconsultationathealthfacility date;
+ALTER TABLE hospitalization ADD COLUMN datehealthregionnotified date;
+ALTER TABLE hospitalization_history ADD COLUMN datehealthregionnotified date;
+INSERT INTO schema_version (version_number, comment) VALUES (619, 'Add serial number in consultation register, date of consultation at health facility and date health region notified for meningitis');
 
+-- Add meningitis-specific fields to samples table
+ALTER TABLE samples ADD COLUMN IF NOT EXISTS dateformcsfdispatchedtohealthdistrict timestamp;
+ALTER TABLE samples ADD COLUMN IF NOT EXISTS datehealthfacilitynotifyregion timestamp;
+ALTER TABLE samples ADD COLUMN IF NOT EXISTS lumbarpunctureperformed varchar(255);
+ALTER TABLE samples ADD COLUMN IF NOT EXISTS dateoflp timestamp;
+ALTER TABLE samples ADD COLUMN IF NOT EXISTS lpaspect varchar(255);
+ALTER TABLE samples ADD COLUMN IF NOT EXISTS lppackaging varchar(255);
+ALTER TABLE samples ADD COLUMN IF NOT EXISTS lppackagingother varchar(512);
+ALTER TABLE samples ADD COLUMN IF NOT EXISTS wasspecimentaken varchar(255);
+ALTER TABLE samples ADD COLUMN IF NOT EXISTS laboratorytype varchar(255);
+ALTER TABLE samples ADD COLUMN IF NOT EXISTS laboratoryname varchar(512);
+ALTER TABLE samples ADD COLUMN IF NOT EXISTS datespecimensenttolaboratorytype timestamp;
+ALTER TABLE samples ADD COLUMN IF NOT EXISTS packaging varchar(255);
+ALTER TABLE samples ADD COLUMN IF NOT EXISTS packagingother varchar(512);
+ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS dateformcsfdispatchedtohealthdistrict timestamp;
+ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS datehealthfacilitynotifyregion timestamp;
+ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS lumbarpunctureperformed varchar(255);
+ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS dateoflp timestamp;
+ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS lpaspect varchar(255);
+ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS lppackaging varchar(255);
+ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS lppackagingother varchar(512);
+ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS wasspecimentaken varchar(255);
+ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS laboratorytype varchar(255);
+ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS laboratoryname varchar(512);
+ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS datespecimensenttolaboratorytype timestamp;
+ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS packaging varchar(255);
+ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS packagingother varchar(512);
+INSERT INTO schema_version (version_number, comment) VALUES (620, 'Add meningitis-specific fields to samples table');
+
+
+-- 2025-01-XX Add meningitis-specific fields to PathogenTest
+ALTER TABLE pathogentest ADD COLUMN macroscopicexamination varchar(255);
+ALTER TABLE pathogentest ADD COLUMN cellcountnormal boolean;
+ALTER TABLE pathogentest ADD COLUMN cellcountabnormal boolean;
+ALTER TABLE pathogentest ADD COLUMN wbccountpolycytespercent varchar(255);
+ALTER TABLE pathogentest ADD COLUMN wbccountmonocytespercent varchar(255);
+ALTER TABLE pathogentest ADD COLUMN gramstainresult varchar(255);
+ALTER TABLE pathogentest ADD COLUMN agglutinationresult varchar(255);
+ALTER TABLE pathogentest ADD COLUMN agglutinationpositiveresults varchar(255);
+ALTER TABLE pathogentest ADD COLUMN agglutinationothermicroorganism varchar(255);
+ALTER TABLE pathogentest ADD COLUMN dateresultssenttoregion timestamp;
+ALTER TABLE pathogentest ADD COLUMN othertestspending boolean;
+ALTER TABLE pathogentest ADD COLUMN othertestspendingspecify varchar(255);
+ALTER TABLE pathogentest ADD COLUMN dateresultssenttoreferencelaboratory timestamp;
+ALTER TABLE pathogentest ADD COLUMN referencelaboratory_id bigint;
+ALTER TABLE pathogentest ADD CONSTRAINT fk_pathogentest_referencelaboratory FOREIGN KEY (referencelaboratory_id) REFERENCES facility(id);
+
+ALTER TABLE pathogentest_history ADD COLUMN macroscopicexamination varchar(255);
+ALTER TABLE pathogentest_history ADD COLUMN cellcountnormal boolean;
+ALTER TABLE pathogentest_history ADD COLUMN cellcountabnormal boolean;
+ALTER TABLE pathogentest_history ADD COLUMN wbccountpolycytespercent varchar(255);
+ALTER TABLE pathogentest_history ADD COLUMN wbccountmonocytespercent varchar(255);
+ALTER TABLE pathogentest_history ADD COLUMN gramstainresult varchar(255);
+ALTER TABLE pathogentest_history ADD COLUMN agglutinationresult varchar(255);
+ALTER TABLE pathogentest_history ADD COLUMN agglutinationpositiveresults varchar(255);
+ALTER TABLE pathogentest_history ADD COLUMN agglutinationothermicroorganism varchar(255);
+ALTER TABLE pathogentest_history ADD COLUMN dateresultssenttoregion timestamp;
+ALTER TABLE pathogentest_history ADD COLUMN othertestspending boolean;
+ALTER TABLE pathogentest_history ADD COLUMN othertestspendingspecify varchar(255);
+ALTER TABLE pathogentest_history ADD COLUMN dateresultssenttoreferencelaboratory timestamp;
+ALTER TABLE pathogentest_history ADD COLUMN referencelaboratory_id bigint;
+
+INSERT INTO schema_version (version_number, comment) VALUES (621, 'Add meningitis-specific fields to PathogenTest');
+
+-- 2025-01-XX Fix column name typo: microscopicexamination -> macroscopicexamination
+ALTER TABLE pathogentest RENAME COLUMN microscopicexamination TO macroscopicexamination;
+ALTER TABLE pathogentest_history RENAME COLUMN microscopicexamination TO macroscopicexamination;
+
+INSERT INTO schema_version (version_number, comment) VALUES (622, 'Fix column name: microscopicexamination to macroscopicexamination');
+
+-- Add caregiver telephone number and current weight fields to person table
+ALTER TABLE person ADD COLUMN caregivertelephonenumber character varying(255);
+ALTER TABLE person ADD COLUMN currentweight integer;
+ALTER TABLE person_history ADD COLUMN caregivertelephonenumber character varying(255);
+ALTER TABLE person_history ADD COLUMN currentweight integer;
+
+INSERT INTO schema_version (version_number, comment) VALUES (623, 'Add caregiver telephone number and current weight fields to person table');
+
+-- Add rubella vaccination and congenital rubella fields to maternalhistory
+ALTER TABLE maternalhistory ADD COLUMN rubellavaccination varchar(255);
+ALTER TABLE maternalhistory ADD COLUMN rubellavaccinationdate timestamp;
+ALTER TABLE maternalhistory ADD COLUMN rubellamonth integer;
+ALTER TABLE maternalhistory ADD COLUMN congenitalrubella varchar(255);
+ALTER TABLE maternalhistory ADD COLUMN congenitalrubelladate timestamp;
+
+ALTER TABLE maternalhistory_history ADD COLUMN rubellavaccination varchar(255);
+ALTER TABLE maternalhistory_history ADD COLUMN rubellavaccinationdate timestamp;
+ALTER TABLE maternalhistory_history ADD COLUMN rubellamonth integer;
+ALTER TABLE maternalhistory_history ADD COLUMN congenitalrubella varchar(255);
+ALTER TABLE maternalhistory_history ADD COLUMN congenitalrubelladate timestamp;
+
+INSERT INTO schema_version (version_number, comment) VALUES (624, 'Add rubella vaccination and congenital rubella fields to maternalhistory');
+
+-- Add congenital rubella symptoms fields to symptoms table
+ALTER TABLE symptoms ADD COLUMN clinicianname varchar(255);
+ALTER TABLE symptoms ADD COLUMN clinicianaddress varchar(255);
+ALTER TABLE symptoms ADD COLUMN clinicianphone varchar(255);
+ALTER TABLE symptoms ADD COLUMN cataracts varchar(255);
+ALTER TABLE symptoms ADD COLUMN autopsyconducted varchar(255);
+ALTER TABLE symptoms ADD COLUMN autopsyfindings varchar(512);
+ALTER TABLE symptoms ADD COLUMN autopsydate timestamp;
+
+ALTER TABLE symptoms_history ADD COLUMN clinicianname varchar(255);
+ALTER TABLE symptoms_history ADD COLUMN clinicianaddress varchar(255);
+ALTER TABLE symptoms_history ADD COLUMN clinicianphone varchar(255);
+ALTER TABLE symptoms_history ADD COLUMN cataracts varchar(255);
+ALTER TABLE symptoms_history ADD COLUMN autopsyconducted varchar(255);
+ALTER TABLE symptoms_history ADD COLUMN autopsyfindings varchar(512);
+ALTER TABLE symptoms_history ADD COLUMN autopsydate timestamp;
+
+INSERT INTO schema_version (version_number, comment) VALUES (625, 'Add congenital rubella symptoms fields to symptoms table');
+
+-- Add Congenital Rubella fields to EpiData
+ALTER TABLE epidata ADD COLUMN motherrubellalabconfirmed varchar(255);
+ALTER TABLE epidata ADD COLUMN motherrubellalabconfirmeddate timestamp;
+ALTER TABLE epidata ADD COLUMN motherexposedduringpregnancy varchar(255);
+ALTER TABLE epidata ADD COLUMN motherexposedduringpregnancydate timestamp;
+ALTER TABLE epidata ADD COLUMN gestationalageatexposure integer;
+ALTER TABLE epidata ADD COLUMN exposurelocationdescription varchar(512);
+ALTER TABLE epidata ADD COLUMN mothertraveledduringpregnancy varchar(255);
+ALTER TABLE epidata ADD COLUMN mothertraveledduringpregnancydate timestamp;
+ALTER TABLE epidata ADD COLUMN gestationalageattravel integer;
+ALTER TABLE epidata ADD COLUMN travellocationdescription varchar(512);
+
+ALTER TABLE epidata_history ADD COLUMN motherrubellalabconfirmed varchar(255);
+ALTER TABLE epidata_history ADD COLUMN motherrubellalabconfirmeddate timestamp;
+ALTER TABLE epidata_history ADD COLUMN motherexposedduringpregnancy varchar(255);
+ALTER TABLE epidata_history ADD COLUMN motherexposedduringpregnancydate timestamp;
+ALTER TABLE epidata_history ADD COLUMN gestationalageatexposure integer;
+ALTER TABLE epidata_history ADD COLUMN exposurelocationdescription varchar(512);
+ALTER TABLE epidata_history ADD COLUMN mothertraveledduringpregnancy varchar(255);
+ALTER TABLE epidata_history ADD COLUMN mothertraveledduringpregnancydate timestamp;
+ALTER TABLE epidata_history ADD COLUMN gestationalageattravel integer;
+ALTER TABLE epidata_history ADD COLUMN travellocationdescription varchar(512);
+
+INSERT INTO schema_version (version_number, comment) VALUES (626, 'Add Congenital Rubella specific fields to EpiData');
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***
 
 

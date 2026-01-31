@@ -43,6 +43,11 @@ public class MaternalHistoryDto extends PseudonymizableDto {
 	public static final String OTHER_COMPLICATIONS_DETAILS = "otherComplicationsDetails";
 	public static final String RUBELLA = "rubella";
 	public static final String RUBELLA_ONSET = "rubellaOnset";
+	public static final String RUBELLA_VACCINATION = "rubellaVaccination";
+	public static final String RUBELLA_VACCINATION_DATE = "rubellaVaccinationDate";
+	public static final String RUBELLA_MONTH = "rubellaMonth";
+	public static final String CONGENITAL_RUBELLA = "congenitalRubella";
+	public static final String CONGENITAL_RUBELLA_DATE = "congenitalRubellaDate";
 	public static final String RASH_EXPOSURE = "rashExposure";
 	public static final String RASH_EXPOSURE_DATE = "rashExposureDate";
 	public static final String RASH_EXPOSURE_MONTH = "rashExposureMonth";
@@ -72,6 +77,11 @@ public class MaternalHistoryDto extends PseudonymizableDto {
 	private String otherComplicationsDetails;
 	private YesNoUnknown rubella;
 	private Date rubellaOnset;
+	private YesNoUnknown rubellaVaccination;
+	private Date rubellaVaccinationDate;
+	private Integer rubellaMonth;
+	private YesNoUnknown congenitalRubella;
+	private Date congenitalRubellaDate;
 	private YesNoUnknown rashExposure;
 	private Date rashExposureDate;
 	private Integer rashExposureMonth;
@@ -245,6 +255,46 @@ public class MaternalHistoryDto extends PseudonymizableDto {
 
 	public void setRubellaOnset(Date rubellaOnset) {
 		this.rubellaOnset = rubellaOnset;
+	}
+
+	public YesNoUnknown getRubellaVaccination() {
+		return rubellaVaccination;
+	}
+
+	public void setRubellaVaccination(YesNoUnknown rubellaVaccination) {
+		this.rubellaVaccination = rubellaVaccination;
+	}
+
+	public Date getRubellaVaccinationDate() {
+		return rubellaVaccinationDate;
+	}
+
+	public void setRubellaVaccinationDate(Date rubellaVaccinationDate) {
+		this.rubellaVaccinationDate = rubellaVaccinationDate;
+	}
+
+	public Integer getRubellaMonth() {
+		return rubellaMonth;
+	}
+
+	public void setRubellaMonth(Integer rubellaMonth) {
+		this.rubellaMonth = rubellaMonth;
+	}
+
+	public YesNoUnknown getCongenitalRubella() {
+		return congenitalRubella;
+	}
+
+	public void setCongenitalRubella(YesNoUnknown congenitalRubella) {
+		this.congenitalRubella = congenitalRubella;
+	}
+
+	public Date getCongenitalRubellaDate() {
+		return congenitalRubellaDate;
+	}
+
+	public void setCongenitalRubellaDate(Date congenitalRubellaDate) {
+		this.congenitalRubellaDate = congenitalRubellaDate;
 	}
 
 	public YesNoUnknown getRashExposure() {

@@ -84,6 +84,16 @@ public class EpiDataFacadeEjb implements EpiDataFacade {
 			targetTravelLocation = null;
 		}
 		target.setTravelLocation(locationFacade.fillOrBuildEntity(source.getTravelLocation(), targetTravelLocation, checkChangeDate));
+		target.setMotherRubellaLabConfirmed(source.getMotherRubellaLabConfirmed());
+		target.setMotherRubellaLabConfirmedDate(source.getMotherRubellaLabConfirmedDate());
+		target.setMotherExposedDuringPregnancy(source.getMotherExposedDuringPregnancy());
+		target.setMotherExposedDuringPregnancyDate(source.getMotherExposedDuringPregnancyDate());
+		target.setGestationalAgeAtExposure(source.getGestationalAgeAtExposure());
+		target.setExposureLocationDescription(source.getExposureLocationDescription());
+		target.setMotherTraveledDuringPregnancy(source.getMotherTraveledDuringPregnancy());
+		target.setMotherTraveledDuringPregnancyDate(source.getMotherTraveledDuringPregnancyDate());
+		target.setGestationalAgeAtTravel(source.getGestationalAgeAtTravel());
+		target.setTravelLocationDescription(source.getTravelLocationDescription());
 
 		List<Exposure> exposures = new ArrayList<>();
 		for (ExposureDto exposureDto : source.getExposures()) {
@@ -241,6 +251,16 @@ public class EpiDataFacadeEjb implements EpiDataFacade {
 		target.setAreaInfectedAnimals(source.getAreaInfectedAnimals());
 		target.setTravelHistoryKnown(source.getTravelHistoryKnown());
 		target.setTravelLocation(LocationFacadeEjb.toDto(source.getTravelLocation()));
+		target.setMotherRubellaLabConfirmed(source.getMotherRubellaLabConfirmed());
+		target.setMotherRubellaLabConfirmedDate(source.getMotherRubellaLabConfirmedDate());
+		target.setMotherExposedDuringPregnancy(source.getMotherExposedDuringPregnancy());
+		target.setMotherExposedDuringPregnancyDate(source.getMotherExposedDuringPregnancyDate());
+		target.setGestationalAgeAtExposure(source.getGestationalAgeAtExposure());
+		target.setExposureLocationDescription(source.getExposureLocationDescription());
+		target.setMotherTraveledDuringPregnancy(source.getMotherTraveledDuringPregnancy());
+		target.setMotherTraveledDuringPregnancyDate(source.getMotherTraveledDuringPregnancyDate());
+		target.setGestationalAgeAtTravel(source.getGestationalAgeAtTravel());
+		target.setTravelLocationDescription(source.getTravelLocationDescription());
 
 		List<ExposureDto> exposureDtos = new ArrayList<>();
 		for (Exposure exposure : source.getExposures()) {

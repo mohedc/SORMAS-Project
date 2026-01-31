@@ -110,7 +110,10 @@ public enum SampleMaterial {
 	SYNOVIAL_FLUID,
 	@Diseases(value = {
 			Disease.YELLOW_FEVER, Disease.MEASLES}, hide = true)
-	OTHER;
+	OTHER,
+	@Diseases(value = {
+			Disease.CSM }, hide = false)
+	CSF;
 
 	@Override
 	public String toString() {

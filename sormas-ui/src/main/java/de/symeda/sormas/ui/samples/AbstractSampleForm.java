@@ -42,9 +42,14 @@ import de.symeda.sormas.api.i18n.Validations;
 import de.symeda.sormas.api.infrastructure.facility.FacilityDto;
 import de.symeda.sormas.api.infrastructure.facility.FacilityReferenceDto;
 import de.symeda.sormas.api.sample.*;
+import de.symeda.sormas.api.sample.LpAspect;
+import de.symeda.sormas.api.sample.LpPackaging;
+import de.symeda.sormas.api.sample.Packaging;
+import de.symeda.sormas.api.sample.LaboratoryType;
 import de.symeda.sormas.api.user.UserReferenceDto;
 import de.symeda.sormas.api.user.UserRight;
 import de.symeda.sormas.api.utils.InjectionSite;
+import de.symeda.sormas.api.utils.YesNo;
 import de.symeda.sormas.api.utils.fieldaccess.UiFieldAccessCheckers;
 import de.symeda.sormas.api.utils.fieldvisibility.FieldVisibilityCheckers;
 import de.symeda.sormas.ui.UiUtil;
@@ -151,17 +156,22 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 	protected static final String MENINGITIS_HTML_LAYOUT =
 			fluidRowLocs(4, SampleDto.UUID, 4, REPORT_INFO_LABEL_LOC, 3, SampleDto.REPORTING_USER, 1, "") +
 					fluidRowLocs(SampleDto.SAMPLE_PURPOSE, SampleDto.FIELD_SAMPLE_ID) +
-					fluidRowLocs(SampleDto.SAMPLE_DATE_TIME) +
-					fluidRowLocs(SampleDto.LAB, SampleDto.LAB_DETAILS) +
-					fluidRowLocs(SampleDto.LAB_SAMPLE_ID) +
+					fluidRowLocs(SampleDto.SAMPLE_DATE_TIME, "") +
+					fluidRowLocs(SampleDto.DATE_FORM_CSF_DISPATCHED_TO_HEALTH_DISTRICT, SampleDto.DATE_HEALTH_FACILITY_NOTIFY_REGION) +
+					locCss(VSPACE_TOP_3, SampleDto.LUMBAR_PUNCTURE_PERFORMED) +
+					fluidRowLocs(SampleDto.DATE_OF_LP, SampleDto.LP_ASPECT) +
+					fluidRowLocs(SampleDto.LP_PACKAGING, SampleDto.LP_PACKAGING_OTHER) +
+					locCss(VSPACE_TOP_3, SampleDto.WAS_SPECIMEN_TAKEN) +
+					fluidRowLocs(SampleDto.LABORATORY_TYPE, SampleDto.LABORATORY_NAME) +
+					fluidRowLocs(SampleDto.DATE_SPECIMEN_SENT_TO_LABORATORY_TYPE) +
 					fluidRowLocs(SampleDto.SAMPLE_MATERIAL, SampleDto.SAMPLE_MATERIAL_TEXT) +
+					fluidRowLocs(SampleDto.LAB, SampleDto.LAB_DETAILS) +
 					locCss(VSPACE_TOP_3, SampleDto.SHIPPED) +
 					fluidRowLocs(SampleDto.SHIPMENT_DATE, SampleDto.SHIPMENT_DETAILS) +
-					locCss(VSPACE_TOP_3, "") +
-					fluidRowLocs(6, SampleDto.RECEIVED) +
+					locCss(VSPACE_TOP_3, SampleDto.RECEIVED) +
 					fluidRowLocs(SampleDto.RECEIVED_DATE, SampleDto.LAB_SAMPLE_ID) +
-					fluidRowLocs(SampleDto.SPECIMEN_CONDITION, SampleDto.NO_TEST_POSSIBLE_REASON) +
-					fluidRowLocs(SampleDto.PATHOGEN_TEST_RESULT);
+					fluidRowLocs(SampleDto.PACKAGING, SampleDto.PACKAGING_OTHER) +
+					fluidRowLocs(SampleDto.SPECIMEN_CONDITION);
 
 	protected static final String AFP_HTML_LAYOUT =
 			loc(STOOL_SPECIMEN_COLLECTION_HEADLINE_LOC) +
@@ -270,6 +280,21 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 		addDateField(SampleDto.DATE_SPECIMEN_SENT_TO_REGIONAL_REFERENCE_LAB, DateField.class, 7);
 		addDateField(SampleDto.DATE_SPECIMEN_RECEIVED_AT_NATIONAL_LAB, DateField.class, 7);
 		addDateField(SampleDto.DATE_SPECIMEN_RECEIVED_AT_REGIONAL_REFERENCE_LAB, DateField.class, 7);
+
+		// Meningitis-specific fields (hidden by default, shown in configureMeningitisFields)
+		addDateField(SampleDto.DATE_FORM_CSF_DISPATCHED_TO_HEALTH_DISTRICT, DateField.class, 7);
+		addDateField(SampleDto.DATE_HEALTH_FACILITY_NOTIFY_REGION, DateField.class, 7);
+		addField(SampleDto.LUMBAR_PUNCTURE_PERFORMED, NullableOptionGroup.class);
+		addDateField(SampleDto.DATE_OF_LP, DateField.class, 7);
+		addField(SampleDto.LP_ASPECT, ComboBox.class);
+		addField(SampleDto.LP_PACKAGING, ComboBox.class);
+		addField(SampleDto.LP_PACKAGING_OTHER, TextField.class);
+		addField(SampleDto.WAS_SPECIMEN_TAKEN, NullableOptionGroup.class);
+		addField(SampleDto.LABORATORY_TYPE, ComboBox.class);
+		addField(SampleDto.LABORATORY_NAME, TextField.class);
+		addDateField(SampleDto.DATE_SPECIMEN_SENT_TO_LABORATORY_TYPE, DateField.class, 7);
+		addField(SampleDto.PACKAGING, ComboBox.class);
+		addField(SampleDto.PACKAGING_OTHER, TextField.class);
 
 	}
 
@@ -396,6 +421,11 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 
 		if(disease == Disease.AFP){
 			handleAFP();
+		}
+
+		// Meningitis-specific configuration (called after all other visibility logic)
+		if (disease == Disease.CSM) {
+			configureMeningitisFields();
 		}
 	}
 
@@ -720,6 +750,83 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 		// Show yellow fever-specific fields
 	}
 
+	/**
+	 * Configures fields specifically for meningitis samples
+	 */
+	protected void configureMeningitisFields() {
+		// Make FIELD_SAMPLE_ID read-only
+		getField(SampleDto.FIELD_SAMPLE_ID).setReadOnly(true);
+
+		// Filter sample material options for meningitis: CSF and Other only
+		FieldHelper.updateEnumData(sampleMaterialComboBox, Arrays.asList(SampleMaterial.CSF, SampleMaterial.OTHER));
+
+		// Show meningitis-specific fields
+		getField(SampleDto.DATE_FORM_CSF_DISPATCHED_TO_HEALTH_DISTRICT).setVisible(true);
+		getField(SampleDto.DATE_HEALTH_FACILITY_NOTIFY_REGION).setVisible(true);
+		getField(SampleDto.LUMBAR_PUNCTURE_PERFORMED).setVisible(true);
+		getField(SampleDto.WAS_SPECIMEN_TAKEN).setVisible(true);
+		getField(SampleDto.PACKAGING).setVisible(true);
+
+//		LP fields visibility - shown when lumbarPuncturePerformed = YES (in red text)
+		Field<?> lumbarPunctureField = getField(SampleDto.LUMBAR_PUNCTURE_PERFORMED);
+		FieldHelper.setVisibleWhen(
+			getFieldGroup(),
+			Arrays.asList(SampleDto.DATE_OF_LP, SampleDto.LP_ASPECT, SampleDto.LP_PACKAGING),
+			SampleDto.LUMBAR_PUNCTURE_PERFORMED,
+			Arrays.asList(YesNo.YES),
+			true);
+		FieldHelper.setEnabledWhen(
+			getFieldGroup(),
+			lumbarPunctureField,
+			Arrays.asList(YesNo.YES),
+			Arrays.asList(SampleDto.DATE_OF_LP, SampleDto.LP_ASPECT, SampleDto.LP_PACKAGING),
+			true);
+
+		// LP Packaging Other visibility
+		FieldHelper.setVisibleWhen(
+			getFieldGroup(),
+			SampleDto.LP_PACKAGING_OTHER,
+			SampleDto.LP_PACKAGING,
+			Arrays.asList(LpPackaging.OTHER),
+			true);
+
+//		Laboratory fields visibility - shown when wasSpecimenTaken = YES
+		Field<?> wasSpecimenTakenField = getField(SampleDto.WAS_SPECIMEN_TAKEN);
+		FieldHelper.setVisibleWhen(
+			getFieldGroup(),
+			Arrays.asList(SampleDto.LABORATORY_TYPE, SampleDto.LABORATORY_NAME, SampleDto.DATE_SPECIMEN_SENT_TO_LABORATORY_TYPE),
+			SampleDto.WAS_SPECIMEN_TAKEN,
+			Arrays.asList(YesNo.YES),
+			true);
+		FieldHelper.setEnabledWhen(
+			getFieldGroup(),
+			wasSpecimenTakenField,
+			Arrays.asList(YesNo.YES),
+			Arrays.asList(SampleDto.LABORATORY_TYPE, SampleDto.LABORATORY_NAME, SampleDto.DATE_SPECIMEN_SENT_TO_LABORATORY_TYPE),
+			true);
+
+		// Packaging Other visibility
+		FieldHelper.setVisibleWhen(
+			getFieldGroup(),
+			SampleDto.PACKAGING_OTHER,
+			SampleDto.PACKAGING,
+			Arrays.asList(Packaging.OTHER),
+			true);
+
+		// Apply red text style to LP fields when visible
+		Field<?> dateOfLpField = getField(SampleDto.DATE_OF_LP);
+		Field<?> lpAspectField = getField(SampleDto.LP_ASPECT);
+		Field<?> lpPackagingField = getField(SampleDto.LP_PACKAGING);
+		lumbarPunctureField.addValueChangeListener(e -> {
+			boolean isVisible = YesNo.YES.equals(e.getProperty().getValue());
+			if (isVisible) {
+				CssStyles.style(dateOfLpField, CssStyles.LABEL_CRITICAL);
+				CssStyles.style(lpAspectField, CssStyles.LABEL_CRITICAL);
+				CssStyles.style(lpPackagingField, CssStyles.LABEL_CRITICAL);
+			}
+		});
+	}
+
 	private void handleAFP() {
 
 		Label stoolSpecimenCollection = new Label(I18nProperties.getString(Strings.headingStoolSpecimenCollection));
@@ -779,18 +886,18 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 
 	@Override
 	protected String createHtmlLayout() {
-		if (getCaseDisease() == Disease.MEASLES) {
-			return MEASLES_HTML_LAYOUT;
+		Disease disease = getCaseDisease();
+		switch (disease) {
+			case MEASLES:
+				return MEASLES_HTML_LAYOUT;
+			case YELLOW_FEVER:
+				return YELLOW_FEVER_HTML_LAYOUT;
+			case AFP:
+				return AFP_HTML_LAYOUT;
+			case CSM:
+				return MENINGITIS_HTML_LAYOUT;
+			default:
+				return SAMPLE_COMMON_HTML_LAYOUT;
 		}
-		if (getCaseDisease() == Disease.YELLOW_FEVER) {
-			return YELLOW_FEVER_HTML_LAYOUT;
-		}
-		if (getCaseDisease() == Disease.AFP) {
-			return AFP_HTML_LAYOUT;
-		}
-		if (getCaseDisease() == Disease.CSM) {
-			return MENINGITIS_HTML_LAYOUT;
-		}
-		return SAMPLE_COMMON_HTML_LAYOUT;
 	}
 }

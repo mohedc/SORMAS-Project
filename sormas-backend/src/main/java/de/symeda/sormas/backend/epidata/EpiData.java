@@ -63,6 +63,17 @@ public class EpiData extends AbstractDomainObject {
 	private Date changeDateOfEmbeddedLists;
 	private Location travelLocation;
 
+	private YesNoUnknown motherRubellaLabConfirmed;
+	private Date motherRubellaLabConfirmedDate;
+	private YesNoUnknown motherExposedDuringPregnancy;
+	private Date motherExposedDuringPregnancyDate;
+	private Integer gestationalAgeAtExposure;
+	private String exposureLocationDescription;
+	private YesNoUnknown motherTraveledDuringPregnancy;
+	private Date motherTraveledDuringPregnancyDate;
+	private Integer gestationalAgeAtTravel;
+	private String travelLocationDescription;
+
 	@Enumerated(EnumType.STRING)
 	public YesNoUnknown getExposureDetailsKnown() {
 		return exposureDetailsKnown;
@@ -165,5 +176,88 @@ public class EpiData extends AbstractDomainObject {
 
 	public void setTravelLocation(Location travelLocation) {
 		this.travelLocation = travelLocation;
+	}
+
+	@Enumerated(EnumType.STRING)
+	public YesNoUnknown getMotherRubellaLabConfirmed() {
+		return motherRubellaLabConfirmed;
+	}
+
+	public void setMotherRubellaLabConfirmed(YesNoUnknown motherRubellaLabConfirmed) {
+		this.motherRubellaLabConfirmed = motherRubellaLabConfirmed;
+	}
+
+	public Date getMotherRubellaLabConfirmedDate() {
+		return motherRubellaLabConfirmedDate;
+	}
+
+	public void setMotherRubellaLabConfirmedDate(Date motherRubellaLabConfirmedDate) {
+		this.motherRubellaLabConfirmedDate = motherRubellaLabConfirmedDate;
+	}
+
+	@Enumerated(EnumType.STRING)
+	public YesNoUnknown getMotherExposedDuringPregnancy() {
+		return motherExposedDuringPregnancy;
+	}
+
+	public void setMotherExposedDuringPregnancy(YesNoUnknown motherExposedDuringPregnancy) {
+		this.motherExposedDuringPregnancy = motherExposedDuringPregnancy;
+	}
+
+	public Date getMotherExposedDuringPregnancyDate() {
+		return motherExposedDuringPregnancyDate;
+	}
+
+	public void setMotherExposedDuringPregnancyDate(Date motherExposedDuringPregnancyDate) {
+		this.motherExposedDuringPregnancyDate = motherExposedDuringPregnancyDate;
+	}
+
+	public Integer getGestationalAgeAtExposure() {
+		return gestationalAgeAtExposure;
+	}
+
+	public void setGestationalAgeAtExposure(Integer gestationalAgeAtExposure) {
+		this.gestationalAgeAtExposure = gestationalAgeAtExposure;
+	}
+
+	public String getExposureLocationDescription() {
+		return exposureLocationDescription;
+	}
+
+	public void setExposureLocationDescription(String exposureLocationDescription) {
+		this.exposureLocationDescription = exposureLocationDescription;
+	}
+
+	@Enumerated(EnumType.STRING)
+	public YesNoUnknown getMotherTraveledDuringPregnancy() {
+		return motherTraveledDuringPregnancy;
+	}
+
+	public void setMotherTraveledDuringPregnancy(YesNoUnknown motherTraveledDuringPregnancy) {
+		this.motherTraveledDuringPregnancy = motherTraveledDuringPregnancy;
+	}
+
+	public Date getMotherTraveledDuringPregnancyDate() {
+		return motherTraveledDuringPregnancyDate;
+	}
+
+	public void setMotherTraveledDuringPregnancyDate(Date motherTraveledDuringPregnancyDate) {
+		this.motherTraveledDuringPregnancyDate = motherTraveledDuringPregnancyDate;
+	}
+
+	public Integer getGestationalAgeAtTravel() {
+		return gestationalAgeAtTravel;
+	}
+
+	public void setGestationalAgeAtTravel(Integer gestationalAgeAtTravel) {
+		this.gestationalAgeAtTravel = gestationalAgeAtTravel;
+	}
+
+	public String getTravelLocationDescription() {
+		return travelLocationDescription;
+	}
+
+	public void setTravelLocationDescription(String travelLocationDescription) {
+		this.travelLocationDescription = travelLocationDescription;
 	}
 }

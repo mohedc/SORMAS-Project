@@ -19,15 +19,12 @@ package de.symeda.sormas.api.sample;
 
 import de.symeda.sormas.api.i18n.I18nProperties;
 
-public enum PathogenTestResultType {
+public enum LpAspect {
 
-	INDETERMINATE,
-	PENDING,
-	NEGATIVE,
-	POSITIVE,
-	CONTAMINATED,
-	NOT_DONE,
-	NOT_APPLICABLE;
+	CLEAR,
+	CLOUDY,
+	PURULENT,
+	HEMATIC;
 
 	@Override
 	public String toString() {

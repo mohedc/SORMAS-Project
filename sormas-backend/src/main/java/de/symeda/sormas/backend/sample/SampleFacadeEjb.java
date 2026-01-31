@@ -886,6 +886,19 @@ public class SampleFacadeEjb implements SampleFacade {
 		target.setDateSpecimenSentToRegionalReferenceLab(source.getDateSpecimenSentToRegionalReferenceLab());
 		target.setDateSpecimenReceivedAtNationalLab(source.getDateSpecimenReceivedAtNationalLab());
 		target.setDateSpecimenReceivedAtRegionalReferenceLab(source.getDateSpecimenReceivedAtRegionalReferenceLab());
+		target.setDateFormCsfDispatchedToHealthDistrict(source.getDateFormCsfDispatchedToHealthDistrict());
+		target.setDateHealthFacilityNotifyRegion(source.getDateHealthFacilityNotifyRegion());
+		target.setLumbarPuncturePerformed(source.getLumbarPuncturePerformed());
+		target.setDateOfLp(source.getDateOfLp());
+		target.setLpAspect(source.getLpAspect());
+		target.setLpPackaging(source.getLpPackaging());
+		target.setLpPackagingOther(source.getLpPackagingOther());
+		target.setWasSpecimenTaken(source.getWasSpecimenTaken());
+		target.setLaboratoryType(source.getLaboratoryType());
+		target.setLaboratoryName(source.getLaboratoryName());
+		target.setDateSpecimenSentToLaboratoryType(source.getDateSpecimenSentToLaboratoryType());
+		target.setPackaging(source.getPackaging());
+		target.setPackagingOther(source.getPackagingOther());
 
 		target.setReportLat(source.getReportLat());
 		target.setReportLon(source.getReportLon());
@@ -1077,6 +1090,19 @@ public class SampleFacadeEjb implements SampleFacade {
 		target.setDateSpecimenSentToRegionalReferenceLab(source.getDateSpecimenSentToRegionalReferenceLab());
 		target.setDateSpecimenReceivedAtNationalLab(source.getDateSpecimenReceivedAtNationalLab());
 		target.setDateSpecimenReceivedAtRegionalReferenceLab(source.getDateSpecimenReceivedAtRegionalReferenceLab());
+		target.setDateFormCsfDispatchedToHealthDistrict(source.getDateFormCsfDispatchedToHealthDistrict());
+		target.setDateHealthFacilityNotifyRegion(source.getDateHealthFacilityNotifyRegion());
+		target.setLumbarPuncturePerformed(source.getLumbarPuncturePerformed());
+		target.setDateOfLp(source.getDateOfLp());
+		target.setLpAspect(source.getLpAspect());
+		target.setLpPackaging(source.getLpPackaging());
+		target.setLpPackagingOther(source.getLpPackagingOther());
+		target.setWasSpecimenTaken(source.getWasSpecimenTaken());
+		target.setLaboratoryType(source.getLaboratoryType());
+		target.setLaboratoryName(source.getLaboratoryName());
+		target.setDateSpecimenSentToLaboratoryType(source.getDateSpecimenSentToLaboratoryType());
+		target.setPackaging(source.getPackaging());
+		target.setPackagingOther(source.getPackagingOther());
 
 		target.setReportLat(source.getReportLat());
 		target.setReportLon(source.getReportLon());

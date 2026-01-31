@@ -954,6 +954,9 @@ public interface Captions {
 	String CaseHospitalization_otherHospitalizationReason = "CaseHospitalization.otherHospitalizationReason";
 	String CaseHospitalization_selectInpatientOutpatient = "CaseHospitalization.selectInpatientOutpatient";
 	String CaseHospitalization_hospitalRecordNumber = "CaseHospitalization.hospitalRecordNumber";
+	String CaseHospitalization_serialNumberInConsultationRegister = "CaseHospitalization.serialNumberInConsultationRegister";
+	String CaseHospitalization_dateOfConsultationAtHealthFacility = "CaseHospitalization.dateOfConsultationAtHealthFacility";
+	String CaseHospitalization_dateHealthRegionNotified = "CaseHospitalization.dateHealthRegionNotified";
 	String CaseHospitalization_previousHospitalizations = "CaseHospitalization.previousHospitalizations";
 	String caseImportErrorDescription = "caseImportErrorDescription";
 	String caseImportMergeCase = "caseImportMergeCase";

@@ -743,6 +743,7 @@ public interface Strings {
 	String headingLocation = "headingLocation";
 	String headingLoginFailed = "headingLoginFailed";
 	String headingMaternalHistory = "headingMaternalHistory";
+	String headingCongenitalRubella = "headingCongenitalRubella";
 	String headingMedicalInformation = "headingMedicalInformation";
 	String headingMergeDuplicateEventParticipantSamePersonSameEvent = "headingMergeDuplicateEventParticipantSamePersonSameEvent";
 	String headingMergeGuide = "headingMergeGuide";

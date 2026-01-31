@@ -46,15 +46,18 @@ public class SampleCreateForm extends AbstractSampleForm {
 
 	@Override
 	protected String createHtmlLayout() {
-		if (getCaseDisease() == Disease.MEASLES) {
-			return MEASLES_HTML_LAYOUT;
-		}
-		if (getCaseDisease() == Disease.YELLOW_FEVER) {
-			return YELLOW_FEVER_HTML_LAYOUT;
-		}
-		if (getCaseDisease() == Disease.AFP) {
-			return AFP_HTML_LAYOUT;
-		}
-		return SAMPLE_COMMON_HTML_LAYOUT;
+			Disease disease = getCaseDisease();
+			switch (disease) {
+				case MEASLES:
+					return MEASLES_HTML_LAYOUT;
+				case YELLOW_FEVER:
+					return YELLOW_FEVER_HTML_LAYOUT;
+				case AFP:
+					return AFP_HTML_LAYOUT;
+				case CSM:
+					return MENINGITIS_HTML_LAYOUT;
+				default:
+					return SAMPLE_COMMON_HTML_LAYOUT;
+			}
 	}
 }

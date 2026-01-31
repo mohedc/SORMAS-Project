@@ -55,6 +55,7 @@ import de.symeda.sormas.api.Disease;
 import de.symeda.sormas.api.DiseaseHelper;
 import de.symeda.sormas.api.FacadeProvider;
 import de.symeda.sormas.api.caze.CaseDataDto;
+import de.symeda.sormas.api.caze.CaseOutcome;
 import de.symeda.sormas.api.hospitalization.HospitalizationDto;
 import de.symeda.sormas.api.i18n.Captions;
 import de.symeda.sormas.api.i18n.Descriptions;
@@ -108,6 +109,10 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 	private static final String CLINICAL_PRESENTATION_HEADING = "clinicalPresentationHeading";
 	private static final String TUBERCULOSIS_ONSET_DATE_LOC = "tuberculosisOnsetDateLoc";
 	private static final String TUBERCULOSIS_CLINICAL_PRESENTATION_DETAILS_LOC = "tuberculosisClinicalPresentationDetailsLoc";
+	private static final String GROUP_A_HEADING_LOC = "groupAHeadingLoc";
+	private static final String GROUP_B_HEADING_LOC = "groupBHeadingLoc";
+	private static final String CLINICIAN_INFO_HEADING_LOC = "clinicianInfoHeadingLoc";
+	private static final String DEATH_SECTION_HEADING_LOC = "deathSectionHeadingLoc";
 
 	private static Map<String, List<String>> symptomGroupMap = new HashMap();
 
@@ -210,15 +215,44 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 							//XXX #1620 fluidColumnLoc?
 							fluidColumn(8, 0, loc(SYMPTOMS_HINT_LOC))) +
 					fluidRow(fluidColumn(8,4, locCss(CssStyles.ALIGN_RIGHT,BUTTONS_LOC)))+
-					fluidRowLocs(MUSCLE_PAIN, JAUNDICE) +
-					fluidRowLocs(FEVER, HEMORRHAGIC_SYNDROME) +
-					fluidRowLocs(OTHER_NON_HEMORRHAGIC_SYMPTOMS, OTHER_NON_HEMORRHAGIC_SYMPTOMS_TEXT) +
-					fluidRowLocs(OTHER_COMPLICATIONS, OTHER_COMPLICATIONS_TEXT) +
-					locsCss(VSPACE_3) +
+					loc(GROUP_A_HEADING_LOC) +
+					fluidRow(
+							fluidColumn(6, 0,
+									locsCss(VSPACE_3,
+											CONGENITAL_HEART_DISEASE, CONGENITAL_HEART_DISEASE_TYPE, CONGENITAL_HEART_DISEASE_DETAILS,
+											CATARACTS, CONGENITAL_GLAUCOMA)),
+							fluidColumn(6, 0,
+									locsCss(VSPACE_3,
+											PIGMENTARY_RETINOPATHY, HEARINGLOSS))
+					) +
+					loc(GROUP_B_HEADING_LOC) +
+					fluidRow(
+							fluidColumn(6, 0,
+									locsCss(VSPACE_3,
+											PURPURIC_RASH, MICROCEPHALY, MENINGOENCEPHALITIS, JAUNDICE)),
+							fluidColumn(6, 0,
+									locsCss(VSPACE_3,
+											SPLENOMEGALY, DEVELOPMENTAL_DELAY, RADIOLUCENT_BONE_DISEASE,
+											OTHER_COMPLICATIONS, OTHER_COMPLICATIONS_TEXT))
+					) +
 					fluidRowLocsCss(VSPACE_3, ONSET_SYMPTOM, ONSET_DATE) +
-					fluidRowLocs(3, OUTCOME);
+					loc(CLINICIAN_INFO_HEADING_LOC) +
+					fluidRowLocs(CLINICIAN_NAME, CLINICIAN_ADDRESS, CLINICIAN_PHONE) +
+					fluidRowLocs(3, OUTCOME) +
+					loc(DEATH_SECTION_HEADING_LOC) +
+					fluidRowLocs(AUTOPSY_CONDUCTED) +
+					fluidRowLocs(AUTOPSY_FINDINGS, AUTOPSY_DATE);
 
 	public static final String MENINGITIS_LAYOUT = loc(SIGNS_AND_SYMPTOMS_HEADING_LOC) +
+					fluidRowCss(VSPACE_3,
+							//XXX #1620 fluidColumnLoc?
+							fluidColumn(8, 0, loc(SYMPTOMS_HINT_LOC))) +
+					fluidRow(fluidColumn(8,4, locCss(CssStyles.ALIGN_RIGHT,BUTTONS_LOC)))+
+					fluidRowLocs(FEVER, VOMITING) +
+					fluidRowLocs(ALTERED_CONSCIOUSNESS, SEIZURES) +
+					fluidRowLocs(RAPID_BREATHING, "") +
+					fluidRowLocs(OTHER_NON_HEMORRHAGIC_SYMPTOMS, OTHER_NON_HEMORRHAGIC_SYMPTOMS_TEXT) +
+					locsCss(VSPACE_3, SYMPTOMS_COMMENTS) +
 					fluidRowLocsCss(VSPACE_3, ONSET_SYMPTOM, ONSET_DATE) +
 					fluidRowLocs(3, OUTCOME);
 	//@formatter:on
@@ -596,6 +630,23 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 			CssStyles.style(monkeypoxImageField, VSPACE_NONE);
 		}
 
+		// Add fields for Congenital Rubella
+		if (disease == Disease.CONGENITAL_RUBELLA) {
+			addField(CATARACTS);
+			addField(CLINICIAN_NAME, TextField.class);
+			addField(CLINICIAN_ADDRESS, TextField.class);
+			addField(CLINICIAN_PHONE, TextField.class);
+			addField(AUTOPSY_CONDUCTED, NullableOptionGroup.class);
+			addField(AUTOPSY_FINDINGS, TextField.class);
+			addField(AUTOPSY_DATE, DateField.class);
+
+			// Add heading labels
+			Label groupAHeadingLabel = createLabel(I18nProperties.getPrefixCaption(SymptomsDto.I18N_PREFIX, "groupA"), H4, GROUP_A_HEADING_LOC);
+			Label groupBHeadingLabel = createLabel(I18nProperties.getPrefixCaption(SymptomsDto.I18N_PREFIX, "groupB"), H4, GROUP_B_HEADING_LOC);
+			Label clinicianInfoHeadingLabel = createLabel(I18nProperties.getPrefixCaption(SymptomsDto.I18N_PREFIX, "clinicianInfo"), H3, CLINICIAN_INFO_HEADING_LOC);
+			Label deathSectionHeadingLabel = createLabel(I18nProperties.getPrefixCaption(SymptomsDto.I18N_PREFIX, "deathSection"), H3, DEATH_SECTION_HEADING_LOC);
+		}
+
 		// Set initial visibilities
 
 		initializeVisibilitiesAndAllowedVisibilities();
@@ -884,6 +935,27 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 
 		if (isVisibleAllowed(getFieldGroup().getField(JAUNDICE_WITHIN_24_HOURS_OF_BIRTH))) {
 			FieldHelper.setVisibleWhen(getFieldGroup(), JAUNDICE_WITHIN_24_HOURS_OF_BIRTH, JAUNDICE, Arrays.asList(SymptomState.YES), true);
+		}
+
+		// Conditional visibility for Congenital Rubella
+		if (disease == Disease.CONGENITAL_RUBELLA) {
+			// Show death section when outcome is DECEASED
+			FieldHelper.setVisibleWhen(getFieldGroup(), AUTOPSY_CONDUCTED, OUTCOME, Arrays.asList(CaseOutcome.DECEASED), true);
+			
+			// Show autopsy details when autopsy conducted is YES
+			FieldHelper.setVisibleWhen(getFieldGroup(), Arrays.asList(AUTOPSY_FINDINGS, AUTOPSY_DATE), AUTOPSY_CONDUCTED, Arrays.asList(YesNoUnknown.YES), true);
+			
+			// Handle death section heading visibility
+			if (getContent().getComponent(DEATH_SECTION_HEADING_LOC) != null) {
+				Component deathSectionHeading = getContent().getComponent(DEATH_SECTION_HEADING_LOC);
+				Field outcomeField = getFieldGroup().getField(OUTCOME);
+				if (outcomeField != null) {
+					deathSectionHeading.setVisible(FieldHelper.getNullableSourceFieldValue(outcomeField) == CaseOutcome.DECEASED);
+					outcomeField.addValueChangeListener(e -> {
+						deathSectionHeading.setVisible(FieldHelper.getNullableSourceFieldValue((Field) e.getProperty()) == CaseOutcome.DECEASED);
+					});
+				}
+			}
 		}
 
 		FieldHelper.addSoftRequiredStyle(getField(LESIONS_ONSET_DATE));

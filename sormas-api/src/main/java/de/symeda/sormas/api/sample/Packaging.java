@@ -19,15 +19,12 @@ package de.symeda.sormas.api.sample;
 
 import de.symeda.sormas.api.i18n.I18nProperties;
 
-public enum PathogenTestResultType {
+public enum Packaging {
 
-	INDETERMINATE,
-	PENDING,
-	NEGATIVE,
-	POSITIVE,
-	CONTAMINATED,
-	NOT_DONE,
-	NOT_APPLICABLE;
+	DRY_TUBE,
+	TI,
+	CRYOTUBE,
+	OTHER;
 
 	@Override
 	public String toString() {

@@ -1017,6 +1017,8 @@ public class PersonFacadeEjb extends AbstractBaseEjb<Person, PersonDto, PersonIn
 		target.setPlaceOfBirthFacilityDetails(source.getPlaceOfBirthFacilityDetails());
 		target.setGestationAgeAtBirth(source.getGestationAgeAtBirth());
 		target.setBirthWeight(source.getBirthWeight());
+		target.setCurrentWeight(source.getCurrentWeight());
+		target.setCaregiverTelephoneNumber(source.getCaregiverTelephoneNumber());
 
 		target.setPassportNumber(source.getPassportNumber());
 		target.setNationalHealthId(source.getNationalHealthId());
@@ -1814,6 +1816,8 @@ public class PersonFacadeEjb extends AbstractBaseEjb<Person, PersonDto, PersonIn
 		target.setPlaceOfBirthFacilityDetails(source.getPlaceOfBirthFacilityDetails());
 		target.setGestationAgeAtBirth(source.getGestationAgeAtBirth());
 		target.setBirthWeight(source.getBirthWeight());
+		target.setCurrentWeight(source.getCurrentWeight());
+		target.setCaregiverTelephoneNumber(source.getCaregiverTelephoneNumber());
 
 		target.setPassportNumber(source.getPassportNumber());
 		target.setNationalHealthId(source.getNationalHealthId());

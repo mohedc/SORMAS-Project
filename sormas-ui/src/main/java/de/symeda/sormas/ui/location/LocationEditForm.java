@@ -101,6 +101,7 @@ public class LocationEditForm extends AbstractEditForm<LocationDto> {
 	private static final String GEO_BUTTONS_LOC = "geoButtons";
 	private static final String COUNTRY_HINT_LOC = "countryHintLoc";
 	private static final String AFP_CASE_COORDINATES_HEADING_LOC = "afpCaseCoordinatesHeadingLoc";
+	private static final String CONGENITAL_RUBELLA_HOME_ADDRESS_HEADING_LOC = "congenitalRubellaHomeAddressHeadingLoc";
 
 	private static final String HTML_LAYOUT =
 		//XXX #1620 are the divs needed?
@@ -147,8 +148,7 @@ public class LocationEditForm extends AbstractEditForm<LocationDto> {
 
 	private static final String MENINGITIS_LAYOUT =
 			fluidRowLocs(LocationDto.REGION, LocationDto.DISTRICT, LocationDto.COMMUNITY) +
-					fluidRowLocs(LocationDto.HOME_RESIDENTIAL_ADDRESS, LocationDto.HOUSE_NUMBER, LocationDto.COMPOUND_OWNER) +
-					fluidRowLocs(LocationDto.LANDMARK, LocationDto.AREA_TYPE) +
+					fluidRowLocs(LocationDto.HOME_RESIDENTIAL_ADDRESS, LocationDto.AREA_TYPE) +
 					fluidRow(
 							fluidColumnLoc(2, 0, GEO_BUTTONS_LOC),
 							fluidColumnLoc(2, 0, LocationDto.LATITUDE),
@@ -170,6 +170,11 @@ public class LocationEditForm extends AbstractEditForm<LocationDto> {
 			fluidRowLocs(LocationDto.REGION, LocationDto.DISTRICT, LocationDto.COMMUNITY) +
 					fluidRowLocs(LocationDto.COMPOUND_OWNER, LocationDto.AREA_TYPE) +
 					fluidRowLocs(6,LocationDto.VILLAGE);
+
+	private static final String CONGENITAL_RUBELLA_LAYOUT =
+			loc(CONGENITAL_RUBELLA_HOME_ADDRESS_HEADING_LOC) +
+			fluidRowLocs(LocationDto.REGION, LocationDto.DISTRICT, LocationDto.COMMUNITY) +
+			fluidRowLocs(LocationDto.HOME_RESIDENTIAL_ADDRESS);
 
 	private MapPopupView leafletMapPopup;
 	private ComboBox addressType;
@@ -267,6 +272,10 @@ public class LocationEditForm extends AbstractEditForm<LocationDto> {
 		Label afpCaseCoordinatesHeadingLabel = new Label(I18nProperties.getString(Strings.afpCaseCoordinates));
 		afpCaseCoordinatesHeadingLabel.addStyleName(H3);
 		getContent().addComponent(afpCaseCoordinatesHeadingLabel, AFP_CASE_COORDINATES_HEADING_LOC);
+
+		Label congenitalRubellaHomeAddressHeadingLabel = new Label(I18nProperties.getCaption(Captions.Location_homeResidentialAddress));
+		congenitalRubellaHomeAddressHeadingLabel.addStyleName(H3);
+		getContent().addComponent(congenitalRubellaHomeAddressHeadingLabel, CONGENITAL_RUBELLA_HOME_ADDRESS_HEADING_LOC);
 
 		facilityTypeGroup = ComboBoxHelper.createComboBoxV7();;
 		facilityTypeGroup.setId("typeGroup");
@@ -864,6 +873,8 @@ public class LocationEditForm extends AbstractEditForm<LocationDto> {
 				return NNT_LAYOUT;
 			case CSM:
 				return MENINGITIS_LAYOUT;
+			case CONGENITAL_RUBELLA:
+				return CONGENITAL_RUBELLA_LAYOUT;
 			default:
 				return HTML_LAYOUT;
 		}

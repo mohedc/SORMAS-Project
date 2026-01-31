@@ -17,6 +17,7 @@ package de.symeda.sormas.api.sample;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -125,6 +126,20 @@ public class PathogenTestDto extends PseudonymizableDto {
 	public static final String PERFORM_RUBELLA_TEST = "performRubellaTest";
 	public static final String INVESTIGATION_RESULTS = "investigationResults";
 	public static final String SOURCE_OF_INFECTION_IDENTIFIED = "sourceOfInfectionIdentified";
+	public static final String MACROSCOPIC_EXAMINATION = "macroscopicExamination";
+	public static final String CELL_COUNT_NORMAL = "cellCountNormal";
+	public static final String CELL_COUNT_ABNORMAL = "cellCountAbnormal";
+	public static final String WBC_COUNT_POLYCYTES_PERCENT = "wbcCountPolycytesPercent";
+	public static final String WBC_COUNT_MONOCYTES_PERCENT = "wbcCountMonocytesPercent";
+	public static final String GRAM_STAIN_RESULT = "gramStainResult";
+	public static final String AGGLUTINATION_RESULT = "agglutinationResult";
+	public static final String AGGLUTINATION_POSITIVE_RESULTS = "agglutinationPositiveResults";
+	public static final String AGGLUTINATION_OTHER_MICROORGANISM = "agglutinationOtherMicroorganism";
+	public static final String DATE_RESULTS_SENT_TO_REGION = "dateResultsSentToRegion";
+	public static final String OTHER_TESTS_PENDING = "otherTestsPending";
+	public static final String OTHER_TESTS_PENDING_SPECIFY = "otherTestsPendingSpecify";
+	public static final String DATE_RESULTS_SENT_TO_REFERENCE_LABORATORY = "dateResultsSentToReferenceLaboratory";
+	public static final String REFERENCE_LABORATORY = "referenceLaboratory";
 
 	private SampleReferenceDto sample;
 	private EnvironmentSampleReferenceDto environmentSample;
@@ -267,6 +282,41 @@ public class PathogenTestDto extends PseudonymizableDto {
 	@SensitiveData
 	@Size(max = FieldConstraints.CHARACTER_LIMIT_DEFAULT, message = Validations.textTooLong)
 	private String sourceOfInfectionIdentified;
+	@Diseases(value = {Disease.CSM})
+	private MacroscopicExamination macroscopicExamination;
+	@Diseases(value = {Disease.CSM})
+	private Boolean cellCountNormal;
+	@Diseases(value = {Disease.CSM})
+	private Boolean cellCountAbnormal;
+	@Diseases(value = {Disease.CSM})
+	@Size(max = FieldConstraints.CHARACTER_LIMIT_DEFAULT, message = Validations.textTooLong)
+	private String wbcCountPolycytesPercent;
+	@Diseases(value = {Disease.CSM})
+	@Size(max = FieldConstraints.CHARACTER_LIMIT_DEFAULT, message = Validations.textTooLong)
+	private String wbcCountMonocytesPercent;
+	@Diseases(value = {Disease.CSM})
+	private GramStainResult gramStainResult;
+	@Diseases(value = {Disease.CSM})
+	private PathogenTestResultType agglutinationResult;
+	@Diseases(value = {Disease.CSM})
+	@SensitiveData
+	private Set<AgglutinationPositiveResult> agglutinationPositiveResults;
+	@Diseases(value = {Disease.CSM})
+	@SensitiveData
+	@Size(max = FieldConstraints.CHARACTER_LIMIT_DEFAULT, message = Validations.textTooLong)
+	private String agglutinationOtherMicroorganism;
+	@Diseases(value = {Disease.CSM})
+	private Date dateResultsSentToRegion;
+	@Diseases(value = {Disease.CSM})
+	private Boolean otherTestsPending;
+	@Diseases(value = {Disease.CSM})
+	@SensitiveData
+	@Size(max = FieldConstraints.CHARACTER_LIMIT_DEFAULT, message = Validations.textTooLong)
+	private String otherTestsPendingSpecify;
+	@Diseases(value = {Disease.CSM})
+	private Date dateResultsSentToReferenceLaboratory;
+	@Diseases(value = {Disease.CSM})
+	private FacilityReferenceDto referenceLaboratory;
 
 	public static PathogenTestDto build(SampleDto sample, UserDto currentUser) {
 
@@ -869,6 +919,118 @@ public class PathogenTestDto extends PseudonymizableDto {
 
 	public void setSourceOfInfectionIdentified(String sourceOfInfectionIdentified) {
 		this.sourceOfInfectionIdentified = sourceOfInfectionIdentified;
+	}
+
+	public MacroscopicExamination getMacroscopicExamination() {
+		return macroscopicExamination;
+	}
+
+	public void setMacroscopicExamination(MacroscopicExamination macroscopicExamination) {
+		this.macroscopicExamination = macroscopicExamination;
+	}
+
+	public Boolean getCellCountNormal() {
+		return cellCountNormal;
+	}
+
+	public void setCellCountNormal(Boolean cellCountNormal) {
+		this.cellCountNormal = cellCountNormal;
+	}
+
+	public Boolean getCellCountAbnormal() {
+		return cellCountAbnormal;
+	}
+
+	public void setCellCountAbnormal(Boolean cellCountAbnormal) {
+		this.cellCountAbnormal = cellCountAbnormal;
+	}
+
+	public String getWbcCountPolycytesPercent() {
+		return wbcCountPolycytesPercent;
+	}
+
+	public void setWbcCountPolycytesPercent(String wbcCountPolycytesPercent) {
+		this.wbcCountPolycytesPercent = wbcCountPolycytesPercent;
+	}
+
+	public String getWbcCountMonocytesPercent() {
+		return wbcCountMonocytesPercent;
+	}
+
+	public void setWbcCountMonocytesPercent(String wbcCountMonocytesPercent) {
+		this.wbcCountMonocytesPercent = wbcCountMonocytesPercent;
+	}
+
+	public GramStainResult getGramStainResult() {
+		return gramStainResult;
+	}
+
+	public void setGramStainResult(GramStainResult gramStainResult) {
+		this.gramStainResult = gramStainResult;
+	}
+
+	public PathogenTestResultType getAgglutinationResult() {
+		return agglutinationResult;
+	}
+
+	public void setAgglutinationResult(PathogenTestResultType agglutinationResult) {
+		this.agglutinationResult = agglutinationResult;
+	}
+
+	public Set<AgglutinationPositiveResult> getAgglutinationPositiveResults() {
+		return agglutinationPositiveResults;
+	}
+
+	public void setAgglutinationPositiveResults(Set<AgglutinationPositiveResult> agglutinationPositiveResults) {
+		this.agglutinationPositiveResults = agglutinationPositiveResults;
+	}
+
+	public String getAgglutinationOtherMicroorganism() {
+		return agglutinationOtherMicroorganism;
+	}
+
+	public void setAgglutinationOtherMicroorganism(String agglutinationOtherMicroorganism) {
+		this.agglutinationOtherMicroorganism = agglutinationOtherMicroorganism;
+	}
+
+	public Date getDateResultsSentToRegion() {
+		return dateResultsSentToRegion;
+	}
+
+	public void setDateResultsSentToRegion(Date dateResultsSentToRegion) {
+		this.dateResultsSentToRegion = dateResultsSentToRegion;
+	}
+
+	public Boolean getOtherTestsPending() {
+		return otherTestsPending;
+	}
+
+	public void setOtherTestsPending(Boolean otherTestsPending) {
+		this.otherTestsPending = otherTestsPending;
+	}
+
+	public String getOtherTestsPendingSpecify() {
+		return otherTestsPendingSpecify;
+	}
+
+	public void setOtherTestsPendingSpecify(String otherTestsPendingSpecify) {
+		this.otherTestsPendingSpecify = otherTestsPendingSpecify;
+	}
+
+	public Date getDateResultsSentToReferenceLaboratory() {
+		return dateResultsSentToReferenceLaboratory;
+	}
+
+	public void setDateResultsSentToReferenceLaboratory(Date dateResultsSentToReferenceLaboratory) {
+		this.dateResultsSentToReferenceLaboratory = dateResultsSentToReferenceLaboratory;
+	}
+
+	public FacilityReferenceDto getReferenceLaboratory() {
+		return referenceLaboratory;
+	}
+
+	public void setReferenceLaboratory(FacilityReferenceDto referenceLaboratory) {
+		this.referenceLaboratory = referenceLaboratory;
 	}
 
 	@Override

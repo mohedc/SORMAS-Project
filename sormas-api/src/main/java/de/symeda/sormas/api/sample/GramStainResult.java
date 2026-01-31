@@ -19,15 +19,15 @@ package de.symeda.sormas.api.sample;
 
 import de.symeda.sormas.api.i18n.I18nProperties;
 
-public enum PathogenTestResultType {
+public enum GramStainResult {
 
-	INDETERMINATE,
-	PENDING,
 	NEGATIVE,
-	POSITIVE,
 	CONTAMINATED,
-	NOT_DONE,
-	NOT_APPLICABLE;
+	POSITIVE,
+	GPD,
+	GND,
+	GPB,
+	BGN;
 
 	@Override
 	public String toString() {

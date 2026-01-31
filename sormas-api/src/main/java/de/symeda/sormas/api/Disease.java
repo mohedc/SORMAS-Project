@@ -40,7 +40,7 @@ public enum Disease
 	POLIO(true, false, true, false, false, 0, true, false, false),
 	UNSPECIFIED_VHF(true, false, true, false, true, 21, true, false, false),
 	WEST_NILE_FEVER(true, false, true, false, false, 0, true, false, false),
-	YELLOW_FEVER(true, true, true, false, false, 6, true, false, false),
+	YELLOW_FEVER(true, true, true, false, true, 6, true, false, false),
 	RABIES(true, false, true, false, true, 6, true, false, false),
 	ANTHRAX(true, false, true, false, false, 0, true, false, false),
 	CORONAVIRUS(true, true, true, false, true, 14, true, true, true),

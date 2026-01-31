@@ -35,7 +35,9 @@ import de.symeda.sormas.api.utils.fieldvisibility.checkers.CountryFieldVisibilit
 import org.apache.commons.collections4.CollectionUtils;
 
 import com.vaadin.shared.ui.ContentMode;
+import com.vaadin.v7.ui.DateField;
 import com.vaadin.v7.ui.Field;
+import com.vaadin.v7.ui.TextField;
 
 import de.symeda.sormas.api.Disease;
 import de.symeda.sormas.api.EntityDto;
@@ -102,14 +104,22 @@ public class EpiDataForm extends AbstractEditForm<EpiDataDto> {
 			loc((EpiDataDto.HIGH_TRANSMISSION_RISK_AREA)) +
 			loc(EpiDataDto.ACTIVITIES_AS_CASE);
 
-	private static final String RUBELLA_HTML_LAYOUT =
-		loc(LOC_ACTIVITY_AS_CASE_INVESTIGATION_HEADING) + 
-			loc(EpiDataDto.ACTIVITY_AS_CASE_DETAILS_KNOWN)+
-			loc((EpiDataDto.HIGH_TRANSMISSION_RISK_AREA)) +
-			loc(EpiDataDto.ACTIVITIES_AS_CASE);
+	private static final String CONGENITAL_RUBELLA_HTML_LAYOUT =
+		loc(EpiDataDto.MOTHER_RUBELLA_LAB_CONFIRMED) +
+		loc(EpiDataDto.MOTHER_RUBELLA_LAB_CONFIRMED_DATE) +
+		loc(EpiDataDto.MOTHER_EXPOSED_DURING_PREGNANCY) +
+		loc(EpiDataDto.MOTHER_EXPOSED_DURING_PREGNANCY_DATE) +
+		loc(EpiDataDto.GESTATIONAL_AGE_AT_EXPOSURE) +
+		loc(EpiDataDto.EXPOSURE_LOCATION_DESCRIPTION) +
+		loc(EpiDataDto.MOTHER_TRAVELED_DURING_PREGNANCY) +
+		loc(EpiDataDto.MOTHER_TRAVELED_DURING_PREGNANCY_DATE) +
+		loc(EpiDataDto.GESTATIONAL_AGE_AT_TRAVEL) +
+		loc(EpiDataDto.TRAVEL_LOCATION_DESCRIPTION);
 
 	private static final String MENINGITIS_HTML_LAYOUT =
-		MAIN_HTML_LAYOUT + SOURCE_CONTACTS_HTML_LAYOUT;
+		loc(LOC_EXPOSURE_INVESTIGATION_HEADING) + 
+		loc(EpiDataDto.EXPOSURE_DETAILS_KNOWN) +
+		loc(EpiDataDto.EXPOSURES);
 
 
 
@@ -143,6 +153,14 @@ public class EpiDataForm extends AbstractEditForm<EpiDataDto> {
 	@Override
 	protected void addFields() {
 		if (disease == null) {
+			return;
+		}
+
+		// For Congenital Rubella, add only the specific fields
+		if (disease == Disease.CONGENITAL_RUBELLA && parentClass == CaseDataDto.class) {
+			addCongenitalRubellaFields();
+			initializeVisibilitiesAndAllowedVisibilities();
+			initializeAccessAndAllowedAccesses();
 			return;
 		}
 
@@ -191,6 +209,74 @@ public class EpiDataForm extends AbstractEditForm<EpiDataDto> {
 		exposuresField.addValueChangeListener(e -> {
 			ogExposureDetailsKnown.setEnabled(CollectionUtils.isEmpty(exposuresField.getValue()));
 		});
+	}
+
+	private void addCongenitalRubellaFields() {
+		// Mother rubella lab confirmed
+		NullableOptionGroup motherRubellaLabConfirmedField = addField(EpiDataDto.MOTHER_RUBELLA_LAB_CONFIRMED, NullableOptionGroup.class);
+		DateField motherRubellaLabConfirmedDateField = addField(EpiDataDto.MOTHER_RUBELLA_LAB_CONFIRMED_DATE, DateField.class);
+
+		// Mother exposed during pregnancy
+		NullableOptionGroup motherExposedDuringPregnancyField = addField(EpiDataDto.MOTHER_EXPOSED_DURING_PREGNANCY, NullableOptionGroup.class);
+		DateField motherExposedDuringPregnancyDateField = addField(EpiDataDto.MOTHER_EXPOSED_DURING_PREGNANCY_DATE, DateField.class);
+		TextField gestationalAgeAtExposureField = addField(EpiDataDto.GESTATIONAL_AGE_AT_EXPOSURE, TextField.class);
+		TextField exposureLocationDescriptionField = addField(EpiDataDto.EXPOSURE_LOCATION_DESCRIPTION, TextField.class);
+
+		// Mother traveled during pregnancy
+		NullableOptionGroup motherTraveledDuringPregnancyField = addField(EpiDataDto.MOTHER_TRAVELED_DURING_PREGNANCY, NullableOptionGroup.class);
+		DateField motherTraveledDuringPregnancyDateField = addField(EpiDataDto.MOTHER_TRAVELED_DURING_PREGNANCY_DATE, DateField.class);
+		TextField gestationalAgeAtTravelField = addField(EpiDataDto.GESTATIONAL_AGE_AT_TRAVEL, TextField.class);
+		TextField travelLocationDescriptionField = addField(EpiDataDto.TRAVEL_LOCATION_DESCRIPTION, TextField.class);
+
+		// Set visibility conditions
+		FieldHelper.setVisibleWhen(
+			getFieldGroup(),
+			EpiDataDto.MOTHER_RUBELLA_LAB_CONFIRMED_DATE,
+			EpiDataDto.MOTHER_RUBELLA_LAB_CONFIRMED,
+			Collections.singletonList(YesNoUnknown.YES),
+			true);
+
+		FieldHelper.setVisibleWhen(
+			getFieldGroup(),
+			EpiDataDto.MOTHER_EXPOSED_DURING_PREGNANCY_DATE,
+			EpiDataDto.MOTHER_EXPOSED_DURING_PREGNANCY,
+			Collections.singletonList(YesNoUnknown.YES),
+			true);
+
+		FieldHelper.setVisibleWhen(
+			getFieldGroup(),
+			EpiDataDto.GESTATIONAL_AGE_AT_EXPOSURE,
+			EpiDataDto.MOTHER_EXPOSED_DURING_PREGNANCY,
+			Collections.singletonList(YesNoUnknown.YES),
+			true);
+
+		FieldHelper.setVisibleWhen(
+			getFieldGroup(),
+			EpiDataDto.EXPOSURE_LOCATION_DESCRIPTION,
+			EpiDataDto.MOTHER_EXPOSED_DURING_PREGNANCY,
+			Collections.singletonList(YesNoUnknown.YES),
+			true);
+
+		FieldHelper.setVisibleWhen(
+			getFieldGroup(),
+			EpiDataDto.MOTHER_TRAVELED_DURING_PREGNANCY_DATE,
+			EpiDataDto.MOTHER_TRAVELED_DURING_PREGNANCY,
+			Collections.singletonList(YesNoUnknown.YES),
+			true);
+
+		FieldHelper.setVisibleWhen(
+			getFieldGroup(),
+			EpiDataDto.GESTATIONAL_AGE_AT_TRAVEL,
+			EpiDataDto.MOTHER_TRAVELED_DURING_PREGNANCY,
+			Collections.singletonList(YesNoUnknown.YES),
+			true);
+
+		FieldHelper.setVisibleWhen(
+			getFieldGroup(),
+			EpiDataDto.TRAVEL_LOCATION_DESCRIPTION,
+			EpiDataDto.MOTHER_TRAVELED_DURING_PREGNANCY,
+			Collections.singletonList(YesNoUnknown.YES),
+			true);
 	}
 
 	private void addActivityAsCaseFields() {
@@ -311,7 +397,10 @@ public class EpiDataForm extends AbstractEditForm<EpiDataDto> {
 	}
 
 	public void setGetSourceContactsCallback(Supplier<List<ContactReferenceDto>> callback) {
-		((ExposuresField) getField(EpiDataDto.EXPOSURES)).setGetSourceContactsCallback(callback);
+		Field exposuresField = getField(EpiDataDto.EXPOSURES);
+		if (exposuresField != null && exposuresField instanceof ExposuresField) {
+			((ExposuresField) exposuresField).setGetSourceContactsCallback(callback);
+		}
 	}
 
 	@Override
@@ -326,7 +415,7 @@ public class EpiDataForm extends AbstractEditForm<EpiDataDto> {
 					MAIN_HTML_LAYOUT = YELLOW_FEVER_HTML_LAYOUT;
 					break;
 				case CONGENITAL_RUBELLA:
-					MAIN_HTML_LAYOUT = RUBELLA_HTML_LAYOUT;
+					MAIN_HTML_LAYOUT = CONGENITAL_RUBELLA_HTML_LAYOUT;
 					break;
 				case CSM:
 					MAIN_HTML_LAYOUT = MENINGITIS_HTML_LAYOUT;

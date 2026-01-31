@@ -575,8 +575,11 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 				personCreateForm.getField(PersonDto.PHONE).setVisible(false);
 				personCreateForm.getField(PersonDto.EMAIL_ADDRESS).setVisible(false);
 				personCreateForm.getField(PersonDto.PRESENT_CONDITION).setVisible(false);
-			} else if (selectedDisease == Disease.MEASLES || selectedDisease == Disease.YELLOW_FEVER || selectedDisease == Disease.CONGENITAL_RUBELLA) {
-				// Show only Measles/Yellow Fever/Congenital Rubella CIF fields for New Case
+			} else if (selectedDisease == Disease.CONGENITAL_RUBELLA || selectedDisease == Disease.CSM) {
+				// Show only Congenital Rubella/Meningitis CIF fields for New Case
+				handleCongenitalRubellaFields();
+			} else if (selectedDisease == Disease.MEASLES || selectedDisease == Disease.YELLOW_FEVER) {
+				// Show only Measles/Yellow Fever CIF fields for New Case
 				setVisible(true, epidField, diseaseField, ogCaseOrigin, responsibleRegionCombo, responsibleDistrictCombo, 
 						responsibleCommunityCombo, facilityOrHome, facilityDetails, facilityCombo, facilityType, reportDate, tfDepartment);
 
@@ -601,7 +604,7 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 					FieldHelper.setVisibleWhen(personCreateForm.getFieldGroup(), Arrays.asList(PersonDto.PASSPORT_NUMBER), ogCaseOrigin, Arrays.asList(CaseOrigin.POINT_OF_ENTRY), true);
 
 					// Passport number visibility depends on Case Origin (handled by case origin listener)
-					// Hide fields not in Measles/Yellow Fever/Congenital Rubella CIF
+					// Hide fields not in Measles/Yellow Fever CIF
 					Field<?> nationalHealthIdField = personCreateForm.getField(PersonDto.NATIONAL_HEALTH_ID);
 					if (nationalHealthIdField != null) nationalHealthIdField.setVisible(false);
 					Field<?> phoneField = personCreateForm.getField(PersonDto.PHONE);
@@ -609,7 +612,7 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 					Field<?> emailField = personCreateForm.getField(PersonDto.EMAIL_ADDRESS);
 					if (emailField != null) emailField.setVisible(false);
 					Field<?> presentConditionField = personCreateForm.getField(PersonDto.PRESENT_CONDITION);
-					if (presentConditionField != null) presentConditionField.setVisible(selectedDisease == Disease.YELLOW_FEVER || selectedDisease == Disease.CONGENITAL_RUBELLA);
+					if (presentConditionField != null) presentConditionField.setVisible(selectedDisease == Disease.YELLOW_FEVER);
 				}
 			} else if (selectedDisease == Disease.AFP){
 				setVisible(true, ogCaseOrigin, epidField, diseaseField, responsibleRegionCombo, responsibleDistrictCombo, responsibleCommunityCombo,
@@ -667,6 +670,65 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 			facilityOrHome.unselect(TypeOfPlace.HOME);
 			classificationField.setValue(Sets.newHashSet(getValue().getCaseClassification()));
 			classificationField.select(getValue().getCaseClassification());
+		}
+	}
+
+	private void handleCongenitalRubellaFields() {
+		// Show case fields
+		setVisible(true, CaseDataDto.DISEASE, CaseDataDto.CASE_ORIGIN, CaseDataDto.EPID_NUMBER, CaseDataDto.REPORT_DATE);
+
+		// Show Responsible Jurisdiction heading and fields
+		getContent().getComponent(RESPONSIBLE_JURISDICTION_HEADING_LOC).setVisible(true);
+		setVisible(true, CaseDataDto.RESPONSIBLE_REGION, CaseDataDto.RESPONSIBLE_DISTRICT, CaseDataDto.RESPONSIBLE_COMMUNITY);
+
+		// Show facility fields
+		setVisible(true, facilityOrHome, facilityTypeGroup, facilityType, facilityCombo);
+		// Facility details visibility is handled by updateFacilityFields() method when facility changes
+
+		// Show person fields
+		if (personCreateForm != null) {
+			// Basic person information
+			Field<?> firstNameField = personCreateForm.getField(PersonDto.FIRST_NAME);
+			if (firstNameField != null) firstNameField.setVisible(true);
+			Field<?> lastNameField = personCreateForm.getField(PersonDto.LAST_NAME);
+			if (lastNameField != null) lastNameField.setVisible(true);
+			Field<?> otherNamesField = personCreateForm.getField(PersonDto.OTHER_NAMES);
+			if (otherNamesField != null) otherNamesField.setVisible(true);
+
+			// Birth date fields (Year, Month, Day)
+			Field<?> birthDateYearField = personCreateForm.getField(PersonDto.BIRTH_DATE_YYYY);
+			if (birthDateYearField != null) birthDateYearField.setVisible(true);
+			Field<?> birthDateMonthField = personCreateForm.getField(PersonDto.BIRTH_DATE_MM);
+			if (birthDateMonthField != null) birthDateMonthField.setVisible(true);
+			Field<?> birthDateDayField = personCreateForm.getField(PersonDto.BIRTH_DATE_DD);
+			if (birthDateDayField != null) birthDateDayField.setVisible(true);
+
+			// Approximate age and unit
+			Field<?> approximateAgeField = personCreateForm.getField(PersonDto.APPROXIMATE_AGE);
+			if (approximateAgeField != null) approximateAgeField.setVisible(true);
+			Field<?> approximateAgeTypeField = personCreateForm.getField(PersonDto.APPROXIMATE_AGE_TYPE);
+			if (approximateAgeTypeField != null) approximateAgeTypeField.setVisible(true);
+
+			// Sex and Nationality
+			Field<?> sexField = personCreateForm.getField(PersonDto.SEX);
+			if (sexField != null) sexField.setVisible(true);
+			Field<?> nationalityField = personCreateForm.getField(PersonDto.NATIONALITY);
+			if (nationalityField != null) nationalityField.setVisible(true);
+
+			// Phone and Present Condition
+			Field<?> phoneField = personCreateForm.getField(PersonDto.PHONE);
+			if (phoneField != null) phoneField.setVisible(true);
+			Field<?> presentConditionField = personCreateForm.getField(PersonDto.PRESENT_CONDITION);
+			if (presentConditionField != null) presentConditionField.setVisible(true);
+
+			// Passport number - visible only when Case Origin is Point of Entry
+			FieldHelper.setVisibleWhen(personCreateForm.getFieldGroup(), Arrays.asList(PersonDto.PASSPORT_NUMBER), ogCaseOrigin, Arrays.asList(CaseOrigin.POINT_OF_ENTRY), true);
+
+			// Hide fields not in specification
+			Field<?> nationalHealthIdField = personCreateForm.getField(PersonDto.NATIONAL_HEALTH_ID);
+			if (nationalHealthIdField != null) nationalHealthIdField.setVisible(false);
+			Field<?> emailField = personCreateForm.getField(PersonDto.EMAIL_ADDRESS);
+			if (emailField != null) emailField.setVisible(false);
 		}
 	}
 
@@ -868,7 +930,8 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 			Disease.MEASLES,
 			Disease.AFP,
 			Disease.YELLOW_FEVER,
-			Disease.CONGENITAL_RUBELLA
+			Disease.CONGENITAL_RUBELLA,
+			Disease.CSM
 		);
 
 }
