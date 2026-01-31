@@ -271,6 +271,13 @@ public class SymptomsDto extends PseudonymizableDto {
 	public static final String INJECTION_SITE = "injectionSite";
 	public static final String PROVISONAL_DIAGNOSIS = "provisionalDiagnosis";
 	public static final String TRUEAFP = "trueAfp";
+	public static final String CLINICIAN_NAME = "clinicianName";
+	public static final String CLINICIAN_ADDRESS = "clinicianAddress";
+	public static final String CLINICIAN_PHONE = "clinicianPhone";
+	public static final String AUTOPSY_CONDUCTED = "autopsyConducted";
+	public static final String AUTOPSY_FINDINGS = "autopsyFindings";
+	public static final String AUTOPSY_DATE = "autopsyDate";
+	public static final String CATARACTS = "cataracts";
 
 	// Fields are declared in the order they should appear in the import template
 
@@ -1877,6 +1884,50 @@ public class SymptomsDto extends PseudonymizableDto {
 	private String congenitalHeartDiseaseDetails;
 
 	@Diseases({
+		CONGENITAL_RUBELLA })
+	@HideForCountries
+	@SensitiveData
+	@Size(max = FieldConstraints.CHARACTER_LIMIT_DEFAULT, message = Validations.textTooLong)
+	private String clinicianName;
+
+	@Diseases({
+		CONGENITAL_RUBELLA })
+	@HideForCountries
+	@SensitiveData
+	@Size(max = FieldConstraints.CHARACTER_LIMIT_DEFAULT, message = Validations.textTooLong)
+	private String clinicianAddress;
+
+	@Diseases({
+		CONGENITAL_RUBELLA })
+	@HideForCountries
+	@SensitiveData
+	@Size(max = FieldConstraints.CHARACTER_LIMIT_DEFAULT, message = Validations.textTooLong)
+	private String clinicianPhone;
+
+	@Diseases({
+		CONGENITAL_RUBELLA })
+	@HideForCountries
+	@SymptomGrouping(SymptomGroup.OTHER)
+	private SymptomState cataracts;
+
+	@Diseases({
+		CONGENITAL_RUBELLA })
+	@HideForCountries
+	private YesNoUnknown autopsyConducted;
+
+	@Diseases({
+		CONGENITAL_RUBELLA })
+	@HideForCountries
+	@SensitiveData
+	@Size(max = FieldConstraints.CHARACTER_LIMIT_DEFAULT, message = Validations.textTooLong)
+	private String autopsyFindings;
+
+	@Diseases({
+		CONGENITAL_RUBELLA })
+	@HideForCountries
+	private Date autopsyDate;
+
+	@Diseases({
 		AFP,
 		EVD,
 		GUINEA_WORM,
@@ -2331,6 +2382,7 @@ public class SymptomsDto extends PseudonymizableDto {
 		ANTHRAX,
 		CORONAVIRUS,
 		NEONATAL_TETANUS,
+		CONGENITAL_RUBELLA,
 		YELLOW_FEVER,
 		MEASLES,
 		UNDEFINED,
@@ -2349,6 +2401,7 @@ public class SymptomsDto extends PseudonymizableDto {
 		CHOLERA,
 		POLIO,
 		UNSPECIFIED_VHF,
+		CONGENITAL_RUBELLA,
 		GUINEA_WORM,
 		RABIES,
 		YELLOW_FEVER,
@@ -2761,6 +2814,41 @@ public class SymptomsDto extends PseudonymizableDto {
 	}
 
 	@Order(127)
+	public String getClinicianName() {
+		return clinicianName;
+	}
+
+	@Order(128)
+	public String getClinicianAddress() {
+		return clinicianAddress;
+	}
+
+	@Order(129)
+	public String getClinicianPhone() {
+		return clinicianPhone;
+	}
+
+	@Order(130)
+	public SymptomState getCataracts() {
+		return cataracts;
+	}
+
+	@Order(131)
+	public YesNoUnknown getAutopsyConducted() {
+		return autopsyConducted;
+	}
+
+	@Order(132)
+	public String getAutopsyFindings() {
+		return autopsyFindings;
+	}
+
+	@Order(133)
+	public Date getAutopsyDate() {
+		return autopsyDate;
+	}
+
+	@Order(134)
 	public SymptomState getConjunctivitis() {
 		return conjunctivitis;
 	}
@@ -3931,6 +4019,34 @@ public class SymptomsDto extends PseudonymizableDto {
 
 	public void setCongenitalHeartDiseaseDetails(String congenitalHeartDiseaseDetails) {
 		this.congenitalHeartDiseaseDetails = congenitalHeartDiseaseDetails;
+	}
+
+	public void setClinicianName(String clinicianName) {
+		this.clinicianName = clinicianName;
+	}
+
+	public void setClinicianAddress(String clinicianAddress) {
+		this.clinicianAddress = clinicianAddress;
+	}
+
+	public void setClinicianPhone(String clinicianPhone) {
+		this.clinicianPhone = clinicianPhone;
+	}
+
+	public void setCataracts(SymptomState cataracts) {
+		this.cataracts = cataracts;
+	}
+
+	public void setAutopsyConducted(YesNoUnknown autopsyConducted) {
+		this.autopsyConducted = autopsyConducted;
+	}
+
+	public void setAutopsyFindings(String autopsyFindings) {
+		this.autopsyFindings = autopsyFindings;
+	}
+
+	public void setAutopsyDate(Date autopsyDate) {
+		this.autopsyDate = autopsyDate;
 	}
 
 	@Order(332)

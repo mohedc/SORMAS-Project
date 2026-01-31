@@ -14930,6 +14930,50 @@ ALTER TABLE maternalhistory_history ADD COLUMN congenitalrubella varchar(255);
 ALTER TABLE maternalhistory_history ADD COLUMN congenitalrubelladate timestamp;
 
 INSERT INTO schema_version (version_number, comment) VALUES (624, 'Add rubella vaccination and congenital rubella fields to maternalhistory');
+
+-- Add congenital rubella symptoms fields to symptoms table
+ALTER TABLE symptoms ADD COLUMN clinicianname varchar(255);
+ALTER TABLE symptoms ADD COLUMN clinicianaddress varchar(255);
+ALTER TABLE symptoms ADD COLUMN clinicianphone varchar(255);
+ALTER TABLE symptoms ADD COLUMN cataracts varchar(255);
+ALTER TABLE symptoms ADD COLUMN autopsyconducted varchar(255);
+ALTER TABLE symptoms ADD COLUMN autopsyfindings varchar(512);
+ALTER TABLE symptoms ADD COLUMN autopsydate timestamp;
+
+ALTER TABLE symptoms_history ADD COLUMN clinicianname varchar(255);
+ALTER TABLE symptoms_history ADD COLUMN clinicianaddress varchar(255);
+ALTER TABLE symptoms_history ADD COLUMN clinicianphone varchar(255);
+ALTER TABLE symptoms_history ADD COLUMN cataracts varchar(255);
+ALTER TABLE symptoms_history ADD COLUMN autopsyconducted varchar(255);
+ALTER TABLE symptoms_history ADD COLUMN autopsyfindings varchar(512);
+ALTER TABLE symptoms_history ADD COLUMN autopsydate timestamp;
+
+INSERT INTO schema_version (version_number, comment) VALUES (625, 'Add congenital rubella symptoms fields to symptoms table');
+
+-- Add Congenital Rubella fields to EpiData
+ALTER TABLE epidata ADD COLUMN motherrubellalabconfirmed varchar(255);
+ALTER TABLE epidata ADD COLUMN motherrubellalabconfirmeddate timestamp;
+ALTER TABLE epidata ADD COLUMN motherexposedduringpregnancy varchar(255);
+ALTER TABLE epidata ADD COLUMN motherexposedduringpregnancydate timestamp;
+ALTER TABLE epidata ADD COLUMN gestationalageatexposure integer;
+ALTER TABLE epidata ADD COLUMN exposurelocationdescription varchar(512);
+ALTER TABLE epidata ADD COLUMN mothertraveledduringpregnancy varchar(255);
+ALTER TABLE epidata ADD COLUMN mothertraveledduringpregnancydate timestamp;
+ALTER TABLE epidata ADD COLUMN gestationalageattravel integer;
+ALTER TABLE epidata ADD COLUMN travellocationdescription varchar(512);
+
+ALTER TABLE epidata_history ADD COLUMN motherrubellalabconfirmed varchar(255);
+ALTER TABLE epidata_history ADD COLUMN motherrubellalabconfirmeddate timestamp;
+ALTER TABLE epidata_history ADD COLUMN motherexposedduringpregnancy varchar(255);
+ALTER TABLE epidata_history ADD COLUMN motherexposedduringpregnancydate timestamp;
+ALTER TABLE epidata_history ADD COLUMN gestationalageatexposure integer;
+ALTER TABLE epidata_history ADD COLUMN exposurelocationdescription varchar(512);
+ALTER TABLE epidata_history ADD COLUMN mothertraveledduringpregnancy varchar(255);
+ALTER TABLE epidata_history ADD COLUMN mothertraveledduringpregnancydate timestamp;
+ALTER TABLE epidata_history ADD COLUMN gestationalageattravel integer;
+ALTER TABLE epidata_history ADD COLUMN travellocationdescription varchar(512);
+
+INSERT INTO schema_version (version_number, comment) VALUES (626, 'Add Congenital Rubella specific fields to EpiData');
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***
 
 

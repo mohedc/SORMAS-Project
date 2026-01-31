@@ -180,6 +180,13 @@ public class Symptoms extends AbstractDomainObject {
 	private SymptomState congenitalHeartDisease;
 	private CongenitalHeartDiseaseType congenitalHeartDiseaseType;
 	private String congenitalHeartDiseaseDetails;
+	private String clinicianName;
+	private String clinicianAddress;
+	private String clinicianPhone;
+	private SymptomState cataracts;
+	private YesNoUnknown autopsyConducted;
+	private String autopsyFindings;
+	private Date autopsyDate;
 	private SymptomState hydrophobia;
 	private SymptomState opisthotonus;
 	private SymptomState anxietyStates;
@@ -1435,6 +1442,69 @@ public class Symptoms extends AbstractDomainObject {
 
 	public void setCongenitalHeartDiseaseDetails(String congenitalHeartDiseaseDetails) {
 		this.congenitalHeartDiseaseDetails = congenitalHeartDiseaseDetails;
+	}
+
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	public String getClinicianName() {
+		return clinicianName;
+	}
+
+	public void setClinicianName(String clinicianName) {
+		this.clinicianName = clinicianName;
+	}
+
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	public String getClinicianAddress() {
+		return clinicianAddress;
+	}
+
+	public void setClinicianAddress(String clinicianAddress) {
+		this.clinicianAddress = clinicianAddress;
+	}
+
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	public String getClinicianPhone() {
+		return clinicianPhone;
+	}
+
+	public void setClinicianPhone(String clinicianPhone) {
+		this.clinicianPhone = clinicianPhone;
+	}
+
+	@Enumerated(EnumType.STRING)
+	public SymptomState getCataracts() {
+		return cataracts;
+	}
+
+	public void setCataracts(SymptomState cataracts) {
+		this.cataracts = cataracts;
+	}
+
+	@Enumerated(EnumType.STRING)
+	public YesNoUnknown getAutopsyConducted() {
+		return autopsyConducted;
+	}
+
+	public void setAutopsyConducted(YesNoUnknown autopsyConducted) {
+		this.autopsyConducted = autopsyConducted;
+	}
+
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	public String getAutopsyFindings() {
+		return autopsyFindings;
+	}
+
+	public void setAutopsyFindings(String autopsyFindings) {
+		this.autopsyFindings = autopsyFindings;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getAutopsyDate() {
+		return autopsyDate;
+	}
+
+	public void setAutopsyDate(Date autopsyDate) {
+		this.autopsyDate = autopsyDate;
 	}
 
 	@Enumerated(EnumType.STRING)
