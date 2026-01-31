@@ -397,7 +397,10 @@ public class EpiDataForm extends AbstractEditForm<EpiDataDto> {
 	}
 
 	public void setGetSourceContactsCallback(Supplier<List<ContactReferenceDto>> callback) {
-		((ExposuresField) getField(EpiDataDto.EXPOSURES)).setGetSourceContactsCallback(callback);
+		Field exposuresField = getField(EpiDataDto.EXPOSURES);
+		if (exposuresField != null && exposuresField instanceof ExposuresField) {
+			((ExposuresField) exposuresField).setGetSourceContactsCallback(callback);
+		}
 	}
 
 	@Override
