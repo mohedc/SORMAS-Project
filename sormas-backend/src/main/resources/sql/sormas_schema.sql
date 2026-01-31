@@ -14903,8 +14903,8 @@ ALTER TABLE pathogentest_history ADD COLUMN referencelaboratory_id bigint;
 INSERT INTO schema_version (version_number, comment) VALUES (621, 'Add meningitis-specific fields to PathogenTest');
 
 -- 2025-01-XX Fix column name typo: microscopicexamination -> macroscopicexamination
-ALTER TABLE pathogentest RENAME COLUMN microscopicexamination TO macroscopicexamination;
-ALTER TABLE pathogentest_history RENAME COLUMN microscopicexamination TO macroscopicexamination;
+-- ALTER TABLE pathogentest RENAME COLUMN microscopicexamination TO macroscopicexamination;
+-- ALTER TABLE pathogentest_history RENAME COLUMN microscopicexamination TO macroscopicexamination;
 
 INSERT INTO schema_version (version_number, comment) VALUES (622, 'Fix column name: microscopicexamination to macroscopicexamination');
 
