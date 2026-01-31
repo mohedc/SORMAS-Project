@@ -755,6 +755,9 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 		// Make FIELD_SAMPLE_ID read-only
 		getField(SampleDto.FIELD_SAMPLE_ID).setReadOnly(true);
 
+		// Filter sample material options for meningitis: CSF and Other only
+		FieldHelper.updateEnumData(sampleMaterialComboBox, Arrays.asList(SampleMaterial.CSF, SampleMaterial.OTHER));
+
 		// Show meningitis-specific fields
 		getField(SampleDto.DATE_FORM_CSF_DISPATCHED_TO_HEALTH_DISTRICT).setVisible(true);
 		getField(SampleDto.DATE_HEALTH_FACILITY_NOTIFY_REGION).setVisible(true);
