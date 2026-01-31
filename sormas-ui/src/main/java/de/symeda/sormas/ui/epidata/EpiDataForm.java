@@ -109,7 +109,9 @@ public class EpiDataForm extends AbstractEditForm<EpiDataDto> {
 			loc(EpiDataDto.ACTIVITIES_AS_CASE);
 
 	private static final String MENINGITIS_HTML_LAYOUT =
-		MAIN_HTML_LAYOUT + SOURCE_CONTACTS_HTML_LAYOUT;
+		loc(LOC_EXPOSURE_INVESTIGATION_HEADING) + 
+		loc(EpiDataDto.EXPOSURE_DETAILS_KNOWN) +
+		loc(EpiDataDto.EXPOSURES);
 
 
 
