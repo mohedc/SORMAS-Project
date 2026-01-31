@@ -14907,6 +14907,14 @@ ALTER TABLE pathogentest RENAME COLUMN microscopicexamination TO macroscopicexam
 ALTER TABLE pathogentest_history RENAME COLUMN microscopicexamination TO macroscopicexamination;
 
 INSERT INTO schema_version (version_number, comment) VALUES (622, 'Fix column name: microscopicexamination to macroscopicexamination');
+
+-- Add caregiver telephone number and current weight fields to person table
+ALTER TABLE person ADD COLUMN caregivertelephonenumber character varying(255);
+ALTER TABLE person ADD COLUMN currentweight integer;
+ALTER TABLE person_history ADD COLUMN caregivertelephonenumber character varying(255);
+ALTER TABLE person_history ADD COLUMN currentweight integer;
+
+INSERT INTO schema_version (version_number, comment) VALUES (623, 'Add caregiver telephone number and current weight fields to person table');
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***
 
 

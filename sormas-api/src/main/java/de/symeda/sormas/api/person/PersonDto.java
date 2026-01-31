@@ -149,6 +149,8 @@ public class PersonDto extends PseudonymizableDto implements IsPerson {
 	public static final String LOCATION_OF_BIRTH = "locationOfBirth";
 	public static final String BIRTH_IN_INSTITUTION = "birthInInstitution";
 	public static final String DESCRIBE_TREATMENT_OF_CARD = "describeTreatmentOfCard";
+	public static final String CAREGIVER_TELEPHONE_NUMBER = "caregiverTelephoneNumber";
+	public static final String CURRENT_WEIGHT = "currentWeight";
 	private static final long serialVersionUID = -8558187171374254398L;
 
 	// Fields are declared in the order they should appear in the import template
@@ -270,6 +272,16 @@ public class PersonDto extends PseudonymizableDto implements IsPerson {
 		Disease.CONGENITAL_RUBELLA })
 	@HideForCountries
 	private Integer birthWeight;
+	@Diseases({
+		Disease.CONGENITAL_RUBELLA })
+	@HideForCountries
+	private Integer currentWeight;
+	@Diseases({
+		Disease.CONGENITAL_RUBELLA })
+	@HideForCountries
+	@SensitiveData
+	@Size(max = FieldConstraints.CHARACTER_LIMIT_DEFAULT, message = Validations.textTooLong)
+	private String caregiverTelephoneNumber;
 
 	@Outbreaks
 	private PresentCondition presentCondition;
@@ -995,6 +1007,22 @@ public class PersonDto extends PseudonymizableDto implements IsPerson {
 
 	public void setBirthWeight(Integer birthWeight) {
 		this.birthWeight = birthWeight;
+	}
+
+	public Integer getCurrentWeight() {
+		return currentWeight;
+	}
+
+	public void setCurrentWeight(Integer currentWeight) {
+		this.currentWeight = currentWeight;
+	}
+
+	public String getCaregiverTelephoneNumber() {
+		return caregiverTelephoneNumber;
+	}
+
+	public void setCaregiverTelephoneNumber(String caregiverTelephoneNumber) {
+		this.caregiverTelephoneNumber = caregiverTelephoneNumber;
 	}
 
 	public String getPassportNumber() {

@@ -110,6 +110,8 @@ public class Person extends AbstractDomainObject implements IsPerson, HasExterna
 	public static final String PLACE_OF_BIRTH_FACILITY_DETAILS = "placeOfBirthFacilityDetails";
 	public static final String GESTATION_AGE_AT_BIRTH = "gestationAgeAtBirth";
 	public static final String BIRTH_WEIGHT = "birthWeight";
+	public static final String CURRENT_WEIGHT = "currentWeight";
+	public static final String CAREGIVER_TELEPHONE_NUMBER = "caregiverTelephoneNumber";
 	public static final String PASSPORT_NUMBER = "passportNumber";
 	public static final String NATIONAL_HEALTH_ID = "nationalHealthId";
 	public static final String PLACE_OF_BIRTH_FACILITY_TYPE = "placeOfBirthFacilityType";
@@ -177,6 +179,8 @@ public class Person extends AbstractDomainObject implements IsPerson, HasExterna
 	private String placeOfBirthFacilityDetails;
 	private Integer gestationAgeAtBirth;
 	private Integer birthWeight;
+	private Integer currentWeight;
+	private String caregiverTelephoneNumber;
 	private Date deathDate;
 
 	private EducationType educationType;
@@ -623,6 +627,23 @@ public class Person extends AbstractDomainObject implements IsPerson, HasExterna
 
 	public void setBirthWeight(Integer birthWeight) {
 		this.birthWeight = birthWeight;
+	}
+
+	public Integer getCurrentWeight() {
+		return currentWeight;
+	}
+
+	public void setCurrentWeight(Integer currentWeight) {
+		this.currentWeight = currentWeight;
+	}
+
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	public String getCaregiverTelephoneNumber() {
+		return caregiverTelephoneNumber;
+	}
+
+	public void setCaregiverTelephoneNumber(String caregiverTelephoneNumber) {
+		this.caregiverTelephoneNumber = caregiverTelephoneNumber;
 	}
 
 	@Column
