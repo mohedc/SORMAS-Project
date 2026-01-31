@@ -225,7 +225,7 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 					fluidRow(fluidColumn(8,4, locCss(CssStyles.ALIGN_RIGHT,BUTTONS_LOC)))+
 					fluidRowLocs(FEVER, VOMITING) +
 					fluidRowLocs(ALTERED_CONSCIOUSNESS, SEIZURES) +
-					fluidRowLocs(RAPID_BREATHING) +
+					fluidRowLocs(RAPID_BREATHING, "") +
 					fluidRowLocs(OTHER_NON_HEMORRHAGIC_SYMPTOMS, OTHER_NON_HEMORRHAGIC_SYMPTOMS_TEXT) +
 					locsCss(VSPACE_3, SYMPTOMS_COMMENTS) +
 					fluidRowLocsCss(VSPACE_3, ONSET_SYMPTOM, ONSET_DATE) +
