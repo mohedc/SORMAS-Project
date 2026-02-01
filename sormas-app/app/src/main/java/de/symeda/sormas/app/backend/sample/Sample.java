@@ -69,6 +69,7 @@ public class Sample extends PseudonymizableAdo {
 	public static final String PATHOGEN_TEST_RESULT = "pathogenTestResult";
 	public static final String LAB_SAMPLE_ID = "labSampleID";
 	public static final String FIELD_SAMPLE_ID = "fieldSampleID";
+	public static final String DATE_RESULTS_SENT_TO_REFERRING_CLINICIAN = "dateResultsSentToReferringClinician";
 
 	@DatabaseField(foreign = true, foreignAutoRefresh = true)
 	private Case associatedCase;
@@ -154,6 +155,9 @@ public class Sample extends PseudonymizableAdo {
 
 	@DatabaseField(dataType = DataType.DATE_LONG)
 	private Date receivedDate;
+
+	@DatabaseField(dataType = DataType.DATE_LONG)
+	private Date dateResultsSentToReferringClinician;
 
 	@Enumerated(EnumType.STRING)
 	private SpecimenCondition specimenCondition;

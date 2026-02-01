@@ -127,6 +127,7 @@ public class Sample extends DeletableAdo implements IsSample, SormasToSormasShar
 	public static final String DATE_SPECIMEN_SENT_TO_LABORATORY_TYPE = "dateSpecimenSentToLaboratoryType";
 	public static final String PACKAGING = "packaging";
 	public static final String PACKAGING_OTHER = "packagingOther";
+	public static final String DATE_RESULTS_SENT_TO_REFERRING_CLINICIAN = "dateResultsSentToReferringClinician";
 
 	private Case associatedCase;
 	private Contact associatedContact;
@@ -226,6 +227,7 @@ public class Sample extends DeletableAdo implements IsSample, SormasToSormasShar
 	private Date pcrDate;
 	private PosNeg prnt;
 	private Date prntDate;
+	private Date dateResultsSentToReferringClinician;
 
 	private List<PathogenTest> pathogenTests;
 	private List<AdditionalTest> additionalTests;
@@ -1179,5 +1181,15 @@ public class Sample extends DeletableAdo implements IsSample, SormasToSormasShar
 
 	public void setPrntDate(Date prntDate) {
 		this.prntDate = prntDate;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column
+	public Date getDateResultsSentToReferringClinician() {
+		return dateResultsSentToReferringClinician;
+	}
+
+	public void setDateResultsSentToReferringClinician(Date dateResultsSentToReferringClinician) {
+		this.dateResultsSentToReferringClinician = dateResultsSentToReferringClinician;
 	}
 }

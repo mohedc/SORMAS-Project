@@ -155,6 +155,7 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
                     fluidRowLocs(SampleDto.SAMPLE_MATERIAL, SampleDto.SAMPLE_MATERIAL_TEXT) +
 					 locCss(VSPACE_TOP_3, SampleDto.SHIPPED) +
 					fluidRowLocs(SampleDto.SHIPMENT_DATE, SampleDto.SHIPMENT_DETAILS) +
+					fluidRowLocs(SampleDto.DATE_RESULTS_SENT_TO_REFERRING_CLINICIAN, "") +
 					// fluidRowLocs(SampleDto.DISPATCHED_TO_REGIONAL_COLDROOM_DATE, SampleDto.DISPATCHED_TO_NATIONAL_LAB_BY_COURIER_DATE) +
 					// fluidRowLocs(6, SampleDto.DISPATCHED_TO_NATIONAL_LAB_BY_REGION_DISTRICT_DATE) +
 					locCss(VSPACE_TOP_3, "") +
@@ -261,6 +262,7 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 		addField(SampleDto.SAMPLE_SOURCE, ComboBox.class);
 		addField(SampleDto.FIELD_SAMPLE_ID, TextField.class);
 		addDateField(SampleDto.SHIPMENT_DATE, DateField.class, 7);
+		addDateField(SampleDto.DATE_RESULTS_SENT_TO_REFERRING_CLINICIAN, DateField.class, 7);
 		addField(SampleDto.SHIPMENT_DETAILS, TextField.class);
 		addField(SampleDto.SENT_TO_IP_DAKAR, NullableOptionGroup.class);
 		
@@ -816,6 +818,7 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 	protected void configureYellowFeverFields() {
 
 		getField(SampleDto.SHIPMENT_DATE).setVisible(true);
+		getField(SampleDto.DATE_RESULTS_SENT_TO_REFERRING_CLINICIAN).setVisible(true);
 		Field<?> shippedField = getField(SampleDto.SHIPPED);
 		FieldHelper.setVisibleWhen(
 			getFieldGroup(),

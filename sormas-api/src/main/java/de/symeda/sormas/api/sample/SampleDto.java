@@ -134,6 +134,7 @@ public class SampleDto extends SormasToSormasShareableDto implements IsSample {
 	public static final String PCR_DATE = "pcrDate";
 	public static final String PRNT = "prnt";
 	public static final String PRNT_DATE = "prntDate";
+	public static final String DATE_RESULTS_SENT_TO_REFERRING_CLINICIAN = "dateResultsSentToReferringClinician";
 
 	private CaseReferenceDto associatedCase;
 	private ContactReferenceDto associatedContact;
@@ -324,6 +325,9 @@ public class SampleDto extends SormasToSormasShareableDto implements IsSample {
 	@Diseases(value = {
 		Disease.YELLOW_FEVER })
 	private Date prntDate;
+	@Diseases(value = {
+		Disease.YELLOW_FEVER })
+	private Date dateResultsSentToReferringClinician;
 
 	@ImportIgnore
 	public CaseReferenceDto getAssociatedCase() {
@@ -1189,5 +1193,13 @@ public class SampleDto extends SormasToSormasShareableDto implements IsSample {
 
 	public void setPrntDate(Date prntDate) {
 		this.prntDate = prntDate;
+	}
+
+	public Date getDateResultsSentToReferringClinician() {
+		return dateResultsSentToReferringClinician;
+	}
+
+	public void setDateResultsSentToReferringClinician(Date dateResultsSentToReferringClinician) {
+		this.dateResultsSentToReferringClinician = dateResultsSentToReferringClinician;
 	}
 }

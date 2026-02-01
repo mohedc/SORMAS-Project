@@ -14997,6 +14997,11 @@ ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS prnt varchar(255);
 ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS prntdate timestamp;
 
 INSERT INTO schema_version (version_number, comment) VALUES (628, 'Add IP Dakar test result fields (Elisa IgM, PCR, PRNT) to samples table');
+
+ALTER TABLE samples ADD COLUMN IF NOT EXISTS dateresultssenttoreferringclinician timestamp;
+ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS dateresultssenttoreferringclinician timestamp;
+
+INSERT INTO schema_version (version_number, comment) VALUES (629, 'Add dateResultsSentToReferringClinician field to samples table');
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***
 
 
