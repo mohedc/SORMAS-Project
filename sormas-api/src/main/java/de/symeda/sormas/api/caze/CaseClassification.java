@@ -21,18 +21,23 @@ import java.util.Collections;
 import java.util.EnumSet;
 import java.util.Set;
 
+import de.symeda.sormas.api.Disease;
 import de.symeda.sormas.api.i18n.I18nProperties;
 import de.symeda.sormas.api.statistics.StatisticsGroupingKey;
+import de.symeda.sormas.api.utils.Diseases;
 
 public enum CaseClassification
 	implements
 	StatisticsGroupingKey {
 
+	@Diseases(value = { Disease.MEASLES, Disease.YELLOW_FEVER, Disease.CSM, Disease.CONGENITAL_RUBELLA }, hide = true)
 	NOT_CLASSIFIED(1),
 	SUSPECT(2),
 	PROBABLE(3),
 	CONFIRMED(6),
+	@Diseases(value = { Disease.MEASLES, Disease.YELLOW_FEVER, Disease.CSM, Disease.CONGENITAL_RUBELLA }, hide = true)
 	CONFIRMED_NO_SYMPTOMS(4),
+	@Diseases(value = { Disease.MEASLES, Disease.YELLOW_FEVER, Disease.CSM, Disease.CONGENITAL_RUBELLA }, hide = true)
 	CONFIRMED_UNKNOWN_SYMPTOMS(5),
 	NO_CASE(0);
 
