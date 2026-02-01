@@ -129,9 +129,9 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
                     fluidRowLocs(SampleDto.SAMPLE_MATERIAL, SampleDto.SAMPLE_MATERIAL_TEXT) +
 					 locCss(VSPACE_TOP_3, SampleDto.SHIPPED) +
 					fluidRowLocs(SampleDto.SHIPMENT_DATE, SampleDto.SHIPMENT_DETAILS) +
-					fluidRowLocs(SampleDto.DATE_FORM_SENT_TO_HIGHER_LEVEL, SampleDto.NAME_CONTACT_PERSON_COMPLETING_FORM) +
 					fluidRowLocs(SampleDto.DATE_SPECIMEN_SENT_FROM_FIELD_TO_NATIONAL_LAB, SampleDto.DATE_SPECIMEN_SENT_TO_REGIONAL_REFERENCE_LAB) +
                     locCss(VSPACE_TOP_3, SampleDto.RECEIVED) +
+					fluidRowLocs(SampleDto.SPECIMEN_CONDITION, SampleDto.LAB_SAMPLE_ID) +
 					fluidRowLocs(SampleDto.RECEIVED_DATE, SampleDto.DATE_SPECIMEN_RECEIVED_AT_REGIONAL_REFERENCE_LAB) +
 					fluidRowLocs(SampleDto.DATE_SPECIMEN_RECEIVED_AT_NATIONAL_LAB, SampleDto.PATHOGEN_TEST_RESULT);
 
@@ -140,7 +140,7 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 					fluidRowLocs(SampleDto.SAMPLE_PURPOSE, SampleDto.FIELD_SAMPLE_ID) +
                     fluidRowLocs(SampleDto.SAMPLE_DATE_TIME) +
                     fluidRowLocs(SampleDto.LAB, SampleDto.LAB_DETAILS) +
-                    fluidRowLocs(SampleDto.LAB_SAMPLE_ID) +
+                    fluidRowLocs(SampleDto.LAB_SAMPLE_ID, "") +
                     fluidRowLocs(SampleDto.SAMPLE_MATERIAL, SampleDto.SAMPLE_MATERIAL_TEXT) +
 					 locCss(VSPACE_TOP_3, SampleDto.SHIPPED) +
 					fluidRowLocs(SampleDto.SHIPMENT_DATE, SampleDto.SHIPMENT_DETAILS) +
