@@ -56,6 +56,8 @@ public class SampleCreateForm extends AbstractSampleForm {
 					return AFP_HTML_LAYOUT;
 				case CSM:
 					return MENINGITIS_HTML_LAYOUT;
+				case CONGENITAL_RUBELLA:
+					return CONGENITAL_RUBELLA_HTML_LAYOUT;
 				default:
 					return SAMPLE_COMMON_HTML_LAYOUT;
 			}

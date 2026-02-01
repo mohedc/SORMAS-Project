@@ -127,11 +127,22 @@ public class SampleEditForm extends AbstractSampleForm {
 
 	@Override
 	protected String createHtmlLayout() {
-		if (getCaseDisease() == Disease.AFP) {
-			return AFP_HTML_LAYOUT;
-		}
 
-		return HTML_LAYOUT;
+			Disease disease = getCaseDisease();
+			switch (disease) {
+				case MEASLES:
+					return MEASLES_HTML_LAYOUT;
+				case YELLOW_FEVER:
+					return YELLOW_FEVER_HTML_LAYOUT;
+				case AFP:
+					return AFP_HTML_LAYOUT;
+				case CSM:
+					return MENINGITIS_HTML_LAYOUT;
+				case CONGENITAL_RUBELLA:
+					return CONGENITAL_RUBELLA_HTML_LAYOUT;
+				default:
+					return HTML_LAYOUT;
+			}
 	}
 
 	public List<PathogenTestReferenceDto> getTestsToBeRemovedOnCommit() {

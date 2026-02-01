@@ -394,7 +394,7 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 						facilityCombo.setRequired(true);
 					}
 					updateFacilityFields(facilityCombo, facilityDetails);
-					tfDepartment.setVisible(true);
+					tfDepartment.setVisible(false);
 				} else if (TypeOfPlace.HOME.equals(facilityOrHome.getValue())
 					|| ((facilityOrHome.getValue() instanceof java.util.Set) && TypeOfPlace.HOME.equals(facilityOrHome.getNullableValue()))) {
 					setNoneFacility();

@@ -204,6 +204,21 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 					locCss(VSPACE_TOP_3, SampleDto.RECEIVED) +
 					fluidRowLocs(SampleDto.RECEIVED_DATE, SampleDto.LAB_SAMPLE_ID);
 
+	protected static final String CONGENITAL_RUBELLA_HTML_LAYOUT =
+			fluidRowLocs(4, SampleDto.UUID, 4, REPORT_INFO_LABEL_LOC, 3, SampleDto.REPORTING_USER, 1, "") +
+					fluidRowLocs(SampleDto.SAMPLE_PURPOSE, SampleDto.FIELD_SAMPLE_ID) +
+					fluidRowLocs(SampleDto.SAMPLE_DATE_TIME) +
+					fluidRowLocs(SampleDto.SAMPLE_MATERIAL, SampleDto.SAMPLE_MATERIAL_TEXT) +
+					fluidRowLocs(SampleDto.LAB, SampleDto.LAB_DETAILS) +
+					fluidRowLocs(SampleDto.LAB_SAMPLE_ID) +
+					locCss(VSPACE_TOP_3, SampleDto.SHIPPED) +
+					fluidRowLocs(SampleDto.SHIPMENT_DATE, SampleDto.SHIPMENT_DETAILS) +
+					locCss(VSPACE_TOP_3, SampleDto.RECEIVED) +
+					fluidRowLocs(SampleDto.RECEIVED_DATE) +
+					fluidRowLocs(SampleDto.SPECIMEN_CONDITION) +
+					fluidRowLocs(SampleDto.COMMENT) +
+					fluidRowLocs(SampleDto.PATHOGEN_TEST_RESULT);
+
 	//@formatter:on
 
 	protected AbstractSampleForm(Class<SampleDto> type, String propertyI18nPrefix, Disease disease, UiFieldAccessCheckers fieldAccessCheckers) {
@@ -426,6 +441,11 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 		// Meningitis-specific configuration (called after all other visibility logic)
 		if (disease == Disease.CSM) {
 			configureMeningitisFields();
+		}
+
+		// Congenital rubella-specific configuration (called after all other visibility logic)
+		if (disease == Disease.CONGENITAL_RUBELLA) {
+			configureCongenitalRubellaFields();
 		}
 	}
 
@@ -751,6 +771,53 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 	}
 
 	/**
+	 * Configures fields specifically for congenital rubella samples
+	 */
+	protected void configureCongenitalRubellaFields() {
+		// Make FIELD_SAMPLE_ID read-only
+		getField(SampleDto.FIELD_SAMPLE_ID).setReadOnly(true);
+
+		// Filter sample material options for congenital rubella: Serum, Throat swab, Urine, CSF, Other
+		FieldHelper.updateEnumData(sampleMaterialComboBox, Arrays.asList(SampleMaterial.SERUM, SampleMaterial.THROAT_SWAB, SampleMaterial.URINE, SampleMaterial.CSF, SampleMaterial.OTHER));
+
+		// Set RECEIVED checkbox as read-only
+		getField(SampleDto.RECEIVED).setReadOnly(true);
+
+		// Set PATHOGEN_TEST_RESULT as read-only
+		getField(SampleDto.PATHOGEN_TEST_RESULT).setReadOnly(true);
+
+		// Configure visibility for shipped/received fields
+		getField(SampleDto.SHIPMENT_DATE).setVisible(true);
+		Field<?> shippedField = getField(SampleDto.SHIPPED);
+		FieldHelper.setVisibleWhen(
+			getFieldGroup(),
+			Arrays.asList(SampleDto.SHIPMENT_DETAILS),
+			SampleDto.SHIPPED,
+			Arrays.asList(true),
+			true);
+		FieldHelper.setEnabledWhen(
+			getFieldGroup(),
+			shippedField,
+			Arrays.asList(true),
+			Arrays.asList(SampleDto.SHIPMENT_DETAILS),
+			true);
+
+		Field<?> receivedField = getField(SampleDto.RECEIVED);
+		FieldHelper.setVisibleWhen(
+			getFieldGroup(),
+			Arrays.asList(SampleDto.RECEIVED_DATE),
+			SampleDto.RECEIVED,
+			Arrays.asList(true),
+			true);
+		FieldHelper.setEnabledWhen(
+			getFieldGroup(),
+			receivedField,
+			Arrays.asList(true),
+			Arrays.asList(SampleDto.RECEIVED_DATE),
+			true);
+	}
+
+	/**
 	 * Configures fields specifically for meningitis samples
 	 */
 	protected void configureMeningitisFields() {
@@ -896,6 +963,8 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 				return AFP_HTML_LAYOUT;
 			case CSM:
 				return MENINGITIS_HTML_LAYOUT;
+			case CONGENITAL_RUBELLA:
+				return CONGENITAL_RUBELLA_HTML_LAYOUT;
 			default:
 				return SAMPLE_COMMON_HTML_LAYOUT;
 		}
