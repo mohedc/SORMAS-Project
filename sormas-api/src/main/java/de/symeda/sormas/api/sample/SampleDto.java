@@ -128,6 +128,12 @@ public class SampleDto extends SormasToSormasShareableDto implements IsSample {
 	public static final String DATE_SPECIMEN_SENT_TO_LABORATORY_TYPE = "dateSpecimenSentToLaboratoryType";
 	public static final String PACKAGING = "packaging";
 	public static final String PACKAGING_OTHER = "packagingOther";
+	public static final String ELISA_IGM = "elisaIgm";
+	public static final String ELISA_IGM_DATE = "elisaIgmDate";
+	public static final String PCR = "pcr";
+	public static final String PCR_DATE = "pcrDate";
+	public static final String PRNT = "prnt";
+	public static final String PRNT_DATE = "prntDate";
 
 	private CaseReferenceDto associatedCase;
 	private ContactReferenceDto associatedContact;
@@ -300,6 +306,24 @@ public class SampleDto extends SormasToSormasShareableDto implements IsSample {
 	@Diseases(value = {
 		Disease.CSM })
 	private String packagingOther;
+	@Diseases(value = {
+		Disease.YELLOW_FEVER })
+	private SimpleTestResultType elisaIgm;
+	@Diseases(value = {
+		Disease.YELLOW_FEVER })
+	private Date elisaIgmDate;
+	@Diseases(value = {
+		Disease.YELLOW_FEVER })
+	private PosNeg pcr;
+	@Diseases(value = {
+		Disease.YELLOW_FEVER })
+	private Date pcrDate;
+	@Diseases(value = {
+		Disease.YELLOW_FEVER })
+	private PosNeg prnt;
+	@Diseases(value = {
+		Disease.YELLOW_FEVER })
+	private Date prntDate;
 
 	@ImportIgnore
 	public CaseReferenceDto getAssociatedCase() {
@@ -1117,5 +1141,53 @@ public class SampleDto extends SormasToSormasShareableDto implements IsSample {
 
 	public void setPackagingOther(String packagingOther) {
 		this.packagingOther = packagingOther;
+	}
+
+	public SimpleTestResultType getElisaIgm() {
+		return elisaIgm;
+	}
+
+	public void setElisaIgm(SimpleTestResultType elisaIgm) {
+		this.elisaIgm = elisaIgm;
+	}
+
+	public Date getElisaIgmDate() {
+		return elisaIgmDate;
+	}
+
+	public void setElisaIgmDate(Date elisaIgmDate) {
+		this.elisaIgmDate = elisaIgmDate;
+	}
+
+	public PosNeg getPcr() {
+		return pcr;
+	}
+
+	public void setPcr(PosNeg pcr) {
+		this.pcr = pcr;
+	}
+
+	public Date getPcrDate() {
+		return pcrDate;
+	}
+
+	public void setPcrDate(Date pcrDate) {
+		this.pcrDate = pcrDate;
+	}
+
+	public PosNeg getPrnt() {
+		return prnt;
+	}
+
+	public void setPrnt(PosNeg prnt) {
+		this.prnt = prnt;
+	}
+
+	public Date getPrntDate() {
+		return prntDate;
+	}
+
+	public void setPrntDate(Date prntDate) {
+		this.prntDate = prntDate;
 	}
 }
