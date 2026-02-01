@@ -15002,6 +15002,11 @@ ALTER TABLE samples ADD COLUMN IF NOT EXISTS dateresultssenttoreferringclinician
 ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS dateresultssenttoreferringclinician timestamp;
 
 INSERT INTO schema_version (version_number, comment) VALUES (629, 'Add dateResultsSentToReferringClinician field to samples table');
+
+ALTER TABLE samples ADD COLUMN IF NOT EXISTS prntinputvalue varchar(255);
+ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS prntinputvalue varchar(255);
+
+INSERT INTO schema_version (version_number, comment) VALUES (630, 'Add PRNT input value field to samples table');
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***
 
 

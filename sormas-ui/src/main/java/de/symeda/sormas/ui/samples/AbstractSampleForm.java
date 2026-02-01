@@ -168,7 +168,7 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 					loc(PCR_HEADLINE_LOC) +
 					fluidRowLocs(SampleDto.PCR, SampleDto.PCR_DATE) +
 					loc(PRNT_HEADLINE_LOC) +
-					fluidRowLocs(SampleDto.PRNT, SampleDto.PRNT_DATE) +
+					fluidRowLocs(SampleDto.PRNT, SampleDto.PRNT_INPUT_VALUE, SampleDto.PRNT_DATE) +
 					fluidRowLocs(SampleDto.PATHOGEN_TEST_RESULT);
 
 	protected static final String MENINGITIS_HTML_LAYOUT =
@@ -275,6 +275,7 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 		addDateField(SampleDto.PCR_DATE, DateField.class, 7);
 		NullableOptionGroup prntField = addField(SampleDto.PRNT, NullableOptionGroup.class);
 		FieldHelper.updateEnumData(prntField, Arrays.asList(PosNeg.POSITIVE, PosNeg.NEGATIVE));
+		TextField prntInputValueField = addField(SampleDto.PRNT_INPUT_VALUE, TextField.class);
 		addDateField(SampleDto.PRNT_DATE, DateField.class, 7);
 		
 		// Add subtitle labels for IP Dakar test results
@@ -479,9 +480,17 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 			Arrays.asList(
 				SampleDto.ELISA_IGM, SampleDto.ELISA_IGM_DATE,
 				SampleDto.PCR, SampleDto.PCR_DATE,
-				SampleDto.PRNT, SampleDto.PRNT_DATE),
+				SampleDto.PRNT, SampleDto.PRNT_INPUT_VALUE, SampleDto.PRNT_DATE),
 			SampleDto.SENT_TO_IP_DAKAR,
 			Arrays.asList(YesNo.YES),
+			true);
+		
+		// PRNT Input Value visibility - show only when PRNT is POSITIVE
+		FieldHelper.setVisibleWhen(
+			getFieldGroup(),
+			SampleDto.PRNT_INPUT_VALUE,
+			SampleDto.PRNT,
+			Arrays.asList(PosNeg.POSITIVE),
 			true);
 		
 		// Show subtitle labels when SENT_TO_IP_DAKAR is Yes
