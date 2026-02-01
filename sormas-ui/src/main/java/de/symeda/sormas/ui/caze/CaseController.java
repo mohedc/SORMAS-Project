@@ -180,6 +180,7 @@ public class CaseController {
 			navigator.addView(PortHealthInfoView.VIEW_NAME, PortHealthInfoView.class);
 		}
 		navigator.addView(CaseSymptomsView.VIEW_NAME, CaseSymptomsView.class);
+		navigator.addView(CaseFinalClassificationView.VIEW_NAME, CaseFinalClassificationView.class);
 		if (UiUtil.permitted(UserRight.CONTACT_VIEW)) {
 			navigator.addView(CaseContactsView.VIEW_NAME, CaseContactsView.class);
 		}
@@ -1396,6 +1397,33 @@ public class CaseController {
 		editView.addCommitListener(() -> {
 			CaseDataDto cazeDto = FacadeProvider.getCaseFacade().getCaseDataByUuid(caseUuid);
 			cazeDto.setSymptoms(symptomsForm.getValue());
+			saveCase(cazeDto);
+		});
+
+		return editView;
+	}
+
+	public CommitDiscardWrapperComponent<CaseFinalClassificationForm> getFinalClassificationEditComponent(final String caseUuid, ViewMode viewMode) {
+
+		CaseDataDto caseDataDto = findCase(caseUuid);
+
+		CaseFinalClassificationForm finalClassificationForm = new CaseFinalClassificationForm(
+			caseUuid,
+			caseDataDto.getDisease(),
+			viewMode,
+			caseDataDto.isPseudonymized(),
+			caseDataDto.isInJurisdiction());
+		finalClassificationForm.setValue(caseDataDto);
+
+		CommitDiscardWrapperComponent<CaseFinalClassificationForm> editView =
+			new CommitDiscardWrapperComponent<CaseFinalClassificationForm>(
+				finalClassificationForm,
+				UiUtil.permitted(UserRight.CASE_EDIT),
+				finalClassificationForm.getFieldGroup());
+
+		editView.addCommitListener(() -> {
+			CaseDataDto cazeDto = FacadeProvider.getCaseFacade().getCaseDataByUuid(caseUuid);
+			cazeDto.setFinalClassification(finalClassificationForm.getValue().getFinalClassification());
 			saveCase(cazeDto);
 		});
 

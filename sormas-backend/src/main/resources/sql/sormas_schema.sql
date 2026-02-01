@@ -14974,6 +14974,12 @@ ALTER TABLE epidata_history ADD COLUMN gestationalageattravel integer;
 ALTER TABLE epidata_history ADD COLUMN travellocationdescription varchar(512);
 
 INSERT INTO schema_version (version_number, comment) VALUES (626, 'Add Congenital Rubella specific fields to EpiData');
+
+-- Migration 627: Add finalClassification field to cases table
+ALTER TABLE cases ADD COLUMN IF NOT EXISTS finalclassification varchar(255);
+ALTER TABLE cases_history ADD COLUMN IF NOT EXISTS finalclassification varchar(255);
+
+INSERT INTO schema_version (version_number, comment) VALUES (627, 'Add finalClassification field to cases table');
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***
 
 

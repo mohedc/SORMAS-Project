@@ -940,7 +940,7 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 		addField(SampleDto.FINAL_LAB_RESULTS, NullableOptionGroup.class);
 		addField(SampleDto.IMMUNOCOMPROMISED_STATUS_SUSPECTED, NullableOptionGroup.class);
 		ComboBox afpFinalClassification = addField(SampleDto.AFP_FINAL_CLASSIFICATION, ComboBox.class);
-		FieldHelper.updateEnumData(afpFinalClassification, FinalClassification.AFP_CLASSIFICATION);
+		FieldHelper.updateEnumData(afpFinalClassification, Arrays.asList(FinalClassification.AFP_CLASSIFICATION));
 
 		setRequired(false, SampleDto.SAMPLE_PURPOSE, SampleDto.SAMPLE_DATE_TIME, SampleDto.SAMPLE_MATERIAL);
 		FieldHelper.updateEnumData(sampleMaterialComboBox, Arrays.asList(SampleMaterial.STOOL));

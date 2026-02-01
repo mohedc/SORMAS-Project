@@ -240,6 +240,9 @@ public abstract class AbstractCaseView extends AbstractEditAllowedDetailView<Cas
 			PersonDto casePerson = FacadeProvider.getPersonFacade().getByUuid(caze.getPerson().getUuid());
 			ExternalJournalUtil.getExternalJournalUiButton(casePerson, caze).ifPresent(getButtonsLayout()::addComponent);
 		}
+
+		menu.addView(CaseFinalClassificationView.VIEW_NAME, I18nProperties.getPrefixCaption(CaseDataDto.I18N_PREFIX, CaseDataDto.FINAL_CLASSIFICATION), params);
+
 	}
 
 	@Override
