@@ -25,11 +25,13 @@ import static de.symeda.sormas.ui.utils.LayoutUtil.loc;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 import de.symeda.sormas.api.DiseaseHelper;
 import org.apache.commons.collections4.CollectionUtils;
@@ -896,6 +898,39 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 			PathogenTestDto.TESTED_DISEASE,
 			Arrays.asList(Disease.OTHER),
 			true);
+
+		// Filter tested disease field to only show MEASLES, DENGUE, and RUBELLA (excluding CONGENITAL_RUBELLA)
+		// Only filter if case disease is MEASLES
+		if (disease == Disease.MEASLES) {
+			// list of possible tested diseases for measles
+			List<Disease> possibleTestedDiseases = Arrays.asList(Disease.MEASLES, Disease.DENGUE, Disease.RUBELLA);
+
+			// Get tested disease field and remove all items that are not in the possibleTestedDiseases list
+			ComboBox testedDiseaseField = (ComboBox) getField(PathogenTestDto.TESTED_DISEASE);
+			Object currentValue = testedDiseaseField.getValue();
+			
+			// Get all item IDs and remove those not in the allowed list
+			@SuppressWarnings("unchecked")
+			Collection<Object> itemIds = (Collection<Object>) testedDiseaseField.getItemIds();
+			List<Object> itemsToRemove = itemIds.stream()
+				.filter(item -> !possibleTestedDiseases.contains(item))
+				.collect(Collectors.toList());
+			
+			for (Object item : itemsToRemove) {
+				testedDiseaseField.removeItem(item);
+			}
+		
+			
+			// Restore the current value if it's still valid
+			if (currentValue != null && possibleTestedDiseases.contains(currentValue)) {
+				testedDiseaseField.setValue(currentValue);
+			} else if (currentValue != null) {
+				testedDiseaseField.setValue(null);
+			}
+		}
+
+
+
 	}
 
 	/**
