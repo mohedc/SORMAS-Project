@@ -15007,6 +15007,17 @@ ALTER TABLE samples ADD COLUMN IF NOT EXISTS prntinputvalue varchar(255);
 ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS prntinputvalue varchar(255);
 
 INSERT INTO schema_version (version_number, comment) VALUES (630, 'Add PRNT input value field to samples table');
+
+ALTER TABLE cases ADD COLUMN IF NOT EXISTS arrivalatregionalpublichealthofficedate timestamp;
+ALTER TABLE cases ADD COLUMN IF NOT EXISTS arrivalatnationalleveldate timestamp;
+ALTER TABLE cases ADD COLUMN IF NOT EXISTS vaccinetype varchar(255);
+ALTER TABLE cases ADD COLUMN IF NOT EXISTS healthworkercompletingform varchar(255);
+ALTER TABLE cases_history ADD COLUMN IF NOT EXISTS arrivalatregionalpublichealthofficedate timestamp;
+ALTER TABLE cases_history ADD COLUMN IF NOT EXISTS arrivalatnationalleveldate timestamp;
+ALTER TABLE cases_history ADD COLUMN IF NOT EXISTS vaccinetype varchar(255);
+ALTER TABLE cases_history ADD COLUMN IF NOT EXISTS healthworkercompletingform varchar(255);
+
+INSERT INTO schema_version (version_number, comment) VALUES (631, 'Add meningitis case fields: arrival dates, vaccine type, and health worker completing form');
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***
 
 

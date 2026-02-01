@@ -53,6 +53,7 @@ import de.symeda.sormas.api.caze.Trimester;
 import de.symeda.sormas.api.caze.RoutineVaccinationType;
 import de.symeda.sormas.api.caze.VaccinationRecordType;
 import de.symeda.sormas.api.caze.VaccinationStatus;
+import de.symeda.sormas.api.caze.VaccineType;
 import de.symeda.sormas.api.caze.caseimport.MotherVaccinationStatus;
 import de.symeda.sormas.api.contact.QuarantineType;
 import de.symeda.sormas.api.customizableenum.CustomizableEnumType;
@@ -486,6 +487,14 @@ public class Case extends PseudonymizableAdo {
 	private YesNoUnknown supplementalImmunization;
 	@Column(length = CHARACTER_LIMIT_DEFAULT)
 	private String supplementalImmunizationDetails;
+	@DatabaseField(dataType = DataType.DATE_LONG)
+	private Date arrivalAtRegionalPublicHealthOfficeDate;
+	@DatabaseField(dataType = DataType.DATE_LONG)
+	private Date arrivalAtNationalLevelDate;
+	@Enumerated(EnumType.STRING)
+	private VaccineType vaccineType;
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	private String healthWorkerCompletingForm;
 	@DatabaseField
 	private String investigatorName;
 	@DatabaseField
