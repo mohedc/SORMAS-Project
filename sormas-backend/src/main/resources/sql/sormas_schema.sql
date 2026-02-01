@@ -14974,6 +14974,34 @@ ALTER TABLE epidata_history ADD COLUMN gestationalageattravel integer;
 ALTER TABLE epidata_history ADD COLUMN travellocationdescription varchar(512);
 
 INSERT INTO schema_version (version_number, comment) VALUES (626, 'Add Congenital Rubella specific fields to EpiData');
+
+-- Migration 627: Add finalClassification field to cases table
+ALTER TABLE cases ADD COLUMN IF NOT EXISTS finalclassification varchar(255);
+ALTER TABLE cases_history ADD COLUMN IF NOT EXISTS finalclassification varchar(255);
+
+INSERT INTO schema_version (version_number, comment) VALUES (627, 'Add finalClassification field to cases table');
+
+-- Add IP Dakar test result fields to samples
+ALTER TABLE samples ADD COLUMN IF NOT EXISTS elisaigm varchar(255);
+ALTER TABLE samples ADD COLUMN IF NOT EXISTS elisaigmdate timestamp;
+ALTER TABLE samples ADD COLUMN IF NOT EXISTS pcr varchar(255);
+ALTER TABLE samples ADD COLUMN IF NOT EXISTS pcrdate timestamp;
+ALTER TABLE samples ADD COLUMN IF NOT EXISTS prnt varchar(255);
+ALTER TABLE samples ADD COLUMN IF NOT EXISTS prntdate timestamp;
+
+ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS elisaigm varchar(255);
+ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS elisaigmdate timestamp;
+ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS pcr varchar(255);
+ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS pcrdate timestamp;
+ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS prnt varchar(255);
+ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS prntdate timestamp;
+
+INSERT INTO schema_version (version_number, comment) VALUES (628, 'Add IP Dakar test result fields (Elisa IgM, PCR, PRNT) to samples table');
+
+ALTER TABLE samples ADD COLUMN IF NOT EXISTS dateresultssenttoreferringclinician timestamp;
+ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS dateresultssenttoreferringclinician timestamp;
+
+INSERT INTO schema_version (version_number, comment) VALUES (629, 'Add dateResultsSentToReferringClinician field to samples table');
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***
 
 

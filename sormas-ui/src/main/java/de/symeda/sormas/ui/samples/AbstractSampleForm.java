@@ -46,9 +46,11 @@ import de.symeda.sormas.api.sample.LpAspect;
 import de.symeda.sormas.api.sample.LpPackaging;
 import de.symeda.sormas.api.sample.Packaging;
 import de.symeda.sormas.api.sample.LaboratoryType;
+import de.symeda.sormas.api.sample.SimpleTestResultType;
 import de.symeda.sormas.api.user.UserReferenceDto;
 import de.symeda.sormas.api.user.UserRight;
 import de.symeda.sormas.api.utils.InjectionSite;
+import de.symeda.sormas.api.utils.PosNeg;
 import de.symeda.sormas.api.utils.YesNo;
 import de.symeda.sormas.api.utils.fieldaccess.UiFieldAccessCheckers;
 import de.symeda.sormas.api.utils.fieldvisibility.FieldVisibilityCheckers;
@@ -78,6 +80,9 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 	protected static final String STOOL_SPECIMEN_RESULTS_HEADLINE_LOC = "stoolSpecimenResultsLoc";
 	protected static final String FINAL_LAB_RESULTS_HEADLINE_LOC = "finalLabResultsLoc";
 	protected static final String FOLLOW_UP_EXAMINATION_HEADLINE_LOC = "followUpExaminationLoc";
+	protected static final String ELISA_IGM_HEADLINE_LOC = "elisaIgmHeadlineLoc";
+	protected static final String PCR_HEADLINE_LOC = "pcrHeadlineLoc";
+	protected static final String PRNT_HEADLINE_LOC = "prntHeadlineLoc";
 	public ComboBox sampleMaterialComboBox;
 
 	//@formatter:off
@@ -108,6 +113,12 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
                     locCss(VSPACE_TOP_3, SampleDto.SHIPPED) +
                     fluidRowLocs(SampleDto.SHIPMENT_DATE, SampleDto.SHIPMENT_DETAILS) +
                     fluidRowLocs(SampleDto.SENT_TO_IP_DAKAR) +
+                    loc(ELISA_IGM_HEADLINE_LOC) +
+                    fluidRowLocs(SampleDto.ELISA_IGM, SampleDto.ELISA_IGM_DATE) +
+                    loc(PCR_HEADLINE_LOC) +
+                    fluidRowLocs(SampleDto.PCR, SampleDto.PCR_DATE) +
+                    loc(PRNT_HEADLINE_LOC) +
+                    fluidRowLocs(SampleDto.PRNT, SampleDto.PRNT_DATE) +
 
                     locCss(VSPACE_TOP_3, SampleDto.RECEIVED) +
                     fluidRowLocs(SampleDto.RECEIVED_DATE, SampleDto.LAB_SAMPLE_ID) +
@@ -129,9 +140,9 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
                     fluidRowLocs(SampleDto.SAMPLE_MATERIAL, SampleDto.SAMPLE_MATERIAL_TEXT) +
 					 locCss(VSPACE_TOP_3, SampleDto.SHIPPED) +
 					fluidRowLocs(SampleDto.SHIPMENT_DATE, SampleDto.SHIPMENT_DETAILS) +
-					fluidRowLocs(SampleDto.DATE_FORM_SENT_TO_HIGHER_LEVEL, SampleDto.NAME_CONTACT_PERSON_COMPLETING_FORM) +
 					fluidRowLocs(SampleDto.DATE_SPECIMEN_SENT_FROM_FIELD_TO_NATIONAL_LAB, SampleDto.DATE_SPECIMEN_SENT_TO_REGIONAL_REFERENCE_LAB) +
                     locCss(VSPACE_TOP_3, SampleDto.RECEIVED) +
+					fluidRowLocs(SampleDto.SPECIMEN_CONDITION, SampleDto.LAB_SAMPLE_ID) +
 					fluidRowLocs(SampleDto.RECEIVED_DATE, SampleDto.DATE_SPECIMEN_RECEIVED_AT_REGIONAL_REFERENCE_LAB) +
 					fluidRowLocs(SampleDto.DATE_SPECIMEN_RECEIVED_AT_NATIONAL_LAB, SampleDto.PATHOGEN_TEST_RESULT);
 
@@ -140,17 +151,24 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 					fluidRowLocs(SampleDto.SAMPLE_PURPOSE, SampleDto.FIELD_SAMPLE_ID) +
                     fluidRowLocs(SampleDto.SAMPLE_DATE_TIME) +
                     fluidRowLocs(SampleDto.LAB, SampleDto.LAB_DETAILS) +
-                    fluidRowLocs(SampleDto.LAB_SAMPLE_ID) +
+                    fluidRowLocs(SampleDto.LAB_SAMPLE_ID, "") +
                     fluidRowLocs(SampleDto.SAMPLE_MATERIAL, SampleDto.SAMPLE_MATERIAL_TEXT) +
 					 locCss(VSPACE_TOP_3, SampleDto.SHIPPED) +
 					fluidRowLocs(SampleDto.SHIPMENT_DATE, SampleDto.SHIPMENT_DETAILS) +
+					fluidRowLocs(SampleDto.DATE_RESULTS_SENT_TO_REFERRING_CLINICIAN, "") +
 					// fluidRowLocs(SampleDto.DISPATCHED_TO_REGIONAL_COLDROOM_DATE, SampleDto.DISPATCHED_TO_NATIONAL_LAB_BY_COURIER_DATE) +
 					// fluidRowLocs(6, SampleDto.DISPATCHED_TO_NATIONAL_LAB_BY_REGION_DISTRICT_DATE) +
-					fluidRowLocs(SampleDto.SENT_TO_IP_DAKAR) +
 					locCss(VSPACE_TOP_3, "") +
 					fluidRowLocs(6, SampleDto.RECEIVED) +
 					fluidRowLocs(SampleDto.RECEIVED_DATE, SampleDto.LAB_SAMPLE_ID) +
 					fluidRowLocs(SampleDto.SPECIMEN_CONDITION, SampleDto.NO_TEST_POSSIBLE_REASON) +
+					fluidRowLocs(SampleDto.SENT_TO_IP_DAKAR) +
+					loc(ELISA_IGM_HEADLINE_LOC) +
+					fluidRowLocs(SampleDto.ELISA_IGM, SampleDto.ELISA_IGM_DATE) +
+					loc(PCR_HEADLINE_LOC) +
+					fluidRowLocs(SampleDto.PCR, SampleDto.PCR_DATE) +
+					loc(PRNT_HEADLINE_LOC) +
+					fluidRowLocs(SampleDto.PRNT, SampleDto.PRNT_DATE) +
 					fluidRowLocs(SampleDto.PATHOGEN_TEST_RESULT);
 
 	protected static final String MENINGITIS_HTML_LAYOUT =
@@ -204,6 +222,21 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 					locCss(VSPACE_TOP_3, SampleDto.RECEIVED) +
 					fluidRowLocs(SampleDto.RECEIVED_DATE, SampleDto.LAB_SAMPLE_ID);
 
+	protected static final String CONGENITAL_RUBELLA_HTML_LAYOUT =
+			fluidRowLocs(4, SampleDto.UUID, 4, REPORT_INFO_LABEL_LOC, 3, SampleDto.REPORTING_USER, 1, "") +
+					fluidRowLocs(SampleDto.SAMPLE_PURPOSE, SampleDto.FIELD_SAMPLE_ID) +
+					fluidRowLocs(SampleDto.SAMPLE_DATE_TIME) +
+					fluidRowLocs(SampleDto.SAMPLE_MATERIAL, SampleDto.SAMPLE_MATERIAL_TEXT) +
+					fluidRowLocs(SampleDto.LAB, SampleDto.LAB_DETAILS) +
+					fluidRowLocs(SampleDto.LAB_SAMPLE_ID) +
+					locCss(VSPACE_TOP_3, SampleDto.SHIPPED) +
+					fluidRowLocs(SampleDto.SHIPMENT_DATE, SampleDto.SHIPMENT_DETAILS) +
+					locCss(VSPACE_TOP_3, SampleDto.RECEIVED) +
+					fluidRowLocs(SampleDto.RECEIVED_DATE) +
+					fluidRowLocs(SampleDto.SPECIMEN_CONDITION) +
+					fluidRowLocs(SampleDto.COMMENT) +
+					fluidRowLocs(SampleDto.PATHOGEN_TEST_RESULT);
+
 	//@formatter:on
 
 	protected AbstractSampleForm(Class<SampleDto> type, String propertyI18nPrefix, Disease disease, UiFieldAccessCheckers fieldAccessCheckers) {
@@ -229,8 +262,34 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 		addField(SampleDto.SAMPLE_SOURCE, ComboBox.class);
 		addField(SampleDto.FIELD_SAMPLE_ID, TextField.class);
 		addDateField(SampleDto.SHIPMENT_DATE, DateField.class, 7);
+		addDateField(SampleDto.DATE_RESULTS_SENT_TO_REFERRING_CLINICIAN, DateField.class, 7);
 		addField(SampleDto.SHIPMENT_DETAILS, TextField.class);
 		addField(SampleDto.SENT_TO_IP_DAKAR, NullableOptionGroup.class);
+		
+		// IP Dakar test result fields
+		ComboBox elisaIgmField = addField(SampleDto.ELISA_IGM, ComboBox.class);
+		FieldHelper.updateEnumData(elisaIgmField, Arrays.asList(SimpleTestResultType.POSITIVE, SimpleTestResultType.NEGATIVE, SimpleTestResultType.EQUIVOCAL));
+		addDateField(SampleDto.ELISA_IGM_DATE, DateField.class, 7);
+		ComboBox pcrField = addField(SampleDto.PCR, ComboBox.class);
+		FieldHelper.updateEnumData(pcrField, Arrays.asList(PosNeg.POSITIVE, PosNeg.NEGATIVE));
+		addDateField(SampleDto.PCR_DATE, DateField.class, 7);
+		ComboBox prntField = addField(SampleDto.PRNT, ComboBox.class);
+		FieldHelper.updateEnumData(prntField, Arrays.asList(PosNeg.POSITIVE, PosNeg.NEGATIVE));
+		addDateField(SampleDto.PRNT_DATE, DateField.class, 7);
+		
+		// Add subtitle labels for IP Dakar test results
+		Label elisaIgmHeading = new Label("Elisa IgM");
+		CssStyles.style(elisaIgmHeading, CssStyles.LABEL_BOLD, CssStyles.LABEL_SECONDARY, VSPACE_4);
+		getContent().addComponent(elisaIgmHeading, ELISA_IGM_HEADLINE_LOC);
+		
+		Label pcrHeading = new Label("PCR");
+		CssStyles.style(pcrHeading, CssStyles.LABEL_BOLD, CssStyles.LABEL_SECONDARY, VSPACE_4);
+		getContent().addComponent(pcrHeading, PCR_HEADLINE_LOC);
+		
+		Label prntHeading = new Label("PRNT");
+		CssStyles.style(prntHeading, CssStyles.LABEL_BOLD, CssStyles.LABEL_SECONDARY, VSPACE_4);
+		getContent().addComponent(prntHeading, PRNT_HEADLINE_LOC);
+		
 		addDateField(SampleDto.DISPATCHED_TO_REGIONAL_COLDROOM_DATE, DateField.class, 7);
 		addDateField(SampleDto.DISPATCHED_TO_NATIONAL_LAB_BY_COURIER_DATE, DateField.class, 7);
 		addDateField(SampleDto.DISPATCHED_TO_NATIONAL_LAB_BY_REGION_DISTRICT_DATE, DateField.class, 7);
@@ -414,6 +473,45 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 		if (disease == Disease.MEASLES) {
 			configureMeaslesFields();
 		}
+		// IP Dakar test result fields visibility - show when SENT_TO_IP_DAKAR is Yes
+		FieldHelper.setVisibleWhen(
+			getFieldGroup(),
+			Arrays.asList(
+				SampleDto.ELISA_IGM, SampleDto.ELISA_IGM_DATE,
+				SampleDto.PCR, SampleDto.PCR_DATE,
+				SampleDto.PRNT, SampleDto.PRNT_DATE),
+			SampleDto.SENT_TO_IP_DAKAR,
+			Arrays.asList(YesNo.YES),
+			true);
+		
+		// Show subtitle labels when SENT_TO_IP_DAKAR is Yes
+		Field<?> sentToIpDakarField = getField(SampleDto.SENT_TO_IP_DAKAR);
+		if (sentToIpDakarField != null) {
+			sentToIpDakarField.addValueChangeListener(e -> {
+				boolean isVisible = YesNo.YES.equals(e.getProperty().getValue());
+				if (getContent().getComponent(ELISA_IGM_HEADLINE_LOC) != null) {
+					getContent().getComponent(ELISA_IGM_HEADLINE_LOC).setVisible(isVisible);
+				}
+				if (getContent().getComponent(PCR_HEADLINE_LOC) != null) {
+					getContent().getComponent(PCR_HEADLINE_LOC).setVisible(isVisible);
+				}
+				if (getContent().getComponent(PRNT_HEADLINE_LOC) != null) {
+					getContent().getComponent(PRNT_HEADLINE_LOC).setVisible(isVisible);
+				}
+			});
+			// Initialize visibility
+			boolean isVisible = YesNo.YES.equals(sentToIpDakarField.getValue());
+			if (getContent().getComponent(ELISA_IGM_HEADLINE_LOC) != null) {
+				getContent().getComponent(ELISA_IGM_HEADLINE_LOC).setVisible(isVisible);
+			}
+			if (getContent().getComponent(PCR_HEADLINE_LOC) != null) {
+				getContent().getComponent(PCR_HEADLINE_LOC).setVisible(isVisible);
+			}
+			if (getContent().getComponent(PRNT_HEADLINE_LOC) != null) {
+				getContent().getComponent(PRNT_HEADLINE_LOC).setVisible(isVisible);
+			}
+		}
+
 		// Yellow fever-specific configuration (called after all other visibility logic)
 		if (disease == Disease.YELLOW_FEVER) {
 			configureYellowFeverFields();
@@ -426,6 +524,11 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 		// Meningitis-specific configuration (called after all other visibility logic)
 		if (disease == Disease.CSM) {
 			configureMeningitisFields();
+		}
+
+		// Congenital rubella-specific configuration (called after all other visibility logic)
+		if (disease == Disease.CONGENITAL_RUBELLA) {
+			configureCongenitalRubellaFields();
 		}
 	}
 
@@ -715,6 +818,7 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 	protected void configureYellowFeverFields() {
 
 		getField(SampleDto.SHIPMENT_DATE).setVisible(true);
+		getField(SampleDto.DATE_RESULTS_SENT_TO_REFERRING_CLINICIAN).setVisible(true);
 		Field<?> shippedField = getField(SampleDto.SHIPPED);
 		FieldHelper.setVisibleWhen(
 			getFieldGroup(),
@@ -747,7 +851,81 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 				SampleDto.DISPATCHED_TO_NATIONAL_LAB_BY_REGION_DISTRICT_DATE),
 			true);
 
+		// Show IP Dakar test result fields when SENT_TO_IP_DAKAR is Yes
+		FieldHelper.setVisibleWhen(
+			getFieldGroup(),
+			Arrays.asList(
+				SampleDto.ELISA_IGM, SampleDto.ELISA_IGM_DATE,
+				SampleDto.PCR, SampleDto.PCR_DATE,
+				SampleDto.PRNT, SampleDto.PRNT_DATE),
+			SampleDto.SENT_TO_IP_DAKAR,
+			Arrays.asList(YesNo.YES),
+			true);
+		
+		// Show subtitle labels when SENT_TO_IP_DAKAR is Yes
+		Field<?> sentToIpDakarField = getField(SampleDto.SENT_TO_IP_DAKAR);
+		if (sentToIpDakarField != null) {
+			sentToIpDakarField.addValueChangeListener(e -> {
+				boolean isVisible = YesNo.YES.equals(e.getProperty().getValue());
+				getContent().getComponent(ELISA_IGM_HEADLINE_LOC).setVisible(isVisible);
+				getContent().getComponent(PCR_HEADLINE_LOC).setVisible(isVisible);
+				getContent().getComponent(PRNT_HEADLINE_LOC).setVisible(isVisible);
+			});
+			// Initialize visibility
+			boolean isVisible = YesNo.YES.equals(sentToIpDakarField.getValue());
+			getContent().getComponent(ELISA_IGM_HEADLINE_LOC).setVisible(isVisible);
+			getContent().getComponent(PCR_HEADLINE_LOC).setVisible(isVisible);
+			getContent().getComponent(PRNT_HEADLINE_LOC).setVisible(isVisible);
+		}
+
 		// Show yellow fever-specific fields
+	}
+
+	/**
+	 * Configures fields specifically for congenital rubella samples
+	 */
+	protected void configureCongenitalRubellaFields() {
+		// Make FIELD_SAMPLE_ID read-only
+		getField(SampleDto.FIELD_SAMPLE_ID).setReadOnly(true);
+
+		// Filter sample material options for congenital rubella: Serum, Throat swab, Urine, CSF, Other
+		FieldHelper.updateEnumData(sampleMaterialComboBox, Arrays.asList(SampleMaterial.SERUM, SampleMaterial.THROAT_SWAB, SampleMaterial.URINE, SampleMaterial.CSF, SampleMaterial.OTHER));
+
+		// Set RECEIVED checkbox as read-only
+		getField(SampleDto.RECEIVED).setReadOnly(true);
+
+		// Set PATHOGEN_TEST_RESULT as read-only
+		getField(SampleDto.PATHOGEN_TEST_RESULT).setReadOnly(true);
+
+		// Configure visibility for shipped/received fields
+		getField(SampleDto.SHIPMENT_DATE).setVisible(true);
+		Field<?> shippedField = getField(SampleDto.SHIPPED);
+		FieldHelper.setVisibleWhen(
+			getFieldGroup(),
+			Arrays.asList(SampleDto.SHIPMENT_DETAILS),
+			SampleDto.SHIPPED,
+			Arrays.asList(true),
+			true);
+		FieldHelper.setEnabledWhen(
+			getFieldGroup(),
+			shippedField,
+			Arrays.asList(true),
+			Arrays.asList(SampleDto.SHIPMENT_DETAILS),
+			true);
+
+		Field<?> receivedField = getField(SampleDto.RECEIVED);
+		FieldHelper.setVisibleWhen(
+			getFieldGroup(),
+			Arrays.asList(SampleDto.RECEIVED_DATE),
+			SampleDto.RECEIVED,
+			Arrays.asList(true),
+			true);
+		FieldHelper.setEnabledWhen(
+			getFieldGroup(),
+			receivedField,
+			Arrays.asList(true),
+			Arrays.asList(SampleDto.RECEIVED_DATE),
+			true);
 	}
 
 	/**
@@ -873,7 +1051,7 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 		addField(SampleDto.FINAL_LAB_RESULTS, NullableOptionGroup.class);
 		addField(SampleDto.IMMUNOCOMPROMISED_STATUS_SUSPECTED, NullableOptionGroup.class);
 		ComboBox afpFinalClassification = addField(SampleDto.AFP_FINAL_CLASSIFICATION, ComboBox.class);
-		FieldHelper.updateEnumData(afpFinalClassification, FinalClassification.AFP_CLASSIFICATION);
+		FieldHelper.updateEnumData(afpFinalClassification, Arrays.asList(FinalClassification.AFP_CLASSIFICATION));
 
 		setRequired(false, SampleDto.SAMPLE_PURPOSE, SampleDto.SAMPLE_DATE_TIME, SampleDto.SAMPLE_MATERIAL);
 		FieldHelper.updateEnumData(sampleMaterialComboBox, Arrays.asList(SampleMaterial.STOOL));
@@ -896,6 +1074,8 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 				return AFP_HTML_LAYOUT;
 			case CSM:
 				return MENINGITIS_HTML_LAYOUT;
+			case CONGENITAL_RUBELLA:
+				return CONGENITAL_RUBELLA_HTML_LAYOUT;
 			default:
 				return SAMPLE_COMMON_HTML_LAYOUT;
 		}

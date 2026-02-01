@@ -6,7 +6,8 @@ public enum SimpleTestResultType {
 
 	POSITIVE,
 	NEGATIVE,
-	INDETERMINATE;
+	INDETERMINATE,
+	EQUIVOCAL;
 
 	@Override
 	public String toString() {

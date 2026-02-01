@@ -552,6 +552,7 @@ public class SampleFacadeEjb implements SampleFacade {
 			sampleRoot.get(Sample.SHIPPED),
 			sampleRoot.get(Sample.SHIPMENT_DATE),
 			sampleRoot.get(Sample.SHIPMENT_DETAILS),
+			sampleRoot.get(Sample.DATE_RESULTS_SENT_TO_REFERRING_CLINICIAN),
 			sampleRoot.get(Sample.RECEIVED),
 			sampleRoot.get(Sample.RECEIVED_DATE),
 			sampleRoot.get(Sample.SPECIMEN_CONDITION),
@@ -833,6 +834,7 @@ public class SampleFacadeEjb implements SampleFacade {
 		target.setShipmentDetails(source.getShipmentDetails());
 		target.setSentToIpDakar(source.getSentToIpDakar());
 		target.setReceivedDate(source.getReceivedDate());
+		target.setDateResultsSentToReferringClinician(source.getDateResultsSentToReferringClinician());
 		target.setSpecimenCondition(source.getSpecimenCondition());
 		target.setNoTestPossibleReason(source.getNoTestPossibleReason());
 		target.setComment(source.getComment());
@@ -899,6 +901,12 @@ public class SampleFacadeEjb implements SampleFacade {
 		target.setDateSpecimenSentToLaboratoryType(source.getDateSpecimenSentToLaboratoryType());
 		target.setPackaging(source.getPackaging());
 		target.setPackagingOther(source.getPackagingOther());
+		target.setElisaIgm(source.getElisaIgm());
+		target.setElisaIgmDate(source.getElisaIgmDate());
+		target.setPcr(source.getPcr());
+		target.setPcrDate(source.getPcrDate());
+		target.setPrnt(source.getPrnt());
+		target.setPrntDate(source.getPrntDate());
 
 		target.setReportLat(source.getReportLat());
 		target.setReportLon(source.getReportLon());
@@ -1037,6 +1045,7 @@ public class SampleFacadeEjb implements SampleFacade {
 		target.setShipmentDetails(source.getShipmentDetails());
 		target.setSentToIpDakar(source.getSentToIpDakar());
 		target.setReceivedDate(source.getReceivedDate());
+		target.setDateResultsSentToReferringClinician(source.getDateResultsSentToReferringClinician());
 		target.setSpecimenCondition(source.getSpecimenCondition());
 		target.setNoTestPossibleReason(source.getNoTestPossibleReason());
 		target.setComment(source.getComment());
@@ -1103,6 +1112,12 @@ public class SampleFacadeEjb implements SampleFacade {
 		target.setDateSpecimenSentToLaboratoryType(source.getDateSpecimenSentToLaboratoryType());
 		target.setPackaging(source.getPackaging());
 		target.setPackagingOther(source.getPackagingOther());
+		target.setElisaIgm(source.getElisaIgm());
+		target.setElisaIgmDate(source.getElisaIgmDate());
+		target.setPcr(source.getPcr());
+		target.setPcrDate(source.getPcrDate());
+		target.setPrnt(source.getPrnt());
+		target.setPrntDate(source.getPrntDate());
 
 		target.setReportLat(source.getReportLat());
 		target.setReportLon(source.getReportLon());

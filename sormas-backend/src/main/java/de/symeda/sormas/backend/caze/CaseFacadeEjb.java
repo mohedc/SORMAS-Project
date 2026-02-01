@@ -3256,6 +3256,7 @@ public class CaseFacadeEjb extends AbstractCoreFacadeEjb<Case, CaseDataDto, Case
 		target.setSupplementalImmunization(source.getSupplementalImmunization());
 		target.setSupplementalImmunizationDetails(source.getSupplementalImmunizationDetails());
 		target.setNotifiedByText(source.getNotifiedByText());
+		target.setFinalClassification(source.getFinalClassification());
 
 		return target;
 	}
@@ -3509,6 +3510,7 @@ public class CaseFacadeEjb extends AbstractCoreFacadeEjb<Case, CaseDataDto, Case
 		target.setSupplementalImmunization(source.getSupplementalImmunization());
 		target.setSupplementalImmunizationDetails(source.getSupplementalImmunizationDetails());
 		target.setNotifiedByText(source.getNotifiedByText());
+		target.setFinalClassification(source.getFinalClassification());
         return target;
 	}
 

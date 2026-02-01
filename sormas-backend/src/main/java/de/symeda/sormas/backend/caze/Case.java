@@ -43,6 +43,7 @@ import javax.persistence.Transient;
 
 import de.symeda.sormas.api.caze.*;
 import de.symeda.sormas.api.caze.caseimport.MotherVaccinationStatus;
+import de.symeda.sormas.api.sample.FinalClassification;
 import de.symeda.sormas.api.utils.Diseases;
 import de.symeda.sormas.backend.afpimmunization.AfpImmunization;
 import org.hibernate.annotations.Type;
@@ -238,6 +239,7 @@ public class Case extends CoreAdo implements IsCase, SormasToSormasShareable, Ha
 	public static final String RADIOGRAPHY_COMPATIBILITY = "radiographyCompatibility";
 	public static final String OTHER_DIAGNOSTIC_CRITERIA = "otherDiagnosticCriteria";
 	public static final String IDSR_DIAGNOSIS_DETAILS = "idsrDiagnosisDetails";
+	public static final String FINAL_CLASSIFICATION = "finalClassification";
 
 	private Person person;
 	private String description;
@@ -473,6 +475,7 @@ public class Case extends CoreAdo implements IsCase, SormasToSormasShareable, Ha
 	private YesNoUnknown supplementalImmunization;
 	private String supplementalImmunizationDetails;
 	private String notifiedByText;
+	private FinalClassification finalClassification;
 
     public static Case build() {
 		Case caze = new Case();
@@ -2214,5 +2217,14 @@ public class Case extends CoreAdo implements IsCase, SormasToSormasShareable, Ha
 
 	public void setNotifiedByText(String notifiedByText) {
 		this.notifiedByText = notifiedByText;
+	}
+
+	@Enumerated(EnumType.STRING)
+	public FinalClassification getFinalClassification() {
+		return finalClassification;
+	}
+
+	public void setFinalClassification(FinalClassification finalClassification) {
+		this.finalClassification = finalClassification;
 	}
 }

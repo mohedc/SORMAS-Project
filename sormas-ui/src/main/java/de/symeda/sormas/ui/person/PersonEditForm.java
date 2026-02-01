@@ -223,6 +223,7 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 					) +
 					fluidRowLocs(EntityDto.CHANGE_DATE, "") +
 					fluidRowLocs(PersonDto.SEX, PersonDto.PRESENT_CONDITION) +
+					fluidRowLocs(PersonDto.PASSPORT_NUMBER, "") +
 					loc(HOME_ADDRESS_HEADING_LOC) +
 					divsCss(VSPACE_3, fluidRowLocs(PersonDto.ADDRESS)) +
 					fluidRowLocs(PersonDto.LOCATION_OF_BIRTH) +
@@ -242,6 +243,7 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 					) +
 					fluidRowLocs(EntityDto.CHANGE_DATE, "") +
 					fluidRowLocs(PersonDto.SEX, PersonDto.PRESENT_CONDITION) +
+					fluidRowLocs(PersonDto.PASSPORT_NUMBER, "") +
 					loc(ADDRESS_HEADER) +
 					divsCss(VSPACE_3, fluidRowLocs(PersonDto.ADDRESS)) +
 					fluidRowLocs(PersonDto.MOTHERS_NAME, PersonDto.FATHERS_NAME);
@@ -1003,64 +1005,18 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 		super.setValue(newFieldValue);
 		initializePresentConditionField();
 
-		// Handle passport number visibility for Measles when Case Origin is Point of Entry
-		if (disease == Disease.MEASLES && personContext == PersonContext.CASE && passportNumberField != null) {
+		// Handle passport number visibility when Case Origin is Point of Entry (for any disease)
+		if (personContext == PersonContext.CASE && passportNumberField != null && disease != null) {
 			if (newFieldValue != null && newFieldValue.getUuid() != null) {
 				List<CaseDataDto> personCases = FacadeProvider.getCaseFacade().getAllCasesOfPerson(newFieldValue.getUuid());
 				// Find the case with matching disease
-				CaseDataDto measlesCase = personCases.stream()
-						.filter(c -> c.getDisease() == Disease.MEASLES)
+				CaseDataDto matchingCase = personCases.stream()
+						.filter(c -> c.getDisease() == disease)
 						.findFirst()
 						.orElse(null);
 				
-				if (measlesCase != null) {
-					boolean isPointOfEntry = measlesCase.getCaseOrigin() == CaseOrigin.POINT_OF_ENTRY;
-					passportNumberField.setVisible(isPointOfEntry);
-				} else {
-					// If no case found yet, hide passport number by default
-					passportNumberField.setVisible(false);
-				}
-			} else {
-				// If person not yet set, hide passport number by default
-				passportNumberField.setVisible(false);
-			}
-		}
-
-		// Handle passport number visibility for Yellow Fever when Case Origin is Point of Entry
-		if (disease == Disease.YELLOW_FEVER && personContext == PersonContext.CASE && passportNumberField != null) {
-			if (newFieldValue != null && newFieldValue.getUuid() != null) {
-				List<CaseDataDto> personCases = FacadeProvider.getCaseFacade().getAllCasesOfPerson(newFieldValue.getUuid());
-				// Find the case with matching disease
-				CaseDataDto yellowFeverCase = personCases.stream()
-						.filter(c -> c.getDisease() == Disease.YELLOW_FEVER)
-						.findFirst()
-						.orElse(null);
-				
-				if (yellowFeverCase != null) {
-					boolean isPointOfEntry = yellowFeverCase.getCaseOrigin() == CaseOrigin.POINT_OF_ENTRY;
-					passportNumberField.setVisible(isPointOfEntry);
-				} else {
-					// If no case found yet, hide passport number by default
-					passportNumberField.setVisible(false);
-				}
-			} else {
-				// If person not yet set, hide passport number by default
-				passportNumberField.setVisible(false);
-			}
-		}
-
-		// Handle passport number visibility for Congenital Rubella when Case Origin is Point of Entry
-		if (disease == Disease.CONGENITAL_RUBELLA && personContext == PersonContext.CASE && passportNumberField != null) {
-			if (newFieldValue != null && newFieldValue.getUuid() != null) {
-				List<CaseDataDto> personCases = FacadeProvider.getCaseFacade().getAllCasesOfPerson(newFieldValue.getUuid());
-				// Find the case with matching disease
-				CaseDataDto congenitalRubellaCase = personCases.stream()
-						.filter(c -> c.getDisease() == Disease.CONGENITAL_RUBELLA)
-						.findFirst()
-						.orElse(null);
-				
-				if (congenitalRubellaCase != null) {
-					boolean isPointOfEntry = congenitalRubellaCase.getCaseOrigin() == CaseOrigin.POINT_OF_ENTRY;
+				if (matchingCase != null) {
+					boolean isPointOfEntry = matchingCase.getCaseOrigin() == CaseOrigin.POINT_OF_ENTRY;
 					passportNumberField.setVisible(isPointOfEntry);
 				} else {
 					// If no case found yet, hide passport number by default

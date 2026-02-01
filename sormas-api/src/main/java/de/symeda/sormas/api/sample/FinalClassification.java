@@ -17,30 +17,46 @@
  *******************************************************************************/
 package de.symeda.sormas.api.sample;
 
+import de.symeda.sormas.api.Disease;
 import de.symeda.sormas.api.i18n.I18nProperties;
+import de.symeda.sormas.api.utils.Diseases;
 
 import java.util.Arrays;
 import java.util.List;
 
 public enum FinalClassification {
 
+	@Diseases({
+		Disease.MEASLES,
+		Disease.YELLOW_FEVER,
+		Disease.CSM,
+		Disease.CONGENITAL_RUBELLA })
 	LAB_CONFIRMED,
+	@Diseases({
+		Disease.MEASLES,
+		Disease.YELLOW_FEVER,
+		Disease.CSM,
+		Disease.CONGENITAL_RUBELLA })
 	CONFIRMED_BY_EPIDEMIOLOGICAL_LINKAGE,
-	COMPATIBLE,
-	DISCARDED_IGM_NEGATIVE,
-	PENDING_SUSPECTED_WITH_SPECIMEN_LAB_RESULTS_PENDING,
-	CONFIRMED_POLIO,
+	@Diseases({
+		Disease.MEASLES,
+		Disease.YELLOW_FEVER,
+		Disease.CSM,
+		Disease.CONGENITAL_RUBELLA })
+	CLINICAL,
+	@Diseases({
+		Disease.MEASLES,
+		Disease.YELLOW_FEVER,
+		Disease.CSM,
+		Disease.CONGENITAL_RUBELLA })
 	DISCARDED,
-	NOT_AN_AFP_CASE,
-	cVDPV,
-	aVDPV,
-	iVDPV,
-	SERO_TYPE,
-	CONFIRMED_BY_LAB_TEST_OR_EPIDEMIOLOGICAL_LINK,
-	CLINICAL_SUSPECTED_NO_BLOOD_SPECIMEN;
-
-	public static final List<FinalClassification> AFP_CLASSIFICATION = Arrays.asList(CONFIRMED_POLIO, COMPATIBLE, DISCARDED, NOT_AN_AFP_CASE, cVDPV, aVDPV, iVDPV, SERO_TYPE);
-
+	@Diseases({
+		Disease.MEASLES,
+		Disease.YELLOW_FEVER,
+		Disease.CSM,
+		Disease.CONGENITAL_RUBELLA })
+	PENDING_LAB_RESULTS,
+	AFP_CLASSIFICATION;
 	@Override
 	public String toString() {
 		return I18nProperties.getEnumCaption(this);

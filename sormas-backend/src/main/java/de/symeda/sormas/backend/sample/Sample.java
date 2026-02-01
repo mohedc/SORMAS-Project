@@ -127,6 +127,7 @@ public class Sample extends DeletableAdo implements IsSample, SormasToSormasShar
 	public static final String DATE_SPECIMEN_SENT_TO_LABORATORY_TYPE = "dateSpecimenSentToLaboratoryType";
 	public static final String PACKAGING = "packaging";
 	public static final String PACKAGING_OTHER = "packagingOther";
+	public static final String DATE_RESULTS_SENT_TO_REFERRING_CLINICIAN = "dateResultsSentToReferringClinician";
 
 	private Case associatedCase;
 	private Contact associatedContact;
@@ -220,6 +221,13 @@ public class Sample extends DeletableAdo implements IsSample, SormasToSormasShar
 	private Date dateSpecimenSentToLaboratoryType;
 	private Packaging packaging;
 	private String packagingOther;
+	private SimpleTestResultType elisaIgm;
+	private Date elisaIgmDate;
+	private PosNeg pcr;
+	private Date pcrDate;
+	private PosNeg prnt;
+	private Date prntDate;
+	private Date dateResultsSentToReferringClinician;
 
 	private List<PathogenTest> pathogenTests;
 	private List<AdditionalTest> additionalTests;
@@ -1113,5 +1121,75 @@ public class Sample extends DeletableAdo implements IsSample, SormasToSormasShar
 
 	public void setPackagingOther(String packagingOther) {
 		this.packagingOther = packagingOther;
+	}
+
+	@Enumerated(EnumType.STRING)
+	@Column
+	public SimpleTestResultType getElisaIgm() {
+		return elisaIgm;
+	}
+
+	public void setElisaIgm(SimpleTestResultType elisaIgm) {
+		this.elisaIgm = elisaIgm;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column
+	public Date getElisaIgmDate() {
+		return elisaIgmDate;
+	}
+
+	public void setElisaIgmDate(Date elisaIgmDate) {
+		this.elisaIgmDate = elisaIgmDate;
+	}
+
+	@Enumerated(EnumType.STRING)
+	@Column
+	public PosNeg getPcr() {
+		return pcr;
+	}
+
+	public void setPcr(PosNeg pcr) {
+		this.pcr = pcr;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column
+	public Date getPcrDate() {
+		return pcrDate;
+	}
+
+	public void setPcrDate(Date pcrDate) {
+		this.pcrDate = pcrDate;
+	}
+
+	@Enumerated(EnumType.STRING)
+	@Column
+	public PosNeg getPrnt() {
+		return prnt;
+	}
+
+	public void setPrnt(PosNeg prnt) {
+		this.prnt = prnt;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column
+	public Date getPrntDate() {
+		return prntDate;
+	}
+
+	public void setPrntDate(Date prntDate) {
+		this.prntDate = prntDate;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column
+	public Date getDateResultsSentToReferringClinician() {
+		return dateResultsSentToReferringClinician;
+	}
+
+	public void setDateResultsSentToReferringClinician(Date dateResultsSentToReferringClinician) {
+		this.dateResultsSentToReferringClinician = dateResultsSentToReferringClinician;
 	}
 }

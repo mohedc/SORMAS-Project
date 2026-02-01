@@ -64,6 +64,7 @@ import de.symeda.sormas.api.infrastructure.region.RegionReferenceDto;
 import de.symeda.sormas.api.person.PersonDto;
 import de.symeda.sormas.api.person.PersonReferenceDto;
 import de.symeda.sormas.api.person.notifier.NotifierReferenceDto;
+import de.symeda.sormas.api.sample.FinalClassification;
 import de.symeda.sormas.api.sormastosormas.S2SIgnoreProperty;
 import de.symeda.sormas.api.sormastosormas.SormasToSormasConfig;
 import de.symeda.sormas.api.sormastosormas.SormasToSormasShareableDto;
@@ -276,6 +277,7 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 	public static final String MOTHER_GIVEN_PROTECTIVE_DOSE_TT_DATE = "motherGivenProtectiveDoseTTDate";
 	public static final String SUPPLEMENTAL_IMMUNIZATION = "supplementalImmunization";
 	public static final String SUPPLEMENTAL_IMMUNIZATION_DETAILS = "supplementalImmunizationDetails";
+	public static final String FINAL_CLASSIFICATION = "finalClassification";
 
 
     // Fields are declared in the order they should appear in the import template
@@ -850,6 +852,8 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 			Disease.NEONATAL_TETANUS})
 	@Size(max = CHARACTER_LIMIT_BIG, message = Validations.textTooLong)
 	private String supplementalImmunizationDetails;
+
+	private FinalClassification finalClassification;
 
 	public static CaseDataDto build(PersonReferenceDto person, Disease disease) {
 		return build(person, disease, HealthConditionsDto.build());
@@ -2345,6 +2349,14 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 
 	public void setSupplementalImmunizationDetails(String supplementalImmunizationDetails) {
 		this.supplementalImmunizationDetails = supplementalImmunizationDetails;
+	}
+
+	public FinalClassification getFinalClassification() {
+		return finalClassification;
+	}
+
+	public void setFinalClassification(FinalClassification finalClassification) {
+		this.finalClassification = finalClassification;
 	}
 
 	public String getNotifiedByText() {
