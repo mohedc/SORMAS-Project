@@ -157,6 +157,10 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 					fluidRowLocs(SampleDto.SHIPMENT_DATE, SampleDto.SHIPMENT_DETAILS) +
 					// fluidRowLocs(SampleDto.DISPATCHED_TO_REGIONAL_COLDROOM_DATE, SampleDto.DISPATCHED_TO_NATIONAL_LAB_BY_COURIER_DATE) +
 					// fluidRowLocs(6, SampleDto.DISPATCHED_TO_NATIONAL_LAB_BY_REGION_DISTRICT_DATE) +
+					locCss(VSPACE_TOP_3, "") +
+					fluidRowLocs(6, SampleDto.RECEIVED) +
+					fluidRowLocs(SampleDto.RECEIVED_DATE, SampleDto.LAB_SAMPLE_ID) +
+					fluidRowLocs(SampleDto.SPECIMEN_CONDITION, SampleDto.NO_TEST_POSSIBLE_REASON) +
 					fluidRowLocs(SampleDto.SENT_TO_IP_DAKAR) +
 					loc(ELISA_IGM_HEADLINE_LOC) +
 					fluidRowLocs(SampleDto.ELISA_IGM, SampleDto.ELISA_IGM_DATE) +
@@ -164,10 +168,6 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 					fluidRowLocs(SampleDto.PCR, SampleDto.PCR_DATE) +
 					loc(PRNT_HEADLINE_LOC) +
 					fluidRowLocs(SampleDto.PRNT, SampleDto.PRNT_DATE) +
-					locCss(VSPACE_TOP_3, "") +
-					fluidRowLocs(6, SampleDto.RECEIVED) +
-					fluidRowLocs(SampleDto.RECEIVED_DATE, SampleDto.LAB_SAMPLE_ID) +
-					fluidRowLocs(SampleDto.SPECIMEN_CONDITION, SampleDto.NO_TEST_POSSIBLE_REASON) +
 					fluidRowLocs(SampleDto.PATHOGEN_TEST_RESULT);
 
 	protected static final String MENINGITIS_HTML_LAYOUT =
