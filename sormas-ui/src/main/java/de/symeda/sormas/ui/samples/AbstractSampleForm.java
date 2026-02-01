@@ -267,13 +267,13 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 		addField(SampleDto.SENT_TO_IP_DAKAR, NullableOptionGroup.class);
 		
 		// IP Dakar test result fields
-		ComboBox elisaIgmField = addField(SampleDto.ELISA_IGM, ComboBox.class);
+		NullableOptionGroup elisaIgmField = addField(SampleDto.ELISA_IGM, NullableOptionGroup.class);
 		FieldHelper.updateEnumData(elisaIgmField, Arrays.asList(SimpleTestResultType.POSITIVE, SimpleTestResultType.NEGATIVE, SimpleTestResultType.EQUIVOCAL));
 		addDateField(SampleDto.ELISA_IGM_DATE, DateField.class, 7);
-		ComboBox pcrField = addField(SampleDto.PCR, ComboBox.class);
+		NullableOptionGroup pcrField = addField(SampleDto.PCR, NullableOptionGroup.class);
 		FieldHelper.updateEnumData(pcrField, Arrays.asList(PosNeg.POSITIVE, PosNeg.NEGATIVE));
 		addDateField(SampleDto.PCR_DATE, DateField.class, 7);
-		ComboBox prntField = addField(SampleDto.PRNT, ComboBox.class);
+		NullableOptionGroup prntField = addField(SampleDto.PRNT, NullableOptionGroup.class);
 		FieldHelper.updateEnumData(prntField, Arrays.asList(PosNeg.POSITIVE, PosNeg.NEGATIVE));
 		addDateField(SampleDto.PRNT_DATE, DateField.class, 7);
 		
