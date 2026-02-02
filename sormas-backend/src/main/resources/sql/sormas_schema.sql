@@ -15006,6 +15006,14 @@ INSERT INTO schema_version (version_number, comment) VALUES (629, 'Add dateResul
 ALTER TABLE cases ADD COLUMN dateformsenttoregion date;
 ALTER TABLE cases_history ADD COLUMN dateformsenttoregion date;
 INSERT INTO schema_version (version_number, comment) VALUES (630, 'Add dateFormSentToRegion to cases table');
+
+ALTER TABLE person ADD COLUMN applicable varchar(55);
+ALTER TABLE person_history ADD COLUMN applicable varchar(55);
+ALTER TABLE person ADD COLUMN telnumber VARCHAR(55);
+ALTER TABLE person_history ADD COLUMN telnumber VARCHAR(55);
+ALTER TABLE person ADD COLUMN locatinginfo varchar(512);
+ALTER TABLE person_history ADD COLUMN locatinginfo varchar(512);
+INSERT INTO schema_version (version_number, comment) VALUES (631, 'Added columns to person');
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***
 
 

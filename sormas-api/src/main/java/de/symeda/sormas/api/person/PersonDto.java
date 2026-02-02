@@ -151,6 +151,9 @@ public class PersonDto extends PseudonymizableDto implements IsPerson {
 	public static final String DESCRIBE_TREATMENT_OF_CARD = "describeTreatmentOfCard";
 	public static final String CAREGIVER_TELEPHONE_NUMBER = "caregiverTelephoneNumber";
 	public static final String CURRENT_WEIGHT = "currentWeight";
+	public static final String APPLICABLE = "applicable";
+	public static final String LOCATING_INFO = "locatingInfo";
+	public static final String TEL_NUMBER = "telNumber";
 	private static final long serialVersionUID = -8558187171374254398L;
 
 	// Fields are declared in the order they should appear in the import template
@@ -277,7 +280,7 @@ public class PersonDto extends PseudonymizableDto implements IsPerson {
 	@HideForCountries
 	private Integer currentWeight;
 	@Diseases({
-		Disease.CONGENITAL_RUBELLA })
+		Disease.CONGENITAL_RUBELLA})
 	@HideForCountries
 	@SensitiveData
 	@Size(max = FieldConstraints.CHARACTER_LIMIT_DEFAULT, message = Validations.textTooLong)
@@ -461,6 +464,9 @@ public class PersonDto extends PseudonymizableDto implements IsPerson {
 	private String place4;
 	private String durationMonths4;
 	private String durationDays4;
+	private YesNo applicable;
+	private String locatingInfo;
+	private String telNumber;
 
 	@SuppressWarnings("serial")
 	public static class SeveralNonPrimaryContactDetailsException extends RuntimeException {
@@ -1391,6 +1397,30 @@ public class PersonDto extends PseudonymizableDto implements IsPerson {
 
 	public void setDurationDays4(String durationDays4) {
 		this.durationDays4 = durationDays4;
+	}
+
+	public YesNo getApplicable() {
+		return applicable;
+	}
+
+	public void setApplicable(YesNo applicable) {
+		this.applicable = applicable;
+	}
+
+	public String getTelNumber() {
+		return telNumber;
+	}
+
+	public void setTelNumber(String telNumber) {
+		this.telNumber = telNumber;
+	}
+
+	public String getLocatingInfo() {
+		return locatingInfo;
+	}
+
+	public void setLocatingInfo(String locatingInfo) {
+		this.locatingInfo = locatingInfo;
 	}
 
 	@Override

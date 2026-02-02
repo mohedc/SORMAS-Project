@@ -40,6 +40,7 @@ import java.util.stream.Collectors;
 
 import com.vaadin.v7.ui.CheckBox;
 import de.symeda.sormas.api.person.*;
+import de.symeda.sormas.api.utils.YesNo;
 import de.symeda.sormas.api.utils.YesNoUnknown;
 import de.symeda.sormas.api.utils.fieldaccess.UiFieldAccessCheckers;
 import de.symeda.sormas.ui.utils.*;
@@ -296,6 +297,24 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 					loc(ADDRESS_HEADER) +
 					divsCss(VSPACE_3, fluidRowLocs(PersonDto.ADDRESS));
 
+	private static final String IDSR_LAYOUT =
+			loc(PERSON_INFORMATION_HEADING_LOC) +
+					fluidRowLocs(PersonDto.UUID, "") +
+					fluidRowLocs(PersonDto.FIRST_NAME, PersonDto.LAST_NAME) +
+					fluidRowLocs(PersonDto.OTHER_NAMES) +
+					fluidRow(
+							fluidRowLocs(PersonDto.BIRTH_DATE_YYYY, PersonDto.BIRTH_DATE_MM, PersonDto.BIRTH_DATE_DD),
+							fluidRowLocs(PersonDto.APPROXIMATE_AGE, PersonDto.APPROXIMATE_AGE_TYPE, PersonDto.APPROXIMATE_AGE_REFERENCE_DATE)
+					) +
+					fluidRowLocs(EntityDto.CHANGE_DATE, "") +
+					fluidRowLocs(PersonDto.SEX, PersonDto.NATIONALITY) +
+					fluidRowLocs(PersonDto.PASSPORT_NUMBER, PersonDto.TEL_NUMBER) +
+					loc(ADDRESS_HEADER) +
+					divsCss(VSPACE_3, fluidRowLocs(PersonDto.ADDRESS)) +
+					fluidRowLocs(PersonDto.LOCATING_INFO) +
+					fluidRowLocs(6,PersonDto.APPLICABLE) +
+					fluidRowLocs(PersonDto.MOTHERS_NAME, PersonDto.FATHERS_NAME);
+
 	private final Label occupationHeader = new Label(I18nProperties.getString(Strings.headingPersonOccupation));
 	private final Label addressHeader = new Label(I18nProperties.getPrefixCaption(PersonDto.I18N_PREFIX, PersonDto.ADDRESS));
 	private final Label addressesHeader = new Label(I18nProperties.getPrefixCaption(PersonDto.I18N_PREFIX, PersonDto.ADDRESSES));
@@ -336,6 +355,9 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 	private NullableOptionGroup cutCordWithSterileBlade;
 	private NullableOptionGroup cordTreatedWithAnything;
 	private TextField cordTreatedWithAnythingWhere;
+	private ComboBox applicable;
+	TextField fathername;
+	TextField mothername;
 
 	//@formatter:on
 
@@ -460,7 +482,8 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 		addField(PersonDto.BIRTH_NAME, TextField.class);
 		addField(PersonDto.NICKNAME, TextField.class);
 		addField(PersonDto.MOTHERS_MAIDEN_NAME, TextField.class);
-		addFields(PersonDto.MOTHERS_NAME, PersonDto.FATHERS_NAME);
+		fathername = addField(PersonDto.FATHERS_NAME);
+		mothername = addField(PersonDto.MOTHERS_NAME);
 		nameOfGuardians = addField(PersonDto.NAMES_OF_GUARDIANS, TextField.class);
 		ComboBox presentCondition = addField(PersonDto.PRESENT_CONDITION, ComboBox.class);
 		birthDateDay = addField(PersonDto.BIRTH_DATE_DD, ComboBox.class);
@@ -861,6 +884,9 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 		nameOfGuardians.setVisible(true);
 		minimumAdultAge = FacadeProvider.getConfigFacade().getMinimumAdultAge();
 		minimumEmancipatedAge = FacadeProvider.getConfigFacade().getMinimumEmancipatedAge();
+		applicable = addField(PersonDto.APPLICABLE, ComboBox.class);
+		addField(PersonDto.LOCATING_INFO, TextField.class);
+		addField(PersonDto.TEL_NUMBER, TextField.class);
 
 //		addressForm.handleIncomingDisease(disease);
 
@@ -909,6 +935,10 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 			TextField tfCurrentWeight = addField(PersonDto.CURRENT_WEIGHT, TextField.class);
 			tfCurrentWeight.setConversionError(I18nProperties.getValidationError(Validations.onlyIntegerNumbersAllowed, tfCurrentWeight.getCaption()));
 			TextField tfCaregiverTelephoneNumber = addField(PersonDto.CAREGIVER_TELEPHONE_NUMBER, TextField.class);
+		}
+
+		if(disease == Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS){
+			FieldHelper.setVisibleWhen(applicable, Arrays.asList(mothername, fathername), Arrays.asList(YesNo.YES), true);
 		}
 	}
 
@@ -1166,6 +1196,9 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 		}
 		if (disease == Disease.CSM) {
 			return MENINGITIS_LAYOUT;
+		}
+		if (disease == Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS) {
+			return IDSR_LAYOUT;
 		}
 		return HTML_LAYOUT;
 	}

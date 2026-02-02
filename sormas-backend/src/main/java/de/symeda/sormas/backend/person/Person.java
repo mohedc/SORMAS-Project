@@ -45,6 +45,7 @@ import de.symeda.sormas.api.Disease;
 import de.symeda.sormas.api.externaldata.HasExternalData;
 import de.symeda.sormas.api.infrastructure.facility.FacilityType;
 import de.symeda.sormas.api.person.*;
+import de.symeda.sormas.api.utils.YesNo;
 import de.symeda.sormas.api.utils.YesNoUnknown;
 import de.symeda.sormas.backend.caze.Case;
 import de.symeda.sormas.backend.common.AbstractDomainObject;
@@ -240,7 +241,9 @@ public class Person extends AbstractDomainObject implements IsPerson, HasExterna
 	private String place4;
 	private String durationMonths4;
 	private String durationDays4;
-
+	private YesNo applicable;
+	private String telNumber;
+	private String locatingInfo;
 	private List<Case> cases = new ArrayList<>();
 	private List<Contact> contacts = new ArrayList<>();
 	private List<EventParticipant> eventParticipants = new ArrayList<>();
@@ -1097,6 +1100,30 @@ public class Person extends AbstractDomainObject implements IsPerson, HasExterna
 
 	public void setDurationDays4(String durationDays4) {
 		this.durationDays4 = durationDays4;
+	}
+	@Enumerated(EnumType.STRING)
+	public YesNo getApplicable() {
+		return applicable;
+	}
+
+	public void setApplicable(YesNo applicable) {
+		this.applicable = applicable;
+	}
+
+	public String getTelNumber() {
+		return telNumber;
+	}
+
+	public void setTelNumber(String telNumber) {
+		this.telNumber = telNumber;
+	}
+
+	public String getLocatingInfo() {
+		return locatingInfo;
+	}
+
+	public void setLocatingInfo(String locatingInfo) {
+		this.locatingInfo = locatingInfo;
 	}
 
 	@Transient

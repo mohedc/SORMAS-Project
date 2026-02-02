@@ -1063,6 +1063,9 @@ public class PersonFacadeEjb extends AbstractBaseEjb<Person, PersonDto, PersonIn
 		target.setPlace4(source.getPlace4());
 		target.setDurationMonths4(source.getDurationMonths4());
 		target.setDurationDays4(source.getDurationDays4());
+		target.setApplicable(source.getApplicable());
+		target.setTelNumber(source.getTelNumber());
+		target.setLocatingInfo(source.getLocatingInfo());
 
 		return target;
 	}
@@ -1865,6 +1868,9 @@ public class PersonFacadeEjb extends AbstractBaseEjb<Person, PersonDto, PersonIn
 		target.setPlace4(source.getPlace4());
 		target.setDurationMonths4(source.getDurationMonths4());
 		target.setDurationDays4(source.getDurationDays4());
+		target.setApplicable(source.getApplicable());
+		target.setTelNumber(source.getTelNumber());
+		target.setLocatingInfo(source.getLocatingInfo());
 
 		return target;
 	}

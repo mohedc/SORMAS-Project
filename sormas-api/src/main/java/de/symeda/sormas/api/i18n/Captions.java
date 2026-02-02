@@ -2433,6 +2433,9 @@ public interface Captions {
 	String Person_place4 = "Person.place4";
 	String Person_durationMonths4 = "Person.durationMonths4";
 	String Person_durationDays4 = "Person.durationDays4";
+	String Person_applicable = "Person.applicable";
+	String Person_telNumber = "Person.telNumber";
+	String Person_locatingInfo = "Person.locatingInfo";
 	String Person_uuid = "Person.uuid";
 	String personAgeAndBirthdate = "personAgeAndBirthdate";
 	String personCommunityPrompt = "personCommunityPrompt";

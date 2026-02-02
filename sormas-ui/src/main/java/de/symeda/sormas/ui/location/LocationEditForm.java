@@ -171,6 +171,10 @@ public class LocationEditForm extends AbstractEditForm<LocationDto> {
 					fluidRowLocs(LocationDto.COMPOUND_OWNER, LocationDto.AREA_TYPE) +
 					fluidRowLocs(6,LocationDto.VILLAGE);
 
+	private static final String IDSR_LAYOUT =
+			fluidRowLocs(LocationDto.REGION, LocationDto.DISTRICT, LocationDto.COMMUNITY) +
+					fluidRowLocs(LocationDto.AREA_TYPE, LocationDto.VILLAGE);
+
 	private static final String CONGENITAL_RUBELLA_LAYOUT =
 			loc(CONGENITAL_RUBELLA_HOME_ADDRESS_HEADING_LOC) +
 			fluidRowLocs(LocationDto.REGION, LocationDto.DISTRICT, LocationDto.COMMUNITY) +
@@ -875,6 +879,8 @@ public class LocationEditForm extends AbstractEditForm<LocationDto> {
 				return MENINGITIS_LAYOUT;
 			case CONGENITAL_RUBELLA:
 				return CONGENITAL_RUBELLA_LAYOUT;
+			case IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS:
+				return IDSR_LAYOUT;
 			default:
 				return HTML_LAYOUT;
 		}
