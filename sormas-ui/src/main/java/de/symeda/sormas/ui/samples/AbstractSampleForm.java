@@ -995,6 +995,29 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 			Arrays.asList(SampleDto.LABORATORY_TYPE, SampleDto.LABORATORY_NAME, SampleDto.DATE_SPECIMEN_SENT_TO_LABORATORY_TYPE),
 			true);
 
+		// Update LAB field caption based on LABORATORY_TYPE selection
+		ComboBox laboratoryTypeField = (ComboBox) getField(SampleDto.LABORATORY_TYPE);
+		ComboBox labField = (ComboBox) getField(SampleDto.LAB);
+		String defaultLabCaption = I18nProperties.getPrefixCaption(SampleDto.I18N_PREFIX, SampleDto.LAB);
+		
+		// Initialize caption if LABORATORY_TYPE already has a value
+		if (laboratoryTypeField != null && labField != null) {
+			LaboratoryType currentLaboratoryType = (LaboratoryType) laboratoryTypeField.getValue();
+			if (currentLaboratoryType != null) {
+				labField.setCaption("Name of " + currentLaboratoryType.toString() + " the laboratory receiving");
+			}
+			
+			// Add value change listener
+			laboratoryTypeField.addValueChangeListener(e -> {
+				LaboratoryType selectedType = (LaboratoryType) e.getProperty().getValue();
+				if (selectedType != null) {
+					labField.setCaption("Name of " + selectedType.toString() + " the laboratory receiving");
+				} else {
+					labField.setCaption(defaultLabCaption);
+				}
+			});
+		}
+
 		// Packaging Other visibility
 		FieldHelper.setVisibleWhen(
 			getFieldGroup(),
