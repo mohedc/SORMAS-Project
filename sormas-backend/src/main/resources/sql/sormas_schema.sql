@@ -15002,6 +15002,10 @@ ALTER TABLE samples ADD COLUMN IF NOT EXISTS dateresultssenttoreferringclinician
 ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS dateresultssenttoreferringclinician timestamp;
 
 INSERT INTO schema_version (version_number, comment) VALUES (629, 'Add dateResultsSentToReferringClinician field to samples table');
+
+ALTER TABLE cases ADD COLUMN dateformsenttoregion date;
+ALTER TABLE cases_history ADD COLUMN dateformsenttoregion date;
+INSERT INTO schema_version (version_number, comment) VALUES (630, 'Add dateFormSentToRegion to cases table');
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***
 
 

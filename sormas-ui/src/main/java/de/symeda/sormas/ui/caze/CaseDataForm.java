@@ -492,6 +492,36 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 					locCss(VSPACE_TOP_3, CaseDataDto.INVESTIGATOR_NAME) +
 					fluidRowLocs(CaseDataDto.INVESTIGATOR_TITLE, CaseDataDto.INVESTIGATOR_UNIT) +
 					fluidRowLocs(CaseDataDto.INVESTIGATOR_ADDRESS, CaseDataDto.INVESTIGATOR_TEL);
+
+	private static final String IDSR_LAYOUT =
+			fluidRowLocs(4, CaseDataDto.UUID, 3, CaseDataDto.REPORT_DATE, 3, CaseDataDto.REPORTING_USER, 2, "") +
+					inlineLocs(CaseDataDto.CASE_CLASSIFICATION, CLASSIFICATION_RULES_LOC, CASE_CONFIRMATION_BASIS, CASE_CLASSIFICATION_CALCULATE_BTN_LOC) +
+					fluidRow(fluidColumnLoc(3, 0, CaseDataDto.CASE_REFERENCE_DEFINITION)) +
+					fluidRow(
+							fluidColumnLoc(3, 0, CaseDataDto.CLASSIFICATION_DATE),
+							fluidColumnLocCss(LAYOUT_COL_HIDE_INVSIBLE, 5, 0, CaseDataDto.CLASSIFICATION_USER),
+							fluidColumnLocCss(LAYOUT_COL_HIDE_INVSIBLE, 4, 0, CLASSIFIED_BY_SYSTEM_LOC)) +
+					fluidRowLocs(6, CaseDataDto.EPID_NUMBER, 3, ASSIGN_NEW_EPID_NUMBER_LOC) +
+					loc(EPID_NUMBER_WARNING_LOC) +
+					fluidRowLocs(CaseDataDto.CASE_REFERENCE_NUMBER, "") +
+					fluidColumnLoc(6, 0, CaseDataDto.DISEASE) +
+					fluidRowLocs(CaseDataDto.CASE_ORIGIN, "") +
+					fluidRowLocs(CaseDataDto.NOTIFIED_BY, CaseDataDto.NOTIFIED_BY_DETAILS) +
+					fluidRowLocs(CaseDataDto.IDSR_DIAGNOSIS, CaseDataDto.IDSR_DIAGNOSIS_DETAILS) +
+					fluidRowLocs(RESPONSIBLE_JURISDICTION_HEADING_LOC) +
+					fluidRowLocs(CaseDataDto.RESPONSIBLE_REGION, CaseDataDto.RESPONSIBLE_DISTRICT, CaseDataDto.RESPONSIBLE_COMMUNITY) +
+					fluidRowLocs(PLACE_OF_STAY_HEADING_LOC) +
+					fluidRowLocs(FACILITY_OR_HOME_LOC) +
+					fluidRowLocs(CaseDataDto.REGION, CaseDataDto.DISTRICT, CaseDataDto.COMMUNITY) +
+					fluidRowLocs(TYPE_GROUP_LOC, CaseDataDto.FACILITY_TYPE) +
+					fluidRowLocs(CaseDataDto.HEALTH_FACILITY, CaseDataDto.HEALTH_FACILITY_DETAILS) +
+					fluidRowLocs(6, CaseDataDto.DEPARTMENT) +
+					inlineLocs(CaseDataDto.POINT_OF_ENTRY, CaseDataDto.POINT_OF_ENTRY_DETAILS, CASE_REFER_POINT_OF_ENTRY_BTN_LOC) +
+					fluidRowLocs(CaseDataDto.NUMBER_OF_VACCINATION_DOSES,"") +
+					fluidRowLocs(CaseDataDto.VACCINATION_RECORD_TYPE, CaseDataDto.LAST_VACCINATION_DATE) +
+					loc(INVESTIGATING_OFFICER_INFO) +
+					fluidRowLocs(CaseDataDto.INVESTIGATOR_NAME, CaseDataDto.INVESTIGATOR_TEL) +
+					fluidRowLocs(CaseDataDto.INVESTIGATOR_UNIT, CaseDataDto.DATE_FORM_SENT_TO_REGION);
 	//@formatter:on
 
 	private final String caseUuid;
@@ -626,7 +656,7 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 		headingInvestigatingOfficerLabel = new Label(I18nProperties.getString(Strings.headingInvestigatingOfficer));
 		headingInvestigatingOfficerLabel.addStyleName(H3);
 		getContent().addComponent(headingInvestigatingOfficerLabel, INVESTIGATING_OFFICER_INFO);
-		headingInvestigatingOfficerLabel.setVisible(false);
+//		headingInvestigatingOfficerLabel.setVisible(false);
 
 		if (caseFollowUpEnabled) {
 			Label followUpStatusHeadingLabel = new Label(I18nProperties.getString(Strings.headingFollowUpStatus));
@@ -1174,7 +1204,7 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 		
 		addField(CaseDataDto.VACCINATED, NullableOptionGroup.class);
 		addField(CaseDataDto.ROUTINE_VACCINATION_TYPE, NullableOptionGroup.class);
-		addField(CaseDataDto.VACCINATION_RECORD_TYPE, NullableOptionGroup.class);
+		NullableOptionGroup vaccinationRecordType = addField(CaseDataDto.VACCINATION_RECORD_TYPE, NullableOptionGroup.class);
 		TextField numberOfVaccinationDosesField = addField(CaseDataDto.NUMBER_OF_VACCINATION_DOSES, TextField.class);
 		numberOfVaccinationDosesField.setConversionError(I18nProperties.getValidationError(Validations.onlyIntegerNumbersAllowed, numberOfVaccinationDosesField.getCaption()));
 		
@@ -1182,6 +1212,7 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 
 		// Add field for "At least one yellow fever dose"
 		addField(CaseDataDto.AT_LEAST_ONE_YELLOW_FEVER_DOSE, NullableOptionGroup.class);
+		addField(CaseDataDto.DATE_FORM_SENT_TO_REGION, DateField.class);
 		
 		// Add conditional visibility: lastVaccinationDate visible when vaccinationRecordType is CARD
 		FieldHelper.setVisibleWhen(getFieldGroup(), CaseDataDto.LAST_VACCINATION_DATE, CaseDataDto.VACCINATION_RECORD_TYPE, Arrays.asList(VaccinationRecordType.CARD), true);
@@ -1190,19 +1221,24 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 		FieldHelper.setVisibleWhen(getFieldGroup(), CaseDataDto.AT_LEAST_ONE_YELLOW_FEVER_DOSE, CaseDataDto.DISEASE, Arrays.asList(Disease.YELLOW_FEVER), true);
 
 		// Conditional visibility for Meningitis vaccination fields: show when VACCINATED = VACCINATED
-		FieldHelper.setVisibleWhen(
-			getFieldGroup(),
-			Arrays.asList(CaseDataDto.VACCINATION_RECORD_TYPE, CaseDataDto.ROUTINE_VACCINATION_TYPE, CaseDataDto.NUMBER_OF_VACCINATION_DOSES),
-			CaseDataDto.VACCINATED,
-			Arrays.asList(VaccinationStatus.VACCINATED),
-			true);
+		if(disease == Disease.CSM){
+			FieldHelper.setVisibleWhen(
+					getFieldGroup(),
+					Arrays.asList(CaseDataDto.VACCINATION_RECORD_TYPE, CaseDataDto.ROUTINE_VACCINATION_TYPE, CaseDataDto.NUMBER_OF_VACCINATION_DOSES),
+					CaseDataDto.VACCINATED,
+					Arrays.asList(VaccinationStatus.VACCINATED),
+					true);
 
-		// Set required status for vaccination fields when visible (for Meningitis)
-		FieldHelper.setRequiredWhen(
-			getFieldGroup(),
-			CaseDataDto.VACCINATED,
-			Arrays.asList(CaseDataDto.VACCINATION_RECORD_TYPE, CaseDataDto.ROUTINE_VACCINATION_TYPE, CaseDataDto.NUMBER_OF_VACCINATION_DOSES),
-			Arrays.asList(VaccinationStatus.VACCINATED));
+			// Set required status for vaccination fields when visible (for Meningitis)
+			FieldHelper.setRequiredWhen(
+					getFieldGroup(),
+					CaseDataDto.VACCINATED,
+					Arrays.asList(CaseDataDto.VACCINATION_RECORD_TYPE, CaseDataDto.ROUTINE_VACCINATION_TYPE, CaseDataDto.NUMBER_OF_VACCINATION_DOSES),
+					Arrays.asList(VaccinationStatus.VACCINATED));
+		}
+		if(disease == Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS){
+			numberOfVaccinationDosesField.setCaption("Number of vaccine doses received:");
+		}
 
 		// vaccinationRecordTypeField.addValueChangeListener(e -> {
 		// 	VaccinationRecordType recordType = (VaccinationRecordType) e.getProperty().getValue();
@@ -2259,6 +2295,9 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 				break;
 			case CSM:
 				DISEASE_LAYOUT = MENINGITIS_LAYOUT;
+				break;
+			case IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS:
+				DISEASE_LAYOUT = IDSR_LAYOUT;
 				break;
 			default:
 				DISEASE_LAYOUT = SORMAS_MAIN_HTML_LAYOUT;

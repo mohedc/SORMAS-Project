@@ -476,6 +476,7 @@ public class Case extends CoreAdo implements IsCase, SormasToSormasShareable, Ha
 	private String supplementalImmunizationDetails;
 	private String notifiedByText;
 	private FinalClassification finalClassification;
+	private Date dateFormSentToRegion;
 
     public static Case build() {
 		Case caze = new Case();
@@ -2186,7 +2187,7 @@ public class Case extends CoreAdo implements IsCase, SormasToSormasShareable, Ha
 	public void setMotherGivenProtectiveDoseTT(YesNoUnknown motherGivenProtectiveDoseTT) {
 		this.motherGivenProtectiveDoseTT = motherGivenProtectiveDoseTT;
 	}
-
+	@Temporal(TemporalType.TIMESTAMP)
 	public Date getMotherGivenProtectiveDoseTTDate() {
 		return motherGivenProtectiveDoseTTDate;
 	}
@@ -2226,5 +2227,13 @@ public class Case extends CoreAdo implements IsCase, SormasToSormasShareable, Ha
 
 	public void setFinalClassification(FinalClassification finalClassification) {
 		this.finalClassification = finalClassification;
+	}
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getDateFormSentToRegion() {
+		return dateFormSentToRegion;
+	}
+
+	public void setDateFormSentToRegion(Date dateFormSentToRegion) {
+		this.dateFormSentToRegion = dateFormSentToRegion;
 	}
 }

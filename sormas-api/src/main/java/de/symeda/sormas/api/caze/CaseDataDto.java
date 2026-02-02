@@ -278,6 +278,7 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 	public static final String SUPPLEMENTAL_IMMUNIZATION = "supplementalImmunization";
 	public static final String SUPPLEMENTAL_IMMUNIZATION_DETAILS = "supplementalImmunizationDetails";
 	public static final String FINAL_CLASSIFICATION = "finalClassification";
+	public static final String DATE_FORM_SENT_TO_REGION = "dateFormSentToRegion";
 
 
     // Fields are declared in the order they should appear in the import template
@@ -439,17 +440,20 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 	@Diseases({
 		Disease.MEASLES,
 		Disease.YELLOW_FEVER,
-		Disease.CSM})
+		Disease.CSM,
+	Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS})
 	private VaccinationRecordType vaccinationRecordType;
 	@Diseases({
 		Disease.MEASLES,
 		Disease.YELLOW_FEVER,
-		Disease.CSM})
+		Disease.CSM,
+	Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS})
 	private Integer numberOfVaccinationDoses;
 	@Diseases({
 		Disease.MEASLES,
 		Disease.YELLOW_FEVER,
-		Disease.CSM})
+		Disease.CSM,
+	Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS})
 	private Date lastVaccinationDate;
 	@Diseases({
 		Disease.YELLOW_FEVER})
@@ -732,7 +736,8 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 			Disease.MEASLES,
 			Disease.YELLOW_FEVER,
 			Disease.AFP,
-			Disease.CSM})
+			Disease.CSM,
+	Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS})
 	private NotifiedBy notifiedBy;
 
 	@Diseases({
@@ -740,7 +745,8 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 			Disease.AFP})
 	private String notifiedByText;
 	@Diseases({
-			Disease.MEASLES})
+			Disease.MEASLES,
+	Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS})
 	private String notifiedByDetails;
 	@Diseases({
 			Disease.NEONATAL_TETANUS,
@@ -804,7 +810,8 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 			Disease.NEONATAL_TETANUS,
 			Disease.MEASLES,
 			Disease.YELLOW_FEVER,
-			Disease.AFP})
+			Disease.AFP,
+	Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS})
 	private String investigatorName;
 	@Diseases({
 			Disease.NEONATAL_TETANUS,
@@ -816,7 +823,8 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 			Disease.NEONATAL_TETANUS,
 			Disease.MEASLES,
 			Disease.YELLOW_FEVER,
-			Disease.AFP})
+			Disease.AFP,
+	Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS})
 	private String investigatorUnit;
 	@Diseases({
 			Disease.NEONATAL_TETANUS,
@@ -827,7 +835,8 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 			Disease.NEONATAL_TETANUS,
 			Disease.MEASLES,
 			Disease.YELLOW_FEVER,
-			Disease.AFP})
+			Disease.AFP,
+	Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS})
 	private String investigatorTel;
 	@Diseases({
 			Disease.MEASLES,
@@ -854,6 +863,9 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 	private String supplementalImmunizationDetails;
 
 	private FinalClassification finalClassification;
+	@Diseases({
+			Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS})
+	private Date dateFormSentToRegion;
 
 	public static CaseDataDto build(PersonReferenceDto person, Disease disease) {
 		return build(person, disease, HealthConditionsDto.build());
@@ -2365,6 +2377,14 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 
 	public void setNotifiedByText(String notifiedByText) {
 		this.notifiedByText = notifiedByText;
+	}
+
+	public Date getDateFormSentToRegion() {
+		return dateFormSentToRegion;
+	}
+
+	public void setDateFormSentToRegion(Date dateFormSentToRegion) {
+		this.dateFormSentToRegion = dateFormSentToRegion;
 	}
 
     @JsonIgnore
