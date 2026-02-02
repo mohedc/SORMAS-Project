@@ -237,6 +237,19 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 					fluidRowLocs(SampleDto.COMMENT) +
 					fluidRowLocs(SampleDto.PATHOGEN_TEST_RESULT);
 
+	protected static final String IDSR_HTML_LAYOUT =
+			fluidRowLocs(4, SampleDto.UUID, 4, REPORT_INFO_LABEL_LOC, 3, SampleDto.REPORTING_USER, 1, "") +
+					fluidRowLocs(SampleDto.SAMPLE_PURPOSE, SampleDto.FIELD_SAMPLE_ID) +
+					fluidRowLocs(SampleDto.SAMPLE_DATE_TIME) +
+					fluidRowLocs(SampleDto.LAB, SampleDto.LAB_DETAILS) +
+					fluidRowLocs(SampleDto.SAMPLE_MATERIAL, SampleDto.SAMPLE_MATERIAL_TEXT) +
+					fluidRowLocs(SampleDto.LAB_SAMPLE_ID) +
+					locCss(VSPACE_TOP_3, SampleDto.SHIPPED) +
+					fluidRowLocs(SampleDto.SHIPMENT_DATE, SampleDto.SHIPMENT_DETAILS) +
+					locCss(VSPACE_TOP_3, SampleDto.RECEIVED) +
+					fluidRowLocs(SampleDto.RECEIVED_DATE) +
+					fluidRowLocs(SampleDto.SPECIMEN_CONDITION);
+
 	//@formatter:on
 
 	protected AbstractSampleForm(Class<SampleDto> type, String propertyI18nPrefix, Disease disease, UiFieldAccessCheckers fieldAccessCheckers) {
@@ -519,6 +532,10 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 
 		if(disease == Disease.AFP){
 			handleAFP();
+		}
+
+		if(disease == Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS){
+			handleIDSR();
 		}
 
 		// Meningitis-specific configuration (called after all other visibility logic)
@@ -1062,6 +1079,13 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 
 	}
 
+	private void handleIDSR() {
+
+		List<SampleMaterial> validValues = Arrays.asList(SampleMaterial.STOOL, SampleMaterial.BLOOD, SampleMaterial.CSF, SampleMaterial.OTHER);
+		FieldHelper.updateEnumData(sampleMaterialComboBox, validValues);
+
+	}
+
 	@Override
 	protected String createHtmlLayout() {
 		Disease disease = getCaseDisease();
@@ -1076,6 +1100,8 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 				return MENINGITIS_HTML_LAYOUT;
 			case CONGENITAL_RUBELLA:
 				return CONGENITAL_RUBELLA_HTML_LAYOUT;
+			case IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS:
+				return IDSR_HTML_LAYOUT;
 			default:
 				return SAMPLE_COMMON_HTML_LAYOUT;
 		}

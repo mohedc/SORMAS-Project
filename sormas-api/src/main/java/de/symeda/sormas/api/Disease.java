@@ -203,4 +203,8 @@ public enum Disease
 	}
 
 	public static List<Disease> DISEASE_LIST = Arrays.asList(Disease.values());
+	public static final List<Disease> HIDE_PATHOGEN_BUTTON_LIST = Arrays.asList(
+			IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS
+	);
+
 }

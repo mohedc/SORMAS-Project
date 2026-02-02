@@ -139,8 +139,10 @@ public class SampleController {
 		this.disease = disease;
 		final CommitDiscardWrapperComponent<SampleCreateForm> editView = getSampleCreateComponent(sampleDto, disease, callback);
 		// add option to create additional pathogen tests
-		SampleEditPathogenTestListHandler pathogenTestHandler = new SampleEditPathogenTestListHandler();
-		addPathogenTestButton(editView, false, null, null, pathogenTestHandler::addPathogenTest);
+			SampleEditPathogenTestListHandler pathogenTestHandler = new SampleEditPathogenTestListHandler();
+		if(!Disease.HIDE_PATHOGEN_BUTTON_LIST.contains(disease)) {
+			addPathogenTestButton(editView, false, null, null, pathogenTestHandler::addPathogenTest);
+		}
 
 		editView.setPostCommitListener(() -> {
 			pathogenTestHandler.saveAll(sampleDto.toReference());
