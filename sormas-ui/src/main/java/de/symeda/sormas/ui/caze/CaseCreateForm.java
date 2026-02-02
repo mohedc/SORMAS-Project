@@ -112,6 +112,8 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 
 	private final boolean showHomeAddressForm;
 	private final boolean showPersonSearchButton;
+	private ComboBox idsrDiagnosisField;
+	private TextField idsrDiagnosisDetailsField;
 
 	// If a case is created form a TravelEntry, the variable convertedTravelEntry provides the
 	// necessary extra data. This variable is expected to be replaced in the implementation of
@@ -208,9 +210,9 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 		diseaseVariantField.setNullSelectionAllowed(true);
 		diseaseVariantField.setVisible(false);
 		addField(CaseDataDto.DISEASE_DETAILS, TextField.class);
-		ComboBox idsrDiagnosisField = addField(CaseDataDto.IDSR_DIAGNOSIS, ComboBox.class);
+		idsrDiagnosisField = addField(CaseDataDto.IDSR_DIAGNOSIS, ComboBox.class);
 		idsrDiagnosisField.setNullSelectionAllowed(true);
-		TextField idsrDiagnosisDetailsField = addField(CaseDataDto.IDSR_DIAGNOSIS_DETAILS, TextField.class);
+		idsrDiagnosisDetailsField = addField(CaseDataDto.IDSR_DIAGNOSIS_DETAILS, TextField.class);
 		idsrDiagnosisDetailsField.setVisible(false);
 		NullableOptionGroup plagueType = addField(CaseDataDto.PLAGUE_TYPE, NullableOptionGroup.class);
 		addField(CaseDataDto.DENGUE_FEVER_TYPE, NullableOptionGroup.class);
@@ -622,6 +624,14 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 				personCreateForm.getField(PersonDto.EMAIL_ADDRESS).setVisible(false);
 				personCreateForm.getField(PersonDto.PRESENT_CONDITION).setVisible(false);
 				personCreateForm.getField(PersonDto.NATIONALITY).setVisible(false);
+			} else if(selectedDisease == Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS){
+				setVisible(true, ogCaseOrigin, epidField, diseaseField, responsibleRegionCombo, responsibleDistrictCombo, responsibleCommunityCombo,
+						facilityOrHome, facilityDetails, facilityCombo, facilityType, reportDate, idsrDiagnosisField, idsrDiagnosisDetailsField);
+				personCreateForm.getField(PersonDto.NATIONAL_HEALTH_ID).setVisible(false);
+				personCreateForm.getField(PersonDto.PHONE).setVisible(false);
+				personCreateForm.getField(PersonDto.EMAIL_ADDRESS).setVisible(false);
+				personCreateForm.getField(PersonDto.PRESENT_CONDITION).setVisible(false);
+				personCreateForm.getField(PersonDto.NATIONALITY).setVisible(false);
 			}
 
 		});
@@ -931,7 +941,8 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 			Disease.AFP,
 			Disease.YELLOW_FEVER,
 			Disease.CONGENITAL_RUBELLA,
-			Disease.CSM
+			Disease.CSM,
+			Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS
 		);
 
 }
