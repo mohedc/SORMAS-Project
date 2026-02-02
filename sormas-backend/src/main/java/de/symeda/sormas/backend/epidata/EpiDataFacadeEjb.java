@@ -94,6 +94,9 @@ public class EpiDataFacadeEjb implements EpiDataFacade {
 		target.setMotherTraveledDuringPregnancyDate(source.getMotherTraveledDuringPregnancyDate());
 		target.setGestationalAgeAtTravel(source.getGestationalAgeAtTravel());
 		target.setTravelLocationDescription(source.getTravelLocationDescription());
+		target.setRecentTravelOutbreak(source.getRecentTravelOutbreak());
+		target.setContactSimilarOutbreak(source.getContactSimilarOutbreak());
+		target.setContactSickAnimals(source.getContactSickAnimals());
 
 		List<Exposure> exposures = new ArrayList<>();
 		for (ExposureDto exposureDto : source.getExposures()) {
@@ -261,6 +264,9 @@ public class EpiDataFacadeEjb implements EpiDataFacade {
 		target.setMotherTraveledDuringPregnancyDate(source.getMotherTraveledDuringPregnancyDate());
 		target.setGestationalAgeAtTravel(source.getGestationalAgeAtTravel());
 		target.setTravelLocationDescription(source.getTravelLocationDescription());
+		target.setRecentTravelOutbreak(source.getRecentTravelOutbreak());
+		target.setContactSimilarOutbreak(source.getContactSimilarOutbreak());
+		target.setContactSickAnimals(source.getContactSickAnimals());
 
 		List<ExposureDto> exposureDtos = new ArrayList<>();
 		for (Exposure exposure : source.getExposures()) {

@@ -121,6 +121,12 @@ public class EpiDataForm extends AbstractEditForm<EpiDataDto> {
 		loc(EpiDataDto.EXPOSURE_DETAILS_KNOWN) +
 		loc(EpiDataDto.EXPOSURES);
 
+	private static final String IDSR_HTML_LAYOUT =
+			loc(LOC_EXPOSURE_INVESTIGATION_HEADING) +
+			loc(EpiDataDto.RECENT_TRAVEL_OUTBREAK)+
+			loc(EpiDataDto.CONTACT_SIMILAR_SYMPTOMS)+
+			loc(EpiDataDto.CONTACT_SICK_ANIMALS);
+
 
 
 	private final Disease disease;
@@ -188,6 +194,9 @@ public class EpiDataForm extends AbstractEditForm<EpiDataDto> {
 		addTravelHistoryFields(travelHistoryKnownField);
 
 		NullableOptionGroup ogContactWithSourceCaseKnown = addField(EpiDataDto.CONTACT_WITH_SOURCE_CASE_KNOWN, NullableOptionGroup.class);
+		addField(EpiDataDto.RECENT_TRAVEL_OUTBREAK, NullableOptionGroup.class);
+		addField(EpiDataDto.CONTACT_SIMILAR_SYMPTOMS, NullableOptionGroup.class);
+		addField(EpiDataDto.CONTACT_SICK_ANIMALS, NullableOptionGroup.class);
 
 		if (sourceContactsToggleCallback != null) {
 			ogContactWithSourceCaseKnown.addValueChangeListener(e -> {
@@ -405,29 +414,32 @@ public class EpiDataForm extends AbstractEditForm<EpiDataDto> {
 
 	@Override
 	protected String createHtmlLayout() {
-		String MAIN_HTML_LAYOUT = "";
-		if(parentClass == CaseDataDto.class) {
+		String mainHtmlLayout = "";
+
+		if (parentClass == CaseDataDto.class) {
 			switch (disease) {
 				case MEASLES:
-					MAIN_HTML_LAYOUT = MEASLES_HTML_LAYOUT;
+					mainHtmlLayout = MEASLES_HTML_LAYOUT;
 					break;
 				case YELLOW_FEVER:
-					MAIN_HTML_LAYOUT = YELLOW_FEVER_HTML_LAYOUT;
+					mainHtmlLayout = YELLOW_FEVER_HTML_LAYOUT;
 					break;
 				case CONGENITAL_RUBELLA:
-					MAIN_HTML_LAYOUT = CONGENITAL_RUBELLA_HTML_LAYOUT;
+					mainHtmlLayout = CONGENITAL_RUBELLA_HTML_LAYOUT;
 					break;
 				case CSM:
-					MAIN_HTML_LAYOUT = MENINGITIS_HTML_LAYOUT;
+					mainHtmlLayout = MENINGITIS_HTML_LAYOUT;
+					break;
+				case IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS:
+					mainHtmlLayout = IDSR_HTML_LAYOUT;
 					break;
 				default:
-					MAIN_HTML_LAYOUT = MAIN_HTML_LAYOUT + SOURCE_CONTACTS_HTML_LAYOUT;
+					mainHtmlLayout = SOURCE_CONTACTS_HTML_LAYOUT;
 					break;
 			}
-		} else  {
-			MAIN_HTML_LAYOUT = MAIN_HTML_LAYOUT;
 		}
 
-		return MAIN_HTML_LAYOUT;
+		return mainHtmlLayout;
 	}
+
 }

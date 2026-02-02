@@ -15030,6 +15030,14 @@ ALTER TABLE symptoms_history ADD COLUMN genitalswelling varchar(255);
 ALTER TABLE symptoms_history ADD COLUMN redeye varchar(255);
 INSERT INTO schema_version (version_number, comment) VALUES (632, 'Added columns to symptoms for IDSR');
 
+ALTER TABLE epidata ADD COLUMN recenttraveloutbreak varchar(255);
+ALTER TABLE epidata ADD COLUMN contactsimilaroutbreak varchar(255);
+ALTER TABLE epidata ADD COLUMN contactsickanimals varchar(255);
+ALTER TABLE epidata_history ADD COLUMN recenttraveloutbreak varchar(255);
+ALTER TABLE epidata_history ADD COLUMN contactsimilaroutbreak varchar(255);
+ALTER TABLE epidata_history ADD COLUMN contactsickanimals varchar(255);
+INSERT INTO schema_version (version_number, comment) VALUES (633, 'Added columns: recenttraveloutbreak, contactsimilaroutbreak, contactsickanimals to epidata');
+
 
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***
 

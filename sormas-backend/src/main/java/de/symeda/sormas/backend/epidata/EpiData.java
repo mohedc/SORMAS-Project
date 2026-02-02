@@ -73,6 +73,9 @@ public class EpiData extends AbstractDomainObject {
 	private Date motherTraveledDuringPregnancyDate;
 	private Integer gestationalAgeAtTravel;
 	private String travelLocationDescription;
+	private YesNo recentTravelOutbreak;
+	private YesNo contactSimilarOutbreak;
+	private YesNo contactSickAnimals;
 
 	@Enumerated(EnumType.STRING)
 	public YesNoUnknown getExposureDetailsKnown() {
@@ -259,5 +262,29 @@ public class EpiData extends AbstractDomainObject {
 
 	public void setTravelLocationDescription(String travelLocationDescription) {
 		this.travelLocationDescription = travelLocationDescription;
+	}
+	@Enumerated(EnumType.STRING)
+	public YesNo getRecentTravelOutbreak() {
+		return recentTravelOutbreak;
+	}
+
+	public void setRecentTravelOutbreak(YesNo recentTravelOutbreak) {
+		this.recentTravelOutbreak = recentTravelOutbreak;
+	}
+	@Enumerated(EnumType.STRING)
+	public YesNo getContactSimilarOutbreak() {
+		return contactSimilarOutbreak;
+	}
+
+	public void setContactSimilarOutbreak(YesNo contactSimilarOutbreak) {
+		this.contactSimilarOutbreak = contactSimilarOutbreak;
+	}
+	@Enumerated(EnumType.STRING)
+	public YesNo getContactSickAnimals() {
+		return contactSickAnimals;
+	}
+
+	public void setContactSickAnimals(YesNo contactSickAnimals) {
+		this.contactSickAnimals = contactSickAnimals;
 	}
 }

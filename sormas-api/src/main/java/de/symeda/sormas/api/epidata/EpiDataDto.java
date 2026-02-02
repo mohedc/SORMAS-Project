@@ -71,12 +71,18 @@ public class EpiDataDto extends PseudonymizableDto {
 	public static final String MOTHER_TRAVELED_DURING_PREGNANCY_DATE = "motherTraveledDuringPregnancyDate";
 	public static final String GESTATIONAL_AGE_AT_TRAVEL = "gestationalAgeAtTravel";
 	public static final String TRAVEL_LOCATION_DESCRIPTION = "travelLocationDescription";
+	public static final String RECENT_TRAVEL_OUTBREAK = "recentTravelOutbreak";
+	public static final String CONTACT_SIMILAR_SYMPTOMS = "contactSimilarOutbreak";
+	public static final String CONTACT_SICK_ANIMALS = "contactSickAnimals";
 
 	private YesNoUnknown exposureDetailsKnown;
 	private YesNoUnknown activityAsCaseDetailsKnown;
 	private YesNoUnknown contactWithSourceCaseKnown;
 	private YesNoUnknown highTransmissionRiskArea;
 	private YesNoUnknown largeOutbreaksArea;
+	private YesNo recentTravelOutbreak;
+	private YesNo contactSimilarOutbreak;
+	private YesNo contactSickAnimals;
 	@Diseases({
 		Disease.AFP,
 		Disease.GUINEA_WORM,
@@ -306,6 +312,30 @@ public class EpiDataDto extends PseudonymizableDto {
 
 	public void setTravelLocationDescription(String travelLocationDescription) {
 		this.travelLocationDescription = travelLocationDescription;
+	}
+
+	public YesNo getRecentTravelOutbreak() {
+		return recentTravelOutbreak;
+	}
+
+	public void setRecentTravelOutbreak(YesNo recentTravelOutbreak) {
+		this.recentTravelOutbreak = recentTravelOutbreak;
+	}
+
+	public YesNo getContactSimilarOutbreak() {
+		return contactSimilarOutbreak;
+	}
+
+	public void setContactSimilarOutbreak(YesNo contactSimilarOutbreak) {
+		this.contactSimilarOutbreak = contactSimilarOutbreak;
+	}
+
+	public YesNo getContactSickAnimals() {
+		return contactSickAnimals;
+	}
+
+	public void setContactSickAnimals(YesNo contactSickAnimals) {
+		this.contactSickAnimals = contactSickAnimals;
 	}
 
 	public static EpiDataDto build() {
