@@ -21,9 +21,9 @@ public class SampleListEntryDtoResultTransformer implements ResultTransformer {
 	public Object transformTuple(Object[] objects, String[] strings) {
 		boolean referred = objects[5] != null;
 
-		String labName = (String) objects[11];
-		String labUuid = (String) objects[12];
-		FacilityReferenceDto lab = new FacilityReferenceDto(labUuid, FacilityHelper.buildFacilityString(labUuid, labName), null);
+		String labName = (String) objects[12];
+		String labUuid = (String) objects[13];
+ 		FacilityReferenceDto lab = new FacilityReferenceDto(labUuid, FacilityHelper.buildFacilityString(labUuid, labName), null);
 
 		AdditionalTestingStatus additionalTestingStatus = Boolean.TRUE.equals(objects[16])
 			? AdditionalTestingStatus.PERFORMED
@@ -40,12 +40,12 @@ public class SampleListEntryDtoResultTransformer implements ResultTransformer {
 			(Date) objects[7],
 			(boolean) objects[8],
 			(Date) objects[9],
-			(Date) objects[10],
+			(Date) objects[11],
 			lab,
-			(SamplingReason) objects[13],
-			(String) objects[14],
+			(SamplingReason) objects[14],
+			(String) objects[15],
 			additionalTestingStatus,
-			(long) objects[17]);
+			(long) objects[18]);
 	}
 
 	@Override
