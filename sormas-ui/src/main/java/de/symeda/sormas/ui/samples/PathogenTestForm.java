@@ -157,10 +157,10 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 	private static final String MENINGITIS_HTML_LAYOUT =
 			loc(PATHOGEN_TEST_HEADING_LOC) +
 			fluidRowLocs(PathogenTestDto.TESTED_DISEASE, PathogenTestDto.TESTED_DISEASE_DETAILS) +
-			fluidRowLocs(PathogenTestDto.MACROSCOPIC_EXAMINATION, "") +
-			fluidRowLocs(PathogenTestDto.TEST_TYPE, PathogenTestDto.TEST_TYPE_TEXT) +
 			fluidRowLocs(PathogenTestDto.TEST_DATE_TIME, PathogenTestDto.LAB) +
 			fluidRowLocs(PathogenTestDto.LAB_DETAILS, "") +
+			fluidRowLocs(PathogenTestDto.MACROSCOPIC_EXAMINATION, "") +
+			fluidRowLocs(PathogenTestDto.TEST_TYPE, PathogenTestDto.TEST_TYPE_TEXT) +
 			fluidRowLocs(PathogenTestDto.CELL_COUNT_NORMAL, PathogenTestDto.CELL_COUNT_ABNORMAL) +
 			fluidRowLocs(PathogenTestDto.WBC_COUNT_POLYCYTES_PERCENT, PathogenTestDto.WBC_COUNT_MONOCYTES_PERCENT) +
 			fluidRowLocs(PathogenTestDto.GRAM_STAIN_RESULT, "") +
@@ -995,7 +995,7 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 		// Show agglutination fields when test type is LATEX_AGGLUTINATION or SLIDE_AGGLUTINATION
 		FieldHelper.setVisibleWhen(
 			getFieldGroup(),
-			Arrays.asList(PathogenTestDto.AGGLUTINATION_RESULT, PathogenTestDto.AGGLUTINATION_POSITIVE_RESULTS, PathogenTestDto.AGGLUTINATION_OTHER_MICROORGANISM),
+			Arrays.asList(PathogenTestDto.AGGLUTINATION_RESULT),
 			PathogenTestDto.TEST_TYPE,
 			Arrays.asList(PathogenTestType.LATEX_AGGLUTINATION, PathogenTestType.SLIDE_AGGLUTINATION),
 			true);
@@ -1003,12 +1003,24 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 		agglutinationResultField.addItems(AgglutinationTestResult.values());
 		agglutinationResultField.setItemCaptionMode(ItemCaptionMode.ID_TOSTRING);
 
+		ComboBox agglutinationPositiveResultsField = (ComboBox) getField(PathogenTestDto.AGGLUTINATION_POSITIVE_RESULTS);
+		agglutinationPositiveResultsField.addItems(AgglutinationPositiveResult.values());
+		agglutinationPositiveResultsField.setItemCaptionMode(ItemCaptionMode.ID_TOSTRING);
+
 		// Show agglutination positive results when agglutination result is POSITIVE
 		FieldHelper.setVisibleWhen(
 			getFieldGroup(),
-			Arrays.asList(PathogenTestDto.AGGLUTINATION_POSITIVE_RESULTS, PathogenTestDto.AGGLUTINATION_OTHER_MICROORGANISM),
+			Arrays.asList(PathogenTestDto.AGGLUTINATION_POSITIVE_RESULTS),
 			PathogenTestDto.AGGLUTINATION_RESULT,
 			Arrays.asList(AgglutinationTestResult.POSITIVE),
+			true);
+
+		// Show agglutination other microorganism when agglutination positive results is OTHER_MICROORGANISMS
+		FieldHelper.setVisibleWhen(
+			getFieldGroup(),
+			PathogenTestDto.AGGLUTINATION_OTHER_MICROORGANISM,
+			PathogenTestDto.AGGLUTINATION_POSITIVE_RESULTS,
+			Arrays.asList(AgglutinationPositiveResult.OTHER_MICROORGANISMS),
 			true);
 
 		// Show other tests pending specify when other tests pending is Yes
