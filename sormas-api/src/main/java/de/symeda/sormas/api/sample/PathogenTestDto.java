@@ -300,7 +300,7 @@ public class PathogenTestDto extends PseudonymizableDto {
 	private AgglutinationTestResult agglutinationResult;
 	@Diseases(value = {Disease.CSM})
 	@SensitiveData
-	private Set<AgglutinationPositiveResult> agglutinationPositiveResults;
+	private AgglutinationPositiveResult agglutinationPositiveResults;
 	@Diseases(value = {Disease.CSM})
 	@SensitiveData
 	@Size(max = FieldConstraints.CHARACTER_LIMIT_DEFAULT, message = Validations.textTooLong)
@@ -977,11 +977,11 @@ public class PathogenTestDto extends PseudonymizableDto {
 		this.agglutinationResult = agglutinationResult;
 	}
 
-	public Set<AgglutinationPositiveResult> getAgglutinationPositiveResults() {
+	public AgglutinationPositiveResult getAgglutinationPositiveResults() {
 		return agglutinationPositiveResults;
 	}
 
-	public void setAgglutinationPositiveResults(Set<AgglutinationPositiveResult> agglutinationPositiveResults) {
+	public void setAgglutinationPositiveResults(AgglutinationPositiveResult agglutinationPositiveResults) {
 		this.agglutinationPositiveResults = agglutinationPositiveResults;
 	}
 

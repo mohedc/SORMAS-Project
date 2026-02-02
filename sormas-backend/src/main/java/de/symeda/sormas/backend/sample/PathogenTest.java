@@ -201,7 +201,7 @@ public class PathogenTest extends DeletableAdo {
 	private String wbcCountMonocytesPercent;
 	private GramStainResult gramStainResult;
 	private AgglutinationTestResult agglutinationResult;
-	private String agglutinationPositiveResults;
+	private AgglutinationPositiveResult agglutinationPositiveResults;
 	private String agglutinationOtherMicroorganism;
 	private Date dateResultsSentToRegion;
 	private Boolean otherTestsPending;
@@ -879,12 +879,13 @@ public class PathogenTest extends DeletableAdo {
 		this.agglutinationResult = agglutinationResult;
 	}
 
-	@Column(length = CHARACTER_LIMIT_DEFAULT)
-	public String getAgglutinationPositiveResults() {
+	@Enumerated(EnumType.STRING)
+	@Column
+	public AgglutinationPositiveResult getAgglutinationPositiveResults() {
 		return agglutinationPositiveResults;
 	}
 
-	public void setAgglutinationPositiveResults(String agglutinationPositiveResults) {
+	public void setAgglutinationPositiveResults(AgglutinationPositiveResult agglutinationPositiveResults) {
 		this.agglutinationPositiveResults = agglutinationPositiveResults;
 	}
 

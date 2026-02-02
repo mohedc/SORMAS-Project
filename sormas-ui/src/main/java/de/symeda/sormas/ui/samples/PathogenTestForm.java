@@ -82,6 +82,7 @@ import de.symeda.sormas.ui.utils.FieldAccessHelper;
 import de.symeda.sormas.ui.utils.FieldConfiguration;
 import de.symeda.sormas.ui.utils.FieldHelper;
 import de.symeda.sormas.ui.utils.NullableOptionGroup;
+import de.symeda.sormas.ui.utils.OptionGroupWithCaption;
 import de.symeda.sormas.ui.utils.PhoneNumberValidator;
 
 public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
@@ -630,11 +631,11 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 		wbcCountMonocytesField.setVisible(false);
 		ComboBox gramStainResultField = addField(PathogenTestDto.GRAM_STAIN_RESULT, ComboBox.class);
 		gramStainResultField.setVisible(false);
-		ComboBox agglutinationResultField = addField(PathogenTestDto.AGGLUTINATION_RESULT, ComboBox.class);
+		NullableOptionGroup agglutinationResultField = addField(PathogenTestDto.AGGLUTINATION_RESULT, NullableOptionGroup.class);
 		agglutinationResultField.setVisible(false);
 		// For agglutination positive results, we'll use checkboxes
 		// Note: This will need special handling as it's a Set
-		NullableOptionGroup agglutinationPositiveResultsField = addField(PathogenTestDto.AGGLUTINATION_POSITIVE_RESULTS, NullableOptionGroup.class);
+		ComboBox agglutinationPositiveResultsField = addField(PathogenTestDto.AGGLUTINATION_POSITIVE_RESULTS, ComboBox.class);
 		agglutinationPositiveResultsField.setVisible(false);
 		TextField agglutinationOtherMicroorganismField = addField(PathogenTestDto.AGGLUTINATION_OTHER_MICROORGANISM, TextField.class);
 		agglutinationOtherMicroorganismField.setVisible(false);
@@ -998,7 +999,7 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 			PathogenTestDto.TEST_TYPE,
 			Arrays.asList(PathogenTestType.LATEX_AGGLUTINATION, PathogenTestType.SLIDE_AGGLUTINATION),
 			true);
-		ComboBox agglutinationResultField = (ComboBox) getField(PathogenTestDto.AGGLUTINATION_RESULT);
+		NullableOptionGroup agglutinationResultField = (NullableOptionGroup) getField(PathogenTestDto.AGGLUTINATION_RESULT);
 		agglutinationResultField.addItems(AgglutinationTestResult.values());
 		agglutinationResultField.setItemCaptionMode(ItemCaptionMode.ID_TOSTRING);
 
