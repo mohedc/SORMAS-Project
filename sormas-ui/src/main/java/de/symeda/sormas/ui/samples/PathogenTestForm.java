@@ -58,6 +58,7 @@ import de.symeda.sormas.api.i18n.Validations;
 import de.symeda.sormas.api.infrastructure.facility.FacilityDto;
 import de.symeda.sormas.api.infrastructure.facility.FacilityReferenceDto;
 import de.symeda.sormas.api.sample.AgglutinationPositiveResult;
+import de.symeda.sormas.api.sample.AgglutinationTestResult;
 import de.symeda.sormas.api.sample.GramStainResult;
 import de.symeda.sormas.api.sample.MacroscopicExamination;
 import de.symeda.sormas.api.sample.FinalClassification;
@@ -998,7 +999,7 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 			Arrays.asList(PathogenTestType.LATEX_AGGLUTINATION, PathogenTestType.SLIDE_AGGLUTINATION),
 			true);
 		ComboBox agglutinationResultField = (ComboBox) getField(PathogenTestDto.AGGLUTINATION_RESULT);
-		agglutinationResultField.addItems(PathogenTestResultType.NEGATIVE, PathogenTestResultType.CONTAMINATED, PathogenTestResultType.POSITIVE);
+		agglutinationResultField.addItems(AgglutinationTestResult.values());
 		agglutinationResultField.setItemCaptionMode(ItemCaptionMode.ID_TOSTRING);
 
 		// Show agglutination positive results when agglutination result is POSITIVE
@@ -1006,7 +1007,7 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 			getFieldGroup(),
 			Arrays.asList(PathogenTestDto.AGGLUTINATION_POSITIVE_RESULTS, PathogenTestDto.AGGLUTINATION_OTHER_MICROORGANISM),
 			PathogenTestDto.AGGLUTINATION_RESULT,
-			Arrays.asList(PathogenTestResultType.POSITIVE),
+			Arrays.asList(AgglutinationTestResult.POSITIVE),
 			true);
 
 		// Show other tests pending specify when other tests pending is Yes

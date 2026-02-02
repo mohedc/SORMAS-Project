@@ -41,19 +41,7 @@ import de.symeda.sormas.api.disease.DiseaseVariant;
 import de.symeda.sormas.api.disease.DiseaseVariantConverter;
 import de.symeda.sormas.api.disease.PathogenConverter;
 import de.symeda.sormas.api.environment.environmentsample.Pathogen;
-import de.symeda.sormas.api.sample.AgglutinationPositiveResult;
-import de.symeda.sormas.api.sample.GramStainResult;
-import de.symeda.sormas.api.sample.MacroscopicExamination;
-import de.symeda.sormas.api.sample.PCRTestSpecification;
-import de.symeda.sormas.api.sample.PathogenSpecie;
-import de.symeda.sormas.api.sample.PathogenStrainCallStatus;
-import de.symeda.sormas.api.sample.PathogenTestReferenceDto;
-import de.symeda.sormas.api.sample.FinalClassification;
-import de.symeda.sormas.api.sample.PathogenTestResultType;
-import de.symeda.sormas.api.sample.PathogenTestScale;
-import de.symeda.sormas.api.sample.PathogenTestType;
-import de.symeda.sormas.api.sample.SeroGroupSpecification;
-import de.symeda.sormas.api.sample.SerotypingMethod;
+import de.symeda.sormas.api.sample.*;
 import de.symeda.sormas.api.utils.YesNoUnknown;
 import de.symeda.sormas.backend.common.DeletableAdo;
 import de.symeda.sormas.backend.environment.environmentsample.EnvironmentSample;
@@ -212,7 +200,7 @@ public class PathogenTest extends DeletableAdo {
 	private String wbcCountPolycytesPercent;
 	private String wbcCountMonocytesPercent;
 	private GramStainResult gramStainResult;
-	private PathogenTestResultType agglutinationResult;
+	private AgglutinationTestResult agglutinationResult;
 	private String agglutinationPositiveResults;
 	private String agglutinationOtherMicroorganism;
 	private Date dateResultsSentToRegion;
@@ -883,11 +871,11 @@ public class PathogenTest extends DeletableAdo {
 
 	@Enumerated(EnumType.STRING)
 	@Column
-	public PathogenTestResultType getAgglutinationResult() {
+	public AgglutinationTestResult getAgglutinationResult() {
 		return agglutinationResult;
 	}
 
-	public void setAgglutinationResult(PathogenTestResultType agglutinationResult) {
+	public void setAgglutinationResult(AgglutinationTestResult agglutinationResult) {
 		this.agglutinationResult = agglutinationResult;
 	}
 

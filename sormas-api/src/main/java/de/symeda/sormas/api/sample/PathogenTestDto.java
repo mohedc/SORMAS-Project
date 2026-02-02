@@ -297,7 +297,7 @@ public class PathogenTestDto extends PseudonymizableDto {
 	@Diseases(value = {Disease.CSM})
 	private GramStainResult gramStainResult;
 	@Diseases(value = {Disease.CSM})
-	private PathogenTestResultType agglutinationResult;
+	private AgglutinationTestResult agglutinationResult;
 	@Diseases(value = {Disease.CSM})
 	@SensitiveData
 	private Set<AgglutinationPositiveResult> agglutinationPositiveResults;
@@ -969,11 +969,11 @@ public class PathogenTestDto extends PseudonymizableDto {
 		this.gramStainResult = gramStainResult;
 	}
 
-	public PathogenTestResultType getAgglutinationResult() {
+	public AgglutinationTestResult getAgglutinationResult() {
 		return agglutinationResult;
 	}
 
-	public void setAgglutinationResult(PathogenTestResultType agglutinationResult) {
+	public void setAgglutinationResult(AgglutinationTestResult agglutinationResult) {
 		this.agglutinationResult = agglutinationResult;
 	}
 
