@@ -158,12 +158,11 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 			fluidRowLocs(PathogenTestDto.MACROSCOPIC_EXAMINATION, "") +
 			fluidRowLocs(PathogenTestDto.TEST_TYPE, PathogenTestDto.TEST_TYPE_TEXT) +
 			fluidRowLocs(PathogenTestDto.TEST_DATE_TIME, PathogenTestDto.LAB) +
-			fluidRowLocs(5, PathogenTestDto.LAB_DETAILS, 7, PathogenTestDto.DATE_RESULTS_SENT_TO_DISTRICT) +
+			fluidRowLocs(PathogenTestDto.LAB_DETAILS, "") +
 			fluidRowLocs(PathogenTestDto.CELL_COUNT_NORMAL, PathogenTestDto.CELL_COUNT_ABNORMAL) +
 			fluidRowLocs(PathogenTestDto.WBC_COUNT_POLYCYTES_PERCENT, PathogenTestDto.WBC_COUNT_MONOCYTES_PERCENT) +
 			fluidRowLocs(PathogenTestDto.GRAM_STAIN_RESULT, "") +
-			fluidRowLocs(PathogenTestDto.AGGLUTINATION_RESULT, "") +
-			fluidRowLocs(PathogenTestDto.AGGLUTINATION_POSITIVE_RESULTS, "") +
+			fluidRowLocs(PathogenTestDto.AGGLUTINATION_RESULT, PathogenTestDto.AGGLUTINATION_POSITIVE_RESULTS) +
 			fluidRowLocs(PathogenTestDto.AGGLUTINATION_OTHER_MICROORGANISM, "") +
 			fluidRowLocs(PathogenTestDto.DATE_RESULTS_SENT_TO_REGION, PathogenTestDto.DATE_RESULTS_SENT_TO_DISEASE_SURVEILLANCE) +
 			fluidRowLocs(PathogenTestDto.DATE_DISTRICT_RECEIVED_LAB_RESULTS, PathogenTestDto.DATE_RESULTS_SENT_TO_REFERENCE_LABORATORY) +
@@ -634,7 +633,7 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 		agglutinationResultField.setVisible(false);
 		// For agglutination positive results, we'll use checkboxes
 		// Note: This will need special handling as it's a Set
-		TextField agglutinationPositiveResultsField = addField(PathogenTestDto.AGGLUTINATION_POSITIVE_RESULTS, TextField.class);
+		NullableOptionGroup agglutinationPositiveResultsField = addField(PathogenTestDto.AGGLUTINATION_POSITIVE_RESULTS, NullableOptionGroup.class);
 		agglutinationPositiveResultsField.setVisible(false);
 		TextField agglutinationOtherMicroorganismField = addField(PathogenTestDto.AGGLUTINATION_OTHER_MICROORGANISM, TextField.class);
 		agglutinationOtherMicroorganismField.setVisible(false);

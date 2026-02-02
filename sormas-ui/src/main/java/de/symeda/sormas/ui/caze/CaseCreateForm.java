@@ -120,7 +120,7 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 
 	//@formatter:off
     private static final String HTML_LAYOUT = 
-		+ fluidRow(
+		fluidRow(
 							fluidColumnLoc(6, 0, CaseDataDto.DISEASE),
 							fluidColumnLoc(6, 0, CaseDataDto.IDSR_DIAGNOSIS),
 							fluidColumnLoc(6, 0, CaseDataDto.IDSR_DIAGNOSIS_DETAILS))
