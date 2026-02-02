@@ -96,7 +96,8 @@ public class HospitalizationDto extends EntityDto {
 		Disease.MEASLES })
 	private YesNoUnknown seenAtHealthFacility;
 	@Diseases({
-		Disease.MEASLES })
+		Disease.MEASLES,
+	Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS})
 	private Date dateFirstSeenAtHealthFacility;
 	@Diseases({
 		Disease.YELLOW_FEVER,

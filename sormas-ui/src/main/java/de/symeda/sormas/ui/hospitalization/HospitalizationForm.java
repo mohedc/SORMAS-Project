@@ -130,6 +130,11 @@ public class HospitalizationForm extends AbstractEditForm<HospitalizationDto> {
 					fluidRowLocs(HospitalizationDto.SELECT_INPATIENT_OUTPATIENT, HospitalizationDto.ADMITTED_TO_HEALTH_FACILITY) +
 					fluidRowLocs(HospitalizationDto.ADMISSION_DATE, HospitalizationDto.ADDRESS);
 
+	private static final String IDSR_LAYOUT =
+			loc(HOSPITALIZATION_HEADING_LOC) +
+					fluidRowLocs(HEALTH_FACILITY, HospitalizationDto.SELECT_INPATIENT_OUTPATIENT) +
+					fluidRowLocs(HospitalizationDto.DATE_FIRST_SEEN_AT_HEALTH_FACILITY, HospitalizationDto.DATE_HEALTH_REGION_NOTIFIED);
+
 	private final CaseDataDto caze;
 	private final ViewMode viewMode;
 	private NullableOptionGroup intensiveCareUnit;
@@ -340,15 +345,17 @@ public class HospitalizationForm extends AbstractEditForm<HospitalizationDto> {
 		addDateField(HospitalizationDto.DATE_OF_CONSULTATION_AT_HEALTH_FACILITY, DateField.class, 7);
 		addDateField(HospitalizationDto.DATE_HEALTH_REGION_NOTIFIED, DateField.class, 7);
 		addField(HospitalizationDto.SEEN_AT_HEALTH_FACILITY, NullableOptionGroup.class);
-		addDateField(HospitalizationDto.DATE_FIRST_SEEN_AT_HEALTH_FACILITY, DateField.class, 7);
+		DateField dateFirstSeenAtHealthFacility =  addDateField(HospitalizationDto.DATE_FIRST_SEEN_AT_HEALTH_FACILITY, DateField.class, 7);
 		addDateField(HospitalizationDto.DATE_HEALTH_FACILITY_NOTIFIED_DISTRICT, DateField.class, 7);
 
-		FieldHelper.setVisibleWhen(
-			getFieldGroup(),
-			HospitalizationDto.DATE_FIRST_SEEN_AT_HEALTH_FACILITY,
-			HospitalizationDto.SEEN_AT_HEALTH_FACILITY,
-			Arrays.asList(YesNoUnknown.YES),
-			true);
+		if(disease != Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS){
+			FieldHelper.setVisibleWhen(
+					getFieldGroup(),
+					HospitalizationDto.DATE_FIRST_SEEN_AT_HEALTH_FACILITY,
+					HospitalizationDto.SEEN_AT_HEALTH_FACILITY,
+					Arrays.asList(YesNoUnknown.YES),
+					true);
+		}
 
 		// Show dateHealthFacilityNotifiedDistrict only for Yellow Fever
 		Field<?> dateHealthFacilityNotifiedDistrictField = getField(HospitalizationDto.DATE_HEALTH_FACILITY_NOTIFIED_DISTRICT);
@@ -385,6 +392,10 @@ public class HospitalizationForm extends AbstractEditForm<HospitalizationDto> {
 			FieldHelper.setVisibleWhen(selectInpatientOutpatient, Arrays.asList(admissionDateField), Arrays.asList(YesNoUnknown.YES),true);
 			FieldHelper
 					.setVisibleWhen(intensiveCareUnit, Arrays.asList(intensiveCareUnitStart, intensiveCareUnitEnd), Arrays.asList(YesNoUnknown.YES), true);
+		}
+		if (disease == Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS){
+			selectInpatientOutpatient.setCaption("In/Out Patient");
+			dateFirstSeenAtHealthFacility.setCaption("Date seen at health facility");
 		}
 	}
 
@@ -426,6 +437,7 @@ public class HospitalizationForm extends AbstractEditForm<HospitalizationDto> {
 		}
 		if (disease == Disease.AFP) return AFP_LAYOUT;
 		if (disease == Disease.NEONATAL_TETANUS) return NNT_LAYOUT;
+		if (disease == Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS) return IDSR_LAYOUT;
 		return HTML_LAYOUT;
 	}
 
