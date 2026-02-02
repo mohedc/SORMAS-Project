@@ -180,10 +180,10 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 					fluidRowLocs(SampleDto.DATE_OF_LP, SampleDto.LP_ASPECT) +
 					fluidRowLocs(SampleDto.LP_PACKAGING, SampleDto.LP_PACKAGING_OTHER) +
 					locCss(VSPACE_TOP_3, SampleDto.WAS_SPECIMEN_TAKEN) +
-					fluidRowLocs(SampleDto.LABORATORY_TYPE, SampleDto.LABORATORY_NAME) +
+					fluidRowLocs(SampleDto.LABORATORY_TYPE, SampleDto.LAB) +
+					fluidRowLocs(SampleDto.LAB_DETAILS, "") +
 					fluidRowLocs(SampleDto.DATE_SPECIMEN_SENT_TO_LABORATORY_TYPE) +
 					fluidRowLocs(SampleDto.SAMPLE_MATERIAL, SampleDto.SAMPLE_MATERIAL_TEXT) +
-					fluidRowLocs(SampleDto.LAB, SampleDto.LAB_DETAILS) +
 					locCss(VSPACE_TOP_3, SampleDto.SHIPPED) +
 					fluidRowLocs(SampleDto.SHIPMENT_DATE, SampleDto.SHIPMENT_DETAILS) +
 					locCss(VSPACE_TOP_3, SampleDto.RECEIVED) +
@@ -349,7 +349,9 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 		addField(SampleDto.LP_ASPECT, ComboBox.class);
 		addField(SampleDto.LP_PACKAGING, ComboBox.class);
 		addField(SampleDto.LP_PACKAGING_OTHER, TextField.class);
-		addField(SampleDto.WAS_SPECIMEN_TAKEN, NullableOptionGroup.class);
+		NullableOptionGroup wasSpecimenTakenField = addField(SampleDto.WAS_SPECIMEN_TAKEN, NullableOptionGroup.class);
+		wasSpecimenTakenField.setValue(YesNo.YES);
+		wasSpecimenTakenField.setReadOnly(true);
 		addField(SampleDto.LABORATORY_TYPE, ComboBox.class);
 		addField(SampleDto.LABORATORY_NAME, TextField.class);
 		addDateField(SampleDto.DATE_SPECIMEN_SENT_TO_LABORATORY_TYPE, DateField.class, 7);
@@ -941,8 +943,10 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 	 * Configures fields specifically for meningitis samples
 	 */
 	protected void configureMeningitisFields() {
-		// Make FIELD_SAMPLE_ID read-only
-		getField(SampleDto.FIELD_SAMPLE_ID).setReadOnly(true);
+
+			// Set WAS_SPECIMEN_TAKEN to YES and make it read-only
+		NullableOptionGroup wasSpecimenTakenField = (NullableOptionGroup) getField(SampleDto.WAS_SPECIMEN_TAKEN);
+
 
 		// Filter sample material options for meningitis: CSF and Other only
 		FieldHelper.updateEnumData(sampleMaterialComboBox, Arrays.asList(SampleMaterial.CSF, SampleMaterial.OTHER));
@@ -978,10 +982,9 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 			true);
 
 //		Laboratory fields visibility - shown when wasSpecimenTaken = YES
-		Field<?> wasSpecimenTakenField = getField(SampleDto.WAS_SPECIMEN_TAKEN);
 		FieldHelper.setVisibleWhen(
 			getFieldGroup(),
-			Arrays.asList(SampleDto.LABORATORY_TYPE, SampleDto.LABORATORY_NAME, SampleDto.DATE_SPECIMEN_SENT_TO_LABORATORY_TYPE),
+			Arrays.asList(SampleDto.LABORATORY_TYPE, SampleDto.LAB, SampleDto.DATE_SPECIMEN_SENT_TO_LABORATORY_TYPE),
 			SampleDto.WAS_SPECIMEN_TAKEN,
 			Arrays.asList(YesNo.YES),
 			true);

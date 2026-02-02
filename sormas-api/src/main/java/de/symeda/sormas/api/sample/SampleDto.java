@@ -614,6 +614,7 @@ public class SampleDto extends SormasToSormasShareableDto implements IsSample {
 
 		final SampleDto sampleDto = getSampleDto(userRef);
 		sampleDto.setAssociatedCase(caseRef);
+		sampleDto.setWasSpecimenTaken(YesNo.YES);
 		return sampleDto;
 	}
 
@@ -621,6 +622,8 @@ public class SampleDto extends SormasToSormasShareableDto implements IsSample {
 
 		final SampleDto sampleDto = getSampleDto(userRef);
 		sampleDto.setAssociatedEventParticipant(eventParticipantRef);
+		sampleDto.setWasSpecimenTaken(YesNo.YES);
+
 		return sampleDto;
 	}
 
@@ -628,6 +631,8 @@ public class SampleDto extends SormasToSormasShareableDto implements IsSample {
 
 		final SampleDto sampleDto = getSampleDto(userRef);
 		sampleDto.setAssociatedContact(contactRef);
+		sampleDto.setWasSpecimenTaken(YesNo.YES);
+
 		return sampleDto;
 	}
 
