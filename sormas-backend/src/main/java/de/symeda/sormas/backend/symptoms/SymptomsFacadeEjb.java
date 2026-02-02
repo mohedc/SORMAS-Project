@@ -253,6 +253,13 @@ public class SymptomsFacadeEjb implements SymptomsFacade {
 		target.setInjectionSite(source.getInjectionSite());
 		target.setProvisionalDiagnosis(source.getProvisionalDiagnosis());
 		target.setTrueAfp(source.getTrueAfp());
+		target.setSevereReactionAfterVaccination(source.getSevereReactionAfterVaccination());
+		target.setAnimalBiteScratch(source.getAnimalBiteScratch());
+		target.setAcuteWateryDiarrhea(source.getAcuteWateryDiarrhea());
+		target.setPersistentLimb(source.getPersistentLimb());
+		target.setGenitalSwelling(source.getGenitalSwelling());
+		target.setRedEye(source.getRedEye());
+
 
 		return target;
 	}
@@ -489,6 +496,13 @@ public class SymptomsFacadeEjb implements SymptomsFacade {
 		target.setInjectionSite(source.getInjectionSite());
 		target.setProvisionalDiagnosis(source.getProvisionalDiagnosis());
 		target.setTrueAfp(source.getTrueAfp());
+		target.setSevereReactionAfterVaccination(source.getSevereReactionAfterVaccination());
+		target.setAnimalBiteScratch(source.getAnimalBiteScratch());
+		target.setAcuteWateryDiarrhea(source.getAcuteWateryDiarrhea());
+		target.setPersistentLimb(source.getPersistentLimb());
+		target.setGenitalSwelling(source.getGenitalSwelling());
+		target.setRedEye(source.getRedEye());
+
 
 		return target;
 	}

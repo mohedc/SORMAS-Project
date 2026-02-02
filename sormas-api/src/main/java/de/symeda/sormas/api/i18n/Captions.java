@@ -3160,6 +3160,12 @@ public interface Captions {
 	String Symptoms_leftInjectionSite = "Symptoms.leftInjectionSite";
 	String Symptoms_trueAfp = "Symptoms.trueAfp";
 	String Symptoms_outcome = "Symptoms.outcome";
+	String Symptoms_severeReactionAfterVaccination = "Symptoms.severeReactionAfterVaccination";
+	String Symptoms_animalBiteScratch = "Symptoms.animalBiteScratch";
+	String Symptoms_acuteWateryDiarrhea = "Symptoms.acuteWateryDiarrhea";
+	String Symptoms_persistentLimb = "Symptoms.persistentLimb";
+	String Symptoms_genitalSwelling = "Symptoms.genitalSwelling";
+	String Symptoms_redEye = "Symptoms.redEye";
 	String sync = "sync";
 	String syncErrors = "syncErrors";
 	String syncProcessed = "syncProcessed";

@@ -24,6 +24,7 @@ public enum CaseOutcome
 	implements
 	StatisticsGroupingKey {
 
+	ALIVE,
 	NO_OUTCOME,
 	DECEASED,
 	RECOVERED,

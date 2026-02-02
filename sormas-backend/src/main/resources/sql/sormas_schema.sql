@@ -15014,6 +15014,23 @@ ALTER TABLE person_history ADD COLUMN telnumber VARCHAR(55);
 ALTER TABLE person ADD COLUMN locatinginfo varchar(512);
 ALTER TABLE person_history ADD COLUMN locatinginfo varchar(512);
 INSERT INTO schema_version (version_number, comment) VALUES (631, 'Added columns to person');
+
+ALTER TABLE symptoms ADD COLUMN severereactionaftervaccination varchar(255);
+ALTER TABLE symptoms ADD COLUMN animalbitescratch varchar(255);
+ALTER TABLE symptoms ADD COLUMN acutewaterydiarrhea varchar(255);
+ALTER TABLE symptoms ADD COLUMN persistentlimb varchar(255);
+ALTER TABLE symptoms ADD COLUMN genitalswelling varchar(255);
+ALTER TABLE symptoms ADD COLUMN redeye varchar(255);
+
+ALTER TABLE symptoms_history ADD COLUMN severereactionaftervaccination varchar(255);
+ALTER TABLE symptoms_history ADD COLUMN animalbitescratch varchar(255);
+ALTER TABLE symptoms_history ADD COLUMN acutewaterydiarrhea varchar(255);
+ALTER TABLE symptoms_history ADD COLUMN persistentlimb varchar(255);
+ALTER TABLE symptoms_history ADD COLUMN genitalswelling varchar(255);
+ALTER TABLE symptoms_history ADD COLUMN redeye varchar(255);
+INSERT INTO schema_version (version_number, comment) VALUES (632, 'Added columns to symptoms for IDSR');
+
+
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***
 
 
