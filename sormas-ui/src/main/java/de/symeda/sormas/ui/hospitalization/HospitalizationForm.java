@@ -210,8 +210,8 @@ public class HospitalizationForm extends AbstractEditForm<HospitalizationDto> {
 
 		// For measles, ADMITTED_TO_HEALTH_FACILITY is not in the layout, so skip the setEnabledWhen logic
 		// For measles, admission and discharge dates should be enabled based on SELECT_INPATIENT_OUTPATIENT
-		// For yellow fever and congenital rubella, same logic applies
-		if (caze.getDisease() != Disease.MEASLES && caze.getDisease() != Disease.YELLOW_FEVER && caze.getDisease() != Disease.CONGENITAL_RUBELLA) {
+		// For yellow fever, congenital rubella, and CSM (meningitis), same logic applies
+		if (caze.getDisease() != Disease.MEASLES && caze.getDisease() != Disease.YELLOW_FEVER && caze.getDisease() != Disease.CONGENITAL_RUBELLA && caze.getDisease() != Disease.CSM) {
 			FieldHelper.setEnabledWhen(
 				admittedToHealthFacilityField,
 				Arrays.asList(YesNoUnknown.YES, YesNoUnknown.NO, YesNoUnknown.UNKNOWN),
