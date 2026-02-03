@@ -196,7 +196,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	public static final String DATABASE_NAME = "sormas.db";
 	// any time you make changes to your database objects, you may have to increase the database version
 
-	public static final int DATABASE_VERSION = 369;
+	public static final int DATABASE_VERSION = 373;
 
 	private static DatabaseHelper instance = null;
 
@@ -3271,6 +3271,24 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 				getDao(Sample.class).executeRaw("ALTER TABLE samples ADD COLUMN dateSpecimenSentToRegionalReferenceLab BIGINT;");
 				getDao(Sample.class).executeRaw("ALTER TABLE samples ADD COLUMN dateSpecimenReceivedAtNationalLab BIGINT;");
 				getDao(Sample.class).executeRaw("ALTER TABLE samples ADD COLUMN dateSpecimenReceivedAtRegionalReferenceLab BIGINT;");
+			case 370:
+				currentVersion = 370;
+				// Migration placeholder - no changes
+			case 371:
+				currentVersion = 371;
+				getDao(Case.class).executeRaw("ALTER TABLE cases ADD COLUMN caseReferenceNumber varchar(255);");
+				getDao(Case.class).executeRaw("ALTER TABLE cases ADD COLUMN regionLevelDate BIGINT;");
+				getDao(Case.class).executeRaw("ALTER TABLE cases ADD COLUMN nationalLevelDate BIGINT;");
+				getDao(Case.class).executeRaw("ALTER TABLE cases ADD COLUMN arrivalAtRegionalPublicHealthOfficeDate BIGINT;");
+				getDao(Case.class).executeRaw("ALTER TABLE cases ADD COLUMN arrivalAtNationalLevelDate BIGINT;");
+				getDao(Case.class).executeRaw("ALTER TABLE cases ADD COLUMN atLeastOneYellowFeverDose varchar(255);");
+				getDao(Case.class).executeRaw("ALTER TABLE cases ADD COLUMN vaccineType varchar(255);");
+				getDao(Case.class).executeRaw("ALTER TABLE cases ADD COLUMN healthWorkerCompletingForm varchar(255);");
+			case 372:
+				currentVersion = 372;
+				getDao(Person.class).executeRaw("ALTER TABLE person ADD COLUMN locationOfBirth varchar(255);");
+				getDao(Person.class).executeRaw("ALTER TABLE person ADD COLUMN currentWeight INTEGER;");
+				getDao(Person.class).executeRaw("ALTER TABLE person ADD COLUMN caregiverTelephoneNumber varchar(255);");
 				// ATTENTION: break should only be done after last version
 				break;
 

@@ -45,6 +45,7 @@ import de.symeda.sormas.api.person.BurialConductor;
 import de.symeda.sormas.api.person.CauseOfDeath;
 import de.symeda.sormas.api.person.DeathPlaceType;
 import de.symeda.sormas.api.person.EducationType;
+import de.symeda.sormas.api.person.LocationOfBirth;
 import de.symeda.sormas.api.person.MaritalStatus;
 import de.symeda.sormas.api.person.OccupationType;
 import de.symeda.sormas.api.person.PresentCondition;
@@ -223,6 +224,13 @@ public class Person extends PseudonymizableAdo {
 	private String cordTreatedWithAnythingWhere;
 	@Column(columnDefinition = "text")
 	private String describeTreatmentOfCard;
+
+	@Enumerated(EnumType.STRING)
+	private LocationOfBirth locationOfBirth;
+	@Column
+	private Integer currentWeight;
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	private String caregiverTelephoneNumber;
 
 	public Person() {
 	}
@@ -762,5 +770,29 @@ public class Person extends PseudonymizableAdo {
 
 	public void setDescribeTreatmentOfCard(String describeTreatmentOfCard) {
 		this.describeTreatmentOfCard = describeTreatmentOfCard;
+	}
+
+	public LocationOfBirth getLocationOfBirth() {
+		return locationOfBirth;
+	}
+
+	public void setLocationOfBirth(LocationOfBirth locationOfBirth) {
+		this.locationOfBirth = locationOfBirth;
+	}
+
+	public Integer getCurrentWeight() {
+		return currentWeight;
+	}
+
+	public void setCurrentWeight(Integer currentWeight) {
+		this.currentWeight = currentWeight;
+	}
+
+	public String getCaregiverTelephoneNumber() {
+		return caregiverTelephoneNumber;
+	}
+
+	public void setCaregiverTelephoneNumber(String caregiverTelephoneNumber) {
+		this.caregiverTelephoneNumber = caregiverTelephoneNumber;
 	}
 }

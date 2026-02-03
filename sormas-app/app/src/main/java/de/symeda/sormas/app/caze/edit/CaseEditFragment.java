@@ -54,6 +54,7 @@ import de.symeda.sormas.api.caze.ScreeningType;
 import de.symeda.sormas.api.caze.Trimester;
 import de.symeda.sormas.api.caze.VaccinationRecordType;
 import de.symeda.sormas.api.caze.VaccinationStatus;
+import de.symeda.sormas.api.caze.VaccineType;
 import de.symeda.sormas.api.caze.caseimport.MotherVaccinationStatus;
 import de.symeda.sormas.api.contact.QuarantineType;
 import de.symeda.sormas.api.customizableenum.CustomizableEnum;
@@ -127,6 +128,7 @@ public class CaseEditFragment extends BaseEditFragment<FragmentCaseEditLayoutBin
 	private List<Item> contactTracingContactTypeList;
 	private List<Item> infectionSettingList;
 	private List<Item> caseConfirmationBasisList;
+	private List<Item> vaccineTypeList;
 
 	private boolean differentPlaceOfStayJurisdiction;
 
@@ -222,6 +224,36 @@ public class CaseEditFragment extends BaseEditFragment<FragmentCaseEditLayoutBin
 		}
 
 		contentBinding.caseDataDiseaseVariant.setVisibility(DataUtils.emptyOrWithOneNullItem(diseaseVariantList) ? GONE : VISIBLE);
+
+		// Disease-specific field visibility for CIF forms
+		Disease disease = record.getDisease();
+		if (disease == Disease.YELLOW_FEVER) {
+			// YELLOW_FEVER_LAYOUT fields
+			contentBinding.caseDataAtLeastOneYellowFeverDose.setVisibility(VISIBLE);
+		} else {
+			contentBinding.caseDataAtLeastOneYellowFeverDose.setVisibility(GONE);
+		}
+
+		if (disease == Disease.CSM) {
+			// MENINGITIS_LAYOUT fields
+			contentBinding.caseDataCaseReferenceNumber.setVisibility(VISIBLE);
+			contentBinding.caseDataRegionLevelDate.setVisibility(VISIBLE);
+			contentBinding.caseDataNationalLevelDate.setVisibility(VISIBLE);
+			contentBinding.caseDataArrivalAtRegionalPublicHealthOfficeDate.setVisibility(VISIBLE);
+			contentBinding.caseDataArrivalAtNationalLevelDate.setVisibility(VISIBLE);
+			contentBinding.caseDataVaccineType.setVisibility(VISIBLE);
+			contentBinding.caseDataHealthWorkerCompletingForm.setVisibility(VISIBLE);
+		} else {
+			contentBinding.caseDataCaseReferenceNumber.setVisibility(GONE);
+			contentBinding.caseDataRegionLevelDate.setVisibility(GONE);
+			contentBinding.caseDataNationalLevelDate.setVisibility(GONE);
+			contentBinding.caseDataArrivalAtRegionalPublicHealthOfficeDate.setVisibility(GONE);
+			contentBinding.caseDataArrivalAtNationalLevelDate.setVisibility(GONE);
+			contentBinding.caseDataVaccineType.setVisibility(GONE);
+			contentBinding.caseDataHealthWorkerCompletingForm.setVisibility(GONE);
+		}
+
+		// RUBELLA_LAYOUT - dateOfNotification already exists, visibility handled by field visibility checkers
 	}
 
 	private void updateCaseConfirmationBasis(FragmentCaseEditLayoutBinding contentBinding) {
@@ -393,6 +425,7 @@ public class CaseEditFragment extends BaseEditFragment<FragmentCaseEditLayoutBin
 		infectionSettingList = DataUtils.getEnumItems(InfectionSetting.class, true);
 
 		caseConfirmationBasisList = DataUtils.getEnumItems(CaseConfirmationBasis.class, true);
+		vaccineTypeList = DataUtils.getEnumItems(VaccineType.class, true);
 	}
 
 	@Override
@@ -682,6 +715,7 @@ public class CaseEditFragment extends BaseEditFragment<FragmentCaseEditLayoutBin
 		contentBinding.caseDataNotifiedBy.initializeSpinner(notifiedByList);
 		contentBinding.caseDataQuarantine.initializeSpinner(quarantineList);
 		contentBinding.caseDataCaseConfirmationBasis.initializeSpinner(caseConfirmationBasisList);
+		contentBinding.caseDataVaccineType.initializeSpinner(vaccineTypeList);
 
 		// Initialize ControlDateFields
 		contentBinding.caseDataReportDate.initializeDateField(getFragmentManager());
@@ -704,6 +738,10 @@ public class CaseEditFragment extends BaseEditFragment<FragmentCaseEditLayoutBin
 		contentBinding.caseDataMotherGivenProtectiveDoseTTDate.initializeDateField(getFragmentManager());
 		contentBinding.caseDataDateOfInvestigation.initializeDateField(getFragmentManager());
 		contentBinding.caseDataDateOfNotification.initializeDateField(getFragmentManager());
+		contentBinding.caseDataRegionLevelDate.initializeDateField(getFragmentManager());
+		contentBinding.caseDataNationalLevelDate.initializeDateField(getFragmentManager());
+		contentBinding.caseDataArrivalAtRegionalPublicHealthOfficeDate.initializeDateField(getFragmentManager());
+		contentBinding.caseDataArrivalAtNationalLevelDate.initializeDateField(getFragmentManager());
 
 		// Replace classification user field with classified by field when case has been classified automatically
 		if (contentBinding.getData().getClassificationDate() != null && contentBinding.getData().getClassificationUser() == null) {
