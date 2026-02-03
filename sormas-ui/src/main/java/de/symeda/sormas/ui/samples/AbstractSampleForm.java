@@ -242,6 +242,7 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 					fluidRowLocs(SampleDto.SAMPLE_PURPOSE, SampleDto.FIELD_SAMPLE_ID) +
 					fluidRowLocs(SampleDto.SAMPLE_DATE_TIME) +
 					fluidRowLocs(SampleDto.LAB, SampleDto.LAB_DETAILS) +
+					fluidRowLocs(SampleDto.SUSPECTED_DISEASE) +
 					fluidRowLocs(SampleDto.SAMPLE_MATERIAL, SampleDto.SAMPLE_MATERIAL_TEXT) +
 					fluidRowLocs(SampleDto.LAB_SAMPLE_ID) +
 					locCss(VSPACE_TOP_3, SampleDto.SHIPPED) +
@@ -367,6 +368,7 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 		addDateField(SampleDto.DATE_SPECIMEN_SENT_TO_LABORATORY_TYPE, DateField.class, 7);
 		addField(SampleDto.PACKAGING, ComboBox.class);
 		addField(SampleDto.PACKAGING_OTHER, TextField.class);
+		addField(SampleDto.SUSPECTED_DISEASE, ComboBox.class);
 
 	}
 

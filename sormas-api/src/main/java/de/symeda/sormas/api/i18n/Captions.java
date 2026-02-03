@@ -2326,6 +2326,11 @@ public interface Captions {
 	String PathogenTest_performRubellaTest = "PathogenTest.performRubellaTest";
 	String PathogenTest_investigationResults = "PathogenTest.investigationResults";
 	String PathogenTest_sourceOfInfectionIdentified = "PathogenTest.sourceOfInfectionIdentified";
+	String PathogenTest_viralDetection = "PathogenTest.viralDetection";
+	String PathogenTest_viralDetectionTestType = "PathogenTest.viralDetectionTestType";
+	String PathogenTest_viralDetectionResults = "PathogenTest.viralDetectionResults";
+	String PathogenTest_dateLabResultsSentDivision = "PathogenTest.dateLabResultsSentDivision";
+	String PathogenTest_nameLabTechnicianSendResults = "PathogenTest.nameLabTechnicianSendResults";
 	String pathogenTestAdd = "pathogenTestAdd";
 	String pathogenTestCreateNew = "pathogenTestCreateNew";
 	String pathogenTestNewResult = "pathogenTestNewResult";
@@ -2652,6 +2657,7 @@ public interface Captions {
 	String Sample_dateSeqResultsSentToProgram = "Sample.dateSeqResultsSentToProgram";
 	String Sample_finalLabResults = "Sample.finalLabResults";
 	String Sample_immunocompromisedStatusSuspected = "Sample.immunocompromisedStatusSuspected";
+	String Sample_suspectedDisease = "Sample.suspectedDisease";
 	String Sample_afpFinalClassification = "Sample.afpFinalClassification";
 	String sampleActiveSamples = "sampleActiveSamples";
 	String sampleAllActiveAndArchivedSamples = "sampleAllActiveAndArchivedSamples";

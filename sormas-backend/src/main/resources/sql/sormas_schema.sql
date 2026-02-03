@@ -15038,6 +15038,20 @@ ALTER TABLE epidata_history ADD COLUMN contactsimilaroutbreak varchar(255);
 ALTER TABLE epidata_history ADD COLUMN contactsickanimals varchar(255);
 INSERT INTO schema_version (version_number, comment) VALUES (633, 'Added columns: recenttraveloutbreak, contactsimilaroutbreak, contactsickanimals to epidata');
 
+ALTER TABLE samples ADD COLUMN suspecteddisease varchar(255);
+ALTER TABLE samples_history ADD COLUMN suspecteddisease varchar(255);
+
+ALTER TABLE pathogentest ADD COLUMN viraldetection varchar(50);
+ALTER TABLE pathogentest ADD COLUMN viraldetectiontesttype varchar(50);
+ALTER TABLE pathogentest ADD COLUMN viraldetectionresults varchar(50);
+ALTER TABLE pathogentest ADD COLUMN datelabresultssentdivision date;
+ALTER TABLE pathogentest ADD COLUMN namelabtechniciansendresults varchar(255);
+ALTER TABLE pathogentest_history ADD COLUMN viraldetection varchar(50);
+ALTER TABLE pathogentest_history ADD COLUMN viraldetectiontesttype varchar(50);
+ALTER TABLE pathogentest_history ADD COLUMN viraldetectionresults varchar(50);
+ALTER TABLE pathogentest_history ADD COLUMN datelabresultssentdivision date;
+ALTER TABLE pathogentest_history ADD COLUMN namelabtechniciansendresults varchar(255);
+INSERT INTO schema_version (version_number, comment) VALUES (634, 'Added columns: suspecteddisease to sample, viralDetection, viralDetectionTestType etc to pathogen');
 
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***
 

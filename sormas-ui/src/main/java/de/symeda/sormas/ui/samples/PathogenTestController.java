@@ -138,7 +138,13 @@ public class PathogenTestController {
 		}
 		PathogenTestForm createForm = new PathogenTestForm(sampleDto, true, caseSampleCount, false, true, associatedEventOrCaseOrContactDisease); // Valid because jurisdiction doesn't matter for entities that are about to be created
 		// Defaulting the case disease as tested disease
-		pathogenTest.setTestedDisease(associatedEventOrCaseOrContactDisease);
+		// For IDSR, tested disease must be the sample suspected disease
+		if (sampleDto.getSuspectedDisease() != null) {
+			pathogenTest.setTestedDisease(sampleDto.getSuspectedDisease());
+		} else {
+			pathogenTest.setTestedDisease(associatedEventOrCaseOrContactDisease);
+		}
+
 		createForm.setValue(pathogenTest);
 		final CommitDiscardWrapperComponent<PathogenTestForm> editView =
 			new CommitDiscardWrapperComponent<>(createForm, UiUtil.permitted(UserRight.PATHOGEN_TEST_CREATE), createForm.getFieldGroup());

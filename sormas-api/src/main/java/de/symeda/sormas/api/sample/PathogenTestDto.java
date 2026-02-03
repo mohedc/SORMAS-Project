@@ -41,14 +41,7 @@ import de.symeda.sormas.api.sormastosormas.SormasToSormasConfig;
 import de.symeda.sormas.api.therapy.DrugSusceptibilityDto;
 import de.symeda.sormas.api.user.UserDto;
 import de.symeda.sormas.api.user.UserReferenceDto;
-import de.symeda.sormas.api.utils.DataHelper;
-import de.symeda.sormas.api.utils.DateFormatHelper;
-import de.symeda.sormas.api.utils.DependingOnFeatureType;
-import de.symeda.sormas.api.utils.Diseases;
-import de.symeda.sormas.api.utils.FieldConstraints;
-import de.symeda.sormas.api.utils.HideForCountriesExcept;
-import de.symeda.sormas.api.utils.SensitiveData;
-import de.symeda.sormas.api.utils.YesNoUnknown;
+import de.symeda.sormas.api.utils.*;
 import de.symeda.sormas.api.utils.pseudonymization.PseudonymizableDto;
 
 @DependingOnFeatureType(featureType = FeatureType.SAMPLES_LAB)
@@ -140,6 +133,12 @@ public class PathogenTestDto extends PseudonymizableDto {
 	public static final String OTHER_TESTS_PENDING_SPECIFY = "otherTestsPendingSpecify";
 	public static final String DATE_RESULTS_SENT_TO_REFERENCE_LABORATORY = "dateResultsSentToReferenceLaboratory";
 	public static final String REFERENCE_LABORATORY = "referenceLaboratory";
+	public static final String VIRAL_DETECTION = "viralDetection";
+	public static final String VIRAL_DETECTION_TEST_TYPE = "viralDetectionTestType";
+	public static final String VIRAL_DETECTION_RESULTS = "viralDetectionResults";
+	public static final String DATE_LAB_RESULTS_SENT_DIVISION = "dateLabResultsSentDivision";
+	public static final String NAME_LAB_TECHNICIAN_SEND_RESULTS = "nameLabTechnicianSendResults";
+
 
 	private SampleReferenceDto sample;
 	private EnvironmentSampleReferenceDto environmentSample;
@@ -317,6 +316,16 @@ public class PathogenTestDto extends PseudonymizableDto {
 	private Date dateResultsSentToReferenceLaboratory;
 	@Diseases(value = {Disease.CSM})
 	private FacilityReferenceDto referenceLaboratory;
+	@Diseases(value = {Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS})
+	private YesNo viralDetection;
+	@Diseases(value = {Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS})
+	private ViralDetectionTestType viralDetectionTestType;
+	@Diseases(value = {Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS})
+	private PathogenTestResultType viralDetectionResults;
+	@Diseases(value = {Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS})
+	private Date dateLabResultsSentDivision;
+	@Diseases(value = {Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS})
+	private String nameLabTechnicianSendResults;
 
 	public static PathogenTestDto build(SampleDto sample, UserDto currentUser) {
 
@@ -1031,6 +1040,46 @@ public class PathogenTestDto extends PseudonymizableDto {
 
 	public void setReferenceLaboratory(FacilityReferenceDto referenceLaboratory) {
 		this.referenceLaboratory = referenceLaboratory;
+	}
+
+	public YesNo getViralDetection() {
+		return viralDetection;
+	}
+
+	public void setViralDetection(YesNo viralDetection) {
+		this.viralDetection = viralDetection;
+	}
+
+	public ViralDetectionTestType getViralDetectionTestType() {
+		return viralDetectionTestType;
+	}
+
+	public void setViralDetectionTestType(ViralDetectionTestType viralDetectionTestType) {
+		this.viralDetectionTestType = viralDetectionTestType;
+	}
+
+	public PathogenTestResultType getViralDetectionResults() {
+		return viralDetectionResults;
+	}
+
+	public void setViralDetectionResults(PathogenTestResultType viralDetectionResults) {
+		this.viralDetectionResults = viralDetectionResults;
+	}
+
+	public Date getDateLabResultsSentDivision() {
+		return dateLabResultsSentDivision;
+	}
+
+	public void setDateLabResultsSentDivision(Date dateLabResultsSentDivision) {
+		this.dateLabResultsSentDivision = dateLabResultsSentDivision;
+	}
+
+	public String getNameLabTechnicianSendResults() {
+		return nameLabTechnicianSendResults;
+	}
+
+	public void setNameLabTechnicianSendResults(String nameLabTechnicianSendResults) {
+		this.nameLabTechnicianSendResults = nameLabTechnicianSendResults;
 	}
 
 	@Override

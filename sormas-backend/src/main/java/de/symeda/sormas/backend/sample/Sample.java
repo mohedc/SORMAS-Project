@@ -42,6 +42,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+import de.symeda.sormas.api.Disease;
 import de.symeda.sormas.api.sample.*;
 import de.symeda.sormas.api.utils.*;
 import org.apache.commons.lang3.StringUtils;
@@ -228,7 +229,7 @@ public class Sample extends DeletableAdo implements IsSample, SormasToSormasShar
 	private PosNeg prnt;
 	private Date prntDate;
 	private Date dateResultsSentToReferringClinician;
-
+	private Disease suspectedDisease;
 	private List<PathogenTest> pathogenTests;
 	private List<AdditionalTest> additionalTests;
 
@@ -1191,5 +1192,14 @@ public class Sample extends DeletableAdo implements IsSample, SormasToSormasShar
 
 	public void setDateResultsSentToReferringClinician(Date dateResultsSentToReferringClinician) {
 		this.dateResultsSentToReferringClinician = dateResultsSentToReferringClinician;
+	}
+	@Enumerated(EnumType.STRING)
+	@Column
+	public Disease getSuspectedDisease() {
+		return suspectedDisease;
+	}
+
+	public void setSuspectedDisease(Disease suspectedDisease) {
+		this.suspectedDisease = suspectedDisease;
 	}
 }

@@ -41,19 +41,9 @@ import de.symeda.sormas.api.disease.DiseaseVariant;
 import de.symeda.sormas.api.disease.DiseaseVariantConverter;
 import de.symeda.sormas.api.disease.PathogenConverter;
 import de.symeda.sormas.api.environment.environmentsample.Pathogen;
-import de.symeda.sormas.api.sample.AgglutinationPositiveResult;
-import de.symeda.sormas.api.sample.GramStainResult;
-import de.symeda.sormas.api.sample.MacroscopicExamination;
-import de.symeda.sormas.api.sample.PCRTestSpecification;
-import de.symeda.sormas.api.sample.PathogenSpecie;
-import de.symeda.sormas.api.sample.PathogenStrainCallStatus;
-import de.symeda.sormas.api.sample.PathogenTestReferenceDto;
-import de.symeda.sormas.api.sample.FinalClassification;
-import de.symeda.sormas.api.sample.PathogenTestResultType;
-import de.symeda.sormas.api.sample.PathogenTestScale;
-import de.symeda.sormas.api.sample.PathogenTestType;
-import de.symeda.sormas.api.sample.SeroGroupSpecification;
-import de.symeda.sormas.api.sample.SerotypingMethod;
+import de.symeda.sormas.api.sample.*;
+import de.symeda.sormas.api.utils.Diseases;
+import de.symeda.sormas.api.utils.YesNo;
 import de.symeda.sormas.api.utils.YesNoUnknown;
 import de.symeda.sormas.backend.common.DeletableAdo;
 import de.symeda.sormas.backend.environment.environmentsample.EnvironmentSample;
@@ -220,6 +210,11 @@ public class PathogenTest extends DeletableAdo {
 	private String otherTestsPendingSpecify;
 	private Date dateResultsSentToReferenceLaboratory;
 	private Facility referenceLaboratory;
+	private YesNo viralDetection;
+	private ViralDetectionTestType viralDetectionTestType;
+	private PathogenTestResultType viralDetectionResults;
+	private Date dateLabResultsSentDivision;
+	private String nameLabTechnicianSendResults;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	public Sample getSample() {
@@ -953,5 +948,48 @@ public class PathogenTest extends DeletableAdo {
 
 	public void setReferenceLaboratory(Facility referenceLaboratory) {
 		this.referenceLaboratory = referenceLaboratory;
+	}
+	@Enumerated(EnumType.STRING)
+	@Column
+	public YesNo getViralDetection() {
+		return viralDetection;
+	}
+
+	public void setViralDetection(YesNo viralDetection) {
+		this.viralDetection = viralDetection;
+	}
+	@Enumerated(EnumType.STRING)
+	@Column
+	public ViralDetectionTestType getViralDetectionTestType() {
+		return viralDetectionTestType;
+	}
+
+	public void setViralDetectionTestType(ViralDetectionTestType viralDetectionTestType) {
+		this.viralDetectionTestType = viralDetectionTestType;
+	}
+	@Enumerated(EnumType.STRING)
+	@Column
+	public PathogenTestResultType getViralDetectionResults() {
+		return viralDetectionResults;
+	}
+
+	public void setViralDetectionResults(PathogenTestResultType viralDetectionResults) {
+		this.viralDetectionResults = viralDetectionResults;
+	}
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getDateLabResultsSentDivision() {
+		return dateLabResultsSentDivision;
+	}
+
+	public void setDateLabResultsSentDivision(Date dateLabResultsSentDivision) {
+		this.dateLabResultsSentDivision = dateLabResultsSentDivision;
+	}
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	public String getNameLabTechnicianSendResults() {
+		return nameLabTechnicianSendResults;
+	}
+
+	public void setNameLabTechnicianSendResults(String nameLabTechnicianSendResults) {
+		this.nameLabTechnicianSendResults = nameLabTechnicianSendResults;
 	}
 }

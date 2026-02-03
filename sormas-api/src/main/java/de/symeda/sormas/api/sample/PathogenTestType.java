@@ -22,6 +22,9 @@ import de.symeda.sormas.api.i18n.I18nProperties;
 import de.symeda.sormas.api.utils.DataHelper;
 import de.symeda.sormas.api.utils.Diseases;
 
+import java.util.Arrays;
+import java.util.List;
+
 public enum PathogenTestType {
 
 	@Diseases(value = {
@@ -197,6 +200,20 @@ public enum PathogenTestType {
 	@Diseases(value = {
 		Disease.CSM })
 	WBC_COUNT,
+
+	@Diseases(value = {
+		Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS })
+	P_FALICIPARUM,
+	@Diseases(value = {
+		Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS })
+	P_VIVAX,
+	@Diseases(value = {
+		Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS })
+	SHIGELLA,
+	@Diseases(value = {
+		Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS })
+	LATEX,
+
 	@Diseases(value = {
 		Disease.YELLOW_FEVER,
 		Disease.MEASLES }, hide = true)

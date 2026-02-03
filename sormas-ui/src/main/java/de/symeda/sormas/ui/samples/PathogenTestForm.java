@@ -23,17 +23,13 @@ import static de.symeda.sormas.ui.utils.CssStyles.VSPACE_TOP_4;
 import static de.symeda.sormas.ui.utils.LayoutUtil.fluidRowLocs;
 import static de.symeda.sormas.ui.utils.LayoutUtil.loc;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import de.symeda.sormas.api.DiseaseHelper;
+import de.symeda.sormas.api.caze.CaseDataDto;
+import de.symeda.sormas.api.utils.YesNo;
 import org.apache.commons.collections4.CollectionUtils;
 
 import com.vaadin.ui.Label;
@@ -171,6 +167,20 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 			fluidRowLocs(PathogenTestDto.OTHER_TESTS_PENDING, PathogenTestDto.OTHER_TESTS_PENDING_SPECIFY) +
 			fluidRowLocs(4, PathogenTestDto.TEST_RESULT, 4, PathogenTestDto.TEST_RESULT_VERIFIED, 4, "") +
 			fluidRowLocs(PathogenTestDto.TEST_RESULT_TEXT, PathogenTestDto.FINAL_CLASSIFICATION);
+
+	private static final String IDSR_HTML_LAYOUT =
+			loc(PATHOGEN_TEST_HEADING_LOC) +
+					fluidRowLocs(PathogenTestDto.TESTED_DISEASE, PathogenTestDto.TESTED_DISEASE_DETAILS) +
+					fluidRowLocs(PathogenTestDto.TEST_TYPE, PathogenTestDto.TEST_TYPE_TEXT) +
+					fluidRowLocs(PathogenTestDto.TEST_DATE_TIME) +
+					fluidRowLocs(6, PathogenTestDto.LAB_DETAILS) +
+					fluidRowLocs(PathogenTestDto.VIRAL_DETECTION, PathogenTestDto.VIRAL_DETECTION_TEST_TYPE) +
+					fluidRowLocs(PathogenTestDto.VIRAL_DETECTION_RESULTS, PathogenTestDto.TEST_RESULT_VERIFIED) +
+					fluidRowLocs(6, PathogenTestDto.TEST_RESULT) +
+					fluidRowLocs(6, PathogenTestDto.DATE_LAB_RESULTS_SENT_DIVISION) +
+					fluidRowLocs(6, PathogenTestDto.LAB) +
+					fluidRowLocs(6, PathogenTestDto.NAME_LAB_TECHNICIAN_SEND_RESULTS);
+
 	//@formatter:on
 
 	private SampleDto sample;
@@ -189,6 +199,13 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 	private ComboBox pcrTestSpecification;
 	private Disease disease;
 	private TextField typingIdField;
+	private NullableOptionGroup viralDetectionField;
+	private ComboBox viralDetectionTestTypeField;
+	private ComboBox viralDetectionResultsField;
+	private DateField dateLabResultsSentDivisionField ;
+	private TextField nameLabTechnicianSendResultsField;
+	private Disease caseDisease;
+
 	// List of tests that are used for serogrouping
 	List<PathogenTestType> seroGrpTests = Arrays.asList(
 		PathogenTestType.SEROGROUPING,
@@ -340,6 +357,9 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 		if (disease == Disease.CSM) {
 			return MENINGITIS_HTML_LAYOUT;
 		}
+		if (disease == Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS) {
+			return IDSR_HTML_LAYOUT;
+		}
 		return HTML_LAYOUT;
 	}
 
@@ -358,6 +378,9 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 
 	@Override
 	protected void addFields() {
+
+		CaseDataDto caseDataDto = FacadeProvider.getCaseFacade().getCaseDataByUuid(sample.getAssociatedCase().getUuid());
+		caseDisease = caseDataDto.getDisease();
 
 		pathogenTestHeadingLabel = new Label();
 		pathogenTestHeadingLabel.addStyleName(H3);
@@ -660,6 +683,11 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 		addField(PathogenTestDto.DELETION_REASON);
 		addField(PathogenTestDto.OTHER_DELETION_REASON, TextArea.class).setRows(3);
 		setVisible(false, PathogenTestDto.DELETION_REASON, PathogenTestDto.OTHER_DELETION_REASON);
+		viralDetectionField = addField(PathogenTestDto.VIRAL_DETECTION, NullableOptionGroup.class);
+		viralDetectionTestTypeField = addField(PathogenTestDto.VIRAL_DETECTION_TEST_TYPE, ComboBox.class);
+		viralDetectionResultsField = addField(PathogenTestDto.VIRAL_DETECTION_RESULTS, ComboBox.class);
+		dateLabResultsSentDivisionField = addField(PathogenTestDto.DATE_LAB_RESULTS_SENT_DIVISION, DateField.class);
+		nameLabTechnicianSendResultsField = addField(PathogenTestDto.NAME_LAB_TECHNICIAN_SEND_RESULTS, TextField.class);
 
 		initializeAccessAndAllowedAccesses();
 		initializeVisibilitiesAndAllowedVisibilities();
@@ -733,6 +761,10 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 		updateDiseaseVariantField.accept((Disease) diseaseField.getValue());
 
 		diseaseField.addValueChangeListener((ValueChangeListener) valueChangeEvent -> {
+			if (caseDisease != null && caseDisease == Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS) {
+				// IDSR mode, skip normal logic
+				return;
+			}
 			Disease latestDisease = (Disease) valueChangeEvent.getProperty().getValue();
 			// If the disease changed, test type field should be updated with its respective test types
 			if (latestDisease != disease) {
@@ -876,6 +908,10 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 		// Meningitis-specific configuration (called after all other visibility logic)
 		if (disease == Disease.CSM) {
 			configureMeningitisFields();
+		}
+
+		if (disease == Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS){
+			handleIDSR();
 		}
 	}
 
@@ -1026,4 +1062,46 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 		getField(PathogenTestDto.REFERENCE_LABORATORY).setVisible(true);
 		getField(PathogenTestDto.OTHER_TESTS_PENDING).setVisible(true);
 	}
+
+	private void handleIDSR() {
+		Disease suspectedDisease = sample.getSuspectedDisease();
+		if (suspectedDisease == null) return;
+
+		for (Disease currentDisease : Disease.values()) {
+			if (currentDisease == suspectedDisease) {
+				diseaseField.removeAllItems();
+				FieldHelper.updateEnumData(diseaseField, Collections.singleton(currentDisease));
+				break;
+			}
+		}
+
+		List<PathogenTestType> idsrTestTypes = Arrays.asList(
+				PathogenTestType.P_FALICIPARUM,
+				PathogenTestType.P_VIVAX,
+				PathogenTestType.SHIGELLA,
+				PathogenTestType.CULTURE,
+				PathogenTestType.LATEX,
+				PathogenTestType.GRAM_STAIN,
+				PathogenTestType.OTHER
+		);
+
+		testTypeField.removeAllItems();
+		testTypeField.addItems(idsrTestTypes);
+		testTypeField.setValue(null);
+
+		List<PathogenTestResultType> validValues = Arrays.asList(PathogenTestResultType.POSITIVE, PathogenTestResultType.NEGATIVE, PathogenTestResultType.PENDING);
+		FieldHelper.updateEnumData(viralDetectionResultsField, validValues);
+
+		FieldHelper.setVisibleWhen(
+				getFieldGroup(),
+				Arrays.asList(PathogenTestDto.VIRAL_DETECTION_TEST_TYPE),
+				PathogenTestDto.VIRAL_DETECTION,
+				Arrays.asList(YesNo.YES),
+				true
+		);
+
+		testResultField.removeItem(PathogenTestResultType.INDETERMINATE);
+	}
+
+
 }
