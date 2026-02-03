@@ -119,15 +119,16 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 	private final TravelEntryDto convertedTravelEntry;
 
 	//@formatter:off
-    private static final String HTML_LAYOUT = fluidRowLocs(CaseDataDto.CASE_ORIGIN, "")
+    private static final String HTML_LAYOUT = 
+		fluidRow(
+							fluidColumnLoc(6, 0, CaseDataDto.DISEASE),
+							fluidColumnLoc(6, 0, CaseDataDto.IDSR_DIAGNOSIS),
+							fluidColumnLoc(6, 0, CaseDataDto.IDSR_DIAGNOSIS_DETAILS))
+		+ fluidRowLocs(CaseDataDto.CASE_ORIGIN, "")
         + fluidRowLocs(CaseDataDto.REPORT_DATE, CaseDataDto.EPID_NUMBER)
 		+ fluidRowLocs(CaseDataDto.CASE_CLASSIFICATION)
         + fluidRowLocs(CaseDataDto.CASE_REFERENCE_NUMBER, CaseDataDto.EXTERNAL_ID)
         + fluidRowLocs(6, CaseDataDto.DISEASE)
-		+ fluidRow(
-							fluidColumnLoc(6, 0, CaseDataDto.DISEASE),
-							fluidColumnLoc(6, 0, CaseDataDto.IDSR_DIAGNOSIS),
-							fluidColumnLoc(6, 0, CaseDataDto.IDSR_DIAGNOSIS_DETAILS))
         + fluidRow(
         fluidColumn(12, 0,
             locs(CaseDataDto.DISEASE_DETAILS, CaseDataDto.PLAGUE_TYPE, CaseDataDto.DENGUE_FEVER_TYPE,

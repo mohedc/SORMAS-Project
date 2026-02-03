@@ -552,7 +552,6 @@ public class SampleFacadeEjb implements SampleFacade {
 			sampleRoot.get(Sample.SHIPPED),
 			sampleRoot.get(Sample.SHIPMENT_DATE),
 			sampleRoot.get(Sample.SHIPMENT_DETAILS),
-			sampleRoot.get(Sample.DATE_RESULTS_SENT_TO_REFERRING_CLINICIAN),
 			sampleRoot.get(Sample.RECEIVED),
 			sampleRoot.get(Sample.RECEIVED_DATE),
 			sampleRoot.get(Sample.SPECIMEN_CONDITION),
@@ -906,6 +905,7 @@ public class SampleFacadeEjb implements SampleFacade {
 		target.setPcr(source.getPcr());
 		target.setPcrDate(source.getPcrDate());
 		target.setPrnt(source.getPrnt());
+		target.setPrntInputValue(source.getPrntInputValue());
 		target.setPrntDate(source.getPrntDate());
 
 		target.setReportLat(source.getReportLat());
@@ -1117,6 +1117,7 @@ public class SampleFacadeEjb implements SampleFacade {
 		target.setPcr(source.getPcr());
 		target.setPcrDate(source.getPcrDate());
 		target.setPrnt(source.getPrnt());
+		target.setPrntInputValue(source.getPrntInputValue());
 		target.setPrntDate(source.getPrntDate());
 
 		target.setReportLat(source.getReportLat());

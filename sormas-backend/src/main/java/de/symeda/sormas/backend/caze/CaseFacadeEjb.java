@@ -3255,6 +3255,10 @@ public class CaseFacadeEjb extends AbstractCoreFacadeEjb<Case, CaseDataDto, Case
 		target.setMotherGivenProtectiveDoseTTDate(source.getMotherGivenProtectiveDoseTTDate());
 		target.setSupplementalImmunization(source.getSupplementalImmunization());
 		target.setSupplementalImmunizationDetails(source.getSupplementalImmunizationDetails());
+		target.setArrivalAtRegionalPublicHealthOfficeDate(source.getArrivalAtRegionalPublicHealthOfficeDate());
+		target.setArrivalAtNationalLevelDate(source.getArrivalAtNationalLevelDate());
+		target.setVaccineType(source.getVaccineType());
+		target.setHealthWorkerCompletingForm(source.getHealthWorkerCompletingForm());
 		target.setNotifiedByText(source.getNotifiedByText());
 		target.setFinalClassification(source.getFinalClassification());
 
@@ -3509,6 +3513,10 @@ public class CaseFacadeEjb extends AbstractCoreFacadeEjb<Case, CaseDataDto, Case
 		target.setMotherGivenProtectiveDoseTTDate(source.getMotherGivenProtectiveDoseTTDate());
 		target.setSupplementalImmunization(source.getSupplementalImmunization());
 		target.setSupplementalImmunizationDetails(source.getSupplementalImmunizationDetails());
+		target.setArrivalAtRegionalPublicHealthOfficeDate(source.getArrivalAtRegionalPublicHealthOfficeDate());
+		target.setArrivalAtNationalLevelDate(source.getArrivalAtNationalLevelDate());
+		target.setVaccineType(source.getVaccineType());
+		target.setHealthWorkerCompletingForm(source.getHealthWorkerCompletingForm());
 		target.setNotifiedByText(source.getNotifiedByText());
 		target.setFinalClassification(source.getFinalClassification());
         return target;
