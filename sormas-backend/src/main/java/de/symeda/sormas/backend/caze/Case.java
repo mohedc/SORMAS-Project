@@ -477,6 +477,9 @@ public class Case extends CoreAdo implements IsCase, SormasToSormasShareable, Ha
 	private String notifiedByText;
 	private FinalClassification finalClassification;
 	private Date dateFormSentToRegion;
+	private String personFullName;
+	private String personTelephone;
+	private String personDesignation;
 
     public static Case build() {
 		Case caze = new Case();
@@ -2231,6 +2234,30 @@ public class Case extends CoreAdo implements IsCase, SormasToSormasShareable, Ha
 	@Temporal(TemporalType.TIMESTAMP)
 	public Date getDateFormSentToRegion() {
 		return dateFormSentToRegion;
+	}
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	public String getPersonFullName() {
+		return personFullName;
+	}
+
+	public void setPersonFullName(String personFullName) {
+		this.personFullName = personFullName;
+	}
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	public String getPersonTelephone() {
+		return personTelephone;
+	}
+
+	public void setPersonTelephone(String personTelephone) {
+		this.personTelephone = personTelephone;
+	}
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	public String getPersonDesignation() {
+		return personDesignation;
+	}
+
+	public void setPersonDesignation(String personDesignation) {
+		this.personDesignation = personDesignation;
 	}
 
 	public void setDateFormSentToRegion(Date dateFormSentToRegion) {

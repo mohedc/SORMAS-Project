@@ -279,10 +279,12 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 	public static final String SUPPLEMENTAL_IMMUNIZATION_DETAILS = "supplementalImmunizationDetails";
 	public static final String FINAL_CLASSIFICATION = "finalClassification";
 	public static final String DATE_FORM_SENT_TO_REGION = "dateFormSentToRegion";
+	public static final String PERSON_FULLNAME = "personFullName";
+	public static final String PERSON_TELEPHONE = "personTelephone";
+	public static final String PERSON_DESIGNATION = "personDesignation";
 
 
     // Fields are declared in the order they should appear in the import template
-
 	@Outbreaks
 	@NotNull(message = Validations.validDisease)
 	private Disease disease;
@@ -866,6 +868,16 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 	@Diseases({
 			Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS})
 	private Date dateFormSentToRegion;
+
+	@Diseases({
+			Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS})
+	private String personFullName;
+	@Diseases({
+			Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS})
+	private String personTelephone;
+	@Diseases({
+			Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS})
+	private String personDesignation;
 
 	public static CaseDataDto build(PersonReferenceDto person, Disease disease) {
 		return build(person, disease, HealthConditionsDto.build());
@@ -2385,6 +2397,30 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 
 	public void setDateFormSentToRegion(Date dateFormSentToRegion) {
 		this.dateFormSentToRegion = dateFormSentToRegion;
+	}
+
+	public String getPersonFullName() {
+		return personFullName;
+	}
+
+	public void setPersonFullName(String personFullName) {
+		this.personFullName = personFullName;
+	}
+
+	public String getPersonTelephone() {
+		return personTelephone;
+	}
+
+	public void setPersonTelephone(String personTelephone) {
+		this.personTelephone = personTelephone;
+	}
+
+	public String getPersonDesignation() {
+		return personDesignation;
+	}
+
+	public void setPersonDesignation(String personDesignation) {
+		this.personDesignation = personDesignation;
 	}
 
     @JsonIgnore

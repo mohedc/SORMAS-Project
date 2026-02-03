@@ -15053,6 +15053,13 @@ ALTER TABLE pathogentest_history ADD COLUMN datelabresultssentdivision date;
 ALTER TABLE pathogentest_history ADD COLUMN namelabtechniciansendresults varchar(255);
 INSERT INTO schema_version (version_number, comment) VALUES (634, 'Added columns: suspecteddisease to sample, viralDetection, viralDetectionTestType etc to pathogen');
 
+ALTER TABLE cases ADD COLUMN personfullname varchar(255);
+ALTER TABLE cases ADD COLUMN persontelephone varchar(255);
+ALTER TABLE cases ADD COLUMN persondesignation varchar(255);
+ALTER TABLE cases_history ADD COLUMN personfullname varchar(255);
+ALTER TABLE cases_history ADD COLUMN persontelephone varchar(255);
+ALTER TABLE cases_history ADD COLUMN persondesignation varchar(255);
+
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***
 
 

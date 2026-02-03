@@ -170,6 +170,7 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 	private static final String ADDITIONAL_MEDICAL_INFORMATION = "additionalMedicalInformationLoc";
 	private static final String INVESTIGATING_OFFICER_INFO = "investigatingOfficerInfoLoc";
 	private static final String NOTIFY_INVESTIGATE = "notifyInvestigateLoc";
+	private static final String PERSON_COMPLETING_HEADING_LOC = "personCompletingHeadingLoc";
 
 	//@formatter:off
 	private static final String MAIN_HTML_LAYOUT =
@@ -519,9 +520,9 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 					inlineLocs(CaseDataDto.POINT_OF_ENTRY, CaseDataDto.POINT_OF_ENTRY_DETAILS, CASE_REFER_POINT_OF_ENTRY_BTN_LOC) +
 					fluidRowLocs(CaseDataDto.NUMBER_OF_VACCINATION_DOSES,"") +
 					fluidRowLocs(CaseDataDto.VACCINATION_RECORD_TYPE, CaseDataDto.LAST_VACCINATION_DATE) +
-					loc(INVESTIGATING_OFFICER_INFO) +
-					fluidRowLocs(CaseDataDto.INVESTIGATOR_NAME, CaseDataDto.INVESTIGATOR_TEL) +
-					fluidRowLocs(CaseDataDto.INVESTIGATOR_UNIT, CaseDataDto.DATE_FORM_SENT_TO_REGION);
+					loc(PERSON_COMPLETING_HEADING_LOC) +
+					fluidRowLocs(CaseDataDto.PERSON_FULLNAME, CaseDataDto.PERSON_TELEPHONE) +
+					fluidRowLocs(CaseDataDto.PERSON_DESIGNATION, CaseDataDto.DATE_FORM_SENT_TO_REGION);
 	//@formatter:on
 
 	private final String caseUuid;
@@ -640,6 +641,8 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 		if (person == null || disease == null) {
 			return;
 		}
+
+		createLabel(I18nProperties.getString(Strings.headingPersonCompleting), H3, PERSON_COMPLETING_HEADING_LOC);
 
 		Label caseDataHeadingLabel = new Label(I18nProperties.getString(Strings.headingCaseData));
 		caseDataHeadingLabel.addStyleName(H3);
@@ -1213,7 +1216,11 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 		// Add field for "At least one yellow fever dose"
 		addField(CaseDataDto.AT_LEAST_ONE_YELLOW_FEVER_DOSE, NullableOptionGroup.class);
 		addField(CaseDataDto.DATE_FORM_SENT_TO_REGION, DateField.class);
-		
+
+		addField(CaseDataDto.PERSON_FULLNAME, TextField.class);
+		addField(CaseDataDto.PERSON_TELEPHONE, TextField.class);
+		addField(CaseDataDto.PERSON_DESIGNATION, TextField.class);
+
 		// Add conditional visibility: lastVaccinationDate visible when vaccinationRecordType is CARD
 		FieldHelper.setVisibleWhen(getFieldGroup(), CaseDataDto.LAST_VACCINATION_DATE, CaseDataDto.VACCINATION_RECORD_TYPE, Arrays.asList(VaccinationRecordType.CARD), true);
 		
@@ -2457,6 +2464,14 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 		if (field != null) {
 			field.setVisible(visible);
 		}
+	}
+
+	private Label createLabel(String text, String h4, String location) {
+		final Label label = new Label(text);
+		label.setId(text);
+		label.addStyleName(h4);
+		getContent().addComponent(label, location);
+		return label;
 	}
 
 	/**

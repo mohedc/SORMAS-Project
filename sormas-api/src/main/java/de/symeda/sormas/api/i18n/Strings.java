@@ -822,6 +822,7 @@ public interface Strings {
 	String headingStoolSpecimenCollection = "headingStoolSpecimenCollection";
 	String headingStoolSpecimenResults = "headingStoolSpecimenResults";
 	String headingFollowUpExamination = "headingFollowUpExamination";
+	String headingPersonCompleting = "headingPersonCompleting";
 	String headingRejectSormasToSormasShareRequest = "headingRejectSormasToSormasShareRequest";
 	String headingRemoveCaseFromContact = "headingRemoveCaseFromContact";
 	String headingRequestedAdditionalTests = "headingRequestedAdditionalTests";
