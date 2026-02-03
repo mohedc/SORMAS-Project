@@ -60,6 +60,7 @@ import de.symeda.sormas.api.infrastructure.facility.FacilityReferenceDto;
 import de.symeda.sormas.api.sample.AgglutinationPositiveResult;
 import de.symeda.sormas.api.sample.AgglutinationTestResult;
 import de.symeda.sormas.api.sample.GramStainResult;
+import de.symeda.sormas.api.sample.LaboratoryType;
 import de.symeda.sormas.api.sample.MacroscopicExamination;
 import de.symeda.sormas.api.sample.FinalClassification;
 import de.symeda.sormas.api.sample.PathogenStrainCallStatus;
@@ -166,12 +167,13 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 			fluidRowLocs(PathogenTestDto.GRAM_STAIN_RESULT, "") +
 			fluidRowLocs(PathogenTestDto.AGGLUTINATION_RESULT, PathogenTestDto.AGGLUTINATION_POSITIVE_RESULTS) +
 			fluidRowLocs(PathogenTestDto.AGGLUTINATION_OTHER_MICROORGANISM, "") +
+			fluidRowLocs(PathogenTestDto.DATE_RESULTS_SENT_TO_DISTRICT, "") +
 			fluidRowLocs(PathogenTestDto.DATE_RESULTS_SENT_TO_REGION, PathogenTestDto.DATE_RESULTS_SENT_TO_DISEASE_SURVEILLANCE) +
 			fluidRowLocs(PathogenTestDto.DATE_DISTRICT_RECEIVED_LAB_RESULTS, PathogenTestDto.DATE_RESULTS_SENT_TO_REFERENCE_LABORATORY) +
 			fluidRowLocs(PathogenTestDto.REFERENCE_LABORATORY, "") +
 			fluidRowLocs(PathogenTestDto.OTHER_TESTS_PENDING, PathogenTestDto.OTHER_TESTS_PENDING_SPECIFY) +
 			fluidRowLocs(4, PathogenTestDto.TEST_RESULT, 4, PathogenTestDto.TEST_RESULT_VERIFIED, 4, "") +
-			fluidRowLocs(PathogenTestDto.TEST_RESULT_TEXT, PathogenTestDto.FINAL_CLASSIFICATION);
+			fluidRowLocs(PathogenTestDto.TEST_RESULT_TEXT, "");
 
 	private static final String CONGENITAL_RUBELLA_HTML_LAYOUT =
 			loc(PATHOGEN_TEST_HEADING_LOC) +
@@ -335,6 +337,16 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 		}
 		if (sampleForm != null) {
 			return (SamplePurpose) sampleForm.getField(SampleDto.SAMPLE_PURPOSE).getValue();
+		}
+		return null;
+	}
+
+	private LaboratoryType getLaboratoryType() {
+		if (sample != null) {
+			return sample.getLaboratoryType();
+		}
+		if (sampleForm != null) {
+			return (LaboratoryType) sampleForm.getField(SampleDto.LABORATORY_TYPE).getValue();
 		}
 		return null;
 	}
@@ -1060,13 +1072,38 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 			Arrays.asList(true),
 			true);
 
-		// Show meningitis-specific date and reference lab fields
-		getField(PathogenTestDto.DATE_RESULTS_SENT_TO_REGION).setVisible(true);
-		getField(PathogenTestDto.DATE_RESULTS_SENT_TO_DISEASE_SURVEILLANCE).setVisible(true);
-		getField(PathogenTestDto.DATE_DISTRICT_RECEIVED_LAB_RESULTS).setVisible(true);
-		getField(PathogenTestDto.DATE_RESULTS_SENT_TO_REFERENCE_LABORATORY).setVisible(true);
-		getField(PathogenTestDto.REFERENCE_LABORATORY).setVisible(true);
+		// Show other tests pending field
 		getField(PathogenTestDto.OTHER_TESTS_PENDING).setVisible(true);
+
+		// DATE_RESULTS_SENT_TO_DISTRICT is always visible (already in layout)
+		getField(PathogenTestDto.DATE_RESULTS_SENT_TO_DISTRICT).setVisible(true);
+
+		// Set conditional visibility for date fields based on laboratory type
+		LaboratoryType laboratoryType = getLaboratoryType();
+		if (laboratoryType == LaboratoryType.REGIONAL_LABORATORY) {
+			// For Regional Laboratory: Show regional lab specific fields
+			getField(PathogenTestDto.DATE_RESULTS_SENT_TO_REGION).setVisible(true);
+			getField(PathogenTestDto.DATE_DISTRICT_RECEIVED_LAB_RESULTS).setVisible(true);
+			getField(PathogenTestDto.DATE_RESULTS_SENT_TO_REFERENCE_LABORATORY).setVisible(true);
+			getField(PathogenTestDto.REFERENCE_LABORATORY).setVisible(true);
+			// Hide reference lab specific field
+			getField(PathogenTestDto.DATE_RESULTS_SENT_TO_DISEASE_SURVEILLANCE).setVisible(false);
+		} else if (laboratoryType == LaboratoryType.REFERENCE_LABORATORY) {
+			// For Reference Laboratory: Show reference lab specific field
+			getField(PathogenTestDto.DATE_RESULTS_SENT_TO_DISEASE_SURVEILLANCE).setVisible(true);
+			// Hide regional lab specific fields
+			getField(PathogenTestDto.DATE_RESULTS_SENT_TO_REGION).setVisible(false);
+			getField(PathogenTestDto.DATE_DISTRICT_RECEIVED_LAB_RESULTS).setVisible(false);
+			getField(PathogenTestDto.DATE_RESULTS_SENT_TO_REFERENCE_LABORATORY).setVisible(false);
+			getField(PathogenTestDto.REFERENCE_LABORATORY).setVisible(false);
+		} else {
+			// If laboratory type is not set or is HEALTH_LABORATORY, hide all conditional fields
+			getField(PathogenTestDto.DATE_RESULTS_SENT_TO_REGION).setVisible(false);
+			getField(PathogenTestDto.DATE_RESULTS_SENT_TO_DISEASE_SURVEILLANCE).setVisible(false);
+			getField(PathogenTestDto.DATE_DISTRICT_RECEIVED_LAB_RESULTS).setVisible(false);
+			getField(PathogenTestDto.DATE_RESULTS_SENT_TO_REFERENCE_LABORATORY).setVisible(false);
+			getField(PathogenTestDto.REFERENCE_LABORATORY).setVisible(false);
+		}
 	}
 
 	/**
