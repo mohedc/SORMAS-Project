@@ -172,6 +172,15 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 			fluidRowLocs(PathogenTestDto.OTHER_TESTS_PENDING, PathogenTestDto.OTHER_TESTS_PENDING_SPECIFY) +
 			fluidRowLocs(4, PathogenTestDto.TEST_RESULT, 4, PathogenTestDto.TEST_RESULT_VERIFIED, 4, "") +
 			fluidRowLocs(PathogenTestDto.TEST_RESULT_TEXT, PathogenTestDto.FINAL_CLASSIFICATION);
+
+	private static final String CONGENITAL_RUBELLA_HTML_LAYOUT =
+			loc(PATHOGEN_TEST_HEADING_LOC) +
+			fluidRowLocs(PathogenTestDto.TESTED_DISEASE, PathogenTestDto.TESTED_DISEASE_DETAILS) +
+			fluidRowLocs(PathogenTestDto.TEST_TYPE, PathogenTestDto.VIRUS_DETECTION_GENOTYPE) +
+			fluidRowLocs(PathogenTestDto.TEST_DATE_TIME, PathogenTestDto.LAB) +
+			fluidRowLocs("", PathogenTestDto.LAB_DETAILS) +
+			fluidRowLocs(4, PathogenTestDto.TEST_RESULT, 4, PathogenTestDto.TEST_RESULT_VERIFIED, 4, "") +
+			fluidRowLocs(PathogenTestDto.TEST_RESULT_TEXT);
 	//@formatter:on
 
 	private SampleDto sample;
@@ -340,6 +349,9 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 		}
 		if (disease == Disease.CSM) {
 			return MENINGITIS_HTML_LAYOUT;
+		}
+		if (disease == Disease.CONGENITAL_RUBELLA) {
+			return CONGENITAL_RUBELLA_HTML_LAYOUT;
 		}
 		return HTML_LAYOUT;
 	}
@@ -600,7 +612,8 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 		fourFoldIncrease.setEnabled(false);
 
 		addField(PathogenTestDto.TEST_RESULT_TEXT, TextArea.class).setRows(6);
-		addField(PathogenTestDto.VIRUS_DETECTION_GENOTYPE, TextField.class);
+		TextField virusDetectionGenotypeField = addField(PathogenTestDto.VIRUS_DETECTION_GENOTYPE, TextField.class);
+		virusDetectionGenotypeField.setVisible(false);
 		addField(PathogenTestDto.VIRUS_ISOLATED, NullableOptionGroup.class);
 
 		// Measles-specific fields (hidden by default, shown in configureMeaslesFields)
@@ -760,6 +773,10 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 			if (disease == Disease.CSM) {
 				configureMeningitisFields();
 			}
+			// Configure congenital rubella-specific fields if disease is congenital rubella
+			if (disease == Disease.CONGENITAL_RUBELLA) {
+				configureCongenitalRubellaFields();
+			}
 
 			if (FacadeProvider.getConfigFacade().isConfiguredCountry(CountryHelper.COUNTRY_CODE_LUXEMBOURG)) {
 				FieldHelper.updateItems(
@@ -854,11 +871,19 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 		testTypeField.addValueChangeListener(e -> {
 			PathogenTestType testType = (PathogenTestType) e.getProperty().getValue();
 			setCqValueVisibility(cqValueField, testType, (PathogenTestResultType) testResultField.getValue());
+			// Reconfigure congenital rubella fields when test type changes
+			if (disease == Disease.CONGENITAL_RUBELLA) {
+				configureCongenitalRubellaFields();
+			}
 		});
 
 		testResultField.addValueChangeListener(e -> {
 			PathogenTestResultType testResult = (PathogenTestResultType) e.getProperty().getValue();
 			setCqValueVisibility(cqValueField, (PathogenTestType) testTypeField.getValue(), testResult);
+			// Reconfigure congenital rubella fields when test result changes
+			if (disease == Disease.CONGENITAL_RUBELLA) {
+				configureCongenitalRubellaFields();
+			}
 		});
 
 		if (SamplePurpose.INTERNAL.equals(getSamplePurpose())) { // this only works for already saved samples
@@ -877,6 +902,10 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 		// Meningitis-specific configuration (called after all other visibility logic)
 		if (disease == Disease.CSM) {
 			configureMeningitisFields();
+		}
+		// Congenital rubella-specific configuration (called after all other visibility logic)
+		if (disease == Disease.CONGENITAL_RUBELLA) {
+			configureCongenitalRubellaFields();
 		}
 	}
 
@@ -1038,5 +1067,27 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 		getField(PathogenTestDto.DATE_RESULTS_SENT_TO_REFERENCE_LABORATORY).setVisible(true);
 		getField(PathogenTestDto.REFERENCE_LABORATORY).setVisible(true);
 		getField(PathogenTestDto.OTHER_TESTS_PENDING).setVisible(true);
+	}
+
+	/**
+	 * Configures fields specifically for congenital rubella pathogen tests
+	 */
+	protected void configureCongenitalRubellaFields() {
+		// Hide tested disease details if not OTHER
+		FieldHelper.setVisibleWhen(
+			getFieldGroup(),
+			PathogenTestDto.TESTED_DISEASE_DETAILS,
+			PathogenTestDto.TESTED_DISEASE,
+			Arrays.asList(Disease.OTHER),
+			true);
+
+		// Show genotype field only when PCR test type is selected and result is positive
+		Map<Object, List<Object>> genotypeVisibilityDependencies = new HashMap<>() {
+			{
+				put(PathogenTestDto.TEST_TYPE, Arrays.asList(PathogenTestType.PCR_RT_PCR));
+//				put(PathogenTestDto.TEST_RESULT, Arrays.asList(PathogenTestResultType.POSITIVE));
+			}
+		};
+		FieldHelper.setVisibleWhen(getFieldGroup(), PathogenTestDto.VIRUS_DETECTION_GENOTYPE, genotypeVisibilityDependencies, true);
 	}
 }
