@@ -3171,6 +3171,7 @@ public interface Captions {
 	String Symptoms_rightInjectionSite = "Symptoms.rightInjectionSite";
 	String Symptoms_leftInjectionSite = "Symptoms.leftInjectionSite";
 	String Symptoms_trueAfp = "Symptoms.trueAfp";
+	String Symptoms_spasmsConvulsion = "Symptoms.spasmsConvulsion";
 	String Symptoms_outcome = "Symptoms.outcome";
 	String Symptoms_severeReactionAfterVaccination = "Symptoms.severeReactionAfterVaccination";
 	String Symptoms_animalBiteScratch = "Symptoms.animalBiteScratch";

@@ -171,7 +171,7 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 			fluidRowLocs(6, STIFFNESS) +
 			fluidRowLocs(OTHER_COMPLICATIONS, OTHER_COMPLICATIONS_TEXT) +
 			locsCss(VSPACE_3) +
-			fluidRowLocs(6, CONVULSION) +
+			fluidRowLocs(6, SPASMS_CONVULSION) +
 			fluidRowLocs(BABY_DIED, AGE_AT_DEATH_DAYS, AGE_AT_ONSET_DAYS) +
 			fluidRowLocs(6, OUTCOME) +
 			fluidRowLocs(SYMPTOMS_COMMENTS);
@@ -443,6 +443,7 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 			FATIGUE_WEAKNESS,
 			SKIN_RASH,
 			NECK_STIFFNESS,
+			SPASMS_CONVULSION,
 			SORE_THROAT,
 			COUGH,
 			COUGH_WITH_SPUTUM,

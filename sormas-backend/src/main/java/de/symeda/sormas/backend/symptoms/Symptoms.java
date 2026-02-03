@@ -300,6 +300,7 @@ public class Symptoms extends AbstractDomainObject {
 	private SymptomState persistentLimb;
 	private SymptomState genitalSwelling;
 	private SymptomState redEye;
+	private SymptomState spasmsConvulsion;
 
 	// when adding new fields make sure to extend toHumanString
 
@@ -2405,6 +2406,14 @@ public class Symptoms extends AbstractDomainObject {
 	@Enumerated(EnumType.STRING)
 	public SymptomState getRedEye() {
 		return redEye;
+	}
+	@Enumerated(EnumType.STRING)
+	public SymptomState getSpasmsConvulsion() {
+		return spasmsConvulsion;
+	}
+
+	public void setSpasmsConvulsion(SymptomState spasmsConvulsion) {
+		this.spasmsConvulsion = spasmsConvulsion;
 	}
 
 	public void setRedEye(SymptomState redEye) {

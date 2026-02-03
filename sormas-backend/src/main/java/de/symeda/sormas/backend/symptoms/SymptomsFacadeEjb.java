@@ -259,6 +259,7 @@ public class SymptomsFacadeEjb implements SymptomsFacade {
 		target.setPersistentLimb(source.getPersistentLimb());
 		target.setGenitalSwelling(source.getGenitalSwelling());
 		target.setRedEye(source.getRedEye());
+		target.setSpasmsConvulsion(source.getSpasmsConvulsion());
 
 
 		return target;
@@ -502,6 +503,7 @@ public class SymptomsFacadeEjb implements SymptomsFacade {
 		target.setPersistentLimb(source.getPersistentLimb());
 		target.setGenitalSwelling(source.getGenitalSwelling());
 		target.setRedEye(source.getRedEye());
+		target.setSpasmsConvulsion(source.getSpasmsConvulsion());
 
 
 		return target;

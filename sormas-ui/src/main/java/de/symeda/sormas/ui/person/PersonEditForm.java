@@ -287,7 +287,7 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 					fluidRowLocs(PersonDto.MOTHERS_NAME, PersonDto.FATHERS_NAME) +
 					fluidRowLocs(PersonDto.LOCATION_OF_BIRTH, PersonDto.BIRTH_IN_INSTITUTION) +
 					fluidRowLocs(PersonDto.PLACE_OF_BIRTH_REGION, PersonDto.PLACE_OF_BIRTH_DISTRICT, PersonDto.PLACE_OF_BIRTH_COMMUNITY) +
-					fluidRowLocs(PersonDto.PLACE_OF_BIRTH_FACILITY, PersonDto.PLACE_OF_BIRTH_FACILITY_DETAILS) +
+					fluidRowLocs(PersonDto.PLACE_OF_BIRTH_FACILITY_TYPE, PersonDto.PLACE_OF_BIRTH_FACILITY, PersonDto.PLACE_OF_BIRTH_FACILITY_DETAILS) +
 					fluidRowLocs(PersonDto.RECEIVED_ANTENATAL_CARE, PersonDto.RECEIVED_ANTENATAL_CARE_WHERE)+
 					fluidRowLocs(PersonDto.DESCRIBE_TREATMENT_OF_CARD, PersonDto.PRENATAL_TOTAL_VISITS)+
 					fluidRowLocs(PersonDto.ATTENDED_BY_TRAINED_TBA, PersonDto.ATTENDED_BY_TRAINED_TBA_MIDWIFE_NAME)+
@@ -329,6 +329,7 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 	private TextField causeOfDeathDetailsField;
 	private ComboBox birthDateDay;
 	private ComboBox cbPlaceOfBirthFacility;
+	private ComboBox placeOfBirthFacilityType;
 	private PersonContext personContext;
 	private boolean isPseudonymized;
 	private LocationEditForm addressForm;
@@ -478,6 +479,7 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 		FieldHelper.setVisibleWhen(getFieldGroup(), PersonDto.OTHER_SALUTATION, PersonDto.SALUTATION, Salutation.OTHER, true);
 
 		ComboBox sex = addField(PersonDto.SEX, ComboBox.class);
+		sex.removeItem(Sex.OTHER);
 		addField(PersonDto.MARITAL_STATUS, ComboBox.class);
 		addField(PersonDto.BIRTH_NAME, TextField.class);
 		addField(PersonDto.NICKNAME, TextField.class);
@@ -625,6 +627,7 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 			}
 		});
 
+
 		addField(PersonDto.HAS_COVID_APP).addStyleName(CssStyles.FORCE_CAPTION_CHECKBOX);
 		addField(PersonDto.COVID_CODE_DELIVERED).addStyleName(CssStyles.FORCE_CAPTION_CHECKBOX);
 
@@ -635,7 +638,7 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 		ComboBox cbPlaceOfBirthRegion = addInfrastructureField(PersonDto.PLACE_OF_BIRTH_REGION);
 		ComboBox cbPlaceOfBirthDistrict = addInfrastructureField(PersonDto.PLACE_OF_BIRTH_DISTRICT);
 		ComboBox cbPlaceOfBirthCommunity = addInfrastructureField(PersonDto.PLACE_OF_BIRTH_COMMUNITY);
-		ComboBox placeOfBirthFacilityType = addField(PersonDto.PLACE_OF_BIRTH_FACILITY_TYPE);
+		placeOfBirthFacilityType = addField(PersonDto.PLACE_OF_BIRTH_FACILITY_TYPE);
 		FieldHelper.removeItems(placeOfBirthFacilityType);
 		placeOfBirthFacilityType.setItemCaptionMode(AbstractSelect.ItemCaptionMode.ID);
 		placeOfBirthFacilityType.addItems(FacilityType.getPlaceOfBirthTypes());
@@ -922,7 +925,7 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 
 			FieldHelper.setVisibleWhen(
 					birthInInstitutionField,
-					Arrays.asList(cbPlaceOfBirthRegion, cbPlaceOfBirthDistrict, cbPlaceOfBirthCommunity, cbPlaceOfBirthFacility),
+					Arrays.asList(cbPlaceOfBirthRegion, cbPlaceOfBirthDistrict, cbPlaceOfBirthCommunity, placeOfBirthFacilityType, cbPlaceOfBirthFacility),
 					Arrays.asList(YesNoUnknown.YES),
 					true);
 		}

@@ -284,6 +284,7 @@ public class SymptomsDto extends PseudonymizableDto {
 	public static final String PERSISTENT_LIMB = "persistentLimb";
 	public static final String GENITAL_SWELLING = "genitalSwelling";
 	public static final String RED_EYE = "redEye";
+	public static final String SPASMS_CONVULSION = "spasmsConvulsion";
 
 	// Fields are declared in the order they should appear in the import template
 
@@ -2719,6 +2720,13 @@ public class SymptomsDto extends PseudonymizableDto {
 	@SymptomGrouping(SymptomGroup.GENERAL)
 	private SymptomState redEye;
 
+	@Diseases({
+			NEONATAL_TETANUS
+	})
+	@Outbreaks
+	@SymptomGrouping(SymptomGroup.GENERAL)
+	private SymptomState spasmsConvulsion;
+
 
 	@Order(0)
 	public Float getTemperature() {
@@ -4763,6 +4771,14 @@ public class SymptomsDto extends PseudonymizableDto {
 
 	public void setRedEye(SymptomState redEye) {
 		this.redEye = redEye;
+	}
+
+	public SymptomState getSpasmsConvulsion() {
+		return spasmsConvulsion;
+	}
+
+	public void setSpasmsConvulsion(SymptomState spasmsConvulsion) {
+		this.spasmsConvulsion = spasmsConvulsion;
 	}
 
 }

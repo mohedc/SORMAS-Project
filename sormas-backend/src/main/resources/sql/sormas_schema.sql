@@ -15059,7 +15059,11 @@ ALTER TABLE cases ADD COLUMN persondesignation varchar(255);
 ALTER TABLE cases_history ADD COLUMN personfullname varchar(255);
 ALTER TABLE cases_history ADD COLUMN persontelephone varchar(255);
 ALTER TABLE cases_history ADD COLUMN persondesignation varchar(255);
+INSERT INTO schema_version (version_number, comment) VALUES (635, 'Added columns: person completing form to persons');
 
+ALTER TABLE symptoms ADD COLUMN spasmsconvulsion varchar(255);
+ALTER TABLE symptoms_history ADD COLUMN spasmsconvulsion varchar(255);
+INSERT INTO schema_version (version_number, comment) VALUES (636, 'Added columns: person completing form to persons');
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***
 
 
