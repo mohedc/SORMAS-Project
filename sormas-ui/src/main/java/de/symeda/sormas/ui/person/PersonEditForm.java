@@ -226,11 +226,9 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 					fluidRowLocs(PersonDto.PASSPORT_NUMBER, "") +
 					loc(HOME_ADDRESS_HEADING_LOC) +
 					divsCss(VSPACE_3, fluidRowLocs(PersonDto.ADDRESS)) +
-					fluidRowLocs(PersonDto.LOCATION_OF_BIRTH) +
+					fluidRowLocs(PersonDto.LOCATION_OF_BIRTH, PersonDto.CURRENT_WEIGHT) +
 					fluidRowLocs(PersonDto.GESTATION_AGE_AT_BIRTH, PersonDto.BIRTH_WEIGHT) +
-					fluidRowLocs(PersonDto.CURRENT_WEIGHT) +
-					fluidRowLocs(PersonDto.MOTHERS_NAME) +
-					fluidRowLocs(PersonDto.CAREGIVER_TELEPHONE_NUMBER);
+					fluidRowLocs(PersonDto.MOTHERS_NAME, PersonDto.CAREGIVER_TELEPHONE_NUMBER);
 
 	private static final String MENINGITIS_LAYOUT =
 			loc(PERSON_INFORMATION_HEADING_LOC) +
