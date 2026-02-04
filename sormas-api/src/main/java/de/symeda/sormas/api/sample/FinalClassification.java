@@ -56,6 +56,27 @@ public enum FinalClassification {
 		Disease.CSM,
 		Disease.CONGENITAL_RUBELLA })
 	PENDING_LAB_RESULTS,
+	@Diseases({
+			Disease.AFP})
+	CONFIRMED_POLIO,
+	@Diseases({
+			Disease.AFP})
+	COMPATIBLE,
+	@Diseases({
+			Disease.AFP})
+	NOT_AN_AFP_CASE,
+	@Diseases({
+			Disease.AFP})
+	cVDPV,
+	@Diseases({
+			Disease.AFP})
+	aVDPV,
+	@Diseases({
+			Disease.AFP})
+	iVDPV,
+	@Diseases({
+			Disease.AFP})
+	SERO_TYPE,
 	AFP_CLASSIFICATION;
 	@Override
 	public String toString() {

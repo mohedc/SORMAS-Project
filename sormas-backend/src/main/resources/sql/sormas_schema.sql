@@ -15064,6 +15064,84 @@ INSERT INTO schema_version (version_number, comment) VALUES (635, 'Added columns
 ALTER TABLE symptoms ADD COLUMN spasmsconvulsion varchar(255);
 ALTER TABLE symptoms_history ADD COLUMN spasmsconvulsion varchar(255);
 INSERT INTO schema_version (version_number, comment) VALUES (636, 'Added columns: person completing form to persons');
+
+ALTER TABLE person DROP COLUMN place;
+ALTER TABLE person DROP COLUMN durationmonths;
+ALTER TABLE person DROP COLUMN durationdays;
+ALTER TABLE person DROP COLUMN place2;
+ALTER TABLE person DROP COLUMN durationmonths2;
+ALTER TABLE person DROP COLUMN durationdays2;
+ALTER TABLE person DROP COLUMN place3;
+ALTER TABLE person DROP COLUMN durationmonths3;
+ALTER TABLE person DROP COLUMN durationdays3;
+ALTER TABLE person DROP COLUMN place4;
+ALTER TABLE person DROP COLUMN durationmonths4;
+ALTER TABLE person DROP COLUMN durationdays4;
+
+ALTER TABLE epidata ADD COLUMN place varchar(255);
+ALTER TABLE epidata ADD COLUMN durationmonths varchar(255);
+ALTER TABLE epidata ADD COLUMN durationdays varchar(255);
+ALTER TABLE epidata ADD COLUMN place2 varchar(255);
+ALTER TABLE epidata ADD COLUMN durationmonths2 varchar(255);
+ALTER TABLE epidata ADD COLUMN durationdays2 varchar(255);
+ALTER TABLE epidata ADD COLUMN place3 varchar(255);
+ALTER TABLE epidata ADD COLUMN durationmonths3 varchar(255);
+ALTER TABLE epidata ADD COLUMN durationdays3 varchar(255);
+ALTER TABLE epidata ADD COLUMN place4 varchar(255);
+ALTER TABLE epidata ADD COLUMN durationmonths4 varchar(255);
+ALTER TABLE epidata ADD COLUMN durationdays4 varchar(255);
+INSERT INTO schema_version (version_number, comment) VALUES (637, 'Dropped columns from persons and added them to epidata');
+
+ALTER TABLE samples
+DROP COLUMN IF EXISTS datecombinedcellcultureresults,
+DROP COLUMN IF EXISTS w1,
+DROP COLUMN IF EXISTS w2,
+DROP COLUMN IF EXISTS w3,
+DROP COLUMN IF EXISTS discordant,
+DROP COLUMN IF EXISTS sl1,
+DROP COLUMN IF EXISTS sl2,
+DROP COLUMN IF EXISTS sl3,
+DROP COLUMN IF EXISTS datefollowupexam,
+DROP COLUMN IF EXISTS residualanalysis,
+DROP COLUMN IF EXISTS resultexam,
+DROP COLUMN IF EXISTS datesenttonationalreglab,
+DROP COLUMN IF EXISTS datedifferentiationsenttoepi,
+DROP COLUMN IF EXISTS datedifferentiationreceivedfromepi,
+DROP COLUMN IF EXISTS dateisolatesentforsequencing,
+DROP COLUMN IF EXISTS dateseqresultssenttoprogram,
+DROP COLUMN IF EXISTS finallabresults,
+DROP COLUMN IF EXISTS immunocompromisedstatussuspected,
+DROP COLUMN IF EXISTS afpfinalclassification;
+
+ALTER TABLE pathogentest ADD COLUMN datecombinedcellcultureresults date;
+ALTER TABLE pathogentest ADD COLUMN dateresultssenttonationalepi date;
+ALTER TABLE pathogentest ADD COLUMN datesentfromicnationalreglab date;
+ALTER TABLE pathogentest ADD COLUMN datedifferentiationsentepi date;
+ALTER TABLE pathogentest ADD COLUMN datedifferentiationreceivedepi date;
+ALTER TABLE pathogentest ADD COLUMN dateisolatesentsequencing date;
+ALTER TABLE pathogentest ADD COLUMN dateseqresultssentprogram date;
+ALTER TABLE pathogentest ADD COLUMN w1 varchar(255);
+ALTER TABLE pathogentest ADD COLUMN w2 varchar(255);
+ALTER TABLE pathogentest ADD COLUMN w3 varchar(255);
+ALTER TABLE pathogentest ADD COLUMN sl1 varchar(255);
+ALTER TABLE pathogentest ADD COLUMN sl2 varchar(255);
+ALTER TABLE pathogentest ADD COLUMN sl3 varchar(255);
+ALTER TABLE pathogentest ADD COLUMN sabintype1 varchar(255);
+ALTER TABLE pathogentest ADD COLUMN sabintype2 varchar(255);
+ALTER TABLE pathogentest ADD COLUMN sabintype3 varchar(255);
+ALTER TABLE pathogentest ADD COLUMN npent varchar(255);
+ALTER TABLE pathogentest ADD COLUMN nev varchar(255);
+ALTER TABLE pathogentest ADD COLUMN finalcellcultureresults varchar(255);
+ALTER TABLE pathogentest ADD COLUMN datefollowupexam varchar(255);
+ALTER TABLE pathogentest ADD COLUMN residualanalysis varchar(255);
+ALTER TABLE pathogentest ADD COLUMN resultexam varchar(255);
+INSERT INTO schema_version (version_number, comment) VALUES (638, 'Dropped columns from samples and re-implemented them in pathogentest');
+
+ALTER TABLE cases ADD COLUMN immunocompromisedstatussuspected varchar(255);
+ALTER TABLE cases ADD COLUMN dateregionreceiveslabresults date;
+ALTER TABLE cases ADD COLUMN datelabresultssenthealthfacilityregion date;
+ALTER TABLE cases ADD COLUMN datelabresultsreceivedathealthfacility date;
+INSERT INTO schema_version (version_number, comment) VALUES (640, 'Added columns to cases for casefinalclassification');
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***
 
 

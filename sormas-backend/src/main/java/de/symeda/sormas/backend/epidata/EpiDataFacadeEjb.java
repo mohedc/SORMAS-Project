@@ -97,6 +97,18 @@ public class EpiDataFacadeEjb implements EpiDataFacade {
 		target.setRecentTravelOutbreak(source.getRecentTravelOutbreak());
 		target.setContactSimilarOutbreak(source.getContactSimilarOutbreak());
 		target.setContactSickAnimals(source.getContactSickAnimals());
+		target.setPlace(source.getPlace());
+		target.setDurationMonths(source.getDurationMonths());
+		target.setDurationDays(source.getDurationDays());
+		target.setPlace2(source.getPlace2());
+		target.setDurationMonths2(source.getDurationMonths2());
+		target.setDurationDays2(source.getDurationDays2());
+		target.setPlace3(source.getPlace3());
+		target.setDurationMonths3(source.getDurationMonths3());
+		target.setDurationDays3(source.getDurationDays3());
+		target.setPlace4(source.getPlace4());
+		target.setDurationMonths4(source.getDurationMonths4());
+		target.setDurationDays4(source.getDurationDays4());
 
 		List<Exposure> exposures = new ArrayList<>();
 		for (ExposureDto exposureDto : source.getExposures()) {
@@ -267,6 +279,18 @@ public class EpiDataFacadeEjb implements EpiDataFacade {
 		target.setRecentTravelOutbreak(source.getRecentTravelOutbreak());
 		target.setContactSimilarOutbreak(source.getContactSimilarOutbreak());
 		target.setContactSickAnimals(source.getContactSickAnimals());
+		target.setPlace(source.getPlace());
+		target.setDurationMonths(source.getDurationMonths());
+		target.setDurationDays(source.getDurationDays());
+		target.setPlace2(source.getPlace2());
+		target.setDurationMonths2(source.getDurationMonths2());
+		target.setDurationDays2(source.getDurationDays2());
+		target.setPlace3(source.getPlace3());
+		target.setDurationMonths3(source.getDurationMonths3());
+		target.setDurationDays3(source.getDurationDays3());
+		target.setPlace4(source.getPlace4());
+		target.setDurationMonths4(source.getDurationMonths4());
+		target.setDurationDays4(source.getDurationDays4());
 
 		List<ExposureDto> exposureDtos = new ArrayList<>();
 		for (Exposure exposure : source.getExposures()) {

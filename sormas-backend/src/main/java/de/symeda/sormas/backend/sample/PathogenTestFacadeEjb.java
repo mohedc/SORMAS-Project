@@ -364,6 +364,28 @@ public class PathogenTestFacadeEjb implements PathogenTestFacade {
 		target.setViralDetectionResults(source.getViralDetectionResults());
 		target.setDateLabResultsSentDivision(source.getDateLabResultsSentDivision());
 		target.setNameLabTechnicianSendResults(source.getNameLabTechnicianSendResults());
+		target.setDateCombinedCellCultureResults(source.getDateCombinedCellCultureResults());
+		target.setDateResultsSentToNationalEpi(source.getDateResultsSentToNationalEpi());
+		target.setDateSentFromIcNationalRegLab(source.getDateSentFromIcNationalRegLab());
+		target.setDateDifferentiationSentEpi(source.getDateDifferentiationSentEpi());
+		target.setDateDifferentiationReceivedEpi(source.getDateDifferentiationReceivedEpi());
+		target.setDateIsolateSentSequencing(source.getDateIsolateSentSequencing());
+		target.setDateSeqResultsSentProgram(source.getDateSeqResultsSentProgram());
+		target.setW1(source.getW1());
+		target.setW2(source.getW2());
+		target.setW3(source.getW3());
+		target.setSl1(source.getSl1());
+		target.setSl2(source.getSl2());
+		target.setSl3(source.getSl3());
+		target.setSabinType1(source.getSabinType1());
+		target.setSabinType2(source.getSabinType2());
+		target.setSabinType3(source.getSabinType3());
+		target.setNpent(source.getNpent());
+		target.setNev(source.getNev());
+		target.setFinalCellCultureResults(source.getFinalCellCultureResults());
+		target.setDateFollowupExam(source.getDateFollowupExam());
+		target.setResidualAnalysis(source.getResidualAnalysis());
+		target.setResultExam(source.getResultExam());
 
 		return target;
 	}
@@ -671,6 +693,29 @@ public class PathogenTestFacadeEjb implements PathogenTestFacade {
 		target.setViralDetectionResults(source.getViralDetectionResults());
 		target.setDateLabResultsSentDivision(source.getDateLabResultsSentDivision());
 		target.setNameLabTechnicianSendResults(source.getNameLabTechnicianSendResults());
+		target.setDateCombinedCellCultureResults(source.getDateCombinedCellCultureResults());
+		target.setDateResultsSentToNationalEpi(source.getDateResultsSentToNationalEpi());
+		target.setDateSentFromIcNationalRegLab(source.getDateSentFromIcNationalRegLab());
+		target.setDateDifferentiationSentEpi(source.getDateDifferentiationSentEpi());
+		target.setDateDifferentiationReceivedEpi(source.getDateDifferentiationReceivedEpi());
+		target.setDateIsolateSentSequencing(source.getDateIsolateSentSequencing());
+		target.setDateSeqResultsSentProgram(source.getDateSeqResultsSentProgram());
+		target.setW1(source.getW1());
+		target.setW2(source.getW2());
+		target.setW3(source.getW3());
+		target.setSl1(source.getSl1());
+		target.setSl2(source.getSl2());
+		target.setSl3(source.getSl3());
+		target.setSabinType1(source.getSabinType1());
+		target.setSabinType2(source.getSabinType2());
+		target.setSabinType3(source.getSabinType3());
+		target.setNpent(source.getNpent());
+		target.setNev(source.getNev());
+		target.setFinalCellCultureResults(source.getFinalCellCultureResults());
+		target.setDateFollowupExam(source.getDateFollowupExam());
+		target.setResidualAnalysis(source.getResidualAnalysis());
+		target.setResultExam(source.getResultExam());
+
 
 		return target;
 	}

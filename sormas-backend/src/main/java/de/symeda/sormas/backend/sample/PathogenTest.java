@@ -42,9 +42,7 @@ import de.symeda.sormas.api.disease.DiseaseVariantConverter;
 import de.symeda.sormas.api.disease.PathogenConverter;
 import de.symeda.sormas.api.environment.environmentsample.Pathogen;
 import de.symeda.sormas.api.sample.*;
-import de.symeda.sormas.api.utils.Diseases;
-import de.symeda.sormas.api.utils.YesNo;
-import de.symeda.sormas.api.utils.YesNoUnknown;
+import de.symeda.sormas.api.utils.*;
 import de.symeda.sormas.backend.common.DeletableAdo;
 import de.symeda.sormas.backend.environment.environmentsample.EnvironmentSample;
 import de.symeda.sormas.backend.infrastructure.country.Country;
@@ -215,7 +213,28 @@ public class PathogenTest extends DeletableAdo {
 	private PathogenTestResultType viralDetectionResults;
 	private Date dateLabResultsSentDivision;
 	private String nameLabTechnicianSendResults;
-
+	private Date dateCombinedCellCultureResults;
+	private Date dateResultsSentToNationalEpi;
+	private Date dateSentFromIcNationalRegLab;
+	private Date dateDifferentiationSentEpi;
+	private Date dateDifferentiationReceivedEpi;
+	private Date dateIsolateSentSequencing;
+	private Date dateSeqResultsSentProgram;
+	private YesNo w1;
+	private YesNo w2;
+	private YesNo w3;
+	private YesNo sl1;
+	private YesNo sl2;
+	private YesNo sl3;
+	private YesNo sabinType1;
+	private YesNo sabinType2;
+	private YesNo sabinType3;
+	private PosNeg npent;
+	private PosNeg nev;
+	private PathogenTestResultType finalCellCultureResults;
+	private Date dateFollowupExam;
+	private InjectionSite residualAnalysis;
+	private ExamResult resultExam;
 	@ManyToOne(fetch = FetchType.LAZY)
 	public Sample getSample() {
 		return sample;
@@ -991,5 +1010,195 @@ public class PathogenTest extends DeletableAdo {
 
 	public void setNameLabTechnicianSendResults(String nameLabTechnicianSendResults) {
 		this.nameLabTechnicianSendResults = nameLabTechnicianSendResults;
+	}
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getDateCombinedCellCultureResults() {
+		return dateCombinedCellCultureResults;
+	}
+
+	public void setDateCombinedCellCultureResults(Date dateCombinedCellCultureResults) {
+		this.dateCombinedCellCultureResults = dateCombinedCellCultureResults;
+	}
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getDateResultsSentToNationalEpi() {
+		return dateResultsSentToNationalEpi;
+	}
+
+	public void setDateResultsSentToNationalEpi(Date dateResultsSentToNationalEpi) {
+		this.dateResultsSentToNationalEpi = dateResultsSentToNationalEpi;
+	}
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getDateSentFromIcNationalRegLab() {
+		return dateSentFromIcNationalRegLab;
+	}
+
+	public void setDateSentFromIcNationalRegLab(Date dateSentFromIcNationalRegLab) {
+		this.dateSentFromIcNationalRegLab = dateSentFromIcNationalRegLab;
+	}
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getDateDifferentiationSentEpi() {
+		return dateDifferentiationSentEpi;
+	}
+
+	public void setDateDifferentiationSentEpi(Date dateDifferentiationSentEpi) {
+		this.dateDifferentiationSentEpi = dateDifferentiationSentEpi;
+	}
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getDateDifferentiationReceivedEpi() {
+		return dateDifferentiationReceivedEpi;
+	}
+
+	public void setDateDifferentiationReceivedEpi(Date dateDifferentiationReceivedEpi) {
+		this.dateDifferentiationReceivedEpi = dateDifferentiationReceivedEpi;
+	}
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getDateIsolateSentSequencing() {
+		return dateIsolateSentSequencing;
+	}
+
+	public void setDateIsolateSentSequencing(Date dateIsolateSentSequencing) {
+		this.dateIsolateSentSequencing = dateIsolateSentSequencing;
+	}
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getDateSeqResultsSentProgram() {
+		return dateSeqResultsSentProgram;
+	}
+
+	public void setDateSeqResultsSentProgram(Date dateSeqResultsSentProgram) {
+		this.dateSeqResultsSentProgram = dateSeqResultsSentProgram;
+	}
+	@Enumerated(EnumType.STRING)
+	@Column
+	public YesNo getW1() {
+		return w1;
+	}
+
+	public void setW1(YesNo w1) {
+		this.w1 = w1;
+	}
+	@Enumerated(EnumType.STRING)
+	@Column
+	public YesNo getW2() {
+		return w2;
+	}
+
+	public void setW2(YesNo w2) {
+		this.w2 = w2;
+	}
+	@Enumerated(EnumType.STRING)
+	@Column
+	public YesNo getW3() {
+		return w3;
+	}
+
+	public void setW3(YesNo w3) {
+		this.w3 = w3;
+	}
+	@Enumerated(EnumType.STRING)
+	@Column
+	public YesNo getSl1() {
+		return sl1;
+	}
+
+	public void setSl1(YesNo sl1) {
+		this.sl1 = sl1;
+	}
+	@Enumerated(EnumType.STRING)
+	@Column
+	public YesNo getSl2() {
+		return sl2;
+	}
+
+	public void setSl2(YesNo sl2) {
+		this.sl2 = sl2;
+	}
+	@Enumerated(EnumType.STRING)
+	@Column
+	public YesNo getSl3() {
+		return sl3;
+	}
+
+	public void setSl3(YesNo sl3) {
+		this.sl3 = sl3;
+	}
+	@Enumerated(EnumType.STRING)
+	@Column
+	public YesNo getSabinType1() {
+		return sabinType1;
+	}
+
+	public void setSabinType1(YesNo sabinType1) {
+		this.sabinType1 = sabinType1;
+	}
+	@Enumerated(EnumType.STRING)
+	@Column
+	public YesNo getSabinType2() {
+		return sabinType2;
+	}
+
+	public void setSabinType2(YesNo sabinType2) {
+		this.sabinType2 = sabinType2;
+	}
+	@Enumerated(EnumType.STRING)
+	@Column
+	public YesNo getSabinType3() {
+		return sabinType3;
+	}
+
+	public void setSabinType3(YesNo sabinType3) {
+		this.sabinType3 = sabinType3;
+	}
+	@Enumerated(EnumType.STRING)
+	@Column
+	public PosNeg getNpent() {
+		return npent;
+	}
+
+	public void setNpent(PosNeg npent) {
+		this.npent = npent;
+	}
+	@Enumerated(EnumType.STRING)
+	@Column
+	public PosNeg getNev() {
+		return nev;
+	}
+
+	public void setNev(PosNeg nev) {
+		this.nev = nev;
+	}
+	@Enumerated(EnumType.STRING)
+	@Column
+	public PathogenTestResultType getFinalCellCultureResults() {
+		return finalCellCultureResults;
+	}
+
+	public void setFinalCellCultureResults(PathogenTestResultType finalCellCultureResults) {
+		this.finalCellCultureResults = finalCellCultureResults;
+	}
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getDateFollowupExam() {
+		return dateFollowupExam;
+	}
+
+	public void setDateFollowupExam(Date dateFollowupExam) {
+		this.dateFollowupExam = dateFollowupExam;
+	}
+	@Enumerated(EnumType.STRING)
+	@Column
+	public InjectionSite getResidualAnalysis() {
+		return residualAnalysis;
+	}
+
+	public void setResidualAnalysis(InjectionSite residualAnalysis) {
+		this.residualAnalysis = residualAnalysis;
+	}
+	@Enumerated(EnumType.STRING)
+	@Column
+	public ExamResult getResultExam() {
+		return resultExam;
+	}
+
+	public void setResultExam(ExamResult resultExam) {
+		this.resultExam = resultExam;
 	}
 }

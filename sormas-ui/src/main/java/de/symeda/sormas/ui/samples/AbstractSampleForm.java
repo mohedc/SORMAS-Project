@@ -77,9 +77,6 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 	protected static final String REPORT_INFO_LABEL_LOC = "reportInfoLabelLoc";
 	protected static final String REFERRED_FROM_BUTTON_LOC = "referredFromButtonLoc";
 	protected static final String STOOL_SPECIMEN_COLLECTION_HEADLINE_LOC = "stoolSpecimenCollectionLoc";
-	protected static final String STOOL_SPECIMEN_RESULTS_HEADLINE_LOC = "stoolSpecimenResultsLoc";
-	protected static final String FINAL_LAB_RESULTS_HEADLINE_LOC = "finalLabResultsLoc";
-	protected static final String FOLLOW_UP_EXAMINATION_HEADLINE_LOC = "followUpExaminationLoc";
 	protected static final String ELISA_IGM_HEADLINE_LOC = "elisaIgmHeadlineLoc";
 	protected static final String PCR_HEADLINE_LOC = "pcrHeadlineLoc";
 	protected static final String PRNT_HEADLINE_LOC = "prntHeadlineLoc";
@@ -198,29 +195,16 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 					fluidRowLocs(SampleDto.LAB, SampleDto.LAB_DETAILS) +
 					fluidRowLocs(SampleDto.LAB_SAMPLE_ID) +
 					fluidRowLocs(SampleDto.DATE_FIRST_SPECIMEN, SampleDto.DATE_SECOND_SPECIMEN) +
-					fluidRowLocs(6,SampleDto.DATE_SPECIMEN_SENT_NATIONAL_LEVEL) +
-					fluidRowLocs(SampleDto.DATE_SPECIMEN_RECEIVED_NATIONAL_LEVEL, SampleDto.DATE_SPECIMEN_SENT_INTERCOUNTY_NATLAB) +
-					loc(STOOL_SPECIMEN_RESULTS_HEADLINE_LOC) +
-					fluidRowLocs(SampleDto.DATE_SPECIMEN_RECEIVED_INTERCOUNTY_NATLAB, SampleDto.STATUS_SPECIMEN_RECEPTION_AT_LAB) +
-					fluidRowLocs(6,SampleDto.DATE_COMBINED_CELL_CULTURE_RESULTS) +
 
-					fluidRowLocs(SampleDto.DATE_SENT_NATIONAL_REG_LAB, SampleDto.DATE_DIFFERENTIATION_SENT_EPI) +
-					fluidRowLocs(6,SampleDto.DATE_DIFFERENTIATION_RECEIVED_EPI) +
-					fluidRowLocs(SampleDto.DATE_ISOLATE_SENT_SEQUENCING, SampleDto.DATE_SEQ_RESULTS_SENT_PROGRAM) +
-
-					loc(FINAL_LAB_RESULTS_HEADLINE_LOC) +
-					fluidRowLocs(SampleDto.W1, SampleDto.W2, SampleDto.W3) +
-					fluidRowLocs(SampleDto.SL1, SampleDto.SL2, SampleDto.SL3) +
-					fluidRowLocs(SampleDto.DISCORDANT, SampleDto.FINAL_LAB_RESULTS) +
-
-					loc(FOLLOW_UP_EXAMINATION_HEADLINE_LOC) +
-					fluidRowLocs(SampleDto.DATE_FOLLOWUP_EXAM, SampleDto.RESIDUAL_ANALYSIS, SampleDto.RESULT_EXAM) +
-					fluidRowLocs(6,SampleDto.IMMUNOCOMPROMISED_STATUS_SUSPECTED) +
-					fluidRowLocs(6,SampleDto.AFP_FINAL_CLASSIFICATION) +
 					locCss(VSPACE_TOP_3, SampleDto.SHIPPED) +
 					fluidRowLocs(SampleDto.SHIPMENT_DATE, SampleDto.SHIPMENT_DETAILS) +
+					fluidRowLocs(6,SampleDto.DATE_SPECIMEN_SENT_NATIONAL_LEVEL) +
+					fluidRowLocs(6,SampleDto.DATE_SPECIMEN_SENT_INTERCOUNTY_NATLAB) +
+
 					locCss(VSPACE_TOP_3, SampleDto.RECEIVED) +
-					fluidRowLocs(SampleDto.RECEIVED_DATE, SampleDto.LAB_SAMPLE_ID);
+					fluidRowLocs(SampleDto.RECEIVED_DATE, SampleDto.LAB_SAMPLE_ID) +
+					fluidRowLocs(6, SampleDto.DATE_SPECIMEN_RECEIVED_NATIONAL_LEVEL) +
+					fluidRowLocs(SampleDto.DATE_SPECIMEN_RECEIVED_INTERCOUNTY_NATLAB, SampleDto.STATUS_SPECIMEN_RECEPTION_AT_LAB);
 
 	protected static final String CONGENITAL_RUBELLA_HTML_LAYOUT =
 			fluidRowLocs(4, SampleDto.UUID, 4, REPORT_INFO_LABEL_LOC, 3, SampleDto.REPORTING_USER, 1, "") +
@@ -369,6 +353,13 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 		addField(SampleDto.PACKAGING, ComboBox.class);
 		addField(SampleDto.PACKAGING_OTHER, TextField.class);
 		addField(SampleDto.SUSPECTED_DISEASE, ComboBox.class);
+		addField(SampleDto.DATE_FIRST_SPECIMEN, DateField.class);
+		addField(SampleDto.DATE_SECOND_SPECIMEN, DateField.class);
+		addField(SampleDto.DATE_SPECIMEN_SENT_NATIONAL_LEVEL, DateField.class);
+		addField(SampleDto.DATE_SPECIMEN_RECEIVED_NATIONAL_LEVEL, DateField.class);
+		addField(SampleDto.DATE_SPECIMEN_SENT_INTERCOUNTY_NATLAB, DateField.class);
+		addField(SampleDto.DATE_SPECIMEN_RECEIVED_INTERCOUNTY_NATLAB, DateField.class);
+		addField(SampleDto.STATUS_SPECIMEN_RECEPTION_AT_LAB, OptionGroup.class);
 
 	}
 
@@ -398,7 +389,8 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 
 		FieldHelper.setVisibleWhen(
 			getFieldGroup(),
-			Arrays.asList(SampleDto.RECEIVED_DATE, SampleDto.LAB_SAMPLE_ID, SampleDto.SPECIMEN_CONDITION),
+			Arrays.asList(SampleDto.RECEIVED_DATE, SampleDto.LAB_SAMPLE_ID, SampleDto.SPECIMEN_CONDITION, SampleDto.DATE_SPECIMEN_RECEIVED_NATIONAL_LEVEL, SampleDto.DATE_SPECIMEN_RECEIVED_INTERCOUNTY_NATLAB,
+			SampleDto.STATUS_SPECIMEN_RECEPTION_AT_LAB),
 			SampleDto.RECEIVED,
 			Arrays.asList(true),
 			true);
@@ -406,7 +398,8 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 			getFieldGroup(),
 			receivedField,
 			Arrays.asList(true),
-			Arrays.asList(SampleDto.RECEIVED_DATE, SampleDto.LAB_SAMPLE_ID, SampleDto.SPECIMEN_CONDITION),
+			Arrays.asList(SampleDto.RECEIVED_DATE, SampleDto.LAB_SAMPLE_ID, SampleDto.SPECIMEN_CONDITION, SampleDto.SPECIMEN_CONDITION, SampleDto.DATE_SPECIMEN_RECEIVED_NATIONAL_LEVEL, SampleDto.DATE_SPECIMEN_RECEIVED_INTERCOUNTY_NATLAB,
+			SampleDto.STATUS_SPECIMEN_RECEPTION_AT_LAB),
 			true);
 
 		if (disease != Disease.NEW_INFLUENZA) {
@@ -437,7 +430,7 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 		if (UiUtil.permitted(UserRight.SAMPLE_EDIT_NOT_OWNED) || (reportingUser != null && UiUtil.getUserUuid().equals(reportingUser.getUuid()))) {
 			FieldHelper.setVisibleWhen(
 				getFieldGroup(),
-				Arrays.asList(SampleDto.SHIPMENT_DATE, SampleDto.SHIPMENT_DETAILS),
+				Arrays.asList(SampleDto.SHIPMENT_DATE, SampleDto.SHIPMENT_DETAILS, SampleDto.DATE_SPECIMEN_SENT_NATIONAL_LEVEL, SampleDto.DATE_SPECIMEN_SENT_INTERCOUNTY_NATLAB),
 				SampleDto.SHIPPED,
 				Arrays.asList(true),
 				true);
@@ -461,6 +454,8 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 			shippedField.setEnabled(false);
 			getField(SampleDto.SHIPMENT_DATE).setEnabled(false);
 			getField(SampleDto.SHIPMENT_DETAILS).setEnabled(false);
+			getField(SampleDto.DATE_SPECIMEN_SENT_NATIONAL_LEVEL).setEnabled(false);
+			getField(SampleDto.DATE_SPECIMEN_SENT_INTERCOUNTY_NATLAB).setEnabled(false);
 			getField(SampleDto.DISPATCHED_TO_REGIONAL_COLDROOM_DATE).setEnabled(false);
 			getField(SampleDto.DISPATCHED_TO_NATIONAL_LAB_BY_COURIER_DATE).setEnabled(false);
 			getField(SampleDto.DISPATCHED_TO_NATIONAL_LAB_BY_REGION_DISTRICT_DATE).setEnabled(false);
@@ -1029,48 +1024,6 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 		Label stoolSpecimenCollection = new Label(I18nProperties.getString(Strings.headingStoolSpecimenCollection));
 		CssStyles.style(stoolSpecimenCollection, CssStyles.LABEL_BOLD, CssStyles.LABEL_SECONDARY, VSPACE_4);
 		getContent().addComponent(stoolSpecimenCollection, STOOL_SPECIMEN_COLLECTION_HEADLINE_LOC);
-
-		Label stoolSpecimenResults = new Label(I18nProperties.getString(Strings.headingStoolSpecimenResults));
-		CssStyles.style(stoolSpecimenResults, CssStyles.LABEL_BOLD, CssStyles.LABEL_SECONDARY, VSPACE_4);
-		getContent().addComponent(stoolSpecimenResults, STOOL_SPECIMEN_RESULTS_HEADLINE_LOC);
-
-		Label followUpExamination = new Label(I18nProperties.getString(Strings.headingFollowUpExamination));
-		CssStyles.style(followUpExamination, CssStyles.LABEL_BOLD, CssStyles.LABEL_SECONDARY, VSPACE_4);
-		getContent().addComponent(followUpExamination, FOLLOW_UP_EXAMINATION_HEADLINE_LOC);
-
-		addField(SampleDto.DATE_FIRST_SPECIMEN, DateField.class);
-		addField(SampleDto.DATE_SECOND_SPECIMEN, DateField.class);
-		addField(SampleDto.DATE_SPECIMEN_SENT_NATIONAL_LEVEL, DateField.class);
-		addField(SampleDto.DATE_SPECIMEN_RECEIVED_NATIONAL_LEVEL, DateField.class);
-		addField(SampleDto.DATE_SPECIMEN_SENT_INTERCOUNTY_NATLAB, DateField.class);
-		addField(SampleDto.DATE_SPECIMEN_RECEIVED_INTERCOUNTY_NATLAB, DateField.class);
-
-		addField(SampleDto.STATUS_SPECIMEN_RECEPTION_AT_LAB, OptionGroup.class);
-		addField(SampleDto.DATE_COMBINED_CELL_CULTURE_RESULTS, DateField.class);
-		addField(SampleDto.W1, OptionGroup.class);
-		addField(SampleDto.W2, OptionGroup.class);
-		addField(SampleDto.W3, OptionGroup.class);
-		addField(SampleDto.SL1, OptionGroup.class);
-		addField(SampleDto.SL2, OptionGroup.class);
-		addField(SampleDto.SL3, OptionGroup.class);
-		addField(SampleDto.DISCORDANT, NullableOptionGroup.class);
-
-		addField(SampleDto.DATE_FOLLOWUP_EXAM, DateField.class);
-		NullableOptionGroup residualAnalysis = addField(SampleDto.RESIDUAL_ANALYSIS, NullableOptionGroup.class);
-
-		List<InjectionSite> paralysisSite = Arrays.asList(InjectionSite.LEFT_ARM, InjectionSite.LEFT_LEG, InjectionSite.RIGHT_ARM, InjectionSite.RIGHT_LEG);
-		FieldHelper.updateEnumData(residualAnalysis, paralysisSite);
-
-		addField(SampleDto.RESULT_EXAM, ComboBox.class);
-		addField(SampleDto.DATE_SENT_NATIONAL_REG_LAB, DateField.class);
-		addField(SampleDto.DATE_DIFFERENTIATION_SENT_EPI, DateField.class);
-		addField(SampleDto.DATE_DIFFERENTIATION_RECEIVED_EPI, DateField.class);
-		addField(SampleDto.DATE_ISOLATE_SENT_SEQUENCING, DateField.class);
-		addField(SampleDto.DATE_SEQ_RESULTS_SENT_PROGRAM, DateField.class);
-		addField(SampleDto.FINAL_LAB_RESULTS, NullableOptionGroup.class);
-		addField(SampleDto.IMMUNOCOMPROMISED_STATUS_SUSPECTED, NullableOptionGroup.class);
-		ComboBox afpFinalClassification = addField(SampleDto.AFP_FINAL_CLASSIFICATION, ComboBox.class);
-		FieldHelper.updateEnumData(afpFinalClassification, Arrays.asList(FinalClassification.AFP_CLASSIFICATION));
 
 		setRequired(false, SampleDto.SAMPLE_PURPOSE, SampleDto.SAMPLE_DATE_TIME, SampleDto.SAMPLE_MATERIAL);
 		FieldHelper.updateEnumData(sampleMaterialComboBox, Arrays.asList(SampleMaterial.STOOL));

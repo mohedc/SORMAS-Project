@@ -24,6 +24,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import com.vaadin.ui.Label;
 import com.vaadin.ui.themes.ValoTheme;
 import com.vaadin.v7.data.Item;
 import com.vaadin.v7.data.Validator;
@@ -650,5 +651,14 @@ public abstract class AbstractEditForm<DTO> extends AbstractForm<DTO> implements
 	public Disease getCaseDisease () {
 		return caseDisease;
 	}
+
+	public Label createLabel(String text, String h4, String location) {
+		final Label label = new Label(text);
+		label.setId(text);
+		label.addStyleName(h4);
+		getContent().addComponent(label, location);
+		return label;
+	}
+
 
 }

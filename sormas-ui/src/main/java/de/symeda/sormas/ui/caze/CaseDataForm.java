@@ -357,9 +357,9 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 					fluidRowLocs(TYPE_GROUP_LOC, CaseDataDto.FACILITY_TYPE) +
 					fluidRowLocs(CaseDataDto.HEALTH_FACILITY, CaseDataDto.HEALTH_FACILITY_DETAILS) +
 					inlineLocs(CaseDataDto.POINT_OF_ENTRY, CaseDataDto.POINT_OF_ENTRY_DETAILS, CASE_REFER_POINT_OF_ENTRY_BTN_LOC) +
-							loc(CASE_DATA_HEADING_LOC) +
 					loc(NOTIFY_INVESTIGATE_HEADING_LOC) +
-					fluidRowLocs(CaseDataDto.NOTIFIED_BY_TEXT, CaseDataDto.DATE_OF_NOTIFICATION, CaseDataDto.DATE_OF_INVESTIGATION) +
+					fluidRowLocs(CaseDataDto.NOTIFIED_BY, CaseDataDto.NOTIFIED_BY_DETAILS) +
+					fluidRowLocs(CaseDataDto.DATE_OF_NOTIFICATION, CaseDataDto.DATE_OF_INVESTIGATION) +
 					loc(INVESTIGATING_OFFICER_INFO) +
 					locCss(VSPACE_TOP_3, CaseDataDto.INVESTIGATOR_NAME) +
 					fluidRowLocs(CaseDataDto.INVESTIGATOR_TITLE, CaseDataDto.INVESTIGATOR_UNIT) +
@@ -2466,13 +2466,6 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 		}
 	}
 
-	private Label createLabel(String text, String h4, String location) {
-		final Label label = new Label(text);
-		label.setId(text);
-		label.addStyleName(h4);
-		getContent().addComponent(label, location);
-		return label;
-	}
 
 	/**
 	 * Adds dynamic form fields based on FormBuilder configuration.

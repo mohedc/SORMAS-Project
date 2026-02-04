@@ -3261,6 +3261,10 @@ public class CaseFacadeEjb extends AbstractCoreFacadeEjb<Case, CaseDataDto, Case
 		target.setPersonFullName(source.getPersonFullName());
 		target.setPersonTelephone(source.getPersonTelephone());
 		target.setPersonDesignation(source.getPersonDesignation());
+		target.setImmunocompromisedStatusSuspected(source.getImmunocompromisedStatusSuspected());
+		target.setDateRegionReceivesLabResults(source.getDateRegionReceivesLabResults());
+		target.setDateLabResultsSentHealthFacilityRegion(source.getDateLabResultsSentHealthFacilityRegion());
+		target.setDateLabResultsReceivedAtHealthFacility(source.getDateLabResultsReceivedAtHealthFacility());
 
 		return target;
 	}
@@ -3519,6 +3523,10 @@ public class CaseFacadeEjb extends AbstractCoreFacadeEjb<Case, CaseDataDto, Case
 		target.setPersonFullName(source.getPersonFullName());
 		target.setPersonTelephone(source.getPersonTelephone());
 		target.setPersonDesignation(source.getPersonDesignation());
+		target.setImmunocompromisedStatusSuspected(source.getImmunocompromisedStatusSuspected());
+		target.setDateRegionReceivesLabResults(source.getDateRegionReceivesLabResults());
+		target.setDateLabResultsSentHealthFacilityRegion(source.getDateLabResultsSentHealthFacilityRegion());
+		target.setDateLabResultsReceivedAtHealthFacility(source.getDateLabResultsReceivedAtHealthFacility());
         return target;
 	}
 

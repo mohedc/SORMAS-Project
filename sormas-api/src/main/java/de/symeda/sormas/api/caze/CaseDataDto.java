@@ -278,6 +278,10 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 	public static final String SUPPLEMENTAL_IMMUNIZATION = "supplementalImmunization";
 	public static final String SUPPLEMENTAL_IMMUNIZATION_DETAILS = "supplementalImmunizationDetails";
 	public static final String FINAL_CLASSIFICATION = "finalClassification";
+	public static final String IMMUNOCOMPROMISED_STATUS_SUSPECTED = "immunocompromisedStatusSuspected";
+	public static final String DATE_REGION_RECEIVES_LAB_RESULTS = "dateRegionReceivesLabResults";
+	public static final String DATE_LAB_RESULTS_SENT_HEALTH_FACILITY_REGION = "dateLabResultsSentHealthFacilityRegion";
+	public static final String DATE_LAB_RESULTS_RECEIVED_HEALTH_FACILITY = "dateLabResultsReceivedAtHealthFacility";
 	public static final String DATE_FORM_SENT_TO_REGION = "dateFormSentToRegion";
 	public static final String PERSON_FULLNAME = "personFullName";
 	public static final String PERSON_TELEPHONE = "personTelephone";
@@ -865,6 +869,10 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 	private String supplementalImmunizationDetails;
 
 	private FinalClassification finalClassification;
+	private YesNoUnknown immunocompromisedStatusSuspected;
+	private Date dateRegionReceivesLabResults;
+	private Date dateLabResultsSentHealthFacilityRegion;
+	private Date dateLabResultsReceivedAtHealthFacility;
 	@Diseases({
 			Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS})
 	private Date dateFormSentToRegion;
@@ -2421,6 +2429,37 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 
 	public void setPersonDesignation(String personDesignation) {
 		this.personDesignation = personDesignation;
+	}
+
+	public YesNoUnknown getImmunocompromisedStatusSuspected() {
+		return immunocompromisedStatusSuspected;
+	}
+
+	public void setImmunocompromisedStatusSuspected(YesNoUnknown immunocompromisedStatusSuspected) {
+		this.immunocompromisedStatusSuspected = immunocompromisedStatusSuspected;
+	}
+	public Date getDateRegionReceivesLabResults() {
+		return dateRegionReceivesLabResults;
+	}
+
+	public void setDateRegionReceivesLabResults(Date dateRegionReceivesLabResults) {
+		this.dateRegionReceivesLabResults = dateRegionReceivesLabResults;
+	}
+
+	public Date getDateLabResultsSentHealthFacilityRegion() {
+		return dateLabResultsSentHealthFacilityRegion;
+	}
+
+	public void setDateLabResultsSentHealthFacilityRegion(Date dateLabResultsSentHealthFacilityRegion) {
+		this.dateLabResultsSentHealthFacilityRegion = dateLabResultsSentHealthFacilityRegion;
+	}
+
+	public Date getDateLabResultsReceivedAtHealthFacility() {
+		return dateLabResultsReceivedAtHealthFacility;
+	}
+
+	public void setDateLabResultsReceivedAtHealthFacility(Date dateLabResultsReceivedAtHealthFacility) {
+		this.dateLabResultsReceivedAtHealthFacility = dateLabResultsReceivedAtHealthFacility;
 	}
 
     @JsonIgnore

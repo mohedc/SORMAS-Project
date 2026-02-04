@@ -823,6 +823,7 @@ public interface Strings {
 	String headingStoolSpecimenResults = "headingStoolSpecimenResults";
 	String headingFollowUpExamination = "headingFollowUpExamination";
 	String headingPersonCompleting = "headingPersonCompleting";
+	String additionalHeading = "additionalHeading";
 	String headingRejectSormasToSormasShareRequest = "headingRejectSormasToSormasShareRequest";
 	String headingRemoveCaseFromContact = "headingRemoveCaseFromContact";
 	String headingRequestedAdditionalTests = "headingRequestedAdditionalTests";

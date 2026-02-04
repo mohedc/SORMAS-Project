@@ -138,6 +138,52 @@ public class PathogenTestDto extends PseudonymizableDto {
 	public static final String VIRAL_DETECTION_RESULTS = "viralDetectionResults";
 	public static final String DATE_LAB_RESULTS_SENT_DIVISION = "dateLabResultsSentDivision";
 	public static final String NAME_LAB_TECHNICIAN_SEND_RESULTS = "nameLabTechnicianSendResults";
+	public static final String DATE_COMBINED_CELL_CULTURE_RESULTS = "dateCombinedCellCultureResults";
+	public static final String DATE_RESULTS_SENT_TO_NATIONAL_EPI = "dateResultsSentToNationalEpi";
+	public static final String DATE_SENT_FROM_IC_NATIONAL_REG_LAB = "dateSentFromIcNationalRegLab";
+	public static final String DATE_DIFFERENTIATION_SENT_EPI = "dateDifferentiationSentEpi";
+	public static final String DATE_DIFFERENTIATION_RECEIVED_EPI = "dateDifferentiationReceivedEpi";
+	public static final String DATE_ISOLATE_SENT_SEQUENCING = "dateIsolateSentSequencing";
+	public static final String DATE_SEQ_RESULTS_SENT_PROGRAM = "dateSeqResultsSentProgram";
+	public static final String W1 = "w1";
+	public static final String W2 = "w2";
+	public static final String W3 = "w3";
+	public static final String SL1 = "sl1";
+	public static final String SL2 = "sl2";
+	public static final String SL3 = "sl3";
+	public static final String SABIN_TYPE1 = "sabinType1";
+	public static final String SABIN_TYPE2 = "sabinType2";
+	public static final String SABIN_TYPE3 = "sabinType3";
+	public static final String NPENT = "npent";
+	public static final String NEV = "nev";
+	public static final String FINAL_CELL_CULTURE_RESULTS = "finalCellCultureResults";
+	public static final String DATE_FOLLOWUP_EXAM = "dateFollowupExam";
+	public static final String RESIDUAL_ANALYSIS = "residualAnalysis";
+	public static final String RESULT_EXAM = "resultExam";
+
+
+	private Date dateCombinedCellCultureResults;
+	private Date dateResultsSentToNationalEpi;
+	private Date dateSentFromIcNationalRegLab;
+	private Date dateDifferentiationSentEpi;
+	private Date dateDifferentiationReceivedEpi;
+	private Date dateIsolateSentSequencing;
+	private Date dateSeqResultsSentProgram;
+	private YesNo w1;
+	private YesNo w2;
+	private YesNo w3;
+	private YesNo sl1;
+	private YesNo sl2;
+	private YesNo sl3;
+	private YesNo sabinType1;
+	private YesNo sabinType2;
+	private YesNo sabinType3;
+	private PosNeg npent;
+	private PosNeg nev;
+	private PathogenTestResultType finalCellCultureResults;
+	private Date dateFollowupExam;
+	private InjectionSite residualAnalysis;
+	private ExamResult resultExam;
 
 
 	private SampleReferenceDto sample;
@@ -270,7 +316,7 @@ public class PathogenTestDto extends PseudonymizableDto {
 	private Date dateResultsSentToDiseaseSurveillance;
 	@Diseases(value = {Disease.MEASLES})
 	private Date dateIndirectResultsReceivedAtNationalEPIOffice;
-	@Diseases(value = {Disease.MEASLES})
+	@Diseases(value = {Disease.MEASLES, Disease.AFP})
 	private Date dateCapturedResultsReceivedAtNationalEPIOffice;
 	private FinalClassification finalClassification;
 	private Boolean communityInvestigation;
@@ -1080,6 +1126,181 @@ public class PathogenTestDto extends PseudonymizableDto {
 
 	public void setNameLabTechnicianSendResults(String nameLabTechnicianSendResults) {
 		this.nameLabTechnicianSendResults = nameLabTechnicianSendResults;
+	}
+	public Date getDateCombinedCellCultureResults() {
+		return dateCombinedCellCultureResults;
+	}
+
+	public void setDateCombinedCellCultureResults(Date dateCombinedCellCultureResults) {
+		this.dateCombinedCellCultureResults = dateCombinedCellCultureResults;
+	}
+
+	public Date getDateResultsSentToNationalEpi() {
+		return dateResultsSentToNationalEpi;
+	}
+
+	public void setDateResultsSentToNationalEpi(Date dateResultsSentToNationalEpi) {
+		this.dateResultsSentToNationalEpi = dateResultsSentToNationalEpi;
+	}
+
+	public Date getDateSentFromIcNationalRegLab() {
+		return dateSentFromIcNationalRegLab;
+	}
+
+	public void setDateSentFromIcNationalRegLab(Date dateSentFromIcNationalRegLab) {
+		this.dateSentFromIcNationalRegLab = dateSentFromIcNationalRegLab;
+	}
+
+	public Date getDateDifferentiationSentEpi() {
+		return dateDifferentiationSentEpi;
+	}
+
+	public void setDateDifferentiationSentEpi(Date dateDifferentiationSentEpi) {
+		this.dateDifferentiationSentEpi = dateDifferentiationSentEpi;
+	}
+
+	public Date getDateDifferentiationReceivedEpi() {
+		return dateDifferentiationReceivedEpi;
+	}
+
+	public void setDateDifferentiationReceivedEpi(Date dateDifferentiationReceivedEpi) {
+		this.dateDifferentiationReceivedEpi = dateDifferentiationReceivedEpi;
+	}
+
+	public Date getDateIsolateSentSequencing() {
+		return dateIsolateSentSequencing;
+	}
+
+	public void setDateIsolateSentSequencing(Date dateIsolateSentSequencing) {
+		this.dateIsolateSentSequencing = dateIsolateSentSequencing;
+	}
+
+	public Date getDateSeqResultsSentProgram() {
+		return dateSeqResultsSentProgram;
+	}
+
+	public void setDateSeqResultsSentProgram(Date dateSeqResultsSentProgram) {
+		this.dateSeqResultsSentProgram = dateSeqResultsSentProgram;
+	}
+
+	public YesNo getW1() {
+		return w1;
+	}
+
+	public void setW1(YesNo w1) {
+		this.w1 = w1;
+	}
+
+	public YesNo getW2() {
+		return w2;
+	}
+
+	public void setW2(YesNo w2) {
+		this.w2 = w2;
+	}
+
+	public YesNo getW3() {
+		return w3;
+	}
+
+	public void setW3(YesNo w3) {
+		this.w3 = w3;
+	}
+
+	public YesNo getSl1() {
+		return sl1;
+	}
+
+	public void setSl1(YesNo sl1) {
+		this.sl1 = sl1;
+	}
+
+	public YesNo getSl2() {
+		return sl2;
+	}
+
+	public void setSl2(YesNo sl2) {
+		this.sl2 = sl2;
+	}
+
+	public YesNo getSl3() {
+		return sl3;
+	}
+
+	public void setSl3(YesNo sl3) {
+		this.sl3 = sl3;
+	}
+
+	public YesNo getSabinType1() {
+		return sabinType1;
+	}
+
+	public void setSabinType1(YesNo sabinType1) {
+		this.sabinType1 = sabinType1;
+	}
+
+	public YesNo getSabinType2() {
+		return sabinType2;
+	}
+
+	public void setSabinType2(YesNo sabinType2) {
+		this.sabinType2 = sabinType2;
+	}
+
+	public YesNo getSabinType3() {
+		return sabinType3;
+	}
+
+	public void setSabinType3(YesNo sabinType3) {
+		this.sabinType3 = sabinType3;
+	}
+
+	public PosNeg getNpent() {
+		return npent;
+	}
+
+	public void setNpent(PosNeg npent) {
+		this.npent = npent;
+	}
+
+	public PosNeg getNev() {
+		return nev;
+	}
+
+	public void setNev(PosNeg nev) {
+		this.nev = nev;
+	}
+
+	public PathogenTestResultType getFinalCellCultureResults() {
+		return finalCellCultureResults;
+	}
+
+	public void setFinalCellCultureResults(PathogenTestResultType finalCellCultureResults) {
+		this.finalCellCultureResults = finalCellCultureResults;
+	}
+
+	public Date getDateFollowupExam() {
+		return dateFollowupExam;
+	}
+
+	public void setDateFollowupExam(Date dateFollowupExam) {
+		this.dateFollowupExam = dateFollowupExam;
+	}
+
+	public InjectionSite getResidualAnalysis() {
+		return residualAnalysis;
+	}
+
+	public void setResidualAnalysis(InjectionSite residualAnalysis) {
+		this.residualAnalysis = residualAnalysis;
+	}
+
+	public ExamResult getResultExam() {
+		return resultExam;
+	}
+
+	public void setResultExam(ExamResult resultExam) {
+		this.resultExam = resultExam;
 	}
 
 	@Override

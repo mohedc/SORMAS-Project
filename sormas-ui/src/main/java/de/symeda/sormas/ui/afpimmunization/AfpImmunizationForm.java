@@ -104,13 +104,6 @@ public class AfpImmunizationForm extends AbstractEditForm<AfpImmunizationDto> {
         initializeVisibilitiesAndAllowedVisibilities();
         initializeAccessAndAllowedAccesses();
     }
-    private Label createLabel(String text, String h4, String location) {
-        final Label label = new Label(text);
-        label.setId(text);
-        label.addStyleName(h4);
-        getContent().addComponent(label, location);
-        return label;
-    }
 
 
     @Override

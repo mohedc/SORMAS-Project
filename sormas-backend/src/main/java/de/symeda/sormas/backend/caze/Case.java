@@ -480,6 +480,10 @@ public class Case extends CoreAdo implements IsCase, SormasToSormasShareable, Ha
 	private String personFullName;
 	private String personTelephone;
 	private String personDesignation;
+	private YesNoUnknown immunocompromisedStatusSuspected;
+	private Date dateRegionReceivesLabResults;
+	private Date dateLabResultsSentHealthFacilityRegion;
+	private Date dateLabResultsReceivedAtHealthFacility;
 
     public static Case build() {
 		Case caze = new Case();
@@ -2231,10 +2235,6 @@ public class Case extends CoreAdo implements IsCase, SormasToSormasShareable, Ha
 	public void setFinalClassification(FinalClassification finalClassification) {
 		this.finalClassification = finalClassification;
 	}
-	@Temporal(TemporalType.TIMESTAMP)
-	public Date getDateFormSentToRegion() {
-		return dateFormSentToRegion;
-	}
 	@Column(length = CHARACTER_LIMIT_DEFAULT)
 	public String getPersonFullName() {
 		return personFullName;
@@ -2259,8 +2259,43 @@ public class Case extends CoreAdo implements IsCase, SormasToSormasShareable, Ha
 	public void setPersonDesignation(String personDesignation) {
 		this.personDesignation = personDesignation;
 	}
-
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getDateFormSentToRegion() {
+		return dateFormSentToRegion;
+	}
 	public void setDateFormSentToRegion(Date dateFormSentToRegion) {
 		this.dateFormSentToRegion = dateFormSentToRegion;
+	}
+	@Enumerated(EnumType.STRING)
+	public YesNoUnknown getImmunocompromisedStatusSuspected() {
+		return immunocompromisedStatusSuspected;
+	}
+
+	public void setImmunocompromisedStatusSuspected(YesNoUnknown immunocompromisedStatusSuspected) {
+		this.immunocompromisedStatusSuspected = immunocompromisedStatusSuspected;
+	}
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getDateRegionReceivesLabResults() {
+		return dateRegionReceivesLabResults;
+	}
+
+	public void setDateRegionReceivesLabResults(Date dateRegionReceivesLabResults) {
+		this.dateRegionReceivesLabResults = dateRegionReceivesLabResults;
+	}
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getDateLabResultsSentHealthFacilityRegion() {
+		return dateLabResultsSentHealthFacilityRegion;
+	}
+
+	public void setDateLabResultsSentHealthFacilityRegion(Date dateLabResultsSentHealthFacilityRegion) {
+		this.dateLabResultsSentHealthFacilityRegion = dateLabResultsSentHealthFacilityRegion;
+	}
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getDateLabResultsReceivedAtHealthFacility() {
+		return dateLabResultsReceivedAtHealthFacility;
+	}
+
+	public void setDateLabResultsReceivedAtHealthFacility(Date dateLabResultsReceivedAtHealthFacility) {
+		this.dateLabResultsReceivedAtHealthFacility = dateLabResultsReceivedAtHealthFacility;
 	}
 }

@@ -102,8 +102,6 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 	private static final String NATIONAL_HEALTH_ID_WARNING_LABEL = "nationalHealthIdWarningLoc";
 	private static final String GENERAL_COMMENT_LOC = "generalCommentLoc";
 	public static final String HAS_GUARDIAN = "hasGuardian";
-	public static final String SEEK_HELP_HEADING_LOC = "seekHelpHeadingLoc";
-	private static final String FILL_SECTION_HEADING_LOC = "fillSectionHeadingLoc";
 	private static final String DATE_OF_BIRTH_HEADING_LOC = "dateOfBirthHeadingLoc";
 	private static final String HOME_ADDRESS_HEADING_LOC = "homeAddressHeadingLoc";
 	//@formatter:off
@@ -260,16 +258,7 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 					) +
 					fluidRowLocs(PersonDto.SEX, PersonDto.MARITAL_STATUS) +
 					fluidRowLocs(PersonDto.PASSPORT_NUMBER, "") +
-
 					fluidRowLocs(PersonDto.MOTHERS_NAME, PersonDto.FATHERS_NAME) +
-
-					loc(FILL_SECTION_HEADING_LOC) +
-					loc(SEEK_HELP_HEADING_LOC) +
-					fluidRowLocs(PersonDto.PLACE, PersonDto.DURATION_MONTHS, PersonDto.DURATION_DAYS) +
-					fluidRowLocs(PersonDto.PLACE2, PersonDto.DURATION_MONTHS2, PersonDto.DURATION_DAYS2) +
-					fluidRowLocs(PersonDto.PLACE3, PersonDto.DURATION_MONTHS3, PersonDto.DURATION_DAYS3) +
-					fluidRowLocs(PersonDto.PLACE4, PersonDto.DURATION_MONTHS4, PersonDto.DURATION_DAYS4) +
-
 					loc(ADDRESS_HEADER) +
 					divsCss(VSPACE_3, fluidRowLocs(PersonDto.ADDRESS));
 
@@ -449,14 +438,6 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 		personInformationHeadingLabel = new Label(I18nProperties.getString(Strings.headingPersonInformation));
 		personInformationHeadingLabel.addStyleName(H3);
 		getContent().addComponent(personInformationHeadingLabel, PERSON_INFORMATION_HEADING_LOC);
-
-		Label fillSectionHeadingLabel = new Label(I18nProperties.getString(Strings.headingfillSection));
-		fillSectionHeadingLabel.addStyleName(H3);
-		getContent().addComponent(fillSectionHeadingLabel, FILL_SECTION_HEADING_LOC);
-
-		Label seekHelpHeadingLabel = new Label(I18nProperties.getString(Strings.headingseekHelp));
-		seekHelpHeadingLabel.addStyleName(H3);
-		getContent().addComponent(seekHelpHeadingLabel, SEEK_HELP_HEADING_LOC);
 
 		Label dateOfBirthHeadingLabel = new Label(I18nProperties.getPrefixCaption(PersonDto.I18N_PREFIX, PersonDto.BIRTH_DATE));
 		dateOfBirthHeadingLabel.addStyleName(H3);
@@ -649,19 +630,6 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 		causeOfDeathField = addField(PersonDto.CAUSE_OF_DEATH, ComboBox.class);
 		causeOfDeathDiseaseField = addDiseaseField(PersonDto.CAUSE_OF_DEATH_DISEASE, true, false);
 		causeOfDeathDetailsField = addField(PersonDto.CAUSE_OF_DEATH_DETAILS, TextField.class);
-
-		addField(PersonDto.PLACE, TextField.class);
-		addField(PersonDto.DURATION_MONTHS, TextField.class);
-		addField(PersonDto.DURATION_DAYS, TextField.class);
-		addField(PersonDto.PLACE2, TextField.class);
-		addField(PersonDto.DURATION_MONTHS2, TextField.class);
-		addField(PersonDto.DURATION_DAYS2, TextField.class);
-		addField(PersonDto.PLACE3, TextField.class);
-		addField(PersonDto.DURATION_MONTHS3, TextField.class);
-		addField(PersonDto.DURATION_DAYS3, TextField.class);
-		addField(PersonDto.PLACE4, TextField.class);
-		addField(PersonDto.DURATION_MONTHS4, TextField.class);
-		addField(PersonDto.DURATION_DAYS4, TextField.class);
 
 		// Set requirements that don't need visibility changes and read only status
 

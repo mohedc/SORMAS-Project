@@ -74,6 +74,18 @@ public class EpiDataDto extends PseudonymizableDto {
 	public static final String RECENT_TRAVEL_OUTBREAK = "recentTravelOutbreak";
 	public static final String CONTACT_SIMILAR_SYMPTOMS = "contactSimilarOutbreak";
 	public static final String CONTACT_SICK_ANIMALS = "contactSickAnimals";
+	public static final String PLACE = "place";
+	public static final String DURATION_MONTHS = "durationMonths";
+	public static final String DURATION_DAYS = "durationDays";
+	public static final String PLACE2 = "place2";
+	public static final String DURATION_MONTHS2 = "durationMonths2";
+	public static final String DURATION_DAYS2 = "durationDays2";
+	public static final String PLACE3 = "place3";
+	public static final String DURATION_MONTHS3 = "durationMonths3";
+	public static final String DURATION_DAYS3 = "durationDays3";
+	public static final String PLACE4 = "place4";
+	public static final String DURATION_MONTHS4 = "durationMonths4";
+	public static final String DURATION_DAYS4 = "durationDays4";
 
 	private YesNoUnknown exposureDetailsKnown;
 	private YesNoUnknown activityAsCaseDetailsKnown;
@@ -83,6 +95,40 @@ public class EpiDataDto extends PseudonymizableDto {
 	private YesNo recentTravelOutbreak;
 	private YesNo contactSimilarOutbreak;
 	private YesNo contactSickAnimals;
+	@Diseases({
+			Disease.AFP })
+	private String place;
+	@Diseases({
+			Disease.AFP })
+	private String durationMonths;
+	@Diseases({
+			Disease.AFP })
+	private String durationDays;
+	@Diseases({
+			Disease.AFP })
+	private String place2;
+	@Diseases({
+			Disease.AFP })
+	private String durationMonths2;
+	@Diseases({
+			Disease.AFP })
+	private String durationDays2;
+	@Diseases({
+			Disease.AFP })
+	private String place3;
+	private String durationMonths3;
+	@Diseases({
+			Disease.AFP })
+	private String durationDays3;
+	@Diseases({
+			Disease.AFP })
+	private String place4;
+	@Diseases({
+			Disease.AFP })
+	private String durationMonths4;
+	@Diseases({
+			Disease.AFP })
+	private String durationDays4;
 	@Diseases({
 		Disease.AFP,
 		Disease.GUINEA_WORM,
@@ -336,6 +382,102 @@ public class EpiDataDto extends PseudonymizableDto {
 
 	public void setContactSickAnimals(YesNo contactSickAnimals) {
 		this.contactSickAnimals = contactSickAnimals;
+	}
+
+	public String getPlace() {
+		return place;
+	}
+
+	public void setPlace(String place) {
+		this.place = place;
+	}
+
+	public String getDurationMonths() {
+		return durationMonths;
+	}
+
+	public void setDurationMonths(String durationMonths) {
+		this.durationMonths = durationMonths;
+	}
+
+	public String getDurationDays() {
+		return durationDays;
+	}
+
+	public void setDurationDays(String durationDays) {
+		this.durationDays = durationDays;
+	}
+
+	public String getPlace2() {
+		return place2;
+	}
+
+	public void setPlace2(String place2) {
+		this.place2 = place2;
+	}
+
+	public String getDurationMonths2() {
+		return durationMonths2;
+	}
+
+	public void setDurationMonths2(String durationMonths2) {
+		this.durationMonths2 = durationMonths2;
+	}
+
+	public String getDurationDays2() {
+		return durationDays2;
+	}
+
+	public void setDurationDays2(String durationDays2) {
+		this.durationDays2 = durationDays2;
+	}
+
+	public String getPlace3() {
+		return place3;
+	}
+
+	public void setPlace3(String place3) {
+		this.place3 = place3;
+	}
+
+	public String getDurationMonths3() {
+		return durationMonths3;
+	}
+
+	public void setDurationMonths3(String durationMonths3) {
+		this.durationMonths3 = durationMonths3;
+	}
+
+	public String getDurationDays3() {
+		return durationDays3;
+	}
+
+	public void setDurationDays3(String durationDays3) {
+		this.durationDays3 = durationDays3;
+	}
+
+	public String getPlace4() {
+		return place4;
+	}
+
+	public void setPlace4(String place4) {
+		this.place4 = place4;
+	}
+
+	public String getDurationMonths4() {
+		return durationMonths4;
+	}
+
+	public void setDurationMonths4(String durationMonths4) {
+		this.durationMonths4 = durationMonths4;
+	}
+
+	public String getDurationDays4() {
+		return durationDays4;
+	}
+
+	public void setDurationDays4(String durationDays4) {
+		this.durationDays4 = durationDays4;
 	}
 
 	public static EpiDataDto build() {

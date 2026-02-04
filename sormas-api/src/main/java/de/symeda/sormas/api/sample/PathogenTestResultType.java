@@ -27,7 +27,10 @@ public enum PathogenTestResultType {
 	POSITIVE,
 	CONTAMINATED,
 	NOT_DONE,
-	NOT_APPLICABLE;
+	NOT_APPLICABLE,
+	SUSPECTED_POLIOVIRUS,
+	NPENT,
+	SUSPECT_POLIOVIRUS_NPENT;
 
 	@Override
 	public String toString() {

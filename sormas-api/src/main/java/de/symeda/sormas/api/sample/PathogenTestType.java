@@ -213,6 +213,18 @@ public enum PathogenTestType {
 	@Diseases(value = {
 		Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS })
 	LATEX,
+	@Diseases(value = {
+			Disease.AFP })
+	WILD_POLIOVIRUS,
+	@Diseases(value = {
+			Disease.AFP })
+	VDPV,
+	@Diseases(value = {
+			Disease.AFP })
+	SABIN_STRAIN,
+	@Diseases(value = {
+			Disease.AFP })
+	NON_POLIO_ENTEROVIRUS,
 
 	@Diseases(value = {
 		Disease.YELLOW_FEVER,

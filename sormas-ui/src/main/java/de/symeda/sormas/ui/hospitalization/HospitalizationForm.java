@@ -122,7 +122,8 @@ public class HospitalizationForm extends AbstractEditForm<HospitalizationDto> {
 	private static final String AFP_LAYOUT =
 			loc(HOSPITALIZATION_HEADING_LOC) +
 					fluidRowLocs(HEALTH_FACILITY, HospitalizationDto.HOSPITAL_RECORD_NUMBER) +
-					fluidRowLocs(HospitalizationDto.SELECT_INPATIENT_OUTPATIENT, HospitalizationDto.ADMISSION_DATE);
+					fluidRowLocs(HospitalizationDto.SELECT_INPATIENT_OUTPATIENT, "") +
+					fluidRowLocs(HospitalizationDto.ADMISSION_DATE, HospitalizationDto.DISCHARGE_DATE);
 
 	private static final String NNT_LAYOUT =
 			loc(HOSPITALIZATION_HEADING_LOC) +
@@ -392,6 +393,7 @@ public class HospitalizationForm extends AbstractEditForm<HospitalizationDto> {
 			FieldHelper.setVisibleWhen(selectInpatientOutpatient, Arrays.asList(admissionDateField), Arrays.asList(YesNoUnknown.YES),true);
 			FieldHelper
 					.setVisibleWhen(intensiveCareUnit, Arrays.asList(intensiveCareUnitStart, intensiveCareUnitEnd), Arrays.asList(YesNoUnknown.YES), true);
+			admissionDateField.setCaption("Date of admission to hospital, if applicable:");
 		}
 		if (disease == Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS){
 			selectInpatientOutpatient.setCaption("In/Out Patient");
