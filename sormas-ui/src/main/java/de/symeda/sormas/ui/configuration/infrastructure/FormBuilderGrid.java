@@ -64,6 +64,10 @@ public class FormBuilderGrid extends FilteredGrid<FormBuilderDto, FormBuilderCri
 			addDuplicateColumn();
 		}
 
+		if (UiUtil.permitted(UserRight.INFRASTRUCTURE_EDIT)) {
+			addDeleteColumn();
+		}
+
 		for (Column<?, ?> column : getColumns()) {
 			column.setCaption(I18nProperties.getPrefixCaption(FormBuilderDto.I18N_PREFIX, column.getId(), column.getCaption()));
 		}
@@ -95,6 +99,19 @@ public class FormBuilderGrid extends FilteredGrid<FormBuilderDto, FormBuilderCri
 			ControllerProvider.getInfrastructureController().duplicateFormBuilder(formBuilder.getUuid());
 		});
 		return duplicateButton;
+	}
+
+	private void addDeleteColumn() {
+		addComponentColumn(this::createDeleteButton).setId("delete").setSortable(false).setCaption("");
+	}
+
+	private Button createDeleteButton(FormBuilderDto formBuilder) {
+		Button deleteButton = ButtonHelper.createIconButton(VaadinIcons.TRASH);
+		deleteButton.addStyleName(ValoTheme.BUTTON_BORDERLESS);
+		deleteButton.addClickListener(clickEvent -> {
+			ControllerProvider.getInfrastructureController().deleteFormBuilder(formBuilder.getUuid(), this::reload);
+		});
+		return deleteButton;
 	}
 }
 

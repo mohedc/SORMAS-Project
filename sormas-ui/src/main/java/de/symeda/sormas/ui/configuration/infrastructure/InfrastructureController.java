@@ -688,4 +688,38 @@ public class InfrastructureController {
 			},
 			400);
 	}
+
+	public void deleteFormBuilder(String formUuid, Runnable callback) {
+		FormBuilderDto form = FacadeProvider.getFormBuilderFacade().getByUuid(formUuid);
+		if (form == null) {
+			Notification.show(I18nProperties.getString(Strings.errorFormNotFound), Type.ERROR_MESSAGE);
+			return;
+		}
+
+		// Build confirmation message
+		String formDescription = form.getFormType() != null && form.getDisease() != null
+			? form.getFormType().toString() + " - " + form.getDisease().toString()
+			: I18nProperties.getString(Strings.entityFormBuilders);
+		
+		String confirmationMessage = String.format(
+			I18nProperties.getString(Strings.confirmationDeleteEntity),
+			formDescription);
+
+		VaadinUiUtil.showDeleteConfirmationWindow(confirmationMessage, () -> {
+			try {
+				FacadeProvider.getFormBuilderFacade().delete(formUuid);
+				Notification.show(
+					I18nProperties.getString(Strings.messageFormDeleted),
+					Type.ASSISTIVE_NOTIFICATION);
+				if (callback != null) {
+					callback.run();
+				}
+				SormasUI.get().getNavigator().navigateTo(FormBuildersView.VIEW_NAME);
+			} catch (Exception e) {
+				Notification.show(
+					I18nProperties.getString(Strings.errorDeletingForm),
+					Type.ERROR_MESSAGE);
+			}
+		});
+	}
 }

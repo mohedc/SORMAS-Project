@@ -353,6 +353,7 @@ public interface Strings {
 	String errorFormIdPopulationAgeGroup = "errorFormIdPopulationAgeGroup";
 	String errorFormNotFound = "errorFormNotFound";
 	String errorFormTypeMissing = "errorFormTypeMissing";
+	String errorDeletingForm = "errorDeletingForm";
 	String errorIllegalFilename = "errorIllegalFilename";
 	String errorImmunizationNotEditable = "errorImmunizationNotEditable";
 	String errorIntegerFieldValidationFailed = "errorIntegerFieldValidationFailed";
@@ -1393,6 +1394,7 @@ public interface Strings {
 	String messageEntryCreated = "messageEntryCreated";
 	String messageEnvironmentAlreadyLinkedToEvent = "messageEnvironmentAlreadyLinkedToEvent";
 	String messageFormDuplicated = "messageFormDuplicated";
+	String messageFormDeleted = "messageFormDeleted";
 	String messageNoAvailableDiseasesForDuplicate = "messageNoAvailableDiseasesForDuplicate";
 	String messageEnvironmentArchived = "messageEnvironmentArchived";
 	String messageEnvironmentCreated = "messageEnvironmentCreated";

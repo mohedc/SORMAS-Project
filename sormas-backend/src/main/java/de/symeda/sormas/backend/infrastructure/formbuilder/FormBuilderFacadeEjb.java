@@ -342,6 +342,15 @@ public class FormBuilderFacadeEjb
 		return toPseudonymizedDtos(entities);
 	}
 
+	@Override
+	@RightsAllowed(UserRight._INFRASTRUCTURE_EDIT)
+	public void delete(String uuid) {
+		FormBuilder formBuilder = service.getByUuid(uuid);
+		if (formBuilder != null) {
+			service.deletePermanent(formBuilder);
+		}
+	}
+
 	@LocalBean
 	@Stateless
 	public static class FormBuilderFacadeEjbLocal extends FormBuilderFacadeEjb {
