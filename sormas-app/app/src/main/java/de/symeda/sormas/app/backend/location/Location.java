@@ -99,6 +99,8 @@ public class Location extends PseudonymizableAdo {
 	@Column(length = CHARACTER_LIMIT_DEFAULT)
 	private String landmark;
 	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	private String village;
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
 	private String additionalInformation;
 	@Column
 	private PersonAddressType addressType;
@@ -269,6 +271,15 @@ public class Location extends PseudonymizableAdo {
 
 	public void setLandmark(String landmark) {
 		this.landmark = landmark;
+	}
+
+	@Bindable
+	public String getVillage() {
+		return village;
+	}
+
+	public void setVillage(String village) {
+		this.village = village;
 	}
 
 	@Bindable
