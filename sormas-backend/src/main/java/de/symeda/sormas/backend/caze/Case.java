@@ -474,6 +474,10 @@ public class Case extends CoreAdo implements IsCase, SormasToSormasShareable, Ha
 	private Date motherGivenProtectiveDoseTTDate;
 	private YesNoUnknown supplementalImmunization;
 	private String supplementalImmunizationDetails;
+	private Date arrivalAtRegionalPublicHealthOfficeDate;
+	private Date arrivalAtNationalLevelDate;
+	private VaccineType vaccineType;
+	private String healthWorkerCompletingForm;
 	private String notifiedByText;
 	private FinalClassification finalClassification;
 	private Date dateFormSentToRegion;
@@ -2217,6 +2221,42 @@ public class Case extends CoreAdo implements IsCase, SormasToSormasShareable, Ha
 
 	public void setSupplementalImmunizationDetails(String supplementalImmunizationDetails) {
 		this.supplementalImmunizationDetails = supplementalImmunizationDetails;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getArrivalAtRegionalPublicHealthOfficeDate() {
+		return arrivalAtRegionalPublicHealthOfficeDate;
+	}
+
+	public void setArrivalAtRegionalPublicHealthOfficeDate(Date arrivalAtRegionalPublicHealthOfficeDate) {
+		this.arrivalAtRegionalPublicHealthOfficeDate = arrivalAtRegionalPublicHealthOfficeDate;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getArrivalAtNationalLevelDate() {
+		return arrivalAtNationalLevelDate;
+	}
+
+	public void setArrivalAtNationalLevelDate(Date arrivalAtNationalLevelDate) {
+		this.arrivalAtNationalLevelDate = arrivalAtNationalLevelDate;
+	}
+
+	@Enumerated(EnumType.STRING)
+	public VaccineType getVaccineType() {
+		return vaccineType;
+	}
+
+	public void setVaccineType(VaccineType vaccineType) {
+		this.vaccineType = vaccineType;
+	}
+
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	public String getHealthWorkerCompletingForm() {
+		return healthWorkerCompletingForm;
+	}
+
+	public void setHealthWorkerCompletingForm(String healthWorkerCompletingForm) {
+		this.healthWorkerCompletingForm = healthWorkerCompletingForm;
 	}
 
 	public String getNotifiedByText() {

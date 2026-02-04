@@ -29,6 +29,7 @@
         <import type="de.symeda.sormas.api.person.OccupationType" />
         <import type="de.symeda.sormas.api.person.EducationType" />
         <import type="de.symeda.sormas.api.person.CauseOfDeath" />
+        <import type="de.symeda.sormas.api.person.LocationOfBirth" />
         <import type="de.symeda.sormas.api.person.Salutation" />
         <import type="de.symeda.sormas.api.utils.YesNoUnknown" />
         <import type="de.symeda.sormas.api.i18n.I18nProperties" />
@@ -162,6 +163,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/person_placeOfBirthRegion_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -207,6 +209,7 @@
                 style="@style/ControlSingleColumnStyle" />
 
             <LinearLayout
+                android:id="@+id/person_gestationAgeAtBirth_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -225,6 +228,31 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/person_locationOfBirth_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <de.symeda.sormas.app.component.controls.ControlSpinnerField
+                    android:id="@+id/person_locationOfBirth"
+                    app:value="@={data.locationOfBirth}"
+                    style="@style/ControlFirstOfTwoColumnsStyle" />
+
+                <de.symeda.sormas.app.component.controls.ControlTextEditField
+                    android:id="@+id/person_currentWeight"
+                    app:value="@={data.currentWeight}"
+                    app:inputType="number"
+                    style="@style/ControlSecondOfTwoColumnsStyle" />
+
+            </LinearLayout>
+
+            <de.symeda.sormas.app.component.controls.ControlTextEditField
+                android:id="@+id/person_caregiverTelephoneNumber"
+                app:value="@={data.caregiverTelephoneNumber}"
+                app:inputType="phone"
+                style="@style/ControlSingleColumnStyle" />
+
             <de.symeda.sormas.app.component.controls.ControlSpinnerField
                 android:id="@+id/person_sex"
                 app:required="true"
@@ -239,6 +267,7 @@
             <ImageView style="@style/FullHorizontalDividerStyle"/>
 
             <LinearLayout
+                android:id="@+id/person_presentCondition_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -261,6 +290,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/person_causeOfDeath_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -291,6 +321,7 @@
                 style="@style/ControlSingleColumnStyle" />
 
             <LinearLayout
+                android:id="@+id/person_deathPlaceType_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -316,6 +347,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/person_burialDate_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -349,6 +381,7 @@
             <ImageView style="@style/FullHorizontalDividerStyle"/>
 
             <LinearLayout
+                android:id="@+id/person_passportNumber_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -436,6 +469,7 @@
             <ImageView style="@style/FullHorizontalDividerStyle"/>
 
             <LinearLayout
+                android:id="@+id/person_educationType_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -468,6 +502,7 @@
                 style="@style/ControlSingleColumnStyle" />
 
         <LinearLayout
+            android:id="@+id/person_armedForcesRelationType_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -482,6 +517,7 @@
             <ImageView style="@style/FullHorizontalDividerStyle"/>
 
             <LinearLayout
+                android:id="@+id/person_birthName_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -496,6 +532,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/person_nickname_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -517,6 +554,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/person_mothersName_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -545,6 +583,7 @@
                 style="@style/ControlSingleColumnStyle" />
 
             <LinearLayout
+                android:id="@+id/person_birthCountry_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -711,6 +750,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/person_externalId_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">

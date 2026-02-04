@@ -190,6 +190,9 @@ public class SymptomsEditFragment extends BaseEditFragment<FragmentSymptomsEditL
 		}
 
 		contentBinding.symptomsOnsetDate.initializeDateField(getFragmentManager());
+		if (contentBinding.symptomsAutopsyDate != null) {
+			contentBinding.symptomsAutopsyDate.initializeDateField(getFragmentManager());
+		}
 
 		contentBinding.symptomsTemperature.initializeSpinner(DataUtils.addEmptyItem(bodyTempList));
 		contentBinding.symptomsTemperatureSource.initializeSpinner(DataUtils.addEmptyItem(tempSourceList));

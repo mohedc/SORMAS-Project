@@ -76,6 +76,52 @@
 
                 </LinearLayout>
 
+                <LinearLayout
+                    android:id="@+id/hospitalization_hospitalRecordNumber_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <de.symeda.sormas.app.component.controls.ControlTextReadField
+                        android:id="@+id/hospitalization_hospitalRecordNumber"
+                        app:value="@{data.hospitalRecordNumber}"
+                        app:goneIfEmpty="@{data.hospitalRecordNumber}"
+                        style="@style/ControlFirstOfTwoColumnsStyle" />
+
+                    <de.symeda.sormas.app.component.controls.ControlTextReadField
+                        android:id="@+id/hospitalization_serialNumberInConsultationRegister"
+                        app:value="@{data.serialNumberInConsultationRegister}"
+                        app:goneIfEmpty="@{data.serialNumberInConsultationRegister}"
+                        style="@style/ControlSecondOfTwoColumnsStyle" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/hospitalization_dateHealthRegionNotified_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <de.symeda.sormas.app.component.controls.ControlTextReadField
+                        android:id="@+id/hospitalization_dateHealthRegionNotified"
+                        app:value="@{data.dateHealthRegionNotified}"
+                        app:goneIfEmpty="@{data.dateHealthRegionNotified}"
+                        style="@style/ControlFirstOfTwoColumnsStyle" />
+
+                    <de.symeda.sormas.app.component.controls.ControlTextReadField
+                        android:id="@+id/hospitalization_dateOfConsultationAtHealthFacility"
+                        app:value="@{data.dateOfConsultationAtHealthFacility}"
+                        app:goneIfEmpty="@{data.dateOfConsultationAtHealthFacility}"
+                        style="@style/ControlSecondOfTwoColumnsStyle" />
+
+                </LinearLayout>
+
+                <de.symeda.sormas.app.component.controls.ControlTextReadField
+                    android:id="@+id/hospitalization_address"
+                    app:value="@{data.address}"
+                    app:goneIfEmpty="@{data.address}"
+                    style="@style/ControlSingleColumnStyle" />
+
                 <de.symeda.sormas.app.component.controls.ControlTextReadField
                     android:id="@+id/caseHospitalization_admittedToHealthFacility"
                     app:value="@{data.admittedToHealthFacility}"

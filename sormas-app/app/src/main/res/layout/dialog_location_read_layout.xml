@@ -88,6 +88,30 @@
                 app:value="@{data.community}" />
 
             <de.symeda.sormas.app.component.controls.ControlTextReadField
+                android:id="@+id/location_homeResidentialAddress"
+                style="@style/ControlSingleColumnStyle"
+                app:value="@{data.homeResidentialAddress}"
+                app:goneIfEmpty="@{data.homeResidentialAddress}" />
+
+            <de.symeda.sormas.app.component.controls.ControlTextReadField
+                android:id="@+id/location_compoundOwner"
+                style="@style/ControlSingleColumnStyle"
+                app:value="@{data.compoundOwner}"
+                app:goneIfEmpty="@{data.compoundOwner}" />
+
+            <de.symeda.sormas.app.component.controls.ControlTextReadField
+                android:id="@+id/location_landmark"
+                style="@style/ControlSingleColumnStyle"
+                app:value="@{data.landmark}"
+                app:goneIfEmpty="@{data.landmark}" />
+
+            <de.symeda.sormas.app.component.controls.ControlTextReadField
+                android:id="@+id/location_village"
+                style="@style/ControlSingleColumnStyle"
+                app:value="@{data.village}"
+                app:goneIfEmpty="@{data.village}" />
+
+            <de.symeda.sormas.app.component.controls.ControlTextReadField
                 android:id="@+id/location_postalCode"
                 style="@style/ControlSingleColumnStyle"
                 app:value="@{data.postalCode}" />

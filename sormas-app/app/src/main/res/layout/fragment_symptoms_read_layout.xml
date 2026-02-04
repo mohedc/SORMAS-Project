@@ -246,6 +246,57 @@
                 app:goneIfEmpty="@{data.symptomsComments}"
                 style="@style/ControlSingleColumnStyle" />
 
+            <LinearLayout
+                android:id="@+id/symptoms_clinicianName_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <de.symeda.sormas.app.component.controls.ControlTextReadField
+                    android:id="@+id/symptoms_clinicianName"
+                    app:value="@{data.clinicianName}"
+                    app:goneIfEmpty="@{data.clinicianName}"
+                    style="@style/ControlFirstOfTwoColumnsStyle" />
+
+                <de.symeda.sormas.app.component.controls.ControlTextReadField
+                    android:id="@+id/symptoms_clinicianAddress"
+                    app:value="@{data.clinicianAddress}"
+                    app:goneIfEmpty="@{data.clinicianAddress}"
+                    style="@style/ControlSecondOfTwoColumnsStyle" />
+
+            </LinearLayout>
+
+            <de.symeda.sormas.app.component.controls.ControlTextReadField
+                android:id="@+id/symptoms_clinicianPhone"
+                app:value="@{data.clinicianPhone}"
+                app:goneIfEmpty="@{data.clinicianPhone}"
+                style="@style/ControlSingleColumnStyle" />
+
+            <LinearLayout
+                android:id="@+id/symptoms_autopsyConducted_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <de.symeda.sormas.app.component.controls.ControlTextReadField
+                    android:id="@+id/symptoms_autopsyConducted"
+                    app:value="@{data.autopsyConducted}"
+                    style="@style/ControlFirstOfTwoColumnsStyle" />
+
+                <de.symeda.sormas.app.component.controls.ControlTextReadField
+                    android:id="@+id/symptoms_autopsyDate"
+                    app:value="@{data.autopsyDate}"
+                    app:goneIfEmpty="@{data.autopsyDate}"
+                    style="@style/ControlSecondOfTwoColumnsStyle" />
+
+            </LinearLayout>
+
+            <de.symeda.sormas.app.component.controls.ControlTextReadField
+                android:id="@+id/symptoms_autopsyFindings"
+                app:value="@{data.autopsyFindings}"
+                app:goneIfEmpty="@{data.autopsyFindings}"
+                style="@style/ControlSingleColumnStyle" />
+
         </LinearLayout>
 
     </ScrollView>

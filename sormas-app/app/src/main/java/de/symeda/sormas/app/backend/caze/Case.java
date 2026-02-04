@@ -53,6 +53,7 @@ import de.symeda.sormas.api.caze.Trimester;
 import de.symeda.sormas.api.caze.RoutineVaccinationType;
 import de.symeda.sormas.api.caze.VaccinationRecordType;
 import de.symeda.sormas.api.caze.VaccinationStatus;
+import de.symeda.sormas.api.caze.VaccineType;
 import de.symeda.sormas.api.caze.caseimport.MotherVaccinationStatus;
 import de.symeda.sormas.api.contact.QuarantineType;
 import de.symeda.sormas.api.customizableenum.CustomizableEnumType;
@@ -221,6 +222,10 @@ public class Case extends PseudonymizableAdo {
 	@DatabaseField(dataType = DataType.DATE_LONG, canBeNull = true)
 	private Date investigatedDate;
 	@DatabaseField(dataType = DataType.DATE_LONG)
+	private Date regionLevelDate;
+	@DatabaseField(dataType = DataType.DATE_LONG)
+	private Date nationalLevelDate;
+	@DatabaseField(dataType = DataType.DATE_LONG)
 	private Date districtLevelDate;
 
 	@DatabaseField(foreign = true, foreignAutoRefresh = true, maxForeignAutoRefreshLevel = 1)
@@ -337,6 +342,9 @@ public class Case extends PseudonymizableAdo {
 
 	@Column(length = CHARACTER_LIMIT_DEFAULT)
 	private String internalToken;
+
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	private String caseReferenceNumber;
 
 	@Enumerated(EnumType.STRING)
 	private QuarantineType quarantine;
@@ -486,6 +494,14 @@ public class Case extends PseudonymizableAdo {
 	private YesNoUnknown supplementalImmunization;
 	@Column(length = CHARACTER_LIMIT_DEFAULT)
 	private String supplementalImmunizationDetails;
+	@DatabaseField(dataType = DataType.DATE_LONG)
+	private Date arrivalAtRegionalPublicHealthOfficeDate;
+	@DatabaseField(dataType = DataType.DATE_LONG)
+	private Date arrivalAtNationalLevelDate;
+	@Enumerated(EnumType.STRING)
+	private VaccineType vaccineType;
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	private String healthWorkerCompletingForm;
 	@DatabaseField
 	private String investigatorName;
 	@DatabaseField
@@ -697,6 +713,22 @@ public class Case extends PseudonymizableAdo {
 		this.investigatedDate = investigatedDate;
 	}
 
+	public Date getRegionLevelDate() {
+		return regionLevelDate;
+	}
+
+	public void setRegionLevelDate(Date regionLevelDate) {
+		this.regionLevelDate = regionLevelDate;
+	}
+
+	public Date getNationalLevelDate() {
+		return nationalLevelDate;
+	}
+
+	public void setNationalLevelDate(Date nationalLevelDate) {
+		this.nationalLevelDate = nationalLevelDate;
+	}
+
 	public Date getDistrictLevelDate() {
 		return districtLevelDate;
 	}
@@ -895,6 +927,14 @@ public class Case extends PseudonymizableAdo {
 
 	public void setEpidNumber(String epidNumber) {
 		this.epidNumber = epidNumber;
+	}
+
+	public String getCaseReferenceNumber() {
+		return caseReferenceNumber;
+	}
+
+	public void setCaseReferenceNumber(String caseReferenceNumber) {
+		this.caseReferenceNumber = caseReferenceNumber;
 	}
 
 	public Hospitalization getHospitalization() {
@@ -1703,6 +1743,38 @@ public class Case extends PseudonymizableAdo {
 
 	public void setInvestigatorEmail(String investigatorEmail) {
 		this.investigatorEmail = investigatorEmail;
+	}
+
+	public Date getArrivalAtRegionalPublicHealthOfficeDate() {
+		return arrivalAtRegionalPublicHealthOfficeDate;
+	}
+
+	public void setArrivalAtRegionalPublicHealthOfficeDate(Date arrivalAtRegionalPublicHealthOfficeDate) {
+		this.arrivalAtRegionalPublicHealthOfficeDate = arrivalAtRegionalPublicHealthOfficeDate;
+	}
+
+	public Date getArrivalAtNationalLevelDate() {
+		return arrivalAtNationalLevelDate;
+	}
+
+	public void setArrivalAtNationalLevelDate(Date arrivalAtNationalLevelDate) {
+		this.arrivalAtNationalLevelDate = arrivalAtNationalLevelDate;
+	}
+
+	public VaccineType getVaccineType() {
+		return vaccineType;
+	}
+
+	public void setVaccineType(VaccineType vaccineType) {
+		this.vaccineType = vaccineType;
+	}
+
+	public String getHealthWorkerCompletingForm() {
+		return healthWorkerCompletingForm;
+	}
+
+	public void setHealthWorkerCompletingForm(String healthWorkerCompletingForm) {
+		this.healthWorkerCompletingForm = healthWorkerCompletingForm;
 	}
 
 	public String getInvestigatorTitle() {

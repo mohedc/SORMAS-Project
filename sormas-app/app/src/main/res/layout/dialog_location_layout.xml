@@ -44,139 +44,360 @@
             android:paddingRight="@dimen/rowListItemHorizontalMargin"
             android:id="@+id/main_content">
 
-            <de.symeda.sormas.app.component.controls.ControlSpinnerField
-                android:id="@+id/location_addressType"
-                style="@style/ControlSingleColumnStyle"
-                android:visibility="gone"
-                app:required="true"
-                app:value="@={data.addressType}" />
+            <LinearLayout
+                android:id="@+id/location_addressType_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-            <de.symeda.sormas.app.component.controls.ControlTextEditField
-                android:id="@+id/location_addressTypeDetails"
-                style="@style/ControlSingleColumnStyle"
-                android:visibility="gone"
-                app:value="@={data.addressTypeDetails}" />
+                <de.symeda.sormas.app.component.controls.ControlSpinnerField
+                    android:id="@+id/location_addressType"
+                    style="@style/ControlSingleColumnStyle"
+                    android:visibility="gone"
+                    app:required="true"
+                    app:value="@={data.addressType}" />
 
-            <de.symeda.sormas.app.component.controls.InfrastructureSpinnerField
-                android:id="@+id/location_continent"
-                style="@style/ControlSingleColumnStyle"
-                app:value="@={data.continent}" />
+            </LinearLayout>
 
-            <de.symeda.sormas.app.component.controls.InfrastructureSpinnerField
-                android:id="@+id/location_subcontinent"
-                style="@style/ControlSingleColumnStyle"
-                app:value="@={data.subcontinent}" />
+            <LinearLayout
+                android:id="@+id/location_addressTypeDetails_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-            <de.symeda.sormas.app.component.controls.InfrastructureSpinnerField
-                android:id="@+id/location_country"
-                style="@style/ControlSingleColumnStyle"
-                app:value="@={data.country}" />
+                <de.symeda.sormas.app.component.controls.ControlTextEditField
+                    android:id="@+id/location_addressTypeDetails"
+                    style="@style/ControlSingleColumnStyle"
+                    android:visibility="gone"
+                    app:value="@={data.addressTypeDetails}" />
 
-            <de.symeda.sormas.app.component.controls.InfrastructureSpinnerField
-                android:id="@+id/location_region"
-                style="@style/ControlSingleColumnStyle"
-                app:value="@={data.region}" />
+            </LinearLayout>
 
-            <de.symeda.sormas.app.component.controls.InfrastructureSpinnerField
-                android:id="@+id/location_district"
-                style="@style/ControlSingleColumnStyle"
-                app:value="@={data.district}" />
+            <LinearLayout
+                android:id="@+id/location_continent_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-            <de.symeda.sormas.app.component.controls.InfrastructureSpinnerField
-                android:id="@+id/location_community"
-                style="@style/ControlSingleColumnStyle"
-                app:value="@={data.community}" />
+                <de.symeda.sormas.app.component.controls.InfrastructureSpinnerField
+                    android:id="@+id/location_continent"
+                    style="@style/ControlSingleColumnStyle"
+                    app:value="@={data.continent}" />
 
-            <de.symeda.sormas.app.component.controls.ControlTextEditField
-                android:id="@+id/location_homeResidentialAddress"
-                style="@style/ControlSingleColumnStyle"
-                app:value="@={data.homeResidentialAddress}" />
+            </LinearLayout>
 
-            <de.symeda.sormas.app.component.controls.ControlTextEditField
-                android:id="@+id/location_compoundOwner"
-                style="@style/ControlSingleColumnStyle"
-                app:value="@={data.compoundOwner}" />
+            <LinearLayout
+                android:id="@+id/location_subcontinent_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-            <de.symeda.sormas.app.component.controls.ControlTextEditField
-                android:id="@+id/location_landmark"
-                style="@style/ControlSingleColumnStyle"
-                app:value="@={data.landmark}" />
+                <de.symeda.sormas.app.component.controls.InfrastructureSpinnerField
+                    android:id="@+id/location_subcontinent"
+                    style="@style/ControlSingleColumnStyle"
+                    app:value="@={data.subcontinent}" />
 
-            <de.symeda.sormas.app.component.controls.ControlSpinnerField
-                android:id="@+id/facilityTypeGroup"
-                style="@style/ControlSingleColumnStyle"
-                app:caption="@string/caption_facility_type_group"/>
+            </LinearLayout>
 
-            <de.symeda.sormas.app.component.controls.ControlSpinnerField
-                android:id="@+id/location_facilityType"
-                style="@style/ControlSingleColumnStyle"
-                app:value="@={data.facilityType}"/>
+            <LinearLayout
+                android:id="@+id/location_country_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-            <de.symeda.sormas.app.component.controls.InfrastructureSpinnerField
-                android:id="@+id/location_facility"
-                style="@style/ControlSingleColumnStyle"
-                app:value="@={data.facility}" />
+                <de.symeda.sormas.app.component.controls.InfrastructureSpinnerField
+                    android:id="@+id/location_country"
+                    style="@style/ControlSingleColumnStyle"
+                    app:value="@={data.country}" />
 
-            <de.symeda.sormas.app.component.controls.ControlTextEditField
-                android:id="@+id/location_facilityDetails"
-                style="@style/ControlSingleColumnStyle"
-                app:required="true"
-                app:value="@={data.facilityDetails}" />
+            </LinearLayout>
 
-            <de.symeda.sormas.app.component.controls.ControlTextEditField
-                android:id="@+id/location_postalCode"
-                style="@style/ControlSingleColumnStyle"
-                app:value="@={data.postalCode}" />
+            <LinearLayout
+                android:id="@+id/location_region_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-            <de.symeda.sormas.app.component.controls.ControlTextEditField
-                android:id="@+id/location_city"
-                style="@style/ControlSingleColumnStyle"
-                app:value="@={data.city}" />
+                <de.symeda.sormas.app.component.controls.InfrastructureSpinnerField
+                    android:id="@+id/location_region"
+                    style="@style/ControlSingleColumnStyle"
+                    app:value="@={data.region}" />
 
-            <de.symeda.sormas.app.component.controls.ControlTextEditField
-                android:id="@+id/location_street"
-                style="@style/ControlSingleColumnStyle"
-                app:value="@={data.street}" />
+            </LinearLayout>
 
-            <de.symeda.sormas.app.component.controls.ControlTextEditField
-                android:id="@+id/location_houseNumber"
-                style="@style/ControlSingleColumnStyle"
-                app:value="@={data.houseNumber}" />
+            <LinearLayout
+                android:id="@+id/location_district_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-            <de.symeda.sormas.app.component.controls.ControlTextEditField
-                android:id="@+id/location_additionalInformation"
-                style="@style/ControlSingleColumnStyle"
-                app:value="@={data.additionalInformation}" />
+                <de.symeda.sormas.app.component.controls.InfrastructureSpinnerField
+                    android:id="@+id/location_district"
+                    style="@style/ControlSingleColumnStyle"
+                    app:value="@={data.district}" />
 
-            <de.symeda.sormas.app.component.controls.ControlSpinnerField
-                android:id="@+id/location_areaType"
-                style="@style/ControlSingleColumnStyle"
-                app:value="@={data.areaType}" />
+            </LinearLayout>
 
-            <de.symeda.sormas.app.component.controls.ControlTextEditField
-                android:id="@+id/location_contactPersonFirstName"
-                style="@style/ControlSingleColumnStyle"
-                app:value="@={data.contactPersonFirstName}" />
+            <LinearLayout
+                android:id="@+id/location_community_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-            <de.symeda.sormas.app.component.controls.ControlTextEditField
-                android:id="@+id/location_contactPersonLastName"
-                style="@style/ControlSingleColumnStyle"
-                app:value="@={data.contactPersonLastName}" />
+                <de.symeda.sormas.app.component.controls.InfrastructureSpinnerField
+                    android:id="@+id/location_community"
+                    style="@style/ControlSingleColumnStyle"
+                    app:value="@={data.community}" />
 
-            <de.symeda.sormas.app.component.controls.ControlTextEditField
-                android:id="@+id/location_contactPersonPhone"
-                style="@style/ControlSingleColumnStyle"
-                app:value="@={data.contactPersonPhone}" />
+            </LinearLayout>
 
-            <de.symeda.sormas.app.component.controls.ControlTextEditField
-                android:id="@+id/location_contactPersonEmail"
-                style="@style/ControlSingleColumnStyle"
-                app:value="@={data.contactPersonEmail}" />
+            <LinearLayout
+                android:id="@+id/location_homeResidentialAddress_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-            <de.symeda.sormas.app.component.controls.ControlTextEditField
-                android:id="@+id/location_details"
-                style="@style/ControlSingleColumnStyle"
-                app:value="@={data.details}" />
+                <de.symeda.sormas.app.component.controls.ControlTextEditField
+                    android:id="@+id/location_homeResidentialAddress"
+                    style="@style/ControlSingleColumnStyle"
+                    app:value="@={data.homeResidentialAddress}" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/location_compoundOwner_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <de.symeda.sormas.app.component.controls.ControlTextEditField
+                    android:id="@+id/location_compoundOwner"
+                    style="@style/ControlSingleColumnStyle"
+                    app:value="@={data.compoundOwner}" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/location_landmark_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <de.symeda.sormas.app.component.controls.ControlTextEditField
+                    android:id="@+id/location_landmark"
+                    style="@style/ControlSingleColumnStyle"
+                    app:value="@={data.landmark}" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/location_village_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <de.symeda.sormas.app.component.controls.ControlTextEditField
+                    android:id="@+id/location_village"
+                    style="@style/ControlSingleColumnStyle"
+                    app:value="@={data.village}" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/location_facilityTypeGroup_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <de.symeda.sormas.app.component.controls.ControlSpinnerField
+                    android:id="@+id/facilityTypeGroup"
+                    style="@style/ControlSingleColumnStyle"
+                    app:caption="@string/caption_facility_type_group"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/location_facilityType_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <de.symeda.sormas.app.component.controls.ControlSpinnerField
+                    android:id="@+id/location_facilityType"
+                    style="@style/ControlSingleColumnStyle"
+                    app:value="@={data.facilityType}"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/location_facility_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <de.symeda.sormas.app.component.controls.InfrastructureSpinnerField
+                    android:id="@+id/location_facility"
+                    style="@style/ControlSingleColumnStyle"
+                    app:value="@={data.facility}" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/location_facilityDetails_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <de.symeda.sormas.app.component.controls.ControlTextEditField
+                    android:id="@+id/location_facilityDetails"
+                    style="@style/ControlSingleColumnStyle"
+                    app:required="true"
+                    app:value="@={data.facilityDetails}" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/location_postalCode_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <de.symeda.sormas.app.component.controls.ControlTextEditField
+                    android:id="@+id/location_postalCode"
+                    style="@style/ControlSingleColumnStyle"
+                    app:value="@={data.postalCode}" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/location_city_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <de.symeda.sormas.app.component.controls.ControlTextEditField
+                    android:id="@+id/location_city"
+                    style="@style/ControlSingleColumnStyle"
+                    app:value="@={data.city}" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/location_street_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <de.symeda.sormas.app.component.controls.ControlTextEditField
+                    android:id="@+id/location_street"
+                    style="@style/ControlSingleColumnStyle"
+                    app:value="@={data.street}" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/location_houseNumber_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <de.symeda.sormas.app.component.controls.ControlTextEditField
+                    android:id="@+id/location_houseNumber"
+                    style="@style/ControlSingleColumnStyle"
+                    app:value="@={data.houseNumber}" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/location_additionalInformation_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <de.symeda.sormas.app.component.controls.ControlTextEditField
+                    android:id="@+id/location_additionalInformation"
+                    style="@style/ControlSingleColumnStyle"
+                    app:value="@={data.additionalInformation}" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/location_areaType_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <de.symeda.sormas.app.component.controls.ControlSpinnerField
+                    android:id="@+id/location_areaType"
+                    style="@style/ControlSingleColumnStyle"
+                    app:value="@={data.areaType}" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/location_contactPersonFirstName_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <de.symeda.sormas.app.component.controls.ControlTextEditField
+                    android:id="@+id/location_contactPersonFirstName"
+                    style="@style/ControlSingleColumnStyle"
+                    app:value="@={data.contactPersonFirstName}" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/location_contactPersonLastName_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <de.symeda.sormas.app.component.controls.ControlTextEditField
+                    android:id="@+id/location_contactPersonLastName"
+                    style="@style/ControlSingleColumnStyle"
+                    app:value="@={data.contactPersonLastName}" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/location_contactPersonPhone_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <de.symeda.sormas.app.component.controls.ControlTextEditField
+                    android:id="@+id/location_contactPersonPhone"
+                    style="@style/ControlSingleColumnStyle"
+                    app:value="@={data.contactPersonPhone}" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/location_contactPersonEmail_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <de.symeda.sormas.app.component.controls.ControlTextEditField
+                    android:id="@+id/location_contactPersonEmail"
+                    style="@style/ControlSingleColumnStyle"
+                    app:value="@={data.contactPersonEmail}" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/location_details_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <de.symeda.sormas.app.component.controls.ControlTextEditField
+                    android:id="@+id/location_details"
+                    style="@style/ControlSingleColumnStyle"
+                    app:value="@={data.details}" />
+
+            </LinearLayout>
 
             <ImageView style="@style/FullHorizontalDividerStyle" />
 
@@ -191,6 +412,7 @@
                 android:text="@string/action_pick_gps" />
 
             <LinearLayout
+                android:id="@+id/location_latitude_longitude_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -209,11 +431,19 @@
 
             </LinearLayout>
 
-            <de.symeda.sormas.app.component.controls.ControlTextEditField
-                android:id="@+id/location_latLonAccuracy"
-                style="@style/ControlSingleColumnStyle"
-                app:inputType="numberDecimal"
-                app:value="@={data.latLonAccuracy}" />
+            <LinearLayout
+                android:id="@+id/location_latLonAccuracy_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <de.symeda.sormas.app.component.controls.ControlTextEditField
+                    android:id="@+id/location_latLonAccuracy"
+                    style="@style/ControlSingleColumnStyle"
+                    app:inputType="numberDecimal"
+                    app:value="@={data.latLonAccuracy}" />
+
+            </LinearLayout>
 
         </LinearLayout>
 

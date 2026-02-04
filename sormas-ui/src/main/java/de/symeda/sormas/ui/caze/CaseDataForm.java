@@ -440,6 +440,7 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 					loc(EPID_NUMBER_WARNING_LOC) +
 					fluidRowLocs(CaseDataDto.CASE_REFERENCE_NUMBER, "") +
 					fluidRowLocs(CaseDataDto.REGION_LEVEL_DATE, CaseDataDto.NATIONAL_LEVEL_DATE) +
+					fluidRowLocs(CaseDataDto.ARRIVAL_AT_REGIONAL_PUBLIC_HEALTH_OFFICE_DATE, CaseDataDto.ARRIVAL_AT_NATIONAL_LEVEL_DATE) +
 					fluidRow(fluidColumnLoc(6, 0, CaseDataDto.DISEASE)) +
 					fluidRowLocs(CaseDataDto.CASE_ORIGIN) +
 					fluidRowLocs(RESPONSIBLE_JURISDICTION_HEADING_LOC) +
@@ -454,6 +455,7 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 				fluidRowLocs(CaseDataDto.VACCINATED, CaseDataDto.ROUTINE_VACCINATION_TYPE) +
 				fluidRowLocs(CaseDataDto.VACCINATION_RECORD_TYPE, CaseDataDto.NUMBER_OF_VACCINATION_DOSES) +
 				fluidRowLocs(CaseDataDto.LAST_VACCINATION_DATE, "") +
+				fluidRowLocs(CaseDataDto.VACCINE_TYPE, CaseDataDto.HEALTH_WORKER_COMPLETING_FORM) +
 				loc(INVESTIGATING_OFFICER_INFO) +
 					locCss(VSPACE_TOP_3, CaseDataDto.INVESTIGATOR_NAME) +
 					fluidRowLocs(CaseDataDto.INVESTIGATOR_TITLE, CaseDataDto.INVESTIGATOR_UNIT) +
@@ -1212,6 +1214,14 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 		numberOfVaccinationDosesField.setConversionError(I18nProperties.getValidationError(Validations.onlyIntegerNumbersAllowed, numberOfVaccinationDosesField.getCaption()));
 		
 		DateField lastVaccinationDateField = addField(CaseDataDto.LAST_VACCINATION_DATE, DateField.class);
+
+		// Add meningitis-specific fields
+		addField(CaseDataDto.ARRIVAL_AT_REGIONAL_PUBLIC_HEALTH_OFFICE_DATE, DateField.class);
+		addField(CaseDataDto.ARRIVAL_AT_NATIONAL_LEVEL_DATE, DateField.class);
+		ComboBox vaccineTypeCombo = addField(CaseDataDto.VACCINE_TYPE, ComboBox.class);
+		vaccineTypeCombo.setNullSelectionAllowed(true);
+		FieldHelper.updateEnumData(vaccineTypeCombo, Arrays.asList(VaccineType.values()));
+		addField(CaseDataDto.HEALTH_WORKER_COMPLETING_FORM, TextField.class);
 
 		// Add field for "At least one yellow fever dose"
 		addField(CaseDataDto.AT_LEAST_ONE_YELLOW_FEVER_DOSE, NullableOptionGroup.class);

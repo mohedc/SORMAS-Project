@@ -43,6 +43,7 @@ import de.symeda.sormas.api.disease.PathogenConverter;
 import de.symeda.sormas.api.environment.environmentsample.Pathogen;
 import de.symeda.sormas.api.sample.*;
 import de.symeda.sormas.api.utils.*;
+import de.symeda.sormas.api.utils.YesNoUnknown;
 import de.symeda.sormas.backend.common.DeletableAdo;
 import de.symeda.sormas.backend.environment.environmentsample.EnvironmentSample;
 import de.symeda.sormas.backend.infrastructure.country.Country;
@@ -200,8 +201,8 @@ public class PathogenTest extends DeletableAdo {
 	private String wbcCountPolycytesPercent;
 	private String wbcCountMonocytesPercent;
 	private GramStainResult gramStainResult;
-	private PathogenTestResultType agglutinationResult;
-	private String agglutinationPositiveResults;
+	private AgglutinationTestResult agglutinationResult;
+	private AgglutinationPositiveResult agglutinationPositiveResults;
 	private String agglutinationOtherMicroorganism;
 	private Date dateResultsSentToRegion;
 	private Boolean otherTestsPending;
@@ -897,20 +898,21 @@ public class PathogenTest extends DeletableAdo {
 
 	@Enumerated(EnumType.STRING)
 	@Column
-	public PathogenTestResultType getAgglutinationResult() {
+	public AgglutinationTestResult getAgglutinationResult() {
 		return agglutinationResult;
 	}
 
-	public void setAgglutinationResult(PathogenTestResultType agglutinationResult) {
+	public void setAgglutinationResult(AgglutinationTestResult agglutinationResult) {
 		this.agglutinationResult = agglutinationResult;
 	}
 
-	@Column(length = CHARACTER_LIMIT_DEFAULT)
-	public String getAgglutinationPositiveResults() {
+	@Enumerated(EnumType.STRING)
+	@Column
+	public AgglutinationPositiveResult getAgglutinationPositiveResults() {
 		return agglutinationPositiveResults;
 	}
 
-	public void setAgglutinationPositiveResults(String agglutinationPositiveResults) {
+	public void setAgglutinationPositiveResults(AgglutinationPositiveResult agglutinationPositiveResults) {
 		this.agglutinationPositiveResults = agglutinationPositiveResults;
 	}
 

@@ -208,6 +208,8 @@ public class Sample extends DeletableAdo implements IsSample, SormasToSormasShar
 	private PosNeg pcr;
 	private Date pcrDate;
 	private PosNeg prnt;
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	private String prntInputValue;
 	private Date prntDate;
 	private Date dateResultsSentToReferringClinician;
 	private Disease suspectedDisease;
@@ -1001,6 +1003,15 @@ public class Sample extends DeletableAdo implements IsSample, SormasToSormasShar
 
 	public void setPrnt(PosNeg prnt) {
 		this.prnt = prnt;
+	}
+
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	public String getPrntInputValue() {
+		return prntInputValue;
+	}
+
+	public void setPrntInputValue(String prntInputValue) {
+		this.prntInputValue = prntInputValue;
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)

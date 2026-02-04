@@ -50,7 +50,9 @@ import de.symeda.sormas.api.i18n.Validations;
 import de.symeda.sormas.api.infrastructure.facility.FacilityDto;
 import de.symeda.sormas.api.infrastructure.facility.FacilityReferenceDto;
 import de.symeda.sormas.api.sample.AgglutinationPositiveResult;
+import de.symeda.sormas.api.sample.AgglutinationTestResult;
 import de.symeda.sormas.api.sample.GramStainResult;
+import de.symeda.sormas.api.sample.LaboratoryType;
 import de.symeda.sormas.api.sample.MacroscopicExamination;
 import de.symeda.sormas.api.sample.FinalClassification;
 import de.symeda.sormas.api.sample.PathogenStrainCallStatus;
@@ -73,6 +75,7 @@ import de.symeda.sormas.ui.utils.FieldAccessHelper;
 import de.symeda.sormas.ui.utils.FieldConfiguration;
 import de.symeda.sormas.ui.utils.FieldHelper;
 import de.symeda.sormas.ui.utils.NullableOptionGroup;
+import de.symeda.sormas.ui.utils.OptionGroupWithCaption;
 import de.symeda.sormas.ui.utils.PhoneNumberValidator;
 
 public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
@@ -149,16 +152,16 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 	private static final String MENINGITIS_HTML_LAYOUT =
 			loc(PATHOGEN_TEST_HEADING_LOC) +
 			fluidRowLocs(PathogenTestDto.TESTED_DISEASE, PathogenTestDto.TESTED_DISEASE_DETAILS) +
+			fluidRowLocs(PathogenTestDto.TEST_DATE_TIME, PathogenTestDto.LAB) +
+			fluidRowLocs(PathogenTestDto.LAB_DETAILS, "") +
 			fluidRowLocs(PathogenTestDto.MACROSCOPIC_EXAMINATION, "") +
 			fluidRowLocs(PathogenTestDto.TEST_TYPE, PathogenTestDto.TEST_TYPE_TEXT) +
-			fluidRowLocs(PathogenTestDto.TEST_DATE_TIME, PathogenTestDto.LAB) +
-			fluidRowLocs(5, PathogenTestDto.LAB_DETAILS, 7, PathogenTestDto.DATE_RESULTS_SENT_TO_DISTRICT) +
 			fluidRowLocs(PathogenTestDto.CELL_COUNT_NORMAL, PathogenTestDto.CELL_COUNT_ABNORMAL) +
 			fluidRowLocs(PathogenTestDto.WBC_COUNT_POLYCYTES_PERCENT, PathogenTestDto.WBC_COUNT_MONOCYTES_PERCENT) +
 			fluidRowLocs(PathogenTestDto.GRAM_STAIN_RESULT, "") +
-			fluidRowLocs(PathogenTestDto.AGGLUTINATION_RESULT, "") +
-			fluidRowLocs(PathogenTestDto.AGGLUTINATION_POSITIVE_RESULTS, "") +
+			fluidRowLocs(PathogenTestDto.AGGLUTINATION_RESULT, PathogenTestDto.AGGLUTINATION_POSITIVE_RESULTS) +
 			fluidRowLocs(PathogenTestDto.AGGLUTINATION_OTHER_MICROORGANISM, "") +
+			fluidRowLocs(PathogenTestDto.DATE_RESULTS_SENT_TO_DISTRICT, "") +
 			fluidRowLocs(PathogenTestDto.DATE_RESULTS_SENT_TO_REGION, PathogenTestDto.DATE_RESULTS_SENT_TO_DISEASE_SURVEILLANCE) +
 			fluidRowLocs(PathogenTestDto.DATE_DISTRICT_RECEIVED_LAB_RESULTS, PathogenTestDto.DATE_RESULTS_SENT_TO_REFERENCE_LABORATORY) +
 			fluidRowLocs(PathogenTestDto.REFERENCE_LABORATORY, "") +
@@ -199,6 +202,16 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 					fluidRowLocs(6, PathogenTestDto.TESTED_PATHOGEN_DETAILS) +
 					loc(FOLLOW_UP_EXAMINATION_HEADLINE_LOC) +
 					fluidRowLocs(PathogenTestDto.DATE_FOLLOWUP_EXAM, PathogenTestDto.RESIDUAL_ANALYSIS, PathogenTestDto.RESULT_EXAM);
+
+
+	private static final String CONGENITAL_RUBELLA_HTML_LAYOUT =
+			loc(PATHOGEN_TEST_HEADING_LOC) +
+			fluidRowLocs(PathogenTestDto.TESTED_DISEASE, PathogenTestDto.TESTED_DISEASE_DETAILS) +
+			fluidRowLocs(PathogenTestDto.TEST_TYPE, PathogenTestDto.VIRUS_DETECTION_GENOTYPE) +
+			fluidRowLocs(PathogenTestDto.TEST_DATE_TIME, PathogenTestDto.LAB) +
+			fluidRowLocs("", PathogenTestDto.LAB_DETAILS) +
+			fluidRowLocs(4, PathogenTestDto.TEST_RESULT, 4, PathogenTestDto.TEST_RESULT_VERIFIED, 4, "") +
+			fluidRowLocs(PathogenTestDto.TEST_RESULT_TEXT, "");
 
 	//@formatter:on
 
@@ -364,6 +377,16 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 		return null;
 	}
 
+	private LaboratoryType getLaboratoryType() {
+		if (sample != null) {
+			return sample.getLaboratoryType();
+		}
+		if (sampleForm != null) {
+			return (LaboratoryType) sampleForm.getField(SampleDto.LABORATORY_TYPE).getValue();
+		}
+		return null;
+	}
+
 	@Override
 	protected String createHtmlLayout() {
 		if (disease == Disease.MEASLES) {
@@ -380,6 +403,9 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 		}
 		if (disease == Disease.AFP) {
 			return AFP_HTML_LAYOUT;
+		}
+		if (disease == Disease.CONGENITAL_RUBELLA) {
+			return CONGENITAL_RUBELLA_HTML_LAYOUT;
 		}
 		return HTML_LAYOUT;
 	}
@@ -679,7 +705,8 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 		fourFoldIncrease.setEnabled(false);
 
 		addField(PathogenTestDto.TEST_RESULT_TEXT, TextArea.class).setRows(6);
-		addField(PathogenTestDto.VIRUS_DETECTION_GENOTYPE, TextField.class);
+		TextField virusDetectionGenotypeField = addField(PathogenTestDto.VIRUS_DETECTION_GENOTYPE, TextField.class);
+		virusDetectionGenotypeField.setVisible(false);
 		addField(PathogenTestDto.VIRUS_ISOLATED, NullableOptionGroup.class);
 
 		// Measles-specific fields (hidden by default, shown in configureMeaslesFields)
@@ -710,11 +737,11 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 		wbcCountMonocytesField.setVisible(false);
 		ComboBox gramStainResultField = addField(PathogenTestDto.GRAM_STAIN_RESULT, ComboBox.class);
 		gramStainResultField.setVisible(false);
-		ComboBox agglutinationResultField = addField(PathogenTestDto.AGGLUTINATION_RESULT, ComboBox.class);
+		NullableOptionGroup agglutinationResultField = addField(PathogenTestDto.AGGLUTINATION_RESULT, NullableOptionGroup.class);
 		agglutinationResultField.setVisible(false);
 		// For agglutination positive results, we'll use checkboxes
 		// Note: This will need special handling as it's a Set
-		TextField agglutinationPositiveResultsField = addField(PathogenTestDto.AGGLUTINATION_POSITIVE_RESULTS, TextField.class);
+		ComboBox agglutinationPositiveResultsField = addField(PathogenTestDto.AGGLUTINATION_POSITIVE_RESULTS, ComboBox.class);
 		agglutinationPositiveResultsField.setVisible(false);
 		TextField agglutinationOtherMicroorganismField = addField(PathogenTestDto.AGGLUTINATION_OTHER_MICROORGANISM, TextField.class);
 		agglutinationOtherMicroorganismField.setVisible(false);
@@ -847,6 +874,10 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 			if (disease == Disease.CSM) {
 				configureMeningitisFields();
 			}
+			// Configure congenital rubella-specific fields if disease is congenital rubella
+			if (disease == Disease.CONGENITAL_RUBELLA) {
+				configureCongenitalRubellaFields();
+			}
 
 			if (FacadeProvider.getConfigFacade().isConfiguredCountry(CountryHelper.COUNTRY_CODE_LUXEMBOURG)) {
 				FieldHelper.updateItems(
@@ -941,11 +972,19 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 		testTypeField.addValueChangeListener(e -> {
 			PathogenTestType testType = (PathogenTestType) e.getProperty().getValue();
 			setCqValueVisibility(cqValueField, testType, (PathogenTestResultType) testResultField.getValue());
+			// Reconfigure congenital rubella fields when test type changes
+			if (disease == Disease.CONGENITAL_RUBELLA) {
+				configureCongenitalRubellaFields();
+			}
 		});
 
 		testResultField.addValueChangeListener(e -> {
 			PathogenTestResultType testResult = (PathogenTestResultType) e.getProperty().getValue();
 			setCqValueVisibility(cqValueField, (PathogenTestType) testTypeField.getValue(), testResult);
+			// Reconfigure congenital rubella fields when test result changes
+			if (disease == Disease.CONGENITAL_RUBELLA) {
+				configureCongenitalRubellaFields();
+			}
 		});
 
 		if (SamplePurpose.INTERNAL.equals(getSamplePurpose())) { // this only works for already saved samples
@@ -969,8 +1008,13 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 		if (disease == Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS){
 			handleIDSR();
 		}
+		
 		if(disease == Disease.AFP){
 			handleAFP();
+		}
+		// Congenital rubella-specific configuration (called after all other visibility logic)
+		if (disease == Disease.CONGENITAL_RUBELLA) {
+			configureCongenitalRubellaFields();
 		}
 	}
 
@@ -1089,20 +1133,32 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 		// Show agglutination fields when test type is LATEX_AGGLUTINATION or SLIDE_AGGLUTINATION
 		FieldHelper.setVisibleWhen(
 			getFieldGroup(),
-			Arrays.asList(PathogenTestDto.AGGLUTINATION_RESULT, PathogenTestDto.AGGLUTINATION_POSITIVE_RESULTS, PathogenTestDto.AGGLUTINATION_OTHER_MICROORGANISM),
+			Arrays.asList(PathogenTestDto.AGGLUTINATION_RESULT),
 			PathogenTestDto.TEST_TYPE,
 			Arrays.asList(PathogenTestType.LATEX_AGGLUTINATION, PathogenTestType.SLIDE_AGGLUTINATION),
 			true);
-		ComboBox agglutinationResultField = (ComboBox) getField(PathogenTestDto.AGGLUTINATION_RESULT);
-		agglutinationResultField.addItems(PathogenTestResultType.NEGATIVE, PathogenTestResultType.CONTAMINATED, PathogenTestResultType.POSITIVE);
+		NullableOptionGroup agglutinationResultField = (NullableOptionGroup) getField(PathogenTestDto.AGGLUTINATION_RESULT);
+		agglutinationResultField.addItems(AgglutinationTestResult.values());
 		agglutinationResultField.setItemCaptionMode(ItemCaptionMode.ID_TOSTRING);
+
+		ComboBox agglutinationPositiveResultsField = (ComboBox) getField(PathogenTestDto.AGGLUTINATION_POSITIVE_RESULTS);
+		agglutinationPositiveResultsField.addItems(AgglutinationPositiveResult.values());
+		agglutinationPositiveResultsField.setItemCaptionMode(ItemCaptionMode.ID_TOSTRING);
 
 		// Show agglutination positive results when agglutination result is POSITIVE
 		FieldHelper.setVisibleWhen(
 			getFieldGroup(),
-			Arrays.asList(PathogenTestDto.AGGLUTINATION_POSITIVE_RESULTS, PathogenTestDto.AGGLUTINATION_OTHER_MICROORGANISM),
+			Arrays.asList(PathogenTestDto.AGGLUTINATION_POSITIVE_RESULTS),
 			PathogenTestDto.AGGLUTINATION_RESULT,
-			Arrays.asList(PathogenTestResultType.POSITIVE),
+			Arrays.asList(AgglutinationTestResult.POSITIVE),
+			true);
+
+		// Show agglutination other microorganism when agglutination positive results is OTHER_MICROORGANISMS
+		FieldHelper.setVisibleWhen(
+			getFieldGroup(),
+			PathogenTestDto.AGGLUTINATION_OTHER_MICROORGANISM,
+			PathogenTestDto.AGGLUTINATION_POSITIVE_RESULTS,
+			Arrays.asList(AgglutinationPositiveResult.OTHER_MICROORGANISMS),
 			true);
 
 		// Show other tests pending specify when other tests pending is Yes
@@ -1113,13 +1169,60 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 			Arrays.asList(true),
 			true);
 
-		// Show meningitis-specific date and reference lab fields
-		getField(PathogenTestDto.DATE_RESULTS_SENT_TO_REGION).setVisible(true);
-		getField(PathogenTestDto.DATE_RESULTS_SENT_TO_DISEASE_SURVEILLANCE).setVisible(true);
-		getField(PathogenTestDto.DATE_DISTRICT_RECEIVED_LAB_RESULTS).setVisible(true);
-		getField(PathogenTestDto.DATE_RESULTS_SENT_TO_REFERENCE_LABORATORY).setVisible(true);
-		getField(PathogenTestDto.REFERENCE_LABORATORY).setVisible(true);
+		// Show other tests pending field
 		getField(PathogenTestDto.OTHER_TESTS_PENDING).setVisible(true);
+
+		// DATE_RESULTS_SENT_TO_DISTRICT is always visible (already in layout)
+		getField(PathogenTestDto.DATE_RESULTS_SENT_TO_DISTRICT).setVisible(true);
+
+		// Set conditional visibility for date fields based on laboratory type
+		LaboratoryType laboratoryType = getLaboratoryType();
+		if (laboratoryType == LaboratoryType.REGIONAL_LABORATORY) {
+			// For Regional Laboratory: Show regional lab specific fields
+			getField(PathogenTestDto.DATE_RESULTS_SENT_TO_REGION).setVisible(true);
+			getField(PathogenTestDto.DATE_DISTRICT_RECEIVED_LAB_RESULTS).setVisible(true);
+			getField(PathogenTestDto.DATE_RESULTS_SENT_TO_REFERENCE_LABORATORY).setVisible(true);
+			getField(PathogenTestDto.REFERENCE_LABORATORY).setVisible(true);
+			// Hide reference lab specific field
+			getField(PathogenTestDto.DATE_RESULTS_SENT_TO_DISEASE_SURVEILLANCE).setVisible(false);
+		} else if (laboratoryType == LaboratoryType.REFERENCE_LABORATORY) {
+			// For Reference Laboratory: Show reference lab specific field
+			getField(PathogenTestDto.DATE_RESULTS_SENT_TO_DISEASE_SURVEILLANCE).setVisible(true);
+			// Hide regional lab specific fields
+			getField(PathogenTestDto.DATE_RESULTS_SENT_TO_REGION).setVisible(false);
+			getField(PathogenTestDto.DATE_DISTRICT_RECEIVED_LAB_RESULTS).setVisible(false);
+			getField(PathogenTestDto.DATE_RESULTS_SENT_TO_REFERENCE_LABORATORY).setVisible(false);
+			getField(PathogenTestDto.REFERENCE_LABORATORY).setVisible(false);
+		} else {
+			// If laboratory type is not set or is HEALTH_LABORATORY, hide all conditional fields
+			getField(PathogenTestDto.DATE_RESULTS_SENT_TO_REGION).setVisible(false);
+			getField(PathogenTestDto.DATE_RESULTS_SENT_TO_DISEASE_SURVEILLANCE).setVisible(false);
+			getField(PathogenTestDto.DATE_DISTRICT_RECEIVED_LAB_RESULTS).setVisible(false);
+			getField(PathogenTestDto.DATE_RESULTS_SENT_TO_REFERENCE_LABORATORY).setVisible(false);
+			getField(PathogenTestDto.REFERENCE_LABORATORY).setVisible(false);
+		}
+	}
+
+	/**
+	 * Configures fields specifically for congenital rubella pathogen tests
+	 */
+	protected void configureCongenitalRubellaFields() {
+		// Hide tested disease details if not OTHER
+		FieldHelper.setVisibleWhen(
+			getFieldGroup(),
+			PathogenTestDto.TESTED_DISEASE_DETAILS,
+			PathogenTestDto.TESTED_DISEASE,
+			Arrays.asList(Disease.OTHER),
+			true);
+
+		// Show genotype field only when PCR test type is selected and result is positive
+		Map<Object, List<Object>> genotypeVisibilityDependencies = new HashMap<>() {
+			{
+				put(PathogenTestDto.TEST_TYPE, Arrays.asList(PathogenTestType.PCR_RT_PCR));
+//				put(PathogenTestDto.TEST_RESULT, Arrays.asList(PathogenTestResultType.POSITIVE));
+			}
+		};
+		FieldHelper.setVisibleWhen(getFieldGroup(), PathogenTestDto.VIRUS_DETECTION_GENOTYPE, genotypeVisibilityDependencies, true);
 	}
 
 	private void handleIDSR() {

@@ -286,6 +286,10 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 	public static final String PERSON_FULLNAME = "personFullName";
 	public static final String PERSON_TELEPHONE = "personTelephone";
 	public static final String PERSON_DESIGNATION = "personDesignation";
+	public static final String ARRIVAL_AT_REGIONAL_PUBLIC_HEALTH_OFFICE_DATE = "arrivalAtRegionalPublicHealthOfficeDate";
+	public static final String ARRIVAL_AT_NATIONAL_LEVEL_DATE = "arrivalAtNationalLevelDate";
+	public static final String VACCINE_TYPE = "vaccineType";
+	public static final String HEALTH_WORKER_COMPLETING_FORM = "healthWorkerCompletingForm";
 
 
     // Fields are declared in the order they should appear in the import template
@@ -867,6 +871,19 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 			Disease.NEONATAL_TETANUS})
 	@Size(max = CHARACTER_LIMIT_BIG, message = Validations.textTooLong)
 	private String supplementalImmunizationDetails;
+	@Diseases({
+			Disease.CSM})
+	private Date arrivalAtRegionalPublicHealthOfficeDate;
+	@Diseases({
+			Disease.CSM})
+	private Date arrivalAtNationalLevelDate;
+	@Diseases({
+			Disease.CSM})
+	private VaccineType vaccineType;
+	@Diseases({
+			Disease.CSM})
+	@Size(max = FieldConstraints.CHARACTER_LIMIT_DEFAULT, message = Validations.textTooLong)
+	private String healthWorkerCompletingForm;
 
 	private FinalClassification finalClassification;
 	private YesNoUnknown immunocompromisedStatusSuspected;
@@ -2389,6 +2406,38 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 
 	public void setFinalClassification(FinalClassification finalClassification) {
 		this.finalClassification = finalClassification;
+	}
+
+	public Date getArrivalAtRegionalPublicHealthOfficeDate() {
+		return arrivalAtRegionalPublicHealthOfficeDate;
+	}
+
+	public void setArrivalAtRegionalPublicHealthOfficeDate(Date arrivalAtRegionalPublicHealthOfficeDate) {
+		this.arrivalAtRegionalPublicHealthOfficeDate = arrivalAtRegionalPublicHealthOfficeDate;
+	}
+
+	public Date getArrivalAtNationalLevelDate() {
+		return arrivalAtNationalLevelDate;
+	}
+
+	public void setArrivalAtNationalLevelDate(Date arrivalAtNationalLevelDate) {
+		this.arrivalAtNationalLevelDate = arrivalAtNationalLevelDate;
+	}
+
+	public VaccineType getVaccineType() {
+		return vaccineType;
+	}
+
+	public void setVaccineType(VaccineType vaccineType) {
+		this.vaccineType = vaccineType;
+	}
+
+	public String getHealthWorkerCompletingForm() {
+		return healthWorkerCompletingForm;
+	}
+
+	public void setHealthWorkerCompletingForm(String healthWorkerCompletingForm) {
+		this.healthWorkerCompletingForm = healthWorkerCompletingForm;
 	}
 
 	public String getNotifiedByText() {

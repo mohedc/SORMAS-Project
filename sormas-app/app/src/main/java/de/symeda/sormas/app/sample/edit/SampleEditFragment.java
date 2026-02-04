@@ -279,6 +279,32 @@ public class SampleEditFragment extends BaseEditFragment<FragmentSampleEditLayou
 		contentBinding.sampleDispatchedToRegionalColdroomDate.initializeDateField(getFragmentManager());
 		contentBinding.sampleDispatchedToNationalLabByCourierDate.initializeDateField(getFragmentManager());
 		contentBinding.sampleDispatchedToNationalLabByRegionDistrictDate.initializeDateField(getFragmentManager());
+		if (contentBinding.sampleDateFormCsfDispatchedToHealthDistrict != null) {
+			contentBinding.sampleDateFormCsfDispatchedToHealthDistrict.initializeDateField(getFragmentManager());
+		}
+		if (contentBinding.sampleDateHealthFacilityNotifyRegion != null) {
+			contentBinding.sampleDateHealthFacilityNotifyRegion.initializeDateField(getFragmentManager());
+		}
+		if (contentBinding.sampleDateOfLp != null) {
+			contentBinding.sampleDateOfLp.initializeDateField(getFragmentManager());
+		}
+		if (contentBinding.sampleDateSpecimenSentToLaboratoryType != null) {
+			contentBinding.sampleDateSpecimenSentToLaboratoryType.initializeDateField(getFragmentManager());
+		}
+
+		// Initialize enum spinners for Meningitis fields
+		if (contentBinding.sampleLpAspect != null) {
+			contentBinding.sampleLpAspect.initializeSpinner(DataUtils.getEnumItems(de.symeda.sormas.api.sample.LpAspect.class, true));
+		}
+		if (contentBinding.sampleLpPackaging != null) {
+			contentBinding.sampleLpPackaging.initializeSpinner(DataUtils.getEnumItems(de.symeda.sormas.api.sample.LpPackaging.class, true));
+		}
+		if (contentBinding.sampleLaboratoryType != null) {
+			contentBinding.sampleLaboratoryType.initializeSpinner(DataUtils.getEnumItems(de.symeda.sormas.api.sample.LaboratoryType.class, true));
+		}
+		if (contentBinding.samplePackaging != null) {
+			contentBinding.samplePackaging.initializeSpinner(DataUtils.getEnumItems(de.symeda.sormas.api.sample.Packaging.class, true));
+		}
 
 		// Initialize on clicks
 		contentBinding.buttonScanFieldSampleId.setOnClickListener((View v) -> {

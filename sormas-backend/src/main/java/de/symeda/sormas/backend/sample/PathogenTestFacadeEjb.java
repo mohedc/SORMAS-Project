@@ -345,14 +345,7 @@ public class PathogenTestFacadeEjb implements PathogenTestFacade {
 		target.setWbcCountMonocytesPercent(source.getWbcCountMonocytesPercent());
 		target.setGramStainResult(source.getGramStainResult());
 		target.setAgglutinationResult(source.getAgglutinationResult());
-		// Convert comma-separated string to Set
-		if (source.getAgglutinationPositiveResults() != null && !source.getAgglutinationPositiveResults().isEmpty()) {
-			Set<de.symeda.sormas.api.sample.AgglutinationPositiveResult> positiveResults = java.util.Arrays.stream(source.getAgglutinationPositiveResults().split(","))
-				.map(String::trim)
-				.map(de.symeda.sormas.api.sample.AgglutinationPositiveResult::valueOf)
-				.collect(Collectors.toSet());
-			target.setAgglutinationPositiveResults(positiveResults);
-		}
+		target.setAgglutinationPositiveResults(source.getAgglutinationPositiveResults());
 		target.setAgglutinationOtherMicroorganism(source.getAgglutinationOtherMicroorganism());
 		target.setDateResultsSentToRegion(source.getDateResultsSentToRegion());
 		target.setOtherTestsPending(source.getOtherTestsPending());
@@ -673,15 +666,7 @@ public class PathogenTestFacadeEjb implements PathogenTestFacade {
 		target.setWbcCountMonocytesPercent(source.getWbcCountMonocytesPercent());
 		target.setGramStainResult(source.getGramStainResult());
 		target.setAgglutinationResult(source.getAgglutinationResult());
-		// Convert Set to comma-separated string
-		if (source.getAgglutinationPositiveResults() != null && !source.getAgglutinationPositiveResults().isEmpty()) {
-			String positiveResultsString = source.getAgglutinationPositiveResults().stream()
-				.map(Enum::name)
-				.collect(Collectors.joining(","));
-			target.setAgglutinationPositiveResults(positiveResultsString);
-		} else {
-			target.setAgglutinationPositiveResults(null);
-		}
+		target.setAgglutinationPositiveResults(source.getAgglutinationPositiveResults());
 		target.setAgglutinationOtherMicroorganism(source.getAgglutinationOtherMicroorganism());
 		target.setDateResultsSentToRegion(source.getDateResultsSentToRegion());
 		target.setOtherTestsPending(source.getOtherTestsPending());

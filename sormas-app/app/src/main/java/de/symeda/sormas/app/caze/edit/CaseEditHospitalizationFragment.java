@@ -202,6 +202,12 @@ public class CaseEditHospitalizationFragment extends BaseEditFragment<FragmentCa
 		contentBinding.caseHospitalizationIntensiveCareUnitStart.initializeDateField(getFragmentManager());
 		contentBinding.caseHospitalizationIntensiveCareUnitEnd.initializeDateField(getFragmentManager());
 		contentBinding.caseHospitalizationIsolationDate.initializeDateField(getFragmentManager());
+		if (contentBinding.hospitalizationDateHealthRegionNotified != null) {
+			contentBinding.hospitalizationDateHealthRegionNotified.initializeDateField(getFragmentManager());
+		}
+		if (contentBinding.hospitalizationDateOfConsultationAtHealthFacility != null) {
+			contentBinding.hospitalizationDateOfConsultationAtHealthFacility.initializeDateField(getFragmentManager());
+		}
 
 		verifyPrevHospitalizationStatus();
 	}

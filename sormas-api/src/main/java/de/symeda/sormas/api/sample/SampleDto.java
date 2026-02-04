@@ -114,6 +114,7 @@ public class SampleDto extends SormasToSormasShareableDto implements IsSample {
 	public static final String PCR = "pcr";
 	public static final String PCR_DATE = "pcrDate";
 	public static final String PRNT = "prnt";
+	public static final String PRNT_INPUT_VALUE = "prntInputValue";
 	public static final String PRNT_DATE = "prntDate";
 	public static final String DATE_RESULTS_SENT_TO_REFERRING_CLINICIAN = "dateResultsSentToReferringClinician";
 	public static final String SUSPECTED_DISEASE = "suspectedDisease";
@@ -285,6 +286,10 @@ public class SampleDto extends SormasToSormasShareableDto implements IsSample {
 	@Diseases(value = {
 		Disease.YELLOW_FEVER })
 	private PosNeg prnt;
+	@Diseases(value = {
+		Disease.YELLOW_FEVER })
+	@Size(max = FieldConstraints.CHARACTER_LIMIT_DEFAULT, message = Validations.textTooLong)
+	private String prntInputValue;
 	@Diseases(value = {
 		Disease.YELLOW_FEVER })
 	private Date prntDate;
@@ -575,6 +580,7 @@ public class SampleDto extends SormasToSormasShareableDto implements IsSample {
 
 		final SampleDto sampleDto = getSampleDto(userRef);
 		sampleDto.setAssociatedCase(caseRef);
+		sampleDto.setWasSpecimenTaken(YesNo.YES);
 		return sampleDto;
 	}
 
@@ -582,6 +588,8 @@ public class SampleDto extends SormasToSormasShareableDto implements IsSample {
 
 		final SampleDto sampleDto = getSampleDto(userRef);
 		sampleDto.setAssociatedEventParticipant(eventParticipantRef);
+		sampleDto.setWasSpecimenTaken(YesNo.YES);
+
 		return sampleDto;
 	}
 
@@ -589,6 +597,8 @@ public class SampleDto extends SormasToSormasShareableDto implements IsSample {
 
 		final SampleDto sampleDto = getSampleDto(userRef);
 		sampleDto.setAssociatedContact(contactRef);
+		sampleDto.setWasSpecimenTaken(YesNo.YES);
+
 		return sampleDto;
 	}
 
@@ -999,6 +1009,14 @@ public class SampleDto extends SormasToSormasShareableDto implements IsSample {
 
 	public void setPrnt(PosNeg prnt) {
 		this.prnt = prnt;
+	}
+
+	public String getPrntInputValue() {
+		return prntInputValue;
+	}
+
+	public void setPrntInputValue(String prntInputValue) {
+		this.prntInputValue = prntInputValue;
 	}
 
 	public Date getPrntDate() {

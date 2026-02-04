@@ -227,6 +227,116 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/sample_dateFormCsfDispatchedToHealthDistrict_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <de.symeda.sormas.app.component.controls.ControlTextReadField
+                        android:id="@+id/sample_dateFormCsfDispatchedToHealthDistrict"
+                        app:value="@{data.dateFormCsfDispatchedToHealthDistrict}"
+                        app:goneIfEmpty="@{data.dateFormCsfDispatchedToHealthDistrict}"
+                        style="@style/ControlFirstOfTwoColumnsStyle" />
+
+                    <de.symeda.sormas.app.component.controls.ControlTextReadField
+                        android:id="@+id/sample_dateHealthFacilityNotifyRegion"
+                        app:value="@{data.dateHealthFacilityNotifyRegion}"
+                        app:goneIfEmpty="@{data.dateHealthFacilityNotifyRegion}"
+                        style="@style/ControlSecondOfTwoColumnsStyle" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/sample_lumbarPuncturePerformed_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <de.symeda.sormas.app.component.controls.ControlTextReadField
+                        android:id="@+id/sample_lumbarPuncturePerformed"
+                        app:value="@{data.lumbarPuncturePerformed}"
+                        style="@style/ControlFirstOfTwoColumnsStyle" />
+
+                    <de.symeda.sormas.app.component.controls.ControlTextReadField
+                        android:id="@+id/sample_dateOfLp"
+                        app:value="@{data.dateOfLp}"
+                        app:goneIfEmpty="@{data.dateOfLp}"
+                        style="@style/ControlSecondOfTwoColumnsStyle" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/sample_lpAspect_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <de.symeda.sormas.app.component.controls.ControlTextReadField
+                        android:id="@+id/sample_lpAspect"
+                        app:value="@{data.lpAspect}"
+                        app:goneIfEmpty="@{data.lpAspect}"
+                        style="@style/ControlFirstOfTwoColumnsStyle" />
+
+                    <de.symeda.sormas.app.component.controls.ControlTextReadField
+                        android:id="@+id/sample_lpPackaging"
+                        app:value="@{data.lpPackaging}"
+                        app:goneIfEmpty="@{data.lpPackaging}"
+                        style="@style/ControlSecondOfTwoColumnsStyle" />
+
+                </LinearLayout>
+
+                <de.symeda.sormas.app.component.controls.ControlTextReadField
+                    android:id="@+id/sample_lpPackagingOther"
+                    app:value="@{data.lpPackagingOther}"
+                    app:goneIfEmpty="@{data.lpPackagingOther}"
+                    style="@style/ControlSingleColumnStyle" />
+
+                <LinearLayout
+                    android:id="@+id/sample_wasSpecimenTaken_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <de.symeda.sormas.app.component.controls.ControlTextReadField
+                        android:id="@+id/sample_wasSpecimenTaken"
+                        app:value="@{data.wasSpecimenTaken}"
+                        style="@style/ControlFirstOfTwoColumnsStyle" />
+
+                    <de.symeda.sormas.app.component.controls.ControlTextReadField
+                        android:id="@+id/sample_laboratoryType"
+                        app:value="@{data.laboratoryType}"
+                        app:goneIfEmpty="@{data.laboratoryType}"
+                        style="@style/ControlSecondOfTwoColumnsStyle" />
+
+                </LinearLayout>
+
+                <de.symeda.sormas.app.component.controls.ControlTextReadField
+                    android:id="@+id/sample_dateSpecimenSentToLaboratoryType"
+                    app:value="@{data.dateSpecimenSentToLaboratoryType}"
+                    app:goneIfEmpty="@{data.dateSpecimenSentToLaboratoryType}"
+                    style="@style/ControlSingleColumnStyle" />
+
+                <LinearLayout
+                    android:id="@+id/sample_packaging_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <de.symeda.sormas.app.component.controls.ControlTextReadField
+                        android:id="@+id/sample_packaging"
+                        app:value="@{data.packaging}"
+                        app:goneIfEmpty="@{data.packaging}"
+                        style="@style/ControlFirstOfTwoColumnsStyle" />
+
+                    <de.symeda.sormas.app.component.controls.ControlTextReadField
+                        android:id="@+id/sample_packagingOther"
+                        app:value="@{data.packagingOther}"
+                        app:goneIfEmpty="@{data.packagingOther}"
+                        style="@style/ControlSecondOfTwoColumnsStyle" />
+
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">

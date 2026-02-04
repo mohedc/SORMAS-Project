@@ -165,7 +165,7 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 					loc(PCR_HEADLINE_LOC) +
 					fluidRowLocs(SampleDto.PCR, SampleDto.PCR_DATE) +
 					loc(PRNT_HEADLINE_LOC) +
-					fluidRowLocs(SampleDto.PRNT, SampleDto.PRNT_DATE) +
+					fluidRowLocs(SampleDto.PRNT, SampleDto.PRNT_INPUT_VALUE, SampleDto.PRNT_DATE) +
 					fluidRowLocs(SampleDto.PATHOGEN_TEST_RESULT);
 
 	protected static final String MENINGITIS_HTML_LAYOUT =
@@ -177,10 +177,10 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 					fluidRowLocs(SampleDto.DATE_OF_LP, SampleDto.LP_ASPECT) +
 					fluidRowLocs(SampleDto.LP_PACKAGING, SampleDto.LP_PACKAGING_OTHER) +
 					locCss(VSPACE_TOP_3, SampleDto.WAS_SPECIMEN_TAKEN) +
-					fluidRowLocs(SampleDto.LABORATORY_TYPE, SampleDto.LABORATORY_NAME) +
+					fluidRowLocs(SampleDto.LABORATORY_TYPE, SampleDto.LAB) +
+					fluidRowLocs(SampleDto.LAB_DETAILS, "") +
 					fluidRowLocs(SampleDto.DATE_SPECIMEN_SENT_TO_LABORATORY_TYPE) +
 					fluidRowLocs(SampleDto.SAMPLE_MATERIAL, SampleDto.SAMPLE_MATERIAL_TEXT) +
-					fluidRowLocs(SampleDto.LAB, SampleDto.LAB_DETAILS) +
 					locCss(VSPACE_TOP_3, SampleDto.SHIPPED) +
 					fluidRowLocs(SampleDto.SHIPMENT_DATE, SampleDto.SHIPMENT_DETAILS) +
 					locCss(VSPACE_TOP_3, SampleDto.RECEIVED) +
@@ -265,14 +265,15 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 		addField(SampleDto.SENT_TO_IP_DAKAR, NullableOptionGroup.class);
 		
 		// IP Dakar test result fields
-		ComboBox elisaIgmField = addField(SampleDto.ELISA_IGM, ComboBox.class);
+		NullableOptionGroup elisaIgmField = addField(SampleDto.ELISA_IGM, NullableOptionGroup.class);
 		FieldHelper.updateEnumData(elisaIgmField, Arrays.asList(SimpleTestResultType.POSITIVE, SimpleTestResultType.NEGATIVE, SimpleTestResultType.EQUIVOCAL));
 		addDateField(SampleDto.ELISA_IGM_DATE, DateField.class, 7);
-		ComboBox pcrField = addField(SampleDto.PCR, ComboBox.class);
+		NullableOptionGroup pcrField = addField(SampleDto.PCR, NullableOptionGroup.class);
 		FieldHelper.updateEnumData(pcrField, Arrays.asList(PosNeg.POSITIVE, PosNeg.NEGATIVE));
 		addDateField(SampleDto.PCR_DATE, DateField.class, 7);
-		ComboBox prntField = addField(SampleDto.PRNT, ComboBox.class);
+		NullableOptionGroup prntField = addField(SampleDto.PRNT, NullableOptionGroup.class);
 		FieldHelper.updateEnumData(prntField, Arrays.asList(PosNeg.POSITIVE, PosNeg.NEGATIVE));
+		TextField prntInputValueField = addField(SampleDto.PRNT_INPUT_VALUE, TextField.class);
 		addDateField(SampleDto.PRNT_DATE, DateField.class, 7);
 		
 		// Add subtitle labels for IP Dakar test results
@@ -346,7 +347,9 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 		addField(SampleDto.LP_ASPECT, ComboBox.class);
 		addField(SampleDto.LP_PACKAGING, ComboBox.class);
 		addField(SampleDto.LP_PACKAGING_OTHER, TextField.class);
-		addField(SampleDto.WAS_SPECIMEN_TAKEN, NullableOptionGroup.class);
+		NullableOptionGroup wasSpecimenTakenField = addField(SampleDto.WAS_SPECIMEN_TAKEN, NullableOptionGroup.class);
+		wasSpecimenTakenField.setValue(YesNo.YES);
+		wasSpecimenTakenField.setReadOnly(true);
 		addField(SampleDto.LABORATORY_TYPE, ComboBox.class);
 		addField(SampleDto.LABORATORY_NAME, TextField.class);
 		addDateField(SampleDto.DATE_SPECIMEN_SENT_TO_LABORATORY_TYPE, DateField.class, 7);
@@ -489,9 +492,17 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 			Arrays.asList(
 				SampleDto.ELISA_IGM, SampleDto.ELISA_IGM_DATE,
 				SampleDto.PCR, SampleDto.PCR_DATE,
-				SampleDto.PRNT, SampleDto.PRNT_DATE),
+				SampleDto.PRNT, SampleDto.PRNT_INPUT_VALUE, SampleDto.PRNT_DATE),
 			SampleDto.SENT_TO_IP_DAKAR,
 			Arrays.asList(YesNo.YES),
+			true);
+		
+		// PRNT Input Value visibility - show only when PRNT is POSITIVE
+		FieldHelper.setVisibleWhen(
+			getFieldGroup(),
+			SampleDto.PRNT_INPUT_VALUE,
+			SampleDto.PRNT,
+			Arrays.asList(PosNeg.POSITIVE),
 			true);
 		
 		// Show subtitle labels when SENT_TO_IP_DAKAR is Yes
@@ -905,9 +916,6 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 		// Filter sample material options for congenital rubella: Serum, Throat swab, Urine, CSF, Other
 		FieldHelper.updateEnumData(sampleMaterialComboBox, Arrays.asList(SampleMaterial.SERUM, SampleMaterial.THROAT_SWAB, SampleMaterial.URINE, SampleMaterial.CSF, SampleMaterial.OTHER));
 
-		// Set RECEIVED checkbox as read-only
-		getField(SampleDto.RECEIVED).setReadOnly(true);
-
 		// Set PATHOGEN_TEST_RESULT as read-only
 		getField(SampleDto.PATHOGEN_TEST_RESULT).setReadOnly(true);
 
@@ -946,8 +954,10 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 	 * Configures fields specifically for meningitis samples
 	 */
 	protected void configureMeningitisFields() {
-		// Make FIELD_SAMPLE_ID read-only
-		getField(SampleDto.FIELD_SAMPLE_ID).setReadOnly(true);
+
+			// Set WAS_SPECIMEN_TAKEN to YES and make it read-only
+		NullableOptionGroup wasSpecimenTakenField = (NullableOptionGroup) getField(SampleDto.WAS_SPECIMEN_TAKEN);
+
 
 		// Filter sample material options for meningitis: CSF and Other only
 		FieldHelper.updateEnumData(sampleMaterialComboBox, Arrays.asList(SampleMaterial.CSF, SampleMaterial.OTHER));
@@ -983,10 +993,9 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 			true);
 
 //		Laboratory fields visibility - shown when wasSpecimenTaken = YES
-		Field<?> wasSpecimenTakenField = getField(SampleDto.WAS_SPECIMEN_TAKEN);
 		FieldHelper.setVisibleWhen(
 			getFieldGroup(),
-			Arrays.asList(SampleDto.LABORATORY_TYPE, SampleDto.LABORATORY_NAME, SampleDto.DATE_SPECIMEN_SENT_TO_LABORATORY_TYPE),
+			Arrays.asList(SampleDto.LABORATORY_TYPE, SampleDto.LAB, SampleDto.DATE_SPECIMEN_SENT_TO_LABORATORY_TYPE),
 			SampleDto.WAS_SPECIMEN_TAKEN,
 			Arrays.asList(YesNo.YES),
 			true);
@@ -996,6 +1005,29 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 			Arrays.asList(YesNo.YES),
 			Arrays.asList(SampleDto.LABORATORY_TYPE, SampleDto.LABORATORY_NAME, SampleDto.DATE_SPECIMEN_SENT_TO_LABORATORY_TYPE),
 			true);
+
+		// Update LAB field caption based on LABORATORY_TYPE selection
+		ComboBox laboratoryTypeField = (ComboBox) getField(SampleDto.LABORATORY_TYPE);
+		ComboBox labField = (ComboBox) getField(SampleDto.LAB);
+		String defaultLabCaption = I18nProperties.getPrefixCaption(SampleDto.I18N_PREFIX, SampleDto.LAB);
+		
+		// Initialize caption if LABORATORY_TYPE already has a value
+		if (laboratoryTypeField != null && labField != null) {
+			LaboratoryType currentLaboratoryType = (LaboratoryType) laboratoryTypeField.getValue();
+			if (currentLaboratoryType != null) {
+				labField.setCaption("Name of " + currentLaboratoryType.toString() + " the laboratory receiving");
+			}
+			
+			// Add value change listener
+			laboratoryTypeField.addValueChangeListener(e -> {
+				LaboratoryType selectedType = (LaboratoryType) e.getProperty().getValue();
+				if (selectedType != null) {
+					labField.setCaption("Name of " + selectedType.toString() + " the laboratory receiving");
+				} else {
+					labField.setCaption(defaultLabCaption);
+				}
+			});
+		}
 
 		// Packaging Other visibility
 		FieldHelper.setVisibleWhen(
