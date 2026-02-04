@@ -17,10 +17,14 @@ package de.symeda.sormas.ui.configuration.infrastructure;
 
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.CheckBox;
+import com.vaadin.ui.Notification;
+import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.themes.ValoTheme;
 
 import de.symeda.sormas.api.FacadeProvider;
 import de.symeda.sormas.api.i18n.I18nProperties;
+import de.symeda.sormas.api.i18n.Strings;
 import de.symeda.sormas.api.infrastructure.forms.FormBuilderCriteria;
 import de.symeda.sormas.api.infrastructure.forms.FormBuilderDto;
 import de.symeda.sormas.api.user.UserRight;
@@ -51,13 +55,18 @@ public class FormBuilderGrid extends FilteredGrid<FormBuilderDto, FormBuilderCri
 			setCriteria(criteria);
 		}
 
-		setColumns(
-			FormBuilderDto.FORM_TYPE,
-			FormBuilderDto.DISEASE,
-			FormBuilderDto.ACTIVE);
-
 		if (UiUtil.permitted(UserRight.INFRASTRUCTURE_EDIT)) {
+			setColumns(
+				FormBuilderDto.FORM_TYPE,
+				FormBuilderDto.DISEASE);
 			addEditColumn(e -> ControllerProvider.getInfrastructureController().editFormBuilder(e.getUuid()));
+			addActiveColumn();
+		} else {
+			// Show read-only active column if user doesn't have edit permission
+			setColumns(
+				FormBuilderDto.FORM_TYPE,
+				FormBuilderDto.DISEASE,
+				FormBuilderDto.ACTIVE);
 		}
 
 		if (UiUtil.permitted(UserRight.INFRASTRUCTURE_CREATE)) {
@@ -99,6 +108,37 @@ public class FormBuilderGrid extends FilteredGrid<FormBuilderDto, FormBuilderCri
 			ControllerProvider.getInfrastructureController().duplicateFormBuilder(formBuilder.getUuid());
 		});
 		return duplicateButton;
+	}
+
+	private void addActiveColumn() {
+		addComponentColumn(this::createActiveCheckBox).setId(FormBuilderDto.ACTIVE).setSortable(false);
+	}
+
+	private CheckBox createActiveCheckBox(FormBuilderDto formBuilder) {
+		CheckBox activeCheckBox = new CheckBox();
+		activeCheckBox.setValue(formBuilder.getActive() != null ? formBuilder.getActive() : false);
+		activeCheckBox.addValueChangeListener(e -> {
+			Boolean newValue = e.getValue();
+			try {
+				// Get the full form to update
+				FormBuilderDto form = FacadeProvider.getFormBuilderFacade().getByUuid(formBuilder.getUuid());
+				if (form != null) {
+					form.setActive(newValue);
+					FacadeProvider.getFormBuilderFacade().save(form);
+					Notification.show(
+						I18nProperties.getString(Strings.messageEntryUpdated),
+						Type.ASSISTIVE_NOTIFICATION);
+					reload();
+				}
+			} catch (Exception ex) {
+				// Revert checkbox on error
+				activeCheckBox.setValue(!newValue);
+				Notification.show(
+					I18nProperties.getString(Strings.errorUpdatingForm),
+					Type.ERROR_MESSAGE);
+			}
+		});
+		return activeCheckBox;
 	}
 
 	private void addDeleteColumn() {

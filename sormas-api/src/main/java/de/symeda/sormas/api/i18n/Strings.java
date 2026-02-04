@@ -354,6 +354,7 @@ public interface Strings {
 	String errorFormNotFound = "errorFormNotFound";
 	String errorFormTypeMissing = "errorFormTypeMissing";
 	String errorDeletingForm = "errorDeletingForm";
+	String errorUpdatingForm = "errorUpdatingForm";
 	String errorIllegalFilename = "errorIllegalFilename";
 	String errorImmunizationNotEditable = "errorImmunizationNotEditable";
 	String errorIntegerFieldValidationFailed = "errorIntegerFieldValidationFailed";
@@ -1392,6 +1393,7 @@ public interface Strings {
 	String messageEntityNotFound = "messageEntityNotFound";
 	String messageEntriesEdited = "messageEntriesEdited";
 	String messageEntryCreated = "messageEntryCreated";
+	String messageEntryUpdated = "messageEntryUpdated";
 	String messageEnvironmentAlreadyLinkedToEvent = "messageEnvironmentAlreadyLinkedToEvent";
 	String messageFormDuplicated = "messageFormDuplicated";
 	String messageFormDeleted = "messageFormDeleted";
