@@ -15,6 +15,10 @@
 
 package de.symeda.sormas.ui.configuration.infrastructure;
 
+import com.vaadin.icons.VaadinIcons;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.themes.ValoTheme;
+
 import de.symeda.sormas.api.FacadeProvider;
 import de.symeda.sormas.api.i18n.I18nProperties;
 import de.symeda.sormas.api.infrastructure.forms.FormBuilderCriteria;
@@ -23,6 +27,7 @@ import de.symeda.sormas.api.user.UserRight;
 import de.symeda.sormas.ui.ControllerProvider;
 import de.symeda.sormas.ui.UiUtil;
 import de.symeda.sormas.ui.ViewModelProviders;
+import de.symeda.sormas.ui.utils.ButtonHelper;
 import de.symeda.sormas.ui.utils.FilteredGrid;
 import de.symeda.sormas.ui.utils.ViewConfiguration;
 
@@ -55,6 +60,10 @@ public class FormBuilderGrid extends FilteredGrid<FormBuilderDto, FormBuilderCri
 			addEditColumn(e -> ControllerProvider.getInfrastructureController().editFormBuilder(e.getUuid()));
 		}
 
+		if (UiUtil.permitted(UserRight.INFRASTRUCTURE_CREATE)) {
+			addDuplicateColumn();
+		}
+
 		for (Column<?, ?> column : getColumns()) {
 			column.setCaption(I18nProperties.getPrefixCaption(FormBuilderDto.I18N_PREFIX, column.getId(), column.getCaption()));
 		}
@@ -73,6 +82,19 @@ public class FormBuilderGrid extends FilteredGrid<FormBuilderDto, FormBuilderCri
 
 	public void setEagerDataProvider() {
 		setEagerDataProvider(FacadeProvider.getFormBuilderFacade()::getIndexList);
+	}
+
+	private void addDuplicateColumn() {
+		addComponentColumn(this::createDuplicateButton).setId("duplicate").setSortable(false).setCaption("");
+	}
+
+	private Button createDuplicateButton(FormBuilderDto formBuilder) {
+		Button duplicateButton = ButtonHelper.createIconButton(VaadinIcons.COPY);
+		duplicateButton.addStyleName(ValoTheme.BUTTON_BORDERLESS);
+		duplicateButton.addClickListener(clickEvent -> {
+			ControllerProvider.getInfrastructureController().duplicateFormBuilder(formBuilder.getUuid());
+		});
+		return duplicateButton;
 	}
 }
 

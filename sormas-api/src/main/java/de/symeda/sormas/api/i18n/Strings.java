@@ -351,6 +351,8 @@ public interface Strings {
 	String errorFileNotFound = "errorFileNotFound";
 	String errorForbidden = "errorForbidden";
 	String errorFormIdPopulationAgeGroup = "errorFormIdPopulationAgeGroup";
+	String errorFormNotFound = "errorFormNotFound";
+	String errorFormTypeMissing = "errorFormTypeMissing";
 	String errorIllegalFilename = "errorIllegalFilename";
 	String errorImmunizationNotEditable = "errorImmunizationNotEditable";
 	String errorIntegerFieldValidationFailed = "errorIntegerFieldValidationFailed";
@@ -559,6 +561,7 @@ public interface Strings {
 	String headingCreateNewFormBuilder = "headingCreateNewFormBuilder";
 	String headingCreateNewFormField = "headingCreateNewFormField";
 	String headingCreateNewImmunization = "headingCreateNewImmunization";
+	String headingDuplicateFormBuilder = "headingDuplicateFormBuilder";
 	String headingCreateNewPerson = "headingCreateNewPerson";
 	String headingCreateNewPrescription = "headingCreateNewPrescription";
 	String headingCreateNewSample = "headingCreateNewSample";
@@ -1130,6 +1133,7 @@ public interface Strings {
 	String infoSelectOrCreatePersonForImport = "infoSelectOrCreatePersonForImport";
 	String infoSelectOrCreatePersonForLabMessage = "infoSelectOrCreatePersonForLabMessage";
 	String infoSelectOrCreatePersonForLabMessageWithoutMatches = "infoSelectOrCreatePersonForLabMessageWithoutMatches";
+	String infoSelectDiseaseForDuplicate = "infoSelectDiseaseForDuplicate";
 	String infoSelfReportCreateEntry = "infoSelfReportCreateEntry";
 	String infoSelfReportSelectOrCreateEntry = "infoSelfReportSelectOrCreateEntry";
 	String infoSimilarImmunization = "infoSimilarImmunization";
@@ -1373,6 +1377,7 @@ public interface Strings {
 	String messageDeletionUnsupportedByExternalJournalWarning = "messageDeletionUnsupportedByExternalJournalWarning";
 	String messageDiseaseConfigurationSaved = "messageDiseaseConfigurationSaved";
 	String messageDiseaseNotSpecifiedInLabMessage = "messageDiseaseNotSpecifiedInLabMessage";
+	String messageDiseaseSelectionRequired = "messageDiseaseSelectionRequired";
 	String messageDistrictArchived = "messageDistrictArchived";
 	String messageDistrictArchivingNotPossible = "messageDistrictArchivingNotPossible";
 	String messageDistrictDearchived = "messageDistrictDearchived";
@@ -1387,6 +1392,8 @@ public interface Strings {
 	String messageEntriesEdited = "messageEntriesEdited";
 	String messageEntryCreated = "messageEntryCreated";
 	String messageEnvironmentAlreadyLinkedToEvent = "messageEnvironmentAlreadyLinkedToEvent";
+	String messageFormDuplicated = "messageFormDuplicated";
+	String messageNoAvailableDiseasesForDuplicate = "messageNoAvailableDiseasesForDuplicate";
 	String messageEnvironmentArchived = "messageEnvironmentArchived";
 	String messageEnvironmentCreated = "messageEnvironmentCreated";
 	String messageEnvironmentDearchived = "messageEnvironmentDearchived";
