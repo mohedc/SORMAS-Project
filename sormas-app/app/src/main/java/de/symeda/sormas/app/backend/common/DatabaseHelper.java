@@ -196,7 +196,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	public static final String DATABASE_NAME = "sormas.db";
 	// any time you make changes to your database objects, you may have to increase the database version
 
-	public static final int DATABASE_VERSION = 373;
+	public static final int DATABASE_VERSION = 378;
 
 	private static DatabaseHelper instance = null;
 
@@ -3289,6 +3289,50 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 				getDao(Person.class).executeRaw("ALTER TABLE person ADD COLUMN locationOfBirth varchar(255);");
 				getDao(Person.class).executeRaw("ALTER TABLE person ADD COLUMN currentWeight INTEGER;");
 				getDao(Person.class).executeRaw("ALTER TABLE person ADD COLUMN caregiverTelephoneNumber varchar(255);");
+			case 373:
+				currentVersion = 373;
+				getDao(Hospitalization.class).executeRaw("ALTER TABLE hospitalizations ADD COLUMN hospitalRecordNumber varchar(255);");
+				getDao(Hospitalization.class).executeRaw("ALTER TABLE hospitalizations ADD COLUMN serialNumberInConsultationRegister varchar(255);");
+				getDao(Hospitalization.class).executeRaw("ALTER TABLE hospitalizations ADD COLUMN dateOfConsultationAtHealthFacility INTEGER;");
+				getDao(Hospitalization.class).executeRaw("ALTER TABLE hospitalizations ADD COLUMN dateHealthRegionNotified INTEGER;");
+				getDao(Hospitalization.class).executeRaw("ALTER TABLE hospitalizations ADD COLUMN address varchar(512);");
+			case 374:
+				currentVersion = 374;
+				getDao(EpiData.class).executeRaw("ALTER TABLE epidata ADD COLUMN motherRubellaLabConfirmed varchar(255);");
+				getDao(EpiData.class).executeRaw("ALTER TABLE epidata ADD COLUMN motherRubellaLabConfirmedDate INTEGER;");
+				getDao(EpiData.class).executeRaw("ALTER TABLE epidata ADD COLUMN motherExposedDuringPregnancy varchar(255);");
+				getDao(EpiData.class).executeRaw("ALTER TABLE epidata ADD COLUMN motherExposedDuringPregnancyDate INTEGER;");
+				getDao(EpiData.class).executeRaw("ALTER TABLE epidata ADD COLUMN gestationalAgeAtExposure INTEGER;");
+				getDao(EpiData.class).executeRaw("ALTER TABLE epidata ADD COLUMN exposureLocationDescription varchar(255);");
+				getDao(EpiData.class).executeRaw("ALTER TABLE epidata ADD COLUMN motherTraveledDuringPregnancy varchar(255);");
+				getDao(EpiData.class).executeRaw("ALTER TABLE epidata ADD COLUMN motherTraveledDuringPregnancyDate INTEGER;");
+				getDao(EpiData.class).executeRaw("ALTER TABLE epidata ADD COLUMN gestationalAgeAtTravel INTEGER;");
+				getDao(EpiData.class).executeRaw("ALTER TABLE epidata ADD COLUMN travelLocationDescription varchar(255);");
+			case 375:
+				currentVersion = 375;
+				getDao(Symptoms.class).executeRaw("ALTER TABLE symptoms ADD COLUMN clinicianName varchar(255);");
+				getDao(Symptoms.class).executeRaw("ALTER TABLE symptoms ADD COLUMN clinicianAddress varchar(255);");
+				getDao(Symptoms.class).executeRaw("ALTER TABLE symptoms ADD COLUMN clinicianPhone varchar(255);");
+				getDao(Symptoms.class).executeRaw("ALTER TABLE symptoms ADD COLUMN autopsyConducted varchar(255);");
+				getDao(Symptoms.class).executeRaw("ALTER TABLE symptoms ADD COLUMN autopsyFindings varchar(255);");
+				getDao(Symptoms.class).executeRaw("ALTER TABLE symptoms ADD COLUMN autopsyDate INTEGER;");
+			case 376:
+				currentVersion = 376;
+				getDao(Sample.class).executeRaw("ALTER TABLE samples ADD COLUMN dateFormCsfDispatchedToHealthDistrict INTEGER;");
+				getDao(Sample.class).executeRaw("ALTER TABLE samples ADD COLUMN dateHealthFacilityNotifyRegion INTEGER;");
+				getDao(Sample.class).executeRaw("ALTER TABLE samples ADD COLUMN lumbarPuncturePerformed varchar(255);");
+				getDao(Sample.class).executeRaw("ALTER TABLE samples ADD COLUMN dateOfLp INTEGER;");
+				getDao(Sample.class).executeRaw("ALTER TABLE samples ADD COLUMN lpAspect varchar(255);");
+				getDao(Sample.class).executeRaw("ALTER TABLE samples ADD COLUMN lpPackaging varchar(255);");
+				getDao(Sample.class).executeRaw("ALTER TABLE samples ADD COLUMN lpPackagingOther varchar(255);");
+				getDao(Sample.class).executeRaw("ALTER TABLE samples ADD COLUMN wasSpecimenTaken varchar(255);");
+				getDao(Sample.class).executeRaw("ALTER TABLE samples ADD COLUMN laboratoryType varchar(255);");
+				getDao(Sample.class).executeRaw("ALTER TABLE samples ADD COLUMN dateSpecimenSentToLaboratoryType INTEGER;");
+				getDao(Sample.class).executeRaw("ALTER TABLE samples ADD COLUMN packaging varchar(255);");
+				getDao(Sample.class).executeRaw("ALTER TABLE samples ADD COLUMN packagingOther varchar(255);");
+			case 377:
+				currentVersion = 377;
+				getDao(Location.class).executeRaw("ALTER TABLE location ADD COLUMN village varchar(255);");
 				// ATTENTION: break should only be done after last version
 				break;
 
