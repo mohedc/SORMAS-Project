@@ -37,6 +37,10 @@ import javax.persistence.Transient;
 import de.symeda.sormas.api.sample.AdditionalTestType;
 import de.symeda.sormas.api.sample.PathogenTestResultType;
 import de.symeda.sormas.api.sample.PathogenTestType;
+import de.symeda.sormas.api.sample.LaboratoryType;
+import de.symeda.sormas.api.sample.LpAspect;
+import de.symeda.sormas.api.sample.LpPackaging;
+import de.symeda.sormas.api.sample.Packaging;
 import de.symeda.sormas.api.sample.SampleMaterial;
 import de.symeda.sormas.api.sample.SamplePurpose;
 import de.symeda.sormas.api.sample.SampleSource;
@@ -161,6 +165,31 @@ public class Sample extends PseudonymizableAdo {
 
 	@Enumerated(EnumType.STRING)
 	private SpecimenCondition specimenCondition;
+
+	@DatabaseField(dataType = DataType.DATE_LONG)
+	private Date dateFormCsfDispatchedToHealthDistrict;
+	@DatabaseField(dataType = DataType.DATE_LONG)
+	private Date dateHealthFacilityNotifyRegion;
+	@Enumerated(EnumType.STRING)
+	private YesNo lumbarPuncturePerformed;
+	@DatabaseField(dataType = DataType.DATE_LONG)
+	private Date dateOfLp;
+	@Enumerated(EnumType.STRING)
+	private LpAspect lpAspect;
+	@Enumerated(EnumType.STRING)
+	private LpPackaging lpPackaging;
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	private String lpPackagingOther;
+	@Enumerated(EnumType.STRING)
+	private YesNo wasSpecimenTaken;
+	@Enumerated(EnumType.STRING)
+	private LaboratoryType laboratoryType;
+	@DatabaseField(dataType = DataType.DATE_LONG)
+	private Date dateSpecimenSentToLaboratoryType;
+	@Enumerated(EnumType.STRING)
+	private Packaging packaging;
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	private String packagingOther;
 
 	@Column(length = CHARACTER_LIMIT_DEFAULT)
 	private String noTestPossibleReason;
@@ -439,6 +468,102 @@ public class Sample extends PseudonymizableAdo {
 
 	public void setSpecimenCondition(SpecimenCondition specimenCondition) {
 		this.specimenCondition = specimenCondition;
+	}
+
+	public Date getDateFormCsfDispatchedToHealthDistrict() {
+		return dateFormCsfDispatchedToHealthDistrict;
+	}
+
+	public void setDateFormCsfDispatchedToHealthDistrict(Date dateFormCsfDispatchedToHealthDistrict) {
+		this.dateFormCsfDispatchedToHealthDistrict = dateFormCsfDispatchedToHealthDistrict;
+	}
+
+	public Date getDateHealthFacilityNotifyRegion() {
+		return dateHealthFacilityNotifyRegion;
+	}
+
+	public void setDateHealthFacilityNotifyRegion(Date dateHealthFacilityNotifyRegion) {
+		this.dateHealthFacilityNotifyRegion = dateHealthFacilityNotifyRegion;
+	}
+
+	public YesNo getLumbarPuncturePerformed() {
+		return lumbarPuncturePerformed;
+	}
+
+	public void setLumbarPuncturePerformed(YesNo lumbarPuncturePerformed) {
+		this.lumbarPuncturePerformed = lumbarPuncturePerformed;
+	}
+
+	public Date getDateOfLp() {
+		return dateOfLp;
+	}
+
+	public void setDateOfLp(Date dateOfLp) {
+		this.dateOfLp = dateOfLp;
+	}
+
+	public LpAspect getLpAspect() {
+		return lpAspect;
+	}
+
+	public void setLpAspect(LpAspect lpAspect) {
+		this.lpAspect = lpAspect;
+	}
+
+	public LpPackaging getLpPackaging() {
+		return lpPackaging;
+	}
+
+	public void setLpPackaging(LpPackaging lpPackaging) {
+		this.lpPackaging = lpPackaging;
+	}
+
+	public String getLpPackagingOther() {
+		return lpPackagingOther;
+	}
+
+	public void setLpPackagingOther(String lpPackagingOther) {
+		this.lpPackagingOther = lpPackagingOther;
+	}
+
+	public YesNo getWasSpecimenTaken() {
+		return wasSpecimenTaken;
+	}
+
+	public void setWasSpecimenTaken(YesNo wasSpecimenTaken) {
+		this.wasSpecimenTaken = wasSpecimenTaken;
+	}
+
+	public LaboratoryType getLaboratoryType() {
+		return laboratoryType;
+	}
+
+	public void setLaboratoryType(LaboratoryType laboratoryType) {
+		this.laboratoryType = laboratoryType;
+	}
+
+	public Date getDateSpecimenSentToLaboratoryType() {
+		return dateSpecimenSentToLaboratoryType;
+	}
+
+	public void setDateSpecimenSentToLaboratoryType(Date dateSpecimenSentToLaboratoryType) {
+		this.dateSpecimenSentToLaboratoryType = dateSpecimenSentToLaboratoryType;
+	}
+
+	public Packaging getPackaging() {
+		return packaging;
+	}
+
+	public void setPackaging(Packaging packaging) {
+		this.packaging = packaging;
+	}
+
+	public String getPackagingOther() {
+		return packagingOther;
+	}
+
+	public void setPackagingOther(String packagingOther) {
+		this.packagingOther = packagingOther;
 	}
 
 	public String getComment() {
