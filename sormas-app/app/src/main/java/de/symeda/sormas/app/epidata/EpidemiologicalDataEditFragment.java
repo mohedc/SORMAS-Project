@@ -281,6 +281,17 @@ public class EpidemiologicalDataEditFragment extends BaseEditFragment<FragmentEd
 			contentBinding.activityascaseLayout.setVisibility(GONE);
 			contentBinding.epiDataActivityAsCaseDetailsKnown.setVisibility(GONE);
 		}
+
+		// Initialize ControlDateFields for Congenital Rubella
+		if (contentBinding.epiDataMotherRubellaLabConfirmedDate != null) {
+			contentBinding.epiDataMotherRubellaLabConfirmedDate.initializeDateField(getFragmentManager());
+		}
+		if (contentBinding.epiDataMotherExposedDuringPregnancyDate != null) {
+			contentBinding.epiDataMotherExposedDuringPregnancyDate.initializeDateField(getFragmentManager());
+		}
+		if (contentBinding.epiDataMotherTraveledDuringPregnancyDate != null) {
+			contentBinding.epiDataMotherTraveledDuringPregnancyDate.initializeDateField(getFragmentManager());
+		}
 	}
 
 	@Override

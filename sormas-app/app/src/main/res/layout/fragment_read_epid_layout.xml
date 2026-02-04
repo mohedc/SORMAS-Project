@@ -25,6 +25,8 @@
     android:id="@+id/base_layout">
 
     <data>
+        <import type="de.symeda.sormas.api.utils.YesNo" />
+
         <variable name="data" type="de.symeda.sormas.app.backend.epidata.EpiData" />
 
         <variable name="exposureList" type="androidx.databinding.ObservableList&lt;de.symeda.sormas.app.backend.exposure.Exposure&gt;" />
@@ -127,6 +129,116 @@
                         app:entries="@{activityascaseList}"
                         app:layout="@{@layout/row_epid_activity_as_case_layout}"
                         app:bindCallback="@{activityascaseListBindCallback}"/>
+
+                </LinearLayout>
+
+                <de.symeda.sormas.app.component.controls.ControlTextReadField
+                    android:id="@+id/epiData_travelHistoryKnown"
+                    app:value="@{data.travelHistoryKnown}"
+                    style="@style/ControlSingleColumnStyle" />
+
+                <de.symeda.sormas.app.component.controls.ControlTextReadField
+                    android:id="@+id/epiData_travelLocation"
+                    app:value="@{data.travelLocation}"
+                    app:goneIfEmpty="@{data.travelLocation}"
+                    app:dependencyParentField="@{epiDataTravelHistoryKnown}"
+                    app:dependencyParentValue="@{YesNo.YES}"
+                    style="@style/ControlSingleColumnStyle" />
+
+                <LinearLayout
+                    android:id="@+id/epiData_motherRubellaLabConfirmed_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <de.symeda.sormas.app.component.controls.ControlTextReadField
+                        android:id="@+id/epiData_motherRubellaLabConfirmed"
+                        app:value="@{data.motherRubellaLabConfirmed}"
+                        style="@style/ControlFirstOfTwoColumnsStyle" />
+
+                    <de.symeda.sormas.app.component.controls.ControlTextReadField
+                        android:id="@+id/epiData_motherRubellaLabConfirmedDate"
+                        app:value="@{data.motherRubellaLabConfirmedDate}"
+                        app:goneIfEmpty="@{data.motherRubellaLabConfirmedDate}"
+                        style="@style/ControlSecondOfTwoColumnsStyle" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/epiData_motherExposedDuringPregnancy_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <de.symeda.sormas.app.component.controls.ControlTextReadField
+                        android:id="@+id/epiData_motherExposedDuringPregnancy"
+                        app:value="@{data.motherExposedDuringPregnancy}"
+                        style="@style/ControlFirstOfTwoColumnsStyle" />
+
+                    <de.symeda.sormas.app.component.controls.ControlTextReadField
+                        android:id="@+id/epiData_motherExposedDuringPregnancyDate"
+                        app:value="@{data.motherExposedDuringPregnancyDate}"
+                        app:goneIfEmpty="@{data.motherExposedDuringPregnancyDate}"
+                        style="@style/ControlSecondOfTwoColumnsStyle" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/epiData_gestationalAgeAtExposure_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <de.symeda.sormas.app.component.controls.ControlTextReadField
+                        android:id="@+id/epiData_gestationalAgeAtExposure"
+                        app:value="@{data.gestationalAgeAtExposure}"
+                        app:goneIfEmpty="@{data.gestationalAgeAtExposure}"
+                        style="@style/ControlFirstOfTwoColumnsStyle" />
+
+                    <de.symeda.sormas.app.component.controls.ControlTextReadField
+                        android:id="@+id/epiData_exposureLocationDescription"
+                        app:value="@{data.exposureLocationDescription}"
+                        app:goneIfEmpty="@{data.exposureLocationDescription}"
+                        style="@style/ControlSecondOfTwoColumnsStyle" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/epiData_motherTraveledDuringPregnancy_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <de.symeda.sormas.app.component.controls.ControlTextReadField
+                        android:id="@+id/epiData_motherTraveledDuringPregnancy"
+                        app:value="@{data.motherTraveledDuringPregnancy}"
+                        style="@style/ControlFirstOfTwoColumnsStyle" />
+
+                    <de.symeda.sormas.app.component.controls.ControlTextReadField
+                        android:id="@+id/epiData_motherTraveledDuringPregnancyDate"
+                        app:value="@{data.motherTraveledDuringPregnancyDate}"
+                        app:goneIfEmpty="@{data.motherTraveledDuringPregnancyDate}"
+                        style="@style/ControlSecondOfTwoColumnsStyle" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/epiData_gestationalAgeAtTravel_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <de.symeda.sormas.app.component.controls.ControlTextReadField
+                        android:id="@+id/epiData_gestationalAgeAtTravel"
+                        app:value="@{data.gestationalAgeAtTravel}"
+                        app:goneIfEmpty="@{data.gestationalAgeAtTravel}"
+                        style="@style/ControlFirstOfTwoColumnsStyle" />
+
+                    <de.symeda.sormas.app.component.controls.ControlTextReadField
+                        android:id="@+id/epiData_travelLocationDescription"
+                        app:value="@{data.travelLocationDescription}"
+                        app:goneIfEmpty="@{data.travelLocationDescription}"
+                        style="@style/ControlSecondOfTwoColumnsStyle" />
 
                 </LinearLayout>
 
