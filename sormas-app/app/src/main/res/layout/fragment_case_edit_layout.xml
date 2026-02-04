@@ -390,7 +390,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/caseData_notifiedBy_notification_investigation_layout"
+                    android:id="@+id/caseData_notifiedBy_notifiedByDetails_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -400,26 +400,36 @@
                         app:value="@={data.notifiedBy}"
                         style="@style/ControlFirstOfTwoColumnsStyle" />
 
-                    <de.symeda.sormas.app.component.controls.ControlDateField
-                        android:id="@+id/caseData_dateOfNotification"
-                        app:value="@={data.dateOfNotification}"
-                        app:dateWithoutTime="@{true}"
-                        style="@style/ControlSecondOfTwoColumnsStyle" />
-
-                    <de.symeda.sormas.app.component.controls.ControlDateField
-                        android:id="@+id/caseData_dateOfInvestigation"
-                        app:value="@={data.dateOfInvestigation}"
-                        app:dateWithoutTime="@{true}"
-                        style="@style/ControlSecondOfTwoColumnsStyle" />
+                    <de.symeda.sormas.app.component.controls.ControlTextEditField
+                        android:id="@+id/caseData_notifiedByDetails"
+                        app:value="@={data.notifiedByDetails}"
+                        app:dependencyParentField="@{caseDataNotifiedBy}"
+                        app:dependencyParentValue="@{NotifiedBy.OTHER}"
+                        style="@style/ControlSingleColumnStyle" />
 
                 </LinearLayout>
 
-                <de.symeda.sormas.app.component.controls.ControlTextEditField
-                    android:id="@+id/caseData_notifiedByDetails"
-                    app:value="@={data.notifiedByDetails}"
-                    app:dependencyParentField="@{caseDataNotifiedBy}"
-                    app:dependencyParentValue="@{NotifiedBy.OTHER}"
-                    style="@style/ControlSingleColumnStyle" />
+                <LinearLayout
+                    android:id="@+id/caseData_dateOfNotification_dateOfInvestigation_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                <de.symeda.sormas.app.component.controls.ControlDateField
+                    android:id="@+id/caseData_dateOfNotification"
+                    app:value="@={data.dateOfNotification}"
+                    app:dateWithoutTime="@{true}"
+                    style="@style/ControlSecondOfTwoColumnsStyle" />
+
+                <de.symeda.sormas.app.component.controls.ControlDateField
+                    android:id="@+id/caseData_dateOfInvestigation"
+                    app:value="@={data.dateOfInvestigation}"
+                    app:dateWithoutTime="@{true}"
+                    style="@style/ControlSecondOfTwoColumnsStyle" />
+
+                </LinearLayout>
+
+
 
                 <de.symeda.sormas.app.component.controls.ControlUserReadField
                     android:id="@+id/caseData_reportingUser"

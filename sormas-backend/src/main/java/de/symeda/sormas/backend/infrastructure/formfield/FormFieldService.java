@@ -29,6 +29,7 @@ import javax.persistence.criteria.Root;
 import de.symeda.sormas.api.EntityRelevanceStatus;
 import de.symeda.sormas.api.FormType;
 import de.symeda.sormas.api.infrastructure.fields.FormFieldsCriteria;
+import de.symeda.sormas.api.utils.DataHelper;
 import de.symeda.sormas.backend.common.CriteriaBuilderHelper;
 import de.symeda.sormas.backend.infrastructure.AbstractInfrastructureAdoService;
 import de.symeda.sormas.backend.user.UserService;
@@ -60,6 +61,14 @@ public class FormFieldService extends AbstractInfrastructureAdoService<FormField
 			} else if (criteria.getRelevanceStatus() == EntityRelevanceStatus.ARCHIVED) {
 				filter = CriteriaBuilderHelper.and(cb, filter, cb.equal(from.get(FormField.ARCHIVED), true));
 			}
+		}
+
+		if (!DataHelper.isNullOrEmpty(criteria.getNameDescriptionLike())) {
+			String textFilter = criteria.getNameDescriptionLike();
+			Predicate likeFilters = cb.or(
+				CriteriaBuilderHelper.ilike(cb, from.get(FormField.FIELD_NAME), textFilter),
+				CriteriaBuilderHelper.ilike(cb, from.get(FormField.DESCRIPTION), textFilter));
+			filter = CriteriaBuilderHelper.and(cb, filter, likeFilters);
 		}
 
 		return filter;

@@ -19,6 +19,7 @@ import java.io.Serializable;
 
 import de.symeda.sormas.api.EntityRelevanceStatus;
 import de.symeda.sormas.api.FormType;
+import de.symeda.sormas.api.utils.IgnoreForUrl;
 import de.symeda.sormas.api.utils.criteria.BaseCriteria;
 
 public class FormFieldsCriteria extends BaseCriteria implements Serializable, Cloneable {
@@ -30,6 +31,7 @@ public class FormFieldsCriteria extends BaseCriteria implements Serializable, Cl
 
 	private FormType formType;
 	private EntityRelevanceStatus relevanceStatus;
+	private String nameDescriptionLike;
 
 	public FormType getFormType() {
 		return formType;
@@ -51,6 +53,20 @@ public class FormFieldsCriteria extends BaseCriteria implements Serializable, Cl
 	public FormFieldsCriteria relevanceStatus(EntityRelevanceStatus relevanceStatus) {
 		this.relevanceStatus = relevanceStatus;
 		return this;
+	}
+
+	@IgnoreForUrl
+	public String getNameDescriptionLike() {
+		return nameDescriptionLike;
+	}
+
+	public FormFieldsCriteria nameDescriptionLike(String nameDescriptionLike) {
+		this.nameDescriptionLike = nameDescriptionLike;
+		return this;
+	}
+
+	public void setNameDescriptionLike(String nameDescriptionLike) {
+		this.nameDescriptionLike = nameDescriptionLike;
 	}
 }
 

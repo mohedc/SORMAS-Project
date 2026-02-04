@@ -1822,6 +1822,7 @@ public interface Strings {
 	String promptEventsSearchFieldEventGroups = "promptEventsSearchFieldEventGroups";
 	String promptEventsSearchFieldEventParticipants = "promptEventsSearchFieldEventParticipants";
 	String promptExternalIdExternalSurveillanceTool = "promptExternalIdExternalSurveillanceTool";
+	String promptFormFieldsSearchField = "promptFormFieldsSearchField";
 	String promptExternalJournalForceDeletion = "promptExternalJournalForceDeletion";
 	String promptExternalMessagesContentSearchField = "promptExternalMessagesContentSearchField";
 	String promptExternalMessagesDateFrom = "promptExternalMessagesDateFrom";
