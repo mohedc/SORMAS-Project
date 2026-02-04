@@ -32,7 +32,6 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.v7.data.Item;
 import com.vaadin.v7.data.util.IndexedContainer;
 import com.vaadin.v7.ui.ComboBox;
-import com.vaadin.v7.ui.ListSelect;
 import com.vaadin.v7.ui.Table;
 import com.vaadin.v7.ui.TextField;
 
@@ -65,8 +64,9 @@ public class FormBuilderEditForm extends AbstractEditForm<FormBuilderDto> {
 	private boolean create;
 	private ComboBox disease;
 	private ComboBox formType;
-	private ListSelect availableFields;
+	private Table availableFieldsTable;
 	private Table selectedFieldsTable;
+	private IndexedContainer availableFieldsContainer;
 	private IndexedContainer selectedFieldsContainer;
 	private FormFieldsCriteria criteria;
 	private int currentOrder = 0;
@@ -78,13 +78,13 @@ public class FormBuilderEditForm extends AbstractEditForm<FormBuilderDto> {
 	private TextField selectedFieldsSearch;
 	private Label availableFieldsCountLabel;
 	private Label selectedFieldsCountLabel;
-	private IndexedContainer availableFieldsContainer; // Store all available fields for filtering
+	private IndexedContainer availableFieldsFullContainer; // Store all available fields for filtering
 
 	public FormBuilderEditForm(boolean create) {
 		super(FormBuilderDto.class, FormBuilderDto.I18N_PREFIX, false);
 		this.create = create;
 
-		setWidth(900, Unit.PIXELS);
+		setWidth(100, Unit.PERCENTAGE);
 		setHeight(700, Unit.PIXELS);
 
 		if (create) {
@@ -111,9 +111,12 @@ public class FormBuilderEditForm extends AbstractEditForm<FormBuilderDto> {
 		VerticalLayout availableFieldsLayout = new VerticalLayout();
 		availableFieldsLayout.setSpacing(true);
 		availableFieldsLayout.setMargin(false);
+		availableFieldsLayout.setWidth("100%");
+		availableFieldsLayout.setSizeFull();
 		
 		availableFieldsSearch = new TextField();
 		availableFieldsSearch.setWidth("100%");
+		availableFieldsSearch.setSizeUndefined();
 		availableFieldsSearch.setInputPrompt("Search available fields...");
 		availableFieldsSearch.setNullRepresentation("");
 		availableFieldsSearch.setImmediate(true);
@@ -122,27 +125,39 @@ public class FormBuilderEditForm extends AbstractEditForm<FormBuilderDto> {
 		availableFieldsCountLabel = new Label();
 		availableFieldsCountLabel.setValue("Available: 0");
 		availableFieldsCountLabel.addStyleName("v-label-small");
+		availableFieldsCountLabel.setWidth("100%");
 		
-		// Available Fields (ListSelect)
-		availableFields = new ListSelect();
-		availableFields.setWidth("100%");
-		availableFields.setRows(20);
-		availableFields.setNullSelectionAllowed(false);
-		availableFields.setMultiSelect(true);
-		availableFields.setCaption(I18nProperties.getCaption(Captions.formFieldsAvailable));
+		// Available Fields (Table)
+		availableFieldsTable = new Table();
+		availableFieldsTable.setWidth("100%");
+		availableFieldsTable.setHeight("600px");
+		availableFieldsTable.setCaption(I18nProperties.getCaption(Captions.formFieldsAvailable));
+		availableFieldsTable.setSelectable(true);
+		availableFieldsTable.setMultiSelect(true);
+
+		availableFieldsContainer = new IndexedContainer();
+		availableFieldsContainer.addContainerProperty(PROPERTY_FIELD, FormFieldIndexDto.class, null);
+		availableFieldsContainer.addContainerProperty(PROPERTY_NAME, String.class, null);
+		availableFieldsTable.setContainerDataSource(availableFieldsContainer);
+
+		availableFieldsTable.setColumnHeader(PROPERTY_NAME, "Description");
+		availableFieldsTable.setVisibleColumns(PROPERTY_NAME);
 		
 		availableFieldsLayout.addComponent(availableFieldsCountLabel);
 		availableFieldsLayout.addComponent(availableFieldsSearch);
-		availableFieldsLayout.addComponent(availableFields);
-		availableFieldsLayout.setExpandRatio(availableFields, 1);
+		availableFieldsLayout.addComponent(availableFieldsTable);
+		availableFieldsLayout.setExpandRatio(availableFieldsTable, 1);
 
 		// Selected Fields Search and Counter
 		VerticalLayout selectedFieldsLayout = new VerticalLayout();
 		selectedFieldsLayout.setSpacing(true);
 		selectedFieldsLayout.setMargin(false);
+		selectedFieldsLayout.setWidth("100%");
+		selectedFieldsLayout.setSizeFull();
 		
 		selectedFieldsSearch = new TextField();
 		selectedFieldsSearch.setWidth("100%");
+		selectedFieldsSearch.setSizeUndefined();
 		selectedFieldsSearch.setInputPrompt("Search selected fields...");
 		selectedFieldsSearch.setNullRepresentation("");
 		selectedFieldsSearch.setImmediate(true);
@@ -151,11 +166,12 @@ public class FormBuilderEditForm extends AbstractEditForm<FormBuilderDto> {
 		selectedFieldsCountLabel = new Label();
 		selectedFieldsCountLabel.setValue("Selected: 0");
 		selectedFieldsCountLabel.addStyleName("v-label-small");
+		selectedFieldsCountLabel.setWidth("100%");
 
 		// Selected Fields (Table)
 		selectedFieldsTable = new Table();
 		selectedFieldsTable.setWidth("100%");
-		selectedFieldsTable.setHeight("400px");
+		selectedFieldsTable.setHeight("600px");
 		selectedFieldsTable.setCaption(I18nProperties.getCaption(Captions.formFieldsSelected));
 		selectedFieldsTable.setSelectable(true);
 		selectedFieldsTable.setMultiSelect(true);
@@ -190,29 +206,9 @@ public class FormBuilderEditForm extends AbstractEditForm<FormBuilderDto> {
 		// Add button action
 		addButton.addClickListener(event -> {
 			@SuppressWarnings("unchecked")
-			Set<FormFieldIndexDto> selected = (Set<FormFieldIndexDto>) availableFields.getValue();
-			if (selected != null) {
-				for (FormFieldIndexDto field : selected) {
-					// Check for duplicates by UUID
-					if (selectedFieldsContainer.getItem(field.getUuid()) == null) {
-						Item item = selectedFieldsContainer.addItem(field.getUuid());
-						if (item != null) {
-							int order = selectedFieldsContainer.size();
-							item.getItemProperty(PROPERTY_FIELD).setValue(field);
-							item.getItemProperty(PROPERTY_ORDER).setValue(order);
-							// Show description instead of fieldName
-							String description = field.getDescription() != null && !field.getDescription().isEmpty() 
-								? field.getDescription() 
-								: field.getFieldName();
-							item.getItemProperty(PROPERTY_NAME).setValue(description);
-						}
-						availableFields.removeItem(field);
-					}
-				}
-				availableFields.setValue(null);
-				reorderItems();
-				updateFormFieldsList();
-				updateCounters();
+			Set<String> selectedIds = (Set<String>) availableFieldsTable.getValue();
+			if (selectedIds != null && !selectedIds.isEmpty()) {
+				moveFieldsToSelected(selectedIds);
 			}
 		});
 
@@ -220,34 +216,32 @@ public class FormBuilderEditForm extends AbstractEditForm<FormBuilderDto> {
 		removeButton.addClickListener(event -> {
 			@SuppressWarnings("unchecked")
 			Set<String> selectedIds = (Set<String>) selectedFieldsTable.getValue();
-			if (selectedIds != null) {
-				for (String id : selectedIds) {
-					Item item = selectedFieldsContainer.getItem(id);
-					if (item != null) {
-						FormFieldIndexDto field = (FormFieldIndexDto) item.getItemProperty(PROPERTY_FIELD).getValue();
-						if (field != null) {
-							selectedFieldsContainer.removeItem(id);
-							// Add back to availableFieldsContainer if it doesn't exist
-							if (availableFieldsContainer != null && availableFieldsContainer.getItem(field) == null) {
-								Item containerItem = availableFieldsContainer.addItem(field);
-								if (containerItem != null) {
-									containerItem.getItemProperty("field").setValue(field);
-								}
-							}
-							availableFields.addItem(field);
-							// Show description instead of fieldName
-							String caption = field.getDescription() != null && !field.getDescription().isEmpty() 
-								? field.getDescription() 
-								: field.getFieldName();
-							availableFields.setItemCaption(field, caption);
-						}
-					}
+			if (selectedIds != null && !selectedIds.isEmpty()) {
+				moveFieldsToAvailable(selectedIds);
+			}
+		});
+
+		// Double-click handler for available fields table - move to selected
+		availableFieldsTable.addItemClickListener(event -> {
+			if (event.isDoubleClick()) {
+				Object itemId = event.getItemId();
+				if (itemId != null) {
+					Set<String> itemIdSet = new HashSet<>();
+					itemIdSet.add(itemId.toString());
+					moveFieldsToSelected(itemIdSet);
 				}
-				reorderItems();
-				updateFormFieldsList();
-				updateCounters();
-				// Re-apply search filter after adding items back
-				filterAvailableFields(availableFieldsSearch.getValue());
+			}
+		});
+
+		// Double-click handler for selected fields table - move to available
+		selectedFieldsTable.addItemClickListener(event -> {
+			if (event.isDoubleClick()) {
+				Object itemId = event.getItemId();
+				if (itemId != null) {
+					Set<String> itemIdSet = new HashSet<>();
+					itemIdSet.add(itemId.toString());
+					moveFieldsToAvailable(itemIdSet);
+				}
 			}
 		});
 
@@ -261,11 +255,12 @@ public class FormBuilderEditForm extends AbstractEditForm<FormBuilderDto> {
 					moveItem(id, true);
 				}
 				updateFormFieldsList();
-				selectedFieldsTable.setValue(lastSelectedIds);
 				// Re-apply selected fields filter
 				if (selectedFieldsSearch != null) {
 					filterSelectedFields(selectedFieldsSearch.getValue());
 				}
+				// Restore selection after filtering
+				selectedFieldsTable.setValue(lastSelectedIds);
 			}
 		});
 
@@ -281,11 +276,12 @@ public class FormBuilderEditForm extends AbstractEditForm<FormBuilderDto> {
 					moveItem((String) selectedIdsArray[i], false);
 				}
 				updateFormFieldsList();
-				selectedFieldsTable.setValue(lastSelectedIds);
 				// Re-apply selected fields filter
 				if (selectedFieldsSearch != null) {
 					filterSelectedFields(selectedFieldsSearch.getValue());
 				}
+				// Restore selection after filtering
+				selectedFieldsTable.setValue(lastSelectedIds);
 			}
 		});
 
@@ -301,11 +297,12 @@ public class FormBuilderEditForm extends AbstractEditForm<FormBuilderDto> {
 					moveItemToTop(id);
 				}
 				updateFormFieldsList();
-				selectedFieldsTable.setValue(lastSelectedIds);
-				// Re-apply selected fields filter
+				// Re-apply selected fields filter (moveItemToTop already calls it, but we need to restore selection after)
 				if (selectedFieldsSearch != null) {
 					filterSelectedFields(selectedFieldsSearch.getValue());
 				}
+				// Restore selection after filtering
+				selectedFieldsTable.setValue(lastSelectedIds);
 			}
 		});
 
@@ -314,6 +311,8 @@ public class FormBuilderEditForm extends AbstractEditForm<FormBuilderDto> {
 		fieldSelectionLayout.setWidth("100%");
 		fieldSelectionLayout.setSpacing(true);
 		fieldSelectionLayout.addComponents(availableFieldsLayout, buttonLayout, selectedFieldsLayout);
+		fieldSelectionLayout.setExpandRatio(availableFieldsLayout, 1.0f);
+		fieldSelectionLayout.setExpandRatio(selectedFieldsLayout, 1.0f);
 		getContent().addComponent(fieldSelectionLayout, FIELDS_SELECTION_LOCATION);
 
 		// FormType change handler
@@ -340,6 +339,77 @@ public class FormBuilderEditForm extends AbstractEditForm<FormBuilderDto> {
 		});
 
 		setRequired(true, FormBuilderDto.DISEASE, FormBuilderDto.FORM_TYPE);
+	}
+
+	private void moveFieldsToSelected(Set<String> selectedIds) {
+		for (String id : selectedIds) {
+			Item item = availableFieldsContainer.getItem(id);
+			if (item != null) {
+				FormFieldIndexDto field = (FormFieldIndexDto) item.getItemProperty(PROPERTY_FIELD).getValue();
+				if (field != null) {
+					// Check for duplicates by UUID
+					if (selectedFieldsContainer.getItem(field.getUuid()) == null) {
+						Item selectedItem = selectedFieldsContainer.addItem(field.getUuid());
+						if (selectedItem != null) {
+							int order = selectedFieldsContainer.size();
+							selectedItem.getItemProperty(PROPERTY_FIELD).setValue(field);
+							selectedItem.getItemProperty(PROPERTY_ORDER).setValue(order);
+							// Show description instead of fieldName
+							String description = field.getDescription() != null && !field.getDescription().isEmpty() 
+								? field.getDescription() 
+								: field.getFieldName();
+							selectedItem.getItemProperty(PROPERTY_NAME).setValue(description);
+						}
+						availableFieldsContainer.removeItem(id);
+					}
+				}
+			}
+		}
+		availableFieldsTable.setValue(null);
+		reorderItems();
+		updateFormFieldsList();
+		updateCounters();
+		// Re-apply search filter after removing items
+		filterAvailableFields(availableFieldsSearch.getValue());
+	}
+
+	private void moveFieldsToAvailable(Set<String> selectedIds) {
+		for (String id : selectedIds) {
+			Item item = selectedFieldsContainer.getItem(id);
+			if (item != null) {
+				FormFieldIndexDto field = (FormFieldIndexDto) item.getItemProperty(PROPERTY_FIELD).getValue();
+				if (field != null) {
+					selectedFieldsContainer.removeItem(id);
+					// Add back to availableFieldsFullContainer if it doesn't exist
+					if (availableFieldsFullContainer != null && availableFieldsFullContainer.getItem(field.getUuid()) == null) {
+						Item containerItem = availableFieldsFullContainer.addItem(field.getUuid());
+						if (containerItem != null) {
+							containerItem.getItemProperty(PROPERTY_FIELD).setValue(field);
+							// Show description instead of fieldName
+							String description = field.getDescription() != null && !field.getDescription().isEmpty() 
+								? field.getDescription() 
+								: field.getFieldName();
+							containerItem.getItemProperty(PROPERTY_NAME).setValue(description);
+						}
+					}
+					// Add to available fields table
+					Item availableItem = availableFieldsContainer.addItem(field.getUuid());
+					if (availableItem != null) {
+						availableItem.getItemProperty(PROPERTY_FIELD).setValue(field);
+						// Show description instead of fieldName
+						String description = field.getDescription() != null && !field.getDescription().isEmpty() 
+							? field.getDescription() 
+							: field.getFieldName();
+						availableItem.getItemProperty(PROPERTY_NAME).setValue(description);
+					}
+				}
+			}
+		}
+		reorderItems();
+		updateFormFieldsList();
+		updateCounters();
+		// Re-apply search filter after adding items back
+		filterAvailableFields(availableFieldsSearch.getValue());
 	}
 
 	private void moveItem(String itemId, boolean up) {
@@ -381,10 +451,7 @@ public class FormBuilderEditForm extends AbstractEditForm<FormBuilderDto> {
 			selectedFieldsTable.setVisibleColumns(PROPERTY_ORDER, PROPERTY_NAME);
 			selectedFieldsTable.setColumnAlignment(PROPERTY_ORDER, Table.Align.CENTER);
 			reorderItems();
-			// Re-apply selected fields filter
-			if (selectedFieldsSearch != null) {
-				filterSelectedFields(selectedFieldsSearch.getValue());
-			}
+			// Don't call filterSelectedFields here - let the button handler do it after all moves are complete
 		}
 	}
 
@@ -414,10 +481,7 @@ public class FormBuilderEditForm extends AbstractEditForm<FormBuilderDto> {
 		selectedFieldsTable.setVisibleColumns(PROPERTY_ORDER, PROPERTY_NAME);
 		selectedFieldsTable.setColumnAlignment(PROPERTY_ORDER, Table.Align.CENTER);
 		updateCounters();
-		// Re-apply selected fields filter
-		if (selectedFieldsSearch != null) {
-			filterSelectedFields(selectedFieldsSearch.getValue());
-		}
+		// Don't call filterSelectedFields here - let the button handler do it after all moves are complete
 	}
 
 	private int getCurrentItemIndex(String itemId) {
@@ -486,7 +550,7 @@ public class FormBuilderEditForm extends AbstractEditForm<FormBuilderDto> {
 		List<FormFieldIndexDto> formFieldIndexDtos = FacadeProvider.getFormFieldFacade()
 			.getIndexList(criteria, null, null, List.of(new SortProperty("fieldName", true)));
 
-		availableFields.removeAllItems();
+		availableFieldsContainer.removeAllItems();
 
 		Set<String> selectedFieldUuids = getValue().getFormFields() != null
 			? getValue().getFormFields().stream()
@@ -543,21 +607,31 @@ public class FormBuilderEditForm extends AbstractEditForm<FormBuilderDto> {
 		}
 
 		// Now populate available fields (excluding already selected ones)
-		availableFieldsContainer = new IndexedContainer();
-		availableFieldsContainer.addContainerProperty("field", FormFieldIndexDto.class, null);
+		availableFieldsFullContainer = new IndexedContainer();
+		availableFieldsFullContainer.addContainerProperty(PROPERTY_FIELD, FormFieldIndexDto.class, null);
+		availableFieldsFullContainer.addContainerProperty(PROPERTY_NAME, String.class, null);
 		
 		for (FormFieldIndexDto dto : formFieldIndexDtos) {
 			if (!selectedFieldUuids.contains(dto.getUuid())) {
-				Item containerItem = availableFieldsContainer.addItem(dto);
+				Item containerItem = availableFieldsFullContainer.addItem(dto.getUuid());
 				if (containerItem != null) {
-					containerItem.getItemProperty("field").setValue(dto);
+					containerItem.getItemProperty(PROPERTY_FIELD).setValue(dto);
+					// Show description instead of fieldName
+					String description = dto.getDescription() != null && !dto.getDescription().isEmpty() 
+						? dto.getDescription() 
+						: dto.getFieldName();
+					containerItem.getItemProperty(PROPERTY_NAME).setValue(description);
 				}
-				availableFields.addItem(dto);
-				// Show description instead of fieldName
-				String caption = dto.getDescription() != null && !dto.getDescription().isEmpty() 
-					? dto.getDescription() 
-					: dto.getFieldName();
-				availableFields.setItemCaption(dto, caption);
+				// Add to available fields table
+				Item availableItem = availableFieldsContainer.addItem(dto.getUuid());
+				if (availableItem != null) {
+					availableItem.getItemProperty(PROPERTY_FIELD).setValue(dto);
+					// Show description instead of fieldName
+					String description = dto.getDescription() != null && !dto.getDescription().isEmpty() 
+						? dto.getDescription() 
+						: dto.getFieldName();
+					availableItem.getItemProperty(PROPERTY_NAME).setValue(description);
+				}
 			}
 		}
 		
@@ -577,33 +651,42 @@ public class FormBuilderEditForm extends AbstractEditForm<FormBuilderDto> {
 	}
 	
 	private void filterAvailableFields(String searchText) {
-		if (availableFieldsContainer == null) {
+		if (availableFieldsFullContainer == null) {
 			return;
 		}
 		
-		availableFields.removeAllItems();
-		
 		String filterText = searchText != null ? searchText.toLowerCase().trim() : "";
 		
-		for (Object itemId : availableFieldsContainer.getItemIds()) {
-			Item item = availableFieldsContainer.getItem(itemId);
+		// Create filtered container
+		IndexedContainer filteredContainer = new IndexedContainer();
+		filteredContainer.addContainerProperty(PROPERTY_FIELD, FormFieldIndexDto.class, null);
+		filteredContainer.addContainerProperty(PROPERTY_NAME, String.class, null);
+		
+		for (Object itemId : availableFieldsFullContainer.getItemIds()) {
+			Item item = availableFieldsFullContainer.getItem(itemId);
 			if (item != null) {
-				FormFieldIndexDto field = (FormFieldIndexDto) item.getItemProperty("field").getValue();
-				if (field != null) {
-					String fieldName = field.getFieldName() != null ? field.getFieldName().toLowerCase() : "";
-					String description = field.getDescription() != null ? field.getDescription().toLowerCase() : "";
+				FormFieldIndexDto field = (FormFieldIndexDto) item.getItemProperty(PROPERTY_FIELD).getValue();
+				String description = (String) item.getItemProperty(PROPERTY_NAME).getValue();
+				
+				if (field != null || description != null) {
+					String fieldName = field != null && field.getFieldName() != null ? field.getFieldName().toLowerCase() : "";
+					String descriptionLower = description != null ? description.toLowerCase() : "";
 					
-					if (filterText.isEmpty() || fieldName.contains(filterText) || description.contains(filterText)) {
-						availableFields.addItem(field);
-						// Show description instead of fieldName
-						String caption = field.getDescription() != null && !field.getDescription().isEmpty() 
-							? field.getDescription() 
-							: field.getFieldName();
-						availableFields.setItemCaption(field, caption);
+					if (filterText.isEmpty() || fieldName.contains(filterText) || descriptionLower.contains(filterText)) {
+						Item newItem = filteredContainer.addItem(itemId);
+						if (newItem != null) {
+							newItem.getItemProperty(PROPERTY_FIELD).setValue(field);
+							newItem.getItemProperty(PROPERTY_NAME).setValue(description);
+						}
 					}
 				}
 			}
 		}
+		
+		availableFieldsContainer = filteredContainer;
+		availableFieldsTable.setContainerDataSource(availableFieldsContainer);
+		availableFieldsTable.setColumnHeader(PROPERTY_NAME, "Description");
+		availableFieldsTable.setVisibleColumns(PROPERTY_NAME);
 		
 		updateCounters();
 	}
@@ -654,9 +737,10 @@ public class FormBuilderEditForm extends AbstractEditForm<FormBuilderDto> {
 	
 	private void updateCounters() {
 		// Update available fields count
-		int availableCount = availableFields.getItemIds() != null ? availableFields.getItemIds().size() : 0;
-		if (availableFieldsContainer != null) {
-			int totalAvailable = availableFieldsContainer.getItemIds() != null ? availableFieldsContainer.getItemIds().size() : 0;
+		int availableCount = availableFieldsContainer != null && availableFieldsContainer.getItemIds() != null 
+			? availableFieldsContainer.getItemIds().size() : 0;
+		if (availableFieldsFullContainer != null) {
+			int totalAvailable = availableFieldsFullContainer.getItemIds() != null ? availableFieldsFullContainer.getItemIds().size() : 0;
 			availableFieldsCountLabel.setValue("Available: " + availableCount + (availableCount != totalAvailable ? " (of " + totalAvailable + ")" : ""));
 		} else {
 			availableFieldsCountLabel.setValue("Available: " + availableCount);

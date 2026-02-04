@@ -434,6 +434,7 @@
                     style="@style/ControlSingleColumnStyle" />
 
                 <TextView
+                    android:id="@+id/caseData_headingCaseResponsibleJurisidction"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@{I18nProperties.getString(Strings.headingCaseResponsibleJurisidction)}"
@@ -473,6 +474,7 @@
                     app:value="@={differentPlaceOfStayJurisdiction}" />
 
                 <TextView
+                    android:id="@+id/caseData_headingCasePlaceOfStay"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/heading_case_place_of_stay"
@@ -763,6 +765,32 @@
                     app:dependencyParentValue="@{EndOfIsolationReason.OTHER}"
                     app:value="@={data.endOfIsolationReasonDetails}"
                     style="@style/ControlSingleColumnStyle" />
+
+                <LinearLayout
+                    android:id="@+id/caseData_reportLat_reportLon_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <de.symeda.sormas.app.component.controls.ControlTextEditField
+                        android:id="@+id/caseData_reportLat"
+                        style="@style/ControlFirstOfTwoColumnsStyle"
+                        app:inputType="numberDecimal"
+                        app:value="@={data.reportLat}" />
+
+                    <de.symeda.sormas.app.component.controls.ControlTextEditField
+                        android:id="@+id/caseData_reportLon"
+                        style="@style/ControlSecondOfTwoColumnsStyle"
+                        app:inputType="numberDecimal"
+                        app:value="@={data.reportLon}" />
+
+                </LinearLayout>
+
+                <de.symeda.sormas.app.component.controls.ControlTextEditField
+                    android:id="@+id/caseData_reportLatLonAccuracy"
+                    style="@style/ControlSingleColumnStyle"
+                    app:inputType="numberDecimal"
+                    app:value="@={data.reportLatLonAccuracy}" />
 
                 <ImageView
                     android:id="@+id/caseData_contactTracingDivider"
