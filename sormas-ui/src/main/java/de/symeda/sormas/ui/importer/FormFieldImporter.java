@@ -79,11 +79,11 @@ public class FormFieldImporter extends DataImporter {
 		if (!hasImportError) {
 			// Validate required fields
 			if (newFormFieldDto.getFormType() == null) {
-				writeImportError(values, I18nProperties.getValidationError(Validations.importErrorInColumn, "formType") + ": " + I18nProperties.getValidationError(Validations.required));
+				writeImportError(values, I18nProperties.getValidationError(Validations.importErrorInColumn, "formType") + ": " + I18nProperties.getValidationError(Validations.required, "formType"));
 				hasImportError = true;
 			}
 			if (StringUtils.isBlank(newFormFieldDto.getFieldName())) {
-				writeImportError(values, I18nProperties.getValidationError(Validations.importErrorInColumn, "fieldName") + ": " + I18nProperties.getValidationError(Validations.required));
+				writeImportError(values, I18nProperties.getValidationError(Validations.importErrorInColumn, "fieldName") + ": " + I18nProperties.getValidationError(Validations.required, "fieldName"));
 				hasImportError = true;
 			}
 		}

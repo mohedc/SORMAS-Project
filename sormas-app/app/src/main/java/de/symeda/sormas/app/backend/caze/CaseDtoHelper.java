@@ -267,6 +267,14 @@ public class CaseDtoHelper extends PersonDependentDtoHelper<Case, CaseDataDto> {
 		target.setInvestigatorAddress(source.getInvestigatorAddress());
 		target.setInvestigatorTel(source.getInvestigatorTel());
 		target.setInvestigatorEmail(source.getInvestigatorEmail());
+		target.setCaseReferenceNumber(source.getCaseReferenceNumber());
+		target.setRegionLevelDate(source.getRegionLevelDate());
+		target.setNationalLevelDate(source.getNationalLevelDate());
+		target.setArrivalAtRegionalPublicHealthOfficeDate(source.getArrivalAtRegionalPublicHealthOfficeDate());
+		target.setArrivalAtNationalLevelDate(source.getArrivalAtNationalLevelDate());
+		target.setAtLeastOneYellowFeverDose(source.getAtLeastOneYellowFeverDose());
+		target.setVaccineType(source.getVaccineType());
+		target.setHealthWorkerCompletingForm(source.getHealthWorkerCompletingForm());
 	}
 
 	@Override
@@ -548,6 +556,14 @@ public class CaseDtoHelper extends PersonDependentDtoHelper<Case, CaseDataDto> {
 		target.setInvestigatorAddress(source.getInvestigatorAddress());
 		target.setInvestigatorTel(source.getInvestigatorTel());
 		target.setInvestigatorEmail(source.getInvestigatorEmail());
+		target.setCaseReferenceNumber(source.getCaseReferenceNumber());
+		target.setRegionLevelDate(source.getRegionLevelDate());
+		target.setNationalLevelDate(source.getNationalLevelDate());
+		target.setArrivalAtRegionalPublicHealthOfficeDate(source.getArrivalAtRegionalPublicHealthOfficeDate());
+		target.setArrivalAtNationalLevelDate(source.getArrivalAtNationalLevelDate());
+		target.setAtLeastOneYellowFeverDose(source.getAtLeastOneYellowFeverDose());
+		target.setVaccineType(source.getVaccineType());
+		target.setHealthWorkerCompletingForm(source.getHealthWorkerCompletingForm());
 
 		if (source.getHealthConditions() != null) {
 			HealthConditions healthConditions = DatabaseHelper.getHealthConditionsDao().queryForId(source.getHealthConditions().getId());

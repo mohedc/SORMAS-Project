@@ -36,6 +36,7 @@ import de.symeda.sormas.app.backend.common.AbstractDomainObject;
 import de.symeda.sormas.app.backend.common.EmbeddedAdo;
 
 import static de.symeda.sormas.api.utils.FieldConstraints.CHARACTER_LIMIT_BIG;
+import static de.symeda.sormas.api.utils.FieldConstraints.CHARACTER_LIMIT_DEFAULT;
 
 @Entity(name = Hospitalization.TABLE_NAME)
 @DatabaseTable(tableName = Hospitalization.TABLE_NAME)
@@ -91,6 +92,17 @@ public class Hospitalization extends AbstractDomainObject {
 
 	@DatabaseField(dataType = DataType.DATE_LONG)
 	private Date dateHealthFacilityNotifiedDistrict;
+
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	private String hospitalRecordNumber;
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	private String serialNumberInConsultationRegister;
+	@DatabaseField(dataType = DataType.DATE_LONG)
+	private Date dateOfConsultationAtHealthFacility;
+	@DatabaseField(dataType = DataType.DATE_LONG)
+	private Date dateHealthRegionNotified;
+	@Column(length = CHARACTER_LIMIT_BIG)
+	private String address;
 
 	// just for reference, not persisted in DB
 	private List<PreviousHospitalization> previousHospitalizations = new ArrayList<>();
@@ -257,5 +269,45 @@ public class Hospitalization extends AbstractDomainObject {
 
 	public void setDateHealthFacilityNotifiedDistrict(Date dateHealthFacilityNotifiedDistrict) {
 		this.dateHealthFacilityNotifiedDistrict = dateHealthFacilityNotifiedDistrict;
+	}
+
+	public String getHospitalRecordNumber() {
+		return hospitalRecordNumber;
+	}
+
+	public void setHospitalRecordNumber(String hospitalRecordNumber) {
+		this.hospitalRecordNumber = hospitalRecordNumber;
+	}
+
+	public String getSerialNumberInConsultationRegister() {
+		return serialNumberInConsultationRegister;
+	}
+
+	public void setSerialNumberInConsultationRegister(String serialNumberInConsultationRegister) {
+		this.serialNumberInConsultationRegister = serialNumberInConsultationRegister;
+	}
+
+	public Date getDateOfConsultationAtHealthFacility() {
+		return dateOfConsultationAtHealthFacility;
+	}
+
+	public void setDateOfConsultationAtHealthFacility(Date dateOfConsultationAtHealthFacility) {
+		this.dateOfConsultationAtHealthFacility = dateOfConsultationAtHealthFacility;
+	}
+
+	public Date getDateHealthRegionNotified() {
+		return dateHealthRegionNotified;
+	}
+
+	public void setDateHealthRegionNotified(Date dateHealthRegionNotified) {
+		this.dateHealthRegionNotified = dateHealthRegionNotified;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
 	}
 }

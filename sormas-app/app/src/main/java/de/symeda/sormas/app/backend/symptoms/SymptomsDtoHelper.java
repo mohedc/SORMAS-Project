@@ -245,6 +245,12 @@ public class SymptomsDtoHelper extends AdoDtoHelper<Symptoms, SymptomsDto> {
 		target.setStiffness(source.getStiffness());
 		target.setOutcome(source.getOutcome());
 		target.setBabyDied(source.getBabyDied());
+		target.setClinicianName(source.getClinicianName());
+		target.setClinicianAddress(source.getClinicianAddress());
+		target.setClinicianPhone(source.getClinicianPhone());
+		target.setAutopsyConducted(source.getAutopsyConducted());
+		target.setAutopsyFindings(source.getAutopsyFindings());
+		target.setAutopsyDate(source.getAutopsyDate());
 
 		target.setPseudonymized(source.isPseudonymized());
 	}
@@ -441,6 +447,12 @@ public class SymptomsDtoHelper extends AdoDtoHelper<Symptoms, SymptomsDto> {
 		target.setStiffness(source.getStiffness());
 		target.setOutcome(source.getOutcome());
 		target.setBabyDied(source.getBabyDied());
+		target.setClinicianName(source.getClinicianName());
+		target.setClinicianAddress(source.getClinicianAddress());
+		target.setClinicianPhone(source.getClinicianPhone());
+		target.setAutopsyConducted(source.getAutopsyConducted());
+		target.setAutopsyFindings(source.getAutopsyFindings());
+		target.setAutopsyDate(source.getAutopsyDate());
 
 		target.setPseudonymized(source.isPseudonymized());
 	}

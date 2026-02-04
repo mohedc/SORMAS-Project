@@ -89,7 +89,13 @@
                     app:maxLength="24"
                     style="@style/ControlSingleColumnStyle"/>
 
+                <de.symeda.sormas.app.component.controls.ControlTextEditField
+                    android:id="@+id/caseData_caseReferenceNumber"
+                    app:value="@={data.caseReferenceNumber}"
+                    style="@style/ControlSingleColumnStyle"/>
+
                 <LinearLayout
+                    android:id="@+id/caseData_externalID_externalToken_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -187,6 +193,7 @@
                     style="@style/ControlSingleColumnStyle" />
 
                 <LinearLayout
+                    android:id="@+id/caseData_outcome_outcomeDate_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -213,6 +220,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/caseData_sequelae_sequelaeDetails_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -432,6 +440,7 @@
                     style="@style/SubHeadingStyle" />
 
                 <LinearLayout
+                    android:id="@+id/caseData_responsibleRegion_responsibleDistrict_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -477,6 +486,7 @@
                     style="@style/ControlSingleColumnStyle" />
 
                 <LinearLayout
+                    android:id="@+id/caseData_region_district_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -589,6 +599,7 @@
                     app:value="@={data.prohibitionToWork}" />
 
                 <LinearLayout
+                    android:id="@+id/caseData_prohibitionToWorkFrom_prohibitionToWorkUntil_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -648,6 +659,7 @@
                     style="@style/ControlSingleColumnStyle" />
 
                 <LinearLayout
+                    android:id="@+id/caseData_quarantineFrom_quarantineTo_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -766,6 +778,7 @@
                     android:visibility="gone"/>
 
                 <LinearLayout
+                    android:id="@+id/caseData_contactTracingFirstContactType_contactTracingFirstContactDate_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -823,6 +836,7 @@
                     style="@style/ControlSingleColumnStyle" />
 
                 <LinearLayout
+                    android:id="@+id/caseData_vaccinated_routineVaccinationType_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -842,6 +856,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/caseData_vaccinationRecordType_numberOfVaccinationDoses_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -860,7 +875,13 @@
 
                 </LinearLayout>
 
+                <de.symeda.sormas.app.component.controls.ControlSpinnerField
+                    android:id="@+id/caseData_vaccineType"
+                    app:value="@={data.vaccineType}"
+                    style="@style/ControlSingleColumnStyle" />
+
                 <LinearLayout
+                    android:id="@+id/caseData_lastVaccinationDate_dateReceivedAtDistrictLevel_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -879,6 +900,12 @@
                         style="@style/ControlSecondOfTwoColumnsStyle" />
 
                 </LinearLayout>
+
+                <de.symeda.sormas.app.component.controls.ControlSwitchField
+                    android:id="@+id/caseData_atLeastOneYellowFeverDose"
+                    app:enumClass="@{yesNoUnknownClass}"
+                    app:value="@={data.atLeastOneYellowFeverDose}"
+                    style="@style/ControlSingleColumnStyle" />
 
                 <de.symeda.sormas.app.component.controls.ControlSwitchField
                     android:id="@+id/caseData_sourceOfInfectionIdentified"
@@ -917,6 +944,7 @@
                     style="@style/ImageCaptionStyle" />
 
                 <LinearLayout
+                    android:id="@+id/caseData_surveillanceOfficer_clinicianName_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -1031,6 +1059,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/caseData_clinicianPhone_clinicianEmail_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -1151,6 +1180,11 @@
 
                 </LinearLayout>
 
+                <de.symeda.sormas.app.component.controls.ControlTextEditField
+                    android:id="@+id/caseData_healthWorkerCompletingForm"
+                    app:value="@={data.healthWorkerCompletingForm}"
+                    style="@style/ControlSingleColumnStyle" />
+
                 <de.symeda.sormas.app.component.controls.ControlSpinnerField
                     android:id="@+id/caseData_notifyingClinic"
                     app:value="@={data.notifyingClinic}"
@@ -1169,6 +1203,42 @@
                     android:id="@+id/caseData_districtLevelDate"
                     app:value="@={data.districtLevelDate}"
                     style="@style/ControlSingleColumnStyle" />
+
+                <LinearLayout
+                    android:id="@+id/caseData_regionLevelDate_nationalLevelDate_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <de.symeda.sormas.app.component.controls.ControlDateField
+                        android:id="@+id/caseData_regionLevelDate"
+                        app:value="@={data.regionLevelDate}"
+                        style="@style/ControlFirstOfTwoColumnsStyle" />
+
+                    <de.symeda.sormas.app.component.controls.ControlDateField
+                        android:id="@+id/caseData_nationalLevelDate"
+                        app:value="@={data.nationalLevelDate}"
+                        style="@style/ControlSecondOfTwoColumnsStyle" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/caseData_arrivalAtRegionalDate_arrivalAtNationlDate_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <de.symeda.sormas.app.component.controls.ControlDateField
+                        android:id="@+id/caseData_arrivalAtRegionalPublicHealthOfficeDate"
+                        app:value="@={data.arrivalAtRegionalPublicHealthOfficeDate}"
+                        style="@style/ControlFirstOfTwoColumnsStyle" />
+
+                    <de.symeda.sormas.app.component.controls.ControlDateField
+                        android:id="@+id/caseData_arrivalAtNationalLevelDate"
+                        app:value="@={data.arrivalAtNationalLevelDate}"
+                        style="@style/ControlSecondOfTwoColumnsStyle" />
+
+                </LinearLayout>
 
                 <ImageView style="@style/FullHorizontalDividerStyle" />
 

@@ -47,6 +47,7 @@ import de.symeda.sormas.api.person.BurialConductor;
 import de.symeda.sormas.api.person.CauseOfDeath;
 import de.symeda.sormas.api.person.DeathPlaceType;
 import de.symeda.sormas.api.person.EducationType;
+import de.symeda.sormas.api.person.LocationOfBirth;
 import de.symeda.sormas.api.person.MaritalStatus;
 import de.symeda.sormas.api.person.PersonContactDetailDto;
 import de.symeda.sormas.api.person.PersonDto;
@@ -235,6 +236,7 @@ public class PersonEditFragment extends BaseEditFragment<FragmentPersonEditLayou
 		contentBinding.personOccupationType.initializeSpinner(occupationTypeList);
 		contentBinding.personArmedForcesRelationType.initializeSpinner(DataUtils.getEnumItems(ArmedForcesRelationType.class, true));
 		contentBinding.personEducationType.initializeSpinner(DataUtils.getEnumItems(EducationType.class, true));
+		contentBinding.personLocationOfBirth.initializeSpinner(DataUtils.getEnumItems(LocationOfBirth.class, true));
 		// Determine which values should show as personPresentCondition (the person may have a value that by default is not shown for the current disease)
 		List<Item> items = DataUtils.getEnumItems(PresentCondition.class, true, getFieldVisibilityCheckers());
 		PresentCondition currentValue = record.getPresentCondition();

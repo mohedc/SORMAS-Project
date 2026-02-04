@@ -331,8 +331,6 @@ public abstract class BaseEditFragment<TBinding extends ViewDataBinding, TData, 
 //    }
 
 	public void hideFieldsForDisease(Disease diseaseName, LinearLayout mainContent, FormType formType) {
-
-
 		DiseaseFieldHandler diseaseFieldHandler = new DiseaseFieldHandler(getContext());
 		diseaseFieldHandler.hideFieldsForDisease(diseaseName, mainContent, formType);
 	}

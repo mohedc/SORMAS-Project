@@ -495,6 +495,19 @@ public class Symptoms extends PseudonymizableAdo {
 	@Enumerated(EnumType.STRING)
 	private SymptomState babydied;
 
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	private String clinicianName;
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	private String clinicianAddress;
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	private String clinicianPhone;
+	@Enumerated(EnumType.STRING)
+	private YesNoUnknown autopsyConducted;
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	private String autopsyFindings;
+	@DatabaseField(dataType = DataType.DATE_LONG)
+	private Date autopsyDate;
+
 	@Override
 	public String getI18nPrefix() {
 		return I18N_PREFIX;
@@ -2140,5 +2153,53 @@ public class Symptoms extends PseudonymizableAdo {
 
 	public void setBabyDied(SymptomState babydied) {
 		this.babydied = babydied;
+	}
+
+	public String getClinicianName() {
+		return clinicianName;
+	}
+
+	public void setClinicianName(String clinicianName) {
+		this.clinicianName = clinicianName;
+	}
+
+	public String getClinicianAddress() {
+		return clinicianAddress;
+	}
+
+	public void setClinicianAddress(String clinicianAddress) {
+		this.clinicianAddress = clinicianAddress;
+	}
+
+	public String getClinicianPhone() {
+		return clinicianPhone;
+	}
+
+	public void setClinicianPhone(String clinicianPhone) {
+		this.clinicianPhone = clinicianPhone;
+	}
+
+	public YesNoUnknown getAutopsyConducted() {
+		return autopsyConducted;
+	}
+
+	public void setAutopsyConducted(YesNoUnknown autopsyConducted) {
+		this.autopsyConducted = autopsyConducted;
+	}
+
+	public String getAutopsyFindings() {
+		return autopsyFindings;
+	}
+
+	public void setAutopsyFindings(String autopsyFindings) {
+		this.autopsyFindings = autopsyFindings;
+	}
+
+	public Date getAutopsyDate() {
+		return autopsyDate;
+	}
+
+	public void setAutopsyDate(Date autopsyDate) {
+		this.autopsyDate = autopsyDate;
 	}
 }

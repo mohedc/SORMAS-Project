@@ -29,6 +29,7 @@
         <import type="de.symeda.sormas.api.symptoms.SymptomsContext" />
         <import type="de.symeda.sormas.api.symptoms.CongenitalHeartDiseaseType" />
         <import type="de.symeda.sormas.api.symptoms.SymptomState" />
+        <import type="de.symeda.sormas.api.utils.YesNoUnknown" />
 
         <variable name="data" type="de.symeda.sormas.app.backend.symptoms.Symptoms"/>
         <variable name="symptomStateClass" type="Class"/>
@@ -1415,6 +1416,72 @@
                 app:value="@={data.outcome}"
                 app:required="true"
                 style="@style/ControlSingleColumnStyle" />
+
+            <LinearLayout
+                android:id="@+id/symptoms_clinicianName_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <de.symeda.sormas.app.component.controls.ControlTextEditField
+                    android:id="@+id/symptoms_clinicianName"
+                    app:value="@={data.clinicianName}"
+                    style="@style/ControlFirstOfTwoColumnsStyle" />
+
+                <de.symeda.sormas.app.component.controls.ControlTextEditField
+                    android:id="@+id/symptoms_clinicianAddress"
+                    app:value="@={data.clinicianAddress}"
+                    style="@style/ControlSecondOfTwoColumnsStyle" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/symptoms_clinicianPhone_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <de.symeda.sormas.app.component.controls.ControlTextEditField
+                    android:id="@+id/symptoms_clinicianPhone"
+                    app:value="@={data.clinicianPhone}"
+                    style="@style/ControlSingleColumnStyle" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/symptoms_autopsyConducted_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <de.symeda.sormas.app.component.controls.ControlSwitchField
+                    android:id="@+id/symptoms_autopsyConducted"
+                    app:value="@={data.autopsyConducted}"
+                    style="@style/ControlFirstOfTwoColumnsStyle" />
+
+                <de.symeda.sormas.app.component.controls.ControlDateField
+                    android:id="@+id/symptoms_autopsyDate"
+                    app:value="@={data.autopsyDate}"
+                    app:dependencyParentField="@{symptomsAutopsyConducted}"
+                    app:dependencyParentValue="@{YesNoUnknown.YES}"
+                    style="@style/ControlSecondOfTwoColumnsStyle" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/symptoms_autopsyFindings_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <de.symeda.sormas.app.component.controls.ControlTextEditField
+                    android:id="@+id/symptoms_autopsyFindings"
+                    app:value="@={data.autopsyFindings}"
+                    app:dependencyParentField="@{symptomsAutopsyConducted}"
+                    app:dependencyParentValue="@{YesNoUnknown.YES}"
+                    style="@style/ControlSingleColumnStyle" />
+
+            </LinearLayout>
 
             <!-- comments, etc. -->
 

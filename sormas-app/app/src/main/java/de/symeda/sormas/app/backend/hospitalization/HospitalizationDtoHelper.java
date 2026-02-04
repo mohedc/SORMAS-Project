@@ -75,9 +75,14 @@ public class HospitalizationDtoHelper extends AdoDtoHelper<Hospitalization, Hosp
 		a.setHospitalizationReason(b.getHospitalizationReason());
 		a.setOtherHospitalizationReason(b.getOtherHospitalizationReason());
 		a.setSelectInpatientOutpatient(b.getSelectInpatientOutpatient());
+		a.setHospitalRecordNumber(b.getHospitalRecordNumber());
 		a.setSeenAtHealthFacility(b.getSeenAtHealthFacility());
 		a.setDateFirstSeenAtHealthFacility(b.getDateFirstSeenAtHealthFacility());
 		a.setDateHealthFacilityNotifiedDistrict(b.getDateHealthFacilityNotifiedDistrict());
+		a.setSerialNumberInConsultationRegister(b.getSerialNumberInConsultationRegister());
+		a.setDateOfConsultationAtHealthFacility(b.getDateOfConsultationAtHealthFacility());
+		a.setDateHealthRegionNotified(b.getDateHealthRegionNotified());
+		a.setAddress(b.getAddress());
 
 		// It would be better to merge with the existing hospitalizations
 		List<PreviousHospitalization> previousHospitalizations = new ArrayList<>();
@@ -108,9 +113,14 @@ public class HospitalizationDtoHelper extends AdoDtoHelper<Hospitalization, Hosp
 		a.setHospitalizationReason(b.getHospitalizationReason());
 		a.setOtherHospitalizationReason(b.getOtherHospitalizationReason());
 		a.setSelectInpatientOutpatient(b.getSelectInpatientOutpatient());
+		a.setHospitalRecordNumber(b.getHospitalRecordNumber());
 		a.setSeenAtHealthFacility(b.getSeenAtHealthFacility());
 		a.setDateFirstSeenAtHealthFacility(b.getDateFirstSeenAtHealthFacility());
 		a.setDateHealthFacilityNotifiedDistrict(b.getDateHealthFacilityNotifiedDistrict());
+		a.setSerialNumberInConsultationRegister(b.getSerialNumberInConsultationRegister());
+		a.setDateOfConsultationAtHealthFacility(b.getDateOfConsultationAtHealthFacility());
+		a.setDateHealthRegionNotified(b.getDateHealthRegionNotified());
+		a.setAddress(b.getAddress());
 
 		List<PreviousHospitalizationDto> previousHospitalizationDtos = new ArrayList<>();
 		for (PreviousHospitalization prevHosp : b.getPreviousHospitalizations()) {

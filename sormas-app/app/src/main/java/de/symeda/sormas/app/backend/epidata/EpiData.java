@@ -16,12 +16,16 @@
 package de.symeda.sormas.app.backend.epidata;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
+import com.j256.ormlite.field.DataType;
+import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 import de.symeda.sormas.api.utils.YesNo;
@@ -31,6 +35,8 @@ import de.symeda.sormas.app.backend.common.EmbeddedAdo;
 import de.symeda.sormas.app.backend.common.PseudonymizableAdo;
 import de.symeda.sormas.app.backend.exposure.Exposure;
 import de.symeda.sormas.app.backend.location.Location;
+
+import static de.symeda.sormas.api.utils.FieldConstraints.CHARACTER_LIMIT_DEFAULT;
 
 @Entity(name = EpiData.TABLE_NAME)
 @DatabaseTable(tableName = EpiData.TABLE_NAME)
@@ -63,6 +69,27 @@ public class EpiData extends PseudonymizableAdo {
 
 	@com.j256.ormlite.field.DatabaseField(foreign = true, foreignAutoRefresh = true)
 	private Location travelLocation;
+
+	@Enumerated(EnumType.STRING)
+	private YesNoUnknown motherRubellaLabConfirmed;
+	@DatabaseField(dataType = DataType.DATE_LONG)
+	private Date motherRubellaLabConfirmedDate;
+	@Enumerated(EnumType.STRING)
+	private YesNoUnknown motherExposedDuringPregnancy;
+	@DatabaseField(dataType = DataType.DATE_LONG)
+	private Date motherExposedDuringPregnancyDate;
+	@DatabaseField
+	private Integer gestationalAgeAtExposure;
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	private String exposureLocationDescription;
+	@Enumerated(EnumType.STRING)
+	private YesNoUnknown motherTraveledDuringPregnancy;
+	@DatabaseField(dataType = DataType.DATE_LONG)
+	private Date motherTraveledDuringPregnancyDate;
+	@DatabaseField
+	private Integer gestationalAgeAtTravel;
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	private String travelLocationDescription;
 
 	public YesNoUnknown getExposureDetailsKnown() {
 		return exposureDetailsKnown;
@@ -142,6 +169,86 @@ public class EpiData extends PseudonymizableAdo {
 
 	public void setTravelLocation(Location travelLocation) {
 		this.travelLocation = travelLocation;
+	}
+
+	public YesNoUnknown getMotherRubellaLabConfirmed() {
+		return motherRubellaLabConfirmed;
+	}
+
+	public void setMotherRubellaLabConfirmed(YesNoUnknown motherRubellaLabConfirmed) {
+		this.motherRubellaLabConfirmed = motherRubellaLabConfirmed;
+	}
+
+	public Date getMotherRubellaLabConfirmedDate() {
+		return motherRubellaLabConfirmedDate;
+	}
+
+	public void setMotherRubellaLabConfirmedDate(Date motherRubellaLabConfirmedDate) {
+		this.motherRubellaLabConfirmedDate = motherRubellaLabConfirmedDate;
+	}
+
+	public YesNoUnknown getMotherExposedDuringPregnancy() {
+		return motherExposedDuringPregnancy;
+	}
+
+	public void setMotherExposedDuringPregnancy(YesNoUnknown motherExposedDuringPregnancy) {
+		this.motherExposedDuringPregnancy = motherExposedDuringPregnancy;
+	}
+
+	public Date getMotherExposedDuringPregnancyDate() {
+		return motherExposedDuringPregnancyDate;
+	}
+
+	public void setMotherExposedDuringPregnancyDate(Date motherExposedDuringPregnancyDate) {
+		this.motherExposedDuringPregnancyDate = motherExposedDuringPregnancyDate;
+	}
+
+	public Integer getGestationalAgeAtExposure() {
+		return gestationalAgeAtExposure;
+	}
+
+	public void setGestationalAgeAtExposure(Integer gestationalAgeAtExposure) {
+		this.gestationalAgeAtExposure = gestationalAgeAtExposure;
+	}
+
+	public String getExposureLocationDescription() {
+		return exposureLocationDescription;
+	}
+
+	public void setExposureLocationDescription(String exposureLocationDescription) {
+		this.exposureLocationDescription = exposureLocationDescription;
+	}
+
+	public YesNoUnknown getMotherTraveledDuringPregnancy() {
+		return motherTraveledDuringPregnancy;
+	}
+
+	public void setMotherTraveledDuringPregnancy(YesNoUnknown motherTraveledDuringPregnancy) {
+		this.motherTraveledDuringPregnancy = motherTraveledDuringPregnancy;
+	}
+
+	public Date getMotherTraveledDuringPregnancyDate() {
+		return motherTraveledDuringPregnancyDate;
+	}
+
+	public void setMotherTraveledDuringPregnancyDate(Date motherTraveledDuringPregnancyDate) {
+		this.motherTraveledDuringPregnancyDate = motherTraveledDuringPregnancyDate;
+	}
+
+	public Integer getGestationalAgeAtTravel() {
+		return gestationalAgeAtTravel;
+	}
+
+	public void setGestationalAgeAtTravel(Integer gestationalAgeAtTravel) {
+		this.gestationalAgeAtTravel = gestationalAgeAtTravel;
+	}
+
+	public String getTravelLocationDescription() {
+		return travelLocationDescription;
+	}
+
+	public void setTravelLocationDescription(String travelLocationDescription) {
+		this.travelLocationDescription = travelLocationDescription;
 	}
 
 	@Override
