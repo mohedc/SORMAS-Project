@@ -89,7 +89,7 @@ public class FormBuilderGrid extends FilteredGrid<FormBuilderDto, FormBuilderCri
 	}
 
 	private void addDuplicateColumn() {
-		addComponentColumn(this::createDuplicateButton).setId("duplicate").setSortable(false).setCaption("");
+		addComponentColumn(this::createDuplicateButton).setId("duplicate").setSortable(false);
 	}
 
 	private Button createDuplicateButton(FormBuilderDto formBuilder) {
