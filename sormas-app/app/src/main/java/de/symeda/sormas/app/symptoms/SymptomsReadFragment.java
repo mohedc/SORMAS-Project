@@ -169,7 +169,8 @@ public class SymptomsReadFragment extends BaseReadFragment<FragmentSymptomsReadL
 			}
 
 			try {
-				Method getter = Symptoms.class.getDeclaredMethod("get" + DataHelper.capitalize(symptomPropertyId));
+				String methodName = "get" + DataHelper.capitalize(symptomPropertyId);
+				Method getter = Symptoms.class.getDeclaredMethod(methodName);
 				SymptomState symptomState = (SymptomState) getter.invoke(record);
 				if (symptomState != null) {
 					switch (symptomState) {
@@ -186,7 +187,11 @@ public class SymptomsReadFragment extends BaseReadFragment<FragmentSymptomsReadL
 						throw new IllegalArgumentException(symptomState.toString());
 					}
 				}
-			} catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+			} catch (NoSuchMethodException e) {
+				// Skip fields that don't exist in the Android entity (e.g., "cataracts" exists in DTO but not in Android entity)
+				// The Android entity has "bilateralCataracts" and "unilateralCataracts" instead
+				continue;
+			} catch (IllegalAccessException | InvocationTargetException e) {
 				throw new RuntimeException(e);
 			}
 		}
