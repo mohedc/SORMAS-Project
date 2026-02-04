@@ -864,25 +864,6 @@ public class SampleFacadeEjb implements SampleFacade {
 		target.setDateSpecimenSentInter(source.getDateSpecimenSentInter());
 		target.setDateSpecimenReceivedInter(source.getDateSpecimenReceivedInter());
 		target.setStatusSpecimenReceptionAtLab(source.getStatusSpecimenReceptionAtLab());
-		target.setDateCombinedCellCultureResults(source.getDateCombinedCellCultureResults());
-		target.setW1(source.getW1());
-		target.setW2(source.getW2());
-		target.setW3(source.getW3());
-		target.setDiscordant(source.getDiscordant());
-		target.setsL1(source.getsL1());
-		target.setsL2(source.getsL2());
-		target.setsL3(source.getsL3());
-		target.setDateFollowUpExam(source.getDateFollowUpExam());
-		target.setResidualAnalysis(source.getResidualAnalysis());
-		target.setResultExam(source.getResultExam());
-		target.setDateSentToNationalRegLab(source.getDateSentToNationalRegLab());
-		target.setDateDifferentiationSentToEpi(source.getDateDifferentiationSentToEpi());
-		target.setDateDifferentiationReceivedFromEpi(source.getDateDifferentiationReceivedFromEpi());
-		target.setDateIsolateSentForSequencing(source.getDateIsolateSentForSequencing());
-		target.setDateSeqResultsSentToProgram(source.getDateSeqResultsSentToProgram());
-		target.setFinalLabResults(source.getFinalLabResults());
-		target.setImmunocompromisedStatusSuspected(source.getImmunocompromisedStatusSuspected());
-		target.setAfpFinalClassification(source.getAfpFinalClassification());
 		target.setDateSpecimenSentFromFieldToNationalLab(source.getDateSpecimenSentFromFieldToNationalLab());
 		target.setDateSpecimenSentToRegionalReferenceLab(source.getDateSpecimenSentToRegionalReferenceLab());
 		target.setDateSpecimenReceivedAtNationalLab(source.getDateSpecimenReceivedAtNationalLab());
@@ -907,6 +888,7 @@ public class SampleFacadeEjb implements SampleFacade {
 		target.setPrnt(source.getPrnt());
 		target.setPrntInputValue(source.getPrntInputValue());
 		target.setPrntDate(source.getPrntDate());
+		target.setSuspectedDisease(source.getSuspectedDisease());
 
 		target.setReportLat(source.getReportLat());
 		target.setReportLon(source.getReportLon());
@@ -1076,25 +1058,6 @@ public class SampleFacadeEjb implements SampleFacade {
 		target.setDateSpecimenSentInter(source.getDateSpecimenSentInter());
 		target.setDateSpecimenReceivedInter(source.getDateSpecimenReceivedInter());
 		target.setStatusSpecimenReceptionAtLab(source.getStatusSpecimenReceptionAtLab());
-		target.setDateCombinedCellCultureResults(source.getDateCombinedCellCultureResults());
-		target.setW1(source.getW1());
-		target.setW2(source.getW2());
-		target.setW3(source.getW3());
-		target.setDiscordant(source.getDiscordant());
-		target.setsL1(source.getsL1());
-		target.setsL2(source.getsL2());
-		target.setsL3(source.getsL3());
-		target.setDateFollowUpExam(source.getDateFollowUpExam());
-		target.setResidualAnalysis(source.getResidualAnalysis());
-		target.setResultExam(source.getResultExam());
-		target.setDateSentToNationalRegLab(source.getDateSentToNationalRegLab());
-		target.setDateDifferentiationSentToEpi(source.getDateDifferentiationSentToEpi());
-		target.setDateDifferentiationReceivedFromEpi(source.getDateDifferentiationReceivedFromEpi());
-		target.setDateIsolateSentForSequencing(source.getDateIsolateSentForSequencing());
-		target.setDateSeqResultsSentToProgram(source.getDateSeqResultsSentToProgram());
-		target.setFinalLabResults(source.getFinalLabResults());
-		target.setImmunocompromisedStatusSuspected(source.getImmunocompromisedStatusSuspected());
-		target.setAfpFinalClassification(source.getAfpFinalClassification());
 		target.setDateSpecimenSentFromFieldToNationalLab(source.getDateSpecimenSentFromFieldToNationalLab());
 		target.setDateSpecimenSentToRegionalReferenceLab(source.getDateSpecimenSentToRegionalReferenceLab());
 		target.setDateSpecimenReceivedAtNationalLab(source.getDateSpecimenReceivedAtNationalLab());
@@ -1119,6 +1082,7 @@ public class SampleFacadeEjb implements SampleFacade {
 		target.setPrnt(source.getPrnt());
 		target.setPrntInputValue(source.getPrntInputValue());
 		target.setPrntDate(source.getPrntDate());
+		target.setSuspectedDisease(source.getSuspectedDisease());
 
 		target.setReportLat(source.getReportLat());
 		target.setReportLon(source.getReportLon());

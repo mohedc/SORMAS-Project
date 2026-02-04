@@ -171,7 +171,7 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 			fluidRowLocs(6, STIFFNESS) +
 			fluidRowLocs(OTHER_COMPLICATIONS, OTHER_COMPLICATIONS_TEXT) +
 			locsCss(VSPACE_3) +
-			fluidRowLocs(6, CONVULSION) +
+			fluidRowLocs(6, SPASMS_CONVULSION) +
 			fluidRowLocs(BABY_DIED, AGE_AT_DEATH_DAYS, AGE_AT_ONSET_DAYS) +
 			fluidRowLocs(6, OUTCOME) +
 			fluidRowLocs(SYMPTOMS_COMMENTS);
@@ -255,6 +255,18 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 					locsCss(VSPACE_3, SYMPTOMS_COMMENTS) +
 					fluidRowLocsCss(VSPACE_3, ONSET_SYMPTOM, ONSET_DATE) +
 					fluidRowLocs(3, OUTCOME);
+
+	public static final String IDSR_LAYOUT =
+			fluidRowLocs(6, SEVERE_REACTION_AFTER_VACCINATION) +
+			fluidRowLocs(6, ANIMAL_BITE_SCRATCH) +
+			fluidRowLocs(6, ACUTE_WATERY_DIARRHEA) +
+			fluidRowLocs(6, BLOOD_IN_STOOL) +
+			fluidRowLocs(6, BLOOD_URINE) +
+			fluidRowLocs(6, PERSISTENT_LIMB) +
+			fluidRowLocs(6, GENITAL_SWELLING) +
+			fluidRowLocs(6, RED_EYE) +
+			fluidRowLocs(6, ONSET_DATE) +
+			fluidRowLocs(3, OUTCOME);
 	//@formatter:on
 
 	private static String createSymptomGroupLayout(SymptomGroup symptomGroup, String loc) {
@@ -431,6 +443,7 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 			FATIGUE_WEAKNESS,
 			SKIN_RASH,
 			NECK_STIFFNESS,
+			SPASMS_CONVULSION,
 			SORE_THROAT,
 			COUGH,
 			COUGH_WITH_SPUTUM,
@@ -582,7 +595,13 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 			STIFFNESS,
 			FEVER,
 			GENERALIZED_RASH,
-			SWOLLEN_LYMPH_NODES_BEHIND_EARS);
+			SWOLLEN_LYMPH_NODES_BEHIND_EARS,
+			SEVERE_REACTION_AFTER_VACCINATION,
+			ANIMAL_BITE_SCRATCH,
+			ACUTE_WATERY_DIARRHEA,
+			PERSISTENT_LIMB,
+			GENITAL_SWELLING,
+			RED_EYE);
 
 		addField(SYMPTOMS_COMMENTS, TextField.class).setDescription(
 			I18nProperties.getPrefixDescription(I18N_PREFIX, SYMPTOMS_COMMENTS, "") + "\n" + I18nProperties.getDescription(Descriptions.descGdpr));
@@ -621,7 +640,7 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 		addFields(clinicalPresentationFieldIds);
 
 		// Add OUTCOME field for NNT and Measles
-		addField(OUTCOME, ComboBox.class);
+		ComboBox outcomeList = addField(OUTCOME, ComboBox.class);
 
 		monkeypoxImageFieldIds = Arrays.asList(LESIONS_RESEMBLE_IMG1, LESIONS_RESEMBLE_IMG2, LESIONS_RESEMBLE_IMG3, LESIONS_RESEMBLE_IMG4);
 		for (String propertyId : monkeypoxImageFieldIds) {
@@ -690,6 +709,12 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 			provisionalDiagnosis.setRows(4);
 
 			clinicalMeasurementsHeadingLabel.setVisible(false);
+		}
+
+		if (disease == Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS){
+			onsetDateField.setCaption("Date of Onset");
+			List<CaseOutcome> outcomes = Arrays.asList(CaseOutcome.ALIVE, CaseOutcome.DECEASED, CaseOutcome.UNKNOWN);
+			FieldHelper.updateEnumData(outcomeList, outcomes);
 		}
 
 		if (symptomsContext != SymptomsContext.CLINICAL_VISIT) {
@@ -890,7 +915,9 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 		NullableOptionGroup feverField = (NullableOptionGroup) getFieldGroup().getField(FEVER);
 		feverField.setImmediate(true);
 
-		FieldHelper.setVisibleWhen(getFieldGroup(), conditionalBleedingSymptomFieldIds, UNEXPLAINED_BLEEDING, Arrays.asList(SymptomState.YES), true);
+		if (disease != Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS){
+			FieldHelper.setVisibleWhen(getFieldGroup(), conditionalBleedingSymptomFieldIds, UNEXPLAINED_BLEEDING, Arrays.asList(SymptomState.YES), true);
+		}
 
 		FieldHelper
 			.setVisibleWhen(getFieldGroup(), OTHER_HEMORRHAGIC_SYMPTOMS_TEXT, OTHER_HEMORRHAGIC_SYMPTOMS, Arrays.asList(SymptomState.YES), true);
@@ -1192,13 +1219,6 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 		});
 	}
 
-	private Label createLabel(String text, String h4, String location) {
-		final Label label = new Label(text);
-		label.setId(text);
-		label.addStyleName(h4);
-		getContent().addComponent(label, location);
-		return label;
-	}
 
 	@Override
 	protected String createHtmlLayout() {
@@ -1234,6 +1254,8 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 				return AFP_LAYOUT;
 			case CSM:
 				return MENINGITIS_LAYOUT;
+			case IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS:
+				return IDSR_LAYOUT;
 			default:
 				return FINAL_HTML_LAYOUT;
 		}

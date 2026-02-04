@@ -3261,6 +3261,14 @@ public class CaseFacadeEjb extends AbstractCoreFacadeEjb<Case, CaseDataDto, Case
 		target.setHealthWorkerCompletingForm(source.getHealthWorkerCompletingForm());
 		target.setNotifiedByText(source.getNotifiedByText());
 		target.setFinalClassification(source.getFinalClassification());
+		target.setDateFormSentToRegion(source.getDateFormSentToRegion());
+		target.setPersonFullName(source.getPersonFullName());
+		target.setPersonTelephone(source.getPersonTelephone());
+		target.setPersonDesignation(source.getPersonDesignation());
+		target.setImmunocompromisedStatusSuspected(source.getImmunocompromisedStatusSuspected());
+		target.setDateRegionReceivesLabResults(source.getDateRegionReceivesLabResults());
+		target.setDateLabResultsSentHealthFacilityRegion(source.getDateLabResultsSentHealthFacilityRegion());
+		target.setDateLabResultsReceivedAtHealthFacility(source.getDateLabResultsReceivedAtHealthFacility());
 
 		return target;
 	}
@@ -3519,6 +3527,14 @@ public class CaseFacadeEjb extends AbstractCoreFacadeEjb<Case, CaseDataDto, Case
 		target.setHealthWorkerCompletingForm(source.getHealthWorkerCompletingForm());
 		target.setNotifiedByText(source.getNotifiedByText());
 		target.setFinalClassification(source.getFinalClassification());
+		target.setDateFormSentToRegion(source.getDateFormSentToRegion());
+		target.setPersonFullName(source.getPersonFullName());
+		target.setPersonTelephone(source.getPersonTelephone());
+		target.setPersonDesignation(source.getPersonDesignation());
+		target.setImmunocompromisedStatusSuspected(source.getImmunocompromisedStatusSuspected());
+		target.setDateRegionReceivesLabResults(source.getDateRegionReceivesLabResults());
+		target.setDateLabResultsSentHealthFacilityRegion(source.getDateLabResultsSentHealthFacilityRegion());
+		target.setDateLabResultsReceivedAtHealthFacility(source.getDateLabResultsReceivedAtHealthFacility());
         return target;
 	}
 

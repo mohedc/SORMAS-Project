@@ -294,6 +294,13 @@ public class Symptoms extends AbstractDomainObject {
 	private String injectionSiteString;
 	private String provisionalDiagnosis;
 	private YesNo trueAfp;
+	private SymptomState severeReactionAfterVaccination;
+	private SymptomState animalBiteScratch;
+	private SymptomState acuteWateryDiarrhea;
+	private SymptomState persistentLimb;
+	private SymptomState genitalSwelling;
+	private SymptomState redEye;
+	private SymptomState spasmsConvulsion;
 
 	// when adding new fields make sure to extend toHumanString
 
@@ -2353,8 +2360,64 @@ public class Symptoms extends AbstractDomainObject {
 	public YesNo getTrueAfp() {
 		return trueAfp;
 	}
-
 	public void setTrueAfp(YesNo trueAfp) {
 		this.trueAfp = trueAfp;
 	}
+	@Enumerated(EnumType.STRING)
+	public SymptomState getSevereReactionAfterVaccination() {
+		return severeReactionAfterVaccination;
+	}
+
+	public void setSevereReactionAfterVaccination(SymptomState severeReactionAfterVaccination) {
+		this.severeReactionAfterVaccination = severeReactionAfterVaccination;
+	}
+	@Enumerated(EnumType.STRING)
+	public SymptomState getAnimalBiteScratch() {
+		return animalBiteScratch;
+	}
+
+	public void setAnimalBiteScratch(SymptomState animalBiteScratch) {
+		this.animalBiteScratch = animalBiteScratch;
+	}
+	@Enumerated(EnumType.STRING)
+	public SymptomState getAcuteWateryDiarrhea() {
+		return acuteWateryDiarrhea;
+	}
+
+	public void setAcuteWateryDiarrhea(SymptomState acuteWateryDiarrhea) {
+		this.acuteWateryDiarrhea = acuteWateryDiarrhea;
+	}
+	@Enumerated(EnumType.STRING)
+	public SymptomState getPersistentLimb() {
+		return persistentLimb;
+	}
+
+	public void setPersistentLimb(SymptomState persistentLimb) {
+		this.persistentLimb = persistentLimb;
+	}
+	@Enumerated(EnumType.STRING)
+	public SymptomState getGenitalSwelling() {
+		return genitalSwelling;
+	}
+
+	public void setGenitalSwelling(SymptomState genitalSwelling) {
+		this.genitalSwelling = genitalSwelling;
+	}
+	@Enumerated(EnumType.STRING)
+	public SymptomState getRedEye() {
+		return redEye;
+	}
+	@Enumerated(EnumType.STRING)
+	public SymptomState getSpasmsConvulsion() {
+		return spasmsConvulsion;
+	}
+
+	public void setSpasmsConvulsion(SymptomState spasmsConvulsion) {
+		this.spasmsConvulsion = spasmsConvulsion;
+	}
+
+	public void setRedEye(SymptomState redEye) {
+		this.redEye = redEye;
+	}
+
 }

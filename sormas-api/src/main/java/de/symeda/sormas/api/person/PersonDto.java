@@ -151,6 +151,9 @@ public class PersonDto extends PseudonymizableDto implements IsPerson {
 	public static final String DESCRIBE_TREATMENT_OF_CARD = "describeTreatmentOfCard";
 	public static final String CAREGIVER_TELEPHONE_NUMBER = "caregiverTelephoneNumber";
 	public static final String CURRENT_WEIGHT = "currentWeight";
+	public static final String APPLICABLE = "applicable";
+	public static final String LOCATING_INFO = "locatingInfo";
+	public static final String TEL_NUMBER = "telNumber";
 	private static final long serialVersionUID = -8558187171374254398L;
 
 	// Fields are declared in the order they should appear in the import template
@@ -277,7 +280,7 @@ public class PersonDto extends PseudonymizableDto implements IsPerson {
 	@HideForCountries
 	private Integer currentWeight;
 	@Diseases({
-		Disease.CONGENITAL_RUBELLA })
+		Disease.CONGENITAL_RUBELLA})
 	@HideForCountries
 	@SensitiveData
 	@Size(max = FieldConstraints.CHARACTER_LIMIT_DEFAULT, message = Validations.textTooLong)
@@ -449,18 +452,9 @@ public class PersonDto extends PseudonymizableDto implements IsPerson {
 	private LocationOfBirth locationOfBirth;
 	private YesNoUnknown birthInInstitution;
 	private String describeTreatmentOfCard;
-	private String place;
-	private String durationMonths;
-	private String durationDays;
-	private String place2;
-	private String durationMonths2;
-	private String durationDays2;
-	private String place3;
-	private String durationMonths3;
-	private String durationDays3;
-	private String place4;
-	private String durationMonths4;
-	private String durationDays4;
+	private YesNo applicable;
+	private String locatingInfo;
+	private String telNumber;
 
 	@SuppressWarnings("serial")
 	public static class SeveralNonPrimaryContactDetailsException extends RuntimeException {
@@ -1297,100 +1291,28 @@ public class PersonDto extends PseudonymizableDto implements IsPerson {
 		this.describeTreatmentOfCard = describeTreatmentOfCard;
 	}
 
-	public String getPlace() {
-		return place;
+	public YesNo getApplicable() {
+		return applicable;
 	}
 
-	public void setPlace(String place) {
-		this.place = place;
+	public void setApplicable(YesNo applicable) {
+		this.applicable = applicable;
 	}
 
-	public String getDurationMonths() {
-		return durationMonths;
+	public String getTelNumber() {
+		return telNumber;
 	}
 
-	public void setDurationMonths(String durationMonths) {
-		this.durationMonths = durationMonths;
+	public void setTelNumber(String telNumber) {
+		this.telNumber = telNumber;
 	}
 
-	public String getDurationDays() {
-		return durationDays;
+	public String getLocatingInfo() {
+		return locatingInfo;
 	}
 
-	public void setDurationDays(String durationDays) {
-		this.durationDays = durationDays;
-	}
-
-	public String getPlace2() {
-		return place2;
-	}
-
-	public void setPlace2(String place2) {
-		this.place2 = place2;
-	}
-
-	public String getDurationMonths2() {
-		return durationMonths2;
-	}
-
-	public void setDurationMonths2(String durationMonths2) {
-		this.durationMonths2 = durationMonths2;
-	}
-
-	public String getDurationDays2() {
-		return durationDays2;
-	}
-
-	public void setDurationDays2(String durationDays2) {
-		this.durationDays2 = durationDays2;
-	}
-
-	public String getPlace3() {
-		return place3;
-	}
-
-	public void setPlace3(String place3) {
-		this.place3 = place3;
-	}
-
-	public String getDurationMonths3() {
-		return durationMonths3;
-	}
-
-	public void setDurationMonths3(String durationMonths3) {
-		this.durationMonths3 = durationMonths3;
-	}
-
-	public String getDurationDays3() {
-		return durationDays3;
-	}
-
-	public void setDurationDays3(String durationDays3) {
-		this.durationDays3 = durationDays3;
-	}
-
-	public String getPlace4() {
-		return place4;
-	}
-
-	public void setPlace4(String place4) {
-		this.place4 = place4;
-	}
-
-	public String getDurationMonths4() {
-		return durationMonths4;
-	}
-
-	public void setDurationMonths4(String durationMonths4) {
-		this.durationMonths4 = durationMonths4;
-	}
-
-	public String getDurationDays4() {
-		return durationDays4;
-	}
-
-	public void setDurationDays4(String durationDays4) {
-		this.durationDays4 = durationDays4;
+	public void setLocatingInfo(String locatingInfo) {
+		this.locatingInfo = locatingInfo;
 	}
 
 	@Override

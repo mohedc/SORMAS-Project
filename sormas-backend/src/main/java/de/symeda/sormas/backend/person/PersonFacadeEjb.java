@@ -1051,18 +1051,9 @@ public class PersonFacadeEjb extends AbstractBaseEjb<Person, PersonDto, PersonIn
 		target.setLocationOfBirth(source.getLocationOfBirth());
 		target.setBirthInInstitution(source.getBirthInInstitution());
 		target.setDescribeTreatmentOfCard(source.getDescribeTreatmentOfCard());
-		target.setPlace(source.getPlace());
-		target.setDurationMonths(source.getDurationMonths());
-		target.setDurationDays(source.getDurationDays());
-		target.setPlace2(source.getPlace2());
-		target.setDurationMonths2(source.getDurationMonths2());
-		target.setDurationDays2(source.getDurationDays2());
-		target.setPlace3(source.getPlace3());
-		target.setDurationMonths3(source.getDurationMonths3());
-		target.setDurationDays3(source.getDurationDays3());
-		target.setPlace4(source.getPlace4());
-		target.setDurationMonths4(source.getDurationMonths4());
-		target.setDurationDays4(source.getDurationDays4());
+		target.setApplicable(source.getApplicable());
+		target.setTelNumber(source.getTelNumber());
+		target.setLocatingInfo(source.getLocatingInfo());
 
 		return target;
 	}
@@ -1853,18 +1844,9 @@ public class PersonFacadeEjb extends AbstractBaseEjb<Person, PersonDto, PersonIn
 		target.setLocationOfBirth(source.getLocationOfBirth());
 		target.setBirthInInstitution(source.getBirthInInstitution());
 		target.setDescribeTreatmentOfCard(source.getDescribeTreatmentOfCard());
-		target.setPlace(source.getPlace());
-		target.setDurationMonths(source.getDurationMonths());
-		target.setDurationDays(source.getDurationDays());
-		target.setPlace2(source.getPlace2());
-		target.setDurationMonths2(source.getDurationMonths2());
-		target.setDurationDays2(source.getDurationDays2());
-		target.setPlace3(source.getPlace3());
-		target.setDurationMonths3(source.getDurationMonths3());
-		target.setDurationDays3(source.getDurationDays3());
-		target.setPlace4(source.getPlace4());
-		target.setDurationMonths4(source.getDurationMonths4());
-		target.setDurationDays4(source.getDurationDays4());
+		target.setApplicable(source.getApplicable());
+		target.setTelNumber(source.getTelNumber());
+		target.setLocatingInfo(source.getLocatingInfo());
 
 		return target;
 	}

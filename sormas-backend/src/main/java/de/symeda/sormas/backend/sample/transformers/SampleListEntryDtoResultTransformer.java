@@ -23,7 +23,7 @@ public class SampleListEntryDtoResultTransformer implements ResultTransformer {
 
 		String labName = (String) objects[12];
 		String labUuid = (String) objects[13];
-		FacilityReferenceDto lab = new FacilityReferenceDto(labUuid, FacilityHelper.buildFacilityString(labUuid, labName), null);
+ 		FacilityReferenceDto lab = new FacilityReferenceDto(labUuid, FacilityHelper.buildFacilityString(labUuid, labName), null);
 
 		AdditionalTestingStatus additionalTestingStatus = Boolean.TRUE.equals(objects[17])
 			? AdditionalTestingStatus.PERFORMED

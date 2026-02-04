@@ -17,12 +17,10 @@
  *******************************************************************************/
 package de.symeda.sormas.ui.epidata;
 
-import static de.symeda.sormas.ui.utils.CssStyles.VSPACE_3;
-import static de.symeda.sormas.ui.utils.CssStyles.VSPACE_TOP_3;
-import static de.symeda.sormas.ui.utils.LayoutUtil.divsCss;
-import static de.symeda.sormas.ui.utils.LayoutUtil.h3;
-import static de.symeda.sormas.ui.utils.LayoutUtil.loc;
-import static de.symeda.sormas.ui.utils.LayoutUtil.locCss;
+import static de.symeda.sormas.ui.utils.CssStyles.*;
+import static de.symeda.sormas.ui.utils.CssStyles.H3;
+import static de.symeda.sormas.ui.utils.LayoutUtil.*;
+import static de.symeda.sormas.ui.utils.LayoutUtil.fluidRowLocs;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -30,6 +28,8 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
+import com.vaadin.ui.Label;
+import de.symeda.sormas.api.person.PersonDto;
 import de.symeda.sormas.api.utils.fieldaccess.UiFieldAccessCheckers;
 import de.symeda.sormas.api.utils.fieldvisibility.checkers.CountryFieldVisibilityChecker;
 import org.apache.commons.collections4.CollectionUtils;
@@ -75,6 +75,8 @@ public class EpiDataForm extends AbstractEditForm<EpiDataDto> {
 	private static final String LOC_SOURCE_CASE_CONTACTS_HEADING = "locSourceCaseContactsHeading";
 	private static final String LOC_EPI_DATA_FIELDS_HINT = "locEpiDataFieldsHint";
 	private static final String LOC_TRAVEL_LOCATION_HEADING = "locTravelLocationHeading";
+	private static final String FILL_SECTION_HEADING_LOC = "fillSectionHeadingLoc";
+	public static final String SEEK_HELP_HEADING_LOC = "seekHelpHeadingLoc";
 	//@formatter:off
 	private static final String MAIN_HTML_LAYOUT = 
 			loc(LOC_EXPOSURE_INVESTIGATION_HEADING) + 
@@ -121,6 +123,21 @@ public class EpiDataForm extends AbstractEditForm<EpiDataDto> {
 		loc(EpiDataDto.EXPOSURE_DETAILS_KNOWN) +
 		loc(EpiDataDto.EXPOSURES);
 
+	private static final String IDSR_HTML_LAYOUT =
+			loc(LOC_EXPOSURE_INVESTIGATION_HEADING) +
+			loc(EpiDataDto.RECENT_TRAVEL_OUTBREAK)+
+			loc(EpiDataDto.CONTACT_SIMILAR_SYMPTOMS)+
+			loc(EpiDataDto.CONTACT_SICK_ANIMALS);
+
+	private static final String AFP_HTML_LAYOUT =
+			loc(LOC_EXPOSURE_INVESTIGATION_HEADING) +
+			loc(FILL_SECTION_HEADING_LOC) +
+			loc(SEEK_HELP_HEADING_LOC) +
+			fluidRowLocs(EpiDataDto.PLACE, EpiDataDto.DURATION_MONTHS, EpiDataDto.DURATION_DAYS) +
+			fluidRowLocs(EpiDataDto.PLACE2, EpiDataDto.DURATION_MONTHS2, EpiDataDto.DURATION_DAYS2) +
+			fluidRowLocs(EpiDataDto.PLACE3, EpiDataDto.DURATION_MONTHS3, EpiDataDto.DURATION_DAYS3) +
+			fluidRowLocs(EpiDataDto.PLACE4, EpiDataDto.DURATION_MONTHS4, EpiDataDto.DURATION_DAYS4);
+
 
 
 	private final Disease disease;
@@ -156,6 +173,14 @@ public class EpiDataForm extends AbstractEditForm<EpiDataDto> {
 			return;
 		}
 
+		Label fillSectionHeadingLabel = new Label(I18nProperties.getString(Strings.headingfillSection));
+		fillSectionHeadingLabel.addStyleName(H3);
+		getContent().addComponent(fillSectionHeadingLabel, FILL_SECTION_HEADING_LOC);
+
+		Label seekHelpHeadingLabel = new Label(I18nProperties.getString(Strings.headingseekHelp));
+		seekHelpHeadingLabel.addStyleName(H3);
+		getContent().addComponent(seekHelpHeadingLabel, SEEK_HELP_HEADING_LOC);
+
 		// For Congenital Rubella, add only the specific fields
 		if (disease == Disease.CONGENITAL_RUBELLA && parentClass == CaseDataDto.class) {
 			addCongenitalRubellaFields();
@@ -188,6 +213,9 @@ public class EpiDataForm extends AbstractEditForm<EpiDataDto> {
 		addTravelHistoryFields(travelHistoryKnownField);
 
 		NullableOptionGroup ogContactWithSourceCaseKnown = addField(EpiDataDto.CONTACT_WITH_SOURCE_CASE_KNOWN, NullableOptionGroup.class);
+		addField(EpiDataDto.RECENT_TRAVEL_OUTBREAK, NullableOptionGroup.class);
+		addField(EpiDataDto.CONTACT_SIMILAR_SYMPTOMS, NullableOptionGroup.class);
+		addField(EpiDataDto.CONTACT_SICK_ANIMALS, NullableOptionGroup.class);
 
 		if (sourceContactsToggleCallback != null) {
 			ogContactWithSourceCaseKnown.addValueChangeListener(e -> {
@@ -209,6 +237,19 @@ public class EpiDataForm extends AbstractEditForm<EpiDataDto> {
 		exposuresField.addValueChangeListener(e -> {
 			ogExposureDetailsKnown.setEnabled(CollectionUtils.isEmpty(exposuresField.getValue()));
 		});
+
+		addField(PersonDto.PLACE, TextField.class);
+		addField(PersonDto.DURATION_MONTHS, TextField.class);
+		addField(PersonDto.DURATION_DAYS, TextField.class);
+		addField(PersonDto.PLACE2, TextField.class);
+		addField(PersonDto.DURATION_MONTHS2, TextField.class);
+		addField(PersonDto.DURATION_DAYS2, TextField.class);
+		addField(PersonDto.PLACE3, TextField.class);
+		addField(PersonDto.DURATION_MONTHS3, TextField.class);
+		addField(PersonDto.DURATION_DAYS3, TextField.class);
+		addField(PersonDto.PLACE4, TextField.class);
+		addField(PersonDto.DURATION_MONTHS4, TextField.class);
+		addField(PersonDto.DURATION_DAYS4, TextField.class);
 	}
 
 	private void addCongenitalRubellaFields() {
@@ -405,29 +446,35 @@ public class EpiDataForm extends AbstractEditForm<EpiDataDto> {
 
 	@Override
 	protected String createHtmlLayout() {
-		String MAIN_HTML_LAYOUT = "";
-		if(parentClass == CaseDataDto.class) {
+		String mainHtmlLayout = "";
+
+		if (parentClass == CaseDataDto.class) {
 			switch (disease) {
 				case MEASLES:
-					MAIN_HTML_LAYOUT = MEASLES_HTML_LAYOUT;
+					mainHtmlLayout = MEASLES_HTML_LAYOUT;
 					break;
 				case YELLOW_FEVER:
-					MAIN_HTML_LAYOUT = YELLOW_FEVER_HTML_LAYOUT;
+					mainHtmlLayout = YELLOW_FEVER_HTML_LAYOUT;
 					break;
 				case CONGENITAL_RUBELLA:
-					MAIN_HTML_LAYOUT = CONGENITAL_RUBELLA_HTML_LAYOUT;
+					mainHtmlLayout = CONGENITAL_RUBELLA_HTML_LAYOUT;
 					break;
 				case CSM:
-					MAIN_HTML_LAYOUT = MENINGITIS_HTML_LAYOUT;
+					mainHtmlLayout = MENINGITIS_HTML_LAYOUT;
+					break;
+				case IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS:
+					mainHtmlLayout = IDSR_HTML_LAYOUT;
+					break;
+				case AFP:
+					mainHtmlLayout = AFP_HTML_LAYOUT;
 					break;
 				default:
-					MAIN_HTML_LAYOUT = MAIN_HTML_LAYOUT + SOURCE_CONTACTS_HTML_LAYOUT;
+					mainHtmlLayout = SOURCE_CONTACTS_HTML_LAYOUT;
 					break;
 			}
-		} else  {
-			MAIN_HTML_LAYOUT = MAIN_HTML_LAYOUT;
 		}
 
-		return MAIN_HTML_LAYOUT;
+		return mainHtmlLayout;
 	}
+
 }

@@ -278,6 +278,13 @@ public class SymptomsDto extends PseudonymizableDto {
 	public static final String AUTOPSY_FINDINGS = "autopsyFindings";
 	public static final String AUTOPSY_DATE = "autopsyDate";
 	public static final String CATARACTS = "cataracts";
+	public static final String SEVERE_REACTION_AFTER_VACCINATION = "severeReactionAfterVaccination";
+	public static final String ANIMAL_BITE_SCRATCH = "animalBiteScratch";
+	public static final String ACUTE_WATERY_DIARRHEA = "acuteWateryDiarrhea";
+	public static final String PERSISTENT_LIMB = "persistentLimb";
+	public static final String GENITAL_SWELLING = "genitalSwelling";
+	public static final String RED_EYE = "redEye";
+	public static final String SPASMS_CONVULSION = "spasmsConvulsion";
 
 	// Fields are declared in the order they should appear in the import template
 
@@ -416,6 +423,7 @@ public class SymptomsDto extends PseudonymizableDto {
 		ANTHRAX,
 		UNSPECIFIED_VHF,
 		UNDEFINED,
+		IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS,
 		OTHER })
 	@HideForCountries
 	@SymptomGrouping(SymptomGroup.GASTROINTESTINAL)
@@ -433,6 +441,7 @@ public class SymptomsDto extends PseudonymizableDto {
 		POLIO,
 		UNSPECIFIED_VHF,
 		UNDEFINED,
+		IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS,
 		OTHER })
 	@DependantOn(UNEXPLAINED_BLEEDING)
 	@HideForCountries
@@ -446,6 +455,7 @@ public class SymptomsDto extends PseudonymizableDto {
 		LASSA,
 		POLIO,
 		UNSPECIFIED_VHF,
+		IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS,
 		UNDEFINED,
 		OTHER })
 	@DependantOn(UNEXPLAINED_BLEEDING)
@@ -1299,7 +1309,8 @@ public class SymptomsDto extends PseudonymizableDto {
 		FHA,
         INVASIVE_MENINGOCOCCAL_INFECTION,
         INVASIVE_PNEUMOCOCCAL_INFECTION,
-		PERTUSSIS})
+		PERTUSSIS,
+		IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS})
 	@HideForCountries
 	@Outbreaks
 	private Date onsetDate;
@@ -1939,7 +1950,8 @@ public class SymptomsDto extends PseudonymizableDto {
 		UNDEFINED,
 		POLIO,
 		OTHER,
-		CORONAVIRUS })
+		CORONAVIRUS,
+		IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS})
 	@HideForCountries(countries = {
 		CountryHelper.COUNTRY_CODE_GERMANY,
 		CountryHelper.COUNTRY_CODE_SWITZERLAND })
@@ -2652,7 +2664,8 @@ public class SymptomsDto extends PseudonymizableDto {
 			NEONATAL_TETANUS,
 			MEASLES,
 			YELLOW_FEVER,
-			CONGENITAL_RUBELLA
+			CONGENITAL_RUBELLA,
+			IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS
 	})
 	@Outbreaks
 	private CaseOutcome outcome;
@@ -2664,6 +2677,56 @@ public class SymptomsDto extends PseudonymizableDto {
 	@SymptomGrouping(SymptomGroup.GENERAL)
 	@HideForCountries
 	private SymptomState babyDied;
+
+	@Diseases({
+			IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS
+	})
+	@Outbreaks
+	@SymptomGrouping(SymptomGroup.GENERAL)
+	private SymptomState severeReactionAfterVaccination;
+
+	@Diseases({
+			IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS
+	})
+	@Outbreaks
+	@SymptomGrouping(SymptomGroup.GENERAL)
+	private SymptomState animalBiteScratch;
+
+	@Diseases({
+			IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS
+	})
+	@Outbreaks
+	@SymptomGrouping(SymptomGroup.GENERAL)
+	private SymptomState acuteWateryDiarrhea;
+
+	@Diseases({
+			IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS
+	})
+	@Outbreaks
+	@SymptomGrouping(SymptomGroup.GENERAL)
+	private SymptomState persistentLimb;
+
+	@Diseases({
+			IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS
+	})
+	@Outbreaks
+	@SymptomGrouping(SymptomGroup.GENERAL)
+	private SymptomState genitalSwelling;
+
+	@Diseases({
+			IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS
+	})
+	@Outbreaks
+	@SymptomGrouping(SymptomGroup.GENERAL)
+	private SymptomState redEye;
+
+	@Diseases({
+			NEONATAL_TETANUS
+	})
+	@Outbreaks
+	@SymptomGrouping(SymptomGroup.GENERAL)
+	private SymptomState spasmsConvulsion;
+
 
 	@Order(0)
 	public Float getTemperature() {
@@ -4661,4 +4724,61 @@ public class SymptomsDto extends PseudonymizableDto {
 	public void setTrueAfp(YesNo trueAfp) {
 		this.trueAfp = trueAfp;
 	}
+
+	public SymptomState getSevereReactionAfterVaccination() {
+		return severeReactionAfterVaccination;
+	}
+
+	public void setSevereReactionAfterVaccination(SymptomState severeReactionAfterVaccination) {
+		this.severeReactionAfterVaccination = severeReactionAfterVaccination;
+	}
+
+	public SymptomState getAnimalBiteScratch() {
+		return animalBiteScratch;
+	}
+
+	public void setAnimalBiteScratch(SymptomState animalBiteScratch) {
+		this.animalBiteScratch = animalBiteScratch;
+	}
+
+	public SymptomState getAcuteWateryDiarrhea() {
+		return acuteWateryDiarrhea;
+	}
+
+	public void setAcuteWateryDiarrhea(SymptomState acuteWateryDiarrhea) {
+		this.acuteWateryDiarrhea = acuteWateryDiarrhea;
+	}
+
+	public SymptomState getPersistentLimb() {
+		return persistentLimb;
+	}
+
+	public void setPersistentLimb(SymptomState persistentLimb) {
+		this.persistentLimb = persistentLimb;
+	}
+
+	public SymptomState getGenitalSwelling() {
+		return genitalSwelling;
+	}
+
+	public void setGenitalSwelling(SymptomState genitalSwelling) {
+		this.genitalSwelling = genitalSwelling;
+	}
+
+	public SymptomState getRedEye() {
+		return redEye;
+	}
+
+	public void setRedEye(SymptomState redEye) {
+		this.redEye = redEye;
+	}
+
+	public SymptomState getSpasmsConvulsion() {
+		return spasmsConvulsion;
+	}
+
+	public void setSpasmsConvulsion(SymptomState spasmsConvulsion) {
+		this.spasmsConvulsion = spasmsConvulsion;
+	}
+
 }

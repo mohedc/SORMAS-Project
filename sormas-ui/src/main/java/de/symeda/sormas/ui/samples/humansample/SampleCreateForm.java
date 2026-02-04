@@ -58,6 +58,8 @@ public class SampleCreateForm extends AbstractSampleForm {
 					return MENINGITIS_HTML_LAYOUT;
 				case CONGENITAL_RUBELLA:
 					return CONGENITAL_RUBELLA_HTML_LAYOUT;
+				case IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS:
+					return IDSR_HTML_LAYOUT;
 				default:
 					return SAMPLE_COMMON_HTML_LAYOUT;
 			}

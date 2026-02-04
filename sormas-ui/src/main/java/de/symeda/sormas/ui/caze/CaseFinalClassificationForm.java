@@ -28,11 +28,16 @@ import java.util.stream.Collectors;
 import com.vaadin.ui.Label;
 import com.vaadin.v7.ui.ComboBox;
 
+import com.vaadin.v7.ui.DateField;
 import de.symeda.sormas.api.Disease;
 import de.symeda.sormas.api.FacadeProvider;
 import de.symeda.sormas.api.caze.CaseDataDto;
 import de.symeda.sormas.api.i18n.I18nProperties;
+import de.symeda.sormas.api.i18n.Strings;
+import de.symeda.sormas.api.infrastructure.region.RegionReferenceDto;
 import de.symeda.sormas.api.sample.FinalClassification;
+import de.symeda.sormas.api.sample.PathogenTestDto;
+import de.symeda.sormas.api.sample.SampleDto;
 import de.symeda.sormas.api.utils.Diseases;
 import de.symeda.sormas.api.utils.fieldaccess.UiFieldAccessCheckers;
 import de.symeda.sormas.api.utils.fieldvisibility.FieldVisibilityCheckers;
@@ -41,26 +46,38 @@ import de.symeda.sormas.api.utils.fieldvisibility.checkers.DiseaseFieldVisibilit
 import de.symeda.sormas.api.utils.fieldvisibility.checkers.FeatureTypeFieldVisibilityChecker;
 import de.symeda.sormas.api.utils.fieldvisibility.checkers.UserRightFieldVisibilityChecker;
 import de.symeda.sormas.ui.UiUtil;
-import de.symeda.sormas.ui.utils.AbstractEditForm;
-import de.symeda.sormas.ui.utils.FieldAccessHelper;
-import de.symeda.sormas.ui.utils.FieldHelper;
-import de.symeda.sormas.ui.utils.OutbreakFieldVisibilityChecker;
-import de.symeda.sormas.ui.utils.ViewMode;
+import de.symeda.sormas.ui.utils.*;
+import org.jetbrains.annotations.NotNull;
 
 public class CaseFinalClassificationForm extends AbstractEditForm<CaseDataDto> {
 
 	private static final long serialVersionUID = 1L;
 
 	private static final String FINAL_CLASSIFICATION_HEADING_LOC = "finalClassificationHeadingLoc";
+	private static final String ADDITIONAL_HEADING_LOC = "additionalHeadingLoc";
 
 	//@formatter:off
 	private static final String HTML_LAYOUT =
 			loc(FINAL_CLASSIFICATION_HEADING_LOC) +
 			fluidRowLocs(CaseDataDto.FINAL_CLASSIFICATION);
+
+	private static final String AFP_HTML_LAYOUT =
+			loc(FINAL_CLASSIFICATION_HEADING_LOC) +
+					fluidRowLocs(6,CaseDataDto.IMMUNOCOMPROMISED_STATUS_SUSPECTED) +
+					fluidRowLocs(CaseDataDto.FINAL_CLASSIFICATION);
+
+	private static final String IDSR_HTML_LAYOUT =
+			loc(FINAL_CLASSIFICATION_HEADING_LOC) +
+					fluidRowLocs(CaseDataDto.FINAL_CLASSIFICATION) +
+					loc(ADDITIONAL_HEADING_LOC) +
+					fluidRowLocs(CaseDataDto.DATE_REGION_RECEIVES_LAB_RESULTS,CaseDataDto.REGION) +
+					fluidRowLocs(CaseDataDto.DATE_LAB_RESULTS_SENT_HEALTH_FACILITY_REGION, CaseDataDto.DATE_LAB_RESULTS_RECEIVED_HEALTH_FACILITY);
+
 	//@formatter:on
 
 	private ComboBox finalClassificationField;
 	private Disease disease;
+	private ComboBox regionCombo;
 
 	public CaseFinalClassificationForm(
 		String caseUuid,
@@ -93,16 +110,55 @@ public class CaseFinalClassificationForm extends AbstractEditForm<CaseDataDto> {
 		finalClassificationHeadingLabel.addStyleName(VSPACE_3);
 		getContent().addComponent(finalClassificationHeadingLabel, FINAL_CLASSIFICATION_HEADING_LOC);
 
+		createLabel(I18nProperties.getString(Strings.additionalHeading), H3, ADDITIONAL_HEADING_LOC);
+
+		addField(CaseDataDto.IMMUNOCOMPROMISED_STATUS_SUSPECTED, NullableOptionGroup.class);
+		addField(CaseDataDto.DATE_REGION_RECEIVES_LAB_RESULTS, DateField.class);
+		regionCombo = addInfrastructureField(CaseDataDto.REGION);
+		addField(CaseDataDto.DATE_LAB_RESULTS_SENT_HEALTH_FACILITY_REGION, DateField.class);
+		addField(CaseDataDto.DATE_LAB_RESULTS_RECEIVED_HEALTH_FACILITY, DateField.class);
 		finalClassificationField = addField(CaseDataDto.FINAL_CLASSIFICATION, ComboBox.class);
 		finalClassificationField.setNullSelectionAllowed(true);
 		finalClassificationField.setItemCaptionMode(ComboBox.ItemCaptionMode.ID_TOSTRING);
 
-		FieldHelper.updateEnumData(finalClassificationField, Arrays.asList(FinalClassification.LAB_CONFIRMED, FinalClassification.CONFIRMED_BY_EPIDEMIOLOGICAL_LINKAGE, FinalClassification.CLINICAL, FinalClassification.DISCARDED, FinalClassification.PENDING_LAB_RESULTS));
+		regionCombo.addItems(FacadeProvider.getRegionFacade().getAllActiveByServerCountry());
+		List<FinalClassification> values = getFinalClassifications();
 
+		FieldHelper.updateEnumData(finalClassificationField, values);
+
+	}
+
+	@NotNull
+	private List<FinalClassification> getFinalClassifications() {
+		if (Disease.AFP.equals(disease)) {
+			return Arrays.asList(
+					FinalClassification.CONFIRMED_POLIO,
+					FinalClassification.COMPATIBLE,
+					FinalClassification.DISCARDED,
+					FinalClassification.NOT_AN_AFP_CASE,
+					FinalClassification.cVDPV,
+					FinalClassification.aVDPV,
+					FinalClassification.iVDPV,
+					FinalClassification.SERO_TYPE
+			);
+		}
+		return Arrays.asList(
+				FinalClassification.LAB_CONFIRMED,
+				FinalClassification.CONFIRMED_BY_EPIDEMIOLOGICAL_LINKAGE,
+				FinalClassification.CLINICAL,
+				FinalClassification.DISCARDED,
+				FinalClassification.PENDING_LAB_RESULTS
+		);
 	}
 
 	@Override
 	protected String createHtmlLayout() {
+		if (disease == Disease.AFP) {
+			return AFP_HTML_LAYOUT;
+		}
+		if(disease == Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS){
+			return IDSR_HTML_LAYOUT;
+		}
 		return HTML_LAYOUT;
 	}
 }

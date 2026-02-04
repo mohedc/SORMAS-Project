@@ -45,6 +45,7 @@ import de.symeda.sormas.api.Disease;
 import de.symeda.sormas.api.externaldata.HasExternalData;
 import de.symeda.sormas.api.infrastructure.facility.FacilityType;
 import de.symeda.sormas.api.person.*;
+import de.symeda.sormas.api.utils.YesNo;
 import de.symeda.sormas.api.utils.YesNoUnknown;
 import de.symeda.sormas.backend.caze.Case;
 import de.symeda.sormas.backend.common.AbstractDomainObject;
@@ -228,19 +229,9 @@ public class Person extends AbstractDomainObject implements IsPerson, HasExterna
 	private LocationOfBirth locationOfBirth;
 	private YesNoUnknown birthInInstitution;
 	private String describeTreatmentOfCard;
-	private String place;
-	private String durationMonths;
-	private String durationDays;
-	private String place2;
-	private String durationMonths2;
-	private String durationDays2;
-	private String place3;
-	private String durationMonths3;
-	private String durationDays3;
-	private String place4;
-	private String durationMonths4;
-	private String durationDays4;
-
+	private YesNo applicable;
+	private String telNumber;
+	private String locatingInfo;
 	private List<Case> cases = new ArrayList<>();
 	private List<Contact> contacts = new ArrayList<>();
 	private List<EventParticipant> eventParticipants = new ArrayList<>();
@@ -1002,101 +993,29 @@ public class Person extends AbstractDomainObject implements IsPerson, HasExterna
 	public void setDescribeTreatmentOfCard(String describeTreatmentOfCard) {
 		this.describeTreatmentOfCard = describeTreatmentOfCard;
 	}
-	@Column
-	public String getPlace() {
-		return place;
+	@Enumerated(EnumType.STRING)
+	public YesNo getApplicable() {
+		return applicable;
 	}
 
-	public void setPlace(String place) {
-		this.place = place;
-	}
-	@Column
-	public String getDurationMonths() {
-		return durationMonths;
+	public void setApplicable(YesNo applicable) {
+		this.applicable = applicable;
 	}
 
-	public void setDurationMonths(String durationMonths) {
-		this.durationMonths = durationMonths;
-	}
-	@Column
-	public String getDurationDays() {
-		return durationDays;
+	public String getTelNumber() {
+		return telNumber;
 	}
 
-	public void setDurationDays(String durationDays) {
-		this.durationDays = durationDays;
-	}
-	@Column
-	public String getPlace2() {
-		return place2;
+	public void setTelNumber(String telNumber) {
+		this.telNumber = telNumber;
 	}
 
-	public void setPlace2(String place2) {
-		this.place2 = place2;
-	}
-	@Column
-	public String getDurationMonths2() {
-		return durationMonths2;
+	public String getLocatingInfo() {
+		return locatingInfo;
 	}
 
-	public void setDurationMonths2(String durationMonths2) {
-		this.durationMonths2 = durationMonths2;
-	}
-	@Column
-	public String getDurationDays2() {
-		return durationDays2;
-	}
-
-	public void setDurationDays2(String durationDays2) {
-		this.durationDays2 = durationDays2;
-	}
-	@Column
-	public String getPlace3() {
-		return place3;
-	}
-
-	public void setPlace3(String place3) {
-		this.place3 = place3;
-	}
-	@Column
-	public String getDurationMonths3() {
-		return durationMonths3;
-	}
-
-	public void setDurationMonths3(String durationMonths3) {
-		this.durationMonths3 = durationMonths3;
-	}
-	@Column
-	public String getDurationDays3() {
-		return durationDays3;
-	}
-
-	public void setDurationDays3(String durationDays3) {
-		this.durationDays3 = durationDays3;
-	}
-	@Column
-	public String getPlace4() {
-		return place4;
-	}
-
-	public void setPlace4(String place4) {
-		this.place4 = place4;
-	}
-	@Column
-	public String getDurationMonths4() {
-		return durationMonths4;
-	}
-
-	public void setDurationMonths4(String durationMonths4) {
-		this.durationMonths4 = durationMonths4;
-	}
-	@Column
-	public String getDurationDays4() {
-		return durationDays4;
-	}
-
-	public void setDurationDays4(String durationDays4) {
-		this.durationDays4 = durationDays4;
+	public void setLocatingInfo(String locatingInfo) {
+		this.locatingInfo = locatingInfo;
 	}
 
 	@Transient

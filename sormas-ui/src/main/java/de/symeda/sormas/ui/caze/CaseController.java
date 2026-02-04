@@ -1424,6 +1424,11 @@ public class CaseController {
 		editView.addCommitListener(() -> {
 			CaseDataDto cazeDto = FacadeProvider.getCaseFacade().getCaseDataByUuid(caseUuid);
 			cazeDto.setFinalClassification(finalClassificationForm.getValue().getFinalClassification());
+			cazeDto.setImmunocompromisedStatusSuspected(finalClassificationForm.getValue().getImmunocompromisedStatusSuspected());
+			cazeDto.setDateRegionReceivesLabResults(finalClassificationForm.getValue().getDateRegionReceivesLabResults());
+			cazeDto.setRegion(finalClassificationForm.getValue().getRegion());
+			cazeDto.setDateLabResultsSentHealthFacilityRegion(finalClassificationForm.getValue().getDateLabResultsSentHealthFacilityRegion());
+			cazeDto.setDateLabResultsReceivedAtHealthFacility(finalClassificationForm.getValue().getDateLabResultsReceivedAtHealthFacility());
 			saveCase(cazeDto);
 		});
 

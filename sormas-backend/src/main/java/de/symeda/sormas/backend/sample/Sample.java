@@ -42,6 +42,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+import de.symeda.sormas.api.Disease;
 import de.symeda.sormas.api.sample.*;
 import de.symeda.sormas.api.utils.*;
 import org.apache.commons.lang3.StringUtils;
@@ -185,25 +186,6 @@ public class Sample extends DeletableAdo implements IsSample, SormasToSormasShar
 	private Date dateSpecimenSentInter;
 	private Date dateSpecimenReceivedInter;
 	private SpecimenCondition statusSpecimenReceptionAtLab;
-	private Date dateCombinedCellCultureResults;
-	private YesNo w1;
-	private YesNo w2;
-	private YesNo w3;
-	private YesNoUnknown discordant;
-	private YesNo sL1;
-	private YesNo sL2;
-	private YesNo sL3;
-	private Date dateFollowUpExam;
-	private InjectionSite residualAnalysis;
-	private ExamResult resultExam;
-	private Date dateSentToNationalRegLab;
-	private Date dateDifferentiationSentToEpi;
-	private Date dateDifferentiationReceivedFromEpi;
-	private Date dateIsolateSentForSequencing;
-	private Date dateSeqResultsSentToProgram;
-	private PosNeg finalLabResults;
-	private YesNoUnknown immunocompromisedStatusSuspected;
-	private FinalClassification afpFinalClassification;
 	private Date dateSpecimenSentFromFieldToNationalLab;
 	private Date dateSpecimenSentToRegionalReferenceLab;
 	private Date dateSpecimenReceivedAtNationalLab;
@@ -230,7 +212,7 @@ public class Sample extends DeletableAdo implements IsSample, SormasToSormasShar
 	private String prntInputValue;
 	private Date prntDate;
 	private Date dateResultsSentToReferringClinician;
-
+	private Disease suspectedDisease;
 	private List<PathogenTest> pathogenTests;
 	private List<AdditionalTest> additionalTests;
 
@@ -819,158 +801,6 @@ public class Sample extends DeletableAdo implements IsSample, SormasToSormasShar
 	public void setStatusSpecimenReceptionAtLab(SpecimenCondition statusSpecimenReceptionAtLab) {
 		this.statusSpecimenReceptionAtLab = statusSpecimenReceptionAtLab;
 	}
-	@Temporal(TemporalType.TIMESTAMP)
-	public Date getDateCombinedCellCultureResults() {
-		return dateCombinedCellCultureResults;
-	}
-
-	public void setDateCombinedCellCultureResults(Date dateCombinedCellCultureResults) {
-		this.dateCombinedCellCultureResults = dateCombinedCellCultureResults;
-	}
-	@Enumerated(EnumType.STRING)
-	public YesNo getW1() {
-		return w1;
-	}
-
-	public void setW1(YesNo w1) {
-		this.w1 = w1;
-	}
-	@Enumerated(EnumType.STRING)
-	public YesNo getW2() {
-		return w2;
-	}
-
-	public void setW2(YesNo w2) {
-		this.w2 = w2;
-	}
-	@Enumerated(EnumType.STRING)
-	public YesNo getW3() {
-		return w3;
-	}
-
-	public void setW3(YesNo w3) {
-		this.w3 = w3;
-	}
-	@Enumerated(EnumType.STRING)
-	public YesNoUnknown getDiscordant() {
-		return discordant;
-	}
-
-	public void setDiscordant(YesNoUnknown discordant) {
-		this.discordant = discordant;
-	}
-	@Enumerated(EnumType.STRING)
-	public YesNo getsL1() {
-		return sL1;
-	}
-
-	public void setsL1(YesNo sL1) {
-		this.sL1 = sL1;
-	}
-	@Enumerated(EnumType.STRING)
-	public YesNo getsL2() {
-		return sL2;
-	}
-
-	public void setsL2(YesNo sL2) {
-		this.sL2 = sL2;
-	}
-	@Enumerated(EnumType.STRING)
-	public YesNo getsL3() {
-		return sL3;
-	}
-
-	public void setsL3(YesNo sL3) {
-		this.sL3 = sL3;
-	}
-	@Temporal(TemporalType.TIMESTAMP)
-	public Date getDateFollowUpExam() {
-		return dateFollowUpExam;
-	}
-
-	public void setDateFollowUpExam(Date dateFollowUpExam) {
-		this.dateFollowUpExam = dateFollowUpExam;
-	}
-	@Enumerated(EnumType.STRING)
-	public InjectionSite getResidualAnalysis() {
-		return residualAnalysis;
-	}
-
-	public void setResidualAnalysis(InjectionSite residualAnalysis) {
-		this.residualAnalysis = residualAnalysis;
-	}
-	@Enumerated(EnumType.STRING)
-	public ExamResult getResultExam() {
-		return resultExam;
-	}
-
-	public void setResultExam(ExamResult resultExam) {
-		this.resultExam = resultExam;
-	}
-	@Temporal(TemporalType.TIMESTAMP)
-	public Date getDateSentToNationalRegLab() {
-		return dateSentToNationalRegLab;
-	}
-
-	public void setDateSentToNationalRegLab(Date dateSentToNationalRegLab) {
-		this.dateSentToNationalRegLab = dateSentToNationalRegLab;
-	}
-	@Temporal(TemporalType.TIMESTAMP)
-	public Date getDateDifferentiationSentToEpi() {
-		return dateDifferentiationSentToEpi;
-	}
-
-	public void setDateDifferentiationSentToEpi(Date dateDifferentiationSentToEpi) {
-		this.dateDifferentiationSentToEpi = dateDifferentiationSentToEpi;
-	}
-	@Temporal(TemporalType.TIMESTAMP)
-	public Date getDateDifferentiationReceivedFromEpi() {
-		return dateDifferentiationReceivedFromEpi;
-	}
-
-	public void setDateDifferentiationReceivedFromEpi(Date dateDifferentiationReceivedFromEpi) {
-		this.dateDifferentiationReceivedFromEpi = dateDifferentiationReceivedFromEpi;
-	}
-	@Temporal(TemporalType.TIMESTAMP)
-	public Date getDateIsolateSentForSequencing() {
-		return dateIsolateSentForSequencing;
-	}
-
-	public void setDateIsolateSentForSequencing(Date dateIsolateSentForSequencing) {
-		this.dateIsolateSentForSequencing = dateIsolateSentForSequencing;
-	}
-	@Temporal(TemporalType.TIMESTAMP)
-	public Date getDateSeqResultsSentToProgram() {
-		return dateSeqResultsSentToProgram;
-	}
-
-	public void setDateSeqResultsSentToProgram(Date dateSeqResultsSentToProgram) {
-		this.dateSeqResultsSentToProgram = dateSeqResultsSentToProgram;
-	}
-	@Enumerated(EnumType.STRING)
-	public PosNeg getFinalLabResults() {
-		return finalLabResults;
-	}
-
-	public void setFinalLabResults(PosNeg finalLabResults) {
-		this.finalLabResults = finalLabResults;
-	}
-	@Enumerated(EnumType.STRING)
-	public YesNoUnknown getImmunocompromisedStatusSuspected() {
-		return immunocompromisedStatusSuspected;
-	}
-
-	public void setImmunocompromisedStatusSuspected(YesNoUnknown immunocompromisedStatusSuspected) {
-		this.immunocompromisedStatusSuspected = immunocompromisedStatusSuspected;
-	}
-	@Enumerated(EnumType.STRING)
-	public FinalClassification getAfpFinalClassification() {
-		return afpFinalClassification;
-	}
-
-	public void setAfpFinalClassification(FinalClassification afpFinalClassification) {
-		this.afpFinalClassification = afpFinalClassification;
-	}
 
 	@Temporal(TemporalType.TIMESTAMP)
 	public Date getDateSpecimenSentFromFieldToNationalLab() {
@@ -1202,5 +1032,14 @@ public class Sample extends DeletableAdo implements IsSample, SormasToSormasShar
 
 	public void setDateResultsSentToReferringClinician(Date dateResultsSentToReferringClinician) {
 		this.dateResultsSentToReferringClinician = dateResultsSentToReferringClinician;
+	}
+	@Enumerated(EnumType.STRING)
+	@Column
+	public Disease getSuspectedDisease() {
+		return suspectedDisease;
+	}
+
+	public void setSuspectedDisease(Disease suspectedDisease) {
+		this.suspectedDisease = suspectedDisease;
 	}
 }
