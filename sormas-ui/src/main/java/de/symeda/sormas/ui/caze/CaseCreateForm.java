@@ -130,7 +130,6 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
         + fluidRowLocs(CaseDataDto.REPORT_DATE, CaseDataDto.EPID_NUMBER)
 		+ fluidRowLocs(CaseDataDto.CASE_CLASSIFICATION)
         + fluidRowLocs(CaseDataDto.CASE_REFERENCE_NUMBER, CaseDataDto.EXTERNAL_ID)
-        + fluidRowLocs(6, CaseDataDto.DISEASE)
         + fluidRow(
         fluidColumn(12, 0,
             locs(CaseDataDto.DISEASE_DETAILS, CaseDataDto.PLAGUE_TYPE, CaseDataDto.DENGUE_FEVER_TYPE,
@@ -626,8 +625,16 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 				personCreateForm.getField(PersonDto.PRESENT_CONDITION).setVisible(false);
 				personCreateForm.getField(PersonDto.NATIONALITY).setVisible(false);
 			} else if(selectedDisease == Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS){
+
 				setVisible(true, ogCaseOrigin, epidField, diseaseField, responsibleRegionCombo, responsibleDistrictCombo, responsibleCommunityCombo,
-						facilityOrHome, facilityDetails, facilityCombo, facilityType, reportDate, idsrDiagnosisField, idsrDiagnosisDetailsField);
+						facilityOrHome, facilityDetails, facilityCombo, facilityType, reportDate, idsrDiagnosisField);
+
+				idsrDiagnosisField.addValueChangeListener(event -> {
+					IdsrType value = (IdsrType) event.getProperty().getValue();
+					idsrDiagnosisDetailsField.setVisible(value == IdsrType.OTHER);
+				});
+
+
 				personCreateForm.getField(PersonDto.NATIONAL_HEALTH_ID).setVisible(false);
 				personCreateForm.getField(PersonDto.PHONE).setVisible(false);
 				personCreateForm.getField(PersonDto.EMAIL_ADDRESS).setVisible(false);

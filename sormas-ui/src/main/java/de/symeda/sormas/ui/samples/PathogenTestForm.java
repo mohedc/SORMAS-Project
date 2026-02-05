@@ -177,7 +177,7 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 					fluidRowLocs(PathogenTestDto.LAB, PathogenTestDto.LAB_DETAILS) +
 					fluidRowLocs(PathogenTestDto.VIRAL_DETECTION, PathogenTestDto.VIRAL_DETECTION_TEST_TYPE) +
 					fluidRowLocs(PathogenTestDto.VIRAL_DETECTION_RESULTS, PathogenTestDto.TEST_RESULT_VERIFIED) +
-					fluidRowLocs(6, PathogenTestDto.TEST_RESULT) +
+					fluidRowLocs(PathogenTestDto.TEST_RESULT, PathogenTestDto.TEST_RESULT_TEXT) +
 					fluidRowLocs(6, PathogenTestDto.DATE_LAB_RESULTS_SENT_DIVISION) +
 					fluidRowLocs(6, PathogenTestDto.NAME_LAB_TECHNICIAN_SEND_RESULTS);
 
