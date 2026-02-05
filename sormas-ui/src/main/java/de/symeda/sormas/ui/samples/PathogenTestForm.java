@@ -137,8 +137,7 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 			fluidRowLocs(PathogenTestDto.PERFORM_RUBELLA_TEST, PathogenTestDto.COMMUNITY_INVESTIGATION) +
 			fluidRowLocs(PathogenTestDto.INVESTIGATION_RESULTS, PathogenTestDto.SOURCE_OF_INFECTION_IDENTIFIED) +
 			fluidRowLocs(4, PathogenTestDto.TEST_RESULT, 4, PathogenTestDto.TEST_RESULT_VERIFIED) +
-			fluidRowLocs(PathogenTestDto.TEST_RESULT_TEXT, PathogenTestDto.DATE_RESULTS_SENT_TO_DISTRICT) +
-			fluidRowLocs(4, PathogenTestDto.FINAL_CLASSIFICATION);
+			fluidRowLocs(PathogenTestDto.TEST_RESULT_TEXT, PathogenTestDto.DATE_RESULTS_SENT_TO_DISTRICT);
 
 	private static final String YELLOW_FEVER_HTML_LAYOUT =
 			loc(PATHOGEN_TEST_HEADING_LOC) +

@@ -17,19 +17,29 @@
  *******************************************************************************/
 package de.symeda.sormas.api.sample;
 
+import de.symeda.sormas.api.Disease;
 import de.symeda.sormas.api.i18n.I18nProperties;
+import de.symeda.sormas.api.utils.Diseases;
 
 public enum PathogenTestResultType {
 
+	// hide for yellow_fever
 	INDETERMINATE,
+	@Diseases(value = { Disease.YELLOW_FEVER }, hide = true)
 	PENDING,
 	NEGATIVE,
 	POSITIVE,
+	@Diseases(value = { Disease.YELLOW_FEVER }, hide = true)
 	CONTAMINATED,
+	@Diseases(value = { Disease.YELLOW_FEVER }, hide = true)
 	NOT_DONE,
+	@Diseases(value = { Disease.YELLOW_FEVER }, hide = true)
 	NOT_APPLICABLE,
+	@Diseases(value = { Disease.YELLOW_FEVER }, hide = true)
 	SUSPECTED_POLIOVIRUS,
+	@Diseases(value = { Disease.YELLOW_FEVER }, hide = true)
 	NPENT,
+	@Diseases(value = { Disease.YELLOW_FEVER }, hide = true)
 	SUSPECT_POLIOVIRUS_NPENT;
 
 	@Override

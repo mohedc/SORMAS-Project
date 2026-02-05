@@ -492,7 +492,7 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 			Arrays.asList(
 				SampleDto.ELISA_IGM, SampleDto.ELISA_IGM_DATE,
 				SampleDto.PCR, SampleDto.PCR_DATE,
-				SampleDto.PRNT, SampleDto.PRNT_INPUT_VALUE, SampleDto.PRNT_DATE),
+				SampleDto.PRNT, SampleDto.PRNT_DATE),
 			SampleDto.SENT_TO_IP_DAKAR,
 			Arrays.asList(YesNo.YES),
 			true);
@@ -841,7 +841,8 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 	 * Configures fields specifically for yellow fever samples
 	 */
 	protected void configureYellowFeverFields() {
-
+		// SampleDto.PATHOGEN_TEST_RESULT readOnly
+		getField(SampleDto.PATHOGEN_TEST_RESULT).setReadOnly(true);
 		getField(SampleDto.SHIPMENT_DATE).setVisible(true);
 		getField(SampleDto.DATE_RESULTS_SENT_TO_REFERRING_CLINICIAN).setVisible(true);
 		Field<?> shippedField = getField(SampleDto.SHIPPED);

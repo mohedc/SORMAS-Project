@@ -15,13 +15,7 @@
 
 package de.symeda.sormas.ui.caze;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
@@ -57,6 +51,7 @@ import de.symeda.sormas.api.Disease;
 import de.symeda.sormas.api.DiseaseHelper;
 import de.symeda.sormas.api.FacadeProvider;
 import de.symeda.sormas.api.caze.CaseBulkEditData;
+import de.symeda.sormas.api.caze.CaseClassification;
 import de.symeda.sormas.api.caze.CaseCriteria;
 import de.symeda.sormas.api.caze.CaseDataDto;
 import de.symeda.sormas.api.caze.CaseFacade;
@@ -105,6 +100,7 @@ import de.symeda.sormas.api.person.CauseOfDeath;
 import de.symeda.sormas.api.person.PersonDto;
 import de.symeda.sormas.api.person.PersonReferenceDto;
 import de.symeda.sormas.api.person.PresentCondition;
+import de.symeda.sormas.api.sample.FinalClassification;
 import de.symeda.sormas.api.symptoms.SymptomsContext;
 import de.symeda.sormas.api.symptoms.SymptomsDto;
 import de.symeda.sormas.api.symptoms.SymptomsHelper;
@@ -1423,12 +1419,23 @@ public class CaseController {
 
 		editView.addCommitListener(() -> {
 			CaseDataDto cazeDto = FacadeProvider.getCaseFacade().getCaseDataByUuid(caseUuid);
-			cazeDto.setFinalClassification(finalClassificationForm.getValue().getFinalClassification());
+			FinalClassification finalClassification = finalClassificationForm.getValue().getFinalClassification();
+			cazeDto.setFinalClassification(finalClassification);
 			cazeDto.setImmunocompromisedStatusSuspected(finalClassificationForm.getValue().getImmunocompromisedStatusSuspected());
 			cazeDto.setDateRegionReceivesLabResults(finalClassificationForm.getValue().getDateRegionReceivesLabResults());
 			cazeDto.setRegion(finalClassificationForm.getValue().getRegion());
 			cazeDto.setDateLabResultsSentHealthFacilityRegion(finalClassificationForm.getValue().getDateLabResultsSentHealthFacilityRegion());
 			cazeDto.setDateLabResultsReceivedAtHealthFacility(finalClassificationForm.getValue().getDateLabResultsReceivedAtHealthFacility());
+			
+			// If final classification is LAB_CONFIRMED or CONFIRMED_BY_EPIDEMIOLOGICAL_LINKAGE for diseases requiring confirmation,
+			// set case classification to CONFIRMED
+			List<Disease> diseasesRequiringConfirmation = Arrays.asList(Disease.MEASLES, Disease.YELLOW_FEVER);
+			if (diseasesRequiringConfirmation.contains(cazeDto.getDisease())
+					&& (FinalClassification.LAB_CONFIRMED.equals(finalClassification)
+							|| FinalClassification.CONFIRMED_BY_EPIDEMIOLOGICAL_LINKAGE.equals(finalClassification))) {
+				cazeDto.setCaseClassification(CaseClassification.CONFIRMED);
+			}
+			
 			saveCase(cazeDto);
 		});
 
