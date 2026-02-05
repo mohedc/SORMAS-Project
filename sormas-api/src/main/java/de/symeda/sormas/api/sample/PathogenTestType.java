@@ -158,7 +158,8 @@ public enum PathogenTestType {
 		Disease.INVASIVE_PNEUMOCOCCAL_INFECTION,
 		Disease.YELLOW_FEVER,
 		Disease.MEASLES,
-		Disease.CONGENITAL_RUBELLA }, hide = true)
+		Disease.CONGENITAL_RUBELLA,
+		Disease.CSM }, hide = true)
 	LATEX_AGGLUTINATION,
 	@Diseases(value = {
 		Disease.RESPIRATORY_SYNCYTIAL_VIRUS,
@@ -167,7 +168,8 @@ public enum PathogenTestType {
 		Disease.YELLOW_FEVER,
 		Disease.MEASLES,
 		Disease.CSM,
-		Disease.CONGENITAL_RUBELLA }, hide = true)
+		Disease.CONGENITAL_RUBELLA,
+		Disease.CSM }, hide = true)
 	CQ_VALUE_DETECTION,
 	@Diseases(value = {
 		Disease.RESPIRATORY_SYNCYTIAL_VIRUS,
@@ -220,8 +222,7 @@ public enum PathogenTestType {
 	MULTILOCUS_SEQUENCE_TYPING,
 	@Diseases(value = {
 		Disease.INVASIVE_MENINGOCOCCAL_INFECTION,
-		Disease.INVASIVE_PNEUMOCOCCAL_INFECTION,
-		Disease.CSM })
+		Disease.INVASIVE_PNEUMOCOCCAL_INFECTION})
 	SLIDE_AGGLUTINATION,
 	@Diseases(value = {
 		Disease.INVASIVE_MENINGOCOCCAL_INFECTION,
@@ -262,6 +263,10 @@ public enum PathogenTestType {
 	@Diseases(value = {
 			Disease.AFP })
 	NON_POLIO_ENTEROVIRUS,
+
+	@Diseases(value = {
+		Disease.CSM })
+	AGGLUTINATION_TEST,
 
 	@Diseases(value = {
 		Disease.YELLOW_FEVER,

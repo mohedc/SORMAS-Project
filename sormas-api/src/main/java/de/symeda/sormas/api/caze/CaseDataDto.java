@@ -290,6 +290,7 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 	public static final String ARRIVAL_AT_NATIONAL_LEVEL_DATE = "arrivalAtNationalLevelDate";
 	public static final String VACCINE_TYPE = "vaccineType";
 	public static final String HEALTH_WORKER_COMPLETING_FORM = "healthWorkerCompletingForm";
+	public static final String CLASSIFICATION_BY_ORIGIN = "classificationByOrigin";
 
 
     // Fields are declared in the order they should appear in the import template
@@ -763,7 +764,8 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 			Disease.MEASLES,
 			Disease.YELLOW_FEVER,
 			Disease.AFP,
-			Disease.CSM})
+			Disease.CSM,
+			Disease.CONGENITAL_RUBELLA})
 	private Date dateOfNotification;
 	@Diseases({
 			Disease.NEONATAL_TETANUS,
@@ -886,6 +888,9 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 	private String healthWorkerCompletingForm;
 
 	private FinalClassification finalClassification;
+	@Diseases({
+			Disease.CONGENITAL_RUBELLA })
+	private ClassificationByOrigin classificationByOrigin;
 	private YesNoUnknown immunocompromisedStatusSuspected;
 	private Date dateRegionReceivesLabResults;
 	private Date dateLabResultsSentHealthFacilityRegion;
@@ -2406,6 +2411,14 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 
 	public void setFinalClassification(FinalClassification finalClassification) {
 		this.finalClassification = finalClassification;
+	}
+
+	public ClassificationByOrigin getClassificationByOrigin() {
+		return classificationByOrigin;
+	}
+
+	public void setClassificationByOrigin(ClassificationByOrigin classificationByOrigin) {
+		this.classificationByOrigin = classificationByOrigin;
 	}
 
 	public Date getArrivalAtRegionalPublicHealthOfficeDate() {

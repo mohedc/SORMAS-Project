@@ -302,6 +302,7 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 	private static final String MEASLES_LAYOUT =
 			loc(CASE_DATA_HEADING_LOC) +
 					fluidRowLocs(4, CaseDataDto.UUID, 3, CaseDataDto.REPORT_DATE, 5, CaseDataDto.REPORTING_USER) +
+					fluidRow(fluidColumnLoc(6, 0, CaseDataDto.DISEASE)) +
 					inlineLocs(CaseDataDto.CASE_CLASSIFICATION,
 							CLASSIFICATION_RULES_LOC,
 							CASE_CONFIRMATION_BASIS,
@@ -312,7 +313,6 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 					fluidRowLocs(9, CaseDataDto.INVESTIGATION_STATUS, 3, CaseDataDto.INVESTIGATED_DATE) +
 					fluidRowLocs(6, CaseDataDto.EPID_NUMBER, 3, ASSIGN_NEW_EPID_NUMBER_LOC) +
 					loc(EPID_NUMBER_WARNING_LOC) +
-					fluidRow(fluidColumnLoc(6, 0, CaseDataDto.DISEASE)) +
 					fluidRowLocs(CaseDataDto.CASE_ORIGIN) +
 					fluidRowLocs(RESPONSIBLE_JURISDICTION_HEADING_LOC) +
 					fluidRowLocs(CaseDataDto.RESPONSIBLE_REGION, CaseDataDto.RESPONSIBLE_DISTRICT, CaseDataDto.RESPONSIBLE_COMMUNITY) +
@@ -367,6 +367,7 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 	private static final String YELLOW_FEVER_LAYOUT =
 			loc(CASE_DATA_HEADING_LOC) +
 					fluidRowLocs(4, CaseDataDto.UUID, 3, CaseDataDto.REPORT_DATE, 5, CaseDataDto.REPORTING_USER) +
+					fluidRow(fluidColumnLoc(6, 0, CaseDataDto.DISEASE)) +
 					inlineLocs(CaseDataDto.CASE_CLASSIFICATION,
 							CLASSIFICATION_RULES_LOC,
 							CASE_CONFIRMATION_BASIS,
@@ -377,7 +378,6 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 					fluidRowLocs(9, CaseDataDto.INVESTIGATION_STATUS, 3, CaseDataDto.INVESTIGATED_DATE) +
 					fluidRowLocs(6, CaseDataDto.EPID_NUMBER, 3, ASSIGN_NEW_EPID_NUMBER_LOC) +
 					loc(EPID_NUMBER_WARNING_LOC) +
-					fluidRow(fluidColumnLoc(6, 0, CaseDataDto.DISEASE)) +
 					fluidRowLocs(CaseDataDto.CASE_ORIGIN) +
 					fluidRowLocs(RESPONSIBLE_JURISDICTION_HEADING_LOC) +
 					fluidRowLocs(CaseDataDto.RESPONSIBLE_REGION, CaseDataDto.RESPONSIBLE_DISTRICT, CaseDataDto.RESPONSIBLE_COMMUNITY) +
@@ -404,6 +404,7 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 	private static final String RUBELLA_LAYOUT =
 			loc(CASE_DATA_HEADING_LOC) +
 					fluidRowLocs(4, CaseDataDto.UUID, 3, CaseDataDto.REPORT_DATE, 5, CaseDataDto.REPORTING_USER) +
+					fluidRow(fluidColumnLoc(6, 0, CaseDataDto.DISEASE)) +
 					inlineLocs(CaseDataDto.CASE_CLASSIFICATION,
 							CLASSIFICATION_RULES_LOC,
 							CASE_CONFIRMATION_BASIS,
@@ -411,11 +412,10 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 					fluidRow(
 							fluidColumnLoc(3, 0, CaseDataDto.CLASSIFICATION_DATE),
 							fluidColumnLocCss(LAYOUT_COL_HIDE_INVSIBLE, 5, 0, CaseDataDto.CLASSIFICATION_USER)) +
-					fluidRowLocs(9, CaseDataDto.INVESTIGATION_STATUS, 3, CaseDataDto.INVESTIGATED_DATE) +
-					fluidRowLocs(CaseDataDto.DATE_OF_NOTIFICATION, "") +
+					fluidRowLocs(9, CaseDataDto.INVESTIGATION_STATUS, 3, "") +
+					fluidRowLocs(CaseDataDto.DATE_OF_NOTIFICATION, CaseDataDto.INVESTIGATED_DATE) +
 					fluidRowLocs(6, CaseDataDto.EPID_NUMBER, 3, ASSIGN_NEW_EPID_NUMBER_LOC) +
 					loc(EPID_NUMBER_WARNING_LOC) +
-					fluidRow(fluidColumnLoc(6, 0, CaseDataDto.DISEASE)) +
 					fluidRowLocs(CaseDataDto.CASE_ORIGIN) +
 					fluidRowLocs(RESPONSIBLE_JURISDICTION_HEADING_LOC) +
 					fluidRowLocs(CaseDataDto.RESPONSIBLE_REGION, CaseDataDto.RESPONSIBLE_DISTRICT, CaseDataDto.RESPONSIBLE_COMMUNITY) +
@@ -429,6 +429,7 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 	private static final String MENINGITIS_LAYOUT =
 			loc(CASE_DATA_HEADING_LOC) +
 					fluidRowLocs(4, CaseDataDto.UUID, 3, CaseDataDto.REPORT_DATE, 5, CaseDataDto.REPORTING_USER) +
+					fluidRow(fluidColumnLoc(6, 0, CaseDataDto.DISEASE)) +
 					inlineLocs(CaseDataDto.CASE_CLASSIFICATION,
 							CLASSIFICATION_RULES_LOC,
 							CASE_CONFIRMATION_BASIS,
@@ -439,9 +440,8 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 					fluidRowLocs(6, CaseDataDto.EPID_NUMBER, 3, ASSIGN_NEW_EPID_NUMBER_LOC) +
 					loc(EPID_NUMBER_WARNING_LOC) +
 					fluidRowLocs(CaseDataDto.CASE_REFERENCE_NUMBER, "") +
-					fluidRowLocs(CaseDataDto.REGION_LEVEL_DATE, CaseDataDto.NATIONAL_LEVEL_DATE) +
+//					fluidRowLocs(CaseDataDto.REGION_LEVEL_DATE, CaseDataDto.NATIONAL_LEVEL_DATE) +
 					fluidRowLocs(CaseDataDto.ARRIVAL_AT_REGIONAL_PUBLIC_HEALTH_OFFICE_DATE, CaseDataDto.ARRIVAL_AT_NATIONAL_LEVEL_DATE) +
-					fluidRow(fluidColumnLoc(6, 0, CaseDataDto.DISEASE)) +
 					fluidRowLocs(CaseDataDto.CASE_ORIGIN) +
 					fluidRowLocs(RESPONSIBLE_JURISDICTION_HEADING_LOC) +
 					fluidRowLocs(CaseDataDto.RESPONSIBLE_REGION, CaseDataDto.RESPONSIBLE_DISTRICT, CaseDataDto.RESPONSIBLE_COMMUNITY) +
@@ -452,9 +452,8 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 					fluidRowLocs(TYPE_GROUP_LOC, CaseDataDto.FACILITY_TYPE) +
 					fluidRowLocs(CaseDataDto.HEALTH_FACILITY, CaseDataDto.HEALTH_FACILITY_DETAILS) +
 				loc(ADDITIONAL_MEDICAL_INFORMATION) +
-				fluidRowLocs(CaseDataDto.VACCINATED, CaseDataDto.ROUTINE_VACCINATION_TYPE) +
-				fluidRowLocs(CaseDataDto.VACCINATION_RECORD_TYPE, CaseDataDto.NUMBER_OF_VACCINATION_DOSES) +
-				fluidRowLocs(CaseDataDto.LAST_VACCINATION_DATE, "") +
+				fluidRowLocs(CaseDataDto.VACCINATED, CaseDataDto.VACCINATION_RECORD_TYPE) +
+				fluidRowLocs(CaseDataDto.NUMBER_OF_VACCINATION_DOSES, CaseDataDto.LAST_VACCINATION_DATE) +
 				fluidRowLocs(CaseDataDto.VACCINE_TYPE, CaseDataDto.HEALTH_WORKER_COMPLETING_FORM) +
 				loc(INVESTIGATING_OFFICER_INFO) +
 					locCss(VSPACE_TOP_3, CaseDataDto.INVESTIGATOR_NAME) +
@@ -1250,7 +1249,7 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 			FieldHelper.setRequiredWhen(
 					getFieldGroup(),
 					CaseDataDto.VACCINATED,
-					Arrays.asList(CaseDataDto.VACCINATION_RECORD_TYPE, CaseDataDto.ROUTINE_VACCINATION_TYPE, CaseDataDto.NUMBER_OF_VACCINATION_DOSES),
+					Arrays.asList(CaseDataDto.VACCINATION_RECORD_TYPE, CaseDataDto.NUMBER_OF_VACCINATION_DOSES),
 					Arrays.asList(VaccinationStatus.VACCINATED));
 		}
 		if(disease == Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS){

@@ -27,10 +27,11 @@ import java.util.stream.Collectors;
 
 import com.vaadin.ui.Label;
 import com.vaadin.v7.ui.ComboBox;
-
+import com.vaadin.v7.ui.TextField;
 import com.vaadin.v7.ui.DateField;
 import de.symeda.sormas.api.Disease;
 import de.symeda.sormas.api.FacadeProvider;
+import de.symeda.sormas.api.caze.CaseClassification;
 import de.symeda.sormas.api.caze.CaseDataDto;
 import de.symeda.sormas.api.i18n.I18nProperties;
 import de.symeda.sormas.api.i18n.Strings;
@@ -73,11 +74,26 @@ public class CaseFinalClassificationForm extends AbstractEditForm<CaseDataDto> {
 					fluidRowLocs(CaseDataDto.DATE_REGION_RECEIVES_LAB_RESULTS,CaseDataDto.REGION) +
 					fluidRowLocs(CaseDataDto.DATE_LAB_RESULTS_SENT_HEALTH_FACILITY_REGION, CaseDataDto.DATE_LAB_RESULTS_RECEIVED_HEALTH_FACILITY);
 
+	private static final String CONGENITAL_RUBELLA_HTML_LAYOUT =
+			loc(FINAL_CLASSIFICATION_HEADING_LOC) +
+					fluidRowLocs(CaseDataDto.FINAL_CLASSIFICATION, "") +
+					fluidRowLocs(CaseDataDto.CLASSIFICATION_DATE, CaseDataDto.CLASSIFICATION_BY_ORIGIN) +
+					fluidRowLocs(CaseDataDto.INVESTIGATOR_NAME, CaseDataDto.INVESTIGATOR_TEL);
+
 	//@formatter:on
 
+	private static final List<Disease> DISEASES_REQUIRING_CONFIRMATION = Arrays.asList(
+		Disease.MEASLES,
+		Disease.YELLOW_FEVER,
+		Disease.CSM
+	);
+
 	private ComboBox finalClassificationField;
+	private ComboBox classificationByOriginField;
 	private Disease disease;
 	private ComboBox regionCombo;
+	private FinalClassification previousFinalClassification;
+	private boolean isInitializing = true;
 
 	public CaseFinalClassificationForm(
 		String caseUuid,
@@ -103,6 +119,17 @@ public class CaseFinalClassificationForm extends AbstractEditForm<CaseDataDto> {
 	}
 
 	@Override
+	public void setValue(CaseDataDto newFieldValue) throws com.vaadin.v7.data.Property.ReadOnlyException, com.vaadin.v7.data.util.converter.Converter.ConversionException {
+		isInitializing = true;
+		try {
+			super.setValue(newFieldValue);
+		} finally {
+			// Reset flag after initialization is complete
+			isInitializing = false;
+		}
+	}
+
+	@Override
 	protected void addFields() {
 
 		Label finalClassificationHeadingLabel = new Label(I18nProperties.getPrefixCaption(CaseDataDto.I18N_PREFIX, "finalClassificationHeading"));
@@ -117,14 +144,93 @@ public class CaseFinalClassificationForm extends AbstractEditForm<CaseDataDto> {
 		regionCombo = addInfrastructureField(CaseDataDto.REGION);
 		addField(CaseDataDto.DATE_LAB_RESULTS_SENT_HEALTH_FACILITY_REGION, DateField.class);
 		addField(CaseDataDto.DATE_LAB_RESULTS_RECEIVED_HEALTH_FACILITY, DateField.class);
+		addField(CaseDataDto.CLASSIFICATION_DATE, DateField.class);
+		addField(CaseDataDto.INVESTIGATOR_NAME, TextField.class);
+		addField(CaseDataDto.INVESTIGATOR_TEL, TextField.class);
 		finalClassificationField = addField(CaseDataDto.FINAL_CLASSIFICATION, ComboBox.class);
 		finalClassificationField.setNullSelectionAllowed(true);
 		finalClassificationField.setItemCaptionMode(ComboBox.ItemCaptionMode.ID_TOSTRING);
+		classificationByOriginField = addField(CaseDataDto.CLASSIFICATION_BY_ORIGIN, ComboBox.class);
+		classificationByOriginField.setNullSelectionAllowed(true);
+		classificationByOriginField.setItemCaptionMode(ComboBox.ItemCaptionMode.ID_TOSTRING);
 
 		regionCombo.addItems(FacadeProvider.getRegionFacade().getAllActiveByServerCountry());
 		List<FinalClassification> values = getFinalClassifications();
 
 		FieldHelper.updateEnumData(finalClassificationField, values);
+		
+		// Update ClassificationByOrigin enum data
+		if (disease == Disease.CONGENITAL_RUBELLA) {
+			FieldHelper.updateEnumData(classificationByOriginField, Arrays.asList(
+					de.symeda.sormas.api.caze.ClassificationByOrigin.values()));
+		}
+
+		// Add value change listener for confirmation dialog
+		finalClassificationField.addValueChangeListener(event -> {
+			// Skip if form is being initialized
+			if (isInitializing) {
+				return;
+			}
+			
+			FinalClassification selectedValue = (FinalClassification) event.getProperty().getValue();
+			
+			// Check if the selected value is LAB_CONFIRMED or CONFIRMED_BY_EPIDEMIOLOGICAL_LINKAGE
+			// and the disease requires confirmation
+			if (selectedValue != null
+					&& (FinalClassification.LAB_CONFIRMED.equals(selectedValue) 
+							|| FinalClassification.CONFIRMED_BY_EPIDEMIOLOGICAL_LINKAGE.equals(selectedValue))
+					&& DISEASES_REQUIRING_CONFIRMATION.contains(disease)) {
+				
+				// Store the previous value from the form DTO to revert if user clicks No
+				CaseDataDto caseDataDto = getValue();
+				if (caseDataDto != null) {
+					previousFinalClassification = caseDataDto.getFinalClassification();
+				} else {
+					previousFinalClassification = null;
+				}
+				
+				// Show confirmation dialog
+				Label messageLabel = new Label("The final classification of the case selected will set the case classification to confirmed. Do you want to proceed?");
+				VaadinUiUtil.showConfirmationPopup(
+					"",
+					messageLabel,
+					"Yes",
+					"No",
+					640,
+					confirmed -> {
+						if (confirmed) {
+							// User clicked Yes - set case classification to CONFIRMED
+							CaseDataDto dto = getValue();
+							if (dto != null) {
+								dto.setCaseClassification(CaseClassification.CONFIRMED);
+							}
+						} else {
+							// User clicked No - revert to previous value
+							finalClassificationField.setValue(previousFinalClassification);
+						}
+					});
+			}
+		});
+
+		// Set field visibility based on disease
+		if (disease != Disease.CONGENITAL_RUBELLA) {
+			setVisible(false, 
+				CaseDataDto.CLASSIFICATION_DATE,
+				CaseDataDto.CLASSIFICATION_BY_ORIGIN,
+				CaseDataDto.INVESTIGATOR_NAME,
+				CaseDataDto.INVESTIGATOR_TEL);
+		}
+		if (disease != Disease.AFP && disease != Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS) {
+			setVisible(false,
+				CaseDataDto.IMMUNOCOMPROMISED_STATUS_SUSPECTED,
+				CaseDataDto.DATE_REGION_RECEIVES_LAB_RESULTS,
+				CaseDataDto.REGION,
+				CaseDataDto.DATE_LAB_RESULTS_SENT_HEALTH_FACILITY_REGION,
+				CaseDataDto.DATE_LAB_RESULTS_RECEIVED_HEALTH_FACILITY);
+		}
+		if (disease != Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS) {
+			getContent().getComponent(ADDITIONAL_HEADING_LOC).setVisible(false);
+		}
 
 	}
 
@@ -158,6 +264,9 @@ public class CaseFinalClassificationForm extends AbstractEditForm<CaseDataDto> {
 		}
 		if(disease == Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS){
 			return IDSR_HTML_LAYOUT;
+		}
+		if(disease == Disease.CONGENITAL_RUBELLA){
+			return CONGENITAL_RUBELLA_HTML_LAYOUT;
 		}
 		return HTML_LAYOUT;
 	}

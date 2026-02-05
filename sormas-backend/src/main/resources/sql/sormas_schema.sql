@@ -15159,6 +15159,10 @@ ALTER TABLE cases ADD COLUMN datelabresultssenthealthfacilityregion date;
 ALTER TABLE cases ADD COLUMN datelabresultsreceivedathealthfacility date;
 INSERT INTO schema_version (version_number, comment) VALUES (641, 'Added columns to cases for casefinalclassification');
 
+-- Migration 642: Add classificationByOrigin field to cases table
+ALTER TABLE cases ADD COLUMN IF NOT EXISTS classificationbyorigin varchar(255);
+ALTER TABLE cases_history ADD COLUMN IF NOT EXISTS classificationbyorigin varchar(255);
+INSERT INTO schema_version (version_number, comment) VALUES (642, 'Add classificationByOrigin field to cases table');
 
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***
 

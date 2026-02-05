@@ -492,7 +492,7 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 			Arrays.asList(
 				SampleDto.ELISA_IGM, SampleDto.ELISA_IGM_DATE,
 				SampleDto.PCR, SampleDto.PCR_DATE,
-				SampleDto.PRNT, SampleDto.PRNT_INPUT_VALUE, SampleDto.PRNT_DATE),
+				SampleDto.PRNT, SampleDto.PRNT_DATE),
 			SampleDto.SENT_TO_IP_DAKAR,
 			Arrays.asList(YesNo.YES),
 			true);
@@ -629,7 +629,7 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 	protected void setVisibilities() {
 
 		FieldHelper
-			.setVisibleWhen(getFieldGroup(), SampleDto.SAMPLE_MATERIAL_TEXT, SampleDto.SAMPLE_MATERIAL, Arrays.asList(SampleMaterial.OTHER), true);
+			.setVisibleWhen(getFieldGroup(), SampleDto.SAMPLE_MATERIAL_TEXT, SampleDto.SAMPLE_MATERIAL, Arrays.asList(SampleMaterial.OTHER), false);
 		FieldHelper.setVisibleWhen(
 			getFieldGroup(),
 			SampleDto.NO_TEST_POSSIBLE_REASON,
@@ -841,7 +841,8 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 	 * Configures fields specifically for yellow fever samples
 	 */
 	protected void configureYellowFeverFields() {
-
+		// SampleDto.PATHOGEN_TEST_RESULT readOnly
+		getField(SampleDto.PATHOGEN_TEST_RESULT).setReadOnly(true);
 		getField(SampleDto.SHIPMENT_DATE).setVisible(true);
 		getField(SampleDto.DATE_RESULTS_SENT_TO_REFERRING_CLINICIAN).setVisible(true);
 		Field<?> shippedField = getField(SampleDto.SHIPPED);
@@ -910,9 +911,6 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 	 * Configures fields specifically for congenital rubella samples
 	 */
 	protected void configureCongenitalRubellaFields() {
-		// Make FIELD_SAMPLE_ID read-only
-		getField(SampleDto.FIELD_SAMPLE_ID).setReadOnly(true);
-
 		// Filter sample material options for congenital rubella: Serum, Throat swab, Urine, CSF, Other
 		FieldHelper.updateEnumData(sampleMaterialComboBox, Arrays.asList(SampleMaterial.SERUM, SampleMaterial.THROAT_SWAB, SampleMaterial.URINE, SampleMaterial.CSF, SampleMaterial.OTHER));
 

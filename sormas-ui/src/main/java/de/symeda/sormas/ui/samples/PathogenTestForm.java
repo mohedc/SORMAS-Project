@@ -137,8 +137,7 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 			fluidRowLocs(PathogenTestDto.PERFORM_RUBELLA_TEST, PathogenTestDto.COMMUNITY_INVESTIGATION) +
 			fluidRowLocs(PathogenTestDto.INVESTIGATION_RESULTS, PathogenTestDto.SOURCE_OF_INFECTION_IDENTIFIED) +
 			fluidRowLocs(4, PathogenTestDto.TEST_RESULT, 4, PathogenTestDto.TEST_RESULT_VERIFIED) +
-			fluidRowLocs(PathogenTestDto.TEST_RESULT_TEXT, PathogenTestDto.DATE_RESULTS_SENT_TO_DISTRICT) +
-			fluidRowLocs(4, PathogenTestDto.FINAL_CLASSIFICATION);
+			fluidRowLocs(PathogenTestDto.TEST_RESULT_TEXT, PathogenTestDto.DATE_RESULTS_SENT_TO_DISTRICT);
 
 	private static final String YELLOW_FEVER_HTML_LAYOUT =
 			loc(PATHOGEN_TEST_HEADING_LOC) +
@@ -147,7 +146,7 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 			fluidRowLocs(PathogenTestDto.TEST_DATE_TIME, PathogenTestDto.LAB) +
 			fluidRowLocs(5, PathogenTestDto.LAB_DETAILS, 7, PathogenTestDto.DATE_RESULTS_SENT_TO_DISTRICT) +
 			fluidRowLocs(4, PathogenTestDto.TEST_RESULT, 4, PathogenTestDto.TEST_RESULT_VERIFIED, 4, PathogenTestDto.VIRUS_ISOLATED) +
-			fluidRowLocs(PathogenTestDto.TEST_RESULT_TEXT, PathogenTestDto.FINAL_CLASSIFICATION);
+			fluidRowLocs(PathogenTestDto.TEST_RESULT_TEXT, "");
 
 	private static final String MENINGITIS_HTML_LAYOUT =
 			loc(PATHOGEN_TEST_HEADING_LOC) +
@@ -163,11 +162,10 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 			fluidRowLocs(PathogenTestDto.AGGLUTINATION_OTHER_MICROORGANISM, "") +
 			fluidRowLocs(PathogenTestDto.DATE_RESULTS_SENT_TO_DISTRICT, "") +
 			fluidRowLocs(PathogenTestDto.DATE_RESULTS_SENT_TO_REGION, PathogenTestDto.DATE_RESULTS_SENT_TO_DISEASE_SURVEILLANCE) +
-			fluidRowLocs(PathogenTestDto.DATE_DISTRICT_RECEIVED_LAB_RESULTS, PathogenTestDto.DATE_RESULTS_SENT_TO_REFERENCE_LABORATORY) +
-			fluidRowLocs(PathogenTestDto.REFERENCE_LABORATORY, "") +
+			fluidRowLocs(PathogenTestDto.REFERENCE_LABORATORY, PathogenTestDto.DATE_RESULTS_SENT_TO_REFERENCE_LABORATORY) +
 			fluidRowLocs(PathogenTestDto.OTHER_TESTS_PENDING, PathogenTestDto.OTHER_TESTS_PENDING_SPECIFY) +
 			fluidRowLocs(4, PathogenTestDto.TEST_RESULT, 4, PathogenTestDto.TEST_RESULT_VERIFIED, 4, "") +
-			fluidRowLocs(PathogenTestDto.TEST_RESULT_TEXT, PathogenTestDto.FINAL_CLASSIFICATION);
+			fluidRowLocs(PathogenTestDto.TEST_RESULT_TEXT, "");
 
 	private static final String IDSR_HTML_LAYOUT =
 			loc(PATHOGEN_TEST_HEADING_LOC) +
@@ -1135,7 +1133,7 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 			getFieldGroup(),
 			Arrays.asList(PathogenTestDto.AGGLUTINATION_RESULT),
 			PathogenTestDto.TEST_TYPE,
-			Arrays.asList(PathogenTestType.LATEX_AGGLUTINATION, PathogenTestType.SLIDE_AGGLUTINATION),
+			Arrays.asList(PathogenTestType.AGGLUTINATION_TEST),
 			true);
 		NullableOptionGroup agglutinationResultField = (NullableOptionGroup) getField(PathogenTestDto.AGGLUTINATION_RESULT);
 		agglutinationResultField.addItems(AgglutinationTestResult.values());
@@ -1192,7 +1190,7 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 			getField(PathogenTestDto.DATE_RESULTS_SENT_TO_REGION).setVisible(false);
 			getField(PathogenTestDto.DATE_DISTRICT_RECEIVED_LAB_RESULTS).setVisible(false);
 			getField(PathogenTestDto.DATE_RESULTS_SENT_TO_REFERENCE_LABORATORY).setVisible(false);
-			getField(PathogenTestDto.REFERENCE_LABORATORY).setVisible(false);
+			getField(PathogenTestDto.REFERENCE_LABORATORY).setVisible(true);
 		} else {
 			// If laboratory type is not set or is HEALTH_LABORATORY, hide all conditional fields
 			getField(PathogenTestDto.DATE_RESULTS_SENT_TO_REGION).setVisible(false);

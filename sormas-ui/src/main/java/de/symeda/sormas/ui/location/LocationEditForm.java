@@ -177,8 +177,8 @@ public class LocationEditForm extends AbstractEditForm<LocationDto> {
 
 	private static final String CONGENITAL_RUBELLA_LAYOUT =
 			loc(CONGENITAL_RUBELLA_HOME_ADDRESS_HEADING_LOC) +
-			fluidRowLocs(LocationDto.REGION, LocationDto.DISTRICT, LocationDto.COMMUNITY) +
-			fluidRowLocs(LocationDto.HOME_RESIDENTIAL_ADDRESS);
+			fluidRowLocs(LocationDto.REGION, LocationDto.DISTRICT, LocationDto.COMMUNITY);
+			// fluidRowLocs(LocationDto.HOME_RESIDENTIAL_ADDRESS);
 
 	private MapPopupView leafletMapPopup;
 	private ComboBox addressType;

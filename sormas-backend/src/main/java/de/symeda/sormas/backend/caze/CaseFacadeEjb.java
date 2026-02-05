@@ -3288,6 +3288,7 @@ public class CaseFacadeEjb extends AbstractCoreFacadeEjb<Case, CaseDataDto, Case
 		target.setHealthWorkerCompletingForm(source.getHealthWorkerCompletingForm());
 		target.setNotifiedByText(source.getNotifiedByText());
 		target.setFinalClassification(source.getFinalClassification());
+		target.setClassificationByOrigin(source.getClassificationByOrigin());
 		target.setDateFormSentToRegion(source.getDateFormSentToRegion());
 		target.setPersonFullName(source.getPersonFullName());
 		target.setPersonTelephone(source.getPersonTelephone());
@@ -3554,6 +3555,7 @@ public class CaseFacadeEjb extends AbstractCoreFacadeEjb<Case, CaseDataDto, Case
 		target.setHealthWorkerCompletingForm(source.getHealthWorkerCompletingForm());
 		target.setNotifiedByText(source.getNotifiedByText());
 		target.setFinalClassification(source.getFinalClassification());
+		target.setClassificationByOrigin(source.getClassificationByOrigin());
 		target.setDateFormSentToRegion(source.getDateFormSentToRegion());
 		target.setPersonFullName(source.getPersonFullName());
 		target.setPersonTelephone(source.getPersonTelephone());

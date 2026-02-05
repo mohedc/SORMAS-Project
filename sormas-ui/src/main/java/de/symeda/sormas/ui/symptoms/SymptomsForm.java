@@ -183,7 +183,9 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 					fluidRow(fluidColumn(8,4, locCss(CssStyles.ALIGN_RIGHT,BUTTONS_LOC)))+
 			fluidRowLocs(GENERALIZED_RASH, LESIONS_ONSET_DATE) +
 			locsCss(VSPACE_3) +
+			fluidRowLocsCss(VSPACE_3, ONSET_SYMPTOM, ONSET_DATE) +
 			fluidRowLocs(6, SWOLLEN_LYMPH_NODES_BEHIND_EARS, 3, OUTCOME);
+			
 
 	public static final String AFP_LAYOUT = fluidRowLocs(FEVER_ONSET_PARALYSIS, PROGRESSIVE_PARALYSIS) +
 			fluidRowLocs(PROGRESSIVE_FLACID_ACUTE, ASSYMETRIC, DATE_ONSET_PARALYSIS) +
