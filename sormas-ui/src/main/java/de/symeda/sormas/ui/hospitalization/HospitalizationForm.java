@@ -217,7 +217,8 @@ public class HospitalizationForm extends AbstractEditForm<HospitalizationDto> {
 		// For measles, ADMITTED_TO_HEALTH_FACILITY is not in the layout, so skip the setEnabledWhen logic
 		// For measles, admission and discharge dates should be enabled based on SELECT_INPATIENT_OUTPATIENT
 		// For yellow fever, congenital rubella, and CSM (meningitis), same logic applies
-		if (caze.getDisease() != Disease.MEASLES && caze.getDisease() != Disease.YELLOW_FEVER && caze.getDisease() != Disease.CONGENITAL_RUBELLA && caze.getDisease() != Disease.CSM) {
+		if (caze.getDisease() != Disease.MEASLES && caze.getDisease() != Disease.YELLOW_FEVER && caze.getDisease() != Disease.CONGENITAL_RUBELLA && caze.getDisease() != Disease.CSM
+				&& caze.getDisease() != Disease.AFP) {
 			FieldHelper.setEnabledWhen(
 				admittedToHealthFacilityField,
 				Arrays.asList(YesNoUnknown.YES, YesNoUnknown.NO, YesNoUnknown.UNKNOWN),
@@ -390,7 +391,7 @@ public class HospitalizationForm extends AbstractEditForm<HospitalizationDto> {
 
 
 		if (disease == Disease.AFP){
-			FieldHelper.setVisibleWhen(selectInpatientOutpatient, Arrays.asList(admissionDateField), Arrays.asList(YesNoUnknown.YES),true);
+			FieldHelper.setVisibleWhen(selectInpatientOutpatient, Arrays.asList(admissionDateField), Arrays.asList(InpatOutpat.INPATIENT),true);
 			FieldHelper
 					.setVisibleWhen(intensiveCareUnit, Arrays.asList(intensiveCareUnitStart, intensiveCareUnitEnd), Arrays.asList(YesNoUnknown.YES), true);
 			admissionDateField.setCaption("Date of admission to hospital, if applicable:");

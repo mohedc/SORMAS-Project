@@ -303,6 +303,7 @@ public interface Validations {
 	String validEventTitle = "validEventTitle";
 	String validFacility = "validFacility";
 	String validFacilityType = "validFacilityType";
+	String validFinalClassification = "validFinalClassification";
 	String validHealthConditions = "validHealthConditions";
 	String validImmunization = "validImmunization";
 	String validLaboratory = "validLaboratory";

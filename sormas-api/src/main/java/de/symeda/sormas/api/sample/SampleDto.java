@@ -144,7 +144,7 @@ public class SampleDto extends SormasToSormasShareableDto implements IsSample {
 
 	@NotNull(message = Validations.requiredField)
 	private SampleMaterial sampleMaterial;
-	@SensitiveData
+//	@SensitiveData
 	@Size(max = FieldConstraints.CHARACTER_LIMIT_DEFAULT, message = Validations.textTooLong)
 	private String sampleMaterialText;
 	@NotNull(message = Validations.requiredField)

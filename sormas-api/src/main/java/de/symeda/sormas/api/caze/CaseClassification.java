@@ -30,14 +30,14 @@ public enum CaseClassification
 	implements
 	StatisticsGroupingKey {
 
-	@Diseases(value = { Disease.MEASLES, Disease.YELLOW_FEVER, Disease.CSM, Disease.CONGENITAL_RUBELLA }, hide = true)
+	@Diseases(value = { Disease.MEASLES, Disease.YELLOW_FEVER, Disease.CSM, Disease.CONGENITAL_RUBELLA, Disease.NEONATAL_TETANUS, Disease.AFP, Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS }, hide = true)
 	NOT_CLASSIFIED(1),
 	SUSPECT(2),
 	PROBABLE(3),
 	CONFIRMED(6),
-	@Diseases(value = { Disease.MEASLES, Disease.YELLOW_FEVER, Disease.CSM, Disease.CONGENITAL_RUBELLA }, hide = true)
+	@Diseases(value = { Disease.MEASLES, Disease.YELLOW_FEVER, Disease.CSM, Disease.CONGENITAL_RUBELLA, Disease.NEONATAL_TETANUS, Disease.AFP, Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS }, hide = true)
 	CONFIRMED_NO_SYMPTOMS(4),
-	@Diseases(value = { Disease.MEASLES, Disease.YELLOW_FEVER, Disease.CSM, Disease.CONGENITAL_RUBELLA }, hide = true)
+	@Diseases(value = { Disease.MEASLES, Disease.YELLOW_FEVER, Disease.CSM, Disease.CONGENITAL_RUBELLA, Disease.NEONATAL_TETANUS, Disease.AFP, Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS }, hide = true)
 	CONFIRMED_UNKNOWN_SYMPTOMS(5),
 	NO_CASE(0);
 

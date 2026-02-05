@@ -1737,7 +1737,12 @@ public class CaseFacadeEjb extends AbstractCoreFacadeEjb<Case, CaseDataDto, Case
 		restorePseudonymizedDto(dto, existingCaseDto, existingCaze, pseudonymizer);
 
 		validateUserRights(dto, existingCaseDto);
-		validate(dto);
+		if (isFinalClassificationUpdate(dto)) {
+			validateForFinalClassification(dto);
+		} else {
+			validate(dto);
+		}
+
 
 		externalJournalService.handleExternalJournalPersonUpdateAsync(dto.getPerson());
 
@@ -1963,6 +1968,23 @@ public class CaseFacadeEjb extends AbstractCoreFacadeEjb<Case, CaseDataDto, Case
 			}
 		}
 	}
+
+	public void validateForFinalClassification(@Valid CaseDataDto caze) throws ValidationRuntimeException {
+		if (caze == null) {
+			throw new ValidationRuntimeException("Case cannot be null");
+		}
+		if (caze.getFinalClassification() == null) {
+			throw new ValidationRuntimeException(
+					I18nProperties.getValidationError(Validations.validFinalClassification)
+			);
+		}
+		if (caze.getRegion() == null) {
+			throw new ValidationRuntimeException(
+					I18nProperties.getValidationError("validRegion")
+			);
+		}
+	}
+
 
 	public void validateUserRights(CaseDataDto caze, CaseDataDto existingCaze) {
 		if (existingCaze != null) {
@@ -2574,36 +2596,41 @@ public class CaseFacadeEjb extends AbstractCoreFacadeEjb<Case, CaseDataDto, Case
 
 	private String generateEpidNumber(String newEpidNumber, String caseUuid, Disease disease, Date reportDate, String districtUuid) {
 
-		if (!CaseLogic.isEpidNumberPrefix(newEpidNumber)) {
-			// Generate a completely new epid number if the prefix is not complete or doesn't match the pattern
-			Calendar calendar = Calendar.getInstance();
-			calendar.setTime(reportDate);
-			String year = String.valueOf(calendar.get(Calendar.YEAR)).substring(2);
-			newEpidNumber = districtFacade.getFullEpidCodeForDistrict(districtUuid) + "-" + year + "-";
-		}
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(reportDate);
+		String year = String.valueOf(calendar.get(Calendar.YEAR)).substring(1);
 
-		// Generate a suffix number
-		String highestEpidNumber = service.getHighestEpidNumber(newEpidNumber, caseUuid, disease);
-		if (highestEpidNumber == null || highestEpidNumber.endsWith("-")) {
-			// If there is not yet a case with a suffix for this epid number in the database, use 001
-			newEpidNumber = newEpidNumber + "001";
-		} else {
-			// Otherwise, extract the suffix from the highest existing epid number and increase it by 1
-			String suffixString = highestEpidNumber.substring(highestEpidNumber.lastIndexOf('-'));
-			// Remove all non-digits from the suffix to ignore earlier input errors
-			suffixString = suffixString.replaceAll("[^\\d]", "");
-			if (suffixString.isEmpty()) {
-				// If the suffix is empty now, that means there is not yet an epid number with a
-				// suffix containing numbers
-				newEpidNumber = newEpidNumber + "001";
-			} else {
-				int suffix = Integer.parseInt(suffixString) + 1;
-				newEpidNumber += String.format("%03d", suffix);
+		District district = districtService.getByUuid(districtUuid);
+		Region region = district.getRegion();
+
+		String prefix =
+				"GAM-" +
+						region.getName().substring(0, 3).toUpperCase() + "-" +
+						district.getName().substring(0, 3).toUpperCase() + "-";
+
+		// Always rebuild prefix to enforce Gambia format
+		newEpidNumber = prefix;
+
+		// Ask SORMAS what the current highest EPID is for this prefix
+		String highestEpidNumber = service.getHighestEpidNumber(prefix, caseUuid, disease);
+
+		int nextNumber = 1;
+
+		if (highestEpidNumber != null) {
+			String[] parts = highestEpidNumber.split("-");
+			if (parts.length >= 5) {
+				try {
+					nextNumber = Integer.parseInt(parts[3]) + 1;
+				} catch (NumberFormatException ignored) {
+				}
 			}
 		}
 
+		newEpidNumber = prefix + String.format("%03d", nextNumber) + "-" + year;
+
 		return newEpidNumber;
 	}
+
 
 	private void updatePersonAndCaseByOutcome(CaseDataDto existingCase, Case newCase) {
 
@@ -4575,6 +4602,15 @@ public class CaseFacadeEjb extends AbstractCoreFacadeEjb<Case, CaseDataDto, Case
 					personFacade.getByUuid((String) casePersonUuids[1])))
 			.collect(Collectors.toList());
 	}
+
+	private boolean isFinalClassificationUpdate(CaseDataDto dto) {
+		return dto.getFinalClassification() != null
+				&& dto.getRegion() != null
+				&& dto.getDistrict() == null
+				&& dto.getCommunity() == null
+				&& dto.getHealthFacility() == null;
+	}
+
 
 	@Override
 	public List<CaseDataDto> getDuplicatesWithPathogenTest(@Valid PersonReferenceDto personReferenceDto, PathogenTestDto pathogenTestDto) {
