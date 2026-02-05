@@ -162,8 +162,7 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 			fluidRowLocs(PathogenTestDto.AGGLUTINATION_OTHER_MICROORGANISM, "") +
 			fluidRowLocs(PathogenTestDto.DATE_RESULTS_SENT_TO_DISTRICT, "") +
 			fluidRowLocs(PathogenTestDto.DATE_RESULTS_SENT_TO_REGION, PathogenTestDto.DATE_RESULTS_SENT_TO_DISEASE_SURVEILLANCE) +
-			fluidRowLocs(PathogenTestDto.DATE_DISTRICT_RECEIVED_LAB_RESULTS, PathogenTestDto.DATE_RESULTS_SENT_TO_REFERENCE_LABORATORY) +
-			fluidRowLocs(PathogenTestDto.REFERENCE_LABORATORY, "") +
+			fluidRowLocs(PathogenTestDto.REFERENCE_LABORATORY, PathogenTestDto.DATE_RESULTS_SENT_TO_REFERENCE_LABORATORY) +
 			fluidRowLocs(PathogenTestDto.OTHER_TESTS_PENDING, PathogenTestDto.OTHER_TESTS_PENDING_SPECIFY) +
 			fluidRowLocs(4, PathogenTestDto.TEST_RESULT, 4, PathogenTestDto.TEST_RESULT_VERIFIED, 4, "") +
 			fluidRowLocs(PathogenTestDto.TEST_RESULT_TEXT, "");
