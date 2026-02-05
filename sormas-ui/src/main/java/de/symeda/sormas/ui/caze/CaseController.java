@@ -1426,6 +1426,10 @@ public class CaseController {
 			cazeDto.setRegion(finalClassificationForm.getValue().getRegion());
 			cazeDto.setDateLabResultsSentHealthFacilityRegion(finalClassificationForm.getValue().getDateLabResultsSentHealthFacilityRegion());
 			cazeDto.setDateLabResultsReceivedAtHealthFacility(finalClassificationForm.getValue().getDateLabResultsReceivedAtHealthFacility());
+			cazeDto.setClassificationDate(finalClassificationForm.getValue().getClassificationDate());
+			cazeDto.setClassificationByOrigin(finalClassificationForm.getValue().getClassificationByOrigin());
+			cazeDto.setInvestigatorName(finalClassificationForm.getValue().getInvestigatorName());
+			cazeDto.setInvestigatorTel(finalClassificationForm.getValue().getInvestigatorTel());
 			
 			// If final classification is LAB_CONFIRMED or CONFIRMED_BY_EPIDEMIOLOGICAL_LINKAGE for diseases requiring confirmation,
 			// set case classification to CONFIRMED

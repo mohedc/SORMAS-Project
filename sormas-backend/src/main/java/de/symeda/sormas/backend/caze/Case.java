@@ -240,6 +240,7 @@ public class Case extends CoreAdo implements IsCase, SormasToSormasShareable, Ha
 	public static final String OTHER_DIAGNOSTIC_CRITERIA = "otherDiagnosticCriteria";
 	public static final String IDSR_DIAGNOSIS_DETAILS = "idsrDiagnosisDetails";
 	public static final String FINAL_CLASSIFICATION = "finalClassification";
+	public static final String CLASSIFICATION_BY_ORIGIN = "classificationByOrigin";
 
 	private Person person;
 	private String description;
@@ -480,6 +481,7 @@ public class Case extends CoreAdo implements IsCase, SormasToSormasShareable, Ha
 	private String healthWorkerCompletingForm;
 	private String notifiedByText;
 	private FinalClassification finalClassification;
+	private ClassificationByOrigin classificationByOrigin;
 	private Date dateFormSentToRegion;
 	private String personFullName;
 	private String personTelephone;
@@ -2275,6 +2277,16 @@ public class Case extends CoreAdo implements IsCase, SormasToSormasShareable, Ha
 	public void setFinalClassification(FinalClassification finalClassification) {
 		this.finalClassification = finalClassification;
 	}
+
+	@Enumerated(EnumType.STRING)
+	public ClassificationByOrigin getClassificationByOrigin() {
+		return classificationByOrigin;
+	}
+
+	public void setClassificationByOrigin(ClassificationByOrigin classificationByOrigin) {
+		this.classificationByOrigin = classificationByOrigin;
+	}
+
 	@Column(length = CHARACTER_LIMIT_DEFAULT)
 	public String getPersonFullName() {
 		return personFullName;
