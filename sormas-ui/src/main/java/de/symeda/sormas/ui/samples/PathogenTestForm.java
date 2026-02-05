@@ -1134,7 +1134,7 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 			getFieldGroup(),
 			Arrays.asList(PathogenTestDto.AGGLUTINATION_RESULT),
 			PathogenTestDto.TEST_TYPE,
-			Arrays.asList(PathogenTestType.LATEX_AGGLUTINATION, PathogenTestType.SLIDE_AGGLUTINATION),
+			Arrays.asList(PathogenTestType.AGGLUTINATION_TEST),
 			true);
 		NullableOptionGroup agglutinationResultField = (NullableOptionGroup) getField(PathogenTestDto.AGGLUTINATION_RESULT);
 		agglutinationResultField.addItems(AgglutinationTestResult.values());
@@ -1191,7 +1191,7 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 			getField(PathogenTestDto.DATE_RESULTS_SENT_TO_REGION).setVisible(false);
 			getField(PathogenTestDto.DATE_DISTRICT_RECEIVED_LAB_RESULTS).setVisible(false);
 			getField(PathogenTestDto.DATE_RESULTS_SENT_TO_REFERENCE_LABORATORY).setVisible(false);
-			getField(PathogenTestDto.REFERENCE_LABORATORY).setVisible(false);
+			getField(PathogenTestDto.REFERENCE_LABORATORY).setVisible(true);
 		} else {
 			// If laboratory type is not set or is HEALTH_LABORATORY, hide all conditional fields
 			getField(PathogenTestDto.DATE_RESULTS_SENT_TO_REGION).setVisible(false);

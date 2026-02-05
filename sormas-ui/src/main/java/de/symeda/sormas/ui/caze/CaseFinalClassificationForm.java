@@ -84,7 +84,8 @@ public class CaseFinalClassificationForm extends AbstractEditForm<CaseDataDto> {
 
 	private static final List<Disease> DISEASES_REQUIRING_CONFIRMATION = Arrays.asList(
 		Disease.MEASLES,
-		Disease.YELLOW_FEVER
+		Disease.YELLOW_FEVER,
+		Disease.CSM
 	);
 
 	private ComboBox finalClassificationField;

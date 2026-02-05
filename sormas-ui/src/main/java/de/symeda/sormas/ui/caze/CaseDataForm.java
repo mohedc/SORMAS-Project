@@ -1249,7 +1249,7 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 			FieldHelper.setRequiredWhen(
 					getFieldGroup(),
 					CaseDataDto.VACCINATED,
-					Arrays.asList(CaseDataDto.VACCINATION_RECORD_TYPE, CaseDataDto.ROUTINE_VACCINATION_TYPE, CaseDataDto.NUMBER_OF_VACCINATION_DOSES),
+					Arrays.asList(CaseDataDto.VACCINATION_RECORD_TYPE, CaseDataDto.NUMBER_OF_VACCINATION_DOSES),
 					Arrays.asList(VaccinationStatus.VACCINATED));
 		}
 		if(disease == Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS){
