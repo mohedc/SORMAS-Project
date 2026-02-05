@@ -440,7 +440,7 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 					fluidRowLocs(6, CaseDataDto.EPID_NUMBER, 3, ASSIGN_NEW_EPID_NUMBER_LOC) +
 					loc(EPID_NUMBER_WARNING_LOC) +
 					fluidRowLocs(CaseDataDto.CASE_REFERENCE_NUMBER, "") +
-					fluidRowLocs(CaseDataDto.REGION_LEVEL_DATE, CaseDataDto.NATIONAL_LEVEL_DATE) +
+//					fluidRowLocs(CaseDataDto.REGION_LEVEL_DATE, CaseDataDto.NATIONAL_LEVEL_DATE) +
 					fluidRowLocs(CaseDataDto.ARRIVAL_AT_REGIONAL_PUBLIC_HEALTH_OFFICE_DATE, CaseDataDto.ARRIVAL_AT_NATIONAL_LEVEL_DATE) +
 					fluidRowLocs(CaseDataDto.CASE_ORIGIN) +
 					fluidRowLocs(RESPONSIBLE_JURISDICTION_HEADING_LOC) +
@@ -452,9 +452,8 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 					fluidRowLocs(TYPE_GROUP_LOC, CaseDataDto.FACILITY_TYPE) +
 					fluidRowLocs(CaseDataDto.HEALTH_FACILITY, CaseDataDto.HEALTH_FACILITY_DETAILS) +
 				loc(ADDITIONAL_MEDICAL_INFORMATION) +
-				fluidRowLocs(CaseDataDto.VACCINATED, CaseDataDto.ROUTINE_VACCINATION_TYPE) +
-				fluidRowLocs(CaseDataDto.VACCINATION_RECORD_TYPE, CaseDataDto.NUMBER_OF_VACCINATION_DOSES) +
-				fluidRowLocs(CaseDataDto.LAST_VACCINATION_DATE, "") +
+				fluidRowLocs(CaseDataDto.VACCINATED, CaseDataDto.VACCINATION_RECORD_TYPE) +
+				fluidRowLocs(CaseDataDto.NUMBER_OF_VACCINATION_DOSES, CaseDataDto.LAST_VACCINATION_DATE) +
 				fluidRowLocs(CaseDataDto.VACCINE_TYPE, CaseDataDto.HEALTH_WORKER_COMPLETING_FORM) +
 				loc(INVESTIGATING_OFFICER_INFO) +
 					locCss(VSPACE_TOP_3, CaseDataDto.INVESTIGATOR_NAME) +
