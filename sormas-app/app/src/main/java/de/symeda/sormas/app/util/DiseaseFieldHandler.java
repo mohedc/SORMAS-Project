@@ -281,7 +281,7 @@ public class DiseaseFieldHandler {
         removeMenuItemIfFormAvailable(menuItems, FormType.HEALTH_CONDITION_EDIT, CaseSection.HEALTH_CONDITIONS);
         removeMenuItemIfFormAvailable(menuItems, FormType.EPIDEMIOLOGICAL_EDIT, CaseSection.EPIDEMIOLOGICAL_DATA);
         removeMenuItemIfFormAvailable(menuItems, FormType.SAMPLE_EDIT, CaseSection.SAMPLES);
-        removeMenuItemIfFormAvailable(menuItems, FormType.CONTACT_EDIT, CaseSection.CONTACTS);
+//        removeMenuItemIfFormAvailable(menuItems, FormType.CONTACT_EDIT, CaseSection.CONTACTS);
         removeMenuItemIfFormAvailable(menuItems, FormType.PRESCRIPTION_EDIT, CaseSection.PRESCRIPTIONS);
         removeMenuItemIfFormAvailable(menuItems, FormType.TREATMENT_EDIT, CaseSection.TREATMENTS);
         removeMenuItemIfFormAvailable(menuItems, FormType.CLINICAL_VISIT_EDIT, CaseSection.CLINICAL_VISITS);

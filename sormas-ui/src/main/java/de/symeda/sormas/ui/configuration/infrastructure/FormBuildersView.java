@@ -15,10 +15,26 @@
 
 package de.symeda.sormas.ui.configuration.infrastructure;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
+import org.apache.commons.collections4.CollectionUtils;
+
+import com.opencsv.CSVWriter;
 import com.vaadin.icons.VaadinIcons;
+import com.vaadin.server.FileDownloader;
+import com.vaadin.server.Page;
+import com.vaadin.server.StreamResource;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -37,9 +53,12 @@ import de.symeda.sormas.api.feature.FeatureType;
 import de.symeda.sormas.api.i18n.Captions;
 import de.symeda.sormas.api.i18n.I18nProperties;
 import de.symeda.sormas.api.i18n.Strings;
+import de.symeda.sormas.api.infrastructure.fields.FormFieldReferenceDto;
 import de.symeda.sormas.api.infrastructure.forms.FormBuilderCriteria;
 import de.symeda.sormas.api.infrastructure.forms.FormBuilderDto;
 import de.symeda.sormas.api.user.UserRight;
+import de.symeda.sormas.api.utils.CSVUtils;
+import de.symeda.sormas.api.utils.DataHelper;
 import de.symeda.sormas.ui.ControllerProvider;
 import de.symeda.sormas.ui.UiUtil;
 import de.symeda.sormas.ui.ViewModelProviders;
@@ -49,6 +68,8 @@ import de.symeda.sormas.ui.utils.ArchiveMessages;
 import de.symeda.sormas.ui.utils.ButtonHelper;
 import de.symeda.sormas.ui.utils.ComboBoxHelper;
 import de.symeda.sormas.ui.utils.CssStyles;
+import de.symeda.sormas.ui.utils.DownloadUtil;
+import de.symeda.sormas.ui.utils.ExportEntityName;
 import de.symeda.sormas.ui.utils.FieldHelper;
 import de.symeda.sormas.ui.utils.MenuBarHelper;
 import de.symeda.sormas.ui.utils.RowCount;
@@ -119,6 +140,16 @@ public class FormBuildersView extends AbstractConfigurationView {
 			}, ValoTheme.BUTTON_PRIMARY);
 
 			addHeaderComponent(importButton);
+		}
+
+		if (UiUtil.permitted(UserRight.INFRASTRUCTURE_EXPORT)) {
+			Button exportButton = ButtonHelper.createIconButton(Captions.export, VaadinIcons.TABLE, null, ValoTheme.BUTTON_PRIMARY);
+			exportButton.setDescription(I18nProperties.getDescription(de.symeda.sormas.api.i18n.Descriptions.descExportButton));
+			addHeaderComponent(exportButton);
+
+			StreamResource streamResource = createFormBuilderExportStreamResource();
+			FileDownloader fileDownloader = new FileDownloader(streamResource);
+			fileDownloader.extend(exportButton);
 		}
 
 		if (UiUtil.permitted(infrastructureDataEditable, UserRight.INFRASTRUCTURE_CREATE)) {
@@ -296,6 +327,97 @@ public class FormBuildersView extends AbstractConfigurationView {
 		return viewConfiguration.isInEagerMode()
 			&& (EntityRelevanceStatus.ACTIVE.equals(criteria.getRelevanceStatus())
 				|| (infrastructureDataEditable && EntityRelevanceStatus.ARCHIVED.equals(criteria.getRelevanceStatus())));
+	}
+
+	/**
+	 * Creates a StreamResource for exporting FormBuilders in the format expected by FormBuilderImporter.
+	 * Format: property paths row (uuid, formType, disease, active, formFields), then data rows.
+	 */
+	private StreamResource createFormBuilderExportStreamResource() {
+		String filename = DownloadUtil.createFileNameWithCurrentDate(ExportEntityName.FORM_BUILDERS, ".csv");
+
+		StreamResource streamResource = new StreamResource(new StreamResource.StreamSource() {
+			@Override
+			public InputStream getStream() {
+				try (ByteArrayOutputStream byteStream = new ByteArrayOutputStream()) {
+					CSVWriter writer = CSVUtils.createCSVWriter(
+						new OutputStreamWriter(byteStream, StandardCharsets.UTF_8.name()),
+						FacadeProvider.getConfigFacade().getCsvSeparator());
+
+					// Write header row with property paths (matching import format)
+					String[] headerRow = {
+						FormBuilderDto.UUID,
+						FormBuilderDto.FORM_TYPE,
+						FormBuilderDto.DISEASE,
+						FormBuilderDto.ACTIVE,
+						FormBuilderDto.FORM_FIELDS
+					};
+					writer.writeNext(headerRow);
+
+					// Get forms to export (selected or all)
+					Set<FormBuilderDto> selectedRows = getSelectedRows();
+					List<FormBuilderDto> formsToExport;
+
+					if (CollectionUtils.isNotEmpty(selectedRows)) {
+						formsToExport = new ArrayList<>(selectedRows);
+					} else {
+						// Export all forms matching current criteria
+						formsToExport = FacadeProvider.getFormBuilderFacade().getIndexList(criteria, null, null, null);
+					}
+
+					// Write data rows
+					for (FormBuilderDto form : formsToExport) {
+						// Get full form with all fields
+						FormBuilderDto fullForm = FacadeProvider.getFormBuilderFacade().getByUuid(form.getUuid());
+						if (fullForm == null) {
+							continue;
+						}
+
+						String[] dataRow = new String[5];
+						// uuid
+						dataRow[0] = fullForm.getUuid() != null ? fullForm.getUuid() : "";
+						// formType (enum name)
+						dataRow[1] = fullForm.getFormType() != null ? fullForm.getFormType().name() : "";
+						// disease (enum name)
+						dataRow[2] = fullForm.getDisease() != null ? fullForm.getDisease().name() : "";
+						// active (boolean as string)
+						dataRow[3] = fullForm.getActive() != null ? fullForm.getActive().toString() : "";
+						// formFields (comma-separated UUIDs)
+						dataRow[4] = formatFormFields(fullForm.getFormFields());
+
+						writer.writeNext(dataRow);
+					}
+
+					writer.flush();
+					return new ByteArrayInputStream(byteStream.toByteArray());
+				} catch (IOException e) {
+					new com.vaadin.ui.Notification(
+						I18nProperties.getString(Strings.headingExportFailed),
+						I18nProperties.getString(Strings.messageExportFailed),
+						com.vaadin.ui.Notification.Type.ERROR_MESSAGE,
+						false).show(Page.getCurrent());
+					return null;
+				}
+			}
+		}, filename);
+
+		streamResource.setMIMEType("text/csv");
+		streamResource.setCacheTime(0);
+		return streamResource;
+	}
+
+	/**
+	 * Formats formFields list as comma-separated UUIDs string (matching import format).
+	 */
+	private String formatFormFields(List<FormFieldReferenceDto> formFields) {
+		if (formFields == null || formFields.isEmpty()) {
+			return "";
+		}
+
+		return formFields.stream()
+			.map(FormFieldReferenceDto::getUuid)
+			.filter(uuid -> uuid != null && !uuid.isEmpty())
+			.collect(Collectors.joining(","));
 	}
 }
 

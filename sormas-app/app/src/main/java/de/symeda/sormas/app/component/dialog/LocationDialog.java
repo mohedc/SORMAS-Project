@@ -33,6 +33,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import de.symeda.sormas.api.CountryHelper;
+import de.symeda.sormas.api.Disease;
+import de.symeda.sormas.api.FormType;
 import de.symeda.sormas.api.i18n.I18nProperties;
 import de.symeda.sormas.api.i18n.Strings;
 import de.symeda.sormas.api.i18n.Validations;
@@ -448,5 +450,13 @@ public class LocationDialog extends FormDialog {
 			contentBinding.locationFacility.setValue(oldFacility);
 			contentBinding.locationFacilityDetails.setValue(oldDetails);
 		});
+	}
+
+	public void showHideFieldsForDisease(Disease caseDisease, FormType formType) {
+		contentBinding.locationCountry.setVisibility(GONE);
+		if (caseDisease == null) {
+			return;
+		}
+		super.hideFieldsForDisease(caseDisease, contentBinding.mainContent, formType);
 	}
 }
