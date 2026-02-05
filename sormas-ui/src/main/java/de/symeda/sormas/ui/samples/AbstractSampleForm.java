@@ -629,7 +629,7 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 	protected void setVisibilities() {
 
 		FieldHelper
-			.setVisibleWhen(getFieldGroup(), SampleDto.SAMPLE_MATERIAL_TEXT, SampleDto.SAMPLE_MATERIAL, Arrays.asList(SampleMaterial.OTHER), true);
+			.setVisibleWhen(getFieldGroup(), SampleDto.SAMPLE_MATERIAL_TEXT, SampleDto.SAMPLE_MATERIAL, Arrays.asList(SampleMaterial.OTHER), false);
 		FieldHelper.setVisibleWhen(
 			getFieldGroup(),
 			SampleDto.NO_TEST_POSSIBLE_REASON,
