@@ -58,6 +58,7 @@ import de.symeda.sormas.ui.utils.MenuBarHelper;
 import de.symeda.sormas.ui.utils.RowCount;
 import de.symeda.sormas.ui.utils.VaadinUiUtil;
 import de.symeda.sormas.ui.utils.ViewConfiguration;
+import de.symeda.sormas.ui.configuration.infrastructure.components.SearchField;
 
 public class FormFieldsView extends AbstractConfigurationView {
 
@@ -69,6 +70,7 @@ public class FormFieldsView extends AbstractConfigurationView {
 	private ViewConfiguration viewConfiguration;
 
 	// Filter
+	private SearchField searchField;
 	private ComboBox formTypeFilter;
 	private ComboBox relevanceStatusFilter;
 	private Button resetButton;
@@ -189,6 +191,15 @@ public class FormFieldsView extends AbstractConfigurationView {
 		filterLayout.setSpacing(true);
 		filterLayout.setWidth(100, Unit.PERCENTAGE);
 
+		searchField = new SearchField();
+		searchField.setInputPrompt(I18nProperties.getString(Strings.promptFormFieldsSearchField));
+		searchField.addTextChangeListener(e -> {
+			criteria.nameDescriptionLike(e.getText());
+			grid.reload();
+			rowCount.update(grid.getDataSize());
+		});
+		filterLayout.addComponent(searchField);
+
 		formTypeFilter = ComboBoxHelper.createComboBoxV7();
 		formTypeFilter.setId(FormFieldsCriteria.FORM_TYPE);
 		formTypeFilter.setWidth(220, Unit.PIXELS);
@@ -300,6 +311,9 @@ public class FormFieldsView extends AbstractConfigurationView {
 		}
 		if (formTypeFilter != null) {
 			formTypeFilter.setValue(criteria.getFormType());
+		}
+		if (searchField != null) {
+			searchField.setValue(criteria.getNameDescriptionLike());
 		}
 
 		applyingCriteria = false;

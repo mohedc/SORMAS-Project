@@ -390,7 +390,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/caseData_notifiedBy_notification_investigation_layout"
+                    android:id="@+id/caseData_notifiedBy_notifiedByDetails_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -400,26 +400,36 @@
                         app:value="@={data.notifiedBy}"
                         style="@style/ControlFirstOfTwoColumnsStyle" />
 
-                    <de.symeda.sormas.app.component.controls.ControlDateField
-                        android:id="@+id/caseData_dateOfNotification"
-                        app:value="@={data.dateOfNotification}"
-                        app:dateWithoutTime="@{true}"
-                        style="@style/ControlSecondOfTwoColumnsStyle" />
-
-                    <de.symeda.sormas.app.component.controls.ControlDateField
-                        android:id="@+id/caseData_dateOfInvestigation"
-                        app:value="@={data.dateOfInvestigation}"
-                        app:dateWithoutTime="@{true}"
-                        style="@style/ControlSecondOfTwoColumnsStyle" />
+                    <de.symeda.sormas.app.component.controls.ControlTextEditField
+                        android:id="@+id/caseData_notifiedByDetails"
+                        app:value="@={data.notifiedByDetails}"
+                        app:dependencyParentField="@{caseDataNotifiedBy}"
+                        app:dependencyParentValue="@{NotifiedBy.OTHER}"
+                        style="@style/ControlSingleColumnStyle" />
 
                 </LinearLayout>
 
-                <de.symeda.sormas.app.component.controls.ControlTextEditField
-                    android:id="@+id/caseData_notifiedByDetails"
-                    app:value="@={data.notifiedByDetails}"
-                    app:dependencyParentField="@{caseDataNotifiedBy}"
-                    app:dependencyParentValue="@{NotifiedBy.OTHER}"
-                    style="@style/ControlSingleColumnStyle" />
+                <LinearLayout
+                    android:id="@+id/caseData_dateOfNotification_dateOfInvestigation_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                <de.symeda.sormas.app.component.controls.ControlDateField
+                    android:id="@+id/caseData_dateOfNotification"
+                    app:value="@={data.dateOfNotification}"
+                    app:dateWithoutTime="@{true}"
+                    style="@style/ControlSecondOfTwoColumnsStyle" />
+
+                <de.symeda.sormas.app.component.controls.ControlDateField
+                    android:id="@+id/caseData_dateOfInvestigation"
+                    app:value="@={data.dateOfInvestigation}"
+                    app:dateWithoutTime="@{true}"
+                    style="@style/ControlSecondOfTwoColumnsStyle" />
+
+                </LinearLayout>
+
+
 
                 <de.symeda.sormas.app.component.controls.ControlUserReadField
                     android:id="@+id/caseData_reportingUser"
@@ -434,6 +444,7 @@
                     style="@style/ControlSingleColumnStyle" />
 
                 <TextView
+                    android:id="@+id/caseData_headingCaseResponsibleJurisidction"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@{I18nProperties.getString(Strings.headingCaseResponsibleJurisidction)}"
@@ -473,6 +484,7 @@
                     app:value="@={differentPlaceOfStayJurisdiction}" />
 
                 <TextView
+                    android:id="@+id/caseData_headingCasePlaceOfStay"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/heading_case_place_of_stay"
@@ -763,6 +775,32 @@
                     app:dependencyParentValue="@{EndOfIsolationReason.OTHER}"
                     app:value="@={data.endOfIsolationReasonDetails}"
                     style="@style/ControlSingleColumnStyle" />
+
+                <LinearLayout
+                    android:id="@+id/caseData_reportLat_reportLon_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <de.symeda.sormas.app.component.controls.ControlTextEditField
+                        android:id="@+id/caseData_reportLat"
+                        style="@style/ControlFirstOfTwoColumnsStyle"
+                        app:inputType="numberDecimal"
+                        app:value="@={data.reportLat}" />
+
+                    <de.symeda.sormas.app.component.controls.ControlTextEditField
+                        android:id="@+id/caseData_reportLon"
+                        style="@style/ControlSecondOfTwoColumnsStyle"
+                        app:inputType="numberDecimal"
+                        app:value="@={data.reportLon}" />
+
+                </LinearLayout>
+
+                <de.symeda.sormas.app.component.controls.ControlTextEditField
+                    android:id="@+id/caseData_reportLatLonAccuracy"
+                    style="@style/ControlSingleColumnStyle"
+                    app:inputType="numberDecimal"
+                    app:value="@={data.reportLatLonAccuracy}" />
 
                 <ImageView
                     android:id="@+id/caseData_contactTracingDivider"

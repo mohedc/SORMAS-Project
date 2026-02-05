@@ -45,7 +45,8 @@ public enum ExportEntityName {
 	SELF_REPORTS("entitySelfReports", "self reports"),
 	ADVERSE_EVENTS_FOLLOWING_IMMUNIZATION("entityAdverseEvents", "adverse events following immunization"),
 	ADVERSE_EVENTS_FOLLOWING_IMMUNIZATION_INVESTIGATION("entityAdverseEventInvestigations", "aefi investigations"),
-	FORM_FIELDS("entityFormFields", "form fields");
+	FORM_FIELDS("entityFormFields", "form fields"),
+	FORM_BUILDERS("entityFormBuilders", "form builders");
 
 	private final String languageKey;
 	private final String defaultName;

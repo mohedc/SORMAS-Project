@@ -979,7 +979,10 @@ public class SymptomsDto extends PseudonymizableDto {
 	@Diseases({
 		MONKEYPOX,
 		ANTHRAX,
-		MEASLES })
+		MEASLES,
+		YELLOW_FEVER,
+		CSM,
+		CONGENITAL_RUBELLA })
 	@DependantOn(LESIONS)
 	@HideForCountries
 	@SymptomGrouping(SymptomGroup.SKIN)
@@ -1374,7 +1377,12 @@ public class SymptomsDto extends PseudonymizableDto {
 		INVASIVE_MENINGOCOCCAL_INFECTION,
 		INVASIVE_PNEUMOCOCCAL_INFECTION,
 		FHA,
-		PERTUSSIS})
+		PERTUSSIS,
+		MEASLES,
+		YELLOW_FEVER,
+		CSM,
+		CONGENITAL_RUBELLA
+		})
 	@HideForCountries
 	@Size(max = FieldConstraints.CHARACTER_LIMIT_DEFAULT, message = Validations.textTooLong)
 	private String onsetSymptom;

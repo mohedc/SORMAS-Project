@@ -351,6 +351,10 @@ public interface Strings {
 	String errorFileNotFound = "errorFileNotFound";
 	String errorForbidden = "errorForbidden";
 	String errorFormIdPopulationAgeGroup = "errorFormIdPopulationAgeGroup";
+	String errorFormNotFound = "errorFormNotFound";
+	String errorFormTypeMissing = "errorFormTypeMissing";
+	String errorDeletingForm = "errorDeletingForm";
+	String errorUpdatingForm = "errorUpdatingForm";
 	String errorIllegalFilename = "errorIllegalFilename";
 	String errorImmunizationNotEditable = "errorImmunizationNotEditable";
 	String errorIntegerFieldValidationFailed = "errorIntegerFieldValidationFailed";
@@ -559,6 +563,7 @@ public interface Strings {
 	String headingCreateNewFormBuilder = "headingCreateNewFormBuilder";
 	String headingCreateNewFormField = "headingCreateNewFormField";
 	String headingCreateNewImmunization = "headingCreateNewImmunization";
+	String headingDuplicateFormBuilder = "headingDuplicateFormBuilder";
 	String headingCreateNewPerson = "headingCreateNewPerson";
 	String headingCreateNewPrescription = "headingCreateNewPrescription";
 	String headingCreateNewSample = "headingCreateNewSample";
@@ -1130,6 +1135,7 @@ public interface Strings {
 	String infoSelectOrCreatePersonForImport = "infoSelectOrCreatePersonForImport";
 	String infoSelectOrCreatePersonForLabMessage = "infoSelectOrCreatePersonForLabMessage";
 	String infoSelectOrCreatePersonForLabMessageWithoutMatches = "infoSelectOrCreatePersonForLabMessageWithoutMatches";
+	String infoSelectDiseaseForDuplicate = "infoSelectDiseaseForDuplicate";
 	String infoSelfReportCreateEntry = "infoSelfReportCreateEntry";
 	String infoSelfReportSelectOrCreateEntry = "infoSelfReportSelectOrCreateEntry";
 	String infoSimilarImmunization = "infoSimilarImmunization";
@@ -1373,6 +1379,7 @@ public interface Strings {
 	String messageDeletionUnsupportedByExternalJournalWarning = "messageDeletionUnsupportedByExternalJournalWarning";
 	String messageDiseaseConfigurationSaved = "messageDiseaseConfigurationSaved";
 	String messageDiseaseNotSpecifiedInLabMessage = "messageDiseaseNotSpecifiedInLabMessage";
+	String messageDiseaseSelectionRequired = "messageDiseaseSelectionRequired";
 	String messageDistrictArchived = "messageDistrictArchived";
 	String messageDistrictArchivingNotPossible = "messageDistrictArchivingNotPossible";
 	String messageDistrictDearchived = "messageDistrictDearchived";
@@ -1386,7 +1393,11 @@ public interface Strings {
 	String messageEntityNotFound = "messageEntityNotFound";
 	String messageEntriesEdited = "messageEntriesEdited";
 	String messageEntryCreated = "messageEntryCreated";
+	String messageEntryUpdated = "messageEntryUpdated";
 	String messageEnvironmentAlreadyLinkedToEvent = "messageEnvironmentAlreadyLinkedToEvent";
+	String messageFormDuplicated = "messageFormDuplicated";
+	String messageFormDeleted = "messageFormDeleted";
+	String messageNoAvailableDiseasesForDuplicate = "messageNoAvailableDiseasesForDuplicate";
 	String messageEnvironmentArchived = "messageEnvironmentArchived";
 	String messageEnvironmentCreated = "messageEnvironmentCreated";
 	String messageEnvironmentDearchived = "messageEnvironmentDearchived";
@@ -1822,6 +1833,7 @@ public interface Strings {
 	String promptEventsSearchFieldEventGroups = "promptEventsSearchFieldEventGroups";
 	String promptEventsSearchFieldEventParticipants = "promptEventsSearchFieldEventParticipants";
 	String promptExternalIdExternalSurveillanceTool = "promptExternalIdExternalSurveillanceTool";
+	String promptFormFieldsSearchField = "promptFormFieldsSearchField";
 	String promptExternalJournalForceDeletion = "promptExternalJournalForceDeletion";
 	String promptExternalMessagesContentSearchField = "promptExternalMessagesContentSearchField";
 	String promptExternalMessagesDateFrom = "promptExternalMessagesDateFrom";

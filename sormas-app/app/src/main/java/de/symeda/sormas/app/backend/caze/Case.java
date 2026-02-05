@@ -116,6 +116,9 @@ public class Case extends PseudonymizableAdo {
 	public static final String COMMUNITY = "community_id";
 	public static final String RESPONSIBLE_COMMUNITY = "responsibleCommunity_id";
 	public static final String POINT_OF_ENTRY = "pointOfEntry_id";
+	public static final String REPORT_LAT = "reportLat";
+	public static final String REPORT_LON = "reportLon";
+	public static final String REPORT_LAT_LON_ACCURACY = "reportLatLonAccuracy";
 
 	@DatabaseField(foreign = true, foreignAutoRefresh = true, canBeNull = false, maxForeignAutoRefreshLevel = 3)
 	private Person person;

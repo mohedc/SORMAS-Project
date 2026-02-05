@@ -15,6 +15,8 @@
 
 package de.symeda.sormas.backend.infrastructure.formbuilder;
 
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -165,17 +167,41 @@ public class FormBuilderFacadeEjb
 		target.setDisease(source.getDisease());
 		target.setActive(source.getActive());
 
+		// Store existing formFields for comparison
+		List<FormField> existingFormFields = target.getFormFields() != null ? new ArrayList<>(target.getFormFields()) : new ArrayList<>();
+		
 		// Map formFields from DTOs
+		List<FormField> newFormFields = new ArrayList<>();
 		if (source.getFormFields() != null) {
-			List<FormField> formFields = new ArrayList<>();
 			for (FormFieldReferenceDto fieldRef : source.getFormFields()) {
 				FormField field = formFieldService.getByUuid(fieldRef.getUuid());
 				if (field != null) {
-					formFields.add(field);
+					newFormFields.add(field);
 				}
 			}
-			target.setFormFields(formFields);
 		}
+		
+		// Compare existing and new formFields by UUID and order
+		boolean formFieldsChanged = false;
+		if (existingFormFields.size() != newFormFields.size()) {
+			formFieldsChanged = true;
+		} else {
+			for (int i = 0; i < existingFormFields.size(); i++) {
+				FormField existing = existingFormFields.get(i);
+				FormField newField = i < newFormFields.size() ? newFormFields.get(i) : null;
+				if (newField == null || !existing.getUuid().equals(newField.getUuid())) {
+					formFieldsChanged = true;
+					break;
+				}
+			}
+		}
+		
+		// If formFields changed, update changeDate to ensure mobile sync picks up the change
+		if (formFieldsChanged && target.getId() != null) {
+			target.setChangeDate(Timestamp.from(Instant.now()));
+		}
+		
+		target.setFormFields(newFormFields);
 
 		return target;
 	}
@@ -314,6 +340,15 @@ public class FormBuilderFacadeEjb
 		List<FormBuilder> entities = query.getResultList();
 		
 		return toPseudonymizedDtos(entities);
+	}
+
+	@Override
+	@RightsAllowed(UserRight._INFRASTRUCTURE_EDIT)
+	public void delete(String uuid) {
+		FormBuilder formBuilder = service.getByUuid(uuid);
+		if (formBuilder != null) {
+			service.deletePermanent(formBuilder);
+		}
 	}
 
 	@LocalBean

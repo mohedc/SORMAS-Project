@@ -24,10 +24,18 @@ import java.util.function.Consumer;
 
 import org.apache.commons.collections4.CollectionUtils;
 
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Notification.Type;
+import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.Window;
+import com.vaadin.ui.themes.ValoTheme;
 
+import de.symeda.sormas.api.Disease;
 import de.symeda.sormas.api.FacadeProvider;
+import de.symeda.sormas.api.i18n.Captions;
 import de.symeda.sormas.api.i18n.I18nProperties;
 import de.symeda.sormas.api.i18n.Strings;
 import de.symeda.sormas.api.infrastructure.InfrastructureDto;
@@ -50,8 +58,10 @@ import de.symeda.sormas.ui.UiUtil;
 import de.symeda.sormas.ui.utils.ArchiveHandlers;
 import de.symeda.sormas.ui.utils.ArchiveHandlers.InfrastructureArchiveHandler;
 import de.symeda.sormas.ui.utils.ArchiveMessages;
+import de.symeda.sormas.ui.utils.ButtonHelper;
 import de.symeda.sormas.ui.utils.CommitDiscardWrapperComponent;
 import de.symeda.sormas.ui.utils.CommitDiscardWrapperComponent.CommitListener;
+import de.symeda.sormas.ui.utils.ConfirmationComponent;
 import de.symeda.sormas.ui.utils.FilteredGrid;
 import de.symeda.sormas.ui.utils.VaadinUiUtil;
 
@@ -598,5 +608,118 @@ public class InfrastructureController {
 		}
 
 		return editView;
+	}
+
+	public void duplicateFormBuilder(String sourceFormUuid) {
+		FormBuilderDto sourceForm = FacadeProvider.getFormBuilderFacade().getByUuid(sourceFormUuid);
+		if (sourceForm == null) {
+			Notification.show(I18nProperties.getString(Strings.errorFormNotFound), Type.ERROR_MESSAGE);
+			return;
+		}
+
+		if (sourceForm.getFormType() == null) {
+			Notification.show(I18nProperties.getString(Strings.errorFormTypeMissing), Type.ERROR_MESSAGE);
+			return;
+		}
+
+		// Create disease selection dialog
+		FormBuilderDiseaseSelectionDialog diseaseDialog = new FormBuilderDiseaseSelectionDialog(sourceForm.getFormType());
+
+		// Check if there are available diseases
+		if (!diseaseDialog.hasAvailableDiseases()) {
+			Notification.show(
+				I18nProperties.getString(Strings.messageNoAvailableDiseasesForDuplicate),
+				Type.WARNING_MESSAGE);
+			return;
+		}
+
+		// Show confirmation popup with disease selection
+		VaadinUiUtil.showConfirmationPopup(
+			I18nProperties.getString(Strings.headingDuplicateFormBuilder),
+			diseaseDialog,
+			window -> {
+				ConfirmationComponent confirmationComponent = new ConfirmationComponent(false) {
+
+					private static final long serialVersionUID = 1L;
+
+					@Override
+					protected void onConfirm() {
+						Disease selectedDisease = diseaseDialog.getSelectedDisease();
+						if (selectedDisease == null) {
+							Notification.show(
+								I18nProperties.getString(Strings.messageDiseaseSelectionRequired),
+								Type.WARNING_MESSAGE);
+							return;
+						}
+
+						// Create new form with selected disease
+						FormBuilderDto newForm = FormBuilderDto.build();
+						newForm.setFormType(sourceForm.getFormType());
+						newForm.setDisease(selectedDisease);
+						newForm.setActive(sourceForm.getActive() != null ? sourceForm.getActive() : true);
+
+						// Copy formFields if they exist
+						if (sourceForm.getFormFields() != null && !sourceForm.getFormFields().isEmpty()) {
+							newForm.setFormFields(new java.util.ArrayList<>(sourceForm.getFormFields()));
+						}
+
+						// Save the new form
+						FacadeProvider.getFormBuilderFacade().save(newForm);
+						Notification.show(
+							I18nProperties.getString(Strings.messageFormDuplicated),
+							Type.ASSISTIVE_NOTIFICATION);
+						window.close();
+						SormasUI.get().getNavigator().navigateTo(FormBuildersView.VIEW_NAME);
+					}
+
+					@Override
+					protected void onCancel() {
+						window.close();
+					}
+				};
+
+				// Disable confirm button initially until disease is selected
+				confirmationComponent.getConfirmButton().setEnabled(false);
+				diseaseDialog.getDiseaseComboBox().addValueChangeListener(e -> {
+					confirmationComponent.getConfirmButton().setEnabled(e.getProperty().getValue() != null);
+				});
+
+				return confirmationComponent;
+			},
+			400);
+	}
+
+	public void deleteFormBuilder(String formUuid, Runnable callback) {
+		FormBuilderDto form = FacadeProvider.getFormBuilderFacade().getByUuid(formUuid);
+		if (form == null) {
+			Notification.show(I18nProperties.getString(Strings.errorFormNotFound), Type.ERROR_MESSAGE);
+			return;
+		}
+
+		// Build confirmation message
+		String formDescription = form.getFormType() != null && form.getDisease() != null
+			? form.getFormType().toString() + " - " + form.getDisease().toString()
+			: I18nProperties.getString(Strings.entityFormBuilders);
+		
+		String confirmationMessage = String.format(
+			I18nProperties.getString(Strings.confirmationDeleteEntity),
+			formDescription);
+
+		VaadinUiUtil.showDeleteConfirmationWindow(confirmationMessage, () -> {
+			try {
+				FacadeProvider.getFormBuilderFacade().delete(formUuid);
+				Notification.show(
+					I18nProperties.getString(Strings.messageFormDeleted),
+					Type.ASSISTIVE_NOTIFICATION);
+				if (callback != null) {
+					callback.run();
+				}
+				SormasUI.get().getNavigator().navigateTo(FormBuildersView.VIEW_NAME);
+			} catch (Exception e) {
+				Notification.show(
+					I18nProperties.getString(Strings.errorDeletingForm),
+					Type.ERROR_MESSAGE);
+			}
+		});
 	}
 }

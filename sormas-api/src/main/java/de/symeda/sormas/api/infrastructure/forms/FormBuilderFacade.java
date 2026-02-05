@@ -32,5 +32,7 @@ public interface FormBuilderFacade
 	List<FormBuilderDto> getAllActive();
 
 	List<FormBuilderDto> getByFormType(FormType formType, boolean active);
+
+	void delete(String uuid);
 }
 
