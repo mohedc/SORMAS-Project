@@ -146,7 +146,7 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 			fluidRowLocs(PathogenTestDto.TEST_DATE_TIME, PathogenTestDto.LAB) +
 			fluidRowLocs(5, PathogenTestDto.LAB_DETAILS, 7, PathogenTestDto.DATE_RESULTS_SENT_TO_DISTRICT) +
 			fluidRowLocs(4, PathogenTestDto.TEST_RESULT, 4, PathogenTestDto.TEST_RESULT_VERIFIED, 4, PathogenTestDto.VIRUS_ISOLATED) +
-			fluidRowLocs(PathogenTestDto.TEST_RESULT_TEXT, PathogenTestDto.FINAL_CLASSIFICATION);
+			fluidRowLocs(PathogenTestDto.TEST_RESULT_TEXT, "");
 
 	private static final String MENINGITIS_HTML_LAYOUT =
 			loc(PATHOGEN_TEST_HEADING_LOC) +
@@ -166,7 +166,7 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 			fluidRowLocs(PathogenTestDto.REFERENCE_LABORATORY, "") +
 			fluidRowLocs(PathogenTestDto.OTHER_TESTS_PENDING, PathogenTestDto.OTHER_TESTS_PENDING_SPECIFY) +
 			fluidRowLocs(4, PathogenTestDto.TEST_RESULT, 4, PathogenTestDto.TEST_RESULT_VERIFIED, 4, "") +
-			fluidRowLocs(PathogenTestDto.TEST_RESULT_TEXT, PathogenTestDto.FINAL_CLASSIFICATION);
+			fluidRowLocs(PathogenTestDto.TEST_RESULT_TEXT, "");
 
 	private static final String IDSR_HTML_LAYOUT =
 			loc(PATHOGEN_TEST_HEADING_LOC) +
