@@ -24,23 +24,30 @@ import de.symeda.sormas.api.utils.Diseases;
 public enum PathogenTestResultType {
 
 	// hide for yellow_fever
+	@Diseases(value = { Disease.CONGENITAL_RUBELLA }, hide = true)
 	INDETERMINATE,
 	@Diseases(value = { Disease.YELLOW_FEVER }, hide = true)
 	PENDING,
 	NEGATIVE,
 	POSITIVE,
-	@Diseases(value = { Disease.YELLOW_FEVER }, hide = true)
+	@Diseases(value = { Disease.CONGENITAL_RUBELLA, Disease.YELLOW_FEVER }, hide = true)
 	CONTAMINATED,
-	@Diseases(value = { Disease.YELLOW_FEVER }, hide = true)
+	@Diseases(value = { Disease.CONGENITAL_RUBELLA, Disease.YELLOW_FEVER }, hide = true)
 	NOT_DONE,
-	@Diseases(value = { Disease.YELLOW_FEVER }, hide = true)
+	@Diseases(value = { Disease.CONGENITAL_RUBELLA, Disease.YELLOW_FEVER }, hide = true)
 	NOT_APPLICABLE,
-	@Diseases(value = { Disease.YELLOW_FEVER }, hide = true)
+	@Diseases(value = { Disease.CONGENITAL_RUBELLA, Disease.YELLOW_FEVER }, hide = true)
 	SUSPECTED_POLIOVIRUS,
-	@Diseases(value = { Disease.YELLOW_FEVER }, hide = true)
+	@Diseases(value = { Disease.CONGENITAL_RUBELLA, Disease.YELLOW_FEVER }, hide = true)
 	NPENT,
+	@Diseases(value = { Disease.CONGENITAL_RUBELLA, Disease.YELLOW_FEVER }, hide = true)
+	SUSPECT_POLIOVIRUS_NPENT,
 	@Diseases(value = { Disease.YELLOW_FEVER }, hide = true)
-	SUSPECT_POLIOVIRUS_NPENT;
+	INCONCLUSIVE,
+	@Diseases(value = { Disease.YELLOW_FEVER }, hide = true)
+	NOT_TESTED,
+	@Diseases(value = { Disease.YELLOW_FEVER }, hide = true)
+	IN_PROCESS;
 
 	@Override
 	public String toString() {
