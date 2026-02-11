@@ -218,7 +218,6 @@ public class SampleService extends AbstractDeletableAdoService<Sample>
 					sample.get(Sample.SAMPLE_DATE_TIME),
 					sample.get(Sample.SHIPPED),
 					sample.get(Sample.SHIPMENT_DATE),
-					sample.get(Sample.DATE_RESULTS_SENT_TO_REFERRING_CLINICIAN),
 					sample.get(Sample.RECEIVED),
 					sample.get(Sample.RECEIVED_DATE),
 					sample.get(Sample.SAMPLE_MATERIAL),
