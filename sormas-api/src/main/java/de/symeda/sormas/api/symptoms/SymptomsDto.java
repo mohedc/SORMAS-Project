@@ -525,6 +525,7 @@ public class SymptomsDto extends PseudonymizableDto {
 		LASSA,
 		NEW_INFLUENZA,
 		MONKEYPOX,
+		MEASLES,
 		POLIO,
 		UNSPECIFIED_VHF,
 		UNDEFINED,
@@ -548,6 +549,7 @@ public class SymptomsDto extends PseudonymizableDto {
 		UNSPECIFIED_VHF,
 		CORONAVIRUS,
 		UNDEFINED,
+		MEASLES,
 		OTHER })
 	@Outbreaks
 	@HideForCountries(countries = {
@@ -735,6 +737,7 @@ public class SymptomsDto extends PseudonymizableDto {
 		CORONAVIRUS,
 		UNDEFINED,
 		PERTUSSIS,
+		MEASLES,
 		OTHER })
 	@Outbreaks
 	@SymptomGrouping(SymptomGroup.GENERAL)
@@ -1617,6 +1620,7 @@ public class SymptomsDto extends PseudonymizableDto {
 		POLIO,
 		CORONAVIRUS,
 		UNDEFINED,
+		MEASLES,
 		OTHER })
 	@SymptomGrouping(SymptomGroup.RESPIRATORY)
 	private SymptomState runnyNose;
@@ -1656,6 +1660,7 @@ public class SymptomsDto extends PseudonymizableDto {
 		NEW_INFLUENZA,
 		CSM,
 		DENGUE,
+		MEASLES,
 		POLIO,
 		UNSPECIFIED_VHF,
 		UNDEFINED,
@@ -1667,14 +1672,12 @@ public class SymptomsDto extends PseudonymizableDto {
 	/** Maculopapular rash */
 	private SymptomState skinRash;
 
-	@Diseases({
-		MEASLES })
+	@Diseases({})
 	@Outbreaks
 	@SymptomGrouping(SymptomGroup.SKIN)
 	private SymptomState generalizedRash;
 
-	@Diseases({
-		MEASLES })
+	@Diseases({})
 	@Outbreaks
 	@SymptomGrouping(SymptomGroup.OTHER)
 	private SymptomState swollenLymphNodesBehindEars;
