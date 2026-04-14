@@ -1200,7 +1200,7 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 		addField(CaseDataDto.NOTIFIED_BY_DETAILS, TextField.class);
 		addField(CaseDataDto.NOTIFIED_BY_TEXT, TextField.class);
 		// Add conditional visibility: notifiedByDetails visible when notifiedBy is OTHER
-		FieldHelper.setVisibleWhen(getFieldGroup(), CaseDataDto.NOTIFIED_BY_DETAILS, CaseDataDto.NOTIFIED_BY, Arrays.asList(NotifiedBy.OTHER), true);
+		FieldHelper.setVisibleWhen(getFieldGroup(), CaseDataDto.NOTIFIED_BY_DETAILS, CaseDataDto.NOTIFIED_BY, Arrays.asList(NotifiedBy.ATTENDING_CLINICIAN, NotifiedBy.COMMUNITY_BASED_SURVEILLANCE_VOLUNTEER,NotifiedBy.HEALTH_WORKER,NotifiedBy.OTHER_COMMUNITY_MEMBER,NotifiedBy.PARENT_FAMILY_MEMBER_OF_CHILD,NotifiedBy.RELIGIOUS_LEADER, NotifiedBy.SURVEILLANCE_OFFICER, NotifiedBy.OTHER), true);
 		addField(CaseDataDto.DATE_OF_NOTIFICATION, DateField.class);
 		addField(CaseDataDto.DATE_OF_INVESTIGATION, DateField.class);
 		addField(CaseDataDto.DATE_RECEIVED_AT_DISTRICT_LEVEL, DateField.class);
