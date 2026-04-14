@@ -192,6 +192,7 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 					fluidRowLocs(PersonDto.SEX, PersonDto.MARITAL_STATUS) +
 					fluidRowLocs(PersonDto.NATIONALITY, "") +
 					fluidRowLocs(PersonDto.PASSPORT_NUMBER, "") +
+					fluidRowLocs(PersonDto.MOTHERS_NAME, PersonDto.FATHERS_NAME)+
 					  loc(ADDRESS_HEADER) +
                     divsCss(VSPACE_3, fluidRowLocs(PersonDto.ADDRESS));
 

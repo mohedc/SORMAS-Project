@@ -162,6 +162,7 @@ public interface Validations {
 	String jurisdictionChangeUserAssignment = "jurisdictionChangeUserAssignment";
 	String latitudeBetween = "latitudeBetween";
 	String longitudeBetween = "longitudeBetween";
+	String latLonAccuracyBetweenOneAndFive = "latLonAccuracyBetweenOneAndFive";
 	String missingRequiredUserRightsBaseText = "missingRequiredUserRightsBaseText";
 	String missingRequiredUserRightsLargeDependency = "missingRequiredUserRightsLargeDependency";
 	String missingRequiredUserRightsNoDependency = "missingRequiredUserRightsNoDependency";

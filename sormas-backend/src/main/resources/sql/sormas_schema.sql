@@ -15164,6 +15164,11 @@ ALTER TABLE cases ADD COLUMN IF NOT EXISTS classificationbyorigin varchar(255);
 ALTER TABLE cases_history ADD COLUMN IF NOT EXISTS classificationbyorigin varchar(255);
 INSERT INTO schema_version (version_number, comment) VALUES (642, 'Add classificationByOrigin field to cases table');
 
+-- Migration 644: Nearest health facility (free text) on location for measles address
+ALTER TABLE location ADD COLUMN IF NOT EXISTS nearesthealthfacility varchar(512);
+ALTER TABLE location_history ADD COLUMN IF NOT EXISTS nearesthealthfacility varchar(512);
+INSERT INTO schema_version (version_number, comment) VALUES (643, 'Add nearestHealthFacility free text to location');
+
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***
 
 
