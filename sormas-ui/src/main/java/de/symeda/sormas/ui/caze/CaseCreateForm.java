@@ -140,7 +140,7 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
         + fluidRowLocs(CaseDataDto.RESPONSIBLE_REGION, CaseDataDto.RESPONSIBLE_DISTRICT, CaseDataDto.RESPONSIBLE_COMMUNITY)
         + fluidRowLocs(CaseDataDto.DONT_SHARE_WITH_REPORTING_TOOL)
         + fluidRowLocs(DONT_SHARE_WARNING_LOC)
-        + fluidRowLocs(DIFFERENT_PLACE_OF_STAY_JURISDICTION)
+//        + fluidRowLocs(DIFFERENT_PLACE_OF_STAY_JURISDICTION)
         + fluidRowLocs(PLACE_OF_STAY_HEADING_LOC)
         + fluidRow(fluidColumnLoc(6,0,FACILITY_OR_HOME_LOC))
         + fluidRowLocs(CaseDataDto.REGION, CaseDataDto.DISTRICT, CaseDataDto.COMMUNITY)

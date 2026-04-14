@@ -2171,7 +2171,6 @@ public class CaseFacadeEjb extends AbstractCoreFacadeEjb<Case, CaseDataDto, Case
 			&& !CaseLogic.isCompleteEpidNumber(newCase.getEpidNumber())) {
 			newCase.setEpidNumber(
 				generateEpidNumber(
-					newCase.getEpidNumber(),
 					newCase.getUuid(),
 					newCase.getDisease(),
 					newCase.getReportDate(),
@@ -2587,48 +2586,46 @@ public class CaseFacadeEjb extends AbstractCoreFacadeEjb<Case, CaseDataDto, Case
 	@Override
 	public String getGenerateEpidNumber(CaseDataDto caze) {
 		return generateEpidNumber(
-			caze.getEpidNumber(),
 			caze.getUuid(),
 			caze.getDisease(),
 			caze.getReportDate(),
 			caze.getResponsibleDistrict().getUuid());
 	}
 
-	private String generateEpidNumber(String newEpidNumber, String caseUuid, Disease disease, Date reportDate, String districtUuid) {
+	private String generateEpidNumber(String caseUuid, Disease disease, Date reportDate, String districtUuid) {
 
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(reportDate);
-		String year = String.valueOf(calendar.get(Calendar.YEAR)).substring(1);
+		String year = String.valueOf(calendar.get(Calendar.YEAR)).substring(2);
 
 		District district = districtService.getByUuid(districtUuid);
 		Region region = district.getRegion();
 
-		String prefix =
-				"GAM-" +
-						region.getName().substring(0, 3).toUpperCase() + "-" +
-						district.getName().substring(0, 3).toUpperCase() + "-";
+		String geoPrefix =
+			"GAM-"
+				+ region.getName().substring(0, 3).toUpperCase()
+				+ "-"
+				+ district.getName().substring(0, 3).toUpperCase()
+				+ "-";
 
-		// Always rebuild prefix to enforce Gambia format
-		newEpidNumber = prefix;
+		// Country–region–district–year–case number (matches CaseLogic EPID patterns)
+		String searchPrefix = geoPrefix + year + "-";
 
-		// Ask SORMAS what the current highest EPID is for this prefix
-		String highestEpidNumber = service.getHighestEpidNumber(prefix, caseUuid, disease);
+		String highestEpidNumber = service.getHighestEpidNumber(searchPrefix, caseUuid, disease);
 
 		int nextNumber = 1;
 
-		if (highestEpidNumber != null) {
-			String[] parts = highestEpidNumber.split("-");
-			if (parts.length >= 5) {
+		if (highestEpidNumber != null && highestEpidNumber.startsWith(searchPrefix)) {
+			String suffix = highestEpidNumber.substring(searchPrefix.length()).replaceAll("\\D", "");
+			if (!suffix.isEmpty()) {
 				try {
-					nextNumber = Integer.parseInt(parts[3]) + 1;
+					nextNumber = Integer.parseInt(suffix) + 1;
 				} catch (NumberFormatException ignored) {
 				}
 			}
 		}
 
-		newEpidNumber = prefix + String.format("%03d", nextNumber) + "-" + year;
-
-		return newEpidNumber;
+		return searchPrefix + String.format("%03d", nextNumber);
 	}
 
 
