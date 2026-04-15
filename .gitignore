@@ -47,3 +47,13 @@ bin
 /sormas-e2e-tests/logs
 
 .DS_Store
+# Local config
+sormas-app/app/local.properties
+
+# Build artifacts
+*.jar
+*.zip
+
+# Optional (if applicable)
+target/
+build/

@@ -55,7 +55,7 @@ public class ResizableTextAreaWrapper<T extends AbstractTextField> implements Fi
 		return wrap(textField, caption, true);
 	}
 
-	@Override
+	/*@Override
 	public ComponentContainer wrap(T textField, String caption, boolean withMargin) {
 
 		this.textField = textField;
@@ -100,8 +100,55 @@ public class ResizableTextAreaWrapper<T extends AbstractTextField> implements Fi
 			layout.addComponents(labelField);
 		}
 		return layout;
-	}
+	}*/
+	@Override
+	public ComponentContainer wrap(T textField, String caption, boolean withMargin) {
 
+		this.textField = textField;
+		this.caption = caption;
+
+		VerticalLayout layout = new VerticalLayout();
+		layout.setSpacing(false);
+		layout.setMargin(false);
+		layout.setWidth(100, Sizeable.Unit.PERCENTAGE);
+
+		if (withMargin) {
+			layout.addStyleName(CssStyles.FIELD_WRAPPER);
+		}
+
+		textField.setWidth(100, Sizeable.Unit.PERCENTAGE);
+		textField.addStyleName(CssStyles.RESIZABLE);
+		textField.setNullRepresentation("");
+		textField.setTextChangeTimeout(200);
+
+		// Only READ validators, never mutate
+		if (withMaxLength) {
+			textField.getValidators().stream()
+					.filter(v -> v instanceof MaxLengthValidator)
+					.map(v -> (MaxLengthValidator) v)
+					.findFirst()
+					.ifPresent(v -> textField.setMaxLength(v.getMaxLength()));
+
+			labelField = new Label(buildLabelMessage(textField.getValue(), textField, caption));
+			labelField.setId(textField.getId() + "_label");
+			labelField.setWidth(100, Sizeable.Unit.PERCENTAGE);
+			labelField.addStyleNames(
+					CssStyles.ALIGN_RIGHT,
+					CssStyles.FIELD_EXTRA_INFO,
+					CssStyles.LABEL_ITALIC
+			);
+
+			layout.addComponent(labelField); //
+		}
+
+		textField.addTextChangeListener(e -> updateTextfieldAppearance());
+		textField.addValueChangeListener(e -> updateTextfieldAppearance());
+
+		// Add field AFTER label
+		layout.addComponent(textField);
+
+		return layout;
+	}
 	private void updateTextfieldAppearance() {
 		if (withMaxLength) {
 			// XXX: notify user if text is not valid (e.g. too long)
