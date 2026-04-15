@@ -860,6 +860,10 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 				FieldVisibilityCheckers.withDisease(disease),
 				PathogenTestType.class);
 
+			if (Disease.MEASLES.equals(caseDisease)) {
+				applyMeaslesCaseTestTypeRestriction(disease);
+			}
+
 			// Configure measles-specific fields if disease is measles
 			if (disease == Disease.MEASLES) {
 				configureMeaslesFields();
@@ -994,6 +998,9 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 		if (disease == Disease.MEASLES) {
 			configureMeaslesFields();
 		}
+		if (Disease.MEASLES.equals(caseDisease)) {
+			applyMeaslesCaseTestTypeRestriction((Disease) diseaseField.getValue());
+		}
 		// Yellow fever-specific configuration (called after all other visibility logic)
 		if (disease == Disease.YELLOW_FEVER) {
 			configureYellowFeverFields();
@@ -1013,6 +1020,41 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 		// Congenital rubella-specific configuration (called after all other visibility logic)
 		if (disease == Disease.CONGENITAL_RUBELLA) {
 			configureCongenitalRubellaFields();
+		}
+	}
+
+	/**
+	 * When the case disease is measles, limits test type options by tested disease (Measles / Rubella / Dengue).
+	 */
+	private void applyMeaslesCaseTestTypeRestriction(Disease testedDisease) {
+		if (!Disease.MEASLES.equals(caseDisease) || testedDisease == null) {
+			return;
+		}
+
+		PathogenTestType previous = (PathogenTestType) testTypeField.getValue();
+
+		if (testedDisease == Disease.MEASLES) {
+			List<PathogenTestType> items =
+				Arrays.asList(PathogenTestType.INDIRECT_IGM_SEROLOGY, PathogenTestType.CAPTURED_IGM_SEROLOGY);
+			testTypeField.removeAllItems();
+			testTypeField.addItems(items);
+			if (previous != null && items.contains(previous)) {
+				testTypeField.setValue(previous);
+			} else {
+				testTypeField.setValue(null);
+			}
+			return;
+		}
+
+		if (testedDisease == Disease.RUBELLA || testedDisease == Disease.DENGUE) {
+			testTypeField.removeAllItems();
+			testTypeField.addItem(PathogenTestType.IGM_SERUM_ANTIBODY);
+			testTypeField.setItemCaption(PathogenTestType.IGM_SERUM_ANTIBODY, "IgM");
+			if (PathogenTestType.IGM_SERUM_ANTIBODY.equals(previous)) {
+				testTypeField.setValue(previous);
+			} else {
+				testTypeField.setValue(null);
+			}
 		}
 	}
 
