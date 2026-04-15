@@ -1430,6 +1430,9 @@ public class CaseController {
 			cazeDto.setClassificationByOrigin(finalClassificationForm.getValue().getClassificationByOrigin());
 			cazeDto.setInvestigatorName(finalClassificationForm.getValue().getInvestigatorName());
 			cazeDto.setInvestigatorTel(finalClassificationForm.getValue().getInvestigatorTel());
+			cazeDto.setMeaslesCommunityInvestigation(finalClassificationForm.getValue().getMeaslesCommunityInvestigation());
+			cazeDto.setMeaslesInvestigationResults(finalClassificationForm.getValue().getMeaslesInvestigationResults());
+			cazeDto.setSourceOfInfectionIdentified(finalClassificationForm.getValue().getSourceOfInfectionIdentified());
 			
 			// If final classification is LAB_CONFIRMED or CONFIRMED_BY_EPIDEMIOLOGICAL_LINKAGE for diseases requiring confirmation,
 			// set case classification to CONFIRMED

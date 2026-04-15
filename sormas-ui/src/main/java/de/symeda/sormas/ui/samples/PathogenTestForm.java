@@ -132,10 +132,8 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 			fluidRowLocs(PathogenTestDto.TYPING_ID, "") +
 			fluidRowLocs(PathogenTestDto.TEST_DATE_TIME, PathogenTestDto.LAB) +
 			fluidRowLocs("", PathogenTestDto.LAB_DETAILS) +
-			fluidRowLocs(7, PathogenTestDto.DATE_RESULTS_SENT_TO_DISEASE_SURVEILLANCE, 5, PathogenTestDto.DATE_DISTRICT_RECEIVED_LAB_RESULTS) +
-			fluidRowLocs(PathogenTestDto.DATE_INDIRECT_RESULTS_RECEIVED_AT_NATIONAL_EPI_OFFICE, PathogenTestDto.DATE_CAPTURED_RESULTS_RECEIVED_AT_NATIONAL_EPI_OFFICE) +
-			fluidRowLocs(PathogenTestDto.PERFORM_RUBELLA_TEST, PathogenTestDto.COMMUNITY_INVESTIGATION) +
-			fluidRowLocs(PathogenTestDto.INVESTIGATION_RESULTS, PathogenTestDto.SOURCE_OF_INFECTION_IDENTIFIED) +
+			fluidRowLocs(PathogenTestDto.DATE_DISTRICT_RECEIVED_LAB_RESULTS, PathogenTestDto.DATE_INDIRECT_RESULTS_RECEIVED_AT_NATIONAL_EPI_OFFICE) +
+			fluidRowLocs(PathogenTestDto.DATE_CAPTURED_RESULTS_RECEIVED_AT_NATIONAL_EPI_OFFICE, "") +
 			fluidRowLocs(4, PathogenTestDto.TEST_RESULT, 4, PathogenTestDto.TEST_RESULT_VERIFIED) +
 			fluidRowLocs(PathogenTestDto.TEST_RESULT_TEXT, PathogenTestDto.DATE_RESULTS_SENT_TO_DISTRICT);
 
@@ -862,6 +860,7 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 
 			if (Disease.MEASLES.equals(caseDisease)) {
 				applyMeaslesCaseTestTypeRestriction(disease);
+				hideMeaslesCaseRemovedPathogenFields();
 			}
 
 			// Configure measles-specific fields if disease is measles
@@ -1000,6 +999,7 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 		}
 		if (Disease.MEASLES.equals(caseDisease)) {
 			applyMeaslesCaseTestTypeRestriction((Disease) diseaseField.getValue());
+			hideMeaslesCaseRemovedPathogenFields();
 		}
 		// Yellow fever-specific configuration (called after all other visibility logic)
 		if (disease == Disease.YELLOW_FEVER) {
@@ -1059,17 +1059,22 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 	}
 
 	/**
+	 * Fields moved to case final classification or discontinued for measles cases; keep hidden on pathogen form.
+	 */
+	private void hideMeaslesCaseRemovedPathogenFields() {
+		setVisible(
+			false,
+			PathogenTestDto.DATE_RESULTS_SENT_TO_DISEASE_SURVEILLANCE,
+			PathogenTestDto.PERFORM_RUBELLA_TEST,
+			PathogenTestDto.COMMUNITY_INVESTIGATION,
+			PathogenTestDto.INVESTIGATION_RESULTS,
+			PathogenTestDto.SOURCE_OF_INFECTION_IDENTIFIED);
+	}
+
+	/**
 	 * Configures fields specifically for measles pathogen tests
 	 */
 	protected void configureMeaslesFields() {
-		// Show investigation results when community investigation is yes
-		FieldHelper.setVisibleWhen(
-			getFieldGroup(),
-			Arrays.asList(PathogenTestDto.INVESTIGATION_RESULTS),
-			PathogenTestDto.COMMUNITY_INVESTIGATION,
-			Arrays.asList(true),
-			true);
-
 		// Hide tested disease details if not OTHER
 		FieldHelper.setVisibleWhen(
 			getFieldGroup(),
@@ -1080,7 +1085,7 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 
 		// Filter tested disease field to only show MEASLES, DENGUE, and RUBELLA (excluding CONGENITAL_RUBELLA)
 		// Only filter if case disease is MEASLES
-		if (disease == Disease.MEASLES) {
+		if (Disease.MEASLES.equals(caseDisease)) {
 			// list of possible tested diseases for measles
 			List<Disease> possibleTestedDiseases = Arrays.asList(Disease.MEASLES, Disease.DENGUE, Disease.RUBELLA);
 

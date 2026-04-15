@@ -1205,7 +1205,10 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 		addField(CaseDataDto.DATE_OF_INVESTIGATION, DateField.class);
 		addField(CaseDataDto.DATE_RECEIVED_AT_DISTRICT_LEVEL, DateField.class);
 		addField(CaseDataDto.SOURCE_OF_INFECTION_IDENTIFIED, NullableOptionGroup.class);
-		
+		if (disease == Disease.MEASLES) {
+			getField(CaseDataDto.SOURCE_OF_INFECTION_IDENTIFIED).setVisible(false);
+		}
+
 		addField(CaseDataDto.VACCINATED, NullableOptionGroup.class);
 		addField(CaseDataDto.ROUTINE_VACCINATION_TYPE, NullableOptionGroup.class);
 		NullableOptionGroup vaccinationRecordType = addField(CaseDataDto.VACCINATION_RECORD_TYPE, NullableOptionGroup.class);

@@ -141,6 +141,7 @@ public class LocationEditForm extends AbstractEditForm<LocationDto> {
 
 	private static final String YELLOW_FEVER_LAYOUT =
 			fluidRowLocs(LocationDto.REGION, LocationDto.DISTRICT, LocationDto.COMMUNITY) +
+					fluidRowLocs(LocationDto.NEAREST_HEALTH_FACILITY, "") +
 					fluidRowLocs(LocationDto.HOME_RESIDENTIAL_ADDRESS, LocationDto.HOUSE_NUMBER, LocationDto.COMPOUND_OWNER) +
 					fluidRowLocs(LocationDto.LANDMARK, LocationDto.AREA_TYPE) +
 					fluidRow(

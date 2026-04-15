@@ -33,6 +33,7 @@ import javax.validation.constraints.Size;
 
 import de.symeda.sormas.api.afpimmunization.AfpImmunizationDto;
 import de.symeda.sormas.api.caze.caseimport.MotherVaccinationStatus;
+import de.symeda.sormas.api.utils.*;
 import org.apache.commons.lang3.StringUtils;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -73,19 +74,6 @@ import de.symeda.sormas.api.therapy.TherapyDto;
 import de.symeda.sormas.api.travelentry.TravelEntryDto;
 import de.symeda.sormas.api.user.UserReferenceDto;
 import de.symeda.sormas.api.user.UserRight;
-import de.symeda.sormas.api.utils.DataHelper;
-import de.symeda.sormas.api.utils.DependingOnFeatureType;
-import de.symeda.sormas.api.utils.DependingOnUserRight;
-import de.symeda.sormas.api.utils.Diseases;
-import de.symeda.sormas.api.utils.EmbeddedPersonalData;
-import de.symeda.sormas.api.utils.EmbeddedSensitiveData;
-import de.symeda.sormas.api.utils.FieldConstraints;
-import de.symeda.sormas.api.utils.HideForCountries;
-import de.symeda.sormas.api.utils.HideForCountriesExcept;
-import de.symeda.sormas.api.utils.Outbreaks;
-import de.symeda.sormas.api.utils.PersonalData;
-import de.symeda.sormas.api.utils.SensitiveData;
-import de.symeda.sormas.api.utils.YesNoUnknown;
 import de.symeda.sormas.api.utils.pseudonymization.Pseudonymizer;
 import de.symeda.sormas.api.utils.pseudonymization.valuepseudonymizers.LatitudePseudonymizer;
 import de.symeda.sormas.api.utils.pseudonymization.valuepseudonymizers.LongitudePseudonymizer;
@@ -273,6 +261,8 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 	public static final String INVESTIGATOR_EMAIL = "investigatorEmail";
 	public static final String DATE_RECEIVED_AT_DISTRICT_LEVEL = "dateReceivedAtDistrictLevel";
 	public static final String SOURCE_OF_INFECTION_IDENTIFIED = "sourceOfInfectionIdentified";
+	public static final String MEASLES_COMMUNITY_INVESTIGATION = "measlesCommunityInvestigation";
+	public static final String MEASLES_INVESTIGATION_RESULTS = "measlesInvestigationResults";
 	public static final String MOTHER_GIVEN_PROTECTIVE_DOSE_TT = "motherGivenProtectiveDoseTT";
 	public static final String MOTHER_GIVEN_PROTECTIVE_DOSE_TT_DATE = "motherGivenProtectiveDoseTTDate";
 	public static final String SUPPLEMENTAL_IMMUNIZATION = "supplementalImmunization";
@@ -859,7 +849,14 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 	private Date dateReceivedAtDistrictLevel;
 	@Diseases({
 			Disease.MEASLES})
-	private YesNoUnknown sourceOfInfectionIdentified;
+	private YesNo sourceOfInfectionIdentified;
+	@Diseases({
+			Disease.MEASLES})
+	private YesNo measlesCommunityInvestigation;
+	@Diseases({
+			Disease.MEASLES})
+	@Size(max = CHARACTER_LIMIT_BIG, message = Validations.textTooLong)
+	private String measlesInvestigationResults;
 	@Diseases({
 			Disease.NEONATAL_TETANUS})
 	private YesNoUnknown motherGivenProtectiveDoseTT;
@@ -928,7 +925,7 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 		caze.setPortHealthInfo(PortHealthInfoDto.build());
 		caze.setDisease(disease);
 		caze.setInvestigationStatus(InvestigationStatus.PENDING);
-		caze.setCaseClassification(CaseClassification.NOT_CLASSIFIED);
+		caze.setCaseClassification(CaseClassification.SUSPECT);
 		caze.setOutcome(CaseOutcome.NO_OUTCOME);
 		caze.setCaseOrigin(CaseOrigin.IN_COUNTRY);
 		caze.setNotifiedBy(NotifiedBy.OTHER);
@@ -2365,12 +2362,28 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 		this.dateReceivedAtDistrictLevel = dateReceivedAtDistrictLevel;
 	}
 
-	public YesNoUnknown getSourceOfInfectionIdentified() {
+	public YesNo getSourceOfInfectionIdentified() {
 		return sourceOfInfectionIdentified;
 	}
 
-	public void setSourceOfInfectionIdentified(YesNoUnknown sourceOfInfectionIdentified) {
+	public void setSourceOfInfectionIdentified(YesNo sourceOfInfectionIdentified) {
 		this.sourceOfInfectionIdentified = sourceOfInfectionIdentified;
+	}
+
+	public YesNo getMeaslesCommunityInvestigation() {
+		return measlesCommunityInvestigation;
+	}
+
+	public void setMeaslesCommunityInvestigation(YesNo measlesCommunityInvestigation) {
+		this.measlesCommunityInvestigation = measlesCommunityInvestigation;
+	}
+
+	public String getMeaslesInvestigationResults() {
+		return measlesInvestigationResults;
+	}
+
+	public void setMeaslesInvestigationResults(String measlesInvestigationResults) {
+		this.measlesInvestigationResults = measlesInvestigationResults;
 	}
 
 	public YesNoUnknown getMotherGivenProtectiveDoseTT() {

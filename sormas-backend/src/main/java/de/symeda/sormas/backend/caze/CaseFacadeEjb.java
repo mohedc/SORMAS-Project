@@ -3275,6 +3275,8 @@ public class CaseFacadeEjb extends AbstractCoreFacadeEjb<Case, CaseDataDto, Case
 		target.setInvestigatorEmail(source.getInvestigatorEmail());
 		target.setDateReceivedAtDistrictLevel(source.getDateReceivedAtDistrictLevel());
 		target.setSourceOfInfectionIdentified(source.getSourceOfInfectionIdentified());
+		target.setMeaslesCommunityInvestigation(source.getMeaslesCommunityInvestigation());
+		target.setMeaslesInvestigationResults(source.getMeaslesInvestigationResults());
 		target.setMotherGivenProtectiveDoseTT(source.getMotherGivenProtectiveDoseTT());
 		target.setMotherGivenProtectiveDoseTTDate(source.getMotherGivenProtectiveDoseTTDate());
 		target.setSupplementalImmunization(source.getSupplementalImmunization());
@@ -3542,6 +3544,8 @@ public class CaseFacadeEjb extends AbstractCoreFacadeEjb<Case, CaseDataDto, Case
 		target.setInvestigatorEmail(source.getInvestigatorEmail());
 		target.setDateReceivedAtDistrictLevel(source.getDateReceivedAtDistrictLevel());
 		target.setSourceOfInfectionIdentified(source.getSourceOfInfectionIdentified());
+		target.setMeaslesCommunityInvestigation(source.getMeaslesCommunityInvestigation());
+		target.setMeaslesInvestigationResults(source.getMeaslesInvestigationResults());
 		target.setMotherGivenProtectiveDoseTT(source.getMotherGivenProtectiveDoseTT());
 		target.setMotherGivenProtectiveDoseTTDate(source.getMotherGivenProtectiveDoseTTDate());
 		target.setSupplementalImmunization(source.getSupplementalImmunization());
