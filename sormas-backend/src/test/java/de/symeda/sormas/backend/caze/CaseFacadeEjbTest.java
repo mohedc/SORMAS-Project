@@ -1746,38 +1746,38 @@ public class CaseFacadeEjbTest extends AbstractBeanTest {
 		Calendar calendar = Calendar.getInstance();
 		String year = String.valueOf(calendar.get(Calendar.YEAR)).substring(2);
 
-		assertEquals("COU-REG-DIS-" + year + "-001", caze.getEpidNumber());
+		assertEquals("GAM-REG-DIS-" + year + "-001", caze.getEpidNumber());
 
 		CaseDataDto secondCaze = creator.createCase(surveillanceSupervisor.toReference(), cazePerson.toReference(), rdcf);
 
-		assertEquals("COU-REG-DIS-" + year + "-002", secondCaze.getEpidNumber());
+		assertEquals("GAM-REG-DIS-" + year + "-002", secondCaze.getEpidNumber());
 
-		secondCaze.setEpidNumber("COU-REG-DIS-" + year + "-0004");
+		secondCaze.setEpidNumber("GAM-REG-DIS-" + year + "-0004");
 		getCaseFacade().save(secondCaze);
 
 		CaseDataDto thirdCaze = creator.createCase(surveillanceSupervisor.toReference(), cazePerson.toReference(), rdcf);
 
-		assertEquals("COU-REG-DIS-" + year + "-005", thirdCaze.getEpidNumber());
+		assertEquals("GAM-REG-DIS-" + year + "-005", thirdCaze.getEpidNumber());
 
-		thirdCaze.setEpidNumber("COU-REG-DIS-" + year + "-3");
+		thirdCaze.setEpidNumber("GAM-REG-DIS-" + year + "-3");
 		getCaseFacade().save(thirdCaze);
 
 		CaseDataDto fourthCaze = creator.createCase(surveillanceSupervisor.toReference(), cazePerson.toReference(), rdcf);
 
-		assertEquals("COU-REG-DIS-" + year + "-005", fourthCaze.getEpidNumber());
+		assertEquals("GAM-REG-DIS-" + year + "-005", fourthCaze.getEpidNumber());
 
-		fourthCaze.setEpidNumber("COU-REG-DIS-" + year + "-AAA");
+		fourthCaze.setEpidNumber("GAM-REG-DIS-" + year + "-AAA");
 		getCaseFacade().save(fourthCaze);
 		fourthCaze = getCaseFacade().getCaseDataByUuid(fourthCaze.getUuid());
 
-		assertEquals("COU-REG-DIS-" + year + "-005", fourthCaze.getEpidNumber());
+		assertEquals("GAM-REG-DIS-" + year + "-005", fourthCaze.getEpidNumber());
 
 		// Make sure that deleted cases are ignored when searching for the highest existing epid nummber
 		getCaseFacade().delete(fourthCaze.getUuid(), new DeletionDetails(DeletionReason.OTHER_REASON, "test reason"));
 
 		CaseDataDto fifthCaze = creator.createCase(surveillanceSupervisor.toReference(), cazePerson.toReference(), rdcf);
 
-		assertEquals("COU-REG-DIS-" + year + "-005", fifthCaze.getEpidNumber());
+		assertEquals("GAM-REG-DIS-" + year + "-005", fifthCaze.getEpidNumber());
 
 	}
 

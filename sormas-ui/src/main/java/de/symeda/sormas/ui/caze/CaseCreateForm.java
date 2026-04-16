@@ -29,6 +29,7 @@ import java.util.*;
 
 import com.vaadin.v7.ui.*;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import com.google.common.collect.Sets;
 import com.vaadin.ui.Label;
@@ -50,6 +51,7 @@ import de.symeda.sormas.api.feature.FeatureType;
 import de.symeda.sormas.api.i18n.Captions;
 import de.symeda.sormas.api.i18n.I18nProperties;
 import de.symeda.sormas.api.i18n.Strings;
+import de.symeda.sormas.api.location.LocationDto;
 import de.symeda.sormas.api.infrastructure.community.CommunityReferenceDto;
 import de.symeda.sormas.api.infrastructure.district.DistrictReferenceDto;
 import de.symeda.sormas.api.infrastructure.facility.FacilityDto;
@@ -66,7 +68,6 @@ import de.symeda.sormas.api.user.JurisdictionLevel;
 import de.symeda.sormas.api.utils.fieldaccess.UiFieldAccessCheckers;
 import de.symeda.sormas.api.utils.fieldvisibility.FieldVisibilityCheckers;
 import de.symeda.sormas.ui.UiUtil;
-import de.symeda.sormas.ui.location.LocationEditForm;
 import de.symeda.sormas.ui.person.PersonCreateForm;
 import de.symeda.sormas.ui.person.PersonFormHelper;
 import de.symeda.sormas.ui.utils.AbstractEditForm;
@@ -89,6 +90,7 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 	private static final String DIFFERENT_POINT_OF_ENTRY_JURISDICTION = "differentPointOfEntryJurisdiction";
 	private static final String POINT_OF_ENTRY_REGION = "pointOfEntryRegion";
 	private static final String POINT_OF_ENTRY_DISTRICT = "pointOfEntryDistrict";
+	private static final String PERSON_INFORMATION_HEADING_LOC = "personInformationHeadingLoc";
 
 	private ComboBox diseaseVariantField;
 	private TextField diseaseVariantDetailsField;
@@ -106,6 +108,8 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 	private ComboBox facilityCombo;
 	private ComboBox pointOfEntryDistrictCombo;
 	private NullableOptionGroup ogCaseOrigin;
+	private Label personInformationHeadingLabel;
+
 
 	private PersonCreateForm personCreateForm;
 	private Window warningSimilarPersons;
@@ -114,6 +118,7 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 	private final boolean showPersonSearchButton;
 	private ComboBox idsrDiagnosisField;
 	private TextField idsrDiagnosisDetailsField;
+	private TextField healthFacilityDetailsField;
 
 	// If a case is created form a TravelEntry, the variable convertedTravelEntry provides the
 	// necessary extra data. This variable is expected to be replaced in the implementation of
@@ -140,15 +145,16 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
         + fluidRowLocs(CaseDataDto.RESPONSIBLE_REGION, CaseDataDto.RESPONSIBLE_DISTRICT, CaseDataDto.RESPONSIBLE_COMMUNITY)
         + fluidRowLocs(CaseDataDto.DONT_SHARE_WITH_REPORTING_TOOL)
         + fluidRowLocs(DONT_SHARE_WARNING_LOC)
-        + fluidRowLocs(DIFFERENT_PLACE_OF_STAY_JURISDICTION)
+//        + fluidRowLocs(DIFFERENT_PLACE_OF_STAY_JURISDICTION)
         + fluidRowLocs(PLACE_OF_STAY_HEADING_LOC)
         + fluidRow(fluidColumnLoc(6,0,FACILITY_OR_HOME_LOC))
         + fluidRowLocs(CaseDataDto.REGION, CaseDataDto.DISTRICT, CaseDataDto.COMMUNITY)
-        + fluidRowLocs(FACILITY_TYPE_GROUP_LOC, CaseDataDto.FACILITY_TYPE)
+//        + fluidRowLocs(FACILITY_TYPE_GROUP_LOC, CaseDataDto.FACILITY_TYPE)
         + fluidRowLocs(CaseDataDto.HEALTH_FACILITY, CaseDataDto.HEALTH_FACILITY_DETAILS, CaseDataDto.DEPARTMENT)
         + fluidRowLocs(DIFFERENT_POINT_OF_ENTRY_JURISDICTION)
         + fluidRowLocs(POINT_OF_ENTRY_REGION, POINT_OF_ENTRY_DISTRICT)
         + fluidRowLocs(CaseDataDto.POINT_OF_ENTRY, CaseDataDto.POINT_OF_ENTRY_DETAILS)
+		+ fluidRowLocs(PERSON_INFORMATION_HEADING_LOC)
 		+ fluidRowLocs(CaseDataDto.PERSON);
     //@formatter:on
 
@@ -179,6 +185,10 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 
 	@Override
 	protected void addFields() {
+
+		personInformationHeadingLabel = new Label(I18nProperties.getString(Strings.headingPersonInformation));
+		personInformationHeadingLabel.addStyleName(H3);
+		getContent().addComponent(personInformationHeadingLabel, PERSON_INFORMATION_HEADING_LOC);
 
 		ogCaseOrigin = addField(CaseDataDto.CASE_ORIGIN, NullableOptionGroup.class);
 		ogCaseOrigin.setRequired(true);
@@ -220,8 +230,7 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 
 		addField(CaseDataDto.RE_INFECTION, NullableOptionGroup.class);
 
-		//Made showHomeAddressForm false
-		personCreateForm = new PersonCreateForm(false, true, true, showPersonSearchButton);
+		personCreateForm = new PersonCreateForm(showHomeAddressForm, true, true, showPersonSearchButton, showHomeAddressForm);
 		personCreateForm.setWidth(100, Unit.PERCENTAGE);
 		getContent().addComponent(personCreateForm, CaseDataDto.PERSON);
 
@@ -314,8 +323,8 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 		facilityCombo = addInfrastructureField(CaseDataDto.HEALTH_FACILITY);
 		facilityCombo.setImmediate(true);
 
-		TextField facilityDetails = addField(CaseDataDto.HEALTH_FACILITY_DETAILS, TextField.class);
-		facilityDetails.setVisible(false);
+		healthFacilityDetailsField = addField(CaseDataDto.HEALTH_FACILITY_DETAILS, TextField.class);
+		healthFacilityDetailsField.setVisible(false);
 		ComboBox cbPointOfEntry = addInfrastructureField(CaseDataDto.POINT_OF_ENTRY);
 		cbPointOfEntry.setImmediate(true);
 		TextField tfPointOfEntryDetails = addField(CaseDataDto.POINT_OF_ENTRY_DETAILS, TextField.class);
@@ -395,19 +404,28 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 					if (CaseOrigin.IN_COUNTRY.equals(ogCaseOrigin.getValue())) {
 						facilityCombo.setRequired(true);
 					}
-					updateFacilityFields(facilityCombo, facilityDetails);
+					updateFacilityFields(facilityCombo, healthFacilityDetailsField);
 					tfDepartment.setVisible(false);
 				} else if (TypeOfPlace.HOME.equals(facilityOrHome.getValue())
 					|| ((facilityOrHome.getValue() instanceof java.util.Set) && TypeOfPlace.HOME.equals(facilityOrHome.getNullableValue()))) {
 					setNoneFacility();
+					healthFacilityDetailsField.clear();
+					updateFacilityFields(facilityCombo, healthFacilityDetailsField);
+					tfDepartment.setVisible(false);
+					tfDepartment.clear();
+				} else if (TypeOfPlace.OTHER.equals(facilityOrHome.getValue())
+					|| ((facilityOrHome.getValue() instanceof java.util.Set) && TypeOfPlace.OTHER.equals(facilityOrHome.getNullableValue()))) {
+					setNoneFacility();
+					updateFacilityFields(facilityCombo, healthFacilityDetailsField);
 					tfDepartment.setVisible(false);
 					tfDepartment.clear();
 				} else {
 					facilityCombo.removeAllItems();
 					facilityCombo.setValue(null);
-					updateFacilityFields(facilityCombo, facilityDetails);
+					updateFacilityFields(facilityCombo, healthFacilityDetailsField);
 				}
 			}
+			syncPlaceOfStayPersonHomeAddress();
 		});
 		facilityTypeGroup.addValueChangeListener(e -> {
 			FieldHelper.removeItems(facilityCombo);
@@ -450,7 +468,7 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 					differentPointOfEntryJurisdiction.setVisible(false);
 					setRequired(true, FACILITY_OR_HOME_LOC, FACILITY_TYPE_GROUP_LOC, CaseDataDto.FACILITY_TYPE, CaseDataDto.HEALTH_FACILITY);
 					setRequired(false, CaseDataDto.POINT_OF_ENTRY);
-					updateFacilityFields(facilityCombo, facilityDetails);
+					updateFacilityFields(facilityCombo, healthFacilityDetailsField);
 					passportField.setVisible(false);
 				} else {
 					setVisible(true, CaseDataDto.POINT_OF_ENTRY);
@@ -496,7 +514,7 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 		initializeVisibilitiesAndAllowedVisibilities();
 
 		setRequired(true, CaseDataDto.REPORT_DATE, CaseDataDto.DISEASE, FACILITY_TYPE_GROUP_LOC, CaseDataDto.FACILITY_TYPE);
-		FieldHelper.addSoftRequiredStyle(plagueType, communityCombo, facilityDetails);
+		FieldHelper.addSoftRequiredStyle(plagueType, communityCombo, healthFacilityDetailsField);
 
 		FieldHelper
 			.setVisibleWhen(getFieldGroup(), Arrays.asList(CaseDataDto.DISEASE_DETAILS), CaseDataDto.DISEASE, Arrays.asList(Disease.OTHER), true);
@@ -531,7 +549,7 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 			null);
 
 		facilityCombo.addValueChangeListener(e -> {
-			updateFacilityFields(facilityCombo, facilityDetails);
+			updateFacilityFields(facilityCombo, healthFacilityDetailsField);
 		});
 
 		cbPointOfEntry.addValueChangeListener(e -> {
@@ -572,7 +590,7 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 
 			if (selectedDisease == Disease.NEONATAL_TETANUS) {
 				setVisible(true, ogCaseOrigin, epidField, diseaseField, responsibleRegionCombo, responsibleDistrictCombo, responsibleCommunityCombo,
-						facilityOrHome, facilityDetails, facilityCombo, facilityType, reportDate);
+						facilityOrHome, healthFacilityDetailsField, facilityCombo, facilityType, reportDate);
 				personCreateForm.getField(PersonDto.NATIONAL_HEALTH_ID).setVisible(false);
 				personCreateForm.getField(PersonDto.PHONE).setVisible(false);
 				personCreateForm.getField(PersonDto.EMAIL_ADDRESS).setVisible(false);
@@ -583,7 +601,7 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 			} else if (selectedDisease == Disease.MEASLES || selectedDisease == Disease.YELLOW_FEVER) {
 				// Show only Measles/Yellow Fever CIF fields for New Case
 				setVisible(true, epidField, diseaseField, ogCaseOrigin, responsibleRegionCombo, responsibleDistrictCombo, 
-						responsibleCommunityCombo, facilityOrHome, facilityDetails, facilityCombo, facilityType, reportDate, tfDepartment);
+						responsibleCommunityCombo, facilityOrHome, healthFacilityDetailsField, facilityCombo, facilityType, reportDate, tfDepartment);
 
 
 				//add FieldHelper passport visible when case origin is point of entry
@@ -618,7 +636,7 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 				}
 			} else if (selectedDisease == Disease.AFP){
 				setVisible(true, ogCaseOrigin, epidField, diseaseField, responsibleRegionCombo, responsibleDistrictCombo, responsibleCommunityCombo,
-						facilityOrHome, facilityDetails, facilityCombo, facilityType, reportDate);
+						facilityOrHome, healthFacilityDetailsField, facilityCombo, facilityType, reportDate);
 				personCreateForm.getField(PersonDto.NATIONAL_HEALTH_ID).setVisible(false);
 				personCreateForm.getField(PersonDto.PHONE).setVisible(false);
 				personCreateForm.getField(PersonDto.EMAIL_ADDRESS).setVisible(false);
@@ -627,7 +645,7 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 			} else if(selectedDisease == Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS){
 
 				setVisible(true, ogCaseOrigin, epidField, diseaseField, responsibleRegionCombo, responsibleDistrictCombo, responsibleCommunityCombo,
-						facilityOrHome, facilityDetails, facilityCombo, facilityType, reportDate, idsrDiagnosisField);
+						facilityOrHome, healthFacilityDetailsField, facilityCombo, facilityType, reportDate, idsrDiagnosisField);
 
 				idsrDiagnosisField.addValueChangeListener(event -> {
 					IdsrType value = (IdsrType) event.getProperty().getValue();
@@ -682,6 +700,7 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 			facilityOrHome.select(TypeOfPlace.HOME);
 			classificationField.setValue(Sets.newHashSet(CaseClassification.CONFIRMED));
 			classificationField.select(CaseClassification.CONFIRMED);
+			syncPlaceOfStayPersonHomeAddress();
 		} else {
 			facilityOrHome.setValue(null);
 			facilityOrHome.unselect(TypeOfPlace.HOME);
@@ -762,7 +781,7 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 		}
 
 		Object facilityOrHomeValue = facilityOrHome.isRequired() ? facilityOrHome.getValue() : facilityOrHome.getNullableValue();
-		if (TypeOfPlace.HOME.equals(facilityOrHomeValue)) {
+		if (TypeOfPlace.HOME.equals(facilityOrHomeValue) || TypeOfPlace.OTHER.equals(facilityOrHomeValue)) {
 			setNoneFacility();
 			return;
 		}
@@ -816,14 +835,34 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 		}
 	}
 
+	private TypeOfPlace getFacilityOrHomeSelection() {
+
+		Object v = facilityOrHome.getValue();
+		if (v instanceof Set) {
+			return (TypeOfPlace) facilityOrHome.getNullableValue();
+		}
+		return (TypeOfPlace) v;
+	}
+
+	private void syncPlaceOfStayPersonHomeAddress() {
+
+		if (!showHomeAddressForm) {
+			return;
+		}
+		personCreateForm.applyPlaceOfDetectionHome(TypeOfPlace.HOME.equals(getFacilityOrHomeSelection()));
+	}
+
 	private void updateFacilityFields(ComboBox cbFacility, TextField tfFacilityDetails) {
 
+		TypeOfPlace placeOfStay = getFacilityOrHomeSelection();
 		if (cbFacility.getValue() != null) {
 			boolean otherHealthFacility = ((FacilityReferenceDto) cbFacility.getValue()).getUuid().equals(FacilityDto.OTHER_FACILITY_UUID);
 			boolean noneHealthFacility = ((FacilityReferenceDto) cbFacility.getValue()).getUuid().equals(FacilityDto.NONE_FACILITY_UUID);
-			boolean visibleAndRequired = otherHealthFacility || noneHealthFacility;
+			boolean showNonePlaceDescription = noneHealthFacility && TypeOfPlace.OTHER.equals(placeOfStay);
+			boolean visibleAndRequired = otherHealthFacility || showNonePlaceDescription;
 
 			tfFacilityDetails.setVisible(visibleAndRequired);
+			tfFacilityDetails.setRequired(visibleAndRequired);
 
 			if (otherHealthFacility) {
 				tfFacilityDetails.setCaption(I18nProperties.getPrefixCaption(CaseDataDto.I18N_PREFIX, CaseDataDto.HEALTH_FACILITY_DETAILS));
@@ -831,7 +870,7 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 			if (noneHealthFacility) {
 				tfFacilityDetails.setCaption(I18nProperties.getCaption(Captions.CaseData_noneHealthFacilityDetails));
 			}
-			if (!visibleAndRequired) {
+			if (!visibleAndRequired && !tfFacilityDetails.isReadOnly()) {
 				tfFacilityDetails.clear();
 			}
 		} else if (((facilityOrHome.getValue() instanceof java.util.Set)
@@ -840,6 +879,12 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 			tfFacilityDetails.setVisible(false);
 			tfFacilityDetails.setRequired(false);
 			tfFacilityDetails.clear();
+		} else {
+			tfFacilityDetails.setVisible(false);
+			tfFacilityDetails.setRequired(false);
+			if (!tfFacilityDetails.isReadOnly()) {
+				tfFacilityDetails.clear();
+			}
 		}
 	}
 
@@ -879,7 +924,7 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 		return personCreateForm;
 	}
 
-	public LocationEditForm getHomeAddressForm() {
+	public AbstractEditForm<LocationDto> getHomeAddressForm() {
 		return personCreateForm.getHomeAddressForm();
 	}
 
@@ -907,7 +952,11 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 		FacilityReferenceDto healthFacility = caseDataDto.getHealthFacility();
 		if (healthFacility != null) {
 			if (FacilityDto.NONE_FACILITY_UUID.equals(healthFacility.getUuid())) {
-				facilityOrHome.setValue(TypeOfPlace.HOME);
+				if (StringUtils.isNotBlank(caseDataDto.getHealthFacilityDetails())) {
+					facilityOrHome.setValue(TypeOfPlace.OTHER);
+				} else {
+					facilityOrHome.setValue(TypeOfPlace.HOME);
+				}
 			} else {
 				facilityOrHome.setValue(TypeOfPlace.FACILITY);
 				facilityTypeGroup.setValue(caseDataDto.getFacilityType().getFacilityTypeGroup());
@@ -928,6 +977,9 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 		if(caseDataDto.getSymptoms() != null) {
 			personCreateForm.setSymptoms(caseDataDto.getSymptoms());
 		}
+
+		updateFacilityFields(facilityCombo, healthFacilityDetailsField);
+		syncPlaceOfStayPersonHomeAddress();
 
 		if (UiUtil.enabled(FeatureType.HIDE_JURISDICTION_FIELDS)) {
 			hideAndFillJurisdictionFields();

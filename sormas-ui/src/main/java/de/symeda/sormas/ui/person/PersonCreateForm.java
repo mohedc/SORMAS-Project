@@ -60,6 +60,8 @@ import de.symeda.sormas.api.utils.LocationHelper;
 import de.symeda.sormas.api.utils.fieldaccess.UiFieldAccessCheckers;
 import de.symeda.sormas.api.utils.fieldvisibility.FieldVisibilityCheckers;
 import de.symeda.sormas.ui.ControllerProvider;
+import de.symeda.sormas.ui.location.LocationAddressFormEmbed;
+import de.symeda.sormas.ui.location.LocationCreateForm;
 import de.symeda.sormas.ui.location.LocationEditForm;
 import de.symeda.sormas.ui.utils.AbstractEditForm;
 import de.symeda.sormas.ui.utils.ButtonHelper;
@@ -81,12 +83,14 @@ public class PersonCreateForm extends AbstractEditForm<PersonDto> {
 
 	private ComboBox birthDateDay;
 	private CheckBox enterHomeAddressNow;
-	private LocationEditForm homeAddressForm;
+	private Label homeAddressHeader;
+	private AbstractEditForm<LocationDto> homeAddressForm;
 	private Button searchPersonButton;
 
 	private PersonDto person;
 
 	private final boolean showHomeAddressForm;
+	private final boolean caseHomeAddressCoreLocationLayout;
 	private final boolean showPresentCondition;
 	private final boolean showSymptomsOnsetDate;
 	private final boolean showPersonSearchButton;
@@ -120,6 +124,15 @@ public class PersonCreateForm extends AbstractEditForm<PersonDto> {
 		boolean showPresentCondition,
 		boolean showSymptomsOnsetDate,
 		boolean showPersonSearchButton) {
+		this(showHomeAddressForm, showPresentCondition, showSymptomsOnsetDate, showPersonSearchButton, false);
+	}
+
+	public PersonCreateForm(
+		boolean showHomeAddressForm,
+		boolean showPresentCondition,
+		boolean showSymptomsOnsetDate,
+		boolean showPersonSearchButton,
+		boolean caseHomeAddressCoreLocationLayout) {
 
 		super(
 			PersonDto.class,
@@ -128,6 +141,7 @@ public class PersonCreateForm extends AbstractEditForm<PersonDto> {
 			FieldVisibilityCheckers.withCountry(FacadeProvider.getConfigFacade().getCountryLocale()),
 			UiFieldAccessCheckers.getDefault(false, FacadeProvider.getConfigFacade().getCountryLocale()));
 		this.showHomeAddressForm = showHomeAddressForm;
+		this.caseHomeAddressCoreLocationLayout = caseHomeAddressCoreLocationLayout;
 		this.showPresentCondition = showPresentCondition;
 		this.showSymptomsOnsetDate = showSymptomsOnsetDate;
 		this.showPersonSearchButton = showPersonSearchButton;
@@ -272,6 +286,10 @@ public class PersonCreateForm extends AbstractEditForm<PersonDto> {
 		months.setItemCaption(12, I18nProperties.getEnumCaption(Month.DECEMBER));
 	}
 
+	private LocationAddressFormEmbed homeAddressCallbacks() {
+		return (LocationAddressFormEmbed) homeAddressForm;
+	}
+
 	private void updateListOfDays(Integer selectedYear, Integer selectedMonth) {
 
 		Integer currentlySelected = (Integer) birthDateDay.getValue();
@@ -288,31 +306,74 @@ public class PersonCreateForm extends AbstractEditForm<PersonDto> {
 		enterHomeAddressNow.addStyleName(VSPACE_3);
 		getContent().addComponent(enterHomeAddressNow, ENTER_HOME_ADDRESS_NOW);
 
-		Label addressHeader = new Label(I18nProperties.getPrefixCaption(PersonDto.I18N_PREFIX, PersonDto.ADDRESS));
-		addressHeader.addStyleName(H3);
-		getContent().addComponent(addressHeader, HOME_ADDRESS_HEADER);
-		addressHeader.setVisible(false);
+		homeAddressHeader = new Label(I18nProperties.getPrefixCaption(PersonDto.I18N_PREFIX, PersonDto.ADDRESS));
+		homeAddressHeader.addStyleName(H3);
+		getContent().addComponent(homeAddressHeader, HOME_ADDRESS_HEADER);
+		homeAddressHeader.setVisible(false);
 
-		homeAddressForm = new LocationEditForm(
-			FieldVisibilityCheckers.withCountry(FacadeProvider.getConfigFacade().getCountryLocale()),
-			UiFieldAccessCheckers.getNoop());
+		if (caseHomeAddressCoreLocationLayout) {
+			homeAddressForm = new LocationCreateForm(
+				FieldVisibilityCheckers.withCountry(FacadeProvider.getConfigFacade().getCountryLocale()),
+				UiFieldAccessCheckers.getNoop());
+		} else {
+			homeAddressForm = new LocationEditForm(
+				FieldVisibilityCheckers.withCountry(FacadeProvider.getConfigFacade().getCountryLocale()),
+				UiFieldAccessCheckers.getNoop());
+		}
 		homeAddressForm.setValue(new LocationDto());
 		homeAddressForm.setCaption(null);
 		homeAddressForm.setWidthFull();
-		homeAddressForm.setDisableFacilityAddressCheck(true);
+		homeAddressCallbacks().setDisableFacilityAddressCheck(true);
 
 		getContent().addComponent(homeAddressForm, HOME_ADDRESS_LOC);
 		homeAddressForm.setVisible(false);
 
 		enterHomeAddressNow.addValueChangeListener(e -> {
 			boolean isChecked = (boolean) e.getProperty().getValue();
-			addressHeader.setVisible(isChecked);
+			homeAddressHeader.setVisible(isChecked);
 			homeAddressForm.setVisible(isChecked);
-			homeAddressForm.setFacilityFieldsVisible(isChecked, true);
+			homeAddressCallbacks().setFacilityFieldsVisible(isChecked, true);
 			if (!isChecked && person == null) {
 				homeAddressForm.clear();
 			}
 		});
+	}
+
+	/**
+	 * When {@code home} is true (case place of detection = home), show home address and require core location fields.
+	 */
+	public void applyPlaceOfDetectionHome(boolean home) {
+
+		if (!showHomeAddressForm || homeAddressForm == null) {
+			return;
+		}
+		if (home) {
+			enterHomeAddressNow.setValue(true);
+			homeAddressHeader.setVisible(true);
+			homeAddressForm.setVisible(true);
+			homeAddressCallbacks().setFacilityFieldsVisible(false, true);
+			homeAddressCallbacks().setFieldsRequirement(
+				true,
+				LocationDto.REGION,
+				LocationDto.DISTRICT,
+				LocationDto.COMMUNITY,
+				LocationDto.VILLAGE,
+				LocationDto.NEAREST_HEALTH_FACILITY);
+		} else {
+			enterHomeAddressNow.setValue(false);
+			homeAddressHeader.setVisible(false);
+			homeAddressForm.setVisible(false);
+			homeAddressCallbacks().setFieldsRequirement(
+				false,
+				LocationDto.REGION,
+				LocationDto.DISTRICT,
+				LocationDto.COMMUNITY,
+				LocationDto.VILLAGE,
+				LocationDto.NEAREST_HEALTH_FACILITY);
+			if (person == null) {
+				homeAddressForm.clear();
+			}
+		}
 	}
 
 	protected Button createPersonSearchButton(String personSearchLoc) {
@@ -363,7 +424,7 @@ public class PersonCreateForm extends AbstractEditForm<PersonDto> {
 			enterHomeAddressNow.setEnabled(person == null || isNewPerson || LocationHelper.checkIsEmptyLocation(person.getAddress()));
 			if (person == null || isNewPerson) {
 				homeAddressForm.clear();
-				homeAddressForm.setFacilityFieldsVisible(false, true);
+				homeAddressCallbacks().setFacilityFieldsVisible(false, true);
 				homeAddressForm.setVisible(false);
 				enterHomeAddressNow.setValue(person != null && person.getAddress() != null);
 			} else {
@@ -494,7 +555,7 @@ public class PersonCreateForm extends AbstractEditForm<PersonDto> {
 		setRequired(false, PersonDto.FIRST_NAME, PersonDto.LAST_NAME, PersonDto.SEX);
 	}
 
-	public LocationEditForm getHomeAddressForm() {
+	public AbstractEditForm<LocationDto> getHomeAddressForm() {
 		return homeAddressForm;
 	}
 

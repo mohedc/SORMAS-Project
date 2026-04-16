@@ -40,7 +40,7 @@ public enum SampleMaterial {
 		Disease.INVASIVE_MENINGOCOCCAL_INFECTION, Disease.INVASIVE_PNEUMOCOCCAL_INFECTION, Disease.YELLOW_FEVER, Disease.MEASLES }, hide = true)
 	NASAL_SWAB,
 	@Diseases(value = {
-			Disease.INVASIVE_MENINGOCOCCAL_INFECTION, Disease.INVASIVE_PNEUMOCOCCAL_INFECTION, Disease.YELLOW_FEVER, Disease.MEASLES }, hide = true)
+			Disease.INVASIVE_MENINGOCOCCAL_INFECTION, Disease.INVASIVE_PNEUMOCOCCAL_INFECTION, Disease.YELLOW_FEVER }, hide = true)
 	THROAT_SWAB,
 	@Diseases(value = {
 			Disease.RESPIRATORY_SYNCYTIAL_VIRUS, Disease.INVASIVE_MENINGOCOCCAL_INFECTION, Disease.INVASIVE_PNEUMOCOCCAL_INFECTION, Disease.YELLOW_FEVER, Disease.MEASLES }, hide = true)
@@ -109,7 +109,7 @@ public enum SampleMaterial {
 			Disease.YELLOW_FEVER, Disease.MEASLES}, hide = true)
 	SYNOVIAL_FLUID,
 	@Diseases(value = {
-			Disease.YELLOW_FEVER, Disease.MEASLES}, hide = true)
+			Disease.YELLOW_FEVER}, hide = true)
 	OTHER,
 	@Diseases(value = {
 			Disease.CSM }, hide = false)

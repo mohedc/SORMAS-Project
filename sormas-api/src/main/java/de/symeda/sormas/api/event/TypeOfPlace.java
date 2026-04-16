@@ -44,7 +44,7 @@ public enum TypeOfPlace {
 	UNKNOWN,
 	OTHER;
 
-	public static final List<TypeOfPlace> FOR_CASES = Arrays.asList(FACILITY, HOME);
+	public static final List<TypeOfPlace> FOR_CASES = Arrays.asList(FACILITY, HOME, OTHER);
 	public static final List<TypeOfPlace> FOR_ACTIVITY_AS_CASE_GERMANY =
 		Arrays.asList(FACILITY_23_IFSG, COMMUNITY_FACILITY, FACILITY_36_IFSG, UNKNOWN, OTHER);
 	private static final List<TypeOfPlace> FACILITY_TYPES = Arrays.asList(FACILITY, FACILITY_23_IFSG, COMMUNITY_FACILITY, FACILITY_36_IFSG);

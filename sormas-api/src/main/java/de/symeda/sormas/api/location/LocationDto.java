@@ -17,6 +17,8 @@
  *******************************************************************************/
 package de.symeda.sormas.api.location;
 
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
@@ -26,6 +28,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import de.symeda.sormas.api.CountryHelper;
+import de.symeda.sormas.api.Disease;
 import de.symeda.sormas.api.feature.FeatureType;
 import de.symeda.sormas.api.i18n.Validations;
 import de.symeda.sormas.api.infrastructure.area.AreaType;
@@ -40,6 +43,7 @@ import de.symeda.sormas.api.infrastructure.subcontinent.SubcontinentReferenceDto
 import de.symeda.sormas.api.person.PersonAddressType;
 import de.symeda.sormas.api.utils.DataHelper;
 import de.symeda.sormas.api.utils.DependingOnFeatureType;
+import de.symeda.sormas.api.utils.Diseases;
 import de.symeda.sormas.api.utils.FieldConstraints;
 import de.symeda.sormas.api.utils.HideForCountries;
 import de.symeda.sormas.api.utils.PersonalData;
@@ -89,6 +93,7 @@ public class LocationDto extends PseudonymizableDto {
 	public static final String COMPOUND_OWNER = "compoundOwner";
 	public static final String HOME_RESIDENTIAL_ADDRESS = "homeResidentialAddress";
 	public static final String LANDMARK = "landmark";
+	public static final String NEAREST_HEALTH_FACILITY = "nearestHealthFacility";
 
 	private ContinentReferenceDto continent;
 	private SubcontinentReferenceDto subcontinent;
@@ -129,6 +134,8 @@ public class LocationDto extends PseudonymizableDto {
 	@Min(value = -180, message = Validations.longitudeBetween)
 	@Max(value = 180, message = Validations.longitudeBetween)
 	private Double longitude;
+	@DecimalMin(value = "1", inclusive = true, message = Validations.latLonAccuracyBetweenOneAndFive)
+	@DecimalMax(value = "5", inclusive = true, message = Validations.latLonAccuracyBetweenOneAndFive)
 	private Float latLonAccuracy;
 	@PersonalData()
 	@SensitiveData()
@@ -188,6 +195,11 @@ public class LocationDto extends PseudonymizableDto {
 	@SensitiveData
 	@Size(max = FieldConstraints.CHARACTER_LIMIT_DEFAULT, message = Validations.textTooLong)
 	private String landmark;
+	@Diseases(Disease.MEASLES)
+	@PersonalData
+	@SensitiveData
+	@Size(max = FieldConstraints.CHARACTER_LIMIT_DEFAULT, message = Validations.textTooLong)
+	private String nearestHealthFacility;
 
 	public String getDetails() {
 		return details;
@@ -411,6 +423,14 @@ public class LocationDto extends PseudonymizableDto {
 
 	public void setLandmark(String landmark) {
 		this.landmark = landmark;
+	}
+
+	public String getNearestHealthFacility() {
+		return nearestHealthFacility;
+	}
+
+	public void setNearestHealthFacility(String nearestHealthFacility) {
+		this.nearestHealthFacility = nearestHealthFacility;
 	}
 
 	public String getVillage() {

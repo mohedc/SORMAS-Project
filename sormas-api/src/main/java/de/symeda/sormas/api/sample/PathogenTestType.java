@@ -269,6 +269,13 @@ public enum PathogenTestType {
 	AGGLUTINATION_TEST,
 
 	@Diseases(value = {
+		Disease.MEASLES })
+	INDIRECT_IGM_SEROLOGY,
+	@Diseases(value = {
+		Disease.MEASLES })
+	CAPTURED_IGM_SEROLOGY,
+
+	@Diseases(value = {
 		Disease.YELLOW_FEVER,
 		Disease.MEASLES,
 		Disease.CSM,

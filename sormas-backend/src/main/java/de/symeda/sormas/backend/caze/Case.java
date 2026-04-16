@@ -45,6 +45,7 @@ import de.symeda.sormas.api.caze.*;
 import de.symeda.sormas.api.caze.caseimport.MotherVaccinationStatus;
 import de.symeda.sormas.api.sample.FinalClassification;
 import de.symeda.sormas.api.utils.Diseases;
+import de.symeda.sormas.api.utils.YesNo;
 import de.symeda.sormas.backend.afpimmunization.AfpImmunization;
 import org.hibernate.annotations.Type;
 
@@ -470,7 +471,9 @@ public class Case extends CoreAdo implements IsCase, SormasToSormasShareable, Ha
 	private String investigatorTel;
 	private String investigatorEmail;
 	private Date dateReceivedAtDistrictLevel;
-	private YesNoUnknown sourceOfInfectionIdentified;
+	private YesNo sourceOfInfectionIdentified;
+	private YesNo measlesCommunityInvestigation;
+	private String measlesInvestigationResults;
 	private YesNoUnknown motherGivenProtectiveDoseTT;
 	private Date motherGivenProtectiveDoseTTDate;
 	private YesNoUnknown supplementalImmunization;
@@ -2185,12 +2188,30 @@ public class Case extends CoreAdo implements IsCase, SormasToSormasShareable, Ha
 	}
 
 	@Enumerated(EnumType.STRING)
-	public YesNoUnknown getSourceOfInfectionIdentified() {
+	public YesNo getSourceOfInfectionIdentified() {
 		return sourceOfInfectionIdentified;
 	}
 
-	public void setSourceOfInfectionIdentified(YesNoUnknown sourceOfInfectionIdentified) {
+	public void setSourceOfInfectionIdentified(YesNo sourceOfInfectionIdentified) {
 		this.sourceOfInfectionIdentified = sourceOfInfectionIdentified;
+	}
+
+	@Enumerated(EnumType.STRING)
+	public YesNo getMeaslesCommunityInvestigation() {
+		return measlesCommunityInvestigation;
+	}
+
+	public void setMeaslesCommunityInvestigation(YesNo measlesCommunityInvestigation) {
+		this.measlesCommunityInvestigation = measlesCommunityInvestigation;
+	}
+
+	@Column(length = CHARACTER_LIMIT_BIG)
+	public String getMeaslesInvestigationResults() {
+		return measlesInvestigationResults;
+	}
+
+	public void setMeaslesInvestigationResults(String measlesInvestigationResults) {
+		this.measlesInvestigationResults = measlesInvestigationResults;
 	}
 
 	public YesNoUnknown getMotherGivenProtectiveDoseTT() {

@@ -2166,6 +2166,7 @@ public interface Captions {
 	String Location_compoundOwner = "Location.compoundOwner";
 	String Location_homeResidentialAddress = "Location.homeResidentialAddress";
 	String Location_landmark = "Location.landmark";
+	String Location_nearestHealthFacility = "Location.nearestHealthFacility";
 	String Location_contactPersonFirstName = "Location.contactPersonFirstName";
 	String Location_contactPersonLastName = "Location.contactPersonLastName";
 	String Location_contactPersonPhone = "Location.contactPersonPhone";

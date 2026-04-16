@@ -58,6 +58,7 @@ public class CasePersonView extends AbstractCaseView implements PersonSideCompon
 				UserRight.CASE_EDIT,
 				getViewMode(),
 				isEditAllowed);
+		editComponent.getWrappedComponent().applyCasePlaceOfDetectionHomeAddressRequired(CaseDataForm.isPlaceOfDetectionHome(caseData));
 		DetailSubComponentWrapper componentWrapper = addComponentWrapper(editComponent);
 		CustomLayout layout = addPageLayout(componentWrapper, editComponent);
 		setSubComponent(componentWrapper);

@@ -79,6 +79,7 @@ public class Location extends AbstractDomainObject {
 	public static final String COMPOUND_OWNER = "compoundOwner";
 	public static final String HOME_RESIDENTIAL_ADDRESS = "homeResidentialAddress";
 	public static final String LANDMARK = "landmark";
+	public static final String NEAREST_HEALTH_FACILITY = "nearestHealthFacility";
 	public static final String PERSON = "person";
 
 	private String details;
@@ -113,6 +114,7 @@ public class Location extends AbstractDomainObject {
 	private String compoundOwner;
 	private String homeResidentialAddress;
 	private String landmark;
+	private String nearestHealthFacility;
 	private String village;
 
 	private Person person;
@@ -365,6 +367,16 @@ public class Location extends AbstractDomainObject {
 	public void setLandmark(String landmark) {
 		this.landmark = landmark;
 	}
+
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	public String getNearestHealthFacility() {
+		return nearestHealthFacility;
+	}
+
+	public void setNearestHealthFacility(String nearestHealthFacility) {
+		this.nearestHealthFacility = nearestHealthFacility;
+	}
+
 	@Column(length = CHARACTER_LIMIT_DEFAULT)
 	public String getVillage() {
 		return village;

@@ -26,6 +26,7 @@ public enum PathogenTestResultType {
 	// hide for yellow_fever
 	@Diseases(value = { Disease.CONGENITAL_RUBELLA }, hide = true)
 	INDETERMINATE,
+	UNKNOWN,
 	@Diseases(value = { Disease.YELLOW_FEVER }, hide = true)
 	PENDING,
 	NEGATIVE,
