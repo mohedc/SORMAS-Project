@@ -117,7 +117,7 @@ public class PlaceOfStayEditForm extends AbstractEditForm<CaseDataDto> {
 		facilityCombo.setRequired(true);
 		TextField facilityDetails = addField(CaseDataDto.HEALTH_FACILITY_DETAILS, TextField.class);
 		facilityDetails.setVisible(false);
-		facilityCombo.addValueChangeListener(e -> updateFacilityDetails(facilityCombo, facilityDetails));
+		facilityCombo.addValueChangeListener(e -> updateFacilityDetails(facilityCombo, facilityDetails, null));
 
 		InfrastructureFieldsHelper.initInfrastructureFields(responsibleRegion, responsibleDistrict, responsibleCommunity);
 

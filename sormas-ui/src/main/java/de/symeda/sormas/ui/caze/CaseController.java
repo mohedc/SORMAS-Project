@@ -571,6 +571,10 @@ public class CaseController {
 
 	protected CaseDataDto saveCase(CaseDataDto cazeDto) {
 
+		if (CaseDataForm.isPlaceOfDetectionHome(cazeDto)) {
+			cazeDto.setHealthFacilityDetails(null);
+		}
+
 		if (cazeDto.getReInfection() == YesNoUnknown.NO || cazeDto.getReInfection() == YesNoUnknown.UNKNOWN) {
 			cazeDto.setPreviousInfectionDate(null);
 			cazeDto.setReinfectionDetails(Collections.emptyMap());

@@ -611,12 +611,24 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 	}
 
 	public static void updateFacilityDetails(ComboBox cbFacility, TextField tfFacilityDetails) {
+		updateFacilityDetails(cbFacility, tfFacilityDetails, null);
+	}
+
+	/**
+	 * @param placeOfStay
+	 *            {@code null} keeps legacy behaviour (NONE facility still shows the free-text field). For case place-of-stay,
+	 *            pass {@link TypeOfPlace#HOME} / {@link TypeOfPlace#OTHER} so ONLY "Other" shows the none-facility description.
+	 */
+	public static void updateFacilityDetails(ComboBox cbFacility, TextField tfFacilityDetails, TypeOfPlace placeOfStay) {
+
 		if (cbFacility.getValue() != null) {
 			boolean otherHealthFacility = ((FacilityReferenceDto) cbFacility.getValue()).getUuid().equals(FacilityDto.OTHER_FACILITY_UUID);
 			boolean noneHealthFacility = ((FacilityReferenceDto) cbFacility.getValue()).getUuid().equals(FacilityDto.NONE_FACILITY_UUID);
-			boolean visible = otherHealthFacility || noneHealthFacility;
+			boolean showNonePlaceDescription = noneHealthFacility && (placeOfStay == null || TypeOfPlace.OTHER.equals(placeOfStay));
+			boolean visible = otherHealthFacility || showNonePlaceDescription;
 
 			tfFacilityDetails.setVisible(visible);
+			tfFacilityDetails.setRequired(otherHealthFacility || (noneHealthFacility && TypeOfPlace.OTHER.equals(placeOfStay)));
 
 			if (otherHealthFacility) {
 				tfFacilityDetails.setCaption(I18nProperties.getPrefixCaption(CaseDataDto.I18N_PREFIX, CaseDataDto.HEALTH_FACILITY_DETAILS));
@@ -629,10 +641,25 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 			}
 		} else {
 			tfFacilityDetails.setVisible(false);
+			tfFacilityDetails.setRequired(false);
 			if (!tfFacilityDetails.isReadOnly()) {
 				tfFacilityDetails.clear();
 			}
 		}
+	}
+
+	/**
+	 * Home place of detection: NONE facility and no case-level "other place" description text.
+	 */
+	public static boolean isPlaceOfDetectionHome(CaseDataDto caze) {
+
+		if (caze == null || caze.getHealthFacility() == null) {
+			return false;
+		}
+		if (!FacilityDto.NONE_FACILITY_UUID.equals(caze.getHealthFacility().getUuid())) {
+			return false;
+		}
+		return StringUtils.isBlank(caze.getHealthFacilityDetails());
 	}
 
 	@SuppressWarnings("deprecation")
@@ -1133,10 +1160,9 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 				if (CaseOrigin.IN_COUNTRY.equals(getField(CaseDataDto.CASE_ORIGIN).getValue())) {
 					facilityCombo.setRequired(true);
 				}
-				updateFacilityDetails(facilityCombo, facilityDetails);
+				updateFacilityDetails(facilityCombo, facilityDetails, TypeOfPlace.FACILITY);
 				tfDepartment.setVisible(true);
-			} else {
-				// switched from facility to home
+			} else if (TypeOfPlace.HOME.equals(facilityOrHome.getValue())) {
 				if (!facilityCombo.isReadOnly()) {
 					FacilityReferenceDto noFacilityRef = FacadeProvider.getFacilityFacade().getByUuid(FacilityDto.NONE_FACILITY_UUID).toReference();
 					facilityCombo.addItem(noFacilityRef);
@@ -1146,12 +1172,25 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 				facilityTypeCombo.clear();
 				tfDepartment.setVisible(false);
 				tfDepartment.clear();
+				facilityDetails.clear();
+				updateFacilityDetails(facilityCombo, facilityDetails, TypeOfPlace.HOME);
+			} else if (TypeOfPlace.OTHER.equals(facilityOrHome.getValue())) {
+				if (!facilityCombo.isReadOnly()) {
+					FacilityReferenceDto noFacilityRef = FacadeProvider.getFacilityFacade().getByUuid(FacilityDto.NONE_FACILITY_UUID).toReference();
+					facilityCombo.addItem(noFacilityRef);
+					facilityCombo.setValue(noFacilityRef);
+				}
+				facilityTypeGroup.clear();
+				facilityTypeCombo.clear();
+				tfDepartment.setVisible(false);
+				tfDepartment.clear();
+				updateFacilityDetails(facilityCombo, facilityDetails, TypeOfPlace.OTHER);
 			}
 		});
 		facilityTypeGroup.addValueChangeListener(
 			e -> FieldHelper.updateEnumData(facilityTypeCombo, FacilityType.getAccommodationTypes((FacilityTypeGroup) facilityTypeGroup.getValue())));
 		facilityTypeCombo.addValueChangeListener(e -> updateFacility());
-		facilityCombo.addValueChangeListener(e -> updateFacilityDetails(facilityCombo, facilityDetails));
+		facilityCombo.addValueChangeListener(e -> updateFacilityDetails(facilityCombo, facilityDetails, (TypeOfPlace) facilityOrHome.getValue()));
 		regionCombo.addItems(FacadeProvider.getRegionFacade().getAllActiveByServerCountry());
 
 		if (UiUtil.enabled(FeatureType.NATIONAL_CASE_SHARING)) {
@@ -1967,7 +2006,13 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 			boolean noneHealthFacility = getValue().getHealthFacility().getUuid().equals(FacilityDto.NONE_FACILITY_UUID);
 
 			FacilityType caseFacilityType = getValue().getFacilityType();
-			if (noneHealthFacility || caseFacilityType == null) {
+			if (noneHealthFacility) {
+				if (StringUtils.isNotBlank(getValue().getHealthFacilityDetails())) {
+					facilityOrHome.setValue(TypeOfPlace.OTHER);
+				} else {
+					facilityOrHome.setValue(TypeOfPlace.HOME);
+				}
+			} else if (caseFacilityType == null) {
 				facilityOrHome.setValue(TypeOfPlace.HOME);
 			} else {
 				facilityOrHome.setValue(TypeOfPlace.FACILITY);
@@ -1979,6 +2024,7 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 
 			facilityOrHome.setReadOnly(facilityOrHomeReadOnly);
 			facilityTypeGroup.setReadOnly(facilityTypeGroupReadOnly);
+			updateFacilityDetails(facilityCombo, facilityDetails, (TypeOfPlace) facilityOrHome.getValue());
 		} else if (getValue().isPseudonymized()) {
 			facilityOrHome.setValue(null);
 			facilityOrHome.setReadOnly(true);
@@ -2274,7 +2320,7 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 				FieldHelper.removeItems(facilityCombo);
 			}
 		} else {
-			if (TypeOfPlace.HOME.equals(facilityOrHome.getValue())) {
+			if (TypeOfPlace.HOME.equals(facilityOrHome.getValue()) || TypeOfPlace.OTHER.equals(facilityOrHome.getValue())) {
 				FacilityReferenceDto noFacilityRef = FacadeProvider.getFacilityFacade().getByUuid(FacilityDto.NONE_FACILITY_UUID).toReference();
 				facilityCombo.addItem(noFacilityRef);
 				boolean readOnly = facilityCombo.isReadOnly();

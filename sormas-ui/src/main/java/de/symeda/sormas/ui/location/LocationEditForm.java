@@ -95,7 +95,7 @@ import de.symeda.sormas.ui.utils.PhoneNumberValidator;
 import de.symeda.sormas.ui.utils.StringToAngularLocationConverter;
 import de.symeda.sormas.ui.utils.VaadinUiUtil;
 
-public class LocationEditForm extends AbstractEditForm<LocationDto> {
+public class LocationEditForm extends AbstractEditForm<LocationDto> implements LocationAddressFormEmbed {
 
 	private static final long serialVersionUID = 1L;
 
