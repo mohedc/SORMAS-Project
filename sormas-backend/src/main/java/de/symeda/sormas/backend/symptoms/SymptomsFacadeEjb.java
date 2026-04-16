@@ -62,6 +62,8 @@ public class SymptomsFacadeEjb implements SymptomsFacade {
 		target.setJointPain(source.getJointPain());
 		target.setKopliksSpots(source.getKopliksSpots());
 		target.setMusclePain(source.getMusclePain());
+		target.setArthralgia(source.getArthralgia());
+		target.setMyalgia(source.getMyalgia());
 		target.setNausea(source.getNausea());
 		target.setNeckStiffness(source.getNeckStiffness());
 		target.setNoseBleeding(source.getNoseBleeding());
@@ -306,6 +308,8 @@ public class SymptomsFacadeEjb implements SymptomsFacade {
 		target.setJointPain(source.getJointPain());
 		target.setKopliksSpots(source.getKopliksSpots());
 		target.setMusclePain(source.getMusclePain());
+		target.setArthralgia(source.getArthralgia());
+		target.setMyalgia(source.getMyalgia());
 		target.setNausea(source.getNausea());
 		target.setNeckStiffness(source.getNeckStiffness());
 		target.setNoseBleeding(source.getNoseBleeding());

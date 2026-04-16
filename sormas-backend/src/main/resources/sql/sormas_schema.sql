@@ -15176,6 +15176,13 @@ ALTER TABLE cases_history ADD COLUMN IF NOT EXISTS measlescommunityinvestigation
 ALTER TABLE cases_history ADD COLUMN IF NOT EXISTS measlesinvestigationresults varchar(512);
 INSERT INTO schema_version (version_number, comment) VALUES (645, 'Add measles community investigation fields to cases');
 
+-- Migration 646: Yellow Fever arthralgia and myalgia symptom columns
+ALTER TABLE symptoms ADD COLUMN IF NOT EXISTS arthralgia varchar(255);
+ALTER TABLE symptoms ADD COLUMN IF NOT EXISTS myalgia varchar(255);
+ALTER TABLE symptoms_history ADD COLUMN IF NOT EXISTS arthralgia varchar(255);
+ALTER TABLE symptoms_history ADD COLUMN IF NOT EXISTS myalgia varchar(255);
+INSERT INTO schema_version (version_number, comment) VALUES (646, 'Add arthralgia and myalgia columns to symptoms');
+
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***
 
 

@@ -78,6 +78,8 @@ public class Symptoms extends AbstractDomainObject {
 	private SymptomState abdominalPain;
 	private SymptomState headache;
 	private SymptomState musclePain;
+	private SymptomState arthralgia;
+	private SymptomState myalgia;
 	private SymptomState fatigueWeakness;
 	private SymptomState unexplainedBleeding;
 	private SymptomState gumsBleeding;
@@ -416,6 +418,24 @@ public class Symptoms extends AbstractDomainObject {
 
 	public void setMusclePain(SymptomState musclePain) {
 		this.musclePain = musclePain;
+	}
+
+	@Enumerated(EnumType.STRING)
+	public SymptomState getArthralgia() {
+		return arthralgia;
+	}
+
+	public void setArthralgia(SymptomState arthralgia) {
+		this.arthralgia = arthralgia;
+	}
+
+	@Enumerated(EnumType.STRING)
+	public SymptomState getMyalgia() {
+		return myalgia;
+	}
+
+	public void setMyalgia(SymptomState myalgia) {
+		this.myalgia = myalgia;
 	}
 
 	@Enumerated(EnumType.STRING)
