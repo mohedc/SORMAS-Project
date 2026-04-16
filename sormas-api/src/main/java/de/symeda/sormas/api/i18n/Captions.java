@@ -982,6 +982,7 @@ public interface Captions {
 	String casePersonAddress = "casePersonAddress";
 	String casePickCase = "casePickCase";
 	String casePlaceOfStay = "casePlaceOfStay";
+	String casePatientIdentification = "casePatientIdentification";
 	String casePlusDays = "casePlusDays";
 	String CasePreviousHospitalization = "CasePreviousHospitalization";
 	String CasePreviousHospitalization_admissionAndDischargeDate = "CasePreviousHospitalization.admissionAndDischargeDate";

@@ -86,6 +86,7 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 	private static final String RESPONSIBLE_JURISDICTION_HEADING_LOC = "responsibleJurisdictionHeadingLoc";
 	private static final String DIFFERENT_PLACE_OF_STAY_JURISDICTION = "differentPlaceOfStayJurisdiction";
 	private static final String PLACE_OF_STAY_HEADING_LOC = "placeOfStayHeadingLoc";
+	private static final String PATIENT_IDENTIFICATION_HEADING_LOC = "placeOfStayHeadingLoc";
 	private static final String DIFFERENT_POINT_OF_ENTRY_JURISDICTION = "differentPointOfEntryJurisdiction";
 	private static final String POINT_OF_ENTRY_REGION = "pointOfEntryRegion";
 	private static final String POINT_OF_ENTRY_DISTRICT = "pointOfEntryDistrict";
@@ -149,6 +150,7 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
         + fluidRowLocs(DIFFERENT_POINT_OF_ENTRY_JURISDICTION)
         + fluidRowLocs(POINT_OF_ENTRY_REGION, POINT_OF_ENTRY_DISTRICT)
         + fluidRowLocs(CaseDataDto.POINT_OF_ENTRY, CaseDataDto.POINT_OF_ENTRY_DETAILS)
+        + fluidRowLocs(PATIENT_IDENTIFICATION_HEADING_LOC)
 		+ fluidRowLocs(CaseDataDto.PERSON);
     //@formatter:on
 
@@ -252,6 +254,10 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 		Label placeOfStayHeadingLabel = new Label(I18nProperties.getCaption(Captions.casePlaceOfStay));
 		placeOfStayHeadingLabel.addStyleName(H3);
 		getContent().addComponent(placeOfStayHeadingLabel, PLACE_OF_STAY_HEADING_LOC);
+
+		Label patientIdentificationHeadingLabel = new Label(I18nProperties.getCaption(Captions.casePatientIdentification));
+		patientIdentificationHeadingLabel.addStyleName(H3);
+		getContent().addComponent(patientIdentificationHeadingLabel, PATIENT_IDENTIFICATION_HEADING_LOC);
 
 		regionCombo = addInfrastructureField(CaseDataDto.REGION);
 		districtCombo = addInfrastructureField(CaseDataDto.DISTRICT);
