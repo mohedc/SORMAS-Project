@@ -50,7 +50,6 @@ import de.symeda.sormas.api.sample.SimpleTestResultType;
 import de.symeda.sormas.api.user.UserReferenceDto;
 import de.symeda.sormas.api.user.UserRight;
 import de.symeda.sormas.api.utils.InjectionSite;
-import de.symeda.sormas.api.utils.PosNeg;
 import de.symeda.sormas.api.utils.YesNo;
 import de.symeda.sormas.api.utils.fieldaccess.UiFieldAccessCheckers;
 import de.symeda.sormas.api.utils.fieldvisibility.FieldVisibilityCheckers;
@@ -266,13 +265,23 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 		
 		// IP Dakar test result fields
 		NullableOptionGroup elisaIgmField = addField(SampleDto.ELISA_IGM, NullableOptionGroup.class);
-		FieldHelper.updateEnumData(elisaIgmField, Arrays.asList(SimpleTestResultType.POSITIVE, SimpleTestResultType.NEGATIVE, SimpleTestResultType.EQUIVOCAL));
+		FieldHelper.updateEnumData(
+			elisaIgmField,
+			Arrays.asList(
+				SimpleTestResultType.POSITIVE,
+				SimpleTestResultType.NEGATIVE,
+				SimpleTestResultType.EQUIVOCAL,
+				SimpleTestResultType.INDETERMINATE));
 		addDateField(SampleDto.ELISA_IGM_DATE, DateField.class, 7);
 		NullableOptionGroup pcrField = addField(SampleDto.PCR, NullableOptionGroup.class);
-		FieldHelper.updateEnumData(pcrField, Arrays.asList(PosNeg.POSITIVE, PosNeg.NEGATIVE));
+		FieldHelper.updateEnumData(
+			pcrField,
+			Arrays.asList(PathogenTestResultType.POSITIVE, PathogenTestResultType.NEGATIVE, PathogenTestResultType.NOT_TESTED));
 		addDateField(SampleDto.PCR_DATE, DateField.class, 7);
 		NullableOptionGroup prntField = addField(SampleDto.PRNT, NullableOptionGroup.class);
-		FieldHelper.updateEnumData(prntField, Arrays.asList(PosNeg.POSITIVE, PosNeg.NEGATIVE));
+		FieldHelper.updateEnumData(
+			prntField,
+			Arrays.asList(PathogenTestResultType.POSITIVE, PathogenTestResultType.NEGATIVE, PathogenTestResultType.NOT_TESTED));
 		TextField prntInputValueField = addField(SampleDto.PRNT_INPUT_VALUE, TextField.class);
 		addDateField(SampleDto.PRNT_DATE, DateField.class, 7);
 		
@@ -502,7 +511,7 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 			getFieldGroup(),
 			SampleDto.PRNT_INPUT_VALUE,
 			SampleDto.PRNT,
-			Arrays.asList(PosNeg.POSITIVE),
+			Arrays.asList(PathogenTestResultType.POSITIVE),
 			true);
 		
 		// Show subtitle labels when SENT_TO_IP_DAKAR is Yes

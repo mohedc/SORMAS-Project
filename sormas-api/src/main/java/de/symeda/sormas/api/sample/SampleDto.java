@@ -279,13 +279,13 @@ public class SampleDto extends SormasToSormasShareableDto implements IsSample {
 	private Date elisaIgmDate;
 	@Diseases(value = {
 		Disease.YELLOW_FEVER })
-	private PosNeg pcr;
+	private PathogenTestResultType pcr;
 	@Diseases(value = {
 		Disease.YELLOW_FEVER })
 	private Date pcrDate;
 	@Diseases(value = {
 		Disease.YELLOW_FEVER })
-	private PosNeg prnt;
+	private PathogenTestResultType prnt;
 	@Diseases(value = {
 		Disease.YELLOW_FEVER })
 	@Size(max = FieldConstraints.CHARACTER_LIMIT_DEFAULT, message = Validations.textTooLong)
@@ -987,11 +987,11 @@ public class SampleDto extends SormasToSormasShareableDto implements IsSample {
 		this.elisaIgmDate = elisaIgmDate;
 	}
 
-	public PosNeg getPcr() {
+	public PathogenTestResultType getPcr() {
 		return pcr;
 	}
 
-	public void setPcr(PosNeg pcr) {
+	public void setPcr(PathogenTestResultType pcr) {
 		this.pcr = pcr;
 	}
 
@@ -1003,11 +1003,11 @@ public class SampleDto extends SormasToSormasShareableDto implements IsSample {
 		this.pcrDate = pcrDate;
 	}
 
-	public PosNeg getPrnt() {
+	public PathogenTestResultType getPrnt() {
 		return prnt;
 	}
 
-	public void setPrnt(PosNeg prnt) {
+	public void setPrnt(PathogenTestResultType prnt) {
 		this.prnt = prnt;
 	}
 

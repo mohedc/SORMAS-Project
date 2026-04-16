@@ -205,9 +205,9 @@ public class Sample extends DeletableAdo implements IsSample, SormasToSormasShar
 	private String packagingOther;
 	private SimpleTestResultType elisaIgm;
 	private Date elisaIgmDate;
-	private PosNeg pcr;
+	private PathogenTestResultType pcr;
 	private Date pcrDate;
-	private PosNeg prnt;
+	private PathogenTestResultType prnt;
 	@Column(length = CHARACTER_LIMIT_DEFAULT)
 	private String prntInputValue;
 	private Date prntDate;
@@ -977,11 +977,11 @@ public class Sample extends DeletableAdo implements IsSample, SormasToSormasShar
 
 	@Enumerated(EnumType.STRING)
 	@Column
-	public PosNeg getPcr() {
+	public PathogenTestResultType getPcr() {
 		return pcr;
 	}
 
-	public void setPcr(PosNeg pcr) {
+	public void setPcr(PathogenTestResultType pcr) {
 		this.pcr = pcr;
 	}
 
@@ -997,11 +997,11 @@ public class Sample extends DeletableAdo implements IsSample, SormasToSormasShar
 
 	@Enumerated(EnumType.STRING)
 	@Column
-	public PosNeg getPrnt() {
+	public PathogenTestResultType getPrnt() {
 		return prnt;
 	}
 
-	public void setPrnt(PosNeg prnt) {
+	public void setPrnt(PathogenTestResultType prnt) {
 		this.prnt = prnt;
 	}
 
