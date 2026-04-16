@@ -1174,10 +1174,28 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 			Arrays.asList(Disease.OTHER),
 			true);
 
+		FieldHelper.updateEnumData(
+			testResultField,
+			Arrays.asList(
+				PathogenTestResultType.POSITIVE,
+				PathogenTestResultType.NEGATIVE,
+				PathogenTestResultType.INDETERMINATE,
+				PathogenTestResultType.NOT_DONE,
+				PathogenTestResultType.UNKNOWN));
+
 		if (Disease.YELLOW_FEVER.equals(caseDisease)) {
 			List<Disease> possibleTestedDiseases = Arrays.asList(Disease.YELLOW_FEVER, Disease.MALARIA);
 			ComboBox testedDiseaseField = (ComboBox) getField(PathogenTestDto.TESTED_DISEASE);
 			Object currentValue = testedDiseaseField.getValue();
+
+			if (!testedDiseaseField.containsId(Disease.YELLOW_FEVER)) {
+				testedDiseaseField.addItem(Disease.YELLOW_FEVER);
+				testedDiseaseField.setItemCaption(Disease.YELLOW_FEVER, Disease.YELLOW_FEVER.toString());
+			}
+			if (!testedDiseaseField.containsId(Disease.MALARIA)) {
+				testedDiseaseField.addItem(Disease.MALARIA);
+				testedDiseaseField.setItemCaption(Disease.MALARIA, Disease.MALARIA.toString());
+			}
 
 			@SuppressWarnings("unchecked")
 			Collection<Object> itemIds = (Collection<Object>) testedDiseaseField.getItemIds();

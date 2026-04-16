@@ -43,6 +43,7 @@ public class PathogenTestResultTypeElaborator implements StatusElaborator {
 		case PENDING:
 			return R.color.samplePending;
 		case INDETERMINATE:
+		case UNKNOWN:
 			return R.color.sampleIndeterminate;
 		default:
 			throw new IllegalArgumentException(resultType.toString());
@@ -64,6 +65,7 @@ public class PathogenTestResultTypeElaborator implements StatusElaborator {
 		case PENDING:
 			return R.drawable.ic_pending_24dp;
 		case INDETERMINATE:
+		case UNKNOWN:
 			return R.drawable.ic_do_not_disturb_on_24dp;
 		default:
 			throw new IllegalArgumentException(resultType.toString());
