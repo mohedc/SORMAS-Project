@@ -863,6 +863,9 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 				applyMeaslesCaseTestTypeRestriction(disease);
 				hideMeaslesCaseRemovedPathogenFields();
 			}
+			if (Disease.YELLOW_FEVER.equals(caseDisease)) {
+				applyYellowFeverCaseTestTypeRestriction(disease);
+			}
 
 			// Configure measles-specific fields if disease is measles
 			if (disease == Disease.MEASLES) {
@@ -1002,6 +1005,9 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 			applyMeaslesCaseTestTypeRestriction((Disease) diseaseField.getValue());
 			hideMeaslesCaseRemovedPathogenFields();
 		}
+		if (Disease.YELLOW_FEVER.equals(caseDisease)) {
+			applyYellowFeverCaseTestTypeRestriction((Disease) diseaseField.getValue());
+		}
 		// Yellow fever-specific configuration (called after all other visibility logic)
 		if (disease == Disease.YELLOW_FEVER) {
 			configureYellowFeverFields();
@@ -1052,6 +1058,36 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 			testTypeField.addItem(PathogenTestType.IGM_SERUM_ANTIBODY);
 			testTypeField.setItemCaption(PathogenTestType.IGM_SERUM_ANTIBODY, "IgM");
 			if (PathogenTestType.IGM_SERUM_ANTIBODY.equals(previous)) {
+				testTypeField.setValue(previous);
+			} else {
+				testTypeField.setValue(null);
+			}
+		}
+	}
+
+	private void applyYellowFeverCaseTestTypeRestriction(Disease testedDisease) {
+		if (!Disease.YELLOW_FEVER.equals(caseDisease) || testedDisease == null) {
+			return;
+		}
+
+		PathogenTestType previous = (PathogenTestType) testTypeField.getValue();
+
+		if (testedDisease == Disease.YELLOW_FEVER) {
+			testTypeField.removeAllItems();
+			testTypeField.addItem(PathogenTestType.IGM_SERUM_ANTIBODY);
+			testTypeField.setItemCaption(PathogenTestType.IGM_SERUM_ANTIBODY, "IgM");
+			if (PathogenTestType.IGM_SERUM_ANTIBODY.equals(previous)) {
+				testTypeField.setValue(previous);
+			} else {
+				testTypeField.setValue(null);
+			}
+			return;
+		}
+
+		if (testedDisease == Disease.MALARIA) {
+			testTypeField.removeAllItems();
+			testTypeField.addItem(PathogenTestType.MICROSCOPY);
+			if (PathogenTestType.MICROSCOPY.equals(previous)) {
 				testTypeField.setValue(previous);
 			} else {
 				testTypeField.setValue(null);
@@ -1137,6 +1173,28 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 			PathogenTestDto.TESTED_DISEASE,
 			Arrays.asList(Disease.OTHER),
 			true);
+
+		if (Disease.YELLOW_FEVER.equals(caseDisease)) {
+			List<Disease> possibleTestedDiseases = Arrays.asList(Disease.YELLOW_FEVER, Disease.MALARIA);
+			ComboBox testedDiseaseField = (ComboBox) getField(PathogenTestDto.TESTED_DISEASE);
+			Object currentValue = testedDiseaseField.getValue();
+
+			@SuppressWarnings("unchecked")
+			Collection<Object> itemIds = (Collection<Object>) testedDiseaseField.getItemIds();
+			List<Object> itemsToRemove = itemIds.stream()
+				.filter(item -> !possibleTestedDiseases.contains(item))
+				.collect(Collectors.toList());
+
+			for (Object item : itemsToRemove) {
+				testedDiseaseField.removeItem(item);
+			}
+
+			if (currentValue != null && possibleTestedDiseases.contains(currentValue)) {
+				testedDiseaseField.setValue(currentValue);
+			} else if (currentValue != null) {
+				testedDiseaseField.setValue(null);
+			}
+		}
 	}
 
 	/**
