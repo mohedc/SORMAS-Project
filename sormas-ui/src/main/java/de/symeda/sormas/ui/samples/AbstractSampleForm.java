@@ -785,7 +785,7 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 		// Note: "gingival fluid" is not available in SampleMaterial enum, using available options
 		// Instead of removing all items, check each item and remove only those that don't match
 
-		getField(SampleDto.SHIPMENT_DATE).setVisible(true);
+//		getField(SampleDto.SHIPMENT_DATE).setVisible(true);
 		Field<?> shippedField = getField(SampleDto.SHIPPED);
 		FieldHelper.setVisibleWhen(
 			getFieldGroup(),
