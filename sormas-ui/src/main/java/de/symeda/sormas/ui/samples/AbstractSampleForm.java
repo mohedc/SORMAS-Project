@@ -852,7 +852,7 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 	protected void configureYellowFeverFields() {
 		// SampleDto.PATHOGEN_TEST_RESULT readOnly
 		getField(SampleDto.PATHOGEN_TEST_RESULT).setReadOnly(true);
-		getField(SampleDto.SHIPMENT_DATE).setVisible(true);
+//		getField(SampleDto.SHIPMENT_DATE).setVisible(true);
 		getField(SampleDto.DATE_RESULTS_SENT_TO_REFERRING_CLINICIAN).setVisible(true);
 		Field<?> shippedField = getField(SampleDto.SHIPPED);
 		FieldHelper.setVisibleWhen(
@@ -927,7 +927,7 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 		getField(SampleDto.PATHOGEN_TEST_RESULT).setReadOnly(true);
 
 		// Configure visibility for shipped/received fields
-		getField(SampleDto.SHIPMENT_DATE).setVisible(true);
+//		getField(SampleDto.SHIPMENT_DATE).setVisible(true);clear
 		Field<?> shippedField = getField(SampleDto.SHIPPED);
 		FieldHelper.setVisibleWhen(
 			getFieldGroup(),
