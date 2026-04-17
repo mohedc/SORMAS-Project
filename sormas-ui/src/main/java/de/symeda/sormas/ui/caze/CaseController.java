@@ -1434,6 +1434,7 @@ public class CaseController {
 			cazeDto.setClassificationByOrigin(finalClassificationForm.getValue().getClassificationByOrigin());
 			cazeDto.setInvestigatorName(finalClassificationForm.getValue().getInvestigatorName());
 			cazeDto.setInvestigatorTel(finalClassificationForm.getValue().getInvestigatorTel());
+			cazeDto.setClassificationComment(finalClassificationForm.getValue().getClassificationComment());
 			cazeDto.setMeaslesCommunityInvestigation(finalClassificationForm.getValue().getMeaslesCommunityInvestigation());
 			cazeDto.setMeaslesInvestigationResults(finalClassificationForm.getValue().getMeaslesInvestigationResults());
 			cazeDto.setSourceOfInfectionIdentified(finalClassificationForm.getValue().getSourceOfInfectionIdentified());

@@ -66,6 +66,11 @@ public class CaseFinalClassificationForm extends AbstractEditForm<CaseDataDto> {
 			loc(FINAL_CLASSIFICATION_HEADING_LOC) +
 			fluidRowLocs(CaseDataDto.FINAL_CLASSIFICATION);
 
+	private static final String YELLOW_FEVER_HTML_LAYOUT =
+			loc(FINAL_CLASSIFICATION_HEADING_LOC) +
+			fluidRowLocs(CaseDataDto.FINAL_CLASSIFICATION, "") +
+			fluidRowLocs(CaseDataDto.CLASSIFICATION_COMMENT, "");
+
 	private static final String MEASLES_HTML_LAYOUT =
 			loc(FINAL_CLASSIFICATION_HEADING_LOC) +
 			fluidRowLocs(CaseDataDto.MEASLES_COMMUNITY_INVESTIGATION, "") +
@@ -163,6 +168,8 @@ public class CaseFinalClassificationForm extends AbstractEditForm<CaseDataDto> {
 		finalClassificationField = addField(CaseDataDto.FINAL_CLASSIFICATION, ComboBox.class);
 		finalClassificationField.setNullSelectionAllowed(true);
 		finalClassificationField.setItemCaptionMode(ComboBox.ItemCaptionMode.ID_TOSTRING);
+		TextArea classificationCommentField = addField(CaseDataDto.CLASSIFICATION_COMMENT, TextArea.class);
+		classificationCommentField.setRows(4);
 		addField(CaseDataDto.MEASLES_COMMUNITY_INVESTIGATION, NullableOptionGroup.class);
 		TextArea measlesInvestigationResults = addField(CaseDataDto.MEASLES_INVESTIGATION_RESULTS, TextArea.class);
 		measlesInvestigationResults.setRows(4);
@@ -293,6 +300,9 @@ public class CaseFinalClassificationForm extends AbstractEditForm<CaseDataDto> {
 		}
 		if (disease == Disease.MEASLES) {
 			return MEASLES_HTML_LAYOUT;
+		}
+		if (disease == Disease.YELLOW_FEVER) {
+			return YELLOW_FEVER_HTML_LAYOUT;
 		}
 		return HTML_LAYOUT;
 	}
