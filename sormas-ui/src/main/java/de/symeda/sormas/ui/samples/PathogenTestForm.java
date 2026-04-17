@@ -1237,6 +1237,7 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 				PathogenTestType.CULTURE,
 				PathogenTestType.LATEX,
 				PathogenTestType.GRAM_STAIN,
+				PathogenTestType.PCR,
 				PathogenTestType.OTHER
 		);
 

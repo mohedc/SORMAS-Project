@@ -269,6 +269,10 @@ public enum PathogenTestType {
 	AGGLUTINATION_TEST,
 
 	@Diseases(value = {
+			Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS })
+	PCR,
+
+	@Diseases(value = {
 		Disease.YELLOW_FEVER,
 		Disease.MEASLES,
 		Disease.CSM,
