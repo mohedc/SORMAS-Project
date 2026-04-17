@@ -90,7 +90,17 @@ public enum Disease
 	INVASIVE_MENINGOCOCCAL_INFECTION(true, false, true, false, true, 7, false, false, false),
 	OTHER(true, false, true, false, true, 21, false, false, false),
 	UNDEFINED(true, false, true, false, true, 0, false, false, false),
-    IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS(true, true, true, false, true,14, true, false, false);
+    IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS(true, true, true, false, true,14, true, false, false),
+	UNEXPLAINED_CLUSTER_OF_HEALTH_EVENTS(true, false, true, false, true,14, true, false, false),
+	UNEXPLAINED_CLUSTER_OF_DEATHS(true, false, true, false, true,14, true, false, false),
+	DOG_BITE(true, false, true, false, true,14, true, false, false),
+	HUMAN_RABIES(true, false, true, false, true,14, true, false, false),
+	SHIGELLOSIS(true, false, true, false, true,14, true, false, false),
+	RIFT_VALLEY_FEVER(true, false, true, false, true,14, true, false, false),
+	SNAKE_BITE_ENVENOMING(true, false, true, false, true,14, true, false, false),
+	ZIKA_VIRUS(true, false, true, false, true,14, true, false, false),
+	HUMAN_AFRICAN_TRYPANOSOMIASIS(true, false, true, false, true,14, true, false, false),
+	SCABIES(true, false, true, false, true,14, true, false, false);
 
     private final boolean defaultActive;
 	private final boolean defaultPrimary;
@@ -205,6 +215,33 @@ public enum Disease
 	public static List<Disease> DISEASE_LIST = Arrays.asList(Disease.values());
 	public static final List<Disease> HIDE_PATHOGEN_BUTTON_LIST = Arrays.asList(
 			IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS
+	);
+	public static final List<Disease> IDSR_TESTED_DISEASES = Arrays.asList(
+			Disease.CHOLERA,
+			Disease.MEASLES,
+			Disease.CSM,
+			Disease.NEONATAL_TETANUS,
+			Disease.YELLOW_FEVER,
+			Disease.AFP,
+			Disease.DIARRHEA_BLOOD,
+			Disease.ANTHRAX,
+			Disease.SCHISTOSOMIASIS,
+			Disease.UNSPECIFIED_VHF,
+			Disease.MATERNAL_DEATHS,
+			Disease.UNEXPLAINED_CLUSTER_OF_HEALTH_EVENTS,
+			Disease.UNEXPLAINED_CLUSTER_OF_DEATHS,
+			Disease.DOG_BITE,
+			Disease.HUMAN_RABIES,
+			Disease.SNAKE_BITE_ENVENOMING,
+			Disease.LYMPHATIC_FILARIASIS,
+			Disease.LEPROSY,
+			Disease.SHIGELLOSIS,
+			Disease.RIFT_VALLEY_FEVER,
+			Disease.ZIKA_VIRUS,
+			Disease.MONKEYPOX,
+			Disease.HUMAN_AFRICAN_TRYPANOSOMIASIS,
+			Disease.SOIL_TRANSMITTED_HELMINTHS,
+			Disease.SCABIES
 	);
 
 }
