@@ -48,12 +48,20 @@ public class MaternalHistoryDto extends PseudonymizableDto {
 	public static final String RUBELLA_MONTH = "rubellaMonth";
 	public static final String CONGENITAL_RUBELLA = "congenitalRubella";
 	public static final String CONGENITAL_RUBELLA_DATE = "congenitalRubellaDate";
+	public static final String MOTHER_RUBELLA_LAB_CONFIRMED = "motherRubellaLabConfirmed";
+	public static final String MOTHER_RUBELLA_LAB_CONFIRMED_DATE = "motherRubellaLabConfirmedDate";
 	public static final String RASH_EXPOSURE = "rashExposure";
 	public static final String RASH_EXPOSURE_DATE = "rashExposureDate";
 	public static final String RASH_EXPOSURE_MONTH = "rashExposureMonth";
 	public static final String RASH_EXPOSURE_REGION = "rashExposureRegion";
 	public static final String RASH_EXPOSURE_DISTRICT = "rashExposureDistrict";
 	public static final String RASH_EXPOSURE_COMMUNITY = "rashExposureCommunity";
+	public static final String GESTATIONAL_AGE_AT_EXPOSURE = "gestationalAgeAtExposure";
+	public static final String EXPOSURE_LOCATION_DESCRIPTION = "exposureLocationDescription";
+	public static final String MOTHER_TRAVELED_DURING_PREGNANCY = "motherTraveledDuringPregnancy";
+	public static final String MOTHER_TRAVELED_DURING_PREGNANCY_DATE = "motherTraveledDuringPregnancyDate";
+	public static final String GESTATIONAL_AGE_AT_TRAVEL = "gestationalAgeAtTravel";
+	public static final String TRAVEL_LOCATION_DESCRIPTION = "travelLocationDescription";
 
 	private Integer childrenNumber;
 	private Integer ageAtBirth;
@@ -82,6 +90,8 @@ public class MaternalHistoryDto extends PseudonymizableDto {
 	private Integer rubellaMonth;
 	private YesNoUnknown congenitalRubella;
 	private Date congenitalRubellaDate;
+	private YesNoUnknown motherRubellaLabConfirmed;
+	private Date motherRubellaLabConfirmedDate;
 	private YesNoUnknown rashExposure;
 	private Date rashExposureDate;
 	private Integer rashExposureMonth;
@@ -89,6 +99,16 @@ public class MaternalHistoryDto extends PseudonymizableDto {
 	private DistrictReferenceDto rashExposureDistrict;
 	@SensitiveData
 	private CommunityReferenceDto rashExposureCommunity;
+	private Integer gestationalAgeAtExposure;
+	@SensitiveData
+	@Size(max = FieldConstraints.CHARACTER_LIMIT_DEFAULT, message = Validations.textTooLong)
+	private String exposureLocationDescription;
+	private YesNoUnknown motherTraveledDuringPregnancy;
+	private Date motherTraveledDuringPregnancyDate;
+	private Integer gestationalAgeAtTravel;
+	@SensitiveData
+	@Size(max = FieldConstraints.CHARACTER_LIMIT_DEFAULT, message = Validations.textTooLong)
+	private String travelLocationDescription;
 
 	public static MaternalHistoryDto build() {
 
@@ -297,6 +317,22 @@ public class MaternalHistoryDto extends PseudonymizableDto {
 		this.congenitalRubellaDate = congenitalRubellaDate;
 	}
 
+	public YesNoUnknown getMotherRubellaLabConfirmed() {
+		return motherRubellaLabConfirmed;
+	}
+
+	public void setMotherRubellaLabConfirmed(YesNoUnknown motherRubellaLabConfirmed) {
+		this.motherRubellaLabConfirmed = motherRubellaLabConfirmed;
+	}
+
+	public Date getMotherRubellaLabConfirmedDate() {
+		return motherRubellaLabConfirmedDate;
+	}
+
+	public void setMotherRubellaLabConfirmedDate(Date motherRubellaLabConfirmedDate) {
+		this.motherRubellaLabConfirmedDate = motherRubellaLabConfirmedDate;
+	}
+
 	public YesNoUnknown getRashExposure() {
 		return rashExposure;
 	}
@@ -343,5 +379,53 @@ public class MaternalHistoryDto extends PseudonymizableDto {
 
 	public void setRashExposureCommunity(CommunityReferenceDto rashExposureCommunity) {
 		this.rashExposureCommunity = rashExposureCommunity;
+	}
+
+	public Integer getGestationalAgeAtExposure() {
+		return gestationalAgeAtExposure;
+	}
+
+	public void setGestationalAgeAtExposure(Integer gestationalAgeAtExposure) {
+		this.gestationalAgeAtExposure = gestationalAgeAtExposure;
+	}
+
+	public String getExposureLocationDescription() {
+		return exposureLocationDescription;
+	}
+
+	public void setExposureLocationDescription(String exposureLocationDescription) {
+		this.exposureLocationDescription = exposureLocationDescription;
+	}
+
+	public YesNoUnknown getMotherTraveledDuringPregnancy() {
+		return motherTraveledDuringPregnancy;
+	}
+
+	public void setMotherTraveledDuringPregnancy(YesNoUnknown motherTraveledDuringPregnancy) {
+		this.motherTraveledDuringPregnancy = motherTraveledDuringPregnancy;
+	}
+
+	public Date getMotherTraveledDuringPregnancyDate() {
+		return motherTraveledDuringPregnancyDate;
+	}
+
+	public void setMotherTraveledDuringPregnancyDate(Date motherTraveledDuringPregnancyDate) {
+		this.motherTraveledDuringPregnancyDate = motherTraveledDuringPregnancyDate;
+	}
+
+	public Integer getGestationalAgeAtTravel() {
+		return gestationalAgeAtTravel;
+	}
+
+	public void setGestationalAgeAtTravel(Integer gestationalAgeAtTravel) {
+		this.gestationalAgeAtTravel = gestationalAgeAtTravel;
+	}
+
+	public String getTravelLocationDescription() {
+		return travelLocationDescription;
+	}
+
+	public void setTravelLocationDescription(String travelLocationDescription) {
+		this.travelLocationDescription = travelLocationDescription;
 	}
 }
