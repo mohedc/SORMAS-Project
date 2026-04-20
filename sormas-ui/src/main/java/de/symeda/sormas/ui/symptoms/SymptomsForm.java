@@ -163,16 +163,16 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 					);
 
 	public static final String NNT_LAYOUT = loc(SIGNS_AND_SYMPTOMS_HEADING_LOC) +
-			fluidRowLocs(6, ONSET_DATE) +
 			fluidRowLocs(6, BABY_NORMAL_AT_BIRTH) +
 			fluidRowLocs(6, STOPPED_SUCKING_AFTER_TWO_DAYS) +
-			fluidRowLocs(6, BACKACHE) +
-			fluidRowLocs(6, NORMAL_CRY_AND_SUCK) +
-			fluidRowLocs(6, STIFFNESS) +
+			fluidRowLocs(6, BACKACHE, 6, BACKACHE_ONSET_DATE) +
+			fluidRowLocs(6, NORMAL_CRY_AND_SUCK, 6, NORMAL_CRY_AND_SUCK_ONSET_DATE) +
+			fluidRowLocs(6, STIFFNESS, 6, STIFFNESS_ONSET_DATE) +
 			fluidRowLocs(OTHER_COMPLICATIONS, OTHER_COMPLICATIONS_TEXT) +
 			locsCss(VSPACE_3) +
-			fluidRowLocs(6, SPASMS_CONVULSION) +
-			fluidRowLocs(BABY_DIED, AGE_AT_DEATH_DAYS, AGE_AT_ONSET_DAYS) +
+			fluidRowLocs(6, SPASMS_CONVULSION, 6, SPASMS_CONVULSION_ONSET_DATE) +
+			fluidRowLocs(6, BABY_DIED) +
+			fluidRowLocs(AGE_AT_DEATH_DAYS, AGE_AT_ONSET_DAYS) +
 			fluidRowLocs(6, OUTCOME) +
 			fluidRowLocs(SYMPTOMS_COMMENTS);
 
@@ -182,18 +182,22 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 							fluidColumn(8, 0, loc(SYMPTOMS_HINT_LOC))) +
 					fluidRow(fluidColumn(8,4, locCss(CssStyles.ALIGN_RIGHT,BUTTONS_LOC)))+
 			fluidRowLocs(SKIN_RASH, LESIONS_ONSET_DATE) +
-			fluidRowLocs(FEVER, COUGH) +
-			fluidRowLocs(RUNNY_NOSE, CONJUNCTIVITIS) +
+			fluidRowLocs(6, FEVER, 6, FEVER_ONSET_DATE) +
+			fluidRowLocs(6, COUGH, 6, COUGH_ONSET_DATE) +
+			fluidRowLocs(6, RUNNY_NOSE, 6, RUNNY_NOSE_ONSET_DATE) +
+			fluidRowLocs(6, CONJUNCTIVITIS, 6, CONJUNCTIVITIS_ONSET_DATE) +
 			locsCss(VSPACE_3) +
-			fluidRowLocsCss(VSPACE_3, ONSET_SYMPTOM, ONSET_DATE) +
 			fluidRowLocs(3, OUTCOME, 9, "");
 			
 
-	public static final String AFP_LAYOUT = fluidRowLocs(FEVER_ONSET_PARALYSIS, PROGRESSIVE_PARALYSIS) +
-			fluidRowLocs(PROGRESSIVE_FLACID_ACUTE, ASSYMETRIC, DATE_ONSET_PARALYSIS) +
-			fluidRowLocs(6,SITE_OF_PARALYSIS) +
-			fluidRowLocs(PARALYSED_LIMB_SENSITIVE_TO_PAIN, INJECTION_SITE_BEFORE_ONSET_PARALYSIS) +
-			fluidRowLocs(INJECTION_SITE) +
+	public static final String AFP_LAYOUT = fluidRowLocs(6, FEVER_ONSET_PARALYSIS, 6, FEVER_ONSET_PARALYSIS_ONSET_DATE) +
+			fluidRowLocs(6, PROGRESSIVE_PARALYSIS, 6, PROGRESSIVE_PARALYSIS_ONSET_DATE) +
+			fluidRowLocs(6, PROGRESSIVE_FLACID_ACUTE, 6, PROGRESSIVE_FLACCID_ACUTE_ONSET_DATE) +
+			fluidRowLocs(6, ASSYMETRIC, 6, ASSYMETRIC_ONSET_DATE) +
+			fluidRowLocs(6, SITE_OF_PARALYSIS, 6, SITE_OF_PARALYSIS_ONSET_DATE) +
+			fluidRowLocs(6, PARALYSED_LIMB_SENSITIVE_TO_PAIN, 6, PARALYSED_LIMB_SENSITIVE_TO_PAIN_ONSET_DATE) +
+			fluidRowLocs(6, INJECTION_SITE_BEFORE_ONSET_PARALYSIS, 6, INJECTION_SITE_BEFORE_ONSET_PARALYSIS_ONSET_DATE) +
+			fluidRowLocs(6, INJECTION_SITE, 6, INJECTION_SITE_ONSET_DATE) +
 			fluidRowLocs(PROVISONAL_DIAGNOSIS)+
 			fluidRowLocs(6, TRUEAFP);
 
@@ -204,13 +208,15 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 							//XXX #1620 fluidColumnLoc?
 							fluidColumn(8, 0, loc(SYMPTOMS_HINT_LOC))) +
 					fluidRow(fluidColumn(8,4, locCss(CssStyles.ALIGN_RIGHT,BUTTONS_LOC)))+
-					fluidRowLocs(ARTHRALGIA, MYALGIA) +
-					fluidRowLocs(JAUNDICE) +
-					fluidRowLocs(FEVER, HEMORRHAGIC_SYNDROME) +
-					fluidRowLocs(OTHER_NON_HEMORRHAGIC_SYMPTOMS, OTHER_NON_HEMORRHAGIC_SYMPTOMS_TEXT) +
+					fluidRowLocs(6, ARTHRALGIA, 6, ARTHRALGIA_ONSET_DATE) +
+					fluidRowLocs(6, MYALGIA, 6, MYALGIA_ONSET_DATE) +
+					fluidRowLocs(6, JAUNDICE, 6, JAUNDICE_ONSET_DATE) +
+					fluidRowLocs(6, FEVER, 6, FEVER_ONSET_DATE) +
+					fluidRowLocs(6, HEMORRHAGIC_SYNDROME, 6, HEMORRHAGIC_SYNDROME_ONSET_DATE) +
+					fluidRowLocs(OTHER_NON_HEMORRHAGIC_SYMPTOMS, OTHER_NON_HEMORRHAGIC_SYMPTOMS_ONSET_DATE) +
+					fluidRowLocs(OTHER_NON_HEMORRHAGIC_SYMPTOMS_TEXT) +
 					fluidRowLocs(OTHER_COMPLICATIONS, OTHER_COMPLICATIONS_TEXT) +
 					locsCss(VSPACE_3) +
-					fluidRowLocsCss(VSPACE_3, ONSET_SYMPTOM, ONSET_DATE) +
 					fluidRowLocs(3, OUTCOME);
 
 	public static final String RUBELLA_LAYOUT = loc(CLINICAL_MEASUREMENTS_HEADING_LOC) +
@@ -221,25 +227,21 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 							fluidColumn(8, 0, loc(SYMPTOMS_HINT_LOC))) +
 					fluidRow(fluidColumn(8,4, locCss(CssStyles.ALIGN_RIGHT,BUTTONS_LOC)))+
 					loc(GROUP_A_HEADING_LOC) +
-					fluidRow(
-							fluidColumn(6, 0,
-									locsCss(VSPACE_3,
-											CONGENITAL_HEART_DISEASE, CONGENITAL_HEART_DISEASE_TYPE, CONGENITAL_HEART_DISEASE_DETAILS,
-											CATARACTS, CONGENITAL_GLAUCOMA)),
-							fluidColumn(6, 0,
-									locsCss(VSPACE_3,
-											PIGMENTARY_RETINOPATHY, HEARINGLOSS))
-					) +
+					fluidRowLocs(6, CONGENITAL_HEART_DISEASE, 6, CONGENITAL_HEART_DISEASE_ONSET_DATE) +
+					fluidRowLocs(CONGENITAL_HEART_DISEASE_TYPE, CONGENITAL_HEART_DISEASE_DETAILS) +
+					fluidRowLocs(6, CATARACTS, 6, CATARACTS_ONSET_DATE) +
+					fluidRowLocs(6, CONGENITAL_GLAUCOMA, 6, CONGENITAL_GLAUCOMA_ONSET_DATE) +
+					fluidRowLocs(6, PIGMENTARY_RETINOPATHY, 6, PIGMENTARY_RETINOPATHY_ONSET_DATE) +
+					fluidRowLocs(6, HEARINGLOSS, 6, HEARINGLOSS_ONSET_DATE) +
 					loc(GROUP_B_HEADING_LOC) +
-					fluidRow(
-							fluidColumn(6, 0,
-									locsCss(VSPACE_3,
-											PURPURIC_RASH, MICROCEPHALY, MENINGOENCEPHALITIS, JAUNDICE)),
-							fluidColumn(6, 0,
-									locsCss(VSPACE_3,
-											SPLENOMEGALY, DEVELOPMENTAL_DELAY, RADIOLUCENT_BONE_DISEASE,
-											OTHER_COMPLICATIONS, OTHER_COMPLICATIONS_TEXT))
-					) +
+					fluidRowLocs(6, PURPURIC_RASH, 6, PURPURIC_RASH_ONSET_DATE) +
+					fluidRowLocs(6, MICROCEPHALY, 6, MICROCEPHALY_ONSET_DATE) +
+					fluidRowLocs(6, MENINGOENCEPHALITIS, 6, MENINGOENCEPHALITIS_ONSET_DATE) +
+					fluidRowLocs(6, JAUNDICE, 6, JAUNDICE_ONSET_DATE) +
+					fluidRowLocs(6, SPLENOMEGALY, 6, SPLENOMEGALY_ONSET_DATE) +
+					fluidRowLocs(6, DEVELOPMENTAL_DELAY, 6, DEVELOPMENTAL_DELAY_ONSET_DATE) +
+					fluidRowLocs(6, RADIOLUCENT_BONE_DISEASE, 6, RADIOLUCENT_BONE_DISEASE_ONSET_DATE) +
+					fluidRowLocs(OTHER_COMPLICATIONS, OTHER_COMPLICATIONS_TEXT) +
 					loc(CLINICIAN_INFO_HEADING_LOC) +
 					fluidRowLocs(CLINICIAN_NAME, CLINICIAN_ADDRESS, CLINICIAN_PHONE) +
 					fluidRowLocs(3, OUTCOME) +
@@ -252,12 +254,14 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 							//XXX #1620 fluidColumnLoc?
 							fluidColumn(8, 0, loc(SYMPTOMS_HINT_LOC))) +
 					fluidRow(fluidColumn(8,4, locCss(CssStyles.ALIGN_RIGHT,BUTTONS_LOC)))+
-					fluidRowLocs(FEVER, VOMITING) +
-					fluidRowLocs(ALTERED_CONSCIOUSNESS, SEIZURES) +
-					fluidRowLocs(RAPID_BREATHING, "") +
-					fluidRowLocs(OTHER_NON_HEMORRHAGIC_SYMPTOMS, OTHER_NON_HEMORRHAGIC_SYMPTOMS_TEXT) +
+					fluidRowLocs(6, FEVER, 6, FEVER_ONSET_DATE) +
+					fluidRowLocs(6, VOMITING, 6, VOMITING_ONSET_DATE) +
+					fluidRowLocs(6, ALTERED_CONSCIOUSNESS, 6, ALTERED_CONSCIOUSNESS_ONSET_DATE) +
+					fluidRowLocs(6, SEIZURES, 6, SEIZURES_ONSET_DATE) +
+					fluidRowLocs(6, RAPID_BREATHING, 6, RAPID_BREATHING_ONSET_DATE) +
+					fluidRowLocs(OTHER_NON_HEMORRHAGIC_SYMPTOMS, OTHER_NON_HEMORRHAGIC_SYMPTOMS_ONSET_DATE) +
+					fluidRowLocs(OTHER_NON_HEMORRHAGIC_SYMPTOMS_TEXT) +
 					locsCss(VSPACE_3, SYMPTOMS_COMMENTS) +
-					fluidRowLocsCss(VSPACE_3, ONSET_SYMPTOM, ONSET_DATE) +
 					fluidRowLocs(3, OUTCOME);
 
 	public static final String IDSR_LAYOUT =
@@ -376,6 +380,15 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 
 		DateField onsetDateField = addField(ONSET_DATE, DateField.class);
 		ComboBox onsetSymptom = addField(ONSET_SYMPTOM, ComboBox.class);
+		if (disease == Disease.MEASLES
+			|| disease == Disease.YELLOW_FEVER
+			|| disease == Disease.CONGENITAL_RUBELLA
+			|| disease == Disease.CSM
+			|| disease == Disease.NEONATAL_TETANUS
+			|| disease == Disease.AFP) {
+			onsetSymptom.setVisible(false);
+			onsetDateField.setVisible(false);
+		}
 		if (symptomsContext == SymptomsContext.CASE) {
 			// If the symptom onset date is after the hospital admission date, show a warning but don't prevent the user from saving
 			onsetDateField.addValueChangeListener(event -> {
@@ -617,6 +630,45 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 		FieldHelper.setVisibleWhen(getFieldGroup(), Arrays.asList(AGE_AT_DEATH_DAYS, AGE_AT_ONSET_DAYS), BABY_DIED, Arrays.asList(SymptomState.YES), true);
 
 		addField(LESIONS_ONSET_DATE, DateField.class);
+		for (String onsetDatePropertyId : Arrays.asList(
+			BACKACHE_ONSET_DATE,
+			NORMAL_CRY_AND_SUCK_ONSET_DATE,
+			STIFFNESS_ONSET_DATE,
+			SPASMS_CONVULSION_ONSET_DATE,
+			FEVER_ONSET_DATE,
+			COUGH_ONSET_DATE,
+			RUNNY_NOSE_ONSET_DATE,
+			CONJUNCTIVITIS_ONSET_DATE,
+			FEVER_ONSET_PARALYSIS_ONSET_DATE,
+			PROGRESSIVE_PARALYSIS_ONSET_DATE,
+			PROGRESSIVE_FLACCID_ACUTE_ONSET_DATE,
+			ASSYMETRIC_ONSET_DATE,
+			SITE_OF_PARALYSIS_ONSET_DATE,
+			PARALYSED_LIMB_SENSITIVE_TO_PAIN_ONSET_DATE,
+			INJECTION_SITE_BEFORE_ONSET_PARALYSIS_ONSET_DATE,
+			INJECTION_SITE_ONSET_DATE,
+			ARTHRALGIA_ONSET_DATE,
+			MYALGIA_ONSET_DATE,
+			JAUNDICE_ONSET_DATE,
+			HEMORRHAGIC_SYNDROME_ONSET_DATE,
+			OTHER_NON_HEMORRHAGIC_SYMPTOMS_ONSET_DATE,
+			VOMITING_ONSET_DATE,
+			ALTERED_CONSCIOUSNESS_ONSET_DATE,
+			SEIZURES_ONSET_DATE,
+			RAPID_BREATHING_ONSET_DATE,
+			CONGENITAL_HEART_DISEASE_ONSET_DATE,
+			CATARACTS_ONSET_DATE,
+			CONGENITAL_GLAUCOMA_ONSET_DATE,
+			PIGMENTARY_RETINOPATHY_ONSET_DATE,
+			HEARINGLOSS_ONSET_DATE,
+			PURPURIC_RASH_ONSET_DATE,
+			MICROCEPHALY_ONSET_DATE,
+			MENINGOENCEPHALITIS_ONSET_DATE,
+			SPLENOMEGALY_ONSET_DATE,
+			DEVELOPMENTAL_DELAY_ONSET_DATE,
+			RADIOLUCENT_BONE_DISEASE_ONSET_DATE)) {
+			addField(onsetDatePropertyId, DateField.class);
+		}
 
 		// complications
 		String[] complicationsFieldIds = {
@@ -943,12 +995,11 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 
 		FieldHelper.setVisibleWhen(getFieldGroup(), lesionsLocationFieldIds, LESIONS, Arrays.asList(SymptomState.YES), true);
 
-		// For measles, LESIONS_ONSET_DATE should depend on maculopapular rash (SKIN_RASH) instead of LESIONS
-		// For yellow fever and congenital rubella, LESIONS_ONSET_DATE depends on GENERALIZED_RASH
+		// For measles, LESIONS_ONSET_DATE depends on maculopapular rash (SKIN_RASH). Yellow fever / rubella layouts use per-symptom dates instead.
 		if (disease == Disease.MEASLES) {
 			FieldHelper.setVisibleWhen(getFieldGroup(), LESIONS_ONSET_DATE, SKIN_RASH, Arrays.asList(SymptomState.YES), true);
 		} else if (disease == Disease.YELLOW_FEVER || disease == Disease.CONGENITAL_RUBELLA) {
-			FieldHelper.setVisibleWhen(getFieldGroup(), LESIONS_ONSET_DATE, GENERALIZED_RASH, Arrays.asList(SymptomState.YES), true);
+			getFieldGroup().getField(LESIONS_ONSET_DATE).setVisible(false);
 		} else {
 			FieldHelper.setVisibleWhen(getFieldGroup(), LESIONS_ONSET_DATE, LESIONS, Arrays.asList(SymptomState.YES), true);
 		}
@@ -995,7 +1046,10 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 			}
 		}
 
-		FieldHelper.addSoftRequiredStyle(getField(LESIONS_ONSET_DATE));
+		configurePerSymptomOnsetDateBindings();
+		if (disease != Disease.YELLOW_FEVER && disease != Disease.CONGENITAL_RUBELLA) {
+			FieldHelper.addSoftRequiredStyle(getField(LESIONS_ONSET_DATE));
+		}
 
 		boolean isInfant = person != null
 			&& person.getApproximateAge() != null
@@ -1079,7 +1133,9 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 		FieldHelper
 			.setRequiredWhen(getFieldGroup(), getFieldGroup().getField(LESIONS), monkeypoxImageFieldIds, Arrays.asList(SymptomState.YES), disease);
 
-		addListenerForOnsetFields(onsetSymptom, onsetDateField);
+		if (onsetSymptom.isVisible() && onsetDateField.isVisible()) {
+			addListenerForOnsetFields(onsetSymptom, onsetDateField);
+		}
 
 		Button clearAllButton = ButtonHelper.createButton(Captions.actionClearAll, event -> {
 			for (Object symptomId : unconditionalSymptomFieldIds) {
@@ -1278,18 +1334,20 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 			Arrays.asList(TEMPERATURE, TEMPERATURE_SOURCE),
 			Arrays.asList(VisitStatus.COOPERATIVE),
 			disease);
-		addSoftRequiredStyleWhenSymptomaticAndCooperative(
-			getFieldGroup(),
-			ONSET_DATE,
-			unconditionalSymptomFieldIds,
-			Arrays.asList(SymptomState.YES),
-			visitStatus);
-		addSoftRequiredStyleWhenSymptomaticAndCooperative(
-			getFieldGroup(),
-			ONSET_SYMPTOM,
-			unconditionalSymptomFieldIds,
-			Arrays.asList(SymptomState.YES),
-			visitStatus);
+		if (usesGlobalOnsetSymptomAndDate()) {
+			addSoftRequiredStyleWhenSymptomaticAndCooperative(
+				getFieldGroup(),
+				ONSET_DATE,
+				unconditionalSymptomFieldIds,
+				Arrays.asList(SymptomState.YES),
+				visitStatus);
+			addSoftRequiredStyleWhenSymptomaticAndCooperative(
+				getFieldGroup(),
+				ONSET_SYMPTOM,
+				unconditionalSymptomFieldIds,
+				Arrays.asList(SymptomState.YES),
+				visitStatus);
+		}
 	}
 
 	@Override
@@ -1304,24 +1362,35 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 		if (disease == Disease.NEONATAL_TETANUS) {
 			return;
 		}
-		addSoftRequiredStyleWhenSymptomaticAndCooperative(
-			getFieldGroup(),
-			ONSET_DATE,
-			unconditionalSymptomFieldIds,
-			Arrays.asList(SymptomState.YES),
-			null);
-		addSoftRequiredStyleWhenSymptomaticAndCooperative(
-			getFieldGroup(),
-			ONSET_SYMPTOM,
-			unconditionalSymptomFieldIds,
-			Arrays.asList(SymptomState.YES),
-			null);
+		if (usesGlobalOnsetSymptomAndDate()) {
+			addSoftRequiredStyleWhenSymptomaticAndCooperative(
+				getFieldGroup(),
+				ONSET_DATE,
+				unconditionalSymptomFieldIds,
+				Arrays.asList(SymptomState.YES),
+				null);
+			addSoftRequiredStyleWhenSymptomaticAndCooperative(
+				getFieldGroup(),
+				ONSET_SYMPTOM,
+				unconditionalSymptomFieldIds,
+				Arrays.asList(SymptomState.YES),
+				null);
+		}
 		addSoftRequiredStyleWhenSymptomaticAndCooperative(
 			getFieldGroup(),
 			PATIENT_ILL_LOCATION,
 			unconditionalSymptomFieldIds,
 			Arrays.asList(SymptomState.YES),
 			null);
+	}
+
+	private boolean usesGlobalOnsetSymptomAndDate() {
+		return disease != Disease.MEASLES
+			&& disease != Disease.YELLOW_FEVER
+			&& disease != Disease.CONGENITAL_RUBELLA
+			&& disease != Disease.CSM
+			&& disease != Disease.NEONATAL_TETANUS
+			&& disease != Disease.AFP;
 	}
 
 	/**
@@ -1423,6 +1492,112 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 
 	public boolean isAnySymptomVisible(FieldGroup fieldGroup, List<String> sourcePropertyIds, List<Object> sourceValues) {
 		return true;
+	}
+
+	private void bindSymptomStateOnsetDate(String symptomId, String onsetDateId) {
+		FieldHelper.setVisibleWhen(getFieldGroup(), onsetDateId, symptomId, Arrays.asList(SymptomState.YES), true);
+		FieldHelper.addSoftRequiredStyle(getFieldGroup().getField(onsetDateId));
+	}
+
+	private void bindYesNoUnknownOnsetDate(String symptomId, String onsetDateId) {
+		FieldHelper.setVisibleWhen(getFieldGroup(), onsetDateId, symptomId, Arrays.asList(YesNoUnknown.YES), true);
+		FieldHelper.addSoftRequiredStyle(getFieldGroup().getField(onsetDateId));
+	}
+
+	private void bindYesNoOnsetDate(String symptomId, String onsetDateId) {
+		FieldHelper.setVisibleWhen(getFieldGroup(), onsetDateId, symptomId, Arrays.asList(YesNo.YES), true);
+		FieldHelper.addSoftRequiredStyle(getFieldGroup().getField(onsetDateId));
+	}
+
+	private void configureAfpMultiSelectOnsetDates() {
+		@SuppressWarnings("rawtypes")
+		Field siteField = getFieldGroup().getField(SITE_OF_PARALYSIS);
+		DateField siteOnset = (DateField) getFieldGroup().getField(SITE_OF_PARALYSIS_ONSET_DATE);
+		@SuppressWarnings("rawtypes")
+		Field injField = getFieldGroup().getField(INJECTION_SITE);
+		DateField injOnset = (DateField) getFieldGroup().getField(INJECTION_SITE_ONSET_DATE);
+		FieldHelper.addSoftRequiredStyle(siteOnset);
+		FieldHelper.addSoftRequiredStyle(injOnset);
+		Runnable updateSiteOnset = () -> {
+			Object v = siteField.getValue();
+			boolean vis = v instanceof Set && !((Set<?>) v).isEmpty();
+			siteOnset.setVisible(vis);
+			if (!vis) {
+				siteOnset.setValue(null);
+			}
+		};
+		Runnable updateInjOnset = () -> {
+			Object v = injField.getValue();
+			boolean vis = v instanceof Set && !((Set<?>) v).isEmpty();
+			injOnset.setVisible(vis);
+			if (!vis) {
+				injOnset.setValue(null);
+			}
+		};
+		siteField.addValueChangeListener(e -> updateSiteOnset.run());
+		injField.addValueChangeListener(e -> updateInjOnset.run());
+		updateSiteOnset.run();
+		updateInjOnset.run();
+	}
+
+	private void configurePerSymptomOnsetDateBindings() {
+
+		switch (disease) {
+		case NEONATAL_TETANUS:
+			bindSymptomStateOnsetDate(BACKACHE, BACKACHE_ONSET_DATE);
+			bindSymptomStateOnsetDate(NORMAL_CRY_AND_SUCK, NORMAL_CRY_AND_SUCK_ONSET_DATE);
+			bindSymptomStateOnsetDate(STIFFNESS, STIFFNESS_ONSET_DATE);
+			bindSymptomStateOnsetDate(SPASMS_CONVULSION, SPASMS_CONVULSION_ONSET_DATE);
+			break;
+		case MEASLES:
+			bindSymptomStateOnsetDate(FEVER, FEVER_ONSET_DATE);
+			bindSymptomStateOnsetDate(COUGH, COUGH_ONSET_DATE);
+			bindSymptomStateOnsetDate(RUNNY_NOSE, RUNNY_NOSE_ONSET_DATE);
+			bindSymptomStateOnsetDate(CONJUNCTIVITIS, CONJUNCTIVITIS_ONSET_DATE);
+			break;
+		case AFP:
+			getFieldGroup().getField(DATE_ONSET_PARALYSIS).setVisible(false);
+			bindYesNoUnknownOnsetDate(FEVER_ONSET_PARALYSIS, FEVER_ONSET_PARALYSIS_ONSET_DATE);
+			bindYesNoUnknownOnsetDate(PROGRESSIVE_PARALYSIS, PROGRESSIVE_PARALYSIS_ONSET_DATE);
+			bindYesNoUnknownOnsetDate(PROGRESSIVE_FLACID_ACUTE, PROGRESSIVE_FLACCID_ACUTE_ONSET_DATE);
+			bindYesNoUnknownOnsetDate(ASSYMETRIC, ASSYMETRIC_ONSET_DATE);
+			configureAfpMultiSelectOnsetDates();
+			bindYesNoOnsetDate(PARALYSED_LIMB_SENSITIVE_TO_PAIN, PARALYSED_LIMB_SENSITIVE_TO_PAIN_ONSET_DATE);
+			bindYesNoOnsetDate(INJECTION_SITE_BEFORE_ONSET_PARALYSIS, INJECTION_SITE_BEFORE_ONSET_PARALYSIS_ONSET_DATE);
+			break;
+		case YELLOW_FEVER:
+			bindSymptomStateOnsetDate(ARTHRALGIA, ARTHRALGIA_ONSET_DATE);
+			bindSymptomStateOnsetDate(MYALGIA, MYALGIA_ONSET_DATE);
+			bindSymptomStateOnsetDate(JAUNDICE, JAUNDICE_ONSET_DATE);
+			bindSymptomStateOnsetDate(FEVER, FEVER_ONSET_DATE);
+			bindSymptomStateOnsetDate(HEMORRHAGIC_SYNDROME, HEMORRHAGIC_SYNDROME_ONSET_DATE);
+			bindSymptomStateOnsetDate(OTHER_NON_HEMORRHAGIC_SYMPTOMS, OTHER_NON_HEMORRHAGIC_SYMPTOMS_ONSET_DATE);
+			break;
+		case CONGENITAL_RUBELLA:
+			bindSymptomStateOnsetDate(CONGENITAL_HEART_DISEASE, CONGENITAL_HEART_DISEASE_ONSET_DATE);
+			bindSymptomStateOnsetDate(CATARACTS, CATARACTS_ONSET_DATE);
+			bindSymptomStateOnsetDate(CONGENITAL_GLAUCOMA, CONGENITAL_GLAUCOMA_ONSET_DATE);
+			bindSymptomStateOnsetDate(PIGMENTARY_RETINOPATHY, PIGMENTARY_RETINOPATHY_ONSET_DATE);
+			bindSymptomStateOnsetDate(HEARINGLOSS, HEARINGLOSS_ONSET_DATE);
+			bindSymptomStateOnsetDate(PURPURIC_RASH, PURPURIC_RASH_ONSET_DATE);
+			bindSymptomStateOnsetDate(MICROCEPHALY, MICROCEPHALY_ONSET_DATE);
+			bindSymptomStateOnsetDate(MENINGOENCEPHALITIS, MENINGOENCEPHALITIS_ONSET_DATE);
+			bindSymptomStateOnsetDate(JAUNDICE, JAUNDICE_ONSET_DATE);
+			bindSymptomStateOnsetDate(SPLENOMEGALY, SPLENOMEGALY_ONSET_DATE);
+			bindSymptomStateOnsetDate(DEVELOPMENTAL_DELAY, DEVELOPMENTAL_DELAY_ONSET_DATE);
+			bindSymptomStateOnsetDate(RADIOLUCENT_BONE_DISEASE, RADIOLUCENT_BONE_DISEASE_ONSET_DATE);
+			break;
+		case CSM:
+			bindSymptomStateOnsetDate(FEVER, FEVER_ONSET_DATE);
+			bindSymptomStateOnsetDate(VOMITING, VOMITING_ONSET_DATE);
+			bindSymptomStateOnsetDate(ALTERED_CONSCIOUSNESS, ALTERED_CONSCIOUSNESS_ONSET_DATE);
+			bindSymptomStateOnsetDate(SEIZURES, SEIZURES_ONSET_DATE);
+			bindSymptomStateOnsetDate(RAPID_BREATHING, RAPID_BREATHING_ONSET_DATE);
+			bindSymptomStateOnsetDate(OTHER_NON_HEMORRHAGIC_SYMPTOMS, OTHER_NON_HEMORRHAGIC_SYMPTOMS_ONSET_DATE);
+			break;
+		default:
+			break;
+		}
 	}
 
 	@SuppressWarnings("rawtypes")

@@ -288,6 +288,78 @@ public class Symptoms extends AbstractDomainObject {
 	private YesNoUnknown progressiveFlaccidAcute;
 	private YesNoUnknown assymetric;
 	private Date dateOnsetParalysis;
+	@Column(name = "backacheonsetdate")
+	private Date backacheOnsetDate;
+	@Column(name = "normalcryandsuckonsetdate")
+	private Date normalCryAndSuckOnsetDate;
+	@Column(name = "stiffnessonsetdate")
+	private Date stiffnessOnsetDate;
+	@Column(name = "spasmsconvulsiononsetdate")
+	private Date spasmsConvulsionOnsetDate;
+	@Column(name = "feveronsetdate")
+	private Date feverOnsetDate;
+	@Column(name = "coughonsetdate")
+	private Date coughOnsetDate;
+	@Column(name = "runnynoseonsetdate")
+	private Date runnyNoseOnsetDate;
+	@Column(name = "conjunctivitisonsetdate")
+	private Date conjunctivitisOnsetDate;
+	@Column(name = "feveronsetparalysisonsetdate")
+	private Date feverOnsetParalysisOnsetDate;
+	@Column(name = "progressiveparalysisonsetdate")
+	private Date progressiveParalysisOnsetDate;
+	@Column(name = "progressiveflaccidacuteonsetdate")
+	private Date progressiveFlaccidAcuteOnsetDate;
+	@Column(name = "assymetriconsetdate")
+	private Date assymetricOnsetDate;
+	@Column(name = "siteofparalysisonsetdate")
+	private Date siteOfParalysisOnsetDate;
+	@Column(name = "paralysedlimbsensitivetopainonsetdate")
+	private Date paralysedLimbSensitiveToPainOnsetDate;
+	@Column(name = "injectionsitebeforeonsetparalysisonsetdate")
+	private Date injectionSiteBeforeOnsetParalysisOnsetDate;
+	@Column(name = "injectionsiteonsetdate")
+	private Date injectionSiteOnsetDate;
+	@Column(name = "arthralgiaonsetdate")
+	private Date arthralgiaOnsetDate;
+	@Column(name = "myalgiaonsetdate")
+	private Date myalgiaOnsetDate;
+	@Column(name = "jaundiceonsetdate")
+	private Date jaundiceOnsetDate;
+	@Column(name = "hemorrhagicsyndromeonsetdate")
+	private Date hemorrhagicSyndromeOnsetDate;
+	@Column(name = "othernonhemorrhagicsymptomsonsetdate")
+	private Date otherNonHemorrhagicSymptomsOnsetDate;
+	@Column(name = "vomitingonsetdate")
+	private Date vomitingOnsetDate;
+	@Column(name = "alteredconsciousnessonsetdate")
+	private Date alteredConsciousnessOnsetDate;
+	@Column(name = "seizuresonsetdate")
+	private Date seizuresOnsetDate;
+	@Column(name = "rapidbreathingonsetdate")
+	private Date rapidBreathingOnsetDate;
+	@Column(name = "congenitalheartdiseaseonsetdate")
+	private Date congenitalHeartDiseaseOnsetDate;
+	@Column(name = "cataractsonsetdate")
+	private Date cataractsOnsetDate;
+	@Column(name = "congenitalglaucomaonsetdate")
+	private Date congenitalGlaucomaOnsetDate;
+	@Column(name = "pigmentaryretinopathyonsetdate")
+	private Date pigmentaryRetinopathyOnsetDate;
+	@Column(name = "hearinglossonsetdate")
+	private Date hearinglossOnsetDate;
+	@Column(name = "purpuricrashonsetdate")
+	private Date purpuricRashOnsetDate;
+	@Column(name = "microcephalyonsetdate")
+	private Date microcephalyOnsetDate;
+	@Column(name = "meningoencephalitisonsetdate")
+	private Date meningoencephalitisOnsetDate;
+	@Column(name = "splenomegalyonsetdate")
+	private Date splenomegalyOnsetDate;
+	@Column(name = "developmentaldelayonsetdate")
+	private Date developmentalDelayOnsetDate;
+	@Column(name = "radiolucentbonediseaseonsetdate")
+	private Date radiolucentBoneDiseaseOnsetDate;
 	private Set<InjectionSite> siteOfParalysis;
 	private String requestedSiteOfParalysisString;
 	private YesNo paralysedLimbSensitiveToPain;
@@ -2271,6 +2343,330 @@ public class Symptoms extends AbstractDomainObject {
 
 	public void setDateOnsetParalysis(Date dateOnsetParalysis) {
 		this.dateOnsetParalysis = dateOnsetParalysis;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getBackacheOnsetDate() {
+		return backacheOnsetDate;
+	}
+
+	public void setBackacheOnsetDate(Date backacheOnsetDate) {
+		this.backacheOnsetDate = backacheOnsetDate;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getNormalCryAndSuckOnsetDate() {
+		return normalCryAndSuckOnsetDate;
+	}
+
+	public void setNormalCryAndSuckOnsetDate(Date normalCryAndSuckOnsetDate) {
+		this.normalCryAndSuckOnsetDate = normalCryAndSuckOnsetDate;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getStiffnessOnsetDate() {
+		return stiffnessOnsetDate;
+	}
+
+	public void setStiffnessOnsetDate(Date stiffnessOnsetDate) {
+		this.stiffnessOnsetDate = stiffnessOnsetDate;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getSpasmsConvulsionOnsetDate() {
+		return spasmsConvulsionOnsetDate;
+	}
+
+	public void setSpasmsConvulsionOnsetDate(Date spasmsConvulsionOnsetDate) {
+		this.spasmsConvulsionOnsetDate = spasmsConvulsionOnsetDate;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getFeverOnsetDate() {
+		return feverOnsetDate;
+	}
+
+	public void setFeverOnsetDate(Date feverOnsetDate) {
+		this.feverOnsetDate = feverOnsetDate;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getCoughOnsetDate() {
+		return coughOnsetDate;
+	}
+
+	public void setCoughOnsetDate(Date coughOnsetDate) {
+		this.coughOnsetDate = coughOnsetDate;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getRunnyNoseOnsetDate() {
+		return runnyNoseOnsetDate;
+	}
+
+	public void setRunnyNoseOnsetDate(Date runnyNoseOnsetDate) {
+		this.runnyNoseOnsetDate = runnyNoseOnsetDate;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getConjunctivitisOnsetDate() {
+		return conjunctivitisOnsetDate;
+	}
+
+	public void setConjunctivitisOnsetDate(Date conjunctivitisOnsetDate) {
+		this.conjunctivitisOnsetDate = conjunctivitisOnsetDate;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getFeverOnsetParalysisOnsetDate() {
+		return feverOnsetParalysisOnsetDate;
+	}
+
+	public void setFeverOnsetParalysisOnsetDate(Date feverOnsetParalysisOnsetDate) {
+		this.feverOnsetParalysisOnsetDate = feverOnsetParalysisOnsetDate;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getProgressiveParalysisOnsetDate() {
+		return progressiveParalysisOnsetDate;
+	}
+
+	public void setProgressiveParalysisOnsetDate(Date progressiveParalysisOnsetDate) {
+		this.progressiveParalysisOnsetDate = progressiveParalysisOnsetDate;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getProgressiveFlaccidAcuteOnsetDate() {
+		return progressiveFlaccidAcuteOnsetDate;
+	}
+
+	public void setProgressiveFlaccidAcuteOnsetDate(Date progressiveFlaccidAcuteOnsetDate) {
+		this.progressiveFlaccidAcuteOnsetDate = progressiveFlaccidAcuteOnsetDate;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getAssymetricOnsetDate() {
+		return assymetricOnsetDate;
+	}
+
+	public void setAssymetricOnsetDate(Date assymetricOnsetDate) {
+		this.assymetricOnsetDate = assymetricOnsetDate;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getSiteOfParalysisOnsetDate() {
+		return siteOfParalysisOnsetDate;
+	}
+
+	public void setSiteOfParalysisOnsetDate(Date siteOfParalysisOnsetDate) {
+		this.siteOfParalysisOnsetDate = siteOfParalysisOnsetDate;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getParalysedLimbSensitiveToPainOnsetDate() {
+		return paralysedLimbSensitiveToPainOnsetDate;
+	}
+
+	public void setParalysedLimbSensitiveToPainOnsetDate(Date paralysedLimbSensitiveToPainOnsetDate) {
+		this.paralysedLimbSensitiveToPainOnsetDate = paralysedLimbSensitiveToPainOnsetDate;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getInjectionSiteBeforeOnsetParalysisOnsetDate() {
+		return injectionSiteBeforeOnsetParalysisOnsetDate;
+	}
+
+	public void setInjectionSiteBeforeOnsetParalysisOnsetDate(Date injectionSiteBeforeOnsetParalysisOnsetDate) {
+		this.injectionSiteBeforeOnsetParalysisOnsetDate = injectionSiteBeforeOnsetParalysisOnsetDate;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getInjectionSiteOnsetDate() {
+		return injectionSiteOnsetDate;
+	}
+
+	public void setInjectionSiteOnsetDate(Date injectionSiteOnsetDate) {
+		this.injectionSiteOnsetDate = injectionSiteOnsetDate;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getArthralgiaOnsetDate() {
+		return arthralgiaOnsetDate;
+	}
+
+	public void setArthralgiaOnsetDate(Date arthralgiaOnsetDate) {
+		this.arthralgiaOnsetDate = arthralgiaOnsetDate;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getMyalgiaOnsetDate() {
+		return myalgiaOnsetDate;
+	}
+
+	public void setMyalgiaOnsetDate(Date myalgiaOnsetDate) {
+		this.myalgiaOnsetDate = myalgiaOnsetDate;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getJaundiceOnsetDate() {
+		return jaundiceOnsetDate;
+	}
+
+	public void setJaundiceOnsetDate(Date jaundiceOnsetDate) {
+		this.jaundiceOnsetDate = jaundiceOnsetDate;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getHemorrhagicSyndromeOnsetDate() {
+		return hemorrhagicSyndromeOnsetDate;
+	}
+
+	public void setHemorrhagicSyndromeOnsetDate(Date hemorrhagicSyndromeOnsetDate) {
+		this.hemorrhagicSyndromeOnsetDate = hemorrhagicSyndromeOnsetDate;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getOtherNonHemorrhagicSymptomsOnsetDate() {
+		return otherNonHemorrhagicSymptomsOnsetDate;
+	}
+
+	public void setOtherNonHemorrhagicSymptomsOnsetDate(Date otherNonHemorrhagicSymptomsOnsetDate) {
+		this.otherNonHemorrhagicSymptomsOnsetDate = otherNonHemorrhagicSymptomsOnsetDate;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getVomitingOnsetDate() {
+		return vomitingOnsetDate;
+	}
+
+	public void setVomitingOnsetDate(Date vomitingOnsetDate) {
+		this.vomitingOnsetDate = vomitingOnsetDate;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getAlteredConsciousnessOnsetDate() {
+		return alteredConsciousnessOnsetDate;
+	}
+
+	public void setAlteredConsciousnessOnsetDate(Date alteredConsciousnessOnsetDate) {
+		this.alteredConsciousnessOnsetDate = alteredConsciousnessOnsetDate;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getSeizuresOnsetDate() {
+		return seizuresOnsetDate;
+	}
+
+	public void setSeizuresOnsetDate(Date seizuresOnsetDate) {
+		this.seizuresOnsetDate = seizuresOnsetDate;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getRapidBreathingOnsetDate() {
+		return rapidBreathingOnsetDate;
+	}
+
+	public void setRapidBreathingOnsetDate(Date rapidBreathingOnsetDate) {
+		this.rapidBreathingOnsetDate = rapidBreathingOnsetDate;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getCongenitalHeartDiseaseOnsetDate() {
+		return congenitalHeartDiseaseOnsetDate;
+	}
+
+	public void setCongenitalHeartDiseaseOnsetDate(Date congenitalHeartDiseaseOnsetDate) {
+		this.congenitalHeartDiseaseOnsetDate = congenitalHeartDiseaseOnsetDate;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getCataractsOnsetDate() {
+		return cataractsOnsetDate;
+	}
+
+	public void setCataractsOnsetDate(Date cataractsOnsetDate) {
+		this.cataractsOnsetDate = cataractsOnsetDate;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getCongenitalGlaucomaOnsetDate() {
+		return congenitalGlaucomaOnsetDate;
+	}
+
+	public void setCongenitalGlaucomaOnsetDate(Date congenitalGlaucomaOnsetDate) {
+		this.congenitalGlaucomaOnsetDate = congenitalGlaucomaOnsetDate;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getPigmentaryRetinopathyOnsetDate() {
+		return pigmentaryRetinopathyOnsetDate;
+	}
+
+	public void setPigmentaryRetinopathyOnsetDate(Date pigmentaryRetinopathyOnsetDate) {
+		this.pigmentaryRetinopathyOnsetDate = pigmentaryRetinopathyOnsetDate;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getHearinglossOnsetDate() {
+		return hearinglossOnsetDate;
+	}
+
+	public void setHearinglossOnsetDate(Date hearinglossOnsetDate) {
+		this.hearinglossOnsetDate = hearinglossOnsetDate;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getPurpuricRashOnsetDate() {
+		return purpuricRashOnsetDate;
+	}
+
+	public void setPurpuricRashOnsetDate(Date purpuricRashOnsetDate) {
+		this.purpuricRashOnsetDate = purpuricRashOnsetDate;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getMicrocephalyOnsetDate() {
+		return microcephalyOnsetDate;
+	}
+
+	public void setMicrocephalyOnsetDate(Date microcephalyOnsetDate) {
+		this.microcephalyOnsetDate = microcephalyOnsetDate;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getMeningoencephalitisOnsetDate() {
+		return meningoencephalitisOnsetDate;
+	}
+
+	public void setMeningoencephalitisOnsetDate(Date meningoencephalitisOnsetDate) {
+		this.meningoencephalitisOnsetDate = meningoencephalitisOnsetDate;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getSplenomegalyOnsetDate() {
+		return splenomegalyOnsetDate;
+	}
+
+	public void setSplenomegalyOnsetDate(Date splenomegalyOnsetDate) {
+		this.splenomegalyOnsetDate = splenomegalyOnsetDate;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getDevelopmentalDelayOnsetDate() {
+		return developmentalDelayOnsetDate;
+	}
+
+	public void setDevelopmentalDelayOnsetDate(Date developmentalDelayOnsetDate) {
+		this.developmentalDelayOnsetDate = developmentalDelayOnsetDate;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getRadiolucentBoneDiseaseOnsetDate() {
+		return radiolucentBoneDiseaseOnsetDate;
+	}
+
+	public void setRadiolucentBoneDiseaseOnsetDate(Date radiolucentBoneDiseaseOnsetDate) {
+		this.radiolucentBoneDiseaseOnsetDate = radiolucentBoneDiseaseOnsetDate;
 	}
 
 	@Transient

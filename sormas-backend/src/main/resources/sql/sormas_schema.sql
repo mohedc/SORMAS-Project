@@ -15210,6 +15210,95 @@ INSERT INTO schema_version (version_number, comment) VALUES (648, 'Add mother ru
 ALTER TABLE cases ADD COLUMN IF NOT EXISTS regionlabresultsreceived_id bigint;
 ALTER TABLE cases ADD CONSTRAINT fk_cases_regionlabresultsreceived_id FOREIGN KEY (regionlabresultsreceived_id) REFERENCES region(id) ON UPDATE NO ACTION ON DELETE NO ACTION;
 INSERT INTO schema_version (version_number, comment) VALUES (649, 'Add regionlabresultsreceived_id to cases');
+
+-- Migration 650: Per-symptom onset date fields on symptoms (disease-specific layouts; NNT omits history/outcome/complication onset columns)
+ALTER TABLE symptoms ADD COLUMN IF NOT EXISTS backacheonsetdate timestamp;
+ALTER TABLE symptoms ADD COLUMN IF NOT EXISTS normalcryandsuckonsetdate timestamp;
+ALTER TABLE symptoms ADD COLUMN IF NOT EXISTS stiffnessonsetdate timestamp;
+ALTER TABLE symptoms ADD COLUMN IF NOT EXISTS spasmsconvulsiononsetdate timestamp;
+ALTER TABLE symptoms ADD COLUMN IF NOT EXISTS feveronsetdate timestamp;
+ALTER TABLE symptoms ADD COLUMN IF NOT EXISTS coughonsetdate timestamp;
+ALTER TABLE symptoms ADD COLUMN IF NOT EXISTS runnynoseonsetdate timestamp;
+ALTER TABLE symptoms ADD COLUMN IF NOT EXISTS conjunctivitisonsetdate timestamp;
+ALTER TABLE symptoms ADD COLUMN IF NOT EXISTS feveronsetparalysisonsetdate timestamp;
+ALTER TABLE symptoms ADD COLUMN IF NOT EXISTS progressiveparalysisonsetdate timestamp;
+ALTER TABLE symptoms ADD COLUMN IF NOT EXISTS progressiveflaccidacuteonsetdate timestamp;
+ALTER TABLE symptoms ADD COLUMN IF NOT EXISTS assymetriconsetdate timestamp;
+ALTER TABLE symptoms ADD COLUMN IF NOT EXISTS siteofparalysisonsetdate timestamp;
+ALTER TABLE symptoms ADD COLUMN IF NOT EXISTS paralysedlimbsensitivetopainonsetdate timestamp;
+ALTER TABLE symptoms ADD COLUMN IF NOT EXISTS injectionsitebeforeonsetparalysisonsetdate timestamp;
+ALTER TABLE symptoms ADD COLUMN IF NOT EXISTS injectionsiteonsetdate timestamp;
+ALTER TABLE symptoms ADD COLUMN IF NOT EXISTS arthralgiaonsetdate timestamp;
+ALTER TABLE symptoms ADD COLUMN IF NOT EXISTS myalgiaonsetdate timestamp;
+ALTER TABLE symptoms ADD COLUMN IF NOT EXISTS jaundiceonsetdate timestamp;
+ALTER TABLE symptoms ADD COLUMN IF NOT EXISTS hemorrhagicsyndromeonsetdate timestamp;
+ALTER TABLE symptoms ADD COLUMN IF NOT EXISTS othernonhemorrhagicsymptomsonsetdate timestamp;
+ALTER TABLE symptoms ADD COLUMN IF NOT EXISTS vomitingonsetdate timestamp;
+ALTER TABLE symptoms ADD COLUMN IF NOT EXISTS alteredconsciousnessonsetdate timestamp;
+ALTER TABLE symptoms ADD COLUMN IF NOT EXISTS seizuresonsetdate timestamp;
+ALTER TABLE symptoms ADD COLUMN IF NOT EXISTS rapidbreathingonsetdate timestamp;
+ALTER TABLE symptoms ADD COLUMN IF NOT EXISTS congenitalheartdiseaseonsetdate timestamp;
+ALTER TABLE symptoms ADD COLUMN IF NOT EXISTS cataractsonsetdate timestamp;
+ALTER TABLE symptoms ADD COLUMN IF NOT EXISTS congenitalglaucomaonsetdate timestamp;
+ALTER TABLE symptoms ADD COLUMN IF NOT EXISTS pigmentaryretinopathyonsetdate timestamp;
+ALTER TABLE symptoms ADD COLUMN IF NOT EXISTS hearinglossonsetdate timestamp;
+ALTER TABLE symptoms ADD COLUMN IF NOT EXISTS purpuricrashonsetdate timestamp;
+ALTER TABLE symptoms ADD COLUMN IF NOT EXISTS microcephalyonsetdate timestamp;
+ALTER TABLE symptoms ADD COLUMN IF NOT EXISTS meningoencephalitisonsetdate timestamp;
+ALTER TABLE symptoms ADD COLUMN IF NOT EXISTS splenomegalyonsetdate timestamp;
+ALTER TABLE symptoms ADD COLUMN IF NOT EXISTS developmentaldelayonsetdate timestamp;
+ALTER TABLE symptoms ADD COLUMN IF NOT EXISTS radiolucentbonediseaseonsetdate timestamp;
+
+ALTER TABLE symptoms_history ADD COLUMN IF NOT EXISTS backacheonsetdate timestamp;
+ALTER TABLE symptoms_history ADD COLUMN IF NOT EXISTS normalcryandsuckonsetdate timestamp;
+ALTER TABLE symptoms_history ADD COLUMN IF NOT EXISTS stiffnessonsetdate timestamp;
+ALTER TABLE symptoms_history ADD COLUMN IF NOT EXISTS spasmsconvulsiononsetdate timestamp;
+ALTER TABLE symptoms_history ADD COLUMN IF NOT EXISTS feveronsetdate timestamp;
+ALTER TABLE symptoms_history ADD COLUMN IF NOT EXISTS coughonsetdate timestamp;
+ALTER TABLE symptoms_history ADD COLUMN IF NOT EXISTS runnynoseonsetdate timestamp;
+ALTER TABLE symptoms_history ADD COLUMN IF NOT EXISTS conjunctivitisonsetdate timestamp;
+ALTER TABLE symptoms_history ADD COLUMN IF NOT EXISTS feveronsetparalysisonsetdate timestamp;
+ALTER TABLE symptoms_history ADD COLUMN IF NOT EXISTS progressiveparalysisonsetdate timestamp;
+ALTER TABLE symptoms_history ADD COLUMN IF NOT EXISTS progressiveflaccidacuteonsetdate timestamp;
+ALTER TABLE symptoms_history ADD COLUMN IF NOT EXISTS assymetriconsetdate timestamp;
+ALTER TABLE symptoms_history ADD COLUMN IF NOT EXISTS siteofparalysisonsetdate timestamp;
+ALTER TABLE symptoms_history ADD COLUMN IF NOT EXISTS paralysedlimbsensitivetopainonsetdate timestamp;
+ALTER TABLE symptoms_history ADD COLUMN IF NOT EXISTS injectionsitebeforeonsetparalysisonsetdate timestamp;
+ALTER TABLE symptoms_history ADD COLUMN IF NOT EXISTS injectionsiteonsetdate timestamp;
+ALTER TABLE symptoms_history ADD COLUMN IF NOT EXISTS arthralgiaonsetdate timestamp;
+ALTER TABLE symptoms_history ADD COLUMN IF NOT EXISTS myalgiaonsetdate timestamp;
+ALTER TABLE symptoms_history ADD COLUMN IF NOT EXISTS jaundiceonsetdate timestamp;
+ALTER TABLE symptoms_history ADD COLUMN IF NOT EXISTS hemorrhagicsyndromeonsetdate timestamp;
+ALTER TABLE symptoms_history ADD COLUMN IF NOT EXISTS othernonhemorrhagicsymptomsonsetdate timestamp;
+ALTER TABLE symptoms_history ADD COLUMN IF NOT EXISTS vomitingonsetdate timestamp;
+ALTER TABLE symptoms_history ADD COLUMN IF NOT EXISTS alteredconsciousnessonsetdate timestamp;
+ALTER TABLE symptoms_history ADD COLUMN IF NOT EXISTS seizuresonsetdate timestamp;
+ALTER TABLE symptoms_history ADD COLUMN IF NOT EXISTS rapidbreathingonsetdate timestamp;
+ALTER TABLE symptoms_history ADD COLUMN IF NOT EXISTS congenitalheartdiseaseonsetdate timestamp;
+ALTER TABLE symptoms_history ADD COLUMN IF NOT EXISTS cataractsonsetdate timestamp;
+ALTER TABLE symptoms_history ADD COLUMN IF NOT EXISTS congenitalglaucomaonsetdate timestamp;
+ALTER TABLE symptoms_history ADD COLUMN IF NOT EXISTS pigmentaryretinopathyonsetdate timestamp;
+ALTER TABLE symptoms_history ADD COLUMN IF NOT EXISTS hearinglossonsetdate timestamp;
+ALTER TABLE symptoms_history ADD COLUMN IF NOT EXISTS purpuricrashonsetdate timestamp;
+ALTER TABLE symptoms_history ADD COLUMN IF NOT EXISTS microcephalyonsetdate timestamp;
+ALTER TABLE symptoms_history ADD COLUMN IF NOT EXISTS meningoencephalitisonsetdate timestamp;
+ALTER TABLE symptoms_history ADD COLUMN IF NOT EXISTS splenomegalyonsetdate timestamp;
+ALTER TABLE symptoms_history ADD COLUMN IF NOT EXISTS developmentaldelayonsetdate timestamp;
+ALTER TABLE symptoms_history ADD COLUMN IF NOT EXISTS radiolucentbonediseaseonsetdate timestamp;
+
+INSERT INTO schema_version (version_number, comment) VALUES (650, 'Per-symptom onset date fields on symptoms');
+
+-- Migration 651: Drop per-onset columns removed from UI (NNT history/outcome/complications); safe if columns never existed
+ALTER TABLE symptoms DROP COLUMN IF EXISTS babynormalatbirthonsetdate;
+ALTER TABLE symptoms DROP COLUMN IF EXISTS stoppedsuckingaftertwodaysonsetdate;
+ALTER TABLE symptoms DROP COLUMN IF EXISTS othercomplicationsonsetdate;
+ALTER TABLE symptoms DROP COLUMN IF EXISTS babydiedonsetdate;
+ALTER TABLE symptoms_history DROP COLUMN IF EXISTS babynormalatbirthonsetdate;
+ALTER TABLE symptoms_history DROP COLUMN IF EXISTS stoppedsuckingaftertwodaysonsetdate;
+ALTER TABLE symptoms_history DROP COLUMN IF EXISTS othercomplicationsonsetdate;
+ALTER TABLE symptoms_history DROP COLUMN IF EXISTS babydiedonsetdate;
+
+INSERT INTO schema_version (version_number, comment) VALUES (651, 'Drop unused per-onset columns removed from symptoms UI');
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***
 
 

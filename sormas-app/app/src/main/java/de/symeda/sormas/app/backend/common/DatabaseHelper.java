@@ -196,7 +196,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	public static final String DATABASE_NAME = "sormas.db";
 	// any time you make changes to your database objects, you may have to increase the database version
 
-	public static final int DATABASE_VERSION = 378;
+	public static final int DATABASE_VERSION = 379;
 
 	private static DatabaseHelper instance = null;
 
@@ -3333,6 +3333,44 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 			case 377:
 				currentVersion = 377;
 				getDao(Location.class).executeRaw("ALTER TABLE location ADD COLUMN village varchar(255);");
+			case 378:
+				currentVersion = 378;
+				getDao(Symptoms.class).executeRaw("ALTER TABLE symptoms ADD COLUMN backacheOnsetDate INTEGER;");
+				getDao(Symptoms.class).executeRaw("ALTER TABLE symptoms ADD COLUMN normalCryAndSuckOnsetDate INTEGER;");
+				getDao(Symptoms.class).executeRaw("ALTER TABLE symptoms ADD COLUMN stiffnessOnsetDate INTEGER;");
+				getDao(Symptoms.class).executeRaw("ALTER TABLE symptoms ADD COLUMN spasmsConvulsionOnsetDate INTEGER;");
+				getDao(Symptoms.class).executeRaw("ALTER TABLE symptoms ADD COLUMN feverOnsetDate INTEGER;");
+				getDao(Symptoms.class).executeRaw("ALTER TABLE symptoms ADD COLUMN coughOnsetDate INTEGER;");
+				getDao(Symptoms.class).executeRaw("ALTER TABLE symptoms ADD COLUMN runnyNoseOnsetDate INTEGER;");
+				getDao(Symptoms.class).executeRaw("ALTER TABLE symptoms ADD COLUMN conjunctivitisOnsetDate INTEGER;");
+				getDao(Symptoms.class).executeRaw("ALTER TABLE symptoms ADD COLUMN feverOnsetParalysisOnsetDate INTEGER;");
+				getDao(Symptoms.class).executeRaw("ALTER TABLE symptoms ADD COLUMN progressiveParalysisOnsetDate INTEGER;");
+				getDao(Symptoms.class).executeRaw("ALTER TABLE symptoms ADD COLUMN progressiveFlaccidAcuteOnsetDate INTEGER;");
+				getDao(Symptoms.class).executeRaw("ALTER TABLE symptoms ADD COLUMN assymetricOnsetDate INTEGER;");
+				getDao(Symptoms.class).executeRaw("ALTER TABLE symptoms ADD COLUMN siteOfParalysisOnsetDate INTEGER;");
+				getDao(Symptoms.class).executeRaw("ALTER TABLE symptoms ADD COLUMN paralysedLimbSensitiveToPainOnsetDate INTEGER;");
+				getDao(Symptoms.class).executeRaw("ALTER TABLE symptoms ADD COLUMN injectionSiteBeforeOnsetParalysisOnsetDate INTEGER;");
+				getDao(Symptoms.class).executeRaw("ALTER TABLE symptoms ADD COLUMN injectionSiteOnsetDate INTEGER;");
+				getDao(Symptoms.class).executeRaw("ALTER TABLE symptoms ADD COLUMN arthralgiaOnsetDate INTEGER;");
+				getDao(Symptoms.class).executeRaw("ALTER TABLE symptoms ADD COLUMN myalgiaOnsetDate INTEGER;");
+				getDao(Symptoms.class).executeRaw("ALTER TABLE symptoms ADD COLUMN jaundiceOnsetDate INTEGER;");
+				getDao(Symptoms.class).executeRaw("ALTER TABLE symptoms ADD COLUMN hemorrhagicSyndromeOnsetDate INTEGER;");
+				getDao(Symptoms.class).executeRaw("ALTER TABLE symptoms ADD COLUMN otherNonHemorrhagicSymptomsOnsetDate INTEGER;");
+				getDao(Symptoms.class).executeRaw("ALTER TABLE symptoms ADD COLUMN vomitingOnsetDate INTEGER;");
+				getDao(Symptoms.class).executeRaw("ALTER TABLE symptoms ADD COLUMN alteredConsciousnessOnsetDate INTEGER;");
+				getDao(Symptoms.class).executeRaw("ALTER TABLE symptoms ADD COLUMN seizuresOnsetDate INTEGER;");
+				getDao(Symptoms.class).executeRaw("ALTER TABLE symptoms ADD COLUMN rapidBreathingOnsetDate INTEGER;");
+				getDao(Symptoms.class).executeRaw("ALTER TABLE symptoms ADD COLUMN congenitalHeartDiseaseOnsetDate INTEGER;");
+				getDao(Symptoms.class).executeRaw("ALTER TABLE symptoms ADD COLUMN cataractsOnsetDate INTEGER;");
+				getDao(Symptoms.class).executeRaw("ALTER TABLE symptoms ADD COLUMN congenitalGlaucomaOnsetDate INTEGER;");
+				getDao(Symptoms.class).executeRaw("ALTER TABLE symptoms ADD COLUMN pigmentaryRetinopathyOnsetDate INTEGER;");
+				getDao(Symptoms.class).executeRaw("ALTER TABLE symptoms ADD COLUMN hearinglossOnsetDate INTEGER;");
+				getDao(Symptoms.class).executeRaw("ALTER TABLE symptoms ADD COLUMN purpuricRashOnsetDate INTEGER;");
+				getDao(Symptoms.class).executeRaw("ALTER TABLE symptoms ADD COLUMN microcephalyOnsetDate INTEGER;");
+				getDao(Symptoms.class).executeRaw("ALTER TABLE symptoms ADD COLUMN meningoencephalitisOnsetDate INTEGER;");
+				getDao(Symptoms.class).executeRaw("ALTER TABLE symptoms ADD COLUMN splenomegalyOnsetDate INTEGER;");
+				getDao(Symptoms.class).executeRaw("ALTER TABLE symptoms ADD COLUMN developmentalDelayOnsetDate INTEGER;");
+				getDao(Symptoms.class).executeRaw("ALTER TABLE symptoms ADD COLUMN radiolucentBoneDiseaseOnsetDate INTEGER;");
 				// ATTENTION: break should only be done after last version
 				break;
 

@@ -288,6 +288,44 @@ public class SymptomsDto extends PseudonymizableDto {
 	public static final String RED_EYE = "redEye";
 	public static final String SPASMS_CONVULSION = "spasmsConvulsion";
 
+	/** Per-symptom onset dates for disease-specific layouts (NNT, Measles, AFP, Yellow fever, Rubella, CSM) */
+	public static final String BACKACHE_ONSET_DATE = "backacheOnsetDate";
+	public static final String NORMAL_CRY_AND_SUCK_ONSET_DATE = "normalCryAndSuckOnsetDate";
+	public static final String STIFFNESS_ONSET_DATE = "stiffnessOnsetDate";
+	public static final String SPASMS_CONVULSION_ONSET_DATE = "spasmsConvulsionOnsetDate";
+	public static final String FEVER_ONSET_DATE = "feverOnsetDate";
+	public static final String COUGH_ONSET_DATE = "coughOnsetDate";
+	public static final String RUNNY_NOSE_ONSET_DATE = "runnyNoseOnsetDate";
+	public static final String CONJUNCTIVITIS_ONSET_DATE = "conjunctivitisOnsetDate";
+	public static final String FEVER_ONSET_PARALYSIS_ONSET_DATE = "feverOnsetParalysisOnsetDate";
+	public static final String PROGRESSIVE_PARALYSIS_ONSET_DATE = "progressiveParalysisOnsetDate";
+	public static final String PROGRESSIVE_FLACCID_ACUTE_ONSET_DATE = "progressiveFlaccidAcuteOnsetDate";
+	public static final String ASSYMETRIC_ONSET_DATE = "assymetricOnsetDate";
+	public static final String SITE_OF_PARALYSIS_ONSET_DATE = "siteOfParalysisOnsetDate";
+	public static final String PARALYSED_LIMB_SENSITIVE_TO_PAIN_ONSET_DATE = "paralysedLimbSensitiveToPainOnsetDate";
+	public static final String INJECTION_SITE_BEFORE_ONSET_PARALYSIS_ONSET_DATE = "injectionSiteBeforeOnsetParalysisOnsetDate";
+	public static final String INJECTION_SITE_ONSET_DATE = "injectionSiteOnsetDate";
+	public static final String ARTHRALGIA_ONSET_DATE = "arthralgiaOnsetDate";
+	public static final String MYALGIA_ONSET_DATE = "myalgiaOnsetDate";
+	public static final String JAUNDICE_ONSET_DATE = "jaundiceOnsetDate";
+	public static final String HEMORRHAGIC_SYNDROME_ONSET_DATE = "hemorrhagicSyndromeOnsetDate";
+	public static final String OTHER_NON_HEMORRHAGIC_SYMPTOMS_ONSET_DATE = "otherNonHemorrhagicSymptomsOnsetDate";
+	public static final String VOMITING_ONSET_DATE = "vomitingOnsetDate";
+	public static final String ALTERED_CONSCIOUSNESS_ONSET_DATE = "alteredConsciousnessOnsetDate";
+	public static final String SEIZURES_ONSET_DATE = "seizuresOnsetDate";
+	public static final String RAPID_BREATHING_ONSET_DATE = "rapidBreathingOnsetDate";
+	public static final String CONGENITAL_HEART_DISEASE_ONSET_DATE = "congenitalHeartDiseaseOnsetDate";
+	public static final String CATARACTS_ONSET_DATE = "cataractsOnsetDate";
+	public static final String CONGENITAL_GLAUCOMA_ONSET_DATE = "congenitalGlaucomaOnsetDate";
+	public static final String PIGMENTARY_RETINOPATHY_ONSET_DATE = "pigmentaryRetinopathyOnsetDate";
+	public static final String HEARINGLOSS_ONSET_DATE = "hearinglossOnsetDate";
+	public static final String PURPURIC_RASH_ONSET_DATE = "purpuricRashOnsetDate";
+	public static final String MICROCEPHALY_ONSET_DATE = "microcephalyOnsetDate";
+	public static final String MENINGOENCEPHALITIS_ONSET_DATE = "meningoencephalitisOnsetDate";
+	public static final String SPLENOMEGALY_ONSET_DATE = "splenomegalyOnsetDate";
+	public static final String DEVELOPMENTAL_DELAY_ONSET_DATE = "developmentalDelayOnsetDate";
+	public static final String RADIOLUCENT_BONE_DISEASE_ONSET_DATE = "radiolucentBoneDiseaseOnsetDate";
+
 	// Fields are declared in the order they should appear in the import template
 
 	public static SymptomsDto build() {
@@ -1402,6 +1440,43 @@ public class SymptomsDto extends PseudonymizableDto {
 	@HideForCountries
 	@Size(max = FieldConstraints.CHARACTER_LIMIT_DEFAULT, message = Validations.textTooLong)
 	private String onsetSymptom;
+
+	private Date backacheOnsetDate;
+	private Date normalCryAndSuckOnsetDate;
+	private Date stiffnessOnsetDate;
+	private Date spasmsConvulsionOnsetDate;
+	private Date feverOnsetDate;
+	private Date coughOnsetDate;
+	private Date runnyNoseOnsetDate;
+	private Date conjunctivitisOnsetDate;
+	private Date feverOnsetParalysisOnsetDate;
+	private Date progressiveParalysisOnsetDate;
+	private Date progressiveFlaccidAcuteOnsetDate;
+	private Date assymetricOnsetDate;
+	private Date siteOfParalysisOnsetDate;
+	private Date paralysedLimbSensitiveToPainOnsetDate;
+	private Date injectionSiteBeforeOnsetParalysisOnsetDate;
+	private Date injectionSiteOnsetDate;
+	private Date arthralgiaOnsetDate;
+	private Date myalgiaOnsetDate;
+	private Date jaundiceOnsetDate;
+	private Date hemorrhagicSyndromeOnsetDate;
+	private Date otherNonHemorrhagicSymptomsOnsetDate;
+	private Date vomitingOnsetDate;
+	private Date alteredConsciousnessOnsetDate;
+	private Date seizuresOnsetDate;
+	private Date rapidBreathingOnsetDate;
+	private Date congenitalHeartDiseaseOnsetDate;
+	private Date cataractsOnsetDate;
+	private Date congenitalGlaucomaOnsetDate;
+	private Date pigmentaryRetinopathyOnsetDate;
+	private Date hearinglossOnsetDate;
+	private Date purpuricRashOnsetDate;
+	private Date microcephalyOnsetDate;
+	private Date meningoencephalitisOnsetDate;
+	private Date splenomegalyOnsetDate;
+	private Date developmentalDelayOnsetDate;
+	private Date radiolucentBoneDiseaseOnsetDate;
 
 	@Diseases({
 		AFP,
@@ -2783,6 +2858,150 @@ public class SymptomsDto extends PseudonymizableDto {
 		return onsetSymptom;
 	}
 
+	public Date getBackacheOnsetDate() {
+		return backacheOnsetDate;
+	}
+
+	public Date getNormalCryAndSuckOnsetDate() {
+		return normalCryAndSuckOnsetDate;
+	}
+
+	public Date getStiffnessOnsetDate() {
+		return stiffnessOnsetDate;
+	}
+
+	public Date getSpasmsConvulsionOnsetDate() {
+		return spasmsConvulsionOnsetDate;
+	}
+
+	public Date getFeverOnsetDate() {
+		return feverOnsetDate;
+	}
+
+	public Date getCoughOnsetDate() {
+		return coughOnsetDate;
+	}
+
+	public Date getRunnyNoseOnsetDate() {
+		return runnyNoseOnsetDate;
+	}
+
+	public Date getConjunctivitisOnsetDate() {
+		return conjunctivitisOnsetDate;
+	}
+
+	public Date getFeverOnsetParalysisOnsetDate() {
+		return feverOnsetParalysisOnsetDate;
+	}
+
+	public Date getProgressiveParalysisOnsetDate() {
+		return progressiveParalysisOnsetDate;
+	}
+
+	public Date getProgressiveFlaccidAcuteOnsetDate() {
+		return progressiveFlaccidAcuteOnsetDate;
+	}
+
+	public Date getAssymetricOnsetDate() {
+		return assymetricOnsetDate;
+	}
+
+	public Date getSiteOfParalysisOnsetDate() {
+		return siteOfParalysisOnsetDate;
+	}
+
+	public Date getParalysedLimbSensitiveToPainOnsetDate() {
+		return paralysedLimbSensitiveToPainOnsetDate;
+	}
+
+	public Date getInjectionSiteBeforeOnsetParalysisOnsetDate() {
+		return injectionSiteBeforeOnsetParalysisOnsetDate;
+	}
+
+	public Date getInjectionSiteOnsetDate() {
+		return injectionSiteOnsetDate;
+	}
+
+	public Date getArthralgiaOnsetDate() {
+		return arthralgiaOnsetDate;
+	}
+
+	public Date getMyalgiaOnsetDate() {
+		return myalgiaOnsetDate;
+	}
+
+	public Date getJaundiceOnsetDate() {
+		return jaundiceOnsetDate;
+	}
+
+	public Date getHemorrhagicSyndromeOnsetDate() {
+		return hemorrhagicSyndromeOnsetDate;
+	}
+
+	public Date getOtherNonHemorrhagicSymptomsOnsetDate() {
+		return otherNonHemorrhagicSymptomsOnsetDate;
+	}
+
+	public Date getVomitingOnsetDate() {
+		return vomitingOnsetDate;
+	}
+
+	public Date getAlteredConsciousnessOnsetDate() {
+		return alteredConsciousnessOnsetDate;
+	}
+
+	public Date getSeizuresOnsetDate() {
+		return seizuresOnsetDate;
+	}
+
+	public Date getRapidBreathingOnsetDate() {
+		return rapidBreathingOnsetDate;
+	}
+
+	public Date getCongenitalHeartDiseaseOnsetDate() {
+		return congenitalHeartDiseaseOnsetDate;
+	}
+
+	public Date getCataractsOnsetDate() {
+		return cataractsOnsetDate;
+	}
+
+	public Date getCongenitalGlaucomaOnsetDate() {
+		return congenitalGlaucomaOnsetDate;
+	}
+
+	public Date getPigmentaryRetinopathyOnsetDate() {
+		return pigmentaryRetinopathyOnsetDate;
+	}
+
+	public Date getHearinglossOnsetDate() {
+		return hearinglossOnsetDate;
+	}
+
+	public Date getPurpuricRashOnsetDate() {
+		return purpuricRashOnsetDate;
+	}
+
+	public Date getMicrocephalyOnsetDate() {
+		return microcephalyOnsetDate;
+	}
+
+	public Date getMeningoencephalitisOnsetDate() {
+		return meningoencephalitisOnsetDate;
+	}
+
+	public Date getSplenomegalyOnsetDate() {
+		return splenomegalyOnsetDate;
+	}
+
+	public Date getDevelopmentalDelayOnsetDate() {
+		return developmentalDelayOnsetDate;
+	}
+
+	public Date getRadiolucentBoneDiseaseOnsetDate() {
+		return radiolucentBoneDiseaseOnsetDate;
+	}
+
 	@ImportIgnore
 	public String getPatientIllLocation() {
 		return patientIllLocation;
@@ -3912,6 +4131,150 @@ public class SymptomsDto extends PseudonymizableDto {
 
 	public void setOnsetSymptom(String onsetSymptom) {
 		this.onsetSymptom = onsetSymptom;
+	}
+
+	public void setBackacheOnsetDate(Date backacheOnsetDate) {
+		this.backacheOnsetDate = backacheOnsetDate;
+	}
+
+	public void setNormalCryAndSuckOnsetDate(Date normalCryAndSuckOnsetDate) {
+		this.normalCryAndSuckOnsetDate = normalCryAndSuckOnsetDate;
+	}
+
+	public void setStiffnessOnsetDate(Date stiffnessOnsetDate) {
+		this.stiffnessOnsetDate = stiffnessOnsetDate;
+	}
+
+	public void setSpasmsConvulsionOnsetDate(Date spasmsConvulsionOnsetDate) {
+		this.spasmsConvulsionOnsetDate = spasmsConvulsionOnsetDate;
+	}
+
+	public void setFeverOnsetDate(Date feverOnsetDate) {
+		this.feverOnsetDate = feverOnsetDate;
+	}
+
+	public void setCoughOnsetDate(Date coughOnsetDate) {
+		this.coughOnsetDate = coughOnsetDate;
+	}
+
+	public void setRunnyNoseOnsetDate(Date runnyNoseOnsetDate) {
+		this.runnyNoseOnsetDate = runnyNoseOnsetDate;
+	}
+
+	public void setConjunctivitisOnsetDate(Date conjunctivitisOnsetDate) {
+		this.conjunctivitisOnsetDate = conjunctivitisOnsetDate;
+	}
+
+	public void setFeverOnsetParalysisOnsetDate(Date feverOnsetParalysisOnsetDate) {
+		this.feverOnsetParalysisOnsetDate = feverOnsetParalysisOnsetDate;
+	}
+
+	public void setProgressiveParalysisOnsetDate(Date progressiveParalysisOnsetDate) {
+		this.progressiveParalysisOnsetDate = progressiveParalysisOnsetDate;
+	}
+
+	public void setProgressiveFlaccidAcuteOnsetDate(Date progressiveFlaccidAcuteOnsetDate) {
+		this.progressiveFlaccidAcuteOnsetDate = progressiveFlaccidAcuteOnsetDate;
+	}
+
+	public void setAssymetricOnsetDate(Date assymetricOnsetDate) {
+		this.assymetricOnsetDate = assymetricOnsetDate;
+	}
+
+	public void setSiteOfParalysisOnsetDate(Date siteOfParalysisOnsetDate) {
+		this.siteOfParalysisOnsetDate = siteOfParalysisOnsetDate;
+	}
+
+	public void setParalysedLimbSensitiveToPainOnsetDate(Date paralysedLimbSensitiveToPainOnsetDate) {
+		this.paralysedLimbSensitiveToPainOnsetDate = paralysedLimbSensitiveToPainOnsetDate;
+	}
+
+	public void setInjectionSiteBeforeOnsetParalysisOnsetDate(Date injectionSiteBeforeOnsetParalysisOnsetDate) {
+		this.injectionSiteBeforeOnsetParalysisOnsetDate = injectionSiteBeforeOnsetParalysisOnsetDate;
+	}
+
+	public void setInjectionSiteOnsetDate(Date injectionSiteOnsetDate) {
+		this.injectionSiteOnsetDate = injectionSiteOnsetDate;
+	}
+
+	public void setArthralgiaOnsetDate(Date arthralgiaOnsetDate) {
+		this.arthralgiaOnsetDate = arthralgiaOnsetDate;
+	}
+
+	public void setMyalgiaOnsetDate(Date myalgiaOnsetDate) {
+		this.myalgiaOnsetDate = myalgiaOnsetDate;
+	}
+
+	public void setJaundiceOnsetDate(Date jaundiceOnsetDate) {
+		this.jaundiceOnsetDate = jaundiceOnsetDate;
+	}
+
+	public void setHemorrhagicSyndromeOnsetDate(Date hemorrhagicSyndromeOnsetDate) {
+		this.hemorrhagicSyndromeOnsetDate = hemorrhagicSyndromeOnsetDate;
+	}
+
+	public void setOtherNonHemorrhagicSymptomsOnsetDate(Date otherNonHemorrhagicSymptomsOnsetDate) {
+		this.otherNonHemorrhagicSymptomsOnsetDate = otherNonHemorrhagicSymptomsOnsetDate;
+	}
+
+	public void setVomitingOnsetDate(Date vomitingOnsetDate) {
+		this.vomitingOnsetDate = vomitingOnsetDate;
+	}
+
+	public void setAlteredConsciousnessOnsetDate(Date alteredConsciousnessOnsetDate) {
+		this.alteredConsciousnessOnsetDate = alteredConsciousnessOnsetDate;
+	}
+
+	public void setSeizuresOnsetDate(Date seizuresOnsetDate) {
+		this.seizuresOnsetDate = seizuresOnsetDate;
+	}
+
+	public void setRapidBreathingOnsetDate(Date rapidBreathingOnsetDate) {
+		this.rapidBreathingOnsetDate = rapidBreathingOnsetDate;
+	}
+
+	public void setCongenitalHeartDiseaseOnsetDate(Date congenitalHeartDiseaseOnsetDate) {
+		this.congenitalHeartDiseaseOnsetDate = congenitalHeartDiseaseOnsetDate;
+	}
+
+	public void setCataractsOnsetDate(Date cataractsOnsetDate) {
+		this.cataractsOnsetDate = cataractsOnsetDate;
+	}
+
+	public void setCongenitalGlaucomaOnsetDate(Date congenitalGlaucomaOnsetDate) {
+		this.congenitalGlaucomaOnsetDate = congenitalGlaucomaOnsetDate;
+	}
+
+	public void setPigmentaryRetinopathyOnsetDate(Date pigmentaryRetinopathyOnsetDate) {
+		this.pigmentaryRetinopathyOnsetDate = pigmentaryRetinopathyOnsetDate;
+	}
+
+	public void setHearinglossOnsetDate(Date hearinglossOnsetDate) {
+		this.hearinglossOnsetDate = hearinglossOnsetDate;
+	}
+
+	public void setPurpuricRashOnsetDate(Date purpuricRashOnsetDate) {
+		this.purpuricRashOnsetDate = purpuricRashOnsetDate;
+	}
+
+	public void setMicrocephalyOnsetDate(Date microcephalyOnsetDate) {
+		this.microcephalyOnsetDate = microcephalyOnsetDate;
+	}
+
+	public void setMeningoencephalitisOnsetDate(Date meningoencephalitisOnsetDate) {
+		this.meningoencephalitisOnsetDate = meningoencephalitisOnsetDate;
+	}
+
+	public void setSplenomegalyOnsetDate(Date splenomegalyOnsetDate) {
+		this.splenomegalyOnsetDate = splenomegalyOnsetDate;
+	}
+
+	public void setDevelopmentalDelayOnsetDate(Date developmentalDelayOnsetDate) {
+		this.developmentalDelayOnsetDate = developmentalDelayOnsetDate;
+	}
+
+	public void setRadiolucentBoneDiseaseOnsetDate(Date radiolucentBoneDiseaseOnsetDate) {
+		this.radiolucentBoneDiseaseOnsetDate = radiolucentBoneDiseaseOnsetDate;
 	}
 
 	public void setOralUlcers(SymptomState oralUlcers) {
