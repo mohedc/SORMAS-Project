@@ -269,7 +269,11 @@ public enum PathogenTestType {
 	AGGLUTINATION_TEST,
 
 	@Diseases(value = {
-		Disease.MEASLES })
+			Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS })
+	PCR,
+	
+	@Diseases(value = {
+	Disease.MEASLES })
 	INDIRECT_IGM_SEROLOGY,
 	@Diseases(value = {
 		Disease.MEASLES })

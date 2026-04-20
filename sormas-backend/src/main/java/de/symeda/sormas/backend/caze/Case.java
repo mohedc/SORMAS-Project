@@ -43,6 +43,7 @@ import javax.persistence.Transient;
 
 import de.symeda.sormas.api.caze.*;
 import de.symeda.sormas.api.caze.caseimport.MotherVaccinationStatus;
+import de.symeda.sormas.api.infrastructure.region.RegionReferenceDto;
 import de.symeda.sormas.api.sample.FinalClassification;
 import de.symeda.sormas.api.utils.Diseases;
 import de.symeda.sormas.api.utils.YesNo;
@@ -493,6 +494,7 @@ public class Case extends CoreAdo implements IsCase, SormasToSormasShareable, Ha
 	private Date dateRegionReceivesLabResults;
 	private Date dateLabResultsSentHealthFacilityRegion;
 	private Date dateLabResultsReceivedAtHealthFacility;
+	private Region  regionLabResultsReceived;
 
     public static Case build() {
 		Case caze = new Case();
@@ -2370,5 +2372,13 @@ public class Case extends CoreAdo implements IsCase, SormasToSormasShareable, Ha
 
 	public void setDateLabResultsReceivedAtHealthFacility(Date dateLabResultsReceivedAtHealthFacility) {
 		this.dateLabResultsReceivedAtHealthFacility = dateLabResultsReceivedAtHealthFacility;
+	}
+	@ManyToOne(cascade = {}, fetch = FetchType.LAZY)
+	public Region getRegionLabResultsReceived() {
+		return regionLabResultsReceived;
+	}
+
+	public void setRegionLabResultsReceived(Region regionLabResultsReceived) {
+		this.regionLabResultsReceived = regionLabResultsReceived;
 	}
 }

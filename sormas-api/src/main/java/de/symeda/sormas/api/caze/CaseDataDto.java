@@ -281,6 +281,7 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 	public static final String VACCINE_TYPE = "vaccineType";
 	public static final String HEALTH_WORKER_COMPLETING_FORM = "healthWorkerCompletingForm";
 	public static final String CLASSIFICATION_BY_ORIGIN = "classificationByOrigin";
+	public static final String REGION_LAB_RESULTS_RECEIVED = "regionLabResultsReceived";
 
 
     // Fields are declared in the order they should appear in the import template
@@ -905,6 +906,10 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 	@Diseases({
 			Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS})
 	private String personDesignation;
+
+	@Diseases({
+			Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS})
+	private RegionReferenceDto regionLabResultsReceived;
 
 	public static CaseDataDto build(PersonReferenceDto person, Disease disease) {
 		return build(person, disease, HealthConditionsDto.build());
@@ -2535,6 +2540,14 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 
 	public void setDateLabResultsReceivedAtHealthFacility(Date dateLabResultsReceivedAtHealthFacility) {
 		this.dateLabResultsReceivedAtHealthFacility = dateLabResultsReceivedAtHealthFacility;
+	}
+
+	public RegionReferenceDto getRegionLabResultsReceived() {
+		return regionLabResultsReceived;
+	}
+
+	public void setRegionLabResultsReceived(RegionReferenceDto regionLabResultsReceived) {
+		this.regionLabResultsReceived = regionLabResultsReceived;
 	}
 
     @JsonIgnore

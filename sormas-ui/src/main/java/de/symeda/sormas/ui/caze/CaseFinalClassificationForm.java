@@ -20,11 +20,9 @@ import static de.symeda.sormas.ui.utils.CssStyles.VSPACE_3;
 import static de.symeda.sormas.ui.utils.LayoutUtil.fluidRowLocs;
 import static de.symeda.sormas.ui.utils.LayoutUtil.loc;
 
-import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import com.vaadin.ui.Label;
 import com.vaadin.v7.ui.ComboBox;
@@ -37,17 +35,13 @@ import de.symeda.sormas.api.caze.CaseClassification;
 import de.symeda.sormas.api.caze.CaseDataDto;
 import de.symeda.sormas.api.i18n.I18nProperties;
 import de.symeda.sormas.api.i18n.Strings;
-import de.symeda.sormas.api.infrastructure.region.RegionReferenceDto;
 import de.symeda.sormas.api.sample.FinalClassification;
 import de.symeda.sormas.api.sample.PathogenTestDto;
 import de.symeda.sormas.api.sample.PathogenTestResultType;
 import de.symeda.sormas.api.sample.SampleDto;
 import de.symeda.sormas.api.utils.YesNo;
-import de.symeda.sormas.api.utils.YesNoUnknown;
-import de.symeda.sormas.api.utils.fieldaccess.UiFieldAccessCheckers;
 import de.symeda.sormas.api.utils.fieldvisibility.FieldVisibilityCheckers;
 import de.symeda.sormas.api.utils.fieldvisibility.checkers.CountryFieldVisibilityChecker;
-import de.symeda.sormas.api.utils.fieldvisibility.checkers.DiseaseFieldVisibilityChecker;
 import de.symeda.sormas.api.utils.fieldvisibility.checkers.FeatureTypeFieldVisibilityChecker;
 import de.symeda.sormas.api.utils.fieldvisibility.checkers.UserRightFieldVisibilityChecker;
 import de.symeda.sormas.ui.UiUtil;
@@ -87,7 +81,7 @@ public class CaseFinalClassificationForm extends AbstractEditForm<CaseDataDto> {
 			loc(FINAL_CLASSIFICATION_HEADING_LOC) +
 					fluidRowLocs(CaseDataDto.FINAL_CLASSIFICATION) +
 					loc(ADDITIONAL_HEADING_LOC) +
-					fluidRowLocs(CaseDataDto.DATE_REGION_RECEIVES_LAB_RESULTS,CaseDataDto.REGION) +
+					fluidRowLocs(CaseDataDto.DATE_REGION_RECEIVES_LAB_RESULTS,CaseDataDto.REGION_LAB_RESULTS_RECEIVED) +
 					fluidRowLocs(CaseDataDto.DATE_LAB_RESULTS_SENT_HEALTH_FACILITY_REGION, CaseDataDto.DATE_LAB_RESULTS_RECEIVED_HEALTH_FACILITY);
 
 	private static final String CONGENITAL_RUBELLA_HTML_LAYOUT =
@@ -101,7 +95,9 @@ public class CaseFinalClassificationForm extends AbstractEditForm<CaseDataDto> {
 	private static final List<Disease> DISEASES_REQUIRING_CONFIRMATION = Arrays.asList(
 		Disease.MEASLES,
 		Disease.YELLOW_FEVER,
-		Disease.CSM
+		Disease.CSM,
+		Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS,
+		Disease.NEONATAL_TETANUS
 	);
 
 	private ComboBox finalClassificationField;
@@ -159,7 +155,8 @@ public class CaseFinalClassificationForm extends AbstractEditForm<CaseDataDto> {
 
 		addField(CaseDataDto.IMMUNOCOMPROMISED_STATUS_SUSPECTED, NullableOptionGroup.class);
 		addField(CaseDataDto.DATE_REGION_RECEIVES_LAB_RESULTS, DateField.class);
-		regionCombo = addInfrastructureField(CaseDataDto.REGION);
+		regionCombo = addInfrastructureField(CaseDataDto.REGION_LAB_RESULTS_RECEIVED);
+		regionCombo.addItems(FacadeProvider.getRegionFacade().getAllActiveByServerCountry());
 		addField(CaseDataDto.DATE_LAB_RESULTS_SENT_HEALTH_FACILITY_REGION, DateField.class);
 		addField(CaseDataDto.DATE_LAB_RESULTS_RECEIVED_HEALTH_FACILITY, DateField.class);
 		addField(CaseDataDto.CLASSIFICATION_DATE, DateField.class);
@@ -184,7 +181,6 @@ public class CaseFinalClassificationForm extends AbstractEditForm<CaseDataDto> {
 		classificationByOriginField.setNullSelectionAllowed(true);
 		classificationByOriginField.setItemCaptionMode(ComboBox.ItemCaptionMode.ID_TOSTRING);
 
-		regionCombo.addItems(FacadeProvider.getRegionFacade().getAllActiveByServerCountry());
 		List<FinalClassification> values = getFinalClassifications();
 
 		FieldHelper.updateEnumData(finalClassificationField, values);
@@ -252,11 +248,11 @@ public class CaseFinalClassificationForm extends AbstractEditForm<CaseDataDto> {
 		}
 		if (disease != Disease.AFP && disease != Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS) {
 			setVisible(false,
-				CaseDataDto.IMMUNOCOMPROMISED_STATUS_SUSPECTED,
-				CaseDataDto.DATE_REGION_RECEIVES_LAB_RESULTS,
-				CaseDataDto.REGION,
-				CaseDataDto.DATE_LAB_RESULTS_SENT_HEALTH_FACILITY_REGION,
-				CaseDataDto.DATE_LAB_RESULTS_RECEIVED_HEALTH_FACILITY);
+					CaseDataDto.IMMUNOCOMPROMISED_STATUS_SUSPECTED,
+					CaseDataDto.DATE_REGION_RECEIVES_LAB_RESULTS,
+					CaseDataDto.REGION_LAB_RESULTS_RECEIVED,
+					CaseDataDto.DATE_LAB_RESULTS_SENT_HEALTH_FACILITY_REGION,
+					CaseDataDto.DATE_LAB_RESULTS_RECEIVED_HEALTH_FACILITY);
 		}
 		if (disease != Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS) {
 			getContent().getComponent(ADDITIONAL_HEADING_LOC).setVisible(false);

@@ -418,6 +418,10 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 		pcrTestSpecification.setValue(newFieldValue.getPcrTestSpecification());
 		testTypeTextField.setValue(newFieldValue.getTestTypeText());
 		typingIdField.setValue(newFieldValue.getTypingId());
+
+		if (disease == Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS) {
+			applyIDSRDiseaseFilter();
+		}
 	}
 
 	@Override
@@ -1348,16 +1352,7 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 	}
 
 	private void handleIDSR() {
-		Disease suspectedDisease = sample.getSuspectedDisease();
-		if (suspectedDisease == null) return;
-
-		for (Disease currentDisease : Disease.values()) {
-			if (currentDisease == suspectedDisease) {
-				diseaseField.removeAllItems();
-				FieldHelper.updateEnumData(diseaseField, Collections.singleton(currentDisease));
-				break;
-			}
-		}
+		applyIDSRDiseaseFilter();
 
 		List<PathogenTestType> idsrTestTypes = Arrays.asList(
 				PathogenTestType.P_FALICIPARUM,
@@ -1366,6 +1361,7 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 				PathogenTestType.CULTURE,
 				PathogenTestType.LATEX,
 				PathogenTestType.GRAM_STAIN,
+				PathogenTestType.PCR,
 				PathogenTestType.OTHER
 		);
 
@@ -1385,6 +1381,33 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 		);
 
 		testResultField.removeItem(PathogenTestResultType.INDETERMINATE);
+	}
+
+	private void applyIDSRDiseaseFilter() {
+		Disease current = (Disease) diseaseField.getValue();
+
+		// Build the exclusion list — everything NOT in IDSR_TESTED_DISEASES,
+		// plus always exclude IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS
+		List<Disease> allowedDiseases = Disease.IDSR_TESTED_DISEASES.stream()
+				.filter(d -> d != Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS)
+				.collect(Collectors.toList());
+
+		// Snapshot existing item IDs before modifying
+		@SuppressWarnings("unchecked")
+		List<Object> existingItems = new ArrayList<>(diseaseField.getItemIds()
+		);
+
+		// Remove any item not in the allowed list — captions stay intact
+		for (Object item : existingItems) {
+			if (!allowedDiseases.contains(item)) {
+				diseaseField.removeItem(item);
+			}
+		}
+
+		// Clear selection only if current value was removed
+		if (current != null && !allowedDiseases.contains(current)) {
+			diseaseField.setValue(null);
+		}
 	}
 
 	private void handleAFP() {

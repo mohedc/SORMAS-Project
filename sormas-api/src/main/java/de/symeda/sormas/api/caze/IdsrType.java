@@ -19,6 +19,8 @@ public enum IdsrType {
     LYMPHATIC_FILARIASIS,
     ONCHOCERCIASIS,
     TRACHOMA,
+    PLAGUE,
+    DOG_BITE,
     OTHER;
 
     @Override

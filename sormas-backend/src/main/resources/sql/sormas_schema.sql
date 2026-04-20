@@ -15207,6 +15207,9 @@ ALTER TABLE maternalhistory_history ADD COLUMN IF NOT EXISTS motherrubellalabcon
 ALTER TABLE maternalhistory_history ADD COLUMN IF NOT EXISTS motherrubellalabconfirmeddate timestamp;
 INSERT INTO schema_version (version_number, comment) VALUES (648, 'Add mother rubella lab confirmation to maternalhistory');
 
+ALTER TABLE cases ADD COLUMN IF NOT EXISTS regionlabresultsreceived_id bigint;
+ALTER TABLE cases ADD CONSTRAINT fk_cases_regionlabresultsreceived_id FOREIGN KEY (regionlabresultsreceived_id) REFERENCES region(id) ON UPDATE NO ACTION ON DELETE NO ACTION;
+INSERT INTO schema_version (version_number, comment) VALUES (649, 'Add regionlabresultsreceived_id to cases');
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***
 
 

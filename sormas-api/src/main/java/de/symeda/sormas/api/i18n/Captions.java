@@ -847,6 +847,7 @@ public interface Captions {
 	String CaseData_responsibleDistrict = "CaseData.responsibleDistrict";
 	String CaseData_responsibleDistrictName = "CaseData.responsibleDistrictName";
 	String CaseData_responsibleRegion = "CaseData.responsibleRegion";
+	String CaseData_regionLabResultsReceived = "CaseData.regionLabResultsReceived";
 	String CaseData_screeningType = "CaseData.screeningType";
 	String CaseData_sequelae = "CaseData.sequelae";
 	String CaseData_sequelaeDetails = "CaseData.sequelaeDetails";
@@ -982,6 +983,7 @@ public interface Captions {
 	String casePersonAddress = "casePersonAddress";
 	String casePickCase = "casePickCase";
 	String casePlaceOfStay = "casePlaceOfStay";
+	String casePatientIdentification = "casePatientIdentification";
 	String casePlusDays = "casePlusDays";
 	String CasePreviousHospitalization = "CasePreviousHospitalization";
 	String CasePreviousHospitalization_admissionAndDischargeDate = "CasePreviousHospitalization.admissionAndDischargeDate";
