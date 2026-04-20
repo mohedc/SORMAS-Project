@@ -847,6 +847,7 @@ public interface Captions {
 	String CaseData_responsibleDistrict = "CaseData.responsibleDistrict";
 	String CaseData_responsibleDistrictName = "CaseData.responsibleDistrictName";
 	String CaseData_responsibleRegion = "CaseData.responsibleRegion";
+	String CaseData_regionLabResultsReceived = "CaseData.regionLabResultsReceived";
 	String CaseData_screeningType = "CaseData.screeningType";
 	String CaseData_sequelae = "CaseData.sequelae";
 	String CaseData_sequelaeDetails = "CaseData.sequelaeDetails";

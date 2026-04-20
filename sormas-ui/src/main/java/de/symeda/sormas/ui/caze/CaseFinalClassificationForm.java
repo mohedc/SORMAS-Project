@@ -71,7 +71,7 @@ public class CaseFinalClassificationForm extends AbstractEditForm<CaseDataDto> {
 			loc(FINAL_CLASSIFICATION_HEADING_LOC) +
 					fluidRowLocs(CaseDataDto.FINAL_CLASSIFICATION) +
 					loc(ADDITIONAL_HEADING_LOC) +
-					fluidRowLocs(CaseDataDto.DATE_REGION_RECEIVES_LAB_RESULTS,CaseDataDto.REGION) +
+					fluidRowLocs(CaseDataDto.DATE_REGION_RECEIVES_LAB_RESULTS,CaseDataDto.REGION_LAB_RESULTS_RECEIVED) +
 					fluidRowLocs(CaseDataDto.DATE_LAB_RESULTS_SENT_HEALTH_FACILITY_REGION, CaseDataDto.DATE_LAB_RESULTS_RECEIVED_HEALTH_FACILITY);
 
 	private static final String CONGENITAL_RUBELLA_HTML_LAYOUT =
@@ -141,7 +141,7 @@ public class CaseFinalClassificationForm extends AbstractEditForm<CaseDataDto> {
 
 		addField(CaseDataDto.IMMUNOCOMPROMISED_STATUS_SUSPECTED, NullableOptionGroup.class);
 		addField(CaseDataDto.DATE_REGION_RECEIVES_LAB_RESULTS, DateField.class);
-		regionCombo = addInfrastructureField(CaseDataDto.REGION);
+		regionCombo = addInfrastructureField(CaseDataDto.REGION_LAB_RESULTS_RECEIVED);
 		addField(CaseDataDto.DATE_LAB_RESULTS_SENT_HEALTH_FACILITY_REGION, DateField.class);
 		addField(CaseDataDto.DATE_LAB_RESULTS_RECEIVED_HEALTH_FACILITY, DateField.class);
 		addField(CaseDataDto.CLASSIFICATION_DATE, DateField.class);
