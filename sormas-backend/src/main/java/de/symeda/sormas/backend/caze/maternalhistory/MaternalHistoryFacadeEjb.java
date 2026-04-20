@@ -51,6 +51,8 @@ public class MaternalHistoryFacadeEjb implements MaternalHistoryFacade {
 		target.setRubellaMonth(source.getRubellaMonth());
 		target.setCongenitalRubella(source.getCongenitalRubella());
 		target.setCongenitalRubellaDate(source.getCongenitalRubellaDate());
+		target.setMotherRubellaLabConfirmed(source.getMotherRubellaLabConfirmed());
+		target.setMotherRubellaLabConfirmedDate(source.getMotherRubellaLabConfirmedDate());
 		target.setSwollenLymphs(source.getSwollenLymphs());
 		target.setSwollenLymphsOnset(source.getSwollenLymphsOnset());
 		target.setSwollenLymphsMonth(source.getSwollenLymphsMonth());
@@ -95,6 +97,8 @@ public class MaternalHistoryFacadeEjb implements MaternalHistoryFacade {
 		target.setRubellaMonth(source.getRubellaMonth());
 		target.setCongenitalRubella(source.getCongenitalRubella());
 		target.setCongenitalRubellaDate(source.getCongenitalRubellaDate());
+		target.setMotherRubellaLabConfirmed(source.getMotherRubellaLabConfirmed());
+		target.setMotherRubellaLabConfirmedDate(source.getMotherRubellaLabConfirmedDate());
 		target.setSwollenLymphs(source.getSwollenLymphs());
 		target.setSwollenLymphsOnset(source.getSwollenLymphsOnset());
 		target.setSwollenLymphsMonth(source.getSwollenLymphsMonth());

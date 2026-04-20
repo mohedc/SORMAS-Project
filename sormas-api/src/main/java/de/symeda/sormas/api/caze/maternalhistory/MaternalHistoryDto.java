@@ -48,6 +48,8 @@ public class MaternalHistoryDto extends PseudonymizableDto {
 	public static final String RUBELLA_MONTH = "rubellaMonth";
 	public static final String CONGENITAL_RUBELLA = "congenitalRubella";
 	public static final String CONGENITAL_RUBELLA_DATE = "congenitalRubellaDate";
+	public static final String MOTHER_RUBELLA_LAB_CONFIRMED = "motherRubellaLabConfirmed";
+	public static final String MOTHER_RUBELLA_LAB_CONFIRMED_DATE = "motherRubellaLabConfirmedDate";
 	public static final String RASH_EXPOSURE = "rashExposure";
 	public static final String RASH_EXPOSURE_DATE = "rashExposureDate";
 	public static final String RASH_EXPOSURE_MONTH = "rashExposureMonth";
@@ -88,6 +90,8 @@ public class MaternalHistoryDto extends PseudonymizableDto {
 	private Integer rubellaMonth;
 	private YesNoUnknown congenitalRubella;
 	private Date congenitalRubellaDate;
+	private YesNoUnknown motherRubellaLabConfirmed;
+	private Date motherRubellaLabConfirmedDate;
 	private YesNoUnknown rashExposure;
 	private Date rashExposureDate;
 	private Integer rashExposureMonth;
@@ -311,6 +315,22 @@ public class MaternalHistoryDto extends PseudonymizableDto {
 
 	public void setCongenitalRubellaDate(Date congenitalRubellaDate) {
 		this.congenitalRubellaDate = congenitalRubellaDate;
+	}
+
+	public YesNoUnknown getMotherRubellaLabConfirmed() {
+		return motherRubellaLabConfirmed;
+	}
+
+	public void setMotherRubellaLabConfirmed(YesNoUnknown motherRubellaLabConfirmed) {
+		this.motherRubellaLabConfirmed = motherRubellaLabConfirmed;
+	}
+
+	public Date getMotherRubellaLabConfirmedDate() {
+		return motherRubellaLabConfirmedDate;
+	}
+
+	public void setMotherRubellaLabConfirmedDate(Date motherRubellaLabConfirmedDate) {
+		this.motherRubellaLabConfirmedDate = motherRubellaLabConfirmedDate;
 	}
 
 	public YesNoUnknown getRashExposure() {

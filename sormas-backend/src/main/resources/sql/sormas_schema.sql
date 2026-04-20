@@ -15200,6 +15200,13 @@ ALTER TABLE maternalhistory_history ADD COLUMN travellocationdescription varchar
 
 INSERT INTO schema_version (version_number, comment) VALUES (647, 'Add CRS maternal history fields');
 
+-- Migration 648: Maternal rubella lab confirmation (CRS maternal history / EpiData parity)
+ALTER TABLE maternalhistory ADD COLUMN IF NOT EXISTS motherrubellalabconfirmed varchar(255);
+ALTER TABLE maternalhistory ADD COLUMN IF NOT EXISTS motherrubellalabconfirmeddate timestamp;
+ALTER TABLE maternalhistory_history ADD COLUMN IF NOT EXISTS motherrubellalabconfirmed varchar(255);
+ALTER TABLE maternalhistory_history ADD COLUMN IF NOT EXISTS motherrubellalabconfirmeddate timestamp;
+INSERT INTO schema_version (version_number, comment) VALUES (648, 'Add mother rubella lab confirmation to maternalhistory');
+
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***
 
 

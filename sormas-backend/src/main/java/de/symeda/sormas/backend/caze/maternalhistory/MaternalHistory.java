@@ -51,6 +51,8 @@ public class MaternalHistory extends AbstractDomainObject {
 	private Integer rubellaMonth;
 	private YesNoUnknown congenitalRubella;
 	private Date congenitalRubellaDate;
+	private YesNoUnknown motherRubellaLabConfirmed;
+	private Date motherRubellaLabConfirmedDate;
 	private YesNoUnknown rashExposure;
 	private Date rashExposureDate;
 	private Integer rashExposureMonth;
@@ -279,6 +281,24 @@ public class MaternalHistory extends AbstractDomainObject {
 
 	public void setCongenitalRubellaDate(Date congenitalRubellaDate) {
 		this.congenitalRubellaDate = congenitalRubellaDate;
+	}
+
+	@Enumerated(EnumType.STRING)
+	public YesNoUnknown getMotherRubellaLabConfirmed() {
+		return motherRubellaLabConfirmed;
+	}
+
+	public void setMotherRubellaLabConfirmed(YesNoUnknown motherRubellaLabConfirmed) {
+		this.motherRubellaLabConfirmed = motherRubellaLabConfirmed;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getMotherRubellaLabConfirmedDate() {
+		return motherRubellaLabConfirmedDate;
+	}
+
+	public void setMotherRubellaLabConfirmedDate(Date motherRubellaLabConfirmedDate) {
+		this.motherRubellaLabConfirmedDate = motherRubellaLabConfirmedDate;
 	}
 
 	@Enumerated(EnumType.STRING)
