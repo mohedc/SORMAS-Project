@@ -50,7 +50,6 @@ import de.symeda.sormas.api.sample.SimpleTestResultType;
 import de.symeda.sormas.api.user.UserReferenceDto;
 import de.symeda.sormas.api.user.UserRight;
 import de.symeda.sormas.api.utils.InjectionSite;
-import de.symeda.sormas.api.utils.PosNeg;
 import de.symeda.sormas.api.utils.YesNo;
 import de.symeda.sormas.api.utils.fieldaccess.UiFieldAccessCheckers;
 import de.symeda.sormas.api.utils.fieldvisibility.FieldVisibilityCheckers;
@@ -152,7 +151,7 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
                     fluidRowLocs(SampleDto.SAMPLE_MATERIAL, SampleDto.SAMPLE_MATERIAL_TEXT) +
 					 locCss(VSPACE_TOP_3, SampleDto.SHIPPED) +
 					fluidRowLocs(SampleDto.SHIPMENT_DATE, SampleDto.SHIPMENT_DETAILS) +
-					fluidRowLocs(SampleDto.DATE_RESULTS_SENT_TO_REFERRING_CLINICIAN, "") +
+//					fluidRowLocs(SampleDto.DATE_RESULTS_SENT_TO_REFERRING_CLINICIAN, "") +
 					// fluidRowLocs(SampleDto.DISPATCHED_TO_REGIONAL_COLDROOM_DATE, SampleDto.DISPATCHED_TO_NATIONAL_LAB_BY_COURIER_DATE) +
 					// fluidRowLocs(6, SampleDto.DISPATCHED_TO_NATIONAL_LAB_BY_REGION_DISTRICT_DATE) +
 					locCss(VSPACE_TOP_3, "") +
@@ -266,13 +265,23 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 		
 		// IP Dakar test result fields
 		NullableOptionGroup elisaIgmField = addField(SampleDto.ELISA_IGM, NullableOptionGroup.class);
-		FieldHelper.updateEnumData(elisaIgmField, Arrays.asList(SimpleTestResultType.POSITIVE, SimpleTestResultType.NEGATIVE, SimpleTestResultType.EQUIVOCAL));
+		FieldHelper.updateEnumData(
+			elisaIgmField,
+			Arrays.asList(
+				SimpleTestResultType.POSITIVE,
+				SimpleTestResultType.NEGATIVE,
+				SimpleTestResultType.EQUIVOCAL,
+				SimpleTestResultType.INDETERMINATE));
 		addDateField(SampleDto.ELISA_IGM_DATE, DateField.class, 7);
 		NullableOptionGroup pcrField = addField(SampleDto.PCR, NullableOptionGroup.class);
-		FieldHelper.updateEnumData(pcrField, Arrays.asList(PosNeg.POSITIVE, PosNeg.NEGATIVE));
+		FieldHelper.updateEnumData(
+			pcrField,
+			Arrays.asList(PathogenTestResultType.POSITIVE, PathogenTestResultType.NEGATIVE, PathogenTestResultType.NOT_TESTED));
 		addDateField(SampleDto.PCR_DATE, DateField.class, 7);
 		NullableOptionGroup prntField = addField(SampleDto.PRNT, NullableOptionGroup.class);
-		FieldHelper.updateEnumData(prntField, Arrays.asList(PosNeg.POSITIVE, PosNeg.NEGATIVE));
+		FieldHelper.updateEnumData(
+			prntField,
+			Arrays.asList(PathogenTestResultType.POSITIVE, PathogenTestResultType.NEGATIVE, PathogenTestResultType.NOT_TESTED));
 		TextField prntInputValueField = addField(SampleDto.PRNT_INPUT_VALUE, TextField.class);
 		addDateField(SampleDto.PRNT_DATE, DateField.class, 7);
 		
@@ -502,7 +511,7 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 			getFieldGroup(),
 			SampleDto.PRNT_INPUT_VALUE,
 			SampleDto.PRNT,
-			Arrays.asList(PosNeg.POSITIVE),
+			Arrays.asList(PathogenTestResultType.POSITIVE),
 			true);
 		
 		// Show subtitle labels when SENT_TO_IP_DAKAR is Yes
@@ -785,7 +794,7 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 		// Note: "gingival fluid" is not available in SampleMaterial enum, using available options
 		// Instead of removing all items, check each item and remove only those that don't match
 
-		getField(SampleDto.SHIPMENT_DATE).setVisible(true);
+//		getField(SampleDto.SHIPMENT_DATE).setVisible(true);
 		Field<?> shippedField = getField(SampleDto.SHIPPED);
 		FieldHelper.setVisibleWhen(
 			getFieldGroup(),
@@ -843,7 +852,7 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 	protected void configureYellowFeverFields() {
 		// SampleDto.PATHOGEN_TEST_RESULT readOnly
 		getField(SampleDto.PATHOGEN_TEST_RESULT).setReadOnly(true);
-		getField(SampleDto.SHIPMENT_DATE).setVisible(true);
+//		getField(SampleDto.SHIPMENT_DATE).setVisible(true);
 		getField(SampleDto.DATE_RESULTS_SENT_TO_REFERRING_CLINICIAN).setVisible(true);
 		Field<?> shippedField = getField(SampleDto.SHIPPED);
 		FieldHelper.setVisibleWhen(
@@ -918,7 +927,7 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 		getField(SampleDto.PATHOGEN_TEST_RESULT).setReadOnly(true);
 
 		// Configure visibility for shipped/received fields
-		getField(SampleDto.SHIPMENT_DATE).setVisible(true);
+//		getField(SampleDto.SHIPMENT_DATE).setVisible(true);clear
 		Field<?> shippedField = getField(SampleDto.SHIPPED);
 		FieldHelper.setVisibleWhen(
 			getFieldGroup(),

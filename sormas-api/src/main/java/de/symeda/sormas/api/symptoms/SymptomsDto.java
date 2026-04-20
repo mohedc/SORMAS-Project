@@ -147,6 +147,8 @@ public class SymptomsDto extends PseudonymizableDto {
 	public static final String MICROCEPHALY = "microcephaly";
 	public static final String MID_UPPER_ARM_CIRCUMFERENCE = "midUpperArmCircumference";
 	public static final String MUSCLE_PAIN = "musclePain";
+	public static final String ARTHRALGIA = "arthralgia";
+	public static final String MYALGIA = "myalgia";
 	public static final String NAUSEA = "nausea";
 	public static final String NECK_STIFFNESS = "neckStiffness";
 	public static final String NOSE_BLEEDING = "noseBleeding";
@@ -525,6 +527,7 @@ public class SymptomsDto extends PseudonymizableDto {
 		LASSA,
 		NEW_INFLUENZA,
 		MONKEYPOX,
+		MEASLES,
 		POLIO,
 		UNSPECIFIED_VHF,
 		UNDEFINED,
@@ -548,6 +551,7 @@ public class SymptomsDto extends PseudonymizableDto {
 		UNSPECIFIED_VHF,
 		CORONAVIRUS,
 		UNDEFINED,
+		MEASLES,
 		OTHER })
 	@Outbreaks
 	@HideForCountries(countries = {
@@ -735,6 +739,7 @@ public class SymptomsDto extends PseudonymizableDto {
 		CORONAVIRUS,
 		UNDEFINED,
 		PERTUSSIS,
+		MEASLES,
 		OTHER })
 	@Outbreaks
 	@SymptomGrouping(SymptomGroup.GENERAL)
@@ -1164,7 +1169,6 @@ public class SymptomsDto extends PseudonymizableDto {
 		NEW_INFLUENZA,
 		CSM,
 		CHOLERA,
-		YELLOW_FEVER,
 		DENGUE,
 		MONKEYPOX,
 		PLAGUE,
@@ -1176,6 +1180,18 @@ public class SymptomsDto extends PseudonymizableDto {
 	@Outbreaks
 	@SymptomGrouping(SymptomGroup.GENERAL)
 	private SymptomState musclePain;
+
+	@Diseases({
+		YELLOW_FEVER })
+	@Outbreaks
+	@SymptomGrouping(SymptomGroup.GENERAL)
+	private SymptomState arthralgia;
+
+	@Diseases({
+		YELLOW_FEVER })
+	@Outbreaks
+	@SymptomGrouping(SymptomGroup.GENERAL)
+	private SymptomState myalgia;
 
 	@Diseases({
 		AFP,
@@ -1617,6 +1633,7 @@ public class SymptomsDto extends PseudonymizableDto {
 		POLIO,
 		CORONAVIRUS,
 		UNDEFINED,
+		MEASLES,
 		OTHER })
 	@SymptomGrouping(SymptomGroup.RESPIRATORY)
 	private SymptomState runnyNose;
@@ -1656,6 +1673,7 @@ public class SymptomsDto extends PseudonymizableDto {
 		NEW_INFLUENZA,
 		CSM,
 		DENGUE,
+		MEASLES,
 		POLIO,
 		UNSPECIFIED_VHF,
 		UNDEFINED,
@@ -1667,14 +1685,12 @@ public class SymptomsDto extends PseudonymizableDto {
 	/** Maculopapular rash */
 	private SymptomState skinRash;
 
-	@Diseases({
-		MEASLES })
+	@Diseases({})
 	@Outbreaks
 	@SymptomGrouping(SymptomGroup.SKIN)
 	private SymptomState generalizedRash;
 
-	@Diseases({
-		MEASLES })
+	@Diseases({})
 	@Outbreaks
 	@SymptomGrouping(SymptomGroup.OTHER)
 	private SymptomState swollenLymphNodesBehindEars;
@@ -3209,26 +3225,36 @@ public class SymptomsDto extends PseudonymizableDto {
 	}
 
 	@Order(201)
+	public SymptomState getArthralgia() {
+		return arthralgia;
+	}
+
+	@Order(202)
+	public SymptomState getMyalgia() {
+		return myalgia;
+	}
+
+	@Order(203)
 	public SymptomState getNausea() {
 		return nausea;
 	}
 
-	@Order(202)
+	@Order(204)
 	public SymptomState getNeckStiffness() {
 		return neckStiffness;
 	}
 
-	@Order(203)
+	@Order(205)
 	public SymptomState getNoseBleeding() {
 		return noseBleeding;
 	}
 
-	@Order(204)
+	@Order(206)
 	public SymptomState getOedemaFaceNeck() {
 		return oedemaFaceNeck;
 	}
 
-	@Order(205)
+	@Order(207)
 	public SymptomState getOedemaLowerExtremity() {
 		return oedemaLowerExtremity;
 	}
@@ -3850,6 +3876,14 @@ public class SymptomsDto extends PseudonymizableDto {
 
 	public void setMusclePain(SymptomState musclePain) {
 		this.musclePain = musclePain;
+	}
+
+	public void setArthralgia(SymptomState arthralgia) {
+		this.arthralgia = arthralgia;
+	}
+
+	public void setMyalgia(SymptomState myalgia) {
+		this.myalgia = myalgia;
 	}
 
 	public void setNausea(SymptomState nausea) {

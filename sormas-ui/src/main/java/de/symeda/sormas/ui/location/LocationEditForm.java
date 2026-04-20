@@ -46,6 +46,8 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.PopupView;
 import com.vaadin.ui.themes.ValoTheme;
+import com.vaadin.v7.data.Validator;
+import com.vaadin.v7.data.Validator.InvalidValueException;
 import com.vaadin.v7.data.util.converter.Converter;
 import com.vaadin.v7.data.validator.EmailValidator;
 import com.vaadin.v7.ui.AbstractField;
@@ -93,7 +95,7 @@ import de.symeda.sormas.ui.utils.PhoneNumberValidator;
 import de.symeda.sormas.ui.utils.StringToAngularLocationConverter;
 import de.symeda.sormas.ui.utils.VaadinUiUtil;
 
-public class LocationEditForm extends AbstractEditForm<LocationDto> {
+public class LocationEditForm extends AbstractEditForm<LocationDto> implements LocationAddressFormEmbed {
 
 	private static final long serialVersionUID = 1L;
 
@@ -126,6 +128,7 @@ public class LocationEditForm extends AbstractEditForm<LocationDto> {
 	// Disease-specific layouts
 	private static final String MEASLES_LAYOUT =
 		fluidRowLocs(LocationDto.REGION, LocationDto.DISTRICT, LocationDto.COMMUNITY) +
+		fluidRowLocs(LocationDto.NEAREST_HEALTH_FACILITY, "") +
 		fluidRowLocs(LocationDto.HOME_RESIDENTIAL_ADDRESS, LocationDto.COMPOUND_OWNER) +
 		fluidRowLocs(LocationDto.LANDMARK) +
 		fluidRowLocs(LocationDto.AREA_TYPE, "") +
@@ -138,6 +141,7 @@ public class LocationEditForm extends AbstractEditForm<LocationDto> {
 
 	private static final String YELLOW_FEVER_LAYOUT =
 			fluidRowLocs(LocationDto.REGION, LocationDto.DISTRICT, LocationDto.COMMUNITY) +
+					fluidRowLocs(LocationDto.NEAREST_HEALTH_FACILITY, "") +
 					fluidRowLocs(LocationDto.HOME_RESIDENTIAL_ADDRESS, LocationDto.HOUSE_NUMBER, LocationDto.COMPOUND_OWNER) +
 					fluidRowLocs(LocationDto.LANDMARK, LocationDto.AREA_TYPE) +
 					fluidRow(
@@ -316,6 +320,7 @@ public class LocationEditForm extends AbstractEditForm<LocationDto> {
 		addField(LocationDto.COMPOUND_OWNER, TextField.class);
 		addField(LocationDto.HOME_RESIDENTIAL_ADDRESS, TextField.class);
 		addField(LocationDto.LANDMARK, TextField.class);
+		addField(LocationDto.NEAREST_HEALTH_FACILITY, TextField.class);
 		TextField cityField = addField(LocationDto.CITY, TextField.class);
 		TextField villageField = addField(LocationDto.VILLAGE, TextField.class);
 		TextField postalCodeField = addField(LocationDto.POSTAL_CODE, TextField.class);
@@ -338,6 +343,22 @@ public class LocationEditForm extends AbstractEditForm<LocationDto> {
 		tfLatitude.setConverter(stringToAngularLocationConverter);
 		tfLongitude.setConverter(stringToAngularLocationConverter);
 		tfAccuracy.setConverter(stringToAngularLocationConverter);
+		tfAccuracy.addValidator(new Validator() {
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void validate(Object value) throws InvalidValueException {
+
+				if (value == null) {
+					return;
+				}
+				double d = ((Number) value).doubleValue();
+				if (d < 1d || d > 5d) {
+					throw new InvalidValueException(I18nProperties.getValidationError(Validations.latLonAccuracyBetweenOneAndFive));
+				}
+			}
+		});
 
 		continent = addInfrastructureField(LocationDto.CONTINENT);
 		subcontinent = addInfrastructureField(LocationDto.SUB_CONTINENT);
@@ -975,7 +996,7 @@ public class LocationEditForm extends AbstractEditForm<LocationDto> {
 		LocationDto.HOME_RESIDENTIAL_ADDRESS,
 		LocationDto.COMPOUND_OWNER,
 		LocationDto.LANDMARK,
-		LocationDto.LANDMARK,
+		LocationDto.NEAREST_HEALTH_FACILITY,
 		LocationDto.AREA_TYPE,
 		LocationDto.POSTAL_CODE,
 		LocationDto.LAT_LON_ACCURACY,

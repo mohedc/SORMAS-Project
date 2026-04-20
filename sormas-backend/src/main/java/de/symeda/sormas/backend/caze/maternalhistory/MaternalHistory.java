@@ -51,12 +51,20 @@ public class MaternalHistory extends AbstractDomainObject {
 	private Integer rubellaMonth;
 	private YesNoUnknown congenitalRubella;
 	private Date congenitalRubellaDate;
+	private YesNoUnknown motherRubellaLabConfirmed;
+	private Date motherRubellaLabConfirmedDate;
 	private YesNoUnknown rashExposure;
 	private Date rashExposureDate;
 	private Integer rashExposureMonth;
 	private Region rashExposureRegion;
 	private District rashExposureDistrict;
 	private Community rashExposureCommunity;
+	private Integer gestationalAgeAtExposure;
+	private String exposureLocationDescription;
+	private YesNoUnknown motherTraveledDuringPregnancy;
+	private Date motherTraveledDuringPregnancyDate;
+	private Integer gestationalAgeAtTravel;
+	private String travelLocationDescription;
 
 	public Integer getChildrenNumber() {
 		return childrenNumber;
@@ -276,6 +284,24 @@ public class MaternalHistory extends AbstractDomainObject {
 	}
 
 	@Enumerated(EnumType.STRING)
+	public YesNoUnknown getMotherRubellaLabConfirmed() {
+		return motherRubellaLabConfirmed;
+	}
+
+	public void setMotherRubellaLabConfirmed(YesNoUnknown motherRubellaLabConfirmed) {
+		this.motherRubellaLabConfirmed = motherRubellaLabConfirmed;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getMotherRubellaLabConfirmedDate() {
+		return motherRubellaLabConfirmedDate;
+	}
+
+	public void setMotherRubellaLabConfirmedDate(Date motherRubellaLabConfirmedDate) {
+		this.motherRubellaLabConfirmedDate = motherRubellaLabConfirmedDate;
+	}
+
+	@Enumerated(EnumType.STRING)
 	public YesNoUnknown getRashExposure() {
 		return rashExposure;
 	}
@@ -326,6 +352,58 @@ public class MaternalHistory extends AbstractDomainObject {
 
 	public void setRashExposureCommunity(Community rashExposureCommunity) {
 		this.rashExposureCommunity = rashExposureCommunity;
+	}
+
+	public Integer getGestationalAgeAtExposure() {
+		return gestationalAgeAtExposure;
+	}
+
+	public void setGestationalAgeAtExposure(Integer gestationalAgeAtExposure) {
+		this.gestationalAgeAtExposure = gestationalAgeAtExposure;
+	}
+
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	public String getExposureLocationDescription() {
+		return exposureLocationDescription;
+	}
+
+	public void setExposureLocationDescription(String exposureLocationDescription) {
+		this.exposureLocationDescription = exposureLocationDescription;
+	}
+
+	@Enumerated(EnumType.STRING)
+	public YesNoUnknown getMotherTraveledDuringPregnancy() {
+		return motherTraveledDuringPregnancy;
+	}
+
+	public void setMotherTraveledDuringPregnancy(YesNoUnknown motherTraveledDuringPregnancy) {
+		this.motherTraveledDuringPregnancy = motherTraveledDuringPregnancy;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getMotherTraveledDuringPregnancyDate() {
+		return motherTraveledDuringPregnancyDate;
+	}
+
+	public void setMotherTraveledDuringPregnancyDate(Date motherTraveledDuringPregnancyDate) {
+		this.motherTraveledDuringPregnancyDate = motherTraveledDuringPregnancyDate;
+	}
+
+	public Integer getGestationalAgeAtTravel() {
+		return gestationalAgeAtTravel;
+	}
+
+	public void setGestationalAgeAtTravel(Integer gestationalAgeAtTravel) {
+		this.gestationalAgeAtTravel = gestationalAgeAtTravel;
+	}
+
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	public String getTravelLocationDescription() {
+		return travelLocationDescription;
+	}
+
+	public void setTravelLocationDescription(String travelLocationDescription) {
+		this.travelLocationDescription = travelLocationDescription;
 	}
 
 }

@@ -15002,7 +15002,6 @@ ALTER TABLE samples ADD COLUMN IF NOT EXISTS dateresultssenttoreferringclinician
 ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS dateresultssenttoreferringclinician timestamp;
 
 INSERT INTO schema_version (version_number, comment) VALUES (629, 'Add dateResultsSentToReferringClinician field to samples table');
-
 ALTER TABLE samples ADD COLUMN IF NOT EXISTS prntinputvalue varchar(255);
 ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS prntinputvalue varchar(255);
 
@@ -15163,6 +15162,50 @@ INSERT INTO schema_version (version_number, comment) VALUES (641, 'Added columns
 ALTER TABLE cases ADD COLUMN IF NOT EXISTS classificationbyorigin varchar(255);
 ALTER TABLE cases_history ADD COLUMN IF NOT EXISTS classificationbyorigin varchar(255);
 INSERT INTO schema_version (version_number, comment) VALUES (642, 'Add classificationByOrigin field to cases table');
+
+-- Migration 644: Nearest health facility (free text) on location for measles address
+ALTER TABLE location ADD COLUMN IF NOT EXISTS nearesthealthfacility varchar(512);
+ALTER TABLE location_history ADD COLUMN IF NOT EXISTS nearesthealthfacility varchar(512);
+INSERT INTO schema_version (version_number, comment) VALUES (643, 'Add nearestHealthFacility free text to location');
+
+-- Migration 645: Measles community investigation fields on case (final classification)
+ALTER TABLE cases ADD COLUMN IF NOT EXISTS measlescommunityinvestigation varchar(255);
+ALTER TABLE cases ADD COLUMN IF NOT EXISTS measlesinvestigationresults varchar(512);
+ALTER TABLE cases_history ADD COLUMN IF NOT EXISTS measlescommunityinvestigation varchar(255);
+ALTER TABLE cases_history ADD COLUMN IF NOT EXISTS measlesinvestigationresults varchar(512);
+INSERT INTO schema_version (version_number, comment) VALUES (645, 'Add measles community investigation fields to cases');
+
+-- Migration 646: Yellow Fever arthralgia and myalgia symptom columns
+ALTER TABLE symptoms ADD COLUMN IF NOT EXISTS arthralgia varchar(255);
+ALTER TABLE symptoms ADD COLUMN IF NOT EXISTS myalgia varchar(255);
+ALTER TABLE symptoms_history ADD COLUMN IF NOT EXISTS arthralgia varchar(255);
+ALTER TABLE symptoms_history ADD COLUMN IF NOT EXISTS myalgia varchar(255);
+INSERT INTO schema_version (version_number, comment) VALUES (646, 'Add arthralgia and myalgia columns to symptoms');
+
+
+-- Add CRS maternal history fields independent from EpiData
+ALTER TABLE maternalhistory ADD COLUMN gestationalageatexposure integer;
+ALTER TABLE maternalhistory ADD COLUMN exposurelocationdescription varchar(512);
+ALTER TABLE maternalhistory ADD COLUMN mothertraveledduringpregnancy varchar(255);
+ALTER TABLE maternalhistory ADD COLUMN mothertraveledduringpregnancydate timestamp;
+ALTER TABLE maternalhistory ADD COLUMN gestationalageattravel integer;
+ALTER TABLE maternalhistory ADD COLUMN travellocationdescription varchar(512);
+
+ALTER TABLE maternalhistory_history ADD COLUMN gestationalageatexposure integer;
+ALTER TABLE maternalhistory_history ADD COLUMN exposurelocationdescription varchar(512);
+ALTER TABLE maternalhistory_history ADD COLUMN mothertraveledduringpregnancy varchar(255);
+ALTER TABLE maternalhistory_history ADD COLUMN mothertraveledduringpregnancydate timestamp;
+ALTER TABLE maternalhistory_history ADD COLUMN gestationalageattravel integer;
+ALTER TABLE maternalhistory_history ADD COLUMN travellocationdescription varchar(512);
+
+INSERT INTO schema_version (version_number, comment) VALUES (647, 'Add CRS maternal history fields');
+
+-- Migration 648: Maternal rubella lab confirmation (CRS maternal history / EpiData parity)
+ALTER TABLE maternalhistory ADD COLUMN IF NOT EXISTS motherrubellalabconfirmed varchar(255);
+ALTER TABLE maternalhistory ADD COLUMN IF NOT EXISTS motherrubellalabconfirmeddate timestamp;
+ALTER TABLE maternalhistory_history ADD COLUMN IF NOT EXISTS motherrubellalabconfirmed varchar(255);
+ALTER TABLE maternalhistory_history ADD COLUMN IF NOT EXISTS motherrubellalabconfirmeddate timestamp;
+INSERT INTO schema_version (version_number, comment) VALUES (648, 'Add mother rubella lab confirmation to maternalhistory');
 
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***
 

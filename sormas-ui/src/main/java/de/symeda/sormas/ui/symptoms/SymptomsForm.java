@@ -181,10 +181,12 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 							//XXX #1620 fluidColumnLoc?
 							fluidColumn(8, 0, loc(SYMPTOMS_HINT_LOC))) +
 					fluidRow(fluidColumn(8,4, locCss(CssStyles.ALIGN_RIGHT,BUTTONS_LOC)))+
-			fluidRowLocs(GENERALIZED_RASH, LESIONS_ONSET_DATE) +
+			fluidRowLocs(SKIN_RASH, LESIONS_ONSET_DATE) +
+			fluidRowLocs(FEVER, COUGH) +
+			fluidRowLocs(RUNNY_NOSE, CONJUNCTIVITIS) +
 			locsCss(VSPACE_3) +
 			fluidRowLocsCss(VSPACE_3, ONSET_SYMPTOM, ONSET_DATE) +
-			fluidRowLocs(6, SWOLLEN_LYMPH_NODES_BEHIND_EARS, 3, OUTCOME);
+			fluidRowLocs(3, OUTCOME, 9, "");
 			
 
 	public static final String AFP_LAYOUT = fluidRowLocs(FEVER_ONSET_PARALYSIS, PROGRESSIVE_PARALYSIS) +
@@ -202,7 +204,8 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 							//XXX #1620 fluidColumnLoc?
 							fluidColumn(8, 0, loc(SYMPTOMS_HINT_LOC))) +
 					fluidRow(fluidColumn(8,4, locCss(CssStyles.ALIGN_RIGHT,BUTTONS_LOC)))+
-					fluidRowLocs(MUSCLE_PAIN, JAUNDICE) +
+					fluidRowLocs(ARTHRALGIA, MYALGIA) +
+					fluidRowLocs(JAUNDICE) +
 					fluidRowLocs(FEVER, HEMORRHAGIC_SYNDROME) +
 					fluidRowLocs(OTHER_NON_HEMORRHAGIC_SYMPTOMS, OTHER_NON_HEMORRHAGIC_SYMPTOMS_TEXT) +
 					fluidRowLocs(OTHER_COMPLICATIONS, OTHER_COMPLICATIONS_TEXT) +
@@ -237,7 +240,6 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 											SPLENOMEGALY, DEVELOPMENTAL_DELAY, RADIOLUCENT_BONE_DISEASE,
 											OTHER_COMPLICATIONS, OTHER_COMPLICATIONS_TEXT))
 					) +
-					fluidRowLocsCss(VSPACE_3, ONSET_SYMPTOM, ONSET_DATE) +
 					loc(CLINICIAN_INFO_HEADING_LOC) +
 					fluidRowLocs(CLINICIAN_NAME, CLINICIAN_ADDRESS, CLINICIAN_PHONE) +
 					fluidRowLocs(3, OUTCOME) +
@@ -442,6 +444,8 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 			ABDOMINAL_PAIN,
 			HEADACHE,
 			MUSCLE_PAIN,
+			ARTHRALGIA,
+			MYALGIA,
 			FATIGUE_WEAKNESS,
 			SKIN_RASH,
 			NECK_STIFFNESS,
@@ -780,6 +784,8 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 			ABDOMINAL_PAIN,
 			HEADACHE,
 			MUSCLE_PAIN,
+			ARTHRALGIA,
+			MYALGIA,
 			FATIGUE_WEAKNESS,
 			SKIN_RASH,
 			GENERALIZED_RASH,
@@ -937,9 +943,11 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 
 		FieldHelper.setVisibleWhen(getFieldGroup(), lesionsLocationFieldIds, LESIONS, Arrays.asList(SymptomState.YES), true);
 
-		// For measles, LESIONS_ONSET_DATE should depend on GENERALIZED_RASH instead of LESIONS
-		// For yellow fever and congenital rubella, same logic applies
-		if (disease == Disease.MEASLES || disease == Disease.YELLOW_FEVER || disease == Disease.CONGENITAL_RUBELLA) {
+		// For measles, LESIONS_ONSET_DATE should depend on maculopapular rash (SKIN_RASH) instead of LESIONS
+		// For yellow fever and congenital rubella, LESIONS_ONSET_DATE depends on GENERALIZED_RASH
+		if (disease == Disease.MEASLES) {
+			FieldHelper.setVisibleWhen(getFieldGroup(), LESIONS_ONSET_DATE, SKIN_RASH, Arrays.asList(SymptomState.YES), true);
+		} else if (disease == Disease.YELLOW_FEVER || disease == Disease.CONGENITAL_RUBELLA) {
 			FieldHelper.setVisibleWhen(getFieldGroup(), LESIONS_ONSET_DATE, GENERALIZED_RASH, Arrays.asList(SymptomState.YES), true);
 		} else {
 			FieldHelper.setVisibleWhen(getFieldGroup(), LESIONS_ONSET_DATE, LESIONS, Arrays.asList(SymptomState.YES), true);

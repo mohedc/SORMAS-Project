@@ -72,6 +72,7 @@ import de.symeda.sormas.api.i18n.Descriptions;
 import de.symeda.sormas.api.i18n.I18nProperties;
 import de.symeda.sormas.api.i18n.Strings;
 import de.symeda.sormas.api.i18n.Validations;
+import de.symeda.sormas.api.location.LocationDto;
 import de.symeda.sormas.api.infrastructure.community.CommunityReferenceDto;
 import de.symeda.sormas.api.infrastructure.country.CountryReferenceDto;
 import de.symeda.sormas.api.infrastructure.district.DistrictReferenceDto;
@@ -192,6 +193,7 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 					fluidRowLocs(PersonDto.SEX, PersonDto.MARITAL_STATUS) +
 					fluidRowLocs(PersonDto.NATIONALITY, "") +
 					fluidRowLocs(PersonDto.PASSPORT_NUMBER, "") +
+					fluidRowLocs(PersonDto.MOTHERS_NAME, PersonDto.FATHERS_NAME)+
 					  loc(ADDRESS_HEADER) +
                     divsCss(VSPACE_3, fluidRowLocs(PersonDto.ADDRESS));
 
@@ -1321,6 +1323,35 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 
 		if (burialPlaceDesc.isVisible() && StringUtils.isBlank(burialPlaceDesc.getValue())) {
 			burialPlaceDesc.setValue(getValue().getAddress().buildCaption());
+		}
+	}
+
+	/**
+	 * When the case has "Home" as place of detection, require core home address fields on the person's address.
+	 */
+	public void applyCasePlaceOfDetectionHomeAddressRequired(boolean required) {
+
+		if (addressForm == null || personContext != PersonContext.CASE) {
+			return;
+		}
+		addressForm.setFieldsRequirement(
+			required,
+			LocationDto.REGION,
+			LocationDto.DISTRICT,
+			LocationDto.COMMUNITY,
+			LocationDto.VILLAGE,
+			LocationDto.NEAREST_HEALTH_FACILITY);
+		if (required) {
+			getField(PersonDto.ADDRESS).setVisible(true);
+			addressHeader.setVisible(true);
+			for (String id : new String[] {
+				LocationDto.VILLAGE,
+				LocationDto.NEAREST_HEALTH_FACILITY }) {
+				Field<?> f = addressForm.getField(id);
+				if (f != null) {
+					f.setVisible(true);
+				}
+			}
 		}
 	}
 

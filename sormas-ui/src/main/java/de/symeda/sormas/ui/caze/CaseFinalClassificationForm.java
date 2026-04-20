@@ -22,11 +22,13 @@ import static de.symeda.sormas.ui.utils.LayoutUtil.loc;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import com.vaadin.ui.Label;
 import com.vaadin.v7.ui.ComboBox;
+import com.vaadin.v7.ui.TextArea;
 import com.vaadin.v7.ui.TextField;
 import com.vaadin.v7.ui.DateField;
 import de.symeda.sormas.api.Disease;
@@ -38,8 +40,10 @@ import de.symeda.sormas.api.i18n.Strings;
 import de.symeda.sormas.api.infrastructure.region.RegionReferenceDto;
 import de.symeda.sormas.api.sample.FinalClassification;
 import de.symeda.sormas.api.sample.PathogenTestDto;
+import de.symeda.sormas.api.sample.PathogenTestResultType;
 import de.symeda.sormas.api.sample.SampleDto;
-import de.symeda.sormas.api.utils.Diseases;
+import de.symeda.sormas.api.utils.YesNo;
+import de.symeda.sormas.api.utils.YesNoUnknown;
 import de.symeda.sormas.api.utils.fieldaccess.UiFieldAccessCheckers;
 import de.symeda.sormas.api.utils.fieldvisibility.FieldVisibilityCheckers;
 import de.symeda.sormas.api.utils.fieldvisibility.checkers.CountryFieldVisibilityChecker;
@@ -61,6 +65,18 @@ public class CaseFinalClassificationForm extends AbstractEditForm<CaseDataDto> {
 	private static final String HTML_LAYOUT =
 			loc(FINAL_CLASSIFICATION_HEADING_LOC) +
 			fluidRowLocs(CaseDataDto.FINAL_CLASSIFICATION);
+
+	private static final String YELLOW_FEVER_HTML_LAYOUT =
+			loc(FINAL_CLASSIFICATION_HEADING_LOC) +
+			fluidRowLocs(CaseDataDto.FINAL_CLASSIFICATION, "") +
+			fluidRowLocs(CaseDataDto.CLASSIFICATION_COMMENT, "");
+
+	private static final String MEASLES_HTML_LAYOUT =
+			loc(FINAL_CLASSIFICATION_HEADING_LOC) +
+			fluidRowLocs(CaseDataDto.MEASLES_COMMUNITY_INVESTIGATION, "") +
+			fluidRowLocs(CaseDataDto.MEASLES_INVESTIGATION_RESULTS, "") +
+			fluidRowLocs(CaseDataDto.SOURCE_OF_INFECTION_IDENTIFIED, "") +
+			fluidRowLocs(CaseDataDto.FINAL_CLASSIFICATION, "");
 
 	private static final String AFP_HTML_LAYOUT =
 			loc(FINAL_CLASSIFICATION_HEADING_LOC) +
@@ -94,6 +110,7 @@ public class CaseFinalClassificationForm extends AbstractEditForm<CaseDataDto> {
 	private ComboBox regionCombo;
 	private FinalClassification previousFinalClassification;
 	private boolean isInitializing = true;
+	private String caseUuid;
 
 	public CaseFinalClassificationForm(
 		String caseUuid,
@@ -114,6 +131,7 @@ public class CaseFinalClassificationForm extends AbstractEditForm<CaseDataDto> {
 			FieldAccessHelper.getFieldAccessCheckers(inJurisdiction, isPseudonymized));
 
 		this.disease = disease;
+		this.caseUuid = caseUuid;
 
 		addFields();
 	}
@@ -150,6 +168,18 @@ public class CaseFinalClassificationForm extends AbstractEditForm<CaseDataDto> {
 		finalClassificationField = addField(CaseDataDto.FINAL_CLASSIFICATION, ComboBox.class);
 		finalClassificationField.setNullSelectionAllowed(true);
 		finalClassificationField.setItemCaptionMode(ComboBox.ItemCaptionMode.ID_TOSTRING);
+		TextArea classificationCommentField = addField(CaseDataDto.CLASSIFICATION_COMMENT, TextArea.class);
+		classificationCommentField.setRows(4);
+		addField(CaseDataDto.MEASLES_COMMUNITY_INVESTIGATION, NullableOptionGroup.class);
+		TextArea measlesInvestigationResults = addField(CaseDataDto.MEASLES_INVESTIGATION_RESULTS, TextArea.class);
+		measlesInvestigationResults.setRows(4);
+			addField(CaseDataDto.SOURCE_OF_INFECTION_IDENTIFIED, NullableOptionGroup.class);
+			FieldHelper.setVisibleWhen(
+				getFieldGroup(),
+				CaseDataDto.MEASLES_INVESTIGATION_RESULTS,
+				CaseDataDto.MEASLES_COMMUNITY_INVESTIGATION,
+				Collections.singletonList(YesNo.YES),
+				true);
 		classificationByOriginField = addField(CaseDataDto.CLASSIFICATION_BY_ORIGIN, ComboBox.class);
 		classificationByOriginField.setNullSelectionAllowed(true);
 		classificationByOriginField.setItemCaptionMode(ComboBox.ItemCaptionMode.ID_TOSTRING);
@@ -268,6 +298,34 @@ public class CaseFinalClassificationForm extends AbstractEditForm<CaseDataDto> {
 		if(disease == Disease.CONGENITAL_RUBELLA){
 			return CONGENITAL_RUBELLA_HTML_LAYOUT;
 		}
+		if (disease == Disease.MEASLES) {
+			return MEASLES_HTML_LAYOUT;
+		}
+		if (disease == Disease.YELLOW_FEVER) {
+			return YELLOW_FEVER_HTML_LAYOUT;
+		}
 		return HTML_LAYOUT;
 	}
+
+	private boolean hasPositiveMeaslesPathogenTest() {
+		if (caseUuid == null) {
+			return false;
+		}
+		List<SampleDto> samples = FacadeProvider.getSampleFacade().getByCaseUuids(Collections.singletonList(caseUuid));
+		for (SampleDto sample : samples) {
+			if (sample.isDeleted()) {
+				continue;
+			}
+			for (PathogenTestDto test : FacadeProvider.getPathogenTestFacade().getAllBySample(sample.toReference())) {
+				if (test.isDeleted()) {
+					continue;
+				}
+				if (test.getTestedDisease() == Disease.MEASLES && test.getTestResult() == PathogenTestResultType.POSITIVE) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
 }

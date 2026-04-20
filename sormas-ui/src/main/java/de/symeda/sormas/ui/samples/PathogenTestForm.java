@@ -132,10 +132,8 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 			fluidRowLocs(PathogenTestDto.TYPING_ID, "") +
 			fluidRowLocs(PathogenTestDto.TEST_DATE_TIME, PathogenTestDto.LAB) +
 			fluidRowLocs("", PathogenTestDto.LAB_DETAILS) +
-			fluidRowLocs(7, PathogenTestDto.DATE_RESULTS_SENT_TO_DISEASE_SURVEILLANCE, 5, PathogenTestDto.DATE_DISTRICT_RECEIVED_LAB_RESULTS) +
-			fluidRowLocs(PathogenTestDto.DATE_INDIRECT_RESULTS_RECEIVED_AT_NATIONAL_EPI_OFFICE, PathogenTestDto.DATE_CAPTURED_RESULTS_RECEIVED_AT_NATIONAL_EPI_OFFICE) +
-			fluidRowLocs(PathogenTestDto.PERFORM_RUBELLA_TEST, PathogenTestDto.COMMUNITY_INVESTIGATION) +
-			fluidRowLocs(PathogenTestDto.INVESTIGATION_RESULTS, PathogenTestDto.SOURCE_OF_INFECTION_IDENTIFIED) +
+			fluidRowLocs(PathogenTestDto.DATE_DISTRICT_RECEIVED_LAB_RESULTS, PathogenTestDto.DATE_INDIRECT_RESULTS_RECEIVED_AT_NATIONAL_EPI_OFFICE) +
+			fluidRowLocs(PathogenTestDto.DATE_CAPTURED_RESULTS_RECEIVED_AT_NATIONAL_EPI_OFFICE, "") +
 			fluidRowLocs(4, PathogenTestDto.TEST_RESULT, 4, PathogenTestDto.TEST_RESULT_VERIFIED) +
 			fluidRowLocs(PathogenTestDto.TEST_RESULT_TEXT, PathogenTestDto.DATE_RESULTS_SENT_TO_DISTRICT);
 
@@ -144,9 +142,10 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 			fluidRowLocs(PathogenTestDto.TESTED_DISEASE, PathogenTestDto.TESTED_DISEASE_DETAILS) +
 			fluidRowLocs(PathogenTestDto.TEST_TYPE, PathogenTestDto.TEST_TYPE_TEXT) +
 			fluidRowLocs(PathogenTestDto.TEST_DATE_TIME, PathogenTestDto.LAB) +
-			fluidRowLocs(5, PathogenTestDto.LAB_DETAILS, 7, PathogenTestDto.DATE_RESULTS_SENT_TO_DISTRICT) +
+			fluidRowLocs(5, PathogenTestDto.LAB_DETAILS, 7, "") +
 			fluidRowLocs(4, PathogenTestDto.TEST_RESULT, 4, PathogenTestDto.TEST_RESULT_VERIFIED, 4, PathogenTestDto.VIRUS_ISOLATED) +
-			fluidRowLocs(PathogenTestDto.TEST_RESULT_TEXT, "");
+			fluidRowLocs(PathogenTestDto.TEST_RESULT_TEXT, "") +
+			fluidRowLocs(PathogenTestDto.DATE_RESULTS_SENT_TO_DISTRICT, "");
 
 	private static final String MENINGITIS_HTML_LAYOUT =
 			loc(PATHOGEN_TEST_HEADING_LOC) +
@@ -864,6 +863,14 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 				FieldVisibilityCheckers.withDisease(disease),
 				PathogenTestType.class);
 
+			if (Disease.MEASLES.equals(caseDisease)) {
+				applyMeaslesCaseTestTypeRestriction(disease);
+				hideMeaslesCaseRemovedPathogenFields();
+			}
+			if (Disease.YELLOW_FEVER.equals(caseDisease)) {
+				applyYellowFeverCaseTestTypeRestriction(disease);
+			}
+
 			// Configure measles-specific fields if disease is measles
 			if (disease == Disease.MEASLES) {
 				configureMeaslesFields();
@@ -998,6 +1005,13 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 		if (disease == Disease.MEASLES) {
 			configureMeaslesFields();
 		}
+		if (Disease.MEASLES.equals(caseDisease)) {
+			applyMeaslesCaseTestTypeRestriction((Disease) diseaseField.getValue());
+			hideMeaslesCaseRemovedPathogenFields();
+		}
+		if (Disease.YELLOW_FEVER.equals(caseDisease)) {
+			applyYellowFeverCaseTestTypeRestriction((Disease) diseaseField.getValue());
+		}
 		// Yellow fever-specific configuration (called after all other visibility logic)
 		if (disease == Disease.YELLOW_FEVER) {
 			configureYellowFeverFields();
@@ -1021,17 +1035,87 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 	}
 
 	/**
+	 * When the case disease is measles, limits test type options by tested disease (Measles / Rubella / Dengue).
+	 */
+	private void applyMeaslesCaseTestTypeRestriction(Disease testedDisease) {
+		if (!Disease.MEASLES.equals(caseDisease) || testedDisease == null) {
+			return;
+		}
+
+		PathogenTestType previous = (PathogenTestType) testTypeField.getValue();
+
+		if (testedDisease == Disease.MEASLES) {
+			List<PathogenTestType> items =
+				Arrays.asList(PathogenTestType.INDIRECT_IGM_SEROLOGY, PathogenTestType.CAPTURED_IGM_SEROLOGY);
+			testTypeField.removeAllItems();
+			testTypeField.addItems(items);
+			if (previous != null && items.contains(previous)) {
+				testTypeField.setValue(previous);
+			} else {
+				testTypeField.setValue(null);
+			}
+			return;
+		}
+
+		if (testedDisease == Disease.RUBELLA || testedDisease == Disease.DENGUE) {
+			testTypeField.removeAllItems();
+			testTypeField.addItem(PathogenTestType.IGM_SERUM_ANTIBODY);
+			testTypeField.setItemCaption(PathogenTestType.IGM_SERUM_ANTIBODY, "IgM");
+			if (PathogenTestType.IGM_SERUM_ANTIBODY.equals(previous)) {
+				testTypeField.setValue(previous);
+			} else {
+				testTypeField.setValue(null);
+			}
+		}
+	}
+
+	private void applyYellowFeverCaseTestTypeRestriction(Disease testedDisease) {
+		if (!Disease.YELLOW_FEVER.equals(caseDisease) || testedDisease == null) {
+			return;
+		}
+
+		PathogenTestType previous = (PathogenTestType) testTypeField.getValue();
+
+		if (testedDisease == Disease.YELLOW_FEVER) {
+			testTypeField.removeAllItems();
+			testTypeField.addItem(PathogenTestType.IGM_SERUM_ANTIBODY);
+			testTypeField.setItemCaption(PathogenTestType.IGM_SERUM_ANTIBODY, "IgM");
+			if (PathogenTestType.IGM_SERUM_ANTIBODY.equals(previous)) {
+				testTypeField.setValue(previous);
+			} else {
+				testTypeField.setValue(null);
+			}
+			return;
+		}
+
+		if (testedDisease == Disease.MALARIA) {
+			testTypeField.removeAllItems();
+			testTypeField.addItem(PathogenTestType.MICROSCOPY);
+			if (PathogenTestType.MICROSCOPY.equals(previous)) {
+				testTypeField.setValue(previous);
+			} else {
+				testTypeField.setValue(null);
+			}
+		}
+	}
+
+	/**
+	 * Fields moved to case final classification or discontinued for measles cases; keep hidden on pathogen form.
+	 */
+	private void hideMeaslesCaseRemovedPathogenFields() {
+		setVisible(
+			false,
+			PathogenTestDto.DATE_RESULTS_SENT_TO_DISEASE_SURVEILLANCE,
+			PathogenTestDto.PERFORM_RUBELLA_TEST,
+			PathogenTestDto.COMMUNITY_INVESTIGATION,
+			PathogenTestDto.INVESTIGATION_RESULTS,
+			PathogenTestDto.SOURCE_OF_INFECTION_IDENTIFIED);
+	}
+
+	/**
 	 * Configures fields specifically for measles pathogen tests
 	 */
 	protected void configureMeaslesFields() {
-		// Show investigation results when community investigation is yes
-		FieldHelper.setVisibleWhen(
-			getFieldGroup(),
-			Arrays.asList(PathogenTestDto.INVESTIGATION_RESULTS),
-			PathogenTestDto.COMMUNITY_INVESTIGATION,
-			Arrays.asList(true),
-			true);
-
 		// Hide tested disease details if not OTHER
 		FieldHelper.setVisibleWhen(
 			getFieldGroup(),
@@ -1042,7 +1126,7 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 
 		// Filter tested disease field to only show MEASLES, DENGUE, and RUBELLA (excluding CONGENITAL_RUBELLA)
 		// Only filter if case disease is MEASLES
-		if (disease == Disease.MEASLES) {
+		if (Disease.MEASLES.equals(caseDisease)) {
 			// list of possible tested diseases for measles
 			List<Disease> possibleTestedDiseases = Arrays.asList(Disease.MEASLES, Disease.DENGUE, Disease.RUBELLA);
 
@@ -1093,6 +1177,46 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 			PathogenTestDto.TESTED_DISEASE,
 			Arrays.asList(Disease.OTHER),
 			true);
+
+		FieldHelper.updateEnumData(
+			testResultField,
+			Arrays.asList(
+				PathogenTestResultType.POSITIVE,
+				PathogenTestResultType.NEGATIVE,
+				PathogenTestResultType.INDETERMINATE,
+				PathogenTestResultType.NOT_DONE,
+				PathogenTestResultType.UNKNOWN));
+
+		if (Disease.YELLOW_FEVER.equals(caseDisease)) {
+			List<Disease> possibleTestedDiseases = Arrays.asList(Disease.YELLOW_FEVER, Disease.MALARIA);
+			ComboBox testedDiseaseField = (ComboBox) getField(PathogenTestDto.TESTED_DISEASE);
+			Object currentValue = testedDiseaseField.getValue();
+
+			if (!testedDiseaseField.containsId(Disease.YELLOW_FEVER)) {
+				testedDiseaseField.addItem(Disease.YELLOW_FEVER);
+				testedDiseaseField.setItemCaption(Disease.YELLOW_FEVER, Disease.YELLOW_FEVER.toString());
+			}
+			if (!testedDiseaseField.containsId(Disease.MALARIA)) {
+				testedDiseaseField.addItem(Disease.MALARIA);
+				testedDiseaseField.setItemCaption(Disease.MALARIA, Disease.MALARIA.toString());
+			}
+
+			@SuppressWarnings("unchecked")
+			Collection<Object> itemIds = (Collection<Object>) testedDiseaseField.getItemIds();
+			List<Object> itemsToRemove = itemIds.stream()
+				.filter(item -> !possibleTestedDiseases.contains(item))
+				.collect(Collectors.toList());
+
+			for (Object item : itemsToRemove) {
+				testedDiseaseField.removeItem(item);
+			}
+
+			if (currentValue != null && possibleTestedDiseases.contains(currentValue)) {
+				testedDiseaseField.setValue(currentValue);
+			} else if (currentValue != null) {
+				testedDiseaseField.setValue(null);
+			}
+		}
 	}
 
 	/**

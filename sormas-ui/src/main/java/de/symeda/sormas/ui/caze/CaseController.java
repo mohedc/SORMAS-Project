@@ -571,6 +571,10 @@ public class CaseController {
 
 	protected CaseDataDto saveCase(CaseDataDto cazeDto) {
 
+		if (CaseDataForm.isPlaceOfDetectionHome(cazeDto)) {
+			cazeDto.setHealthFacilityDetails(null);
+		}
+
 		if (cazeDto.getReInfection() == YesNoUnknown.NO || cazeDto.getReInfection() == YesNoUnknown.UNKNOWN) {
 			cazeDto.setPreviousInfectionDate(null);
 			cazeDto.setReinfectionDetails(Collections.emptyMap());
@@ -1335,7 +1339,12 @@ public class CaseController {
 
 		CaseDataDto caze = findCase(caseUuid);
 		MaternalHistoryDto maternalHistory = caze.getMaternalHistory();
-		MaternalHistoryForm form = new MaternalHistoryForm(viewMode, maternalHistory.isPseudonymized(), maternalHistory.isInJurisdiction());
+		MaternalHistoryForm form =
+			new MaternalHistoryForm(
+				viewMode,
+				maternalHistory.isPseudonymized(),
+				maternalHistory.isInJurisdiction(),
+				caze.getDisease());
 		form.setValue(maternalHistory);
 
 		final CommitDiscardWrapperComponent<MaternalHistoryForm> component =
@@ -1430,6 +1439,10 @@ public class CaseController {
 			cazeDto.setClassificationByOrigin(finalClassificationForm.getValue().getClassificationByOrigin());
 			cazeDto.setInvestigatorName(finalClassificationForm.getValue().getInvestigatorName());
 			cazeDto.setInvestigatorTel(finalClassificationForm.getValue().getInvestigatorTel());
+			cazeDto.setClassificationComment(finalClassificationForm.getValue().getClassificationComment());
+			cazeDto.setMeaslesCommunityInvestigation(finalClassificationForm.getValue().getMeaslesCommunityInvestigation());
+			cazeDto.setMeaslesInvestigationResults(finalClassificationForm.getValue().getMeaslesInvestigationResults());
+			cazeDto.setSourceOfInfectionIdentified(finalClassificationForm.getValue().getSourceOfInfectionIdentified());
 			
 			// If final classification is LAB_CONFIRMED or CONFIRMED_BY_EPIDEMIOLOGICAL_LINKAGE for diseases requiring confirmation,
 			// set case classification to CONFIRMED

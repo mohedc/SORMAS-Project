@@ -2171,7 +2171,6 @@ public class CaseFacadeEjb extends AbstractCoreFacadeEjb<Case, CaseDataDto, Case
 			&& !CaseLogic.isCompleteEpidNumber(newCase.getEpidNumber())) {
 			newCase.setEpidNumber(
 				generateEpidNumber(
-					newCase.getEpidNumber(),
 					newCase.getUuid(),
 					newCase.getDisease(),
 					newCase.getReportDate(),
@@ -2587,44 +2586,46 @@ public class CaseFacadeEjb extends AbstractCoreFacadeEjb<Case, CaseDataDto, Case
 	@Override
 	public String getGenerateEpidNumber(CaseDataDto caze) {
 		return generateEpidNumber(
-			caze.getEpidNumber(),
 			caze.getUuid(),
 			caze.getDisease(),
 			caze.getReportDate(),
 			caze.getResponsibleDistrict().getUuid());
 	}
 
-	private String generateEpidNumber(String newEpidNumber, String caseUuid, Disease disease, Date reportDate, String districtUuid) {
+	private String generateEpidNumber(String caseUuid, Disease disease, Date reportDate, String districtUuid) {
 
-		if (!CaseLogic.isEpidNumberPrefix(newEpidNumber)) {
-			// Generate a completely new epid number if the prefix is not complete or doesn't match the pattern
-			Calendar calendar = Calendar.getInstance();
-			calendar.setTime(reportDate);
-			String year = String.valueOf(calendar.get(Calendar.YEAR)).substring(2);
-			newEpidNumber = districtFacade.getFullEpidCodeForDistrict(districtUuid) + "-" + year + "-";
-		}
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(reportDate);
+		String year = String.valueOf(calendar.get(Calendar.YEAR)).substring(2);
 
-		// Generate a suffix number
-		String highestEpidNumber = service.getHighestEpidNumber(newEpidNumber, caseUuid, disease);
-		if (highestEpidNumber == null || highestEpidNumber.endsWith("-")) {
-			// If there is not yet a case with a suffix for this epid number in the database, use 001
-			newEpidNumber = newEpidNumber + "001";
-		} else {
-			// Otherwise, extract the suffix from the highest existing epid number and increase it by 1
-			String suffixString = highestEpidNumber.substring(highestEpidNumber.lastIndexOf('-'));
-			// Remove all non-digits from the suffix to ignore earlier input errors
-			suffixString = suffixString.replaceAll("[^\\d]", "");
-			if (suffixString.isEmpty()) {
-				// If the suffix is empty now, that means there is not yet an epid number with a
-				// suffix containing numbers
-				newEpidNumber = newEpidNumber + "001";
-			} else {
-				int suffix = Integer.parseInt(suffixString) + 1;
-				newEpidNumber += String.format("%03d", suffix);
+		District district = districtService.getByUuid(districtUuid);
+		Region region = district.getRegion();
+
+		String geoPrefix =
+			"GAM-"
+				+ region.getName().substring(0, 3).toUpperCase()
+				+ "-"
+				+ district.getName().substring(0, 3).toUpperCase()
+				+ "-";
+
+		// Country–region–district–year–case number (matches CaseLogic EPID patterns)
+		String searchPrefix = geoPrefix + year + "-";
+
+		String highestEpidNumber = service.getHighestEpidNumber(searchPrefix, caseUuid, disease);
+
+		int nextNumber = 1;
+
+		if (highestEpidNumber != null && highestEpidNumber.startsWith(searchPrefix)) {
+			String suffix = highestEpidNumber.substring(searchPrefix.length()).replaceAll("\\D", "");
+			if (!suffix.isEmpty()) {
+				try {
+					nextNumber = Integer.parseInt(suffix) + 1;
+				} catch (NumberFormatException ignored) {
+				}
 			}
 		}
 
-		return newEpidNumber;
+		return searchPrefix + String.format("%03d", nextNumber);
 	}
 
 
@@ -3274,6 +3275,8 @@ public class CaseFacadeEjb extends AbstractCoreFacadeEjb<Case, CaseDataDto, Case
 		target.setInvestigatorEmail(source.getInvestigatorEmail());
 		target.setDateReceivedAtDistrictLevel(source.getDateReceivedAtDistrictLevel());
 		target.setSourceOfInfectionIdentified(source.getSourceOfInfectionIdentified());
+		target.setMeaslesCommunityInvestigation(source.getMeaslesCommunityInvestigation());
+		target.setMeaslesInvestigationResults(source.getMeaslesInvestigationResults());
 		target.setMotherGivenProtectiveDoseTT(source.getMotherGivenProtectiveDoseTT());
 		target.setMotherGivenProtectiveDoseTTDate(source.getMotherGivenProtectiveDoseTTDate());
 		target.setSupplementalImmunization(source.getSupplementalImmunization());
@@ -3542,6 +3545,8 @@ public class CaseFacadeEjb extends AbstractCoreFacadeEjb<Case, CaseDataDto, Case
 		target.setInvestigatorEmail(source.getInvestigatorEmail());
 		target.setDateReceivedAtDistrictLevel(source.getDateReceivedAtDistrictLevel());
 		target.setSourceOfInfectionIdentified(source.getSourceOfInfectionIdentified());
+		target.setMeaslesCommunityInvestigation(source.getMeaslesCommunityInvestigation());
+		target.setMeaslesInvestigationResults(source.getMeaslesInvestigationResults());
 		target.setMotherGivenProtectiveDoseTT(source.getMotherGivenProtectiveDoseTT());
 		target.setMotherGivenProtectiveDoseTTDate(source.getMotherGivenProtectiveDoseTTDate());
 		target.setSupplementalImmunization(source.getSupplementalImmunization());
