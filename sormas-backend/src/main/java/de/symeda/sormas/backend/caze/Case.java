@@ -2374,7 +2374,6 @@ public class Case extends CoreAdo implements IsCase, SormasToSormasShareable, Ha
 		this.dateLabResultsReceivedAtHealthFacility = dateLabResultsReceivedAtHealthFacility;
 	}
 	@ManyToOne(cascade = {}, fetch = FetchType.LAZY)
-	@JoinColumn(name = "regionlabresultsreceived_id")
 	public Region getRegionLabResultsReceived() {
 		return regionLabResultsReceived;
 	}

@@ -262,10 +262,6 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 		placeOfStayHeadingLabel.addStyleName(H3);
 		getContent().addComponent(placeOfStayHeadingLabel, PLACE_OF_STAY_HEADING_LOC);
 
-		Label patientIdentificationHeadingLabel = new Label(I18nProperties.getCaption(Captions.casePatientIdentification));
-		patientIdentificationHeadingLabel.addStyleName(H3);
-		getContent().addComponent(patientIdentificationHeadingLabel, PATIENT_IDENTIFICATION_HEADING_LOC);
-
 		regionCombo = addInfrastructureField(CaseDataDto.REGION);
 		districtCombo = addInfrastructureField(CaseDataDto.DISTRICT);
 		communityCombo = addInfrastructureField(CaseDataDto.COMMUNITY);
