@@ -1339,7 +1339,12 @@ public class CaseController {
 
 		CaseDataDto caze = findCase(caseUuid);
 		MaternalHistoryDto maternalHistory = caze.getMaternalHistory();
-		MaternalHistoryForm form = new MaternalHistoryForm(viewMode, maternalHistory.isPseudonymized(), maternalHistory.isInJurisdiction());
+		MaternalHistoryForm form =
+			new MaternalHistoryForm(
+				viewMode,
+				maternalHistory.isPseudonymized(),
+				maternalHistory.isInJurisdiction(),
+				caze.getDisease());
 		form.setValue(maternalHistory);
 
 		final CommitDiscardWrapperComponent<MaternalHistoryForm> component =

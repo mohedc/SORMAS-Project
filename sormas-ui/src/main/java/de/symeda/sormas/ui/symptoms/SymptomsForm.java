@@ -240,7 +240,6 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 											SPLENOMEGALY, DEVELOPMENTAL_DELAY, RADIOLUCENT_BONE_DISEASE,
 											OTHER_COMPLICATIONS, OTHER_COMPLICATIONS_TEXT))
 					) +
-					fluidRowLocsCss(VSPACE_3, ONSET_SYMPTOM, ONSET_DATE) +
 					loc(CLINICIAN_INFO_HEADING_LOC) +
 					fluidRowLocs(CLINICIAN_NAME, CLINICIAN_ADDRESS, CLINICIAN_PHONE) +
 					fluidRowLocs(3, OUTCOME) +

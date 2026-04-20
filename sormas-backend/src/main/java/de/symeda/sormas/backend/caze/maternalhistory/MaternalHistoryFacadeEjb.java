@@ -60,6 +60,12 @@ public class MaternalHistoryFacadeEjb implements MaternalHistoryFacade {
 		target.setRashExposureRegion(RegionFacadeEjb.toReferenceDto(source.getRashExposureRegion()));
 		target.setRashExposureDistrict(DistrictFacadeEjb.toReferenceDto(source.getRashExposureDistrict()));
 		target.setRashExposureCommunity(CommunityFacadeEjb.toReferenceDto(source.getRashExposureCommunity()));
+		target.setGestationalAgeAtExposure(source.getGestationalAgeAtExposure());
+		target.setExposureLocationDescription(source.getExposureLocationDescription());
+		target.setMotherTraveledDuringPregnancy(source.getMotherTraveledDuringPregnancy());
+		target.setMotherTraveledDuringPregnancyDate(source.getMotherTraveledDuringPregnancyDate());
+		target.setGestationalAgeAtTravel(source.getGestationalAgeAtTravel());
+		target.setTravelLocationDescription(source.getTravelLocationDescription());
 		target.setOtherComplications(source.getOtherComplications());
 		target.setOtherComplicationsOnset(source.getOtherComplicationsOnset());
 		target.setOtherComplicationsMonth(source.getOtherComplicationsMonth());
@@ -98,6 +104,12 @@ public class MaternalHistoryFacadeEjb implements MaternalHistoryFacade {
 		target.setRashExposureRegion(regionService.getByReferenceDto(source.getRashExposureRegion()));
 		target.setRashExposureDistrict(districtService.getByReferenceDto(source.getRashExposureDistrict()));
 		target.setRashExposureCommunity(communityService.getByReferenceDto(source.getRashExposureCommunity()));
+		target.setGestationalAgeAtExposure(source.getGestationalAgeAtExposure());
+		target.setExposureLocationDescription(source.getExposureLocationDescription());
+		target.setMotherTraveledDuringPregnancy(source.getMotherTraveledDuringPregnancy());
+		target.setMotherTraveledDuringPregnancyDate(source.getMotherTraveledDuringPregnancyDate());
+		target.setGestationalAgeAtTravel(source.getGestationalAgeAtTravel());
+		target.setTravelLocationDescription(source.getTravelLocationDescription());
 		target.setOtherComplications(source.getOtherComplications());
 		target.setOtherComplicationsOnset(source.getOtherComplicationsOnset());
 		target.setOtherComplicationsMonth(source.getOtherComplicationsMonth());

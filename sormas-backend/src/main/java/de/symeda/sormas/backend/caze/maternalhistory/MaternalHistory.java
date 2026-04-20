@@ -57,6 +57,12 @@ public class MaternalHistory extends AbstractDomainObject {
 	private Region rashExposureRegion;
 	private District rashExposureDistrict;
 	private Community rashExposureCommunity;
+	private Integer gestationalAgeAtExposure;
+	private String exposureLocationDescription;
+	private YesNoUnknown motherTraveledDuringPregnancy;
+	private Date motherTraveledDuringPregnancyDate;
+	private Integer gestationalAgeAtTravel;
+	private String travelLocationDescription;
 
 	public Integer getChildrenNumber() {
 		return childrenNumber;
@@ -326,6 +332,58 @@ public class MaternalHistory extends AbstractDomainObject {
 
 	public void setRashExposureCommunity(Community rashExposureCommunity) {
 		this.rashExposureCommunity = rashExposureCommunity;
+	}
+
+	public Integer getGestationalAgeAtExposure() {
+		return gestationalAgeAtExposure;
+	}
+
+	public void setGestationalAgeAtExposure(Integer gestationalAgeAtExposure) {
+		this.gestationalAgeAtExposure = gestationalAgeAtExposure;
+	}
+
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	public String getExposureLocationDescription() {
+		return exposureLocationDescription;
+	}
+
+	public void setExposureLocationDescription(String exposureLocationDescription) {
+		this.exposureLocationDescription = exposureLocationDescription;
+	}
+
+	@Enumerated(EnumType.STRING)
+	public YesNoUnknown getMotherTraveledDuringPregnancy() {
+		return motherTraveledDuringPregnancy;
+	}
+
+	public void setMotherTraveledDuringPregnancy(YesNoUnknown motherTraveledDuringPregnancy) {
+		this.motherTraveledDuringPregnancy = motherTraveledDuringPregnancy;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getMotherTraveledDuringPregnancyDate() {
+		return motherTraveledDuringPregnancyDate;
+	}
+
+	public void setMotherTraveledDuringPregnancyDate(Date motherTraveledDuringPregnancyDate) {
+		this.motherTraveledDuringPregnancyDate = motherTraveledDuringPregnancyDate;
+	}
+
+	public Integer getGestationalAgeAtTravel() {
+		return gestationalAgeAtTravel;
+	}
+
+	public void setGestationalAgeAtTravel(Integer gestationalAgeAtTravel) {
+		this.gestationalAgeAtTravel = gestationalAgeAtTravel;
+	}
+
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	public String getTravelLocationDescription() {
+		return travelLocationDescription;
+	}
+
+	public void setTravelLocationDescription(String travelLocationDescription) {
+		this.travelLocationDescription = travelLocationDescription;
 	}
 
 }
