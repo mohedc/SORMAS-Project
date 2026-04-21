@@ -15288,17 +15288,6 @@ ALTER TABLE symptoms_history ADD COLUMN IF NOT EXISTS radiolucentbonediseaseonse
 
 INSERT INTO schema_version (version_number, comment) VALUES (650, 'Per-symptom onset date fields on symptoms');
 
--- Migration 651: Drop per-onset columns removed from UI (NNT history/outcome/complications); safe if columns never existed
-ALTER TABLE symptoms DROP COLUMN IF EXISTS babynormalatbirthonsetdate;
-ALTER TABLE symptoms DROP COLUMN IF EXISTS stoppedsuckingaftertwodaysonsetdate;
-ALTER TABLE symptoms DROP COLUMN IF EXISTS othercomplicationsonsetdate;
-ALTER TABLE symptoms DROP COLUMN IF EXISTS babydiedonsetdate;
-ALTER TABLE symptoms_history DROP COLUMN IF EXISTS babynormalatbirthonsetdate;
-ALTER TABLE symptoms_history DROP COLUMN IF EXISTS stoppedsuckingaftertwodaysonsetdate;
-ALTER TABLE symptoms_history DROP COLUMN IF EXISTS othercomplicationsonsetdate;
-ALTER TABLE symptoms_history DROP COLUMN IF EXISTS babydiedonsetdate;
-
-INSERT INTO schema_version (version_number, comment) VALUES (651, 'Drop unused per-onset columns removed from symptoms UI');
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***
 
 
