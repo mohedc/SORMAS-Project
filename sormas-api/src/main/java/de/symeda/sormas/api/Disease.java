@@ -45,7 +45,7 @@ public enum Disease
 	ANTHRAX(true, false, true, false, false, 0, true, false, false),
 	CORONAVIRUS(true, true, true, false, true, 14, true, true, true),
 	PNEUMONIA(true, false, true, false, false, 0, true, false, false),
-	MALARIA(true, false, false, true, false, 0, true, false, false),
+	MALARIA(true, false, true, true, false, 0, true, false, false),
 	TYPHOID_FEVER(true, false, false, true, false, 0, true, false, false),
 	ACUTE_VIRAL_HEPATITIS(true, false, false, true, false, 0, true, false, false),
 	NON_NEONATAL_TETANUS(true, false, true, true, false, 0, true, false, false),

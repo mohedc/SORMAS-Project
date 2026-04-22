@@ -1188,29 +1188,26 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 				PathogenTestResultType.UNKNOWN));
 
 		if (Disease.YELLOW_FEVER.equals(caseDisease)) {
+			// list of possible tested diseases for measles
 			List<Disease> possibleTestedDiseases = Arrays.asList(Disease.YELLOW_FEVER, Disease.MALARIA);
+
+			// Get tested disease field and remove all items that are not in the possibleTestedDiseases list
 			ComboBox testedDiseaseField = (ComboBox) getField(PathogenTestDto.TESTED_DISEASE);
 			Object currentValue = testedDiseaseField.getValue();
 
-			if (!testedDiseaseField.containsId(Disease.YELLOW_FEVER)) {
-				testedDiseaseField.addItem(Disease.YELLOW_FEVER);
-				testedDiseaseField.setItemCaption(Disease.YELLOW_FEVER, Disease.YELLOW_FEVER.toString());
-			}
-			if (!testedDiseaseField.containsId(Disease.MALARIA)) {
-				testedDiseaseField.addItem(Disease.MALARIA);
-				testedDiseaseField.setItemCaption(Disease.MALARIA, Disease.MALARIA.toString());
-			}
-
+			// Get all item IDs and remove those not in the allowed list
 			@SuppressWarnings("unchecked")
 			Collection<Object> itemIds = (Collection<Object>) testedDiseaseField.getItemIds();
 			List<Object> itemsToRemove = itemIds.stream()
-				.filter(item -> !possibleTestedDiseases.contains(item))
-				.collect(Collectors.toList());
+					.filter(item -> !possibleTestedDiseases.contains(item))
+					.collect(Collectors.toList());
 
 			for (Object item : itemsToRemove) {
 				testedDiseaseField.removeItem(item);
 			}
 
+
+			// Restore the current value if it's still valid
 			if (currentValue != null && possibleTestedDiseases.contains(currentValue)) {
 				testedDiseaseField.setValue(currentValue);
 			} else if (currentValue != null) {
