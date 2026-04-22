@@ -177,8 +177,13 @@ public class SynchronizationDialog extends AbstractDialog {
 	 */
 	private void waitForProgressItemBindings() {
 
-		if (!updatingProgressItemBindings && currentProgressItemBinding != null) {
-			return;
+		if (!updatingProgressItemBindings) {
+			if (progressItemBindings.isEmpty()) {
+				return;
+			}
+			if (currentProgressItemBinding != null) {
+				return;
+			}
 		}
 
 		synchronized (BINDING_LOCK) {
@@ -205,6 +210,10 @@ public class SynchronizationDialog extends AbstractDialog {
 
 		waitForProgressItemBindings();
 
+		if (currentProgressItemBinding == null) {
+			return;
+		}
+
 		currentProgressItemBinding.setActive(false);
 		currentProgressItemBinding.setDone(true);
 
@@ -216,21 +225,33 @@ public class SynchronizationDialog extends AbstractDialog {
 
 	private void updatePulls(int pulled) {
 		waitForProgressItemBindings();
+		if (currentProgressItemBinding == null) {
+			return;
+		}
 		currentProgressItemBinding.setPulls(currentProgressItemBinding.getPulls() + pulled);
 	}
 
 	private void updatePushes(int pushed) {
 		waitForProgressItemBindings();
+		if (currentProgressItemBinding == null) {
+			return;
+		}
 		currentProgressItemBinding.setPushes(currentProgressItemBinding.getPushes() + pushed);
 	}
 
 	private void updatePushTotal(int pushTotal) {
 		waitForProgressItemBindings();
+		if (currentProgressItemBinding == null) {
+			return;
+		}
 		currentProgressItemBinding.setPushTotal(pushTotal);
 	}
 
 	private void updateDeletions(int deleted) {
 		waitForProgressItemBindings();
+		if (currentProgressItemBinding == null) {
+			return;
+		}
 		currentProgressItemBinding.setDeletions(currentProgressItemBinding.getDeletions() + deleted);
 	}
 
@@ -316,9 +337,9 @@ public class SynchronizationDialog extends AbstractDialog {
 			allowedEntities.add(Strings.entityCustomizableEnumValues);
 		}
 		allowedEntities.add(Strings.entityFeatureConfigurations);
-		// FormField must be before FormBuilder (dependency)
-		allowedEntities.add(Strings.entityFormFields);
-		allowedEntities.add(Strings.entityFormBuilders);
+		// FormField before FormBuilder when re-enabled (dependency).
+		// allowedEntities.add(Strings.entityFormFields);
+		// allowedEntities.add(Strings.entityFormBuilders);
 		showProgressItems(true, false, allowedEntities);
 	}
 
@@ -604,8 +625,8 @@ public class SynchronizationDialog extends AbstractDialog {
 	private void showSynchronizeFormsProgressItems() {
 		List<String> allowedEntities = new ArrayList<>();
 		// FormField must be before FormBuilder (dependency)
-		allowedEntities.add(Strings.entityFormFields);
-		allowedEntities.add(Strings.entityFormBuilders);
+		// allowedEntities.add(Strings.entityFormFields);
+		// allowedEntities.add(Strings.entityFormBuilders);
 		showProgressItems(true, false, allowedEntities);
 	}
 
@@ -810,8 +831,8 @@ public class SynchronizationDialog extends AbstractDialog {
 			Strings.entityFeatureConfigurations));
 		
 		// FormField must be before FormBuilder (dependency)
-		allowedEntities.add(Strings.entityFormFields);
-		allowedEntities.add(Strings.entityFormBuilders);
+		// allowedEntities.add(Strings.entityFormFields);
+		// allowedEntities.add(Strings.entityFormBuilders);
 
 		if (forDeletion) {
 			Collections.reverse(allowedEntities);

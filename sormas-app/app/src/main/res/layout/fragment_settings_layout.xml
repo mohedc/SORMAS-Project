@@ -87,6 +87,7 @@
                 android:layout_marginBottom="@dimen/buttonControlMarginBottom"
                 app:buttonType="@{ControlButtonType.LINE_SECONDARY}"
                 android:text="@string/action_sync_forms"
+                android:visibility="gone"
                 app:rounded="true" />
 
             <de.symeda.sormas.app.component.controls.ControlButton

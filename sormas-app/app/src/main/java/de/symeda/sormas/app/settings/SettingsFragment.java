@@ -159,7 +159,7 @@ public class SettingsFragment extends BaseLandingFragment {
 		binding.settingsServerUrl.setVisibility(!hasServerUrl() || isShowDevOptions() ? View.VISIBLE : View.GONE);
 		binding.changePin.setVisibility(hasUser ? View.VISIBLE : View.GONE);
 		binding.resynchronizeData.setVisibility(hasUser ? View.VISIBLE : View.GONE);
-		binding.syncForms.setVisibility(hasUser ? View.VISIBLE : View.GONE);
+//		binding.syncForms.setVisibility(hasUser ? View.VISIBLE : View.GONE);
 		binding.showSyncLog.setVisibility(hasUser ? View.VISIBLE : View.GONE);
 		binding.logout.setVisibility(hasUser && isShowDevOptions() ? View.VISIBLE : View.GONE);
 		boolean showLbdsFeatures = isLbdsAppInstalled() && hasUser && isShowDevOptions();
