@@ -87,6 +87,7 @@ public class CaseFinalClassificationForm extends AbstractEditForm<CaseDataDto> {
 	private static final String CONGENITAL_RUBELLA_HTML_LAYOUT =
 			loc(FINAL_CLASSIFICATION_HEADING_LOC) +
 					fluidRowLocs(CaseDataDto.FINAL_CLASSIFICATION, "") +
+					fluidRowLocs(CaseDataDto.FINAL_CLASSIFICATION_DISCARDED, "") +
 					fluidRowLocs(CaseDataDto.CLASSIFICATION_DATE, CaseDataDto.CLASSIFICATION_BY_ORIGIN) +
 					fluidRowLocs(CaseDataDto.INVESTIGATOR_NAME, CaseDataDto.INVESTIGATOR_TEL);
 
@@ -97,7 +98,8 @@ public class CaseFinalClassificationForm extends AbstractEditForm<CaseDataDto> {
 		Disease.YELLOW_FEVER,
 		Disease.CSM,
 		Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS,
-		Disease.NEONATAL_TETANUS
+		Disease.NEONATAL_TETANUS,
+		Disease.CONGENITAL_RUBELLA
 	);
 
 	private ComboBox finalClassificationField;
@@ -167,6 +169,9 @@ public class CaseFinalClassificationForm extends AbstractEditForm<CaseDataDto> {
 		finalClassificationField.setItemCaptionMode(ComboBox.ItemCaptionMode.ID_TOSTRING);
 		TextArea classificationCommentField = addField(CaseDataDto.CLASSIFICATION_COMMENT, TextArea.class);
 		classificationCommentField.setRows(4);
+		TextArea finalClassificationDiscardedField = addField(CaseDataDto.FINAL_CLASSIFICATION_DISCARDED, TextArea.class);
+		finalClassificationDiscardedField.setRows(4);
+		finalClassificationDiscardedField.setCaption("Please specify:");
 		addField(CaseDataDto.MEASLES_COMMUNITY_INVESTIGATION, NullableOptionGroup.class);
 		TextArea measlesInvestigationResults = addField(CaseDataDto.MEASLES_INVESTIGATION_RESULTS, TextArea.class);
 		measlesInvestigationResults.setRows(4);
@@ -180,6 +185,12 @@ public class CaseFinalClassificationForm extends AbstractEditForm<CaseDataDto> {
 		classificationByOriginField = addField(CaseDataDto.CLASSIFICATION_BY_ORIGIN, ComboBox.class);
 		classificationByOriginField.setNullSelectionAllowed(true);
 		classificationByOriginField.setItemCaptionMode(ComboBox.ItemCaptionMode.ID_TOSTRING);
+		FieldHelper.setVisibleWhen(
+			getFieldGroup(),
+			CaseDataDto.FINAL_CLASSIFICATION_DISCARDED,
+			CaseDataDto.FINAL_CLASSIFICATION,
+			Collections.singletonList(FinalClassification.DISCARDED),
+			true);
 
 		List<FinalClassification> values = getFinalClassifications();
 
@@ -241,6 +252,7 @@ public class CaseFinalClassificationForm extends AbstractEditForm<CaseDataDto> {
 		// Set field visibility based on disease
 		if (disease != Disease.CONGENITAL_RUBELLA) {
 			setVisible(false, 
+				CaseDataDto.FINAL_CLASSIFICATION_DISCARDED,
 				CaseDataDto.CLASSIFICATION_DATE,
 				CaseDataDto.CLASSIFICATION_BY_ORIGIN,
 				CaseDataDto.INVESTIGATOR_NAME,

@@ -262,6 +262,7 @@ public class Case extends CoreAdo implements IsCase, SormasToSormasShareable, Ha
 	private User classificationUser;
 	private Date classificationDate;
 	private String classificationComment;
+	private String finalClassificationDiscarded;
 
 	private YesNoUnknown clinicalConfirmation;
 	private YesNoUnknown epidemiologicalConfirmation;
@@ -663,6 +664,15 @@ public class Case extends CoreAdo implements IsCase, SormasToSormasShareable, Ha
 
 	public void setClassificationComment(String classificationComment) {
 		this.classificationComment = classificationComment;
+	}
+
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	public String getFinalClassificationDiscarded() {
+		return finalClassificationDiscarded;
+	}
+
+	public void setFinalClassificationDiscarded(String finalClassificationDiscarded) {
+		this.finalClassificationDiscarded = finalClassificationDiscarded;
 	}
 
 	@Enumerated(EnumType.STRING)

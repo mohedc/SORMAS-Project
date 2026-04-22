@@ -94,6 +94,7 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 	public static final String CLASSIFICATION_USER = "classificationUser";
 	public static final String CLASSIFICATION_DATE = "classificationDate";
 	public static final String CLASSIFICATION_COMMENT = "classificationComment";
+	public static final String FINAL_CLASSIFICATION_DISCARDED = "finalClassificationDiscarded";
 	public static final String CLASSIFIED_BY = "classifiedBy";
 	public static final String CLINICAL_CONFIRMATION = "clinicalConfirmation";
 	public static final String EPIDEMIOLOGICAL_CONFIRMATION = "epidemiologicalConfirmation";
@@ -358,6 +359,11 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 	@SensitiveData
 	@Size(max = FieldConstraints.CHARACTER_LIMIT_DEFAULT, message = Validations.textTooLong)
 	private String classificationComment;
+	@Outbreaks
+	@Diseases({ Disease.CONGENITAL_RUBELLA })
+	@SensitiveData
+	@Size(max = FieldConstraints.CHARACTER_LIMIT_DEFAULT, message = Validations.textTooLong)
+	private String finalClassificationDiscarded;
 
 	private YesNoUnknown clinicalConfirmation;
 	private YesNoUnknown epidemiologicalConfirmation;
@@ -1114,6 +1120,14 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 
 	public void setClassificationComment(String classificationComment) {
 		this.classificationComment = classificationComment;
+	}
+
+	public String getFinalClassificationDiscarded() {
+		return finalClassificationDiscarded;
+	}
+
+	public void setFinalClassificationDiscarded(String finalClassificationDiscarded) {
+		this.finalClassificationDiscarded = finalClassificationDiscarded;
 	}
 
 	public YesNoUnknown getClinicalConfirmation() {

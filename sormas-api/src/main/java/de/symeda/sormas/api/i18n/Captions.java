@@ -676,6 +676,7 @@ public interface Captions {
 	String CaseData_caseReferenceNumber = "CaseData.caseReferenceNumber";
 	String CaseData_changeDate = "CaseData.changeDate";
 	String CaseData_classificationComment = "CaseData.classificationComment";
+	String CaseData_finalClassificationDiscarded = "CaseData.finalClassificationDiscarded";
 	String CaseData_classificationDate = "CaseData.classificationDate";
 	String CaseData_classificationUser = "CaseData.classificationUser";
 	String CaseData_classifiedBy = "CaseData.classifiedBy";

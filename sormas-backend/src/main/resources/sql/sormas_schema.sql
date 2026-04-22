@@ -15288,6 +15288,11 @@ ALTER TABLE symptoms_history ADD COLUMN IF NOT EXISTS radiolucentbonediseaseonse
 
 INSERT INTO schema_version (version_number, comment) VALUES (650, 'Per-symptom onset date fields on symptoms');
 
+-- Migration 651: CRS discarded reason field on cases final classification
+ALTER TABLE cases ADD COLUMN IF NOT EXISTS finalclassificationdiscarded varchar(512);
+ALTER TABLE cases_history ADD COLUMN IF NOT EXISTS finalclassificationdiscarded varchar(512);
+INSERT INTO schema_version (version_number, comment) VALUES (651, 'Add finalClassificationDiscarded field to cases');
+
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***
 
 

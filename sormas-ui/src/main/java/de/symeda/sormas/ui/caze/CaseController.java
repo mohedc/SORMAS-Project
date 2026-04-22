@@ -1437,6 +1437,7 @@ public class CaseController {
 			cazeDto.setDateLabResultsReceivedAtHealthFacility(finalClassificationForm.getValue().getDateLabResultsReceivedAtHealthFacility());
 			cazeDto.setClassificationDate(finalClassificationForm.getValue().getClassificationDate());
 			cazeDto.setClassificationByOrigin(finalClassificationForm.getValue().getClassificationByOrigin());
+			cazeDto.setFinalClassificationDiscarded(finalClassificationForm.getValue().getFinalClassificationDiscarded());
 			cazeDto.setInvestigatorName(finalClassificationForm.getValue().getInvestigatorName());
 			cazeDto.setInvestigatorTel(finalClassificationForm.getValue().getInvestigatorTel());
 			cazeDto.setClassificationComment(finalClassificationForm.getValue().getClassificationComment());

@@ -2019,6 +2019,7 @@ public class CaseFacadeEjb extends AbstractCoreFacadeEjb<Case, CaseDataDto, Case
 			if (!userService.hasRight(UserRight.CASE_CLASSIFY)
 				&& (!DataHelper.equal(caze.getCaseClassification(), existingCaze.getCaseClassification())
 					|| !DataHelper.equal(caze.getClassificationComment(), existingCaze.getClassificationComment())
+					|| !DataHelper.equal(caze.getFinalClassificationDiscarded(), existingCaze.getFinalClassificationDiscarded())
 					|| !DataHelper.equal(caze.getClassificationDate(), existingCaze.getClassificationDate())
 					|| !DataHelper.equal(caze.getClassificationUser(), existingCaze.getClassificationUser())
 					|| !DataHelper.equal(caze.getOutcome(), existingCaze.getOutcome())
@@ -3092,6 +3093,7 @@ public class CaseFacadeEjb extends AbstractCoreFacadeEjb<Case, CaseDataDto, Case
 		target.setClassificationUser(UserFacadeEjb.toReferenceDto(source.getClassificationUser()));
 		target.setClassificationDate(source.getClassificationDate());
 		target.setClassificationComment(source.getClassificationComment());
+		target.setFinalClassificationDiscarded(source.getFinalClassificationDiscarded());
 		target.setClinicalConfirmation(source.getClinicalConfirmation());
 		target.setEpidemiologicalConfirmation(source.getEpidemiologicalConfirmation());
 		target.setLaboratoryDiagnosticConfirmation(source.getLaboratoryDiagnosticConfirmation());
@@ -3287,6 +3289,7 @@ public class CaseFacadeEjb extends AbstractCoreFacadeEjb<Case, CaseDataDto, Case
 		target.setHealthWorkerCompletingForm(source.getHealthWorkerCompletingForm());
 		target.setNotifiedByText(source.getNotifiedByText());
 		target.setFinalClassification(source.getFinalClassification());
+		target.setFinalClassificationDiscarded(source.getFinalClassificationDiscarded());
 		target.setClassificationByOrigin(source.getClassificationByOrigin());
 		target.setDateFormSentToRegion(source.getDateFormSentToRegion());
 		target.setPersonFullName(source.getPersonFullName());
@@ -3347,6 +3350,7 @@ public class CaseFacadeEjb extends AbstractCoreFacadeEjb<Case, CaseDataDto, Case
 		target.setClassificationUser(userService.getByReferenceDto(source.getClassificationUser()));
 		target.setClassificationDate(source.getClassificationDate());
 		target.setClassificationComment(source.getClassificationComment());
+		target.setFinalClassificationDiscarded(source.getFinalClassificationDiscarded());
 		target.setClinicalConfirmation(source.getClinicalConfirmation());
 		target.setNotifiedBy(source.getNotifiedBy());
 		target.setNotifiedByDetails(source.getNotifiedByDetails());
@@ -3557,6 +3561,7 @@ public class CaseFacadeEjb extends AbstractCoreFacadeEjb<Case, CaseDataDto, Case
 		target.setHealthWorkerCompletingForm(source.getHealthWorkerCompletingForm());
 		target.setNotifiedByText(source.getNotifiedByText());
 		target.setFinalClassification(source.getFinalClassification());
+		target.setFinalClassificationDiscarded(source.getFinalClassificationDiscarded());
 		target.setClassificationByOrigin(source.getClassificationByOrigin());
 		target.setDateFormSentToRegion(source.getDateFormSentToRegion());
 		target.setPersonFullName(source.getPersonFullName());
