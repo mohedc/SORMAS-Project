@@ -15298,6 +15298,26 @@ ALTER TABLE symptoms ADD COLUMN IF NOT EXISTS causeofdeath varchar(512);
 ALTER TABLE symptoms_history ADD COLUMN IF NOT EXISTS causeofdeath varchar(512);
 INSERT INTO schema_version (version_number, comment) VALUES (652, 'Add causeOfDeath field to symptoms');
 
+-- Migration 653: IDSR per-symptom onset date fields on symptoms
+ALTER TABLE symptoms ADD COLUMN IF NOT EXISTS severereactionaftervaccinationonsetdate timestamp;
+ALTER TABLE symptoms ADD COLUMN IF NOT EXISTS animalbitescratchonsetdate timestamp;
+ALTER TABLE symptoms ADD COLUMN IF NOT EXISTS acutewaterydiarrheaonsetdate timestamp;
+ALTER TABLE symptoms ADD COLUMN IF NOT EXISTS bloodinstoolonsetdate timestamp;
+ALTER TABLE symptoms ADD COLUMN IF NOT EXISTS bloodurineonsetdate timestamp;
+ALTER TABLE symptoms ADD COLUMN IF NOT EXISTS persistentlimbonsetdate timestamp;
+ALTER TABLE symptoms ADD COLUMN IF NOT EXISTS genitalswellingonsetdate timestamp;
+ALTER TABLE symptoms ADD COLUMN IF NOT EXISTS redeyeonsetdate timestamp;
+
+ALTER TABLE symptoms_history ADD COLUMN IF NOT EXISTS severereactionaftervaccinationonsetdate timestamp;
+ALTER TABLE symptoms_history ADD COLUMN IF NOT EXISTS animalbitescratchonsetdate timestamp;
+ALTER TABLE symptoms_history ADD COLUMN IF NOT EXISTS acutewaterydiarrheaonsetdate timestamp;
+ALTER TABLE symptoms_history ADD COLUMN IF NOT EXISTS bloodinstoolonsetdate timestamp;
+ALTER TABLE symptoms_history ADD COLUMN IF NOT EXISTS bloodurineonsetdate timestamp;
+ALTER TABLE symptoms_history ADD COLUMN IF NOT EXISTS persistentlimbonsetdate timestamp;
+ALTER TABLE symptoms_history ADD COLUMN IF NOT EXISTS genitalswellingonsetdate timestamp;
+ALTER TABLE symptoms_history ADD COLUMN IF NOT EXISTS redeyeonsetdate timestamp;
+INSERT INTO schema_version (version_number, comment) VALUES (653, 'Add IDSR per-symptom onset date fields to symptoms');
+
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***
 
 

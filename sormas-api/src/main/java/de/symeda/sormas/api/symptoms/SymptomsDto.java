@@ -326,6 +326,14 @@ public class SymptomsDto extends PseudonymizableDto {
 	public static final String SPLENOMEGALY_ONSET_DATE = "splenomegalyOnsetDate";
 	public static final String DEVELOPMENTAL_DELAY_ONSET_DATE = "developmentalDelayOnsetDate";
 	public static final String RADIOLUCENT_BONE_DISEASE_ONSET_DATE = "radiolucentBoneDiseaseOnsetDate";
+	public static final String SEVERE_REACTION_AFTER_VACCINATION_ONSET_DATE = "severeReactionAfterVaccinationOnsetDate";
+	public static final String ANIMAL_BITE_SCRATCH_ONSET_DATE = "animalBiteScratchOnsetDate";
+	public static final String ACUTE_WATERY_DIARRHEA_ONSET_DATE = "acuteWateryDiarrheaOnsetDate";
+	public static final String BLOOD_IN_STOOL_ONSET_DATE = "bloodInStoolOnsetDate";
+	public static final String BLOOD_URINE_ONSET_DATE = "bloodUrineOnsetDate";
+	public static final String PERSISTENT_LIMB_ONSET_DATE = "persistentLimbOnsetDate";
+	public static final String GENITAL_SWELLING_ONSET_DATE = "genitalSwellingOnsetDate";
+	public static final String RED_EYE_ONSET_DATE = "redEyeOnsetDate";
 
 	// Fields are declared in the order they should appear in the import template
 
@@ -1478,6 +1486,14 @@ public class SymptomsDto extends PseudonymizableDto {
 	private Date splenomegalyOnsetDate;
 	private Date developmentalDelayOnsetDate;
 	private Date radiolucentBoneDiseaseOnsetDate;
+	private Date severeReactionAfterVaccinationOnsetDate;
+	private Date animalBiteScratchOnsetDate;
+	private Date acuteWateryDiarrheaOnsetDate;
+	private Date bloodInStoolOnsetDate;
+	private Date bloodUrineOnsetDate;
+	private Date persistentLimbOnsetDate;
+	private Date genitalSwellingOnsetDate;
+	private Date redEyeOnsetDate;
 
 	@Diseases({
 		AFP,
@@ -3010,6 +3026,38 @@ public class SymptomsDto extends PseudonymizableDto {
 		return radiolucentBoneDiseaseOnsetDate;
 	}
 
+	public Date getSevereReactionAfterVaccinationOnsetDate() {
+		return severeReactionAfterVaccinationOnsetDate;
+	}
+
+	public Date getAnimalBiteScratchOnsetDate() {
+		return animalBiteScratchOnsetDate;
+	}
+
+	public Date getAcuteWateryDiarrheaOnsetDate() {
+		return acuteWateryDiarrheaOnsetDate;
+	}
+
+	public Date getBloodInStoolOnsetDate() {
+		return bloodInStoolOnsetDate;
+	}
+
+	public Date getBloodUrineOnsetDate() {
+		return bloodUrineOnsetDate;
+	}
+
+	public Date getPersistentLimbOnsetDate() {
+		return persistentLimbOnsetDate;
+	}
+
+	public Date getGenitalSwellingOnsetDate() {
+		return genitalSwellingOnsetDate;
+	}
+
+	public Date getRedEyeOnsetDate() {
+		return redEyeOnsetDate;
+	}
+
 	@ImportIgnore
 	public String getPatientIllLocation() {
 		return patientIllLocation;
@@ -4283,6 +4331,38 @@ public class SymptomsDto extends PseudonymizableDto {
 
 	public void setRadiolucentBoneDiseaseOnsetDate(Date radiolucentBoneDiseaseOnsetDate) {
 		this.radiolucentBoneDiseaseOnsetDate = radiolucentBoneDiseaseOnsetDate;
+	}
+
+	public void setSevereReactionAfterVaccinationOnsetDate(Date severeReactionAfterVaccinationOnsetDate) {
+		this.severeReactionAfterVaccinationOnsetDate = severeReactionAfterVaccinationOnsetDate;
+	}
+
+	public void setAnimalBiteScratchOnsetDate(Date animalBiteScratchOnsetDate) {
+		this.animalBiteScratchOnsetDate = animalBiteScratchOnsetDate;
+	}
+
+	public void setAcuteWateryDiarrheaOnsetDate(Date acuteWateryDiarrheaOnsetDate) {
+		this.acuteWateryDiarrheaOnsetDate = acuteWateryDiarrheaOnsetDate;
+	}
+
+	public void setBloodInStoolOnsetDate(Date bloodInStoolOnsetDate) {
+		this.bloodInStoolOnsetDate = bloodInStoolOnsetDate;
+	}
+
+	public void setBloodUrineOnsetDate(Date bloodUrineOnsetDate) {
+		this.bloodUrineOnsetDate = bloodUrineOnsetDate;
+	}
+
+	public void setPersistentLimbOnsetDate(Date persistentLimbOnsetDate) {
+		this.persistentLimbOnsetDate = persistentLimbOnsetDate;
+	}
+
+	public void setGenitalSwellingOnsetDate(Date genitalSwellingOnsetDate) {
+		this.genitalSwellingOnsetDate = genitalSwellingOnsetDate;
+	}
+
+	public void setRedEyeOnsetDate(Date redEyeOnsetDate) {
+		this.redEyeOnsetDate = redEyeOnsetDate;
 	}
 
 	public void setOralUlcers(SymptomState oralUlcers) {

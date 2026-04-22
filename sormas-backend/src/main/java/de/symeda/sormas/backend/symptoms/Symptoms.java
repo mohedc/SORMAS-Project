@@ -361,6 +361,22 @@ public class Symptoms extends AbstractDomainObject {
 	private Date developmentalDelayOnsetDate;
 	@Column(name = "radiolucentbonediseaseonsetdate")
 	private Date radiolucentBoneDiseaseOnsetDate;
+	@Column(name = "severereactionaftervaccinationonsetdate")
+	private Date severeReactionAfterVaccinationOnsetDate;
+	@Column(name = "animalbitescratchonsetdate")
+	private Date animalBiteScratchOnsetDate;
+	@Column(name = "acutewaterydiarrheaonsetdate")
+	private Date acuteWateryDiarrheaOnsetDate;
+	@Column(name = "bloodinstoolonsetdate")
+	private Date bloodInStoolOnsetDate;
+	@Column(name = "bloodurineonsetdate")
+	private Date bloodUrineOnsetDate;
+	@Column(name = "persistentlimbonsetdate")
+	private Date persistentLimbOnsetDate;
+	@Column(name = "genitalswellingonsetdate")
+	private Date genitalSwellingOnsetDate;
+	@Column(name = "redeyeonsetdate")
+	private Date redEyeOnsetDate;
 	private Set<InjectionSite> siteOfParalysis;
 	private String requestedSiteOfParalysisString;
 	private YesNo paralysedLimbSensitiveToPain;
@@ -2677,6 +2693,78 @@ public class Symptoms extends AbstractDomainObject {
 
 	public void setRadiolucentBoneDiseaseOnsetDate(Date radiolucentBoneDiseaseOnsetDate) {
 		this.radiolucentBoneDiseaseOnsetDate = radiolucentBoneDiseaseOnsetDate;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getSevereReactionAfterVaccinationOnsetDate() {
+		return severeReactionAfterVaccinationOnsetDate;
+	}
+
+	public void setSevereReactionAfterVaccinationOnsetDate(Date severeReactionAfterVaccinationOnsetDate) {
+		this.severeReactionAfterVaccinationOnsetDate = severeReactionAfterVaccinationOnsetDate;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getAnimalBiteScratchOnsetDate() {
+		return animalBiteScratchOnsetDate;
+	}
+
+	public void setAnimalBiteScratchOnsetDate(Date animalBiteScratchOnsetDate) {
+		this.animalBiteScratchOnsetDate = animalBiteScratchOnsetDate;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getAcuteWateryDiarrheaOnsetDate() {
+		return acuteWateryDiarrheaOnsetDate;
+	}
+
+	public void setAcuteWateryDiarrheaOnsetDate(Date acuteWateryDiarrheaOnsetDate) {
+		this.acuteWateryDiarrheaOnsetDate = acuteWateryDiarrheaOnsetDate;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getBloodInStoolOnsetDate() {
+		return bloodInStoolOnsetDate;
+	}
+
+	public void setBloodInStoolOnsetDate(Date bloodInStoolOnsetDate) {
+		this.bloodInStoolOnsetDate = bloodInStoolOnsetDate;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getBloodUrineOnsetDate() {
+		return bloodUrineOnsetDate;
+	}
+
+	public void setBloodUrineOnsetDate(Date bloodUrineOnsetDate) {
+		this.bloodUrineOnsetDate = bloodUrineOnsetDate;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getPersistentLimbOnsetDate() {
+		return persistentLimbOnsetDate;
+	}
+
+	public void setPersistentLimbOnsetDate(Date persistentLimbOnsetDate) {
+		this.persistentLimbOnsetDate = persistentLimbOnsetDate;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getGenitalSwellingOnsetDate() {
+		return genitalSwellingOnsetDate;
+	}
+
+	public void setGenitalSwellingOnsetDate(Date genitalSwellingOnsetDate) {
+		this.genitalSwellingOnsetDate = genitalSwellingOnsetDate;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getRedEyeOnsetDate() {
+		return redEyeOnsetDate;
+	}
+
+	public void setRedEyeOnsetDate(Date redEyeOnsetDate) {
+		this.redEyeOnsetDate = redEyeOnsetDate;
 	}
 
 	@Transient

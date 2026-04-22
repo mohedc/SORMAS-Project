@@ -3102,6 +3102,14 @@ public interface Captions {
 	String Symptoms_splenomegalyOnsetDate = "Symptoms.splenomegalyOnsetDate";
 	String Symptoms_developmentalDelayOnsetDate = "Symptoms.developmentalDelayOnsetDate";
 	String Symptoms_radiolucentBoneDiseaseOnsetDate = "Symptoms.radiolucentBoneDiseaseOnsetDate";
+	String Symptoms_severeReactionAfterVaccinationOnsetDate = "Symptoms.severeReactionAfterVaccinationOnsetDate";
+	String Symptoms_animalBiteScratchOnsetDate = "Symptoms.animalBiteScratchOnsetDate";
+	String Symptoms_acuteWateryDiarrheaOnsetDate = "Symptoms.acuteWateryDiarrheaOnsetDate";
+	String Symptoms_bloodInStoolOnsetDate = "Symptoms.bloodInStoolOnsetDate";
+	String Symptoms_bloodUrineOnsetDate = "Symptoms.bloodUrineOnsetDate";
+	String Symptoms_persistentLimbOnsetDate = "Symptoms.persistentLimbOnsetDate";
+	String Symptoms_genitalSwellingOnsetDate = "Symptoms.genitalSwellingOnsetDate";
+	String Symptoms_redEyeOnsetDate = "Symptoms.redEyeOnsetDate";
 	String Symptoms_lesionsPalmsHands = "Symptoms.lesionsPalmsHands";
 	String Symptoms_lesionsResembleImg1 = "Symptoms.lesionsResembleImg1";
 	String Symptoms_lesionsResembleImg2 = "Symptoms.lesionsResembleImg2";
