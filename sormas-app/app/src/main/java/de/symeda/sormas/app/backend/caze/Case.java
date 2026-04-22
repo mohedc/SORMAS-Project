@@ -61,6 +61,7 @@ import de.symeda.sormas.api.disease.DiseaseVariant;
 import de.symeda.sormas.api.infrastructure.facility.FacilityType;
 import de.symeda.sormas.api.utils.DataHelper;
 import de.symeda.sormas.api.utils.Diseases;
+import de.symeda.sormas.api.utils.YesNo;
 import de.symeda.sormas.api.utils.YesNoUnknown;
 import de.symeda.sormas.app.backend.caze.maternalhistory.MaternalHistory;
 import de.symeda.sormas.app.backend.caze.porthealthinfo.PortHealthInfo;
@@ -487,7 +488,7 @@ public class Case extends PseudonymizableAdo {
 	private Date dateReceivedAtDistrictLevel;
 
 	@Enumerated(EnumType.STRING)
-	private YesNoUnknown sourceOfInfectionIdentified;
+	private YesNo sourceOfInfectionIdentified;
 
 	@Enumerated(EnumType.STRING)
 	private YesNoUnknown motherGivenProtectiveDoseTT;
@@ -892,11 +893,11 @@ public class Case extends PseudonymizableAdo {
 		this.dateReceivedAtDistrictLevel = dateReceivedAtDistrictLevel;
 	}
 
-	public YesNoUnknown getSourceOfInfectionIdentified() {
+	public YesNo getSourceOfInfectionIdentified() {
 		return sourceOfInfectionIdentified;
 	}
 
-	public void setSourceOfInfectionIdentified(YesNoUnknown sourceOfInfectionIdentified) {
+	public void setSourceOfInfectionIdentified(YesNo sourceOfInfectionIdentified) {
 		this.sourceOfInfectionIdentified = sourceOfInfectionIdentified;
 	}
 

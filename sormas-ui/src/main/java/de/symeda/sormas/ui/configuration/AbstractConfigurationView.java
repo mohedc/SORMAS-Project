@@ -227,18 +227,18 @@ public abstract class AbstractConfigurationView extends AbstractSubNavigationVie
 			}
 
 			// Form Fields and Form Builders
-			if (isAnySurveillanceEnabled) {
-				menu.addView(
-					FormFieldsView.VIEW_NAME,
-					I18nProperties.getPrefixCaption("View", FormFieldsView.VIEW_NAME.replaceAll("/", ".") + ".short", ""),
-					null,
-					false);
-				menu.addView(
-					FormBuildersView.VIEW_NAME,
-					I18nProperties.getPrefixCaption("View", FormBuildersView.VIEW_NAME.replaceAll("/", ".") + ".short", ""),
-					null,
-					false);
-			}
+//			if (isAnySurveillanceEnabled) {
+//				menu.addView(
+//					FormFieldsView.VIEW_NAME,
+//					I18nProperties.getPrefixCaption("View", FormFieldsView.VIEW_NAME.replaceAll("/", ".") + ".short", ""),
+//					null,
+//					false);
+//				menu.addView(
+//					FormBuildersView.VIEW_NAME,
+//					I18nProperties.getPrefixCaption("View", FormBuildersView.VIEW_NAME.replaceAll("/", ".") + ".short", ""),
+//					null,
+//					false);
+//			}
 		}
 
 		//		if (LoginHelper.hasUserRight(UserRight.USER_RIGHTS_MANAGE)) {

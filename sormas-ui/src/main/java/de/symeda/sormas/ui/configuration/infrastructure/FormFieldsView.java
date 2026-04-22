@@ -64,7 +64,7 @@ public class FormFieldsView extends AbstractConfigurationView {
 
 	private static final long serialVersionUID = 1L;
 
-	public static final String VIEW_NAME = ROOT_VIEW_NAME + "/formFields";
+	public static final String VIEW_NAME = ROOT_VIEW_NAME + "/formFields-md-fhgfj-awaiting";
 
 	private FormFieldsCriteria criteria;
 	private ViewConfiguration viewConfiguration;

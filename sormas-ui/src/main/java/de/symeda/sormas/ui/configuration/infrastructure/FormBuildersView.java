@@ -80,7 +80,7 @@ public class FormBuildersView extends AbstractConfigurationView {
 
 	private static final long serialVersionUID = 1L;
 
-	public static final String VIEW_NAME = ROOT_VIEW_NAME + "/formBuilders";
+	public static final String VIEW_NAME = ROOT_VIEW_NAME + "/formBuilders-md-fhgfj-awaiting";
 
 	private FormBuilderCriteria criteria;
 	private ViewConfiguration viewConfiguration;
