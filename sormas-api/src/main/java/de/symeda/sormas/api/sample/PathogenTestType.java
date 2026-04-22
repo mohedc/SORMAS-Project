@@ -77,6 +77,9 @@ public enum PathogenTestType {
 		Disease.CSM }, hide = true)
 	IGM_SERUM_ANTIBODY,
 	@Diseases(value = {
+		Disease.CONGENITAL_RUBELLA }, hide = true)
+	SUSTAINED_IGG_LEVEL,
+	@Diseases(value = {
 		Disease.RESPIRATORY_SYNCYTIAL_VIRUS,
 		Disease.INVASIVE_MENINGOCOCCAL_INFECTION,
 		Disease.INVASIVE_PNEUMOCOCCAL_INFECTION,

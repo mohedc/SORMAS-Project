@@ -1330,6 +1330,23 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 	 * Configures fields specifically for congenital rubella pathogen tests
 	 */
 	protected void configureCongenitalRubellaFields() {
+//		PathogenTestType previous = (PathogenTestType) testTypeField.getValue();
+//		List<PathogenTestType> congenitalRubellaTestTypes = Arrays.asList(
+//			PathogenTestType.IGM_SERUM_ANTIBODY,
+//			PathogenTestType.SUSTAINED_IGG_LEVEL,
+//			PathogenTestType.ISOLATION,
+//			PathogenTestType.PCR_RT_PCR);
+//		testTypeField.removeAllItems();
+//		testTypeField.addItems(congenitalRubellaTestTypes);
+//		testTypeField.setItemCaption(PathogenTestType.IGM_SERUM_ANTIBODY, "IgM");
+//		testTypeField.setItemCaption(PathogenTestType.ISOLATION, "Virus isolation");
+//		testTypeField.setItemCaption(PathogenTestType.PCR_RT_PCR, "PCR");
+//		if (previous != null && congenitalRubellaTestTypes.contains(previous)) {
+//			testTypeField.setValue(previous);
+//		} else {
+//			testTypeField.setValue(null);
+//		}
+
 		// Hide tested disease details if not OTHER
 		FieldHelper.setVisibleWhen(
 			getFieldGroup(),
