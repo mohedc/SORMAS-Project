@@ -245,6 +245,7 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 					loc(CLINICIAN_INFO_HEADING_LOC) +
 					fluidRowLocs(CLINICIAN_NAME, CLINICIAN_ADDRESS, CLINICIAN_PHONE) +
 					fluidRowLocs(3, OUTCOME) +
+					fluidRowLocs(CAUSE_OF_DEATH) +
 					loc(DEATH_SECTION_HEADING_LOC) +
 					fluidRowLocs(AUTOPSY_CONDUCTED) +
 					fluidRowLocs(AUTOPSY_FINDINGS, AUTOPSY_DATE);
@@ -713,6 +714,7 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 			addField(CLINICIAN_NAME, TextField.class);
 			addField(CLINICIAN_ADDRESS, TextField.class);
 			addField(CLINICIAN_PHONE, TextField.class);
+			addField(CAUSE_OF_DEATH, TextField.class);
 			addField(AUTOPSY_CONDUCTED, NullableOptionGroup.class);
 			addField(AUTOPSY_FINDINGS, TextField.class);
 			addField(AUTOPSY_DATE, DateField.class);
@@ -1032,6 +1034,7 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 		// Conditional visibility for Congenital Rubella
 		if (disease == Disease.CONGENITAL_RUBELLA) {
 			// Show death section when outcome is DECEASED
+			FieldHelper.setVisibleWhen(getFieldGroup(), CAUSE_OF_DEATH, OUTCOME, Arrays.asList(CaseOutcome.DECEASED), true);
 			FieldHelper.setVisibleWhen(getFieldGroup(), AUTOPSY_CONDUCTED, OUTCOME, Arrays.asList(CaseOutcome.DECEASED), true);
 			
 			// Show autopsy details when autopsy conducted is YES

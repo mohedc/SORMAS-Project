@@ -279,6 +279,7 @@ public class SymptomsFacadeEjb implements SymptomsFacade {
 		target.setNormalCryAndSuck(source.getNormalCryAndSuck());
 		target.setStiffness(source.getStiffness());
 		target.setOutcome(source.getOutcome());
+		target.setCauseOfDeath(source.getCauseOfDeath());
 		target.setBabyDied(source.getBabyDied());
 		target.setFeverOnsetParalysis(source.getFeverOnsetParalysis());
 		target.setProgressiveParalysis(source.getProgressiveParalysis());
@@ -561,6 +562,7 @@ public class SymptomsFacadeEjb implements SymptomsFacade {
 		target.setNormalCryAndSuck(source.getNormalCryAndSuck());
 		target.setStiffness(source.getStiffness());
 		target.setOutcome(source.getOutcome());
+		target.setCauseOfDeath(source.getCauseOfDeath());
 		target.setBabyDied(source.getBabyDied());
 		target.setFeverOnsetParalysis(source.getFeverOnsetParalysis());
 		target.setProgressiveParalysis(source.getProgressiveParalysis());

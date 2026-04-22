@@ -261,6 +261,7 @@ public class SymptomsDto extends PseudonymizableDto {
 	public static final String NORMAL_CRY_AND_SUCK = "normalCryAndSuck";
 	public static final String STIFFNESS = "stiffness";
 	public static final String OUTCOME = "outcome";
+	public static final String CAUSE_OF_DEATH = "causeOfDeath";
 	public static final String BABY_DIED = "babyDied";
 	public static final String FEVER_ONSET_PARALYSIS = "feverOnsetParalysis";
 	public static final String PROGRESSIVE_PARALYSIS = "progressiveParalysis";
@@ -2036,6 +2037,13 @@ public class SymptomsDto extends PseudonymizableDto {
 		CONGENITAL_RUBELLA })
 	@HideForCountries
 	private Date autopsyDate;
+
+	@Diseases({
+		CONGENITAL_RUBELLA })
+	@HideForCountries
+	@SensitiveData
+	@Size(max = FieldConstraints.CHARACTER_LIMIT_DEFAULT, message = Validations.textTooLong)
+	private String causeOfDeath;
 
 	@Diseases({
 		AFP,
@@ -5035,6 +5043,14 @@ public class SymptomsDto extends PseudonymizableDto {
 
 	public void setOutcome(CaseOutcome outcome) {
 		this.outcome = outcome;
+	}
+
+	public String getCauseOfDeath() {
+		return causeOfDeath;
+	}
+
+	public void setCauseOfDeath(String causeOfDeath) {
+		this.causeOfDeath = causeOfDeath;
 	}
 
 	public SymptomState getBabyDied() {

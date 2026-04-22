@@ -15293,6 +15293,11 @@ ALTER TABLE cases ADD COLUMN IF NOT EXISTS finalclassificationdiscarded varchar(
 ALTER TABLE cases_history ADD COLUMN IF NOT EXISTS finalclassificationdiscarded varchar(512);
 INSERT INTO schema_version (version_number, comment) VALUES (651, 'Add finalClassificationDiscarded field to cases');
 
+-- Migration 652: CRS cause of death field on symptoms
+ALTER TABLE symptoms ADD COLUMN IF NOT EXISTS causeofdeath varchar(512);
+ALTER TABLE symptoms_history ADD COLUMN IF NOT EXISTS causeofdeath varchar(512);
+INSERT INTO schema_version (version_number, comment) VALUES (652, 'Add causeOfDeath field to symptoms');
+
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***
 
 

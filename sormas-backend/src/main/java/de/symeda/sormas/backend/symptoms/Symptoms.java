@@ -280,6 +280,7 @@ public class Symptoms extends AbstractDomainObject {
 	private SymptomState normalCryAndSuck;
 	private SymptomState stiffness;
 	private CaseOutcome outcome;
+	private String causeOfDeath;
 	@Column(name = "babydied")
 	private SymptomState babyDied;
 
@@ -2291,6 +2292,15 @@ public class Symptoms extends AbstractDomainObject {
 
 	public void setOutcome(CaseOutcome outcome) {
 		this.outcome = outcome;
+	}
+
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	public String getCauseOfDeath() {
+		return causeOfDeath;
+	}
+
+	public void setCauseOfDeath(String causeOfDeath) {
+		this.causeOfDeath = causeOfDeath;
 	}
 	@Enumerated(EnumType.STRING)
 	public SymptomState getBabyDied() {

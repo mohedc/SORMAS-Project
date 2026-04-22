@@ -3230,6 +3230,7 @@ public interface Captions {
 	String Symptoms_trueAfp = "Symptoms.trueAfp";
 	String Symptoms_spasmsConvulsion = "Symptoms.spasmsConvulsion";
 	String Symptoms_outcome = "Symptoms.outcome";
+	String Symptoms_causeOfDeath = "Symptoms.causeOfDeath";
 	String Symptoms_severeReactionAfterVaccination = "Symptoms.severeReactionAfterVaccination";
 	String Symptoms_animalBiteScratch = "Symptoms.animalBiteScratch";
 	String Symptoms_acuteWateryDiarrhea = "Symptoms.acuteWateryDiarrhea";
