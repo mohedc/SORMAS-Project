@@ -776,6 +776,10 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 			List<CaseOutcome> outcomes = Arrays.asList(CaseOutcome.ALIVE, CaseOutcome.DECEASED, CaseOutcome.UNKNOWN);
 			FieldHelper.updateEnumData(outcomeList, outcomes);
 		}
+		if (disease == Disease.MEASLES) {
+			List<CaseOutcome> outcomes = Arrays.asList(CaseOutcome.ALIVE, CaseOutcome.DECEASED, CaseOutcome.UNKNOWN);
+			FieldHelper.updateEnumData(outcomeList, outcomes);
+		}
 		if (disease == Disease.CONGENITAL_RUBELLA) {
 			List<CaseOutcome> outcomes = Arrays.asList(CaseOutcome.ALIVE, CaseOutcome.DECEASED);
 			FieldHelper.updateEnumData(outcomeList, outcomes);
