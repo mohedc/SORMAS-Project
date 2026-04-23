@@ -171,6 +171,7 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 			fluidRowLocs(OTHER_COMPLICATIONS, OTHER_COMPLICATIONS_TEXT) +
 			locsCss(VSPACE_3) +
 			fluidRowLocs(6, SPASMS_CONVULSION, 6, SPASMS_CONVULSION_ONSET_DATE) +
+			fluidRowLocs(OTHER_COMPLICATIONS, OTHER_COMPLICATIONS_TEXT) +
 			fluidRowLocs(6, BABY_DIED) +
 			fluidRowLocs(AGE_AT_DEATH_DAYS, AGE_AT_ONSET_DAYS) +
 			fluidRowLocs(6, OUTCOME) +
@@ -607,7 +608,6 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 			DIZZINESS_STANDING_UP,
 			HIGH_OR_LOW_BLOOD_PRESSURE,
 			URINARY_RETENTION,
-			BABY_DIED,
 			BABY_NORMAL_AT_BIRTH,
 			NORMAL_CRY_AND_SUCK,
 			STOPPED_SUCKING_AFTER_TWO_DAYS,
@@ -625,9 +625,11 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 		addField(SYMPTOMS_COMMENTS, TextField.class).setDescription(
 			I18nProperties.getPrefixDescription(I18N_PREFIX, SYMPTOMS_COMMENTS, "") + "\n" + I18nProperties.getDescription(Descriptions.descGdpr));
 
+		NullableOptionGroup babyDiedField = addField(BABY_DIED, NullableOptionGroup.class);
 		addField(AGE_AT_DEATH_DAYS, TextField.class);
 		addField(AGE_AT_ONSET_DAYS, TextField.class);
-		FieldHelper.setVisibleWhen(getFieldGroup(), Arrays.asList(AGE_AT_DEATH_DAYS, AGE_AT_ONSET_DAYS), BABY_DIED, Arrays.asList(SymptomState.YES), true);
+		FieldHelper.setVisibleWhen(getFieldGroup(), Arrays.asList(AGE_AT_DEATH_DAYS), BABY_DIED, Arrays.asList(SymptomState.YES), true);
+		FieldHelper.setVisibleWhen(getFieldGroup(), Arrays.asList(AGE_AT_ONSET_DAYS), BABY_DIED, Arrays.asList(SymptomState.NO), true);
 
 		addField(LESIONS_ONSET_DATE, DateField.class);
 		for (String onsetDatePropertyId : Arrays.asList(
@@ -790,6 +792,31 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 		if (disease == Disease.CONGENITAL_RUBELLA) {
 			List<CaseOutcome> outcomes = Arrays.asList(CaseOutcome.ALIVE, CaseOutcome.DECEASED);
 			FieldHelper.updateEnumData(outcomeList, outcomes);
+		}
+		if (disease == Disease.NEONATAL_TETANUS) {
+
+			babyDiedField.addValueChangeListener(event -> {
+				SymptomState value = (SymptomState) FieldHelper.getNullableSourceFieldValue(babyDiedField);
+
+				if (value == SymptomState.YES) {
+					outcomeList.setValue(CaseOutcome.DECEASED);
+					outcomeList.setEnabled(false);
+				} else if (value == SymptomState.NO){
+					outcomeList.setValue(CaseOutcome.ALIVE);
+					outcomeList.setEnabled(false);
+				} else
+				{
+					outcomeList.clear();
+					outcomeList.setEnabled(true);
+				}
+			});
+
+			// initialize on load
+			SymptomState initialValue = (SymptomState) FieldHelper.getNullableSourceFieldValue(babyDiedField);
+			if (initialValue == SymptomState.YES) {
+				outcomeList.setValue(CaseOutcome.DECEASED);
+				outcomeList.setEnabled(false);
+			}
 		}
 
 		if (symptomsContext != SymptomsContext.CLINICAL_VISIT) {
