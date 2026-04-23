@@ -791,6 +791,7 @@ public interface Strings {
 	String headingPathogenTestsDeleted = "headingPathogenTestsDeleted";
 	String headingPersonData = "headingPersonData";
 	String headingPersonInformation = "headingPersonInformation";
+	String headingBirthInfant = "headingBirthInfant";
 	String headingfillSection = "headingfillSection";
 	String headingseekHelp = "headingseekHelp";
 	String headingPersonOccupation = "headingPersonOccupation";

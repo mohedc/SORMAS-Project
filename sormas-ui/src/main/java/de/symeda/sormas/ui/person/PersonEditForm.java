@@ -105,6 +105,7 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 	public static final String HAS_GUARDIAN = "hasGuardian";
 	private static final String DATE_OF_BIRTH_HEADING_LOC = "dateOfBirthHeadingLoc";
 	private static final String HOME_ADDRESS_HEADING_LOC = "homeAddressHeadingLoc";
+	private static final String BIRTH_INFANT_HEADING_LOC = "birthInfantHeadingLoc";
 	//@formatter:off
     private static final String HTML_LAYOUT =
             loc(PERSON_INFORMATION_HEADING_LOC) +
@@ -267,24 +268,28 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 					fluidRowLocs(PersonDto.UUID, "") +
 					fluidRowLocs(PersonDto.FIRST_NAME, PersonDto.LAST_NAME) +
 					fluidRowLocs(6, PersonDto.OTHER_NAMES) +
-					fluidRow(
-							fluidRowLocs(PersonDto.BIRTH_DATE_YYYY, PersonDto.BIRTH_DATE_MM, PersonDto.BIRTH_DATE_DD),
-							fluidRowLocs(PersonDto.APPROXIMATE_AGE, PersonDto.APPROXIMATE_AGE_TYPE, PersonDto.APPROXIMATE_AGE_REFERENCE_DATE)
-					) +
-					fluidRowLocs(PersonDto.SEX, PersonDto.MARITAL_STATUS) +
-					fluidRowLocs(PersonDto.PASSPORT_NUMBER, PersonDto.NATIONALITY) +
+					fluidRowLocs(6,PersonDto.SEX) +
 					fluidRowLocs(PersonDto.MOTHERS_NAME, PersonDto.FATHERS_NAME) +
-					fluidRowLocs(PersonDto.LOCATION_OF_BIRTH, PersonDto.BIRTH_IN_INSTITUTION) +
+					loc(ADDRESS_HEADER) +
+					divsCss(VSPACE_3, fluidRowLocs(PersonDto.ADDRESS) +
+
+					fluidRowLocs(PersonDto.NATIONALITY, PersonDto.PASSPORT_NUMBER) +
+					loc(BIRTH_INFANT_HEADING_LOC) +
+					loc(DATE_OF_BIRTH_HEADING_LOC) +
+							fluidRow(
+									fluidRowLocs(PersonDto.BIRTH_DATE_YYYY, PersonDto.BIRTH_DATE_MM, PersonDto.BIRTH_DATE_DD),
+									fluidRowLocs(PersonDto.APPROXIMATE_AGE, PersonDto.APPROXIMATE_AGE_TYPE, PersonDto.APPROXIMATE_AGE_REFERENCE_DATE)
+							) +
+					fluidRowLocs(6, PersonDto.LOCATION_OF_BIRTH) +
+					fluidRowLocs(PersonDto.CUT_CORD_WITH_STERILE_BLADE, PersonDto.CORD_TREATED_WITH_ANYTHING) +
+					fluidRowLocs(6, PersonDto.CORD_TREATED_WITH_ANYTHING_WHERE) +
+					fluidRowLocs(PersonDto.RECEIVED_ANTENATAL_CARE, PersonDto.RECEIVED_ANTENATAL_CARE_WHERE) +
+					fluidRowLocs(6, PersonDto.BIRTH_IN_INSTITUTION) +
 					fluidRowLocs(PersonDto.PLACE_OF_BIRTH_REGION, PersonDto.PLACE_OF_BIRTH_DISTRICT, PersonDto.PLACE_OF_BIRTH_COMMUNITY) +
 					fluidRowLocs(PersonDto.PLACE_OF_BIRTH_FACILITY_TYPE, PersonDto.PLACE_OF_BIRTH_FACILITY, PersonDto.PLACE_OF_BIRTH_FACILITY_DETAILS) +
-					fluidRowLocs(PersonDto.RECEIVED_ANTENATAL_CARE, PersonDto.RECEIVED_ANTENATAL_CARE_WHERE)+
-					fluidRowLocs(PersonDto.DESCRIBE_TREATMENT_OF_CARD, PersonDto.PRENATAL_TOTAL_VISITS)+
-					fluidRowLocs(PersonDto.ATTENDED_BY_TRAINED_TBA, PersonDto.ATTENDED_BY_TRAINED_TBA_MIDWIFE_NAME)+
-					fluidRowLocs(PersonDto.ATTENDED_BY_DOCTOR_NURSE, PersonDto.CUT_CORD_WITH_STERILE_BLADE)+
-					fluidRowLocs(PersonDto.CORD_TREATED_WITH_ANYTHING, PersonDto.CORD_TREATED_WITH_ANYTHING_WHERE)+
+					fluidRowLocs(PersonDto.PRENATAL_TOTAL_VISITS, PersonDto.ATTENDED_BY_TRAINED_TBA)+
+					fluidRowLocs(PersonDto.ATTENDED_BY_TRAINED_TBA_MIDWIFE_NAME, PersonDto.ATTENDED_BY_DOCTOR_NURSE));
 
-					loc(ADDRESS_HEADER) +
-					divsCss(VSPACE_3, fluidRowLocs(PersonDto.ADDRESS));
 
 	private static final String IDSR_LAYOUT =
 			loc(PERSON_INFORMATION_HEADING_LOC) +
@@ -309,6 +314,7 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 	private final Label addressesHeader = new Label(I18nProperties.getPrefixCaption(PersonDto.I18N_PREFIX, PersonDto.ADDRESSES));
 	private final Label contactInformationHeader = new Label(I18nProperties.getString(Strings.headingContactInformation));
 	private Label personInformationHeadingLabel;
+	private Label birthInfantHeadingLabel;
 	private TextField firstNameField;
 	private TextField lastNameField;
 	private Disease disease;
@@ -447,6 +453,10 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 		homeAddressHeadingLabel.addStyleName(H3);
 		getContent().addComponent(homeAddressHeadingLabel, HOME_ADDRESS_HEADING_LOC);
 
+		birthInfantHeadingLabel = new Label(I18nProperties.getString(Strings.headingBirthInfant));
+		birthInfantHeadingLabel.addStyleName(H3);
+		getContent().addComponent(birthInfantHeadingLabel, BIRTH_INFANT_HEADING_LOC);
+
 		addField(PersonDto.UUID).setReadOnly(true);
 		// Add CHANGE_DATE field for Meningitis and Congenital Rubella (read-only)
 		if (disease == Disease.CSM || disease == Disease.CONGENITAL_RUBELLA) {
@@ -461,6 +471,7 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 
 		ComboBox sex = addField(PersonDto.SEX, ComboBox.class);
 		sex.removeItem(Sex.OTHER);
+		sex.removeItem(Sex.UNKNOWN);
 		addField(PersonDto.MARITAL_STATUS, ComboBox.class);
 		addField(PersonDto.BIRTH_NAME, TextField.class);
 		addField(PersonDto.NICKNAME, TextField.class);
