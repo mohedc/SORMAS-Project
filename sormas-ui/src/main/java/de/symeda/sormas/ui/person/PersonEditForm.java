@@ -875,6 +875,7 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 		if (disease == Disease.NEONATAL_TETANUS) {
 
 			receivedAntenatalCare = addField(PersonDto.RECEIVED_ANTENATAL_CARE, NullableOptionGroup.class);
+			addField(PersonDto.RECEIVED_ANTENATAL_CARE_WHERE, TextField.class);
 			prenatalTotalVisits = addField(PersonDto.PRENATAL_TOTAL_VISITS, TextField.class);
 			describeTreatmentOfCard = addField(PersonDto.DESCRIBE_TREATMENT_OF_CARD, TextArea.class);
 			describeTreatmentOfCard.setRows(4);
@@ -907,6 +908,14 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 					Arrays.asList(cbPlaceOfBirthRegion, cbPlaceOfBirthDistrict, cbPlaceOfBirthCommunity, placeOfBirthFacilityType, cbPlaceOfBirthFacility),
 					Arrays.asList(YesNoUnknown.YES),
 					true);
+
+			FieldHelper.setVisibleWhen(
+					getFieldGroup(),
+					PersonDto.RECEIVED_ANTENATAL_CARE_WHERE,
+					PersonDto.RECEIVED_ANTENATAL_CARE,
+					YesNoUnknown.YES,
+					true
+			);
 		}
 
 		// Add fields for Congenital Rubella
