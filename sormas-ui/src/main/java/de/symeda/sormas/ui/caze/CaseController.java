@@ -19,8 +19,11 @@ import java.util.*;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
+import de.symeda.sormas.api.response.ResponseDto;
 import de.symeda.sormas.ui.afpimmunization.AfpImmunizationForm;
 import de.symeda.sormas.ui.afpimmunization.AfpImmunizationView;
+import de.symeda.sormas.ui.response.ResponseForm;
+import de.symeda.sormas.ui.response.ResponseView;
 import org.apache.commons.collections4.CollectionUtils;
 
 import com.vaadin.icons.VaadinIcons;
@@ -183,6 +186,7 @@ public class CaseController {
 		navigator.addView(HospitalizationView.VIEW_NAME, HospitalizationView.class);
 		navigator.addView(CaseEpiDataView.VIEW_NAME, CaseEpiDataView.class);
 		navigator.addView(AfpImmunizationView.VIEW_NAME, AfpImmunizationView.class);
+		navigator.addView(ResponseView.VIEW_NAME, ResponseView.class);
 		if (UiUtil.permitted(UserRight.THERAPY_VIEW)) {
 			navigator.addView(TherapyView.VIEW_NAME, TherapyView.class);
 		}
@@ -1460,6 +1464,31 @@ public class CaseController {
 		return editView;
 	}
 
+
+	public CommitDiscardWrapperComponent<ResponseForm> getResponseEditComponent(final String caseUuid, ViewMode viewMode) {
+
+		CaseDataDto caseDataDto = findCase(caseUuid);
+		ResponseDto response = caseDataDto.getResponse();
+		if (response == null) {
+			response = ResponseDto.build();
+		}
+		ResponseForm responseForm = new ResponseForm(viewMode, caseDataDto.isPseudonymized(), caseDataDto.isInJurisdiction());
+		responseForm.setValue(response);
+
+		CommitDiscardWrapperComponent<ResponseForm> editView =
+				new CommitDiscardWrapperComponent<ResponseForm>(
+						responseForm,
+						UiUtil.permitted(UserRight.CASE_EDIT),
+						responseForm.getFieldGroup());
+
+		editView.addCommitListener(() -> {
+			CaseDataDto cazeDto = FacadeProvider.getCaseFacade().getCaseDataByUuid(caseUuid);
+			cazeDto.setResponse(responseForm.getValue());
+			saveCase(cazeDto);
+		});
+
+		return editView;
+	}
 	public CommitDiscardWrapperComponent<EpiDataForm> getEpiDataComponent(final String caseUuid, Consumer<Boolean> sourceContactsToggleCallback) {
 		boolean hasCaseEditRight = UiUtil.permitted(UserRight.CASE_EDIT);
 		CommitDiscardWrapperComponent<EpiDataForm> epiDataComponent = getEpiDataComponent(caseUuid, sourceContactsToggleCallback, hasCaseEditRight);

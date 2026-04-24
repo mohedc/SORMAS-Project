@@ -821,6 +821,7 @@ public interface Strings {
 	String headingProcessPhysiciansReport = "headingProcessPhysiciansReport";
 	String headingProphylaxisLoc = "headingProphylaxisLoc";
 	String headingQuarantineForCases = "headingQuarantineForCases";
+	String headingResponse = "headingResponse";
 	String headingRecovery = "headingRecovery";
 	String headingReduceQuarantine = "headingReduceQuarantine";
 	String headingReferCaseFromPointOfEntry = "headingReferCaseFromPointOfEntry";

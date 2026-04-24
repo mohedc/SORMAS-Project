@@ -48,6 +48,7 @@ import de.symeda.sormas.api.sample.FinalClassification;
 import de.symeda.sormas.api.utils.Diseases;
 import de.symeda.sormas.api.utils.YesNo;
 import de.symeda.sormas.backend.afpimmunization.AfpImmunization;
+import de.symeda.sormas.backend.response.Response;
 import org.hibernate.annotations.Type;
 
 import de.symeda.sormas.api.Disease;
@@ -99,7 +100,7 @@ public class Case extends CoreAdo implements IsCase, SormasToSormasShareable, Ha
 	public static final String TABLE_NAME = "cases";
 
 	public static final String CASE_CLASSIFICATION = "caseClassification";
-	public static final String CASE_IDENTIFICATION_SOURCE = "caseIdentificationSource";
+	public static final String CASE_IDENTIFICATION_SOURCE = "caseIdentificationSsource";
 	public static final String CLASSIFICATION_DATE = "classificationDate";
 	public static final String SCREENING_TYPE = "screeningType";
 	public static final String CLINICAL_CONFIRMATION = "clinicalConfirmation";
@@ -139,6 +140,7 @@ public class Case extends CoreAdo implements IsCase, SormasToSormasShareable, Ha
 	public static final String EPI_DATA = "epiData";
 	public static final String CLINICAL_COURSE = "clinicalCourse";
 	public static final String MATERNAL_HISTORY = "maternalHistory";
+	public static final String RESPONSE = "response";
 	public static final String PORT_HEALTH_INFO = "portHealthInfo";
 
 	public static final String HEALTH_CONDITIONS = "healthConditions";
@@ -275,6 +277,7 @@ public class Case extends CoreAdo implements IsCase, SormasToSormasShareable, Ha
 	private Therapy therapy;
 	private ClinicalCourse clinicalCourse;
 	private MaternalHistory maternalHistory;
+	private Response response;
 	private PortHealthInfo portHealthInfo;
 
 	private Region responsibleRegion;
@@ -962,6 +965,15 @@ public class Case extends CoreAdo implements IsCase, SormasToSormasShareable, Ha
 
 	public void setMaternalHistory(MaternalHistory maternalHistory) {
 		this.maternalHistory = maternalHistory;
+	}
+
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	public Response getResponse() {
+		return response;
+	}
+
+	public void setResponse(Response response) {
+		this.response = response;
 	}
 
 	// It's necessary to do a lazy fetch here because having three eager fetching

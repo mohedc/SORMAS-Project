@@ -40,6 +40,7 @@ import de.symeda.sormas.backend.infrastructure.region.Region;
 import de.symeda.sormas.backend.location.Location;
 import de.symeda.sormas.backend.person.Person;
 import de.symeda.sormas.backend.person.PersonJoins;
+import de.symeda.sormas.backend.response.Response;
 import de.symeda.sormas.backend.sample.Sample;
 import de.symeda.sormas.backend.sample.SampleJoins;
 import de.symeda.sormas.backend.share.ExternalShareInfo;
@@ -67,6 +68,7 @@ public class CaseJoins extends QueryJoins<Case> {
 	private Join<Case, User> reportingUser;
 	private Join<Case, Hospitalization> hospitalization;
 	private Join<Case, AfpImmunization> afpImmunization;
+	private Join<Case, Response> response;
 	private Join<Case, EpiData> epiData;
 	private Join<Case, Symptoms> symptoms;
 	private Join<Case, ClinicalCourse> clinicalCourse;
@@ -220,6 +222,12 @@ public class CaseJoins extends QueryJoins<Case> {
 	}
 
 	private void setAfpImmunization(Join<Case, AfpImmunization> afpImmunization) { this.afpImmunization = afpImmunization;}
+
+	public Join<Case, Response> getResponse(){
+		return getOrCreate(response, Case.RESPONSE, JoinType.LEFT, this::setResponse);
+	}
+
+	private void setResponse(Join<Case, Response> response) { this.response = response;}
 
 	public Join<Case, EpiData> getEpiData() {
 		return getOrCreate(epiData, Case.EPI_DATA, JoinType.LEFT, this::setEpiData);

@@ -3244,6 +3244,10 @@ public interface Captions {
 	String Symptoms_acuteWateryDiarrhea = "Symptoms.acuteWateryDiarrhea";
 	String Symptoms_persistentLimb = "Symptoms.persistentLimb";
 	String Symptoms_genitalSwelling = "Symptoms.genitalSwelling";
+	String Response_protectiveDoseTt = "Response.protectiveDoseTt";
+	String Response_responseDate = "Response.responseDate";
+	String Response_supplementalImmunization = "Response.supplementalImmunization";
+	String Response_responseDetails = "Response.responseDetails";
 	String Symptoms_redEye = "Symptoms.redEye";
 	String sync = "sync";
 	String syncErrors = "syncErrors";
