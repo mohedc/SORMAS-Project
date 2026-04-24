@@ -48,6 +48,7 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.themes.ValoTheme;
 import com.vaadin.v7.data.fieldgroup.FieldGroup;
 import com.vaadin.v7.data.util.converter.Converter.ConversionException;
+import com.vaadin.v7.data.validator.IntegerRangeValidator;
 import com.vaadin.v7.ui.*;
 
 import de.symeda.sormas.api.CountryHelper;
@@ -172,6 +173,7 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 			locsCss(VSPACE_3) +
 			fluidRowLocs(6, SPASMS_CONVULSION, 6, SPASMS_CONVULSION_ONSET_DATE) +
 			fluidRowLocs(OTHER_COMPLICATIONS, OTHER_COMPLICATIONS_TEXT) +
+			fluidRowLocs(6, SIGNS_OF_ONSET_DAYS) +
 			fluidRowLocs(6, BABY_DIED) +
 			fluidRowLocs(AGE_AT_DEATH_DAYS, AGE_AT_ONSET_DAYS) +
 			fluidRowLocs(6, OUTCOME) +
@@ -626,6 +628,9 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 			I18nProperties.getPrefixDescription(I18N_PREFIX, SYMPTOMS_COMMENTS, "") + "\n" + I18nProperties.getDescription(Descriptions.descGdpr));
 
 		NullableOptionGroup babyDiedField = addField(BABY_DIED, NullableOptionGroup.class);
+		TextField signOnsetDay = addField(SIGNS_OF_ONSET_DAYS, TextField.class);
+		signOnsetDay.setNullRepresentation("");
+		signOnsetDay.addValidator(new IntegerRangeValidator("Enter a valid number of days", 0, null));
 		addField(AGE_AT_DEATH_DAYS, TextField.class);
 		addField(AGE_AT_ONSET_DAYS, TextField.class);
 		FieldHelper.setVisibleWhen(getFieldGroup(), Arrays.asList(AGE_AT_DEATH_DAYS), BABY_DIED, Arrays.asList(SymptomState.YES), true);

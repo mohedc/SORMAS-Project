@@ -307,6 +307,7 @@ public class SymptomsFacadeEjb implements SymptomsFacade {
 		target.setGenitalSwelling(source.getGenitalSwelling());
 		target.setRedEye(source.getRedEye());
 		target.setSpasmsConvulsion(source.getSpasmsConvulsion());
+		target.setSignsOfOnsetDays(source.getSignsOfOnsetDays());
 
 
 		return target;
@@ -598,6 +599,7 @@ public class SymptomsFacadeEjb implements SymptomsFacade {
 		target.setGenitalSwelling(source.getGenitalSwelling());
 		target.setRedEye(source.getRedEye());
 		target.setSpasmsConvulsion(source.getSpasmsConvulsion());
+		target.setSignsOfOnsetDays(source.getSignsOfOnsetDays());
 
 
 		return target;
