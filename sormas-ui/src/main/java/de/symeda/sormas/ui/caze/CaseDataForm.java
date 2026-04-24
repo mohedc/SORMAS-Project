@@ -171,6 +171,7 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 	private static final String INVESTIGATING_OFFICER_INFO = "investigatingOfficerInfoLoc";
 	private static final String NOTIFY_INVESTIGATE = "notifyInvestigateLoc";
 	private static final String PERSON_COMPLETING_HEADING_LOC = "personCompletingHeadingLoc";
+	private static final String MOTHER_VACCINATION_HEADING_LOC = "motherVaccinationHeadingLoc";
 
 	//@formatter:off
 	private static final String MAIN_HTML_LAYOUT =
@@ -476,8 +477,9 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 					fluidRowLocs(CaseDataDto.CASE_ORIGIN, "") +
 					fluidRowLocs(RESPONSIBLE_JURISDICTION_HEADING_LOC) +
 					fluidRowLocs(CaseDataDto.RESPONSIBLE_REGION, CaseDataDto.RESPONSIBLE_DISTRICT, CaseDataDto.RESPONSIBLE_COMMUNITY) +
+					fluidRowLocs(PLACE_OF_STAY_HEADING_LOC) +
 					fluidRowLocs(FACILITY_OR_HOME_LOC) +
-					fluidRowLocs(TYPE_GROUP_LOC, CaseDataDto.FACILITY_TYPE) +
+					fluidRowLocs(6, CaseDataDto.FACILITY_TYPE) +
 					fluidRowLocs(CaseDataDto.REGION, CaseDataDto.DISTRICT, CaseDataDto.COMMUNITY) +
 //					fluidRowLocs(TYPE_GROUP_LOC, CaseDataDto.FACILITY_TYPE) +
 					fluidRowLocs(CaseDataDto.HEALTH_FACILITY, CaseDataDto.HEALTH_FACILITY_DETAILS) +
@@ -485,6 +487,7 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 					loc(NOTIFY_INVESTIGATE_HEADING_LOC) +
 					fluidRowLocs(CaseDataDto.NOTIFIED_BY, CaseDataDto.NOTIFIED_BY_DETAILS) +
 					fluidRowLocs(CaseDataDto.DATE_OF_NOTIFICATION, CaseDataDto.DATE_OF_INVESTIGATION) +
+					fluidRowLocs(MOTHER_VACCINATION_HEADING_LOC) +
 					fluidRowLocs(CaseDataDto.MOTHER_VACCINATED_WITH_TT, CaseDataDto.MOTHER_HAVE_CARD) +
 					fluidRowLocs(CaseDataDto.MOTHER_VACCINATION_STATUS, CaseDataDto.MOTHER_NUMBER_OF_DOSES) +
 					fluidRowLocs(CaseDataDto.MOTHER_TT_DATE_ONE, CaseDataDto.MOTHER_TT_DATE_TWO) +
@@ -671,6 +674,7 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 		}
 
 		createLabel(I18nProperties.getString(Strings.headingPersonCompleting), H3, PERSON_COMPLETING_HEADING_LOC);
+		createLabel(I18nProperties.getString(Strings.headingMotherVaccination), H3, MOTHER_VACCINATION_HEADING_LOC);
 
 		Label caseDataHeadingLabel = new Label(I18nProperties.getString(Strings.headingCaseData));
 		caseDataHeadingLabel.addStyleName(H3);
@@ -1915,7 +1919,7 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 
 					FieldHelper.setVisibleWhen(
 							motherVaccinatedWithTT,
-							Arrays.asList(motherHaveCard),
+							Arrays.asList(motherHaveCard, motherVaccinationStatus),
 							Arrays.asList(YesNoUnknown.YES),
 							true);
 

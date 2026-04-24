@@ -171,9 +171,9 @@ public class LocationEditForm extends AbstractEditForm<LocationDto> implements L
 							fluidColumnLoc(2, 0, LocationDto.LAT_LON_ACCURACY));
 
 	private static final String NNT_LAYOUT =
+			fluidRowLocs(6, LocationDto.AREA_TYPE) +
 			fluidRowLocs(LocationDto.REGION, LocationDto.DISTRICT, LocationDto.COMMUNITY) +
-					fluidRowLocs(LocationDto.COMPOUND_OWNER, LocationDto.AREA_TYPE) +
-					fluidRowLocs(6,LocationDto.VILLAGE);
+					fluidRowLocs(LocationDto.VILLAGE, LocationDto.COMPOUND_OWNER);
 
 	private static final String IDSR_LAYOUT =
 			fluidRowLocs(LocationDto.REGION, LocationDto.DISTRICT, LocationDto.COMMUNITY) +

@@ -33,6 +33,7 @@ import javax.validation.constraints.Size;
 
 import de.symeda.sormas.api.afpimmunization.AfpImmunizationDto;
 import de.symeda.sormas.api.caze.caseimport.MotherVaccinationStatus;
+import de.symeda.sormas.api.response.ResponseDto;
 import de.symeda.sormas.api.utils.*;
 import org.apache.commons.lang3.StringUtils;
 
@@ -132,6 +133,7 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 	public static final String PORT_HEALTH_INFO = "portHealthInfo";
 	public static final String HEALTH_CONDITIONS = "healthConditions";
 	public static final String AFP_IMMUNIZATION = "afpImmunization";
+	public static final String RESPONSE = "response";
 	public static final String PREGNANT = "pregnant";
 	public static final String VACCINATION_STATUS = "vaccinationStatus";
 	public static final String VACCINATED = "vaccinated";
@@ -917,6 +919,9 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 			Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS})
 	private RegionReferenceDto regionLabResultsReceived;
 
+	@Valid
+	private ResponseDto response;
+
 	public static CaseDataDto build(PersonReferenceDto person, Disease disease) {
 		return build(person, disease, HealthConditionsDto.build());
 	}
@@ -932,6 +937,7 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 		caze.setTherapy(TherapyDto.build());
 		caze.setHealthConditions(healthConditions);
 		caze.setClinicalCourse(ClinicalCourseDto.build());
+		caze.setResponse(ResponseDto.build());
 		caze.setMaternalHistory(MaternalHistoryDto.build());
 		caze.setPortHealthInfo(PortHealthInfoDto.build());
 		caze.setDisease(disease);
@@ -1409,6 +1415,15 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 	public void setMaternalHistory(MaternalHistoryDto maternalHistory) {
 		this.maternalHistory = maternalHistory;
 	}
+
+	public ResponseDto getResponse() {
+		return response;
+	}
+
+	public void setResponse(ResponseDto response) {
+		this.response = response;
+	}
+
 
 	public PortHealthInfoDto getPortHealthInfo() {
 		return portHealthInfo;

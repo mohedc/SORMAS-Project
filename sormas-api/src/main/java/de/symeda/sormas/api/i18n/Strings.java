@@ -791,6 +791,7 @@ public interface Strings {
 	String headingPathogenTestsDeleted = "headingPathogenTestsDeleted";
 	String headingPersonData = "headingPersonData";
 	String headingPersonInformation = "headingPersonInformation";
+	String headingBirthInfant = "headingBirthInfant";
 	String headingfillSection = "headingfillSection";
 	String headingseekHelp = "headingseekHelp";
 	String headingPersonOccupation = "headingPersonOccupation";
@@ -820,6 +821,7 @@ public interface Strings {
 	String headingProcessPhysiciansReport = "headingProcessPhysiciansReport";
 	String headingProphylaxisLoc = "headingProphylaxisLoc";
 	String headingQuarantineForCases = "headingQuarantineForCases";
+	String headingResponse = "headingResponse";
 	String headingRecovery = "headingRecovery";
 	String headingReduceQuarantine = "headingReduceQuarantine";
 	String headingReferCaseFromPointOfEntry = "headingReferCaseFromPointOfEntry";
@@ -828,6 +830,7 @@ public interface Strings {
 	String headingStoolSpecimenResults = "headingStoolSpecimenResults";
 	String headingFollowUpExamination = "headingFollowUpExamination";
 	String headingPersonCompleting = "headingPersonCompleting";
+	String headingMotherVaccination = "headingMotherVaccination";
 	String additionalHeading = "additionalHeading";
 	String headingRejectSormasToSormasShareRequest = "headingRejectSormasToSormasShareRequest";
 	String headingRemoveCaseFromContact = "headingRemoveCaseFromContact";

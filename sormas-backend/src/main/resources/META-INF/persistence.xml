@@ -25,6 +25,7 @@
 		<class>de.symeda.sormas.backend.location.Location</class>
 		<class>de.symeda.sormas.backend.outbreak.Outbreak</class>
 		<class>de.symeda.sormas.backend.person.Person</class>
+		<class>de.symeda.sormas.backend.response.Response</class>
 		<class>de.symeda.sormas.backend.infrastructure.community.Community</class>
 		<class>de.symeda.sormas.backend.infrastructure.district.District</class>
 		<class>de.symeda.sormas.backend.infrastructure.region.Region</class>

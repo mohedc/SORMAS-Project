@@ -74,9 +74,12 @@ import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
+import de.symeda.sormas.api.response.ResponseDto;
 import de.symeda.sormas.backend.afpimmunization.AfpImmunization;
 import de.symeda.sormas.backend.afpimmunization.AfpImmunizationFacadeEjb;
 import de.symeda.sormas.backend.afpimmunization.AfpImmunizationFacadeEjb.AfpImmunizationEjbLocal;
+import de.symeda.sormas.backend.response.ResponseFacadeEjb;
+import de.symeda.sormas.backend.response.ResponseFacadeEjb.ResponseFacadeEjbLocal;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -422,6 +425,8 @@ public class CaseFacadeEjb extends AbstractCoreFacadeEjb<Case, CaseDataDto, Case
 	private HospitalizationFacadeEjbLocal hospitalizationFacade;
 	@EJB
 	private AfpImmunizationEjbLocal afpImmunizationFacade;
+	@EJB
+	private ResponseFacadeEjbLocal responseFacade;
 	@EJB
 	private EpiDataFacadeEjbLocal epiDataFacade;
 	@EJB
@@ -3115,6 +3120,9 @@ public class CaseFacadeEjb extends AbstractCoreFacadeEjb<Case, CaseDataDto, Case
 		if (source.getPortHealthInfo() != null) {
 			target.setPortHealthInfo(PortHealthInfoFacadeEjb.toDto(source.getPortHealthInfo()));
 		}
+		if (source.getResponse() != null) {
+			target.setResponse(ResponseFacadeEjb.toDto(source.getResponse()));
+		}
 
 		target.setResponsibleRegion(RegionFacadeEjb.toReferenceDto(source.getResponsibleRegion()));
 		target.setResponsibleDistrict(DistrictFacadeEjb.toReferenceDto(source.getResponsibleDistrict()));
@@ -3388,7 +3396,10 @@ public class CaseFacadeEjb extends AbstractCoreFacadeEjb<Case, CaseDataDto, Case
 			source.setPortHealthInfo(PortHealthInfoDto.build());
 		}
 		target.setPortHealthInfo(portHealthInfoFacade.fillOrBuildEntity(source.getPortHealthInfo(), target.getPortHealthInfo(), checkChangeDate));
-
+		if (source.getResponse() == null) {
+			source.setResponse(ResponseDto.build());
+		}
+		target.setResponse(responseFacade.fillOrBuildEntity(source.getResponse(), target.getResponse(), checkChangeDate));
 		target.setResponsibleRegion(regionService.getByReferenceDto(source.getResponsibleRegion()));
 		target.setResponsibleDistrict(districtService.getByReferenceDto(source.getResponsibleDistrict()));
 		target.setResponsibleCommunity(communityService.getByReferenceDto(source.getResponsibleCommunity()));

@@ -15318,6 +15318,19 @@ ALTER TABLE symptoms_history ADD COLUMN IF NOT EXISTS genitalswellingonsetdate t
 ALTER TABLE symptoms_history ADD COLUMN IF NOT EXISTS redeyeonsetdate timestamp;
 INSERT INTO schema_version (version_number, comment) VALUES (653, 'Add IDSR per-symptom onset date fields to symptoms');
 
+CREATE TABLE response (
+                id BIGINT PRIMARY KEY NOT NULL,
+                responsedetails VARCHAR(255),
+                supplementalimmunization VARCHAR(55),
+                protectivedosett VARCHAR(55),
+                responsedate DATE,
+                changedate TIMESTAMP(3),
+                change_user_id BIGINT,
+                creationdate DATE,
+                uuid VARCHAR(512)
+);
+ALTER TABLE cases ADD COLUMN response_id BIGINT;
+INSERT INTO schema_version (version_number, comment) VALUES (654, 'Created response table and altered cases table');
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***
 
 
