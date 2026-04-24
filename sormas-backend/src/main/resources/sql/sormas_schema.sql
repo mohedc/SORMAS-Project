@@ -15331,6 +15331,9 @@ CREATE TABLE response (
 );
 ALTER TABLE cases ADD COLUMN response_id BIGINT;
 INSERT INTO schema_version (version_number, comment) VALUES (654, 'Created response table and altered cases table');
+
+ALTER TABLE symptoms ADD COLUMN signsofonsetdays INT;
+INSERT INTO schema_version (version_number, comment) VALUES (655, 'Added signsofonsetdays to symptoms table');
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***
 
 

@@ -392,6 +392,7 @@ public class Symptoms extends AbstractDomainObject {
 	private SymptomState genitalSwelling;
 	private SymptomState redEye;
 	private SymptomState spasmsConvulsion;
+	private Integer signsOfOnsetDays;
 
 	// when adding new fields make sure to extend toHumanString
 
@@ -2932,6 +2933,14 @@ public class Symptoms extends AbstractDomainObject {
 
 	public void setRedEye(SymptomState redEye) {
 		this.redEye = redEye;
+	}
+	@Column
+	public Integer getSignsOfOnsetDays() {
+		return signsOfOnsetDays;
+	}
+
+	public void setSignsOfOnsetDays(Integer signsOfOnsetDays) {
+		this.signsOfOnsetDays = signsOfOnsetDays;
 	}
 
 }

@@ -263,6 +263,7 @@ public class SymptomsDto extends PseudonymizableDto {
 	public static final String OUTCOME = "outcome";
 	public static final String CAUSE_OF_DEATH = "causeOfDeath";
 	public static final String BABY_DIED = "babyDied";
+	public static final String SIGNS_OF_ONSET_DAYS = "signsOfOnsetDays";
 	public static final String FEVER_ONSET_PARALYSIS = "feverOnsetParalysis";
 	public static final String PROGRESSIVE_PARALYSIS = "progressiveParalysis";
 	public static final String PROGRESSIVE_FLACID_ACUTE = "progressiveFlaccidAcute";
@@ -2802,6 +2803,12 @@ public class SymptomsDto extends PseudonymizableDto {
 	private SymptomState babyDied;
 
 	@Diseases({
+			NEONATAL_TETANUS
+	})
+	@HideForCountries
+	private Integer signsOfOnsetDays;
+
+	@Diseases({
 			IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS
 	})
 	@Outbreaks
@@ -5280,6 +5287,14 @@ public class SymptomsDto extends PseudonymizableDto {
 
 	public void setSpasmsConvulsion(SymptomState spasmsConvulsion) {
 		this.spasmsConvulsion = spasmsConvulsion;
+	}
+
+	public Integer getSignsOfOnsetDays() {
+		return signsOfOnsetDays;
+	}
+
+	public void setSignsOfOnsetDays(Integer signsOfOnsetDays) {
+		this.signsOfOnsetDays = signsOfOnsetDays;
 	}
 
 }
