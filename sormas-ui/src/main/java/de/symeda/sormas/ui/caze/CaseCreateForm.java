@@ -754,9 +754,9 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 
 			// Phone and Present Condition
 			Field<?> phoneField = personCreateForm.getField(PersonDto.PHONE);
-			if (phoneField != null) phoneField.setVisible(true);
+			if (phoneField != null) phoneField.setVisible(false);
 			Field<?> presentConditionField = personCreateForm.getField(PersonDto.PRESENT_CONDITION);
-			if (presentConditionField != null) presentConditionField.setVisible(true);
+			if (presentConditionField != null) presentConditionField.setVisible(false);
 
 			// Passport number - visible only when Case Origin is Point of Entry
 			FieldHelper.setVisibleWhen(personCreateForm.getFieldGroup(), Arrays.asList(PersonDto.PASSPORT_NUMBER), ogCaseOrigin, Arrays.asList(CaseOrigin.POINT_OF_ENTRY), true);
