@@ -454,8 +454,18 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 					fluidRowLocs(CaseDataDto.HEALTH_FACILITY, CaseDataDto.HEALTH_FACILITY_DETAILS) +
 				loc(ADDITIONAL_MEDICAL_INFORMATION) +
 				fluidRowLocs(CaseDataDto.VACCINATED, CaseDataDto.VACCINATION_RECORD_TYPE) +
-				fluidRowLocs(CaseDataDto.NUMBER_OF_VACCINATION_DOSES, CaseDataDto.LAST_VACCINATION_DATE) +
-				fluidRowLocs(CaseDataDto.VACCINE_TYPE, CaseDataDto.HEALTH_WORKER_COMPLETING_FORM) +
+				// fluidRowLocs(CaseDataDto.NUMBER_OF_VACCINATION_DOSES, CaseDataDto.LAST_VACCINATION_DATE) +
+				// fluidRowLocs(CaseDataDto.VACCINE_TYPE, CaseDataDto.HEALTH_WORKER_COMPLETING_FORM) +
+				fluidRowLocs(CaseDataDto.MENAC, CaseDataDto.MENAC_DATE) +
+				fluidRowLocs(CaseDataDto.MENACW, CaseDataDto.MENACW_DATE) +
+				fluidRowLocs(CaseDataDto.MENACWY, CaseDataDto.MENACWY_DATE) +
+				fluidRowLocs(CaseDataDto.MENA_CONJUNATE, CaseDataDto.MENA_CONJUNATE_DATE) +
+				fluidRowLocs(CaseDataDto.PCVI3_I, CaseDataDto.PCVI3_I_DATE) +
+				fluidRowLocs(CaseDataDto.PCVI3_2, CaseDataDto.PCVI3_2_DATE) +
+				fluidRowLocs(CaseDataDto.PCV13_3, CaseDataDto.PCV13_3_DATE) +
+				fluidRowLocs(CaseDataDto.HIB_I, CaseDataDto.HIB_I_DATE) +
+				fluidRowLocs(CaseDataDto.HIB_2, CaseDataDto.HIB_2_DATE) +
+				fluidRowLocs(CaseDataDto.HIB_3, CaseDataDto.HIB_3_DATE) +
 				loc(INVESTIGATING_OFFICER_INFO) +
 					locCss(VSPACE_TOP_3, CaseDataDto.INVESTIGATOR_NAME) +
 					fluidRowLocs(CaseDataDto.INVESTIGATOR_TITLE, CaseDataDto.INVESTIGATOR_UNIT) +
@@ -1265,6 +1275,36 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 		ComboBox vaccineTypeCombo = addField(CaseDataDto.VACCINE_TYPE, ComboBox.class);
 		vaccineTypeCombo.setNullSelectionAllowed(true);
 		FieldHelper.updateEnumData(vaccineTypeCombo, Arrays.asList(VaccineType.values()));
+		addField(CaseDataDto.MENAC, NullableOptionGroup.class);
+		addField(CaseDataDto.MENAC_DATE, DateField.class);
+		addField(CaseDataDto.MENACW, NullableOptionGroup.class);
+		addField(CaseDataDto.MENACW_DATE, DateField.class);
+		addField(CaseDataDto.MENACWY, NullableOptionGroup.class);
+		addField(CaseDataDto.MENACWY_DATE, DateField.class);
+		addField(CaseDataDto.MENA_CONJUNATE, NullableOptionGroup.class);
+		addField(CaseDataDto.MENA_CONJUNATE_DATE, DateField.class);
+		addField(CaseDataDto.PCVI3_I, NullableOptionGroup.class);
+		addField(CaseDataDto.PCVI3_I_DATE, DateField.class);
+		addField(CaseDataDto.PCVI3_2, NullableOptionGroup.class);
+		addField(CaseDataDto.PCVI3_2_DATE, DateField.class);
+		addField(CaseDataDto.PCV13_3, NullableOptionGroup.class);
+		addField(CaseDataDto.PCV13_3_DATE, DateField.class);
+		addField(CaseDataDto.HIB_I, NullableOptionGroup.class);
+		addField(CaseDataDto.HIB_I_DATE, DateField.class);
+		addField(CaseDataDto.HIB_2, NullableOptionGroup.class);
+		addField(CaseDataDto.HIB_2_DATE, DateField.class);
+		addField(CaseDataDto.HIB_3, NullableOptionGroup.class);
+		addField(CaseDataDto.HIB_3_DATE, DateField.class);
+		configurePrefixedDateCaption(CaseDataDto.MENAC, CaseDataDto.MENAC_DATE);
+		configurePrefixedDateCaption(CaseDataDto.MENACW, CaseDataDto.MENACW_DATE);
+		configurePrefixedDateCaption(CaseDataDto.MENACWY, CaseDataDto.MENACWY_DATE);
+		configurePrefixedDateCaption(CaseDataDto.MENA_CONJUNATE, CaseDataDto.MENA_CONJUNATE_DATE);
+		configurePrefixedDateCaption(CaseDataDto.PCVI3_I, CaseDataDto.PCVI3_I_DATE);
+		configurePrefixedDateCaption(CaseDataDto.PCVI3_2, CaseDataDto.PCVI3_2_DATE);
+		configurePrefixedDateCaption(CaseDataDto.PCV13_3, CaseDataDto.PCV13_3_DATE);
+		configurePrefixedDateCaption(CaseDataDto.HIB_I, CaseDataDto.HIB_I_DATE);
+		configurePrefixedDateCaption(CaseDataDto.HIB_2, CaseDataDto.HIB_2_DATE);
+		configurePrefixedDateCaption(CaseDataDto.HIB_3, CaseDataDto.HIB_3_DATE);
 		addField(CaseDataDto.HEALTH_WORKER_COMPLETING_FORM, TextField.class);
 
 		// Add field for "At least one yellow fever dose"
@@ -1285,10 +1325,30 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 		if(disease == Disease.CSM){
 			FieldHelper.setVisibleWhen(
 					getFieldGroup(),
-					Arrays.asList(CaseDataDto.VACCINATION_RECORD_TYPE, CaseDataDto.ROUTINE_VACCINATION_TYPE, CaseDataDto.NUMBER_OF_VACCINATION_DOSES),
+					Arrays.asList(
+						CaseDataDto.VACCINATION_RECORD_TYPE,
+						CaseDataDto.MENAC,CaseDataDto.MENACW,
+						CaseDataDto.MENACWY,
+						CaseDataDto.MENA_CONJUNATE,
+						CaseDataDto.PCVI3_I,
+						CaseDataDto.PCVI3_2,
+						CaseDataDto.PCV13_3,
+						CaseDataDto.HIB_I,
+						CaseDataDto.HIB_2,
+						CaseDataDto.HIB_3),
 					CaseDataDto.VACCINATED,
 					Arrays.asList(VaccinationStatus.VACCINATED),
 					true);
+			FieldHelper.setVisibleWhen(getFieldGroup(), CaseDataDto.MENAC_DATE, CaseDataDto.MENAC, Arrays.asList(YesNoUnknown.YES), true);
+			FieldHelper.setVisibleWhen(getFieldGroup(), CaseDataDto.MENACW_DATE, CaseDataDto.MENACW, Arrays.asList(YesNoUnknown.YES), true);
+			FieldHelper.setVisibleWhen(getFieldGroup(), CaseDataDto.MENACWY_DATE, CaseDataDto.MENACWY, Arrays.asList(YesNoUnknown.YES), true);
+			FieldHelper.setVisibleWhen(getFieldGroup(), CaseDataDto.MENA_CONJUNATE_DATE, CaseDataDto.MENA_CONJUNATE, Arrays.asList(YesNoUnknown.YES), true);
+			FieldHelper.setVisibleWhen(getFieldGroup(), CaseDataDto.PCVI3_I_DATE, CaseDataDto.PCVI3_I, Arrays.asList(YesNoUnknown.YES), true);
+			FieldHelper.setVisibleWhen(getFieldGroup(), CaseDataDto.PCVI3_2_DATE, CaseDataDto.PCVI3_2, Arrays.asList(YesNoUnknown.YES), true);
+			FieldHelper.setVisibleWhen(getFieldGroup(), CaseDataDto.PCV13_3_DATE, CaseDataDto.PCV13_3, Arrays.asList(YesNoUnknown.YES), true);
+			FieldHelper.setVisibleWhen(getFieldGroup(), CaseDataDto.HIB_I_DATE, CaseDataDto.HIB_I, Arrays.asList(YesNoUnknown.YES), true);
+			FieldHelper.setVisibleWhen(getFieldGroup(), CaseDataDto.HIB_2_DATE, CaseDataDto.HIB_2, Arrays.asList(YesNoUnknown.YES), true);
+			FieldHelper.setVisibleWhen(getFieldGroup(), CaseDataDto.HIB_3_DATE, CaseDataDto.HIB_3, Arrays.asList(YesNoUnknown.YES), true);
 
 			// Set required status for vaccination fields when visible (for Meningitis)
 			FieldHelper.setRequiredWhen(
@@ -1994,6 +2054,14 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 		regionCombo.setVisible(false);
 		districtCombo.setVisible(false);
 		communityCombo.setVisible(false);
+	}
+
+	private void configurePrefixedDateCaption(String vaccineFieldName, String dateFieldName) {
+		Field<?> vaccineField = getField(vaccineFieldName);
+		Field<?> dateField = getField(dateFieldName);
+		if (vaccineField != null && dateField != null) {
+			dateField.setCaption(vaccineField.getCaption() + " Date");
+		}
 	}
 
 	// This method is used to hide the not relevant fields of LUX+TB

@@ -283,6 +283,26 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 	public static final String ARRIVAL_AT_NATIONAL_LEVEL_DATE = "arrivalAtNationalLevelDate";
 	public static final String VACCINE_TYPE = "vaccineType";
 	public static final String HEALTH_WORKER_COMPLETING_FORM = "healthWorkerCompletingForm";
+	public static final String MENAC = "menac";
+	public static final String MENAC_DATE = "menacDate";
+	public static final String MENACW = "menacw";
+	public static final String MENACW_DATE = "menacwDate";
+	public static final String MENACWY = "menacwy";
+	public static final String MENACWY_DATE = "menacwyDate";
+	public static final String MENA_CONJUNATE = "menaConjunate";
+	public static final String MENA_CONJUNATE_DATE = "menaConjunateDate";
+	public static final String PCVI3_I = "pcvi3I";
+	public static final String PCVI3_I_DATE = "pcvi3IDate";
+	public static final String PCVI3_2 = "pcvi3_2";
+	public static final String PCVI3_2_DATE = "pcvi3_2Date";
+	public static final String PCV13_3 = "pcv13_3";
+	public static final String PCV13_3_DATE = "pcv13_3Date";
+	public static final String HIB_I = "hibI";
+	public static final String HIB_I_DATE = "hibIDate";
+	public static final String HIB_2 = "hib2";
+	public static final String HIB_2_DATE = "hib2Date";
+	public static final String HIB_3 = "hib3";
+	public static final String HIB_3_DATE = "hib3Date";
 	public static final String CLASSIFICATION_BY_ORIGIN = "classificationByOrigin";
 	public static final String REGION_LAB_RESULTS_RECEIVED = "regionLabResultsReceived";
 
@@ -888,6 +908,66 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 	@Diseases({
 			Disease.CSM})
 	private VaccineType vaccineType;
+	@Diseases({
+			Disease.CSM})
+	private YesNoUnknown menac;
+	@Diseases({
+			Disease.CSM})
+	private Date menacDate;
+	@Diseases({
+			Disease.CSM})
+	private YesNoUnknown menacw;
+	@Diseases({
+			Disease.CSM})
+	private Date menacwDate;
+	@Diseases({
+			Disease.CSM})
+	private YesNoUnknown menacwy;
+	@Diseases({
+			Disease.CSM})
+	private Date menacwyDate;
+	@Diseases({
+			Disease.CSM})
+	private YesNoUnknown menaConjunate;
+	@Diseases({
+			Disease.CSM})
+	private Date menaConjunateDate;
+	@Diseases({
+			Disease.CSM})
+	private YesNoUnknown pcvi3I;
+	@Diseases({
+			Disease.CSM})
+	private Date pcvi3IDate;
+	@Diseases({
+			Disease.CSM})
+	private YesNoUnknown pcvi3_2;
+	@Diseases({
+			Disease.CSM})
+	private Date pcvi3_2Date;
+	@Diseases({
+			Disease.CSM})
+	private YesNoUnknown pcv13_3;
+	@Diseases({
+			Disease.CSM})
+	private Date pcv13_3Date;
+	@Diseases({
+			Disease.CSM})
+	private YesNoUnknown hibI;
+	@Diseases({
+			Disease.CSM})
+	private Date hibIDate;
+	@Diseases({
+			Disease.CSM})
+	private YesNoUnknown hib2;
+	@Diseases({
+			Disease.CSM})
+	private Date hib2Date;
+	@Diseases({
+			Disease.CSM})
+	private YesNoUnknown hib3;
+	@Diseases({
+			Disease.CSM})
+	private Date hib3Date;
 	@Diseases({
 			Disease.CSM})
 	@Size(max = FieldConstraints.CHARACTER_LIMIT_DEFAULT, message = Validations.textTooLong)
@@ -2490,6 +2570,166 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 
 	public void setVaccineType(VaccineType vaccineType) {
 		this.vaccineType = vaccineType;
+	}
+
+	public YesNoUnknown getMenac() {
+		return menac;
+	}
+
+	public void setMenac(YesNoUnknown menac) {
+		this.menac = menac;
+	}
+
+	public Date getMenacDate() {
+		return menacDate;
+	}
+
+	public void setMenacDate(Date menacDate) {
+		this.menacDate = menacDate;
+	}
+
+	public YesNoUnknown getMenacw() {
+		return menacw;
+	}
+
+	public void setMenacw(YesNoUnknown menacw) {
+		this.menacw = menacw;
+	}
+
+	public Date getMenacwDate() {
+		return menacwDate;
+	}
+
+	public void setMenacwDate(Date menacwDate) {
+		this.menacwDate = menacwDate;
+	}
+
+	public YesNoUnknown getMenacwy() {
+		return menacwy;
+	}
+
+	public void setMenacwy(YesNoUnknown menacwy) {
+		this.menacwy = menacwy;
+	}
+
+	public Date getMenacwyDate() {
+		return menacwyDate;
+	}
+
+	public void setMenacwyDate(Date menacwyDate) {
+		this.menacwyDate = menacwyDate;
+	}
+
+	public YesNoUnknown getMenaConjunate() {
+		return menaConjunate;
+	}
+
+	public void setMenaConjunate(YesNoUnknown menaConjunate) {
+		this.menaConjunate = menaConjunate;
+	}
+
+	public Date getMenaConjunateDate() {
+		return menaConjunateDate;
+	}
+
+	public void setMenaConjunateDate(Date menaConjunateDate) {
+		this.menaConjunateDate = menaConjunateDate;
+	}
+
+	public YesNoUnknown getPcvi3I() {
+		return pcvi3I;
+	}
+
+	public void setPcvi3I(YesNoUnknown pcvi3i) {
+		this.pcvi3I = pcvi3i;
+	}
+
+	public Date getPcvi3IDate() {
+		return pcvi3IDate;
+	}
+
+	public void setPcvi3IDate(Date pcvi3iDate) {
+		this.pcvi3IDate = pcvi3iDate;
+	}
+
+	public YesNoUnknown getPcvi3_2() {
+		return pcvi3_2;
+	}
+
+	public void setPcvi3_2(YesNoUnknown pcvi3_2) {
+		this.pcvi3_2 = pcvi3_2;
+	}
+
+	public Date getPcvi3_2Date() {
+		return pcvi3_2Date;
+	}
+
+	public void setPcvi3_2Date(Date pcvi3_2Date) {
+		this.pcvi3_2Date = pcvi3_2Date;
+	}
+
+	public YesNoUnknown getPcv13_3() {
+		return pcv13_3;
+	}
+
+	public void setPcv13_3(YesNoUnknown pcv13_3) {
+		this.pcv13_3 = pcv13_3;
+	}
+
+	public Date getPcv13_3Date() {
+		return pcv13_3Date;
+	}
+
+	public void setPcv13_3Date(Date pcv13_3Date) {
+		this.pcv13_3Date = pcv13_3Date;
+	}
+
+	public YesNoUnknown getHibI() {
+		return hibI;
+	}
+
+	public void setHibI(YesNoUnknown hibI) {
+		this.hibI = hibI;
+	}
+
+	public Date getHibIDate() {
+		return hibIDate;
+	}
+
+	public void setHibIDate(Date hibIDate) {
+		this.hibIDate = hibIDate;
+	}
+
+	public YesNoUnknown getHib2() {
+		return hib2;
+	}
+
+	public void setHib2(YesNoUnknown hib2) {
+		this.hib2 = hib2;
+	}
+
+	public Date getHib2Date() {
+		return hib2Date;
+	}
+
+	public void setHib2Date(Date hib2Date) {
+		this.hib2Date = hib2Date;
+	}
+
+	public YesNoUnknown getHib3() {
+		return hib3;
+	}
+
+	public void setHib3(YesNoUnknown hib3) {
+		this.hib3 = hib3;
+	}
+
+	public Date getHib3Date() {
+		return hib3Date;
+	}
+
+	public void setHib3Date(Date hib3Date) {
+		this.hib3Date = hib3Date;
 	}
 
 	public String getHealthWorkerCompletingForm() {

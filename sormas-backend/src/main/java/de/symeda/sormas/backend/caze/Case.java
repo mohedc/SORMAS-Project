@@ -486,6 +486,26 @@ public class Case extends CoreAdo implements IsCase, SormasToSormasShareable, Ha
 	private Date arrivalAtRegionalPublicHealthOfficeDate;
 	private Date arrivalAtNationalLevelDate;
 	private VaccineType vaccineType;
+	private YesNoUnknown menac;
+	private Date menacDate;
+	private YesNoUnknown menacw;
+	private Date menacwDate;
+	private YesNoUnknown menacwy;
+	private Date menacwyDate;
+	private YesNoUnknown menaConjunate;
+	private Date menaConjunateDate;
+	private YesNoUnknown pcvi3I;
+	private Date pcvi3IDate;
+	private YesNoUnknown pcvi3_2;
+	private Date pcvi3_2Date;
+	private YesNoUnknown pcv13_3;
+	private Date pcv13_3Date;
+	private YesNoUnknown hibI;
+	private Date hibIDate;
+	private YesNoUnknown hib2;
+	private Date hib2Date;
+	private YesNoUnknown hib3;
+	private Date hib3Date;
 	private String healthWorkerCompletingForm;
 	private String notifiedByText;
 	private FinalClassification finalClassification;
@@ -2295,6 +2315,186 @@ public class Case extends CoreAdo implements IsCase, SormasToSormasShareable, Ha
 
 	public void setVaccineType(VaccineType vaccineType) {
 		this.vaccineType = vaccineType;
+	}
+
+	@Enumerated(EnumType.STRING)
+	public YesNoUnknown getMenac() {
+		return menac;
+	}
+
+	public void setMenac(YesNoUnknown menac) {
+		this.menac = menac;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getMenacDate() {
+		return menacDate;
+	}
+
+	public void setMenacDate(Date menacDate) {
+		this.menacDate = menacDate;
+	}
+
+	@Enumerated(EnumType.STRING)
+	public YesNoUnknown getMenacw() {
+		return menacw;
+	}
+
+	public void setMenacw(YesNoUnknown menacw) {
+		this.menacw = menacw;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getMenacwDate() {
+		return menacwDate;
+	}
+
+	public void setMenacwDate(Date menacwDate) {
+		this.menacwDate = menacwDate;
+	}
+
+	@Enumerated(EnumType.STRING)
+	public YesNoUnknown getMenacwy() {
+		return menacwy;
+	}
+
+	public void setMenacwy(YesNoUnknown menacwy) {
+		this.menacwy = menacwy;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getMenacwyDate() {
+		return menacwyDate;
+	}
+
+	public void setMenacwyDate(Date menacwyDate) {
+		this.menacwyDate = menacwyDate;
+	}
+
+	@Enumerated(EnumType.STRING)
+	public YesNoUnknown getMenaConjunate() {
+		return menaConjunate;
+	}
+
+	public void setMenaConjunate(YesNoUnknown menaConjunate) {
+		this.menaConjunate = menaConjunate;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getMenaConjunateDate() {
+		return menaConjunateDate;
+	}
+
+	public void setMenaConjunateDate(Date menaConjunateDate) {
+		this.menaConjunateDate = menaConjunateDate;
+	}
+
+	@Enumerated(EnumType.STRING)
+	public YesNoUnknown getPcvi3I() {
+		return pcvi3I;
+	}
+
+	public void setPcvi3I(YesNoUnknown pcvi3i) {
+		this.pcvi3I = pcvi3i;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getPcvi3IDate() {
+		return pcvi3IDate;
+	}
+
+	public void setPcvi3IDate(Date pcvi3iDate) {
+		this.pcvi3IDate = pcvi3iDate;
+	}
+
+	@Enumerated(EnumType.STRING)
+	public YesNoUnknown getPcvi3_2() {
+		return pcvi3_2;
+	}
+
+	public void setPcvi3_2(YesNoUnknown pcvi3_2) {
+		this.pcvi3_2 = pcvi3_2;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getPcvi3_2Date() {
+		return pcvi3_2Date;
+	}
+
+	public void setPcvi3_2Date(Date pcvi3_2Date) {
+		this.pcvi3_2Date = pcvi3_2Date;
+	}
+
+	@Enumerated(EnumType.STRING)
+	public YesNoUnknown getPcv13_3() {
+		return pcv13_3;
+	}
+
+	public void setPcv13_3(YesNoUnknown pcv13_3) {
+		this.pcv13_3 = pcv13_3;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getPcv13_3Date() {
+		return pcv13_3Date;
+	}
+
+	public void setPcv13_3Date(Date pcv13_3Date) {
+		this.pcv13_3Date = pcv13_3Date;
+	}
+
+	@Enumerated(EnumType.STRING)
+	public YesNoUnknown getHibI() {
+		return hibI;
+	}
+
+	public void setHibI(YesNoUnknown hibI) {
+		this.hibI = hibI;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getHibIDate() {
+		return hibIDate;
+	}
+
+	public void setHibIDate(Date hibIDate) {
+		this.hibIDate = hibIDate;
+	}
+
+	@Enumerated(EnumType.STRING)
+	public YesNoUnknown getHib2() {
+		return hib2;
+	}
+
+	public void setHib2(YesNoUnknown hib2) {
+		this.hib2 = hib2;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getHib2Date() {
+		return hib2Date;
+	}
+
+	public void setHib2Date(Date hib2Date) {
+		this.hib2Date = hib2Date;
+	}
+
+	@Enumerated(EnumType.STRING)
+	public YesNoUnknown getHib3() {
+		return hib3;
+	}
+
+	public void setHib3(YesNoUnknown hib3) {
+		this.hib3 = hib3;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getHib3Date() {
+		return hib3Date;
+	}
+
+	public void setHib3Date(Date hib3Date) {
+		this.hib3Date = hib3Date;
 	}
 
 	@Column(length = CHARACTER_LIMIT_DEFAULT)

@@ -15334,6 +15334,51 @@ INSERT INTO schema_version (version_number, comment) VALUES (654, 'Created respo
 
 ALTER TABLE symptoms ADD COLUMN signsofonsetdays INT;
 INSERT INTO schema_version (version_number, comment) VALUES (655, 'Added signsofonsetdays to symptoms table');
+
+-- Migration 656: CSM vaccine pair fields on cases
+ALTER TABLE cases ADD COLUMN IF NOT EXISTS menac varchar(255);
+ALTER TABLE cases ADD COLUMN IF NOT EXISTS menacdate timestamp;
+ALTER TABLE cases ADD COLUMN IF NOT EXISTS menacw varchar(255);
+ALTER TABLE cases ADD COLUMN IF NOT EXISTS menacwdate timestamp;
+ALTER TABLE cases ADD COLUMN IF NOT EXISTS menacwy varchar(255);
+ALTER TABLE cases ADD COLUMN IF NOT EXISTS menacwydate timestamp;
+ALTER TABLE cases ADD COLUMN IF NOT EXISTS menaconjunate varchar(255);
+ALTER TABLE cases ADD COLUMN IF NOT EXISTS menaconjunatedate timestamp;
+ALTER TABLE cases ADD COLUMN IF NOT EXISTS pcvi3i varchar(255);
+ALTER TABLE cases ADD COLUMN IF NOT EXISTS pcvi3idate timestamp;
+ALTER TABLE cases ADD COLUMN IF NOT EXISTS pcvi3_2 varchar(255);
+ALTER TABLE cases ADD COLUMN IF NOT EXISTS pcvi3_2date timestamp;
+ALTER TABLE cases ADD COLUMN IF NOT EXISTS pcv13_3 varchar(255);
+ALTER TABLE cases ADD COLUMN IF NOT EXISTS pcv13_3date timestamp;
+ALTER TABLE cases ADD COLUMN IF NOT EXISTS hibi varchar(255);
+ALTER TABLE cases ADD COLUMN IF NOT EXISTS hibidate timestamp;
+ALTER TABLE cases ADD COLUMN IF NOT EXISTS hib2 varchar(255);
+ALTER TABLE cases ADD COLUMN IF NOT EXISTS hib2date timestamp;
+ALTER TABLE cases ADD COLUMN IF NOT EXISTS hib3 varchar(255);
+ALTER TABLE cases ADD COLUMN IF NOT EXISTS hib3date timestamp;
+
+ALTER TABLE cases_history ADD COLUMN IF NOT EXISTS menac varchar(255);
+ALTER TABLE cases_history ADD COLUMN IF NOT EXISTS menacdate timestamp;
+ALTER TABLE cases_history ADD COLUMN IF NOT EXISTS menacw varchar(255);
+ALTER TABLE cases_history ADD COLUMN IF NOT EXISTS menacwdate timestamp;
+ALTER TABLE cases_history ADD COLUMN IF NOT EXISTS menacwy varchar(255);
+ALTER TABLE cases_history ADD COLUMN IF NOT EXISTS menacwydate timestamp;
+ALTER TABLE cases_history ADD COLUMN IF NOT EXISTS menaconjunate varchar(255);
+ALTER TABLE cases_history ADD COLUMN IF NOT EXISTS menaconjunatedate timestamp;
+ALTER TABLE cases_history ADD COLUMN IF NOT EXISTS pcvi3i varchar(255);
+ALTER TABLE cases_history ADD COLUMN IF NOT EXISTS pcvi3idate timestamp;
+ALTER TABLE cases_history ADD COLUMN IF NOT EXISTS pcvi3_2 varchar(255);
+ALTER TABLE cases_history ADD COLUMN IF NOT EXISTS pcvi3_2date timestamp;
+ALTER TABLE cases_history ADD COLUMN IF NOT EXISTS pcv13_3 varchar(255);
+ALTER TABLE cases_history ADD COLUMN IF NOT EXISTS pcv13_3date timestamp;
+ALTER TABLE cases_history ADD COLUMN IF NOT EXISTS hibi varchar(255);
+ALTER TABLE cases_history ADD COLUMN IF NOT EXISTS hibidate timestamp;
+ALTER TABLE cases_history ADD COLUMN IF NOT EXISTS hib2 varchar(255);
+ALTER TABLE cases_history ADD COLUMN IF NOT EXISTS hib2date timestamp;
+ALTER TABLE cases_history ADD COLUMN IF NOT EXISTS hib3 varchar(255);
+ALTER TABLE cases_history ADD COLUMN IF NOT EXISTS hib3date timestamp;
+
+INSERT INTO schema_version (version_number, comment) VALUES (656, 'Add CSM vaccine pair fields to cases');
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***
 
 
