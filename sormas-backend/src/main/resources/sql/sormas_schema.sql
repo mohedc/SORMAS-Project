@@ -15396,6 +15396,17 @@ ALTER TABLE cases_history ADD COLUMN IF NOT EXISTS dateformsenttonational timest
 ALTER TABLE cases_history ADD COLUMN IF NOT EXISTS dateformreceivedatnational timestamp;
 
 INSERT INTO schema_version (version_number, comment) VALUES (657, 'Add CSM notification workflow date fields to cases');
+
+-- Migration 658: Meningitis person contact fields on person
+ALTER TABLE person ADD COLUMN IF NOT EXISTS mothersphonenumber varchar(255);
+ALTER TABLE person ADD COLUMN IF NOT EXISTS fathersphonenumber varchar(255);
+ALTER TABLE person ADD COLUMN IF NOT EXISTS caregivername varchar(255);
+
+ALTER TABLE person_history ADD COLUMN IF NOT EXISTS mothersphonenumber varchar(255);
+ALTER TABLE person_history ADD COLUMN IF NOT EXISTS fathersphonenumber varchar(255);
+ALTER TABLE person_history ADD COLUMN IF NOT EXISTS caregivername varchar(255);
+
+INSERT INTO schema_version (version_number, comment) VALUES (658, 'Add meningitis parent and caregiver contact fields to person');
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***
 
 

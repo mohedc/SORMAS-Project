@@ -1009,6 +1009,9 @@ public class PersonFacadeEjb extends AbstractBaseEjb<Person, PersonDto, PersonIn
 
 		target.setMothersName(source.getMothersName());
 		target.setFathersName(source.getFathersName());
+		target.setMothersPhoneNumber(source.getMothersPhoneNumber());
+		target.setFathersPhoneNumber(source.getFathersPhoneNumber());
+		target.setCaregiverName(source.getCaregiverName());
 		target.setNamesOfGuardians(source.getNamesOfGuardians());
 		target.setPlaceOfBirthRegion(RegionFacadeEjb.toReferenceDto(source.getPlaceOfBirthRegion()));
 		target.setPlaceOfBirthDistrict(DistrictFacadeEjb.toReferenceDto(source.getPlaceOfBirthDistrict()));
@@ -1799,6 +1802,9 @@ public class PersonFacadeEjb extends AbstractBaseEjb<Person, PersonDto, PersonIn
 
 		target.setMothersName(source.getMothersName());
 		target.setFathersName(source.getFathersName());
+		target.setMothersPhoneNumber(source.getMothersPhoneNumber());
+		target.setFathersPhoneNumber(source.getFathersPhoneNumber());
+		target.setCaregiverName(source.getCaregiverName());
 		target.setNamesOfGuardians(source.getNamesOfGuardians());
 		target.setPlaceOfBirthRegion(regionService.getByReferenceDto(source.getPlaceOfBirthRegion()));
 		target.setPlaceOfBirthDistrict(districtService.getByReferenceDto(source.getPlaceOfBirthDistrict()));

@@ -247,7 +247,9 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 					fluidRowLocs(PersonDto.OCCUPATION_TYPE, PersonDto.OCCUPATION_DETAILS) +
 					loc(ADDRESS_HEADER) +
 					divsCss(VSPACE_3, fluidRowLocs(PersonDto.ADDRESS)) +
-					fluidRowLocs(PersonDto.MOTHERS_NAME, PersonDto.FATHERS_NAME);
+					fluidRowLocs(PersonDto.MOTHERS_NAME, PersonDto.MOTHERS_PHONE_NUMBER) +
+					fluidRowLocs(PersonDto.FATHERS_NAME, PersonDto.FATHERS_PHONE_NUMBER) +
+					fluidRowLocs(PersonDto.CAREGIVER_NAME, PersonDto.CAREGIVER_TELEPHONE_NUMBER);
 
 	private static final String AFP_LAYOUT =
 			loc(PERSON_INFORMATION_HEADING_LOC) +
@@ -479,6 +481,10 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 		addField(PersonDto.MOTHERS_MAIDEN_NAME, TextField.class);
 		fathername = addField(PersonDto.FATHERS_NAME);
 		mothername = addField(PersonDto.MOTHERS_NAME);
+		addField(PersonDto.MOTHERS_PHONE_NUMBER, TextField.class);
+		addField(PersonDto.FATHERS_PHONE_NUMBER, TextField.class);
+		addField(PersonDto.CAREGIVER_NAME, TextField.class);
+		addField(PersonDto.CAREGIVER_TELEPHONE_NUMBER, TextField.class);
 		nameOfGuardians = addField(PersonDto.NAMES_OF_GUARDIANS, TextField.class);
 		ComboBox presentCondition = addField(PersonDto.PRESENT_CONDITION, ComboBox.class);
 		birthDateDay = addField(PersonDto.BIRTH_DATE_DD, ComboBox.class);
@@ -926,7 +932,6 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 			}
 			TextField tfCurrentWeight = addField(PersonDto.CURRENT_WEIGHT, TextField.class);
 			tfCurrentWeight.setConversionError(I18nProperties.getValidationError(Validations.onlyIntegerNumbersAllowed, tfCurrentWeight.getCaption()));
-			TextField tfCaregiverTelephoneNumber = addField(PersonDto.CAREGIVER_TELEPHONE_NUMBER, TextField.class);
 		}
 
 		if(disease == Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS){

@@ -103,6 +103,9 @@ public class Person extends AbstractDomainObject implements IsPerson, HasExterna
 	public static final String ARMED_FORCES_RELATION_TYPE = "armedForcesRelationType";
 	public static final String FATHERS_NAME = "fathersName";
 	public static final String MOTHERS_NAME = "mothersName";
+	public static final String MOTHERS_PHONE_NUMBER = "mothersPhoneNumber";
+	public static final String FATHERS_PHONE_NUMBER = "fathersPhoneNumber";
+	public static final String CAREGIVER_NAME = "caregiverName";
 	public static final String NAMES_OF_GUARDIANS = "namesOfGuardians";
 	public static final String PLACE_OF_BIRTH_REGION = "placeOfBirthRegion";
 	public static final String PLACE_OF_BIRTH_DISTRICT = "placeOfBirthDistrict";
@@ -147,6 +150,9 @@ public class Person extends AbstractDomainObject implements IsPerson, HasExterna
 	private String mothersName;
 	private String mothersMaidenName;
 	private String fathersName;
+	private String mothersPhoneNumber;
+	private String fathersPhoneNumber;
+	private String caregiverName;
 	private String namesOfGuardians;
 
 	private Integer approximateAge;
@@ -548,6 +554,33 @@ public class Person extends AbstractDomainObject implements IsPerson, HasExterna
 
 	public void setFathersName(String fathersName) {
 		this.fathersName = fathersName;
+	}
+
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	public String getMothersPhoneNumber() {
+		return mothersPhoneNumber;
+	}
+
+	public void setMothersPhoneNumber(String mothersPhoneNumber) {
+		this.mothersPhoneNumber = mothersPhoneNumber;
+	}
+
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	public String getFathersPhoneNumber() {
+		return fathersPhoneNumber;
+	}
+
+	public void setFathersPhoneNumber(String fathersPhoneNumber) {
+		this.fathersPhoneNumber = fathersPhoneNumber;
+	}
+
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	public String getCaregiverName() {
+		return caregiverName;
+	}
+
+	public void setCaregiverName(String caregiverName) {
+		this.caregiverName = caregiverName;
 	}
 
 	@Column(length = CHARACTER_LIMIT_DEFAULT)

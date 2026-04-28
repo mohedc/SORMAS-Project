@@ -96,6 +96,9 @@ public class PersonDto extends PseudonymizableDto implements IsPerson {
 	public static final String ARMED_FORCES_RELATION_TYPE = "armedForcesRelationType";
 	public static final String FATHERS_NAME = "fathersName";
 	public static final String MOTHERS_NAME = "mothersName";
+	public static final String MOTHERS_PHONE_NUMBER = "mothersPhoneNumber";
+	public static final String FATHERS_PHONE_NUMBER = "fathersPhoneNumber";
+	public static final String CAREGIVER_NAME = "caregiverName";
 	public static final String PLACE = "place";
 	public static final String DURATION_MONTHS = "durationMonths";
 	public static final String DURATION_DAYS = "durationDays";
@@ -214,6 +217,18 @@ public class PersonDto extends PseudonymizableDto implements IsPerson {
 	private String fathersName;
 	@PersonalData
 	@SensitiveData
+	@Size(max = FieldConstraints.CHARACTER_LIMIT_DEFAULT, message = Validations.textTooLong)
+	private String mothersPhoneNumber;
+	@PersonalData
+	@SensitiveData
+	@Size(max = FieldConstraints.CHARACTER_LIMIT_DEFAULT, message = Validations.textTooLong)
+	private String fathersPhoneNumber;
+	@PersonalData
+	@SensitiveData
+	@Size(max = FieldConstraints.CHARACTER_LIMIT_DEFAULT, message = Validations.textTooLong)
+	private String caregiverName;
+	@PersonalData
+	@SensitiveData
 	@HideForCountriesExcept
 	@Size(max = FieldConstraints.CHARACTER_LIMIT_DEFAULT, message = Validations.textTooLong)
 	private String namesOfGuardians;
@@ -280,7 +295,8 @@ public class PersonDto extends PseudonymizableDto implements IsPerson {
 	@HideForCountries
 	private Integer currentWeight;
 	@Diseases({
-		Disease.CONGENITAL_RUBELLA})
+		Disease.CONGENITAL_RUBELLA,
+		Disease.CSM})
 	@HideForCountries
 	@SensitiveData
 	@Size(max = FieldConstraints.CHARACTER_LIMIT_DEFAULT, message = Validations.textTooLong)
@@ -937,6 +953,30 @@ public class PersonDto extends PseudonymizableDto implements IsPerson {
 
 	public void setFathersName(String fathersName) {
 		this.fathersName = fathersName;
+	}
+
+	public String getMothersPhoneNumber() {
+		return mothersPhoneNumber;
+	}
+
+	public void setMothersPhoneNumber(String mothersPhoneNumber) {
+		this.mothersPhoneNumber = mothersPhoneNumber;
+	}
+
+	public String getFathersPhoneNumber() {
+		return fathersPhoneNumber;
+	}
+
+	public void setFathersPhoneNumber(String fathersPhoneNumber) {
+		this.fathersPhoneNumber = fathersPhoneNumber;
+	}
+
+	public String getCaregiverName() {
+		return caregiverName;
+	}
+
+	public void setCaregiverName(String caregiverName) {
+		this.caregiverName = caregiverName;
 	}
 
 	public String getNamesOfGuardians() {

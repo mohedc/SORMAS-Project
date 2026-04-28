@@ -2453,6 +2453,7 @@ public interface Captions {
 	String Person_externalId = "Person.externalId";
 	String Person_externalToken = "Person.externalToken";
 	String Person_fathersName = "Person.fathersName";
+	String Person_fathersPhoneNumber = "Person.fathersPhoneNumber";
 	String Person_generalPractitionerDetails = "Person.generalPractitionerDetails";
 	String Person_gestationAgeAtBirth = "Person.gestationAgeAtBirth";
 	String Person_hasCovidApp = "Person.hasCovidApp";
@@ -2464,7 +2465,9 @@ public interface Captions {
 	String Person_matchingCase = "Person.matchingCase";
 	String Person_mothersMaidenName = "Person.mothersMaidenName";
 	String Person_mothersName = "Person.mothersName";
+	String Person_mothersPhoneNumber = "Person.mothersPhoneNumber";
 	String Person_namesOfGuardians = "Person.namesOfGuardians";
+	String Person_caregiverName = "Person.caregiverName";
 	String Person_nationalHealthId = "Person.nationalHealthId";
 	String Person_nickname = "Person.nickname";
 	String Person_occupationCommunity = "Person.occupationCommunity";
