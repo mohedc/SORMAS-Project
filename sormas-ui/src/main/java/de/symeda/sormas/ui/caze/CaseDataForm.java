@@ -465,12 +465,7 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 				fluidRowLocs(CaseDataDto.PCV13_3, CaseDataDto.PCV13_3_DATE) +
 				fluidRowLocs(CaseDataDto.HIB_I, CaseDataDto.HIB_I_DATE) +
 				fluidRowLocs(CaseDataDto.HIB_2, CaseDataDto.HIB_2_DATE) +
-				fluidRowLocs(CaseDataDto.HIB_3, CaseDataDto.HIB_3_DATE) +
-				loc(INVESTIGATING_OFFICER_INFO) +
-					locCss(VSPACE_TOP_3, CaseDataDto.INVESTIGATOR_NAME) +
-					fluidRowLocs(CaseDataDto.INVESTIGATOR_TITLE, CaseDataDto.INVESTIGATOR_UNIT) +
-					fluidRowLocs(CaseDataDto.INVESTIGATOR_ADDRESS, CaseDataDto.INVESTIGATOR_TEL) +
-					fluidRowLocs(CaseDataDto.INVESTIGATOR_EMAIL, "");
+				fluidRowLocs(CaseDataDto.HIB_3, CaseDataDto.HIB_3_DATE);
 
 	private static final String NNT_LAYOUT =
 			fluidRowLocs(4, CaseDataDto.UUID, 3, CaseDataDto.REPORT_DATE, 3, CaseDataDto.REPORTING_USER, 2, "") +
