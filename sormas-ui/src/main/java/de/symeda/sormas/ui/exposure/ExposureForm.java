@@ -243,6 +243,11 @@ public class ExposureForm extends AbstractEditForm<ExposureDto> {
 			ExposureDto.EXPOSURE_ROLE,
 			ExposureDto.WORK_ENVIRONMENT);
 
+		if (Disease.CSM.equals(disease)) {
+			ComboBox typeOfAnimalField = getField(ExposureDto.TYPE_OF_ANIMAL);
+			FieldHelper.updateEnumData(typeOfAnimalField, Collections.singletonList(TypeOfAnimal.BAT));
+		}
+
 		addFieldsWithCss(
 			NullableOptionGroup.class,
 			Arrays.asList(
@@ -279,7 +284,19 @@ public class ExposureForm extends AbstractEditForm<ExposureDto> {
 		FieldHelper.setVisibleWhen(getFieldGroup(), ExposureDto.GATHERING_DETAILS, ExposureDto.GATHERING_TYPE, GatheringType.OTHER, true);
 		FieldHelper.setVisibleWhen(getFieldGroup(), ExposureDto.HABITATION_DETAILS, ExposureDto.HABITATION_TYPE, HabitationType.OTHER, true);
 		FieldHelper.setVisibleWhen(getFieldGroup(), ExposureDto.TYPE_OF_ANIMAL_DETAILS, ExposureDto.TYPE_OF_ANIMAL, TypeOfAnimal.OTHER, true);
-		FieldHelper.setVisibleWhen(getFieldGroup(), ExposureDto.LARGE_ATTENDANCE_NUMBER, ExposureDto.EXPOSURE_TYPE, ExposureType.GATHERING, true);
+		if (Disease.CSM.equals(disease)) {
+			// For CSM, keep details visible whenever gathering/habitation is selected.
+			FieldHelper.setVisibleWhen(getFieldGroup(), ExposureDto.GATHERING_DETAILS, ExposureDto.EXPOSURE_TYPE, ExposureType.GATHERING, true);
+			FieldHelper.setVisibleWhen(getFieldGroup(), ExposureDto.HABITATION_DETAILS, ExposureDto.EXPOSURE_TYPE, ExposureType.HABITATION, true);
+			FieldHelper.setVisibleWhen(
+				getFieldGroup(),
+				ExposureDto.LARGE_ATTENDANCE_NUMBER,
+				Arrays.asList(ExposureDto.EXPOSURE_TYPE, ExposureDto.RISK_AREA),
+				Arrays.asList(ExposureType.GATHERING, YesNoUnknown.YES),
+				true);
+		} else {
+			FieldHelper.setVisibleWhen(getFieldGroup(), ExposureDto.LARGE_ATTENDANCE_NUMBER, ExposureDto.EXPOSURE_TYPE, ExposureType.GATHERING, true);
+		}
 		FieldHelper.setVisibleWhen(
 			getFieldGroup(),
 			Arrays.asList(
