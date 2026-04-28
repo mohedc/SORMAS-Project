@@ -113,9 +113,6 @@ public class HospitalizationForm extends AbstractEditForm<HospitalizationDto> {
 
 	private static final String MENINGITIS_LAYOUT =
 			loc(HOSPITALIZATION_HEADING_LOC) +
-			fluidRowLocs(HEALTH_FACILITY, HEALTH_FACILITY_DEPARTMENT) +
-			fluidRowLocs(HospitalizationDto.HOSPITAL_RECORD_NUMBER, HospitalizationDto.SERIAL_NUMBER_IN_CONSULTATION_REGISTER) +
-			fluidRowLocs(HospitalizationDto.DATE_HEALTH_REGION_NOTIFIED, HospitalizationDto.DATE_OF_CONSULTATION_AT_HEALTH_FACILITY) +
 			fluidRowLocs(HospitalizationDto.SELECT_INPATIENT_OUTPATIENT, "") +
 			fluidRowLocs(HospitalizationDto.ADMISSION_DATE, HospitalizationDto.DISCHARGE_DATE);
 
