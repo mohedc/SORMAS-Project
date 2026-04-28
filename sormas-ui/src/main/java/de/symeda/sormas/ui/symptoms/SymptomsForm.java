@@ -798,6 +798,15 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 			List<CaseOutcome> outcomes = Arrays.asList(CaseOutcome.ALIVE, CaseOutcome.DECEASED);
 			FieldHelper.updateEnumData(outcomeList, outcomes);
 		}
+		if (disease == Disease.CSM) {
+			List<CaseOutcome> outcomes = Arrays.asList(
+				CaseOutcome.RECOVERED,
+				CaseOutcome.DECEASED,
+				CaseOutcome.ON_TREATMENT,
+				CaseOutcome.REFERRED,
+				CaseOutcome.UNKNOWN);
+			FieldHelper.updateEnumData(outcomeList, outcomes);
+		}
 		if (disease == Disease.NEONATAL_TETANUS) {
 
 			babyDiedField.addValueChangeListener(event -> {
