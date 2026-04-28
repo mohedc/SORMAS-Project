@@ -15346,7 +15346,7 @@ ALTER TABLE cases ADD COLUMN IF NOT EXISTS menaconjunate varchar(255);
 ALTER TABLE cases ADD COLUMN IF NOT EXISTS menaconjunatedate timestamp;
 ALTER TABLE cases ADD COLUMN IF NOT EXISTS pcvi3i varchar(255);
 ALTER TABLE cases ADD COLUMN IF NOT EXISTS pcvi3idate timestamp;
-ALTER TABLE cases ADD COLUMN IF NOT EXISTS pcvi3_2 varchar(255);
+ALTER TABLE cases ADD COLUMN IF NOT EXISTS pvi3_2 varchar(255);
 ALTER TABLE cases ADD COLUMN IF NOT EXISTS pcvi3_2date timestamp;
 ALTER TABLE cases ADD COLUMN IF NOT EXISTS pcv13_3 varchar(255);
 ALTER TABLE cases ADD COLUMN IF NOT EXISTS pcv13_3date timestamp;
@@ -15379,6 +15379,23 @@ ALTER TABLE cases_history ADD COLUMN IF NOT EXISTS hib3 varchar(255);
 ALTER TABLE cases_history ADD COLUMN IF NOT EXISTS hib3date timestamp;
 
 INSERT INTO schema_version (version_number, comment) VALUES (656, 'Add CSM vaccine pair fields to cases');
+
+-- Migration 657: CSM notification section date fields on cases
+ALTER TABLE cases ADD COLUMN IF NOT EXISTS districtnotificationdate timestamp;
+ALTER TABLE cases ADD COLUMN IF NOT EXISTS dateformsenttodistrict timestamp;
+ALTER TABLE cases ADD COLUMN IF NOT EXISTS dateformreceivedatdistrict timestamp;
+ALTER TABLE cases ADD COLUMN IF NOT EXISTS dateformreceivedatregion timestamp;
+ALTER TABLE cases ADD COLUMN IF NOT EXISTS dateformsenttonational timestamp;
+ALTER TABLE cases ADD COLUMN IF NOT EXISTS dateformreceivedatnational timestamp;
+
+ALTER TABLE cases_history ADD COLUMN IF NOT EXISTS districtnotificationdate timestamp;
+ALTER TABLE cases_history ADD COLUMN IF NOT EXISTS dateformsenttodistrict timestamp;
+ALTER TABLE cases_history ADD COLUMN IF NOT EXISTS dateformreceivedatdistrict timestamp;
+ALTER TABLE cases_history ADD COLUMN IF NOT EXISTS dateformreceivedatregion timestamp;
+ALTER TABLE cases_history ADD COLUMN IF NOT EXISTS dateformsenttonational timestamp;
+ALTER TABLE cases_history ADD COLUMN IF NOT EXISTS dateformreceivedatnational timestamp;
+
+INSERT INTO schema_version (version_number, comment) VALUES (657, 'Add CSM notification workflow date fields to cases');
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***
 
 

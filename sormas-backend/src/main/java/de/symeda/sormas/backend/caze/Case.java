@@ -514,6 +514,12 @@ public class Case extends CoreAdo implements IsCase, SormasToSormasShareable, Ha
 	private String personFullName;
 	private String personTelephone;
 	private String personDesignation;
+	private Date districtNotificationDate;
+	private Date dateFormSentToDistrict;
+	private Date dateFormReceivedAtDistrict;
+	private Date dateFormReceivedAtRegion;
+	private Date dateFormSentToNational;
+	private Date dateFormReceivedAtNational;
 	private YesNoUnknown immunocompromisedStatusSuspected;
 	private Date dateRegionReceivesLabResults;
 	private Date dateLabResultsSentHealthFacilityRegion;
@@ -2562,6 +2568,60 @@ public class Case extends CoreAdo implements IsCase, SormasToSormasShareable, Ha
 	}
 	public void setDateFormSentToRegion(Date dateFormSentToRegion) {
 		this.dateFormSentToRegion = dateFormSentToRegion;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getDistrictNotificationDate() {
+		return districtNotificationDate;
+	}
+
+	public void setDistrictNotificationDate(Date districtNotificationDate) {
+		this.districtNotificationDate = districtNotificationDate;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getDateFormSentToDistrict() {
+		return dateFormSentToDistrict;
+	}
+
+	public void setDateFormSentToDistrict(Date dateFormSentToDistrict) {
+		this.dateFormSentToDistrict = dateFormSentToDistrict;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getDateFormReceivedAtDistrict() {
+		return dateFormReceivedAtDistrict;
+	}
+
+	public void setDateFormReceivedAtDistrict(Date dateFormReceivedAtDistrict) {
+		this.dateFormReceivedAtDistrict = dateFormReceivedAtDistrict;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getDateFormReceivedAtRegion() {
+		return dateFormReceivedAtRegion;
+	}
+
+	public void setDateFormReceivedAtRegion(Date dateFormReceivedAtRegion) {
+		this.dateFormReceivedAtRegion = dateFormReceivedAtRegion;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getDateFormSentToNational() {
+		return dateFormSentToNational;
+	}
+
+	public void setDateFormSentToNational(Date dateFormSentToNational) {
+		this.dateFormSentToNational = dateFormSentToNational;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getDateFormReceivedAtNational() {
+		return dateFormReceivedAtNational;
+	}
+
+	public void setDateFormReceivedAtNational(Date dateFormReceivedAtNational) {
+		this.dateFormReceivedAtNational = dateFormReceivedAtNational;
 	}
 	@Enumerated(EnumType.STRING)
 	public YesNoUnknown getImmunocompromisedStatusSuspected() {

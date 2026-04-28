@@ -806,6 +806,13 @@ public interface Captions {
 	String CaseData_personFullName = "CaseData.personFullName";
 	String CaseData_personTelephone = "CaseData.personTelephone";
 	String CaseData_personDesignation = "CaseData.personDesignation";
+	String CaseData_notification = "CaseData.notification";
+	String CaseData_districtNotificationDate = "CaseData.districtNotificationDate";
+	String CaseData_dateFormSentToDistrict = "CaseData.dateFormSentToDistrict";
+	String CaseData_dateFormReceivedAtDistrict = "CaseData.dateFormReceivedAtDistrict";
+	String CaseData_dateFormReceivedAtRegion = "CaseData.dateFormReceivedAtRegion";
+	String CaseData_dateFormSentToNational = "CaseData.dateFormSentToNational";
+	String CaseData_dateFormReceivedAtNational = "CaseData.dateFormReceivedAtNational";
 	String CaseData_immunocompromisedStatusSuspectedString = "CaseData.immunocompromisedStatusSuspected";
 	String CaseData_dateRegionReceivesLabResults = "CaseData.dateRegionReceivesLabResults";
 	String CaseData_dateLabResultsSentHealthFacilityRegion = "CaseData.dateLabResultsSentHealthFacilityRegion";

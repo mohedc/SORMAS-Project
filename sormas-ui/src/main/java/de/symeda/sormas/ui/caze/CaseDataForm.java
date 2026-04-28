@@ -172,6 +172,7 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 	private static final String NOTIFY_INVESTIGATE = "notifyInvestigateLoc";
 	private static final String PERSON_COMPLETING_HEADING_LOC = "personCompletingHeadingLoc";
 	private static final String MOTHER_VACCINATION_HEADING_LOC = "motherVaccinationHeadingLoc";
+	private static final String MENINGITIS_NOTIFICATION_HEADING_LOC = "meningitisNotificationHeadingLoc";
 
 	//@formatter:off
 	private static final String MAIN_HTML_LAYOUT =
@@ -465,7 +466,13 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 				fluidRowLocs(CaseDataDto.PCV13_3, CaseDataDto.PCV13_3_DATE) +
 				fluidRowLocs(CaseDataDto.HIB_I, CaseDataDto.HIB_I_DATE) +
 				fluidRowLocs(CaseDataDto.HIB_2, CaseDataDto.HIB_2_DATE) +
-				fluidRowLocs(CaseDataDto.HIB_3, CaseDataDto.HIB_3_DATE);
+				fluidRowLocs(CaseDataDto.HIB_3, CaseDataDto.HIB_3_DATE) +
+				loc(MENINGITIS_NOTIFICATION_HEADING_LOC) +
+				fluidRowLocs(CaseDataDto.DISTRICT_NOTIFICATION_DATE, CaseDataDto.PERSON_FULLNAME) +
+				fluidRowLocs(CaseDataDto.PERSON_TELEPHONE, CaseDataDto.DATE_FORM_SENT_TO_DISTRICT) +
+				fluidRowLocs(CaseDataDto.DATE_FORM_RECEIVED_AT_DISTRICT, CaseDataDto.DATE_FORM_SENT_TO_REGION) +
+				fluidRowLocs(CaseDataDto.DATE_FORM_RECEIVED_AT_REGION, CaseDataDto.DATE_FORM_SENT_TO_NATIONAL) +
+				fluidRowLocs(CaseDataDto.DATE_FORM_RECEIVED_AT_NATIONAL, "");
 
 	private static final String NNT_LAYOUT =
 			fluidRowLocs(4, CaseDataDto.UUID, 3, CaseDataDto.REPORT_DATE, 3, CaseDataDto.REPORTING_USER, 2, "") +
@@ -679,6 +686,7 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 
 		createLabel(I18nProperties.getString(Strings.headingPersonCompleting), H3, PERSON_COMPLETING_HEADING_LOC);
 		createLabel(I18nProperties.getString(Strings.headingMotherVaccination), H3, MOTHER_VACCINATION_HEADING_LOC);
+		createLabel(I18nProperties.getCaption(Captions.CaseData_notification), H3, MENINGITIS_NOTIFICATION_HEADING_LOC);
 
 		Label caseDataHeadingLabel = new Label(I18nProperties.getString(Strings.headingCaseData));
 		caseDataHeadingLabel.addStyleName(H3);
@@ -1305,6 +1313,12 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 		// Add field for "At least one yellow fever dose"
 		addField(CaseDataDto.AT_LEAST_ONE_YELLOW_FEVER_DOSE, NullableOptionGroup.class);
 		addField(CaseDataDto.DATE_FORM_SENT_TO_REGION, DateField.class);
+		addField(CaseDataDto.DISTRICT_NOTIFICATION_DATE, DateField.class);
+		addField(CaseDataDto.DATE_FORM_SENT_TO_DISTRICT, DateField.class);
+		addField(CaseDataDto.DATE_FORM_RECEIVED_AT_DISTRICT, DateField.class);
+		addField(CaseDataDto.DATE_FORM_RECEIVED_AT_REGION, DateField.class);
+		addField(CaseDataDto.DATE_FORM_SENT_TO_NATIONAL, DateField.class);
+		addField(CaseDataDto.DATE_FORM_RECEIVED_AT_NATIONAL, DateField.class);
 
 		addField(CaseDataDto.PERSON_FULLNAME, TextField.class);
 		addField(CaseDataDto.PERSON_TELEPHONE, TextField.class);

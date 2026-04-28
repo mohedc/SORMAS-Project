@@ -279,6 +279,12 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 	public static final String PERSON_FULLNAME = "personFullName";
 	public static final String PERSON_TELEPHONE = "personTelephone";
 	public static final String PERSON_DESIGNATION = "personDesignation";
+	public static final String DISTRICT_NOTIFICATION_DATE = "districtNotificationDate";
+	public static final String DATE_FORM_SENT_TO_DISTRICT = "dateFormSentToDistrict";
+	public static final String DATE_FORM_RECEIVED_AT_DISTRICT = "dateFormReceivedAtDistrict";
+	public static final String DATE_FORM_RECEIVED_AT_REGION = "dateFormReceivedAtRegion";
+	public static final String DATE_FORM_SENT_TO_NATIONAL = "dateFormSentToNational";
+	public static final String DATE_FORM_RECEIVED_AT_NATIONAL = "dateFormReceivedAtNational";
 	public static final String ARRIVAL_AT_REGIONAL_PUBLIC_HEALTH_OFFICE_DATE = "arrivalAtRegionalPublicHealthOfficeDate";
 	public static final String ARRIVAL_AT_NATIONAL_LEVEL_DATE = "arrivalAtNationalLevelDate";
 	public static final String VACCINE_TYPE = "vaccineType";
@@ -982,18 +988,39 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 	private Date dateLabResultsSentHealthFacilityRegion;
 	private Date dateLabResultsReceivedAtHealthFacility;
 	@Diseases({
-			Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS})
+			Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS,
+			Disease.CSM})
 	private Date dateFormSentToRegion;
 
 	@Diseases({
-			Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS})
+			Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS,
+			Disease.CSM})
 	private String personFullName;
 	@Diseases({
-			Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS})
+			Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS,
+			Disease.CSM})
 	private String personTelephone;
 	@Diseases({
 			Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS})
 	private String personDesignation;
+	@Diseases({
+			Disease.CSM})
+	private Date districtNotificationDate;
+	@Diseases({
+			Disease.CSM})
+	private Date dateFormSentToDistrict;
+	@Diseases({
+			Disease.CSM})
+	private Date dateFormReceivedAtDistrict;
+	@Diseases({
+			Disease.CSM})
+	private Date dateFormReceivedAtRegion;
+	@Diseases({
+			Disease.CSM})
+	private Date dateFormSentToNational;
+	@Diseases({
+			Disease.CSM})
+	private Date dateFormReceivedAtNational;
 
 	@Diseases({
 			Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS})
@@ -2778,6 +2805,54 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 
 	public void setPersonDesignation(String personDesignation) {
 		this.personDesignation = personDesignation;
+	}
+
+	public Date getDistrictNotificationDate() {
+		return districtNotificationDate;
+	}
+
+	public void setDistrictNotificationDate(Date districtNotificationDate) {
+		this.districtNotificationDate = districtNotificationDate;
+	}
+
+	public Date getDateFormSentToDistrict() {
+		return dateFormSentToDistrict;
+	}
+
+	public void setDateFormSentToDistrict(Date dateFormSentToDistrict) {
+		this.dateFormSentToDistrict = dateFormSentToDistrict;
+	}
+
+	public Date getDateFormReceivedAtDistrict() {
+		return dateFormReceivedAtDistrict;
+	}
+
+	public void setDateFormReceivedAtDistrict(Date dateFormReceivedAtDistrict) {
+		this.dateFormReceivedAtDistrict = dateFormReceivedAtDistrict;
+	}
+
+	public Date getDateFormReceivedAtRegion() {
+		return dateFormReceivedAtRegion;
+	}
+
+	public void setDateFormReceivedAtRegion(Date dateFormReceivedAtRegion) {
+		this.dateFormReceivedAtRegion = dateFormReceivedAtRegion;
+	}
+
+	public Date getDateFormSentToNational() {
+		return dateFormSentToNational;
+	}
+
+	public void setDateFormSentToNational(Date dateFormSentToNational) {
+		this.dateFormSentToNational = dateFormSentToNational;
+	}
+
+	public Date getDateFormReceivedAtNational() {
+		return dateFormReceivedAtNational;
+	}
+
+	public void setDateFormReceivedAtNational(Date dateFormReceivedAtNational) {
+		this.dateFormReceivedAtNational = dateFormReceivedAtNational;
 	}
 
 	public YesNoUnknown getImmunocompromisedStatusSuspected() {
