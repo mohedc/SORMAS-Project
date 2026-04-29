@@ -23,9 +23,11 @@ import static de.symeda.sormas.ui.utils.LayoutUtil.loc;
 public class AfpImmunizationForm extends AbstractEditForm<AfpImmunizationDto> {
     private static final long serialVersionUID = 1L;
     private static final String IMMUNIZATION_HEADING_LOC = "immunizationHeadingLoc";
+    private static final String INDICATE_99_LOC = "indicate99Loc";
 
     private static final String HTML_LAYOUT =
-            loc(IMMUNIZATION_HEADING_LOC)
+            loc(IMMUNIZATION_HEADING_LOC) +
+            loc(INDICATE_99_LOC)
                     + fluidRowLocs(6, AfpImmunizationDto.TOTAL_NUMBER_DOSES)
                     + fluidRowLocs(AfpImmunizationDto.OPV_DOSE_AT_BIRTH, AfpImmunizationDto.SECOND, AfpImmunizationDto.FOURTH)
                     + fluidRowLocs(AfpImmunizationDto.FIRST, AfpImmunizationDto.THIRD, AfpImmunizationDto.LAST_DOSE)
@@ -80,6 +82,10 @@ public class AfpImmunizationForm extends AbstractEditForm<AfpImmunizationDto> {
         Label afpImmunizationHeadingLabel = new Label(I18nProperties.getString(Strings.headingAfpImmunization));
         afpImmunizationHeadingLabel.addStyleName(H3);
         getContent().addComponent(afpImmunizationHeadingLabel, IMMUNIZATION_HEADING_LOC);
+
+        Label indicate99HeadingLabel = new Label(I18nProperties.getString(Strings.headingAfpImmunization));
+        indicate99HeadingLabel.addStyleName(H3);
+        getContent().addComponent(indicate99HeadingLabel, INDICATE_99_LOC);
 
         totalNumberDoses = addField(AfpImmunizationDto.TOTAL_NUMBER_DOSES, Field.class);
         opvDoseAtBirth = addField(AfpImmunizationDto.OPV_DOSE_AT_BIRTH, DateField.class);

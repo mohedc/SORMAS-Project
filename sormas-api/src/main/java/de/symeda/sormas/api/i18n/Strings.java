@@ -436,6 +436,7 @@ public interface Strings {
 	String headingAdditionalTests = "headingAdditionalTests";
 	String headingAdjustQuarantine = "headingAdjustQuarantine";
 	String headingAfpImmunization = "headingAfpImmunization";
+	String headingIndicate99 = "headingIndicate99";
 	String headingAefiAdverseEvents = "headingAefiAdverseEvents";
 	String headingAefiDashboardEpiCurve = "headingAefiDashboardEpiCurve";
 	String headingAefiDashboardMap = "headingAefiDashboardMap";
