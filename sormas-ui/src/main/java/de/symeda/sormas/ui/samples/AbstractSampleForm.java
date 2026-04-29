@@ -180,7 +180,7 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 					fluidRowLocs(SampleDto.LP_PACKAGING, SampleDto.LP_PACKAGING_OTHER) +
 					fluidRowLocs(SampleDto.TIME_OF_INOCULATION_INTO_TRANSPORT_MEDIA, "") +
 					locCss(VSPACE_TOP_3, SampleDto.SAMPLES_SENT_TO_LABORATORY) +
-					fluidRowLocs(SampleDto.DATE_TIME_SAMPLE_SENT_TO_LAB, "") +
+					fluidRowLocs(SampleDto.SHIPPED, SampleDto.DATE_TIME_SAMPLE_SENT_TO_LAB) +
 					fluidRowLocs(SampleDto.SAMPLES_NOT_SENT_REASON, "") +
 					fluidRowLocs(SampleDto.SAMPLE_CONTAINER_USED, SampleDto.SAMPLE_CONTAINER_USED_OTHER) +
 					locCss(VSPACE_TOP_3, SampleDto.MENINGITIS_RDT_PERFORMED) +
@@ -189,7 +189,6 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 					fluidRowLocs(SampleDto.LABORATORY_TYPE, SampleDto.LAB) +
 					fluidRowLocs(SampleDto.LAB_DETAILS, "") +
 					fluidRowLocs(SampleDto.DATE_SPECIMEN_SENT_TO_LABORATORY_TYPE) +
-					locCss(VSPACE_TOP_3, SampleDto.SHIPPED) +
 					fluidRowLocs(SampleDto.SHIPMENT_DATE, SampleDto.SHIPMENT_DETAILS) +
 					locCss(VSPACE_TOP_3, SampleDto.RECEIVED) +
 					fluidRowLocs(SampleDto.RECEIVED_DATE, SampleDto.LAB_NUMBER) +
