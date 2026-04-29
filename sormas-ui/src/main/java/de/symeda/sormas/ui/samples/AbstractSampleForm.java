@@ -171,6 +171,7 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 	protected static final String MENINGITIS_HTML_LAYOUT =
 			fluidRowLocs(4, SampleDto.UUID, 4, REPORT_INFO_LABEL_LOC, 3, SampleDto.REPORTING_USER, 1, "") +
 					fluidRowLocs(SampleDto.SAMPLE_PURPOSE, SampleDto.FIELD_SAMPLE_ID) +
+					fluidRowLocs(SampleDto.SAMPLE_MATERIAL, SampleDto.SAMPLE_MATERIAL_TEXT) +
 					fluidRowLocs(SampleDto.BARCODE, SampleDto.SAMPLE_DATE_TIME) +
 					fluidRowLocs(SampleDto.DATE_FORM_CSF_DISPATCHED_TO_HEALTH_DISTRICT, SampleDto.DATE_HEALTH_FACILITY_NOTIFY_REGION) +
 					locCss(VSPACE_TOP_3, SampleDto.CSF_SAMPLE_COLLECTED) +
@@ -993,7 +994,6 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 		wasSpecimenTakenField.setReadOnly(true);
 
 		FieldHelper.updateEnumData(sampleMaterialComboBox, Arrays.asList(SampleMaterial.CSF, SampleMaterial.OTHER));
-		setRequired(false, SampleDto.SAMPLE_MATERIAL, SampleDto.SAMPLE_MATERIAL_TEXT);
 		getField(SampleDto.SAMPLE_MATERIAL).setVisible(false);
 		getField(SampleDto.SAMPLE_MATERIAL_TEXT).setVisible(false);
 
