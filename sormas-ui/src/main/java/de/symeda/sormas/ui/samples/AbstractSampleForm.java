@@ -206,6 +206,14 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 
 					locCss(VSPACE_TOP_3, SampleDto.RECEIVED) +
 					fluidRowLocs(SampleDto.RECEIVED_DATE, SampleDto.LAB_SAMPLE_ID) +
+					fluidRowLocs(SampleDto.SENT_TO_IP_DAKAR) +
+					loc(ELISA_IGM_HEADLINE_LOC) +
+					fluidRowLocs(SampleDto.ELISA_IGM, SampleDto.ELISA_IGM_DATE) +
+					loc(PCR_HEADLINE_LOC) +
+					fluidRowLocs(SampleDto.PCR, SampleDto.PCR_DATE) +
+					loc(PRNT_HEADLINE_LOC) +
+					fluidRowLocs(SampleDto.PRNT, SampleDto.PRNT_INPUT_VALUE) +
+					fluidRowLocs(6, SampleDto.PRNT_DATE) +
 					fluidRowLocs(6, SampleDto.DATE_SPECIMEN_RECEIVED_NATIONAL_LEVEL) +
 					fluidRowLocs(SampleDto.DATE_SPECIMEN_RECEIVED_INTERCOUNTY_NATLAB, SampleDto.STATUS_SPECIMEN_RECEPTION_AT_LAB);
 
@@ -1076,6 +1084,25 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 
 		getValue().setSampleDateTime(new Date());
 
+		NullableOptionGroup pcrField = (NullableOptionGroup) getField(SampleDto.PCR);
+		NullableOptionGroup prntField = (NullableOptionGroup) getField(SampleDto.PRNT);
+
+		FieldHelper.updateEnumData(
+				pcrField,
+				Arrays.asList(
+						PathogenTestResultType.POSITIVE,
+						PathogenTestResultType.NEGATIVE
+				)
+		);
+
+		FieldHelper.updateEnumData(
+				prntField,
+				Arrays.asList(
+						PathogenTestResultType.POSITIVE,
+						PathogenTestResultType.NEGATIVE
+				)
+		);
+
 		NullableOptionGroup samplePurposeField = (NullableOptionGroup) getField(SampleDto.SAMPLE_PURPOSE);
 		boolean isNationalUser = canSeeOutsideCountryLabTesting();
 
@@ -1105,6 +1132,39 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 				outsideCountryField,
 				isNationalUser
 		);
+
+		FieldHelper.setVisibleWhen(
+				getFieldGroup(),
+				SampleDto.SENT_TO_IP_DAKAR,
+				SampleDto.RECEIVED,
+				Arrays.asList(true),
+				true);
+
+		FieldHelper.setVisibleWhen(
+				getFieldGroup(),
+				Arrays.asList(
+						SampleDto.ELISA_IGM, SampleDto.ELISA_IGM_DATE,
+						SampleDto.PCR, SampleDto.PCR_DATE,
+						SampleDto.PRNT, SampleDto.PRNT_DATE),
+				SampleDto.SENT_TO_IP_DAKAR,
+				Arrays.asList(YesNo.YES),
+				true);
+
+		// Show subtitle labels when SENT_TO_IP_DAKAR is Yes
+		Field<?> sentToIpDakarField = getField(SampleDto.SENT_TO_IP_DAKAR);
+		if (sentToIpDakarField != null) {
+			sentToIpDakarField.addValueChangeListener(e -> {
+				boolean isVisible = YesNo.YES.equals(e.getProperty().getValue());
+				getContent().getComponent(ELISA_IGM_HEADLINE_LOC).setVisible(isVisible);
+				getContent().getComponent(PCR_HEADLINE_LOC).setVisible(isVisible);
+				getContent().getComponent(PRNT_HEADLINE_LOC).setVisible(isVisible);
+			});
+			// Initialize visibility
+			boolean isVisible = YesNo.YES.equals(sentToIpDakarField.getValue());
+			getContent().getComponent(ELISA_IGM_HEADLINE_LOC).setVisible(isVisible);
+			getContent().getComponent(PCR_HEADLINE_LOC).setVisible(isVisible);
+			getContent().getComponent(PRNT_HEADLINE_LOC).setVisible(isVisible);
+		}
 
 	}
 

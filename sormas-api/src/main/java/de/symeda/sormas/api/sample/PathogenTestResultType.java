@@ -45,7 +45,7 @@ public enum PathogenTestResultType {
 	SUSPECT_POLIOVIRUS_NPENT,
 	@Diseases(value = { Disease.YELLOW_FEVER }, hide = true)
 	INCONCLUSIVE,
-	@Diseases(value = { Disease.YELLOW_FEVER }, hide = true)
+	@Diseases(value = { Disease.YELLOW_FEVER, Disease.AFP }, hide = true)
 	NOT_TESTED,
 	@Diseases(value = { Disease.YELLOW_FEVER }, hide = true)
 	IN_PROCESS;

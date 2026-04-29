@@ -273,26 +273,33 @@ public class SampleDto extends SormasToSormasShareableDto implements IsSample {
 		Disease.CSM })
 	private String packagingOther;
 	@Diseases(value = {
-		Disease.YELLOW_FEVER })
+		Disease.YELLOW_FEVER,
+	Disease.AFP})
 	private SimpleTestResultType elisaIgm;
 	@Diseases(value = {
-		Disease.YELLOW_FEVER })
+		Disease.YELLOW_FEVER,
+			Disease.AFP})
 	private Date elisaIgmDate;
 	@Diseases(value = {
-		Disease.YELLOW_FEVER })
+		Disease.YELLOW_FEVER,
+			Disease.AFP})
 	private PathogenTestResultType pcr;
 	@Diseases(value = {
-		Disease.YELLOW_FEVER })
+		Disease.YELLOW_FEVER,
+			Disease.AFP})
 	private Date pcrDate;
 	@Diseases(value = {
-		Disease.YELLOW_FEVER })
+		Disease.YELLOW_FEVER,
+			Disease.AFP})
 	private PathogenTestResultType prnt;
 	@Diseases(value = {
-		Disease.YELLOW_FEVER })
+		Disease.YELLOW_FEVER,
+			Disease.AFP})
 	@Size(max = FieldConstraints.CHARACTER_LIMIT_DEFAULT, message = Validations.textTooLong)
 	private String prntInputValue;
 	@Diseases(value = {
-		Disease.YELLOW_FEVER })
+		Disease.YELLOW_FEVER,
+			Disease.AFP})
 	private Date prntDate;
 	@Diseases(value = {
 		Disease.YELLOW_FEVER })
