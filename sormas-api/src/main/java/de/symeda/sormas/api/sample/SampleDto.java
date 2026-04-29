@@ -116,7 +116,6 @@ public class SampleDto extends SormasToSormasShareableDto implements IsSample {
 	public static final String TIME_OF_INOCULATION_INTO_TRANSPORT_MEDIA = "timeOfInoculationIntoTransportMedia";
 	public static final String SAMPLES_SENT_TO_LABORATORY = "samplesSentToLaboratory";
 	public static final String SAMPLES_NOT_SENT_REASON = "samplesNotSentReason";
-	public static final String DISPATCHED = "dispatched";
 	public static final String DATE_TIME_SAMPLE_SENT_TO_LAB = "dateTimeSampleSentToLab";
 	public static final String SAMPLE_CONTAINER_USED = "sampleContainerUsed";
 	public static final String SAMPLE_CONTAINER_USED_OTHER = "sampleContainerUsedOther";
@@ -317,9 +316,6 @@ public class SampleDto extends SormasToSormasShareableDto implements IsSample {
 	@Diseases(value = {
 		Disease.CSM })
 	private String samplesNotSentReason;
-	@Diseases(value = {
-		Disease.CSM })
-	private boolean dispatched;
 	@Diseases(value = {
 		Disease.CSM })
 	private Date dateTimeSampleSentToLab;
@@ -1113,14 +1109,6 @@ public class SampleDto extends SormasToSormasShareableDto implements IsSample {
 
 	public void setSamplesNotSentReason(String samplesNotSentReason) {
 		this.samplesNotSentReason = samplesNotSentReason;
-	}
-
-	public boolean isDispatched() {
-		return dispatched;
-	}
-
-	public void setDispatched(boolean dispatched) {
-		this.dispatched = dispatched;
 	}
 
 	public Date getDateTimeSampleSentToLab() {

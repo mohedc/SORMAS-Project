@@ -135,7 +135,6 @@ public class Sample extends DeletableAdo implements IsSample, SormasToSormasShar
 	public static final String TIME_OF_INOCULATION_INTO_TRANSPORT_MEDIA = "timeOfInoculationIntoTransportMedia";
 	public static final String SAMPLES_SENT_TO_LABORATORY = "samplesSentToLaboratory";
 	public static final String SAMPLES_NOT_SENT_REASON = "samplesNotSentReason";
-	public static final String DISPATCHED = "dispatched";
 	public static final String DATE_TIME_SAMPLE_SENT_TO_LAB = "dateTimeSampleSentToLab";
 	public static final String SAMPLE_CONTAINER_USED = "sampleContainerUsed";
 	public static final String SAMPLE_CONTAINER_USED_OTHER = "sampleContainerUsedOther";
@@ -229,7 +228,6 @@ public class Sample extends DeletableAdo implements IsSample, SormasToSormasShar
 	private Date timeOfInoculationIntoTransportMedia;
 	private YesNo samplesSentToLaboratory;
 	private String samplesNotSentReason;
-	private boolean dispatched;
 	private Date dateTimeSampleSentToLab;
 	private SampleContainerType sampleContainerUsed;
 	private String sampleContainerUsedOther;
@@ -1054,15 +1052,6 @@ public class Sample extends DeletableAdo implements IsSample, SormasToSormasShar
 
 	public void setSamplesNotSentReason(String samplesNotSentReason) {
 		this.samplesNotSentReason = samplesNotSentReason;
-	}
-
-	@Column
-	public boolean isDispatched() {
-		return dispatched;
-	}
-
-	public void setDispatched(boolean dispatched) {
-		this.dispatched = dispatched;
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)

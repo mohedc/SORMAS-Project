@@ -180,7 +180,7 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 					fluidRowLocs(SampleDto.LP_PACKAGING, SampleDto.LP_PACKAGING_OTHER) +
 					fluidRowLocs(SampleDto.TIME_OF_INOCULATION_INTO_TRANSPORT_MEDIA, "") +
 					locCss(VSPACE_TOP_3, SampleDto.SAMPLES_SENT_TO_LABORATORY) +
-					fluidRowLocs(SampleDto.DISPATCHED, SampleDto.DATE_TIME_SAMPLE_SENT_TO_LAB) +
+					fluidRowLocs(SampleDto.DATE_TIME_SAMPLE_SENT_TO_LAB, "") +
 					fluidRowLocs(SampleDto.SAMPLES_NOT_SENT_REASON, "") +
 					fluidRowLocs(SampleDto.SAMPLE_CONTAINER_USED, SampleDto.SAMPLE_CONTAINER_USED_OTHER) +
 					locCss(VSPACE_TOP_3, SampleDto.MENINGITIS_RDT_PERFORMED) +
@@ -374,7 +374,6 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 		addField(SampleDto.LP_PACKAGING_OTHER, TextField.class);
 		addDateField(SampleDto.TIME_OF_INOCULATION_INTO_TRANSPORT_MEDIA, DateField.class, 7);
 		addField(SampleDto.SAMPLES_SENT_TO_LABORATORY, NullableOptionGroup.class);
-		addField(SampleDto.DISPATCHED, CheckBox.class);
 		addField(SampleDto.DATE_TIME_SAMPLE_SENT_TO_LAB, DateTimeField.class);
 		addField(SampleDto.SAMPLES_NOT_SENT_REASON, TextField.class);
 		addField(SampleDto.SAMPLE_CONTAINER_USED, ComboBox.class);
@@ -1008,7 +1007,6 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 		getField(SampleDto.WAS_SPECIMEN_TAKEN).setVisible(true);
 		getField(SampleDto.PACKAGING).setVisible(true);
 		getField(SampleDto.SAMPLES_SENT_TO_LABORATORY).setVisible(true);
-		getField(SampleDto.DISPATCHED).setVisible(true);
 		getField(SampleDto.MENINGITIS_RDT_PERFORMED).setVisible(true);
 
 		// LP fields visibility - shown when lumbarPuncturePerformed = YES
@@ -1088,20 +1086,20 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 			Arrays.asList(SampleDto.LABORATORY_TYPE, SampleDto.LABORATORY_NAME, SampleDto.DATE_SPECIMEN_SENT_TO_LABORATORY_TYPE),
 			true);
 
-		// Keep dispatched synchronized with "samples sent to lab"
+		// Keep shipped synchronized with "samples sent to lab"
 		Field<?> samplesSentToLabField = getField(SampleDto.SAMPLES_SENT_TO_LABORATORY);
-		CheckBox dispatchedField = (CheckBox) getField(SampleDto.DISPATCHED);
+		CheckBox shippedField = (CheckBox) getField(SampleDto.SHIPPED);
 		samplesSentToLabField.addValueChangeListener(e -> {
 			boolean sent = YesNo.YES.equals(e.getProperty().getValue());
-			dispatchedField.setValue(sent);
-			dispatchedField.setEnabled(sent);
+			shippedField.setValue(sent);
+			shippedField.setEnabled(sent);
 			if (!sent) {
 				getField(SampleDto.RECEIVED).clear();
 			}
 		});
 
-		// Received block only when dispatched is checked
-		FieldHelper.setVisibleWhen(getFieldGroup(), Arrays.asList(SampleDto.RECEIVED), SampleDto.DISPATCHED, Arrays.asList(true), true);
+		// Received block only when shipped is checked
+		FieldHelper.setVisibleWhen(getFieldGroup(), Arrays.asList(SampleDto.RECEIVED), SampleDto.SHIPPED, Arrays.asList(true), true);
 		Field<?> receivedField = getField(SampleDto.RECEIVED);
 		FieldHelper.setVisibleWhen(
 			getFieldGroup(),
