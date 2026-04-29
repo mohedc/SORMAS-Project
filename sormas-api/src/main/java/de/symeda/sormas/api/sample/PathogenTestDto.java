@@ -151,9 +151,7 @@ public class PathogenTestDto extends PseudonymizableDto {
 	public static final String SL1 = "sl1";
 	public static final String SL2 = "sl2";
 	public static final String SL3 = "sl3";
-	public static final String SABIN_TYPE1 = "sabinType1";
-	public static final String SABIN_TYPE2 = "sabinType2";
-	public static final String SABIN_TYPE3 = "sabinType3";
+	public static final String DISCORDANT_SABIN = "discordantSabin";
 	public static final String NPENT = "npent";
 	public static final String NEV = "nev";
 	public static final String FINAL_CELL_CULTURE_RESULTS = "finalCellCultureResults";
@@ -175,9 +173,7 @@ public class PathogenTestDto extends PseudonymizableDto {
 	private PosNeg sl1;
 	private PosNeg sl2;
 	private PosNeg sl3;
-	private YesNo sabinType1;
-	private YesNo sabinType2;
-	private YesNo sabinType3;
+	private SabinType discordantSabin;
 	private PosNeg npent;
 	private PosNeg nev;
 	private PathogenTestResultType finalCellCultureResults;
@@ -1231,30 +1227,6 @@ public class PathogenTestDto extends PseudonymizableDto {
 		this.sl3 = sl3;
 	}
 
-	public YesNo getSabinType1() {
-		return sabinType1;
-	}
-
-	public void setSabinType1(YesNo sabinType1) {
-		this.sabinType1 = sabinType1;
-	}
-
-	public YesNo getSabinType2() {
-		return sabinType2;
-	}
-
-	public void setSabinType2(YesNo sabinType2) {
-		this.sabinType2 = sabinType2;
-	}
-
-	public YesNo getSabinType3() {
-		return sabinType3;
-	}
-
-	public void setSabinType3(YesNo sabinType3) {
-		this.sabinType3 = sabinType3;
-	}
-
 	public PosNeg getNpent() {
 		return npent;
 	}
@@ -1301,6 +1273,14 @@ public class PathogenTestDto extends PseudonymizableDto {
 
 	public void setResultExam(ExamResult resultExam) {
 		this.resultExam = resultExam;
+	}
+
+	public SabinType getDiscordantSabin() {
+		return discordantSabin;
+	}
+
+	public void setDiscordantSabin(SabinType discordantSabin) {
+		this.discordantSabin = discordantSabin;
 	}
 
 	@Override

@@ -192,7 +192,7 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 					loc(FINAL_LAB_RESULTS_HEADLINE_LOC) +
 					fluidRowLocs(PathogenTestDto.W1, PathogenTestDto.W2, PathogenTestDto.W3) +
 					fluidRowLocs(PathogenTestDto.SL1, PathogenTestDto.SL2, PathogenTestDto.SL3) +
-					fluidRowLocs(PathogenTestDto.SABIN_TYPE1, PathogenTestDto.SABIN_TYPE2, PathogenTestDto.SABIN_TYPE3) +
+					fluidRowLocs(6, PathogenTestDto.DISCORDANT_SABIN) +
 					fluidRowLocs(PathogenTestDto.NPENT, PathogenTestDto.NEV) +
 					fluidRowLocs(6,PathogenTestDto.FINAL_CELL_CULTURE_RESULTS) +
 					fluidRowLocs(PathogenTestDto.TEST_RESULT, PathogenTestDto.TEST_RESULT_VERIFIED) +
@@ -494,9 +494,7 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 		addField(PathogenTestDto.SL1, OptionGroup.class);
 		addField(PathogenTestDto.SL2, OptionGroup.class);
 		addField(PathogenTestDto.SL3, OptionGroup.class);
-		addField(PathogenTestDto.SABIN_TYPE1, OptionGroup.class);
-		addField(PathogenTestDto.SABIN_TYPE2, OptionGroup.class);
-		addField(PathogenTestDto.SABIN_TYPE3, OptionGroup.class);
+		addField(PathogenTestDto.DISCORDANT_SABIN, ComboBox.class);
 		addField(PathogenTestDto.NPENT, NullableOptionGroup.class);
 		addField(PathogenTestDto.NEV, NullableOptionGroup.class);
 		ComboBox finalCellCultureResults = addField(PathogenTestDto.FINAL_CELL_CULTURE_RESULTS, ComboBox.class);

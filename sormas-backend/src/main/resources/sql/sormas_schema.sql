@@ -15430,6 +15430,14 @@ UPDATE pathogentest SET sl3 = 'POSITIVE' WHERE sl3 = 'YES';
 UPDATE pathogentest SET sl3 = 'NEGATIVE' WHERE sl3 = 'NO';
 
 INSERT INTO schema_version (version_number, comment) VALUES (660, 'Migrated AFP TAIR W and SL results from Yes/No to Positive/Negative');
+
+ALTER TABLE pathogentest ADD COLUMN discordantsabin varchar(255);
+ALTER TABLE pathogentest DROP COLUMN sabintype1;
+ALTER TABLE pathogentest DROP COLUMN sabintype2;
+ALTER TABLE pathogentest DROP COLUMN sabintype3;
+
+INSERT INTO schema_version (version_number, comment) VALUES (661, 'Dropped initial sabintype single columns and added one column at pathogentest');
+
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***
 
 
