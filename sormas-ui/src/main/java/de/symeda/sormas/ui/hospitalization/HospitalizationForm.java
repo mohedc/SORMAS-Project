@@ -388,7 +388,7 @@ public class HospitalizationForm extends AbstractEditForm<HospitalizationDto> {
 
 
 		if (disease == Disease.AFP){
-			FieldHelper.setVisibleWhen(selectInpatientOutpatient, Arrays.asList(admissionDateField), Arrays.asList(InpatOutpat.INPATIENT),true);
+			FieldHelper.setVisibleWhen(selectInpatientOutpatient, Arrays.asList(admissionDateField, dischargeDateField), Arrays.asList(InpatOutpat.INPATIENT),true);
 			FieldHelper
 					.setVisibleWhen(intensiveCareUnit, Arrays.asList(intensiveCareUnitStart, intensiveCareUnitEnd), Arrays.asList(YesNoUnknown.YES), true);
 			admissionDateField.setCaption("Date of admission to hospital, if applicable:");
