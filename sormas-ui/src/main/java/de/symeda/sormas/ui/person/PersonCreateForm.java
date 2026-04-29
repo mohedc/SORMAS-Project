@@ -227,6 +227,7 @@ public class PersonCreateForm extends AbstractEditForm<PersonDto> {
 
 		ComboBox sex = addField(PersonDto.SEX, ComboBox.class);
 		sex.removeItem(Sex.OTHER);
+		sex.removeItem(Sex.UNKNOWN);
 
 		addField(PersonDto.PASSPORT_NUMBER, TextField.class);
 
