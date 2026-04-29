@@ -17,12 +17,16 @@
  *******************************************************************************/
 package de.symeda.sormas.api.sample;
 
+import de.symeda.sormas.api.Disease;
 import de.symeda.sormas.api.i18n.I18nProperties;
+import de.symeda.sormas.api.utils.Diseases;
 
 public enum SamplePurpose {
 
 	EXTERNAL,
-	INTERNAL;
+	INTERNAL,
+	@Diseases({	Disease.AFP})
+	OUTSIDE_COUNTRY_LAB_TESTING;
 
 	@Override
 	public String toString() {

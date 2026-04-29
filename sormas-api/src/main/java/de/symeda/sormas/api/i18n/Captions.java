@@ -2686,6 +2686,7 @@ public interface Captions {
 	String Sample_sampleMaterial = "Sample.sampleMaterial";
 	String Sample_sampleMaterialText = "Sample.sampleMaterialText";
 	String Sample_samplePurpose = "Sample.samplePurpose";
+	String Sample_outsideCountryName = "Sample.outsideCountryName";
 	String Sample_sampleSource = "Sample.sampleSource";
 	String Sample_samplingReason = "Sample.samplingReason";
 	String Sample_samplingReasonDetails = "Sample.samplingReasonDetails";

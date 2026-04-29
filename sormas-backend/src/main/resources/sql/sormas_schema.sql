@@ -15407,6 +15407,9 @@ ALTER TABLE person_history ADD COLUMN IF NOT EXISTS fathersphonenumber varchar(2
 ALTER TABLE person_history ADD COLUMN IF NOT EXISTS caregivername varchar(255);
 
 INSERT INTO schema_version (version_number, comment) VALUES (658, 'Add meningitis parent and caregiver contact fields to person');
+
+ALTER TABLE samples ADD COLUMN outsidecountryname varchar(255);
+INSERT INTO schema_version (version_number, comment) VALUES (659, 'Add outsidecountryname to samples');
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***
 
 

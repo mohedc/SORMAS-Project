@@ -47,6 +47,7 @@ import de.symeda.sormas.api.sample.LpPackaging;
 import de.symeda.sormas.api.sample.Packaging;
 import de.symeda.sormas.api.sample.LaboratoryType;
 import de.symeda.sormas.api.sample.SimpleTestResultType;
+import de.symeda.sormas.api.user.DefaultUserRole;
 import de.symeda.sormas.api.user.UserReferenceDto;
 import de.symeda.sormas.api.user.UserRight;
 import de.symeda.sormas.api.utils.InjectionSite;
@@ -54,6 +55,7 @@ import de.symeda.sormas.api.utils.YesNo;
 import de.symeda.sormas.api.utils.fieldaccess.UiFieldAccessCheckers;
 import de.symeda.sormas.api.utils.fieldvisibility.FieldVisibilityCheckers;
 import de.symeda.sormas.ui.UiUtil;
+import de.symeda.sormas.ui.UserProvider;
 import de.symeda.sormas.ui.utils.AbstractEditForm;
 import de.symeda.sormas.ui.utils.CssStyles;
 import de.symeda.sormas.ui.utils.DateComparisonValidator;
@@ -85,6 +87,7 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
     protected static final String SAMPLE_COMMON_HTML_LAYOUT =
             fluidRowLocs(4, SampleDto.UUID, 4, REPORT_INFO_LABEL_LOC, 3,SampleDto.REPORTING_USER, 1, "") +
                     fluidRowLocs(SampleDto.SAMPLE_PURPOSE) +
+                    fluidRowLocs(SampleDto.OUTSIDE_COUNTRY_NAME) +
                     fluidRowLocs(SampleDto.SAMPLE_DATE_TIME, SampleDto.SAMPLE_MATERIAL) +
                     fluidRowLocs("", SampleDto.SAMPLE_MATERIAL_TEXT) +
                     fluidRowLocs(SampleDto.SAMPLING_REASON, SampleDto.SAMPLING_REASON_DETAILS) +
@@ -190,7 +193,8 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 	protected static final String AFP_HTML_LAYOUT =
 			loc(STOOL_SPECIMEN_COLLECTION_HEADLINE_LOC) +
 					fluidRowLocs(SampleDto.UUID, SampleDto.FIELD_SAMPLE_ID) +
-					fluidRowLocs(SampleDto.SAMPLE_PURPOSE, SampleDto.SAMPLE_MATERIAL) +
+					fluidRowLocs(SampleDto.SAMPLE_PURPOSE, SampleDto.OUTSIDE_COUNTRY_NAME) +
+					fluidRowLocs(6, SampleDto.SAMPLE_MATERIAL) +
 					fluidRowLocs(SampleDto.LAB, SampleDto.LAB_DETAILS) +
 					fluidRowLocs(SampleDto.LAB_SAMPLE_ID) +
 					fluidRowLocs(SampleDto.DATE_FIRST_SPECIMEN, SampleDto.DATE_SECOND_SPECIMEN) +
@@ -248,6 +252,8 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 	protected void addCommonFields() {
 
 		final NullableOptionGroup samplePurpose = addField(SampleDto.SAMPLE_PURPOSE, NullableOptionGroup.class);
+		TextField outsideCountryField = addField(SampleDto.OUTSIDE_COUNTRY_NAME, TextField.class);
+		outsideCountryField.setVisible(false);
 		addField(SampleDto.UUID).setReadOnly(true);
 		 samplePurpose.addValueChangeListener(e -> updateRequestedTestFields());
 		addField(SampleDto.LAB_SAMPLE_ID, TextField.class);
@@ -1070,6 +1076,91 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 
 		getValue().setSampleDateTime(new Date());
 
+		NullableOptionGroup samplePurposeField = (NullableOptionGroup) getField(SampleDto.SAMPLE_PURPOSE);
+		boolean isNationalUser = canSeeOutsideCountryLabTesting();
+
+		FieldHelper.updateEnumData(samplePurposeField,isNationalUser
+						? Arrays.asList(SamplePurpose.EXTERNAL, SamplePurpose.INTERNAL, SamplePurpose.OUTSIDE_COUNTRY_LAB_TESTING)
+						: Arrays.asList(SamplePurpose.EXTERNAL, SamplePurpose.INTERNAL));
+
+		if (!isNationalUser && getSelectedSamplePurpose(samplePurposeField) == SamplePurpose.OUTSIDE_COUNTRY_LAB_TESTING) {
+			samplePurposeField.clear();
+		}
+
+		ComboBox labField = (ComboBox) getField(SampleDto.LAB);
+		TextField labDetailsField = (TextField) getField(SampleDto.LAB_DETAILS);
+		TextField outsideCountryField = (TextField) getField(SampleDto.OUTSIDE_COUNTRY_NAME);
+		samplePurposeField.addValueChangeListener(e -> handleSamplePurposeChange(
+				getSelectedSamplePurpose(samplePurposeField),
+				labField,
+				labDetailsField,
+				outsideCountryField,
+				isNationalUser
+		));
+
+		handleSamplePurposeChange(
+				getSelectedSamplePurpose(samplePurposeField),
+				labField,
+				labDetailsField,
+				outsideCountryField,
+				isNationalUser
+		);
+
+	}
+
+	private boolean canSeeOutsideCountryLabTesting() {
+		UserProvider userProvider = UserProvider.getCurrent();
+		return userProvider != null
+				&& userProvider.getUserRoles().stream()
+				.anyMatch(r -> r.getLinkedDefaultUserRole() == DefaultUserRole.NATIONAL_USER);
+	}
+
+	private SamplePurpose getSelectedSamplePurpose(NullableOptionGroup samplePurposeField) {
+		Object value = samplePurposeField.getValue();
+		if (value instanceof SamplePurpose) {
+			return (SamplePurpose) value;
+		}
+		if (value instanceof Collection) {
+			return ((Collection<?>) value).stream()
+					.filter(SamplePurpose.class::isInstance)
+					.map(SamplePurpose.class::cast)
+					.findFirst()
+					.orElse(null);
+		}
+		return null;
+	}
+
+	private void handleSamplePurposeChange(
+			SamplePurpose value,
+			ComboBox labField,
+			TextField labDetailsField,
+			TextField outsideCountryField,
+			boolean isNationalUser) {
+
+		if (isNationalUser && value == SamplePurpose.OUTSIDE_COUNTRY_LAB_TESTING) {
+			outsideCountryField.setVisible(true);
+			outsideCountryField.setRequired(true);
+
+			labField.setValue(
+					labField.getItemIds().stream()
+							.filter(f -> ((FacilityReferenceDto) f).getUuid().equals(FacilityDto.OTHER_FACILITY_UUID))
+							.findFirst()
+							.orElse(null)
+			);
+
+			labDetailsField.setVisible(true);
+			labDetailsField.setRequired(true);
+		} else {
+			outsideCountryField.setVisible(false);
+			outsideCountryField.setRequired(false);
+			outsideCountryField.clear();
+
+			labField.clear();
+
+			labDetailsField.setVisible(false);
+			labDetailsField.setRequired(false);
+			labDetailsField.clear();
+		}
 	}
 
 	private void handleIDSR() {

@@ -213,6 +213,7 @@ public class Sample extends DeletableAdo implements IsSample, SormasToSormasShar
 	private Date prntDate;
 	private Date dateResultsSentToReferringClinician;
 	private Disease suspectedDisease;
+	private String outsideCountryName;
 	private List<PathogenTest> pathogenTests;
 	private List<AdditionalTest> additionalTests;
 
@@ -1041,5 +1042,13 @@ public class Sample extends DeletableAdo implements IsSample, SormasToSormasShar
 
 	public void setSuspectedDisease(Disease suspectedDisease) {
 		this.suspectedDisease = suspectedDisease;
+	}
+	@Column
+	public String getOutsideCountryName() {
+		return outsideCountryName;
+	}
+
+	public void setOutsideCountryName(String outsideCountryName) {
+		this.outsideCountryName = outsideCountryName;
 	}
 }

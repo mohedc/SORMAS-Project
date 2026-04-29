@@ -889,6 +889,7 @@ public class SampleFacadeEjb implements SampleFacade {
 		target.setPrntInputValue(source.getPrntInputValue());
 		target.setPrntDate(source.getPrntDate());
 		target.setSuspectedDisease(source.getSuspectedDisease());
+		target.setOutsideCountryName(source.getOutsideCountryName());
 
 		target.setReportLat(source.getReportLat());
 		target.setReportLon(source.getReportLon());
@@ -1083,6 +1084,7 @@ public class SampleFacadeEjb implements SampleFacade {
 		target.setPrntInputValue(source.getPrntInputValue());
 		target.setPrntDate(source.getPrntDate());
 		target.setSuspectedDisease(source.getSuspectedDisease());
+		target.setOutsideCountryName(source.getOutsideCountryName());
 
 		target.setReportLat(source.getReportLat());
 		target.setReportLon(source.getReportLon());
