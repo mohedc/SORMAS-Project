@@ -993,6 +993,7 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 		wasSpecimenTakenField.setReadOnly(true);
 
 		FieldHelper.updateEnumData(sampleMaterialComboBox, Arrays.asList(SampleMaterial.CSF, SampleMaterial.OTHER));
+		setRequired(false, SampleDto.SAMPLE_MATERIAL, SampleDto.SAMPLE_MATERIAL_TEXT);
 		getField(SampleDto.SAMPLE_MATERIAL).setVisible(false);
 		getField(SampleDto.SAMPLE_MATERIAL_TEXT).setVisible(false);
 

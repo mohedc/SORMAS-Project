@@ -2328,6 +2328,14 @@ public interface Captions {
 	String PathogenTest_isoniazidResistant = "PathogenTest.isoniazidResistant";
 	String PathogenTest_lab = "PathogenTest.lab";
 	String PathogenTest_labDetails = "PathogenTest.labDetails";
+	String PathogenTest_nameRegionalLaboratory = "PathogenTest.nameRegionalLaboratory";
+	String PathogenTest_regionalLaboratoryDetails = "PathogenTest.regionalLaboratoryDetails";
+	String PathogenTest_regionalLaboratorySubtitle = "PathogenTest.regionalLaboratorySubtitle";
+	String PathogenTest_nameReferenceLaboratory = "PathogenTest.nameReferenceLaboratory";
+	String PathogenTest_referenceLaboratoryDetails = "PathogenTest.referenceLaboratoryDetails";
+	String PathogenTest_referenceLaboratorySubtitle = "PathogenTest.referenceLaboratorySubtitle";
+	String PathogenTest_dateTimeOfResult = "PathogenTest.dateTimeOfResult";
+	String PathogenTest_laboratoryObservations = "PathogenTest.laboratoryObservations";
 	String PathogenTest_otherDeletionReason = "PathogenTest.otherDeletionReason";
 	String PathogenTest_patternProfile = "PathogenTest.patternProfile";
 	String PathogenTest_pcrTestSpecification = "PathogenTest.pcrTestSpecification";
