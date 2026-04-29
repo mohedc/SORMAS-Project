@@ -15407,6 +15407,49 @@ ALTER TABLE person_history ADD COLUMN IF NOT EXISTS fathersphonenumber varchar(2
 ALTER TABLE person_history ADD COLUMN IF NOT EXISTS caregivername varchar(255);
 
 INSERT INTO schema_version (version_number, comment) VALUES (658, 'Add meningitis parent and caregiver contact fields to person');
+
+-- Migration 659: Dedicated meningitis sample workflow fields
+ALTER TABLE samples ADD COLUMN IF NOT EXISTS barcode varchar(255);
+ALTER TABLE samples ADD COLUMN IF NOT EXISTS csfsamplecollected varchar(255);
+ALTER TABLE samples ADD COLUMN IF NOT EXISTS lpnotdonereason varchar(255);
+ALTER TABLE samples ADD COLUMN IF NOT EXISTS lpnotdonereasonother varchar(255);
+ALTER TABLE samples ADD COLUMN IF NOT EXISTS timeofinoculationintotransportmedia timestamp;
+ALTER TABLE samples ADD COLUMN IF NOT EXISTS samplessenttolaboratory varchar(255);
+ALTER TABLE samples ADD COLUMN IF NOT EXISTS samplesnotsentreason varchar(255);
+ALTER TABLE samples ADD COLUMN IF NOT EXISTS dispatched boolean;
+ALTER TABLE samples ADD COLUMN IF NOT EXISTS datetimesamplesenttolab timestamp;
+ALTER TABLE samples ADD COLUMN IF NOT EXISTS samplecontainerused varchar(255);
+ALTER TABLE samples ADD COLUMN IF NOT EXISTS samplecontainerusedother varchar(255);
+ALTER TABLE samples ADD COLUMN IF NOT EXISTS meningitisrdtperformed varchar(255);
+ALTER TABLE samples ADD COLUMN IF NOT EXISTS meningitisrdtresult varchar(255);
+ALTER TABLE samples ADD COLUMN IF NOT EXISTS labnumber varchar(255);
+ALTER TABLE samples ADD COLUMN IF NOT EXISTS samplecontainerreceived varchar(255);
+ALTER TABLE samples ADD COLUMN IF NOT EXISTS samplecontainerreceivedother varchar(255);
+ALTER TABLE samples ADD COLUMN IF NOT EXISTS sampleconditionatreception varchar(255);
+ALTER TABLE samples ADD COLUMN IF NOT EXISTS csfappearanceatcollection varchar(255);
+ALTER TABLE samples ADD COLUMN IF NOT EXISTS csfappearanceatreception varchar(255);
+
+ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS barcode varchar(255);
+ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS csfsamplecollected varchar(255);
+ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS lpnotdonereason varchar(255);
+ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS lpnotdonereasonother varchar(255);
+ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS timeofinoculationintotransportmedia timestamp;
+ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS samplessenttolaboratory varchar(255);
+ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS samplesnotsentreason varchar(255);
+ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS dispatched boolean;
+ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS datetimesamplesenttolab timestamp;
+ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS samplecontainerused varchar(255);
+ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS samplecontainerusedother varchar(255);
+ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS meningitisrdtperformed varchar(255);
+ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS meningitisrdtresult varchar(255);
+ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS labnumber varchar(255);
+ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS samplecontainerreceived varchar(255);
+ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS samplecontainerreceivedother varchar(255);
+ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS sampleconditionatreception varchar(255);
+ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS csfappearanceatcollection varchar(255);
+ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS csfappearanceatreception varchar(255);
+
+INSERT INTO schema_version (version_number, comment) VALUES (659, 'Add dedicated meningitis sample workflow fields');
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***
 
 

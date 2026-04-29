@@ -14,6 +14,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import com.vaadin.ui.CssLayout;
@@ -170,20 +171,31 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 	protected static final String MENINGITIS_HTML_LAYOUT =
 			fluidRowLocs(4, SampleDto.UUID, 4, REPORT_INFO_LABEL_LOC, 3, SampleDto.REPORTING_USER, 1, "") +
 					fluidRowLocs(SampleDto.SAMPLE_PURPOSE, SampleDto.FIELD_SAMPLE_ID) +
-					fluidRowLocs(SampleDto.SAMPLE_DATE_TIME, "") +
+					fluidRowLocs(SampleDto.BARCODE, SampleDto.SAMPLE_DATE_TIME) +
 					fluidRowLocs(SampleDto.DATE_FORM_CSF_DISPATCHED_TO_HEALTH_DISTRICT, SampleDto.DATE_HEALTH_FACILITY_NOTIFY_REGION) +
+					locCss(VSPACE_TOP_3, SampleDto.CSF_SAMPLE_COLLECTED) +
 					locCss(VSPACE_TOP_3, SampleDto.LUMBAR_PUNCTURE_PERFORMED) +
-					fluidRowLocs(SampleDto.DATE_OF_LP, SampleDto.LP_ASPECT) +
+					fluidRowLocs(SampleDto.DATE_OF_LP, SampleDto.CSF_APPEARANCE_AT_COLLECTION) +
+					fluidRowLocs(SampleDto.LP_NOT_DONE_REASON, SampleDto.LP_NOT_DONE_REASON_OTHER) +
 					fluidRowLocs(SampleDto.LP_PACKAGING, SampleDto.LP_PACKAGING_OTHER) +
+					fluidRowLocs(SampleDto.TIME_OF_INOCULATION_INTO_TRANSPORT_MEDIA, "") +
+					locCss(VSPACE_TOP_3, SampleDto.SAMPLES_SENT_TO_LABORATORY) +
+					fluidRowLocs(SampleDto.DISPATCHED, SampleDto.DATE_TIME_SAMPLE_SENT_TO_LAB) +
+					fluidRowLocs(SampleDto.SAMPLES_NOT_SENT_REASON, "") +
+					fluidRowLocs(SampleDto.SAMPLE_CONTAINER_USED, SampleDto.SAMPLE_CONTAINER_USED_OTHER) +
+					locCss(VSPACE_TOP_3, SampleDto.MENINGITIS_RDT_PERFORMED) +
+					fluidRowLocs(SampleDto.MENINGITIS_RDT_RESULT, "") +
 					locCss(VSPACE_TOP_3, SampleDto.WAS_SPECIMEN_TAKEN) +
 					fluidRowLocs(SampleDto.LABORATORY_TYPE, SampleDto.LAB) +
 					fluidRowLocs(SampleDto.LAB_DETAILS, "") +
 					fluidRowLocs(SampleDto.DATE_SPECIMEN_SENT_TO_LABORATORY_TYPE) +
-					fluidRowLocs(SampleDto.SAMPLE_MATERIAL, SampleDto.SAMPLE_MATERIAL_TEXT) +
 					locCss(VSPACE_TOP_3, SampleDto.SHIPPED) +
 					fluidRowLocs(SampleDto.SHIPMENT_DATE, SampleDto.SHIPMENT_DETAILS) +
 					locCss(VSPACE_TOP_3, SampleDto.RECEIVED) +
-					fluidRowLocs(SampleDto.RECEIVED_DATE, SampleDto.LAB_SAMPLE_ID) +
+					fluidRowLocs(SampleDto.RECEIVED_DATE, SampleDto.LAB_NUMBER) +
+					fluidRowLocs(SampleDto.LAB_SAMPLE_ID, SampleDto.SAMPLE_CONTAINER_RECEIVED) +
+					fluidRowLocs(SampleDto.SAMPLE_CONTAINER_RECEIVED_OTHER, SampleDto.SAMPLE_CONDITION_AT_RECEPTION) +
+					fluidRowLocs(SampleDto.CSF_APPEARANCE_AT_RECEPTION, "") +
 					fluidRowLocs(SampleDto.PACKAGING, SampleDto.PACKAGING_OTHER) +
 					fluidRowLocs(SampleDto.SPECIMEN_CONDITION);
 
@@ -348,19 +360,38 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 		addDateField(SampleDto.DATE_SPECIMEN_RECEIVED_AT_REGIONAL_REFERENCE_LAB, DateField.class, 7);
 
 		// Meningitis-specific fields (hidden by default, shown in configureMeningitisFields)
+		addField(SampleDto.BARCODE, TextField.class);
 		addDateField(SampleDto.DATE_FORM_CSF_DISPATCHED_TO_HEALTH_DISTRICT, DateField.class, 7);
 		addDateField(SampleDto.DATE_HEALTH_FACILITY_NOTIFY_REGION, DateField.class, 7);
+		addField(SampleDto.CSF_SAMPLE_COLLECTED, NullableOptionGroup.class);
 		addField(SampleDto.LUMBAR_PUNCTURE_PERFORMED, NullableOptionGroup.class);
 		addDateField(SampleDto.DATE_OF_LP, DateField.class, 7);
+		addField(SampleDto.CSF_APPEARANCE_AT_COLLECTION, ComboBox.class);
+		addField(SampleDto.LP_NOT_DONE_REASON, ComboBox.class);
+		addField(SampleDto.LP_NOT_DONE_REASON_OTHER, TextField.class);
 		addField(SampleDto.LP_ASPECT, ComboBox.class);
 		addField(SampleDto.LP_PACKAGING, ComboBox.class);
 		addField(SampleDto.LP_PACKAGING_OTHER, TextField.class);
+		addDateField(SampleDto.TIME_OF_INOCULATION_INTO_TRANSPORT_MEDIA, DateField.class, 7);
+		addField(SampleDto.SAMPLES_SENT_TO_LABORATORY, NullableOptionGroup.class);
+		addField(SampleDto.DISPATCHED, CheckBox.class);
+		addField(SampleDto.DATE_TIME_SAMPLE_SENT_TO_LAB, DateTimeField.class);
+		addField(SampleDto.SAMPLES_NOT_SENT_REASON, TextField.class);
+		addField(SampleDto.SAMPLE_CONTAINER_USED, ComboBox.class);
+		addField(SampleDto.SAMPLE_CONTAINER_USED_OTHER, TextField.class);
+		addField(SampleDto.MENINGITIS_RDT_PERFORMED, NullableOptionGroup.class);
+		addField(SampleDto.MENINGITIS_RDT_RESULT, ComboBox.class);
 		NullableOptionGroup wasSpecimenTakenField = addField(SampleDto.WAS_SPECIMEN_TAKEN, NullableOptionGroup.class);
 		wasSpecimenTakenField.setValue(YesNo.YES);
 		wasSpecimenTakenField.setReadOnly(true);
 		addField(SampleDto.LABORATORY_TYPE, ComboBox.class);
 		addField(SampleDto.LABORATORY_NAME, TextField.class);
 		addDateField(SampleDto.DATE_SPECIMEN_SENT_TO_LABORATORY_TYPE, DateField.class, 7);
+		addField(SampleDto.LAB_NUMBER, TextField.class);
+		addField(SampleDto.SAMPLE_CONTAINER_RECEIVED, ComboBox.class);
+		addField(SampleDto.SAMPLE_CONTAINER_RECEIVED_OTHER, TextField.class);
+		addField(SampleDto.SAMPLE_CONDITION_AT_RECEPTION, ComboBox.class);
+		addField(SampleDto.CSF_APPEARANCE_AT_RECEPTION, ComboBox.class);
 		addField(SampleDto.PACKAGING, ComboBox.class);
 		addField(SampleDto.PACKAGING_OTHER, TextField.class);
 		addField(SampleDto.SUSPECTED_DISEASE, ComboBox.class);
@@ -960,26 +991,35 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 	 * Configures fields specifically for meningitis samples
 	 */
 	protected void configureMeningitisFields() {
-
-			// Set WAS_SPECIMEN_TAKEN to YES and make it read-only
 		NullableOptionGroup wasSpecimenTakenField = (NullableOptionGroup) getField(SampleDto.WAS_SPECIMEN_TAKEN);
+		wasSpecimenTakenField.setValue(YesNo.YES);
+		wasSpecimenTakenField.setReadOnly(true);
 
-
-		// Filter sample material options for meningitis: CSF and Other only
 		FieldHelper.updateEnumData(sampleMaterialComboBox, Arrays.asList(SampleMaterial.CSF, SampleMaterial.OTHER));
+		getField(SampleDto.SAMPLE_MATERIAL).setVisible(false);
+		getField(SampleDto.SAMPLE_MATERIAL_TEXT).setVisible(false);
 
 		// Show meningitis-specific fields
+		getField(SampleDto.BARCODE).setVisible(true);
 		getField(SampleDto.DATE_FORM_CSF_DISPATCHED_TO_HEALTH_DISTRICT).setVisible(true);
 		getField(SampleDto.DATE_HEALTH_FACILITY_NOTIFY_REGION).setVisible(true);
+		getField(SampleDto.CSF_SAMPLE_COLLECTED).setVisible(true);
 		getField(SampleDto.LUMBAR_PUNCTURE_PERFORMED).setVisible(true);
 		getField(SampleDto.WAS_SPECIMEN_TAKEN).setVisible(true);
 		getField(SampleDto.PACKAGING).setVisible(true);
+		getField(SampleDto.SAMPLES_SENT_TO_LABORATORY).setVisible(true);
+		getField(SampleDto.DISPATCHED).setVisible(true);
+		getField(SampleDto.MENINGITIS_RDT_PERFORMED).setVisible(true);
 
-//		LP fields visibility - shown when lumbarPuncturePerformed = YES (in red text)
+		// LP fields visibility - shown when lumbarPuncturePerformed = YES
 		Field<?> lumbarPunctureField = getField(SampleDto.LUMBAR_PUNCTURE_PERFORMED);
 		FieldHelper.setVisibleWhen(
 			getFieldGroup(),
-			Arrays.asList(SampleDto.DATE_OF_LP, SampleDto.LP_ASPECT, SampleDto.LP_PACKAGING),
+			Arrays.asList(
+				SampleDto.DATE_OF_LP,
+				SampleDto.CSF_APPEARANCE_AT_COLLECTION,
+				SampleDto.LP_PACKAGING,
+				SampleDto.TIME_OF_INOCULATION_INTO_TRANSPORT_MEDIA),
 			SampleDto.LUMBAR_PUNCTURE_PERFORMED,
 			Arrays.asList(YesNo.YES),
 			true);
@@ -987,7 +1027,24 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 			getFieldGroup(),
 			lumbarPunctureField,
 			Arrays.asList(YesNo.YES),
-			Arrays.asList(SampleDto.DATE_OF_LP, SampleDto.LP_ASPECT, SampleDto.LP_PACKAGING),
+			Arrays.asList(
+				SampleDto.DATE_OF_LP,
+				SampleDto.CSF_APPEARANCE_AT_COLLECTION,
+				SampleDto.LP_PACKAGING,
+				SampleDto.TIME_OF_INOCULATION_INTO_TRANSPORT_MEDIA),
+			true);
+
+		FieldHelper.setVisibleWhen(
+			getFieldGroup(),
+			Arrays.asList(SampleDto.LP_NOT_DONE_REASON),
+			SampleDto.LUMBAR_PUNCTURE_PERFORMED,
+			Arrays.asList(YesNo.NO),
+			true);
+		FieldHelper.setVisibleWhen(
+			getFieldGroup(),
+			SampleDto.LP_NOT_DONE_REASON_OTHER,
+			SampleDto.LP_NOT_DONE_REASON,
+			Arrays.asList(LpNotDoneReason.OTHER),
 			true);
 
 		// LP Packaging Other visibility
@@ -998,7 +1055,26 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 			Arrays.asList(LpPackaging.OTHER),
 			true);
 
-//		Laboratory fields visibility - shown when wasSpecimenTaken = YES
+		FieldHelper.setVisibleWhen(
+			getFieldGroup(),
+			Arrays.asList(SampleDto.SAMPLES_NOT_SENT_REASON),
+			SampleDto.SAMPLES_SENT_TO_LABORATORY,
+			Arrays.asList(YesNo.NO),
+			true);
+		FieldHelper.setVisibleWhen(
+			getFieldGroup(),
+			Arrays.asList(SampleDto.DATE_TIME_SAMPLE_SENT_TO_LAB, SampleDto.SAMPLE_CONTAINER_USED),
+			SampleDto.SAMPLES_SENT_TO_LABORATORY,
+			Arrays.asList(YesNo.YES),
+			true);
+		FieldHelper.setVisibleWhen(
+			getFieldGroup(),
+			SampleDto.SAMPLE_CONTAINER_USED_OTHER,
+			SampleDto.SAMPLE_CONTAINER_USED,
+			Arrays.asList(SampleContainerType.OTHER),
+			true);
+
+		// Laboratory fields visibility - shown when wasSpecimenTaken = YES
 		FieldHelper.setVisibleWhen(
 			getFieldGroup(),
 			Arrays.asList(SampleDto.LABORATORY_TYPE, SampleDto.LAB, SampleDto.DATE_SPECIMEN_SENT_TO_LABORATORY_TYPE),
@@ -1010,6 +1086,73 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 			wasSpecimenTakenField,
 			Arrays.asList(YesNo.YES),
 			Arrays.asList(SampleDto.LABORATORY_TYPE, SampleDto.LABORATORY_NAME, SampleDto.DATE_SPECIMEN_SENT_TO_LABORATORY_TYPE),
+			true);
+
+		// Keep dispatched synchronized with "samples sent to lab"
+		Field<?> samplesSentToLabField = getField(SampleDto.SAMPLES_SENT_TO_LABORATORY);
+		CheckBox dispatchedField = (CheckBox) getField(SampleDto.DISPATCHED);
+		samplesSentToLabField.addValueChangeListener(e -> {
+			boolean sent = YesNo.YES.equals(e.getProperty().getValue());
+			dispatchedField.setValue(sent);
+			dispatchedField.setEnabled(sent);
+			if (!sent) {
+				getField(SampleDto.RECEIVED).clear();
+			}
+		});
+
+		// Received block only when dispatched is checked
+		FieldHelper.setVisibleWhen(getFieldGroup(), Arrays.asList(SampleDto.RECEIVED), SampleDto.DISPATCHED, Arrays.asList(true), true);
+		Field<?> receivedField = getField(SampleDto.RECEIVED);
+		FieldHelper.setVisibleWhen(
+			getFieldGroup(),
+			Arrays.asList(
+				SampleDto.RECEIVED_DATE,
+				SampleDto.LAB_NUMBER,
+				SampleDto.LAB_SAMPLE_ID,
+				SampleDto.SAMPLE_CONTAINER_RECEIVED,
+				SampleDto.SAMPLE_CONDITION_AT_RECEPTION,
+				SampleDto.CSF_APPEARANCE_AT_RECEPTION),
+			SampleDto.RECEIVED,
+			Arrays.asList(true),
+			true);
+		FieldHelper.setEnabledWhen(
+			getFieldGroup(),
+			receivedField,
+			Arrays.asList(true),
+			Arrays.asList(
+				SampleDto.RECEIVED_DATE,
+				SampleDto.LAB_NUMBER,
+				SampleDto.LAB_SAMPLE_ID,
+				SampleDto.SAMPLE_CONTAINER_RECEIVED,
+				SampleDto.SAMPLE_CONDITION_AT_RECEPTION,
+				SampleDto.CSF_APPEARANCE_AT_RECEPTION),
+			true);
+		FieldHelper.setVisibleWhen(
+			getFieldGroup(),
+			SampleDto.SAMPLE_CONTAINER_RECEIVED_OTHER,
+			SampleDto.SAMPLE_CONTAINER_RECEIVED,
+			Arrays.asList(SampleContainerType.OTHER),
+			true);
+
+		// Lab number equals Lab sample ID
+		TextField labNumberField = (TextField) getField(SampleDto.LAB_NUMBER);
+		TextField labSampleIdField = (TextField) getField(SampleDto.LAB_SAMPLE_ID);
+		labNumberField.addValueChangeListener(e -> {
+			if (!Objects.equals(labSampleIdField.getValue(), e.getProperty().getValue())) {
+				labSampleIdField.setValue((String) e.getProperty().getValue());
+			}
+		});
+		labSampleIdField.addValueChangeListener(e -> {
+			if (!Objects.equals(labNumberField.getValue(), e.getProperty().getValue())) {
+				labNumberField.setValue((String) e.getProperty().getValue());
+			}
+		});
+
+		FieldHelper.setVisibleWhen(
+			getFieldGroup(),
+			Arrays.asList(SampleDto.MENINGITIS_RDT_RESULT),
+			SampleDto.MENINGITIS_RDT_PERFORMED,
+			Arrays.asList(YesNo.YES),
 			true);
 
 		// Update LAB field caption based on LABORATORY_TYPE selection
@@ -1042,19 +1185,6 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 			SampleDto.PACKAGING,
 			Arrays.asList(Packaging.OTHER),
 			true);
-
-		// Apply red text style to LP fields when visible
-		Field<?> dateOfLpField = getField(SampleDto.DATE_OF_LP);
-		Field<?> lpAspectField = getField(SampleDto.LP_ASPECT);
-		Field<?> lpPackagingField = getField(SampleDto.LP_PACKAGING);
-		lumbarPunctureField.addValueChangeListener(e -> {
-			boolean isVisible = YesNo.YES.equals(e.getProperty().getValue());
-			if (isVisible) {
-				CssStyles.style(dateOfLpField, CssStyles.LABEL_CRITICAL);
-				CssStyles.style(lpAspectField, CssStyles.LABEL_CRITICAL);
-				CssStyles.style(lpPackagingField, CssStyles.LABEL_CRITICAL);
-			}
-		});
 	}
 
 	private void handleAFP() {
