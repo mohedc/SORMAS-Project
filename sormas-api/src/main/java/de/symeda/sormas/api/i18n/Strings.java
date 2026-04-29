@@ -829,6 +829,7 @@ public interface Strings {
 	String headingReferSample = "headingReferSample";
 	String headingStoolSpecimenCollection = "headingStoolSpecimenCollection";
 	String headingStoolSpecimenResults = "headingStoolSpecimenResults";
+	String headingFinalLabResults = "headingFinalLabResults";
 	String headingFollowUpExamination = "headingFollowUpExamination";
 	String headingPersonCompleting = "headingPersonCompleting";
 	String headingMotherVaccination = "headingMotherVaccination";
