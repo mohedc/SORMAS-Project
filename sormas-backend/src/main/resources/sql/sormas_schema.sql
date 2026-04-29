@@ -15414,7 +15414,6 @@ ALTER TABLE samples ADD COLUMN IF NOT EXISTS csfsamplecollected varchar(255);
 ALTER TABLE samples ADD COLUMN IF NOT EXISTS lpnotdonereason varchar(255);
 ALTER TABLE samples ADD COLUMN IF NOT EXISTS lpnotdonereasonother varchar(255);
 ALTER TABLE samples ADD COLUMN IF NOT EXISTS timeofinoculationintotransportmedia timestamp;
-ALTER TABLE samples ADD COLUMN IF NOT EXISTS samplessenttolaboratory varchar(255);
 ALTER TABLE samples ADD COLUMN IF NOT EXISTS samplesnotsentreason varchar(255);
 ALTER TABLE samples ADD COLUMN IF NOT EXISTS datetimesamplesenttolab timestamp;
 ALTER TABLE samples ADD COLUMN IF NOT EXISTS samplecontainerused varchar(255);
@@ -15433,7 +15432,6 @@ ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS csfsamplecollected varchar(
 ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS lpnotdonereason varchar(255);
 ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS lpnotdonereasonother varchar(255);
 ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS timeofinoculationintotransportmedia timestamp;
-ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS samplessenttolaboratory varchar(255);
 ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS samplesnotsentreason varchar(255);
 ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS datetimesamplesenttolab timestamp;
 ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS samplecontainerused varchar(255);

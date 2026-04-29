@@ -886,7 +886,6 @@ public class SampleFacadeEjb implements SampleFacade {
 		target.setLpNotDoneReason(source.getLpNotDoneReason());
 		target.setLpNotDoneReasonOther(source.getLpNotDoneReasonOther());
 		target.setTimeOfInoculationIntoTransportMedia(source.getTimeOfInoculationIntoTransportMedia());
-		target.setSamplesSentToLaboratory(source.getSamplesSentToLaboratory());
 		target.setSamplesNotSentReason(source.getSamplesNotSentReason());
 		target.setDateTimeSampleSentToLab(source.getDateTimeSampleSentToLab());
 		target.setSampleContainerUsed(source.getSampleContainerUsed());
@@ -1098,7 +1097,6 @@ public class SampleFacadeEjb implements SampleFacade {
 		target.setLpNotDoneReason(source.getLpNotDoneReason());
 		target.setLpNotDoneReasonOther(source.getLpNotDoneReasonOther());
 		target.setTimeOfInoculationIntoTransportMedia(source.getTimeOfInoculationIntoTransportMedia());
-		target.setSamplesSentToLaboratory(source.getSamplesSentToLaboratory());
 		target.setSamplesNotSentReason(source.getSamplesNotSentReason());
 		target.setDateTimeSampleSentToLab(source.getDateTimeSampleSentToLab());
 		target.setSampleContainerUsed(source.getSampleContainerUsed());

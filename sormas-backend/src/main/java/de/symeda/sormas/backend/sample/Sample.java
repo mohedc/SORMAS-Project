@@ -133,7 +133,6 @@ public class Sample extends DeletableAdo implements IsSample, SormasToSormasShar
 	public static final String LP_NOT_DONE_REASON = "lpNotDoneReason";
 	public static final String LP_NOT_DONE_REASON_OTHER = "lpNotDoneReasonOther";
 	public static final String TIME_OF_INOCULATION_INTO_TRANSPORT_MEDIA = "timeOfInoculationIntoTransportMedia";
-	public static final String SAMPLES_SENT_TO_LABORATORY = "samplesSentToLaboratory";
 	public static final String SAMPLES_NOT_SENT_REASON = "samplesNotSentReason";
 	public static final String DATE_TIME_SAMPLE_SENT_TO_LAB = "dateTimeSampleSentToLab";
 	public static final String SAMPLE_CONTAINER_USED = "sampleContainerUsed";
@@ -226,7 +225,6 @@ public class Sample extends DeletableAdo implements IsSample, SormasToSormasShar
 	private LpNotDoneReason lpNotDoneReason;
 	private String lpNotDoneReasonOther;
 	private Date timeOfInoculationIntoTransportMedia;
-	private YesNo samplesSentToLaboratory;
 	private String samplesNotSentReason;
 	private Date dateTimeSampleSentToLab;
 	private SampleContainerType sampleContainerUsed;
@@ -1034,15 +1032,6 @@ public class Sample extends DeletableAdo implements IsSample, SormasToSormasShar
 
 	public void setTimeOfInoculationIntoTransportMedia(Date timeOfInoculationIntoTransportMedia) {
 		this.timeOfInoculationIntoTransportMedia = timeOfInoculationIntoTransportMedia;
-	}
-
-	@Enumerated(EnumType.STRING)
-	public YesNo getSamplesSentToLaboratory() {
-		return samplesSentToLaboratory;
-	}
-
-	public void setSamplesSentToLaboratory(YesNo samplesSentToLaboratory) {
-		this.samplesSentToLaboratory = samplesSentToLaboratory;
 	}
 
 	@Column(length = CHARACTER_LIMIT_DEFAULT)

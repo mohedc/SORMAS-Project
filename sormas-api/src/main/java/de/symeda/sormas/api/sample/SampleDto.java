@@ -114,7 +114,6 @@ public class SampleDto extends SormasToSormasShareableDto implements IsSample {
 	public static final String LP_NOT_DONE_REASON = "lpNotDoneReason";
 	public static final String LP_NOT_DONE_REASON_OTHER = "lpNotDoneReasonOther";
 	public static final String TIME_OF_INOCULATION_INTO_TRANSPORT_MEDIA = "timeOfInoculationIntoTransportMedia";
-	public static final String SAMPLES_SENT_TO_LABORATORY = "samplesSentToLaboratory";
 	public static final String SAMPLES_NOT_SENT_REASON = "samplesNotSentReason";
 	public static final String DATE_TIME_SAMPLE_SENT_TO_LAB = "dateTimeSampleSentToLab";
 	public static final String SAMPLE_CONTAINER_USED = "sampleContainerUsed";
@@ -308,9 +307,6 @@ public class SampleDto extends SormasToSormasShareableDto implements IsSample {
 	@Diseases(value = {
 		Disease.CSM })
 	private Date timeOfInoculationIntoTransportMedia;
-	@Diseases(value = {
-		Disease.CSM })
-	private YesNo samplesSentToLaboratory;
 	@SensitiveData
 	@Size(max = FieldConstraints.CHARACTER_LIMIT_DEFAULT, message = Validations.textTooLong)
 	@Diseases(value = {
@@ -1093,14 +1089,6 @@ public class SampleDto extends SormasToSormasShareableDto implements IsSample {
 
 	public void setTimeOfInoculationIntoTransportMedia(Date timeOfInoculationIntoTransportMedia) {
 		this.timeOfInoculationIntoTransportMedia = timeOfInoculationIntoTransportMedia;
-	}
-
-	public YesNo getSamplesSentToLaboratory() {
-		return samplesSentToLaboratory;
-	}
-
-	public void setSamplesSentToLaboratory(YesNo samplesSentToLaboratory) {
-		this.samplesSentToLaboratory = samplesSentToLaboratory;
 	}
 
 	public String getSamplesNotSentReason() {
