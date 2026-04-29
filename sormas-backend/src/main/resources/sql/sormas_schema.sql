@@ -15542,6 +15542,36 @@ ALTER TABLE pathogentest_history ADD COLUMN IF NOT EXISTS othertesttypespecify v
 ALTER TABLE pathogentest_history ADD COLUMN IF NOT EXISTS othertestresults text;
 
 INSERT INTO schema_version (version_number, comment) VALUES (660, 'CSM pathogen test selected types, join tables, and laboratory detail fields');
+
+ALTER TABLE samples ADD COLUMN outsidecountryname varchar(255);
+INSERT INTO schema_version (version_number, comment) VALUES (661, 'Add outsidecountryname to samples');
+
+UPDATE pathogentest SET w1 = 'POSITIVE' WHERE w1 = 'YES';
+UPDATE pathogentest SET w1 = 'NEGATIVE' WHERE w1 = 'NO';
+
+UPDATE pathogentest SET w2 = 'POSITIVE' WHERE w2 = 'YES';
+UPDATE pathogentest SET w2 = 'NEGATIVE' WHERE w2 = 'NO';
+
+UPDATE pathogentest SET w3 = 'POSITIVE' WHERE w3 = 'YES';
+UPDATE pathogentest SET w3 = 'NEGATIVE' WHERE w3 = 'NO';
+
+UPDATE pathogentest SET sl1 = 'POSITIVE' WHERE sl1 = 'YES';
+UPDATE pathogentest SET sl1 = 'NEGATIVE' WHERE sl1 = 'NO';
+
+UPDATE pathogentest SET sl2 = 'POSITIVE' WHERE sl2 = 'YES';
+UPDATE pathogentest SET sl2 = 'NEGATIVE' WHERE sl2 = 'NO';
+
+UPDATE pathogentest SET sl3 = 'POSITIVE' WHERE sl3 = 'YES';
+UPDATE pathogentest SET sl3 = 'NEGATIVE' WHERE sl3 = 'NO';
+
+INSERT INTO schema_version (version_number, comment) VALUES (662, 'Migrated AFP TAIR W and SL results from Yes/No to Positive/Negative');
+
+ALTER TABLE pathogentest ADD COLUMN discordantsabin varchar(255);
+ALTER TABLE pathogentest DROP COLUMN sabintype1;
+ALTER TABLE pathogentest DROP COLUMN sabintype2;
+ALTER TABLE pathogentest DROP COLUMN sabintype3;
+
+INSERT INTO schema_version (version_number, comment) VALUES (663, 'Dropped initial sabintype single columns and added one column at pathogentest');
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***
 
 

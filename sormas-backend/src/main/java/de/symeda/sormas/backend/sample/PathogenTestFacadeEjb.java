@@ -371,15 +371,13 @@ public class PathogenTestFacadeEjb implements PathogenTestFacade {
 		target.setSl1(source.getSl1());
 		target.setSl2(source.getSl2());
 		target.setSl3(source.getSl3());
-		target.setSabinType1(source.getSabinType1());
-		target.setSabinType2(source.getSabinType2());
-		target.setSabinType3(source.getSabinType3());
 		target.setNpent(source.getNpent());
 		target.setNev(source.getNev());
 		target.setFinalCellCultureResults(source.getFinalCellCultureResults());
 		target.setDateFollowupExam(source.getDateFollowupExam());
 		target.setResidualAnalysis(source.getResidualAnalysis());
 		target.setResultExam(source.getResultExam());
+		target.setDiscordantSabin(source.getDiscordantSabin());
 
 		target.setSelectedPathogenTestTypes(
 			source.getSelectedPathogenTestTypes() == null ? null : new HashSet<>(source.getSelectedPathogenTestTypes()));
@@ -780,15 +778,13 @@ public class PathogenTestFacadeEjb implements PathogenTestFacade {
 		target.setSl1(source.getSl1());
 		target.setSl2(source.getSl2());
 		target.setSl3(source.getSl3());
-		target.setSabinType1(source.getSabinType1());
-		target.setSabinType2(source.getSabinType2());
-		target.setSabinType3(source.getSabinType3());
 		target.setNpent(source.getNpent());
 		target.setNev(source.getNev());
 		target.setFinalCellCultureResults(source.getFinalCellCultureResults());
 		target.setDateFollowupExam(source.getDateFollowupExam());
 		target.setResidualAnalysis(source.getResidualAnalysis());
 		target.setResultExam(source.getResultExam());
+		target.setDiscordantSabin(source.getDiscordantSabin());
 
 		return target;
 	}

@@ -265,21 +265,19 @@ public class PathogenTest extends DeletableAdo {
 	private Date dateDifferentiationReceivedEpi;
 	private Date dateIsolateSentSequencing;
 	private Date dateSeqResultsSentProgram;
-	private YesNo w1;
-	private YesNo w2;
-	private YesNo w3;
-	private YesNo sl1;
-	private YesNo sl2;
-	private YesNo sl3;
-	private YesNo sabinType1;
-	private YesNo sabinType2;
-	private YesNo sabinType3;
+	private PosNeg w1;
+	private PosNeg w2;
+	private PosNeg w3;
+	private PosNeg sl1;
+	private PosNeg sl2;
+	private PosNeg sl3;
 	private PosNeg npent;
 	private PosNeg nev;
 	private PathogenTestResultType finalCellCultureResults;
 	private Date dateFollowupExam;
 	private InjectionSite residualAnalysis;
 	private ExamResult resultExam;
+	private SabinType discordantSabin;
 	@ManyToOne(fetch = FetchType.LAZY)
 	public Sample getSample() {
 		return sample;
@@ -1490,84 +1488,57 @@ public class PathogenTest extends DeletableAdo {
 	}
 	@Enumerated(EnumType.STRING)
 	@Column
-	public YesNo getW1() {
+	public PosNeg getW1() {
 		return w1;
 	}
 
-	public void setW1(YesNo w1) {
+	public void setW1(PosNeg w1) {
 		this.w1 = w1;
 	}
 	@Enumerated(EnumType.STRING)
 	@Column
-	public YesNo getW2() {
+	public PosNeg getW2() {
 		return w2;
 	}
 
-	public void setW2(YesNo w2) {
+	public void setW2(PosNeg w2) {
 		this.w2 = w2;
 	}
 	@Enumerated(EnumType.STRING)
 	@Column
-	public YesNo getW3() {
+	public PosNeg getW3() {
 		return w3;
 	}
 
-	public void setW3(YesNo w3) {
+	public void setW3(PosNeg w3) {
 		this.w3 = w3;
 	}
 	@Enumerated(EnumType.STRING)
 	@Column
-	public YesNo getSl1() {
+	public PosNeg getSl1() {
 		return sl1;
 	}
 
-	public void setSl1(YesNo sl1) {
+	public void setSl1(PosNeg sl1) {
 		this.sl1 = sl1;
 	}
 	@Enumerated(EnumType.STRING)
 	@Column
-	public YesNo getSl2() {
+	public PosNeg getSl2() {
 		return sl2;
 	}
 
-	public void setSl2(YesNo sl2) {
+	public void setSl2(PosNeg sl2) {
 		this.sl2 = sl2;
 	}
 	@Enumerated(EnumType.STRING)
 	@Column
-	public YesNo getSl3() {
+	public PosNeg getSl3() {
 		return sl3;
 	}
 
-	public void setSl3(YesNo sl3) {
+	public void setSl3(PosNeg sl3) {
 		this.sl3 = sl3;
-	}
-	@Enumerated(EnumType.STRING)
-	@Column
-	public YesNo getSabinType1() {
-		return sabinType1;
-	}
-
-	public void setSabinType1(YesNo sabinType1) {
-		this.sabinType1 = sabinType1;
-	}
-	@Enumerated(EnumType.STRING)
-	@Column
-	public YesNo getSabinType2() {
-		return sabinType2;
-	}
-
-	public void setSabinType2(YesNo sabinType2) {
-		this.sabinType2 = sabinType2;
-	}
-	@Enumerated(EnumType.STRING)
-	@Column
-	public YesNo getSabinType3() {
-		return sabinType3;
-	}
-
-	public void setSabinType3(YesNo sabinType3) {
-		this.sabinType3 = sabinType3;
 	}
 	@Enumerated(EnumType.STRING)
 	@Column
@@ -1621,5 +1592,15 @@ public class PathogenTest extends DeletableAdo {
 
 	public void setResultExam(ExamResult resultExam) {
 		this.resultExam = resultExam;
+	}
+
+	@Enumerated(EnumType.STRING)
+	@Column
+	public SabinType getDiscordantSabin() {
+		return discordantSabin;
+	}
+
+	public void setDiscordantSabin(SabinType discordantSabin) {
+		this.discordantSabin = discordantSabin;
 	}
 }

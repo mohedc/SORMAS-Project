@@ -2403,9 +2403,7 @@ public interface Captions {
 	String PathogenTest_sl1="PathogenTest.sl1";
 	String PathogenTest_sl2="PathogenTest.sl2";
 	String PathogenTest_sl3="PathogenTest.sl3";
-	String PathogenTest_sabinType1="PathogenTest.sabinType1";
-	String PathogenTest_sabinType2="PathogenTest.sabinType2";
-	String PathogenTest_sabinType3="PathogenTest.sabinType3";
+	String PathogenTest_discordantSabin="PathogenTest.discordantSabin";
 	String PathogenTest_npent="PathogenTest.npent";
 	String PathogenTest_nev="PathogenTest.nev";
 	String PathogenTest_finalCellCultureResults="PathogenTest.finalCellCultureResults";
@@ -2694,6 +2692,7 @@ public interface Captions {
 	String Sample_sampleMaterial = "Sample.sampleMaterial";
 	String Sample_sampleMaterialText = "Sample.sampleMaterialText";
 	String Sample_samplePurpose = "Sample.samplePurpose";
+	String Sample_outsideCountryName = "Sample.outsideCountryName";
 	String Sample_sampleSource = "Sample.sampleSource";
 	String Sample_samplingReason = "Sample.samplingReason";
 	String Sample_samplingReasonDetails = "Sample.samplingReasonDetails";

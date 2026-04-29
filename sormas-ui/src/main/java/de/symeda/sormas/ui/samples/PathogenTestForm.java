@@ -92,6 +92,7 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 
 	private static final String PRESCRIBER_HEADING_LOC = "prescriberHeading";
 	protected static final String STOOL_SPECIMEN_RESULTS_HEADLINE_LOC = "stoolSpecimenResultsLoc";
+	protected static final String FINAL_LAB_RESULTS_HEADLINE_LOC = "finalLabResultsLoc";
 	protected static final String FOLLOW_UP_EXAMINATION_HEADLINE_LOC = "followUpExaminationLoc";
 
 	//@formatter:off
@@ -213,16 +214,19 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 					fluidRowLocs(PathogenTestDto.LAB, PathogenTestDto.LAB_DETAILS) +
 					loc(STOOL_SPECIMEN_RESULTS_HEADLINE_LOC) +
 					fluidRowLocs(6,PathogenTestDto.DATE_COMBINED_CELL_CULTURE_RESULTS) +
-					fluidRowLocs(PathogenTestDto.DATE_RESULTS_SENT_TO_NATIONAL_EPI, PathogenTestDto.DATE_CAPTURED_RESULTS_RECEIVED_AT_NATIONAL_EPI_OFFICE) +
-					fluidRowLocs(PathogenTestDto.DATE_SENT_FROM_IC_NATIONAL_REG_LAB, PathogenTestDto.DATE_DIFFERENTIATION_SENT_EPI) +
-					fluidRowLocs(6,PathogenTestDto.DATE_DIFFERENTIATION_RECEIVED_EPI) +
-					fluidRowLocs(PathogenTestDto.DATE_ISOLATE_SENT_SEQUENCING, PathogenTestDto.DATE_SEQ_RESULTS_SENT_PROGRAM) +
+					fluidRowLocs(6, PathogenTestDto.DATE_CAPTURED_RESULTS_RECEIVED_AT_NATIONAL_EPI_OFFICE) +
+					fluidRowLocs(6, PathogenTestDto.DATE_DIFFERENTIATION_SENT_EPI) +
+					loc(FINAL_LAB_RESULTS_HEADLINE_LOC) +
 					fluidRowLocs(PathogenTestDto.W1, PathogenTestDto.W2, PathogenTestDto.W3) +
 					fluidRowLocs(PathogenTestDto.SL1, PathogenTestDto.SL2, PathogenTestDto.SL3) +
-					fluidRowLocs(PathogenTestDto.SABIN_TYPE1, PathogenTestDto.SABIN_TYPE2, PathogenTestDto.SABIN_TYPE3) +
+					fluidRowLocs(6, PathogenTestDto.DISCORDANT_SABIN) +
 					fluidRowLocs(PathogenTestDto.NPENT, PathogenTestDto.NEV) +
 					fluidRowLocs(6,PathogenTestDto.FINAL_CELL_CULTURE_RESULTS) +
 					fluidRowLocs(PathogenTestDto.TEST_RESULT, PathogenTestDto.TEST_RESULT_VERIFIED) +
+					fluidRowLocs(PathogenTestDto.DATE_RESULTS_SENT_TO_NATIONAL_EPI, PathogenTestDto.DATE_SENT_FROM_IC_NATIONAL_REG_LAB)+
+					fluidRowLocs(PathogenTestDto.DATE_DIFFERENTIATION_RECEIVED_EPI, PathogenTestDto.DATE_ISOLATE_SENT_SEQUENCING) +
+					fluidRowLocs(6, PathogenTestDto.DATE_SEQ_RESULTS_SENT_PROGRAM) +
+
 					fluidRowLocs(6, PathogenTestDto.TESTED_PATHOGEN_DETAILS) +
 					loc(FOLLOW_UP_EXAMINATION_HEADLINE_LOC) +
 					fluidRowLocs(PathogenTestDto.DATE_FOLLOWUP_EXAM, PathogenTestDto.RESIDUAL_ANALYSIS, PathogenTestDto.RESULT_EXAM);
@@ -474,6 +478,10 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 		CssStyles.style(stoolSpecimenResults, CssStyles.LABEL_BOLD, CssStyles.LABEL_SECONDARY, VSPACE_4);
 		getContent().addComponent(stoolSpecimenResults, STOOL_SPECIMEN_RESULTS_HEADLINE_LOC);
 
+		Label finalLabResults = new Label(I18nProperties.getString(Strings.headingFinalLabResults));
+		CssStyles.style(finalLabResults, CssStyles.LABEL_BOLD, CssStyles.LABEL_SECONDARY, VSPACE_4);
+		getContent().addComponent(finalLabResults, FINAL_LAB_RESULTS_HEADLINE_LOC);
+
 		Label followUpExamination = new Label(I18nProperties.getString(Strings.headingFollowUpExamination));
 		CssStyles.style(followUpExamination, CssStyles.LABEL_BOLD, CssStyles.LABEL_SECONDARY, VSPACE_4);
 		getContent().addComponent(followUpExamination, FOLLOW_UP_EXAMINATION_HEADLINE_LOC);
@@ -522,9 +530,7 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 		addField(PathogenTestDto.SL1, OptionGroup.class);
 		addField(PathogenTestDto.SL2, OptionGroup.class);
 		addField(PathogenTestDto.SL3, OptionGroup.class);
-		addField(PathogenTestDto.SABIN_TYPE1, OptionGroup.class);
-		addField(PathogenTestDto.SABIN_TYPE2, OptionGroup.class);
-		addField(PathogenTestDto.SABIN_TYPE3, OptionGroup.class);
+		addField(PathogenTestDto.DISCORDANT_SABIN, ComboBox.class);
 		addField(PathogenTestDto.NPENT, NullableOptionGroup.class);
 		addField(PathogenTestDto.NEV, NullableOptionGroup.class);
 		ComboBox finalCellCultureResults = addField(PathogenTestDto.FINAL_CELL_CULTURE_RESULTS, ComboBox.class);
@@ -1657,7 +1663,33 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 		List<PathogenTestResultType> validValues = Arrays.asList(PathogenTestResultType.INDETERMINATE, PathogenTestResultType.PENDING, PathogenTestResultType.POSITIVE, PathogenTestResultType.NEGATIVE);
 		FieldHelper.updateEnumData(testResultField, validValues);
 
+		testResultField.setReadOnly(true);
+		ComboBox finalCellCultureResultsField = (ComboBox) getField(PathogenTestDto.FINAL_CELL_CULTURE_RESULTS);
+		finalCellCultureResultsField.addValueChangeListener(e -> updateAFPTestResultFromFinalCellCultureResults(finalCellCultureResultsField));
+		updateAFPTestResultFromFinalCellCultureResults(finalCellCultureResultsField);
+
 		dateCaptured.setCaption("Date results received at National EPI");
+	}
+
+	private void updateAFPTestResultFromFinalCellCultureResults(ComboBox finalCellCultureResultsField) {
+		PathogenTestResultType finalCellCultureResult = (PathogenTestResultType) finalCellCultureResultsField.getValue();
+
+		boolean wasReadOnly = testResultField.isReadOnly();
+		if (wasReadOnly) {
+			testResultField.setReadOnly(false);
+		}
+
+		if (finalCellCultureResult == PathogenTestResultType.SUSPECTED_POLIOVIRUS
+				|| finalCellCultureResult == PathogenTestResultType.NPENT
+				|| finalCellCultureResult == PathogenTestResultType.SUSPECT_POLIOVIRUS_NPENT) {
+			testResultField.setValue(PathogenTestResultType.POSITIVE);
+		} else if (finalCellCultureResult == PathogenTestResultType.NEGATIVE) {
+			testResultField.setValue(PathogenTestResultType.NEGATIVE);
+		} else {
+			testResultField.setValue(null);
+		}
+
+		testResultField.setReadOnly(wasReadOnly);
 	}
 
 

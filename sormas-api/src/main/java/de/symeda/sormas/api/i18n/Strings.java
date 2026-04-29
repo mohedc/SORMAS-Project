@@ -436,6 +436,7 @@ public interface Strings {
 	String headingAdditionalTests = "headingAdditionalTests";
 	String headingAdjustQuarantine = "headingAdjustQuarantine";
 	String headingAfpImmunization = "headingAfpImmunization";
+	String headingIndicate99 = "headingIndicate99";
 	String headingAefiAdverseEvents = "headingAefiAdverseEvents";
 	String headingAefiDashboardEpiCurve = "headingAefiDashboardEpiCurve";
 	String headingAefiDashboardMap = "headingAefiDashboardMap";
@@ -828,6 +829,7 @@ public interface Strings {
 	String headingReferSample = "headingReferSample";
 	String headingStoolSpecimenCollection = "headingStoolSpecimenCollection";
 	String headingStoolSpecimenResults = "headingStoolSpecimenResults";
+	String headingFinalLabResults = "headingFinalLabResults";
 	String headingFollowUpExamination = "headingFollowUpExamination";
 	String headingPersonCompleting = "headingPersonCompleting";
 	String headingMotherVaccination = "headingMotherVaccination";

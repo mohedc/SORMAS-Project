@@ -56,6 +56,7 @@ public class SampleDto extends SormasToSormasShareableDto implements IsSample {
 	public static final String LAB = "lab";
 	public static final String LAB_DETAILS = "labDetails";
 	public static final String SAMPLE_PURPOSE = "samplePurpose";
+	public static final String OUTSIDE_COUNTRY_NAME = "outsideCountryName";
 	public static final String SHIPMENT_DATE = "shipmentDate";
 	public static final String SHIPMENT_DETAILS = "shipmentDetails";
 	public static final String SENT_TO_IP_DAKAR = "sentToIpDakar";
@@ -352,26 +353,33 @@ public class SampleDto extends SormasToSormasShareableDto implements IsSample {
 		Disease.CSM })
 	private CsfAppearance csfAppearanceAtReception;
 	@Diseases(value = {
-		Disease.YELLOW_FEVER })
+		Disease.YELLOW_FEVER,
+	Disease.AFP})
 	private SimpleTestResultType elisaIgm;
 	@Diseases(value = {
-		Disease.YELLOW_FEVER })
+		Disease.YELLOW_FEVER,
+			Disease.AFP})
 	private Date elisaIgmDate;
 	@Diseases(value = {
-		Disease.YELLOW_FEVER })
+		Disease.YELLOW_FEVER,
+			Disease.AFP})
 	private PathogenTestResultType pcr;
 	@Diseases(value = {
-		Disease.YELLOW_FEVER })
+		Disease.YELLOW_FEVER,
+			Disease.AFP})
 	private Date pcrDate;
 	@Diseases(value = {
-		Disease.YELLOW_FEVER })
+		Disease.YELLOW_FEVER,
+			Disease.AFP})
 	private PathogenTestResultType prnt;
 	@Diseases(value = {
-		Disease.YELLOW_FEVER })
+		Disease.YELLOW_FEVER,
+			Disease.AFP})
 	@Size(max = FieldConstraints.CHARACTER_LIMIT_DEFAULT, message = Validations.textTooLong)
 	private String prntInputValue;
 	@Diseases(value = {
-		Disease.YELLOW_FEVER })
+		Disease.YELLOW_FEVER,
+			Disease.AFP})
 	private Date prntDate;
 	@Diseases(value = {
 		Disease.YELLOW_FEVER })
@@ -379,6 +387,10 @@ public class SampleDto extends SormasToSormasShareableDto implements IsSample {
 	@Diseases(value = {
 			Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS })
 	private Disease suspectedDisease;
+
+	@Diseases(value = {
+			Disease.AFP })
+	private String outsideCountryName;
 
 	@ImportIgnore
 	public CaseReferenceDto getAssociatedCase() {
@@ -1257,5 +1269,13 @@ public class SampleDto extends SormasToSormasShareableDto implements IsSample {
 
 	public void setSuspectedDisease(Disease suspectedDisease) {
 		this.suspectedDisease = suspectedDisease;
+	}
+
+	public String getOutsideCountryName() {
+		return outsideCountryName;
+	}
+
+	public void setOutsideCountryName(String outsideCountryName) {
+		this.outsideCountryName = outsideCountryName;
 	}
 }
