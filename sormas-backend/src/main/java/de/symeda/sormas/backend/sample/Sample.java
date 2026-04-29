@@ -128,6 +128,23 @@ public class Sample extends DeletableAdo implements IsSample, SormasToSormasShar
 	public static final String DATE_SPECIMEN_SENT_TO_LABORATORY_TYPE = "dateSpecimenSentToLaboratoryType";
 	public static final String PACKAGING = "packaging";
 	public static final String PACKAGING_OTHER = "packagingOther";
+	public static final String BARCODE = "barcode";
+	public static final String CSF_SAMPLE_COLLECTED = "csfSampleCollected";
+	public static final String LP_NOT_DONE_REASON = "lpNotDoneReason";
+	public static final String LP_NOT_DONE_REASON_OTHER = "lpNotDoneReasonOther";
+	public static final String TIME_OF_INOCULATION_INTO_TRANSPORT_MEDIA = "timeOfInoculationIntoTransportMedia";
+	public static final String SAMPLES_NOT_SENT_REASON = "samplesNotSentReason";
+	public static final String DATE_TIME_SAMPLE_SENT_TO_LAB = "dateTimeSampleSentToLab";
+	public static final String SAMPLE_CONTAINER_USED = "sampleContainerUsed";
+	public static final String SAMPLE_CONTAINER_USED_OTHER = "sampleContainerUsedOther";
+	public static final String MENINGITIS_RDT_PERFORMED = "meningitisRdtPerformed";
+	public static final String MENINGITIS_RDT_RESULT = "meningitisRdtResult";
+	public static final String LAB_NUMBER = "labNumber";
+	public static final String SAMPLE_CONTAINER_RECEIVED = "sampleContainerReceived";
+	public static final String SAMPLE_CONTAINER_RECEIVED_OTHER = "sampleContainerReceivedOther";
+	public static final String SAMPLE_CONDITION_AT_RECEPTION = "sampleConditionAtReception";
+	public static final String CSF_APPEARANCE_AT_COLLECTION = "csfAppearanceAtCollection";
+	public static final String CSF_APPEARANCE_AT_RECEPTION = "csfAppearanceAtReception";
 	public static final String DATE_RESULTS_SENT_TO_REFERRING_CLINICIAN = "dateResultsSentToReferringClinician";
 
 	private Case associatedCase;
@@ -203,6 +220,23 @@ public class Sample extends DeletableAdo implements IsSample, SormasToSormasShar
 	private Date dateSpecimenSentToLaboratoryType;
 	private Packaging packaging;
 	private String packagingOther;
+	private String barcode;
+	private YesNo csfSampleCollected;
+	private LpNotDoneReason lpNotDoneReason;
+	private String lpNotDoneReasonOther;
+	private Date timeOfInoculationIntoTransportMedia;
+	private String samplesNotSentReason;
+	private Date dateTimeSampleSentToLab;
+	private SampleContainerType sampleContainerUsed;
+	private String sampleContainerUsedOther;
+	private YesNo meningitisRdtPerformed;
+	private MeningitisRdtResult meningitisRdtResult;
+	private String labNumber;
+	private SampleContainerType sampleContainerReceived;
+	private String sampleContainerReceivedOther;
+	private SpecimenCondition sampleConditionAtReception;
+	private CsfAppearance csfAppearanceAtCollection;
+	private CsfAppearance csfAppearanceAtReception;
 	private SimpleTestResultType elisaIgm;
 	private Date elisaIgmDate;
 	private PathogenTestResultType pcr;
@@ -954,6 +988,159 @@ public class Sample extends DeletableAdo implements IsSample, SormasToSormasShar
 
 	public void setPackagingOther(String packagingOther) {
 		this.packagingOther = packagingOther;
+	}
+
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	public String getBarcode() {
+		return barcode;
+	}
+
+	public void setBarcode(String barcode) {
+		this.barcode = barcode;
+	}
+
+	@Enumerated(EnumType.STRING)
+	public YesNo getCsfSampleCollected() {
+		return csfSampleCollected;
+	}
+
+	public void setCsfSampleCollected(YesNo csfSampleCollected) {
+		this.csfSampleCollected = csfSampleCollected;
+	}
+
+	@Enumerated(EnumType.STRING)
+	public LpNotDoneReason getLpNotDoneReason() {
+		return lpNotDoneReason;
+	}
+
+	public void setLpNotDoneReason(LpNotDoneReason lpNotDoneReason) {
+		this.lpNotDoneReason = lpNotDoneReason;
+	}
+
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	public String getLpNotDoneReasonOther() {
+		return lpNotDoneReasonOther;
+	}
+
+	public void setLpNotDoneReasonOther(String lpNotDoneReasonOther) {
+		this.lpNotDoneReasonOther = lpNotDoneReasonOther;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getTimeOfInoculationIntoTransportMedia() {
+		return timeOfInoculationIntoTransportMedia;
+	}
+
+	public void setTimeOfInoculationIntoTransportMedia(Date timeOfInoculationIntoTransportMedia) {
+		this.timeOfInoculationIntoTransportMedia = timeOfInoculationIntoTransportMedia;
+	}
+
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	public String getSamplesNotSentReason() {
+		return samplesNotSentReason;
+	}
+
+	public void setSamplesNotSentReason(String samplesNotSentReason) {
+		this.samplesNotSentReason = samplesNotSentReason;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getDateTimeSampleSentToLab() {
+		return dateTimeSampleSentToLab;
+	}
+
+	public void setDateTimeSampleSentToLab(Date dateTimeSampleSentToLab) {
+		this.dateTimeSampleSentToLab = dateTimeSampleSentToLab;
+	}
+
+	@Enumerated(EnumType.STRING)
+	public SampleContainerType getSampleContainerUsed() {
+		return sampleContainerUsed;
+	}
+
+	public void setSampleContainerUsed(SampleContainerType sampleContainerUsed) {
+		this.sampleContainerUsed = sampleContainerUsed;
+	}
+
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	public String getSampleContainerUsedOther() {
+		return sampleContainerUsedOther;
+	}
+
+	public void setSampleContainerUsedOther(String sampleContainerUsedOther) {
+		this.sampleContainerUsedOther = sampleContainerUsedOther;
+	}
+
+	@Enumerated(EnumType.STRING)
+	public YesNo getMeningitisRdtPerformed() {
+		return meningitisRdtPerformed;
+	}
+
+	public void setMeningitisRdtPerformed(YesNo meningitisRdtPerformed) {
+		this.meningitisRdtPerformed = meningitisRdtPerformed;
+	}
+
+	@Enumerated(EnumType.STRING)
+	public MeningitisRdtResult getMeningitisRdtResult() {
+		return meningitisRdtResult;
+	}
+
+	public void setMeningitisRdtResult(MeningitisRdtResult meningitisRdtResult) {
+		this.meningitisRdtResult = meningitisRdtResult;
+	}
+
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	public String getLabNumber() {
+		return labNumber;
+	}
+
+	public void setLabNumber(String labNumber) {
+		this.labNumber = labNumber;
+	}
+
+	@Enumerated(EnumType.STRING)
+	public SampleContainerType getSampleContainerReceived() {
+		return sampleContainerReceived;
+	}
+
+	public void setSampleContainerReceived(SampleContainerType sampleContainerReceived) {
+		this.sampleContainerReceived = sampleContainerReceived;
+	}
+
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	public String getSampleContainerReceivedOther() {
+		return sampleContainerReceivedOther;
+	}
+
+	public void setSampleContainerReceivedOther(String sampleContainerReceivedOther) {
+		this.sampleContainerReceivedOther = sampleContainerReceivedOther;
+	}
+
+	@Enumerated(EnumType.STRING)
+	public SpecimenCondition getSampleConditionAtReception() {
+		return sampleConditionAtReception;
+	}
+
+	public void setSampleConditionAtReception(SpecimenCondition sampleConditionAtReception) {
+		this.sampleConditionAtReception = sampleConditionAtReception;
+	}
+
+	@Enumerated(EnumType.STRING)
+	public CsfAppearance getCsfAppearanceAtCollection() {
+		return csfAppearanceAtCollection;
+	}
+
+	public void setCsfAppearanceAtCollection(CsfAppearance csfAppearanceAtCollection) {
+		this.csfAppearanceAtCollection = csfAppearanceAtCollection;
+	}
+
+	@Enumerated(EnumType.STRING)
+	public CsfAppearance getCsfAppearanceAtReception() {
+		return csfAppearanceAtReception;
+	}
+
+	public void setCsfAppearanceAtReception(CsfAppearance csfAppearanceAtReception) {
+		this.csfAppearanceAtReception = csfAppearanceAtReception;
 	}
 
 	@Enumerated(EnumType.STRING)

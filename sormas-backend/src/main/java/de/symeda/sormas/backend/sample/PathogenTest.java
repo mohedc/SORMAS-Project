@@ -24,7 +24,9 @@ import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -32,6 +34,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.UniqueConstraint;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
@@ -127,6 +130,9 @@ public class PathogenTest extends DeletableAdo {
 	public static final String OTHER_TESTS_PENDING_SPECIFY = "otherTestsPendingSpecify";
 	public static final String DATE_RESULTS_SENT_TO_REFERENCE_LABORATORY = "dateResultsSentToReferenceLaboratory";
 	public static final String REFERENCE_LABORATORY = "referenceLaboratory";
+	public static final String SELECTED_PATHOGEN_TEST_TYPES = "selectedPathogenTestTypes";
+	public static final String CULTURE_FINDINGS = "cultureFindings";
+	public static final String PCR_FINDINGS = "pcrFindings";
 
 	private Sample sample;
 	private EnvironmentSample environmentSample;
@@ -209,6 +215,44 @@ public class PathogenTest extends DeletableAdo {
 	private String otherTestsPendingSpecify;
 	private Date dateResultsSentToReferenceLaboratory;
 	private Facility referenceLaboratory;
+	private Set<PathogenTestType> selectedPathogenTestTypes;
+	private Set<CulturePcrFinding> cultureFindings;
+	private Set<CulturePcrFinding> pcrFindings;
+	private String cultureOtherGermsSpecify;
+	private String pcrOtherGermsSpecify;
+	private String cellCountLeucocytesPerMm3;
+	private String csfGlucose;
+	private String csfProtein;
+	private Boolean gramStainGpd;
+	private Boolean gramStainGnd;
+	private Boolean gramStainGpb;
+	private Boolean gramStainGnb;
+	private Boolean gramStainOtherPathogens;
+	private String gramStainOtherPathogensSpecify;
+	private Boolean gramStainNoOrganismSeen;
+	private Boolean latexNmA;
+	private Boolean latexNmC;
+	private Boolean latexNmWY;
+	private Boolean latexNmBEcoliKi;
+	private Boolean latexSPneumoniae;
+	private Boolean latexHib;
+	private Boolean latexStrepB;
+	private Boolean latexNegative;
+	private YesNo rdtDipstickPerformed;
+	private String rdtDipstickResults;
+	private AntimicrobialSusceptibility ceftriaxoneSusceptibility;
+	private AntimicrobialSusceptibility ampicillinSusceptibility;
+	private AntimicrobialSusceptibility gentamycinSusceptibility;
+	private AntimicrobialSusceptibility oxacillinSusceptibility;
+	private AntimicrobialSusceptibility chloramphenicolSusceptibility;
+	private AntimicrobialSusceptibility benzylPenicillinSusceptibility;
+	private String otherAntimicrobialDrugName;
+	private AntimicrobialSusceptibility otherAntimicrobialSusceptibility;
+	private Date datePcrPerformed;
+	private String pcrTypeText;
+	private String pcrSerotype;
+	private String otherTestTypeSpecify;
+	private String otherTestResults;
 	private YesNo viralDetection;
 	private ViralDetectionTestType viralDetectionTestType;
 	private PathogenTestResultType viralDetectionResults;
@@ -968,6 +1012,381 @@ public class PathogenTest extends DeletableAdo {
 	public void setReferenceLaboratory(Facility referenceLaboratory) {
 		this.referenceLaboratory = referenceLaboratory;
 	}
+
+	@ElementCollection(fetch = FetchType.LAZY)
+	@CollectionTable(
+		name = "pathogentest_selectedpathogentesttypes",
+		joinColumns = @JoinColumn(name = "pathogentest_id", referencedColumnName = "id", nullable = false),
+		uniqueConstraints = @UniqueConstraint(columnNames = {
+			"pathogentest_id",
+			"testtype" }))
+	@Column(name = "testtype", nullable = false, length = CHARACTER_LIMIT_DEFAULT)
+	@Enumerated(EnumType.STRING)
+	public Set<PathogenTestType> getSelectedPathogenTestTypes() {
+		return selectedPathogenTestTypes;
+	}
+
+	public void setSelectedPathogenTestTypes(Set<PathogenTestType> selectedPathogenTestTypes) {
+		this.selectedPathogenTestTypes = selectedPathogenTestTypes;
+	}
+
+	@ElementCollection(fetch = FetchType.LAZY)
+	@CollectionTable(
+		name = "pathogentest_culturefindings",
+		joinColumns = @JoinColumn(name = "pathogentest_id", referencedColumnName = "id", nullable = false),
+		uniqueConstraints = @UniqueConstraint(columnNames = {
+			"pathogentest_id",
+			"finding" }))
+	@Column(name = "finding", nullable = false, length = CHARACTER_LIMIT_DEFAULT)
+	@Enumerated(EnumType.STRING)
+	public Set<CulturePcrFinding> getCultureFindings() {
+		return cultureFindings;
+	}
+
+	public void setCultureFindings(Set<CulturePcrFinding> cultureFindings) {
+		this.cultureFindings = cultureFindings;
+	}
+
+	@ElementCollection(fetch = FetchType.LAZY)
+	@CollectionTable(
+		name = "pathogentest_pcrfindings",
+		joinColumns = @JoinColumn(name = "pathogentest_id", referencedColumnName = "id", nullable = false),
+		uniqueConstraints = @UniqueConstraint(columnNames = {
+			"pathogentest_id",
+			"finding" }))
+	@Column(name = "finding", nullable = false, length = CHARACTER_LIMIT_DEFAULT)
+	@Enumerated(EnumType.STRING)
+	public Set<CulturePcrFinding> getPcrFindings() {
+		return pcrFindings;
+	}
+
+	public void setPcrFindings(Set<CulturePcrFinding> pcrFindings) {
+		this.pcrFindings = pcrFindings;
+	}
+
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	public String getCultureOtherGermsSpecify() {
+		return cultureOtherGermsSpecify;
+	}
+
+	public void setCultureOtherGermsSpecify(String cultureOtherGermsSpecify) {
+		this.cultureOtherGermsSpecify = cultureOtherGermsSpecify;
+	}
+
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	public String getPcrOtherGermsSpecify() {
+		return pcrOtherGermsSpecify;
+	}
+
+	public void setPcrOtherGermsSpecify(String pcrOtherGermsSpecify) {
+		this.pcrOtherGermsSpecify = pcrOtherGermsSpecify;
+	}
+
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	public String getCellCountLeucocytesPerMm3() {
+		return cellCountLeucocytesPerMm3;
+	}
+
+	public void setCellCountLeucocytesPerMm3(String cellCountLeucocytesPerMm3) {
+		this.cellCountLeucocytesPerMm3 = cellCountLeucocytesPerMm3;
+	}
+
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	public String getCsfGlucose() {
+		return csfGlucose;
+	}
+
+	public void setCsfGlucose(String csfGlucose) {
+		this.csfGlucose = csfGlucose;
+	}
+
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	public String getCsfProtein() {
+		return csfProtein;
+	}
+
+	public void setCsfProtein(String csfProtein) {
+		this.csfProtein = csfProtein;
+	}
+
+	@Column
+	public Boolean getGramStainGpd() {
+		return gramStainGpd;
+	}
+
+	public void setGramStainGpd(Boolean gramStainGpd) {
+		this.gramStainGpd = gramStainGpd;
+	}
+
+	@Column
+	public Boolean getGramStainGnd() {
+		return gramStainGnd;
+	}
+
+	public void setGramStainGnd(Boolean gramStainGnd) {
+		this.gramStainGnd = gramStainGnd;
+	}
+
+	@Column
+	public Boolean getGramStainGpb() {
+		return gramStainGpb;
+	}
+
+	public void setGramStainGpb(Boolean gramStainGpb) {
+		this.gramStainGpb = gramStainGpb;
+	}
+
+	@Column
+	public Boolean getGramStainGnb() {
+		return gramStainGnb;
+	}
+
+	public void setGramStainGnb(Boolean gramStainGnb) {
+		this.gramStainGnb = gramStainGnb;
+	}
+
+	@Column
+	public Boolean getGramStainOtherPathogens() {
+		return gramStainOtherPathogens;
+	}
+
+	public void setGramStainOtherPathogens(Boolean gramStainOtherPathogens) {
+		this.gramStainOtherPathogens = gramStainOtherPathogens;
+	}
+
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	public String getGramStainOtherPathogensSpecify() {
+		return gramStainOtherPathogensSpecify;
+	}
+
+	public void setGramStainOtherPathogensSpecify(String gramStainOtherPathogensSpecify) {
+		this.gramStainOtherPathogensSpecify = gramStainOtherPathogensSpecify;
+	}
+
+	@Column
+	public Boolean getGramStainNoOrganismSeen() {
+		return gramStainNoOrganismSeen;
+	}
+
+	public void setGramStainNoOrganismSeen(Boolean gramStainNoOrganismSeen) {
+		this.gramStainNoOrganismSeen = gramStainNoOrganismSeen;
+	}
+
+	@Column
+	public Boolean getLatexNmA() {
+		return latexNmA;
+	}
+
+	public void setLatexNmA(Boolean latexNmA) {
+		this.latexNmA = latexNmA;
+	}
+
+	@Column
+	public Boolean getLatexNmC() {
+		return latexNmC;
+	}
+
+	public void setLatexNmC(Boolean latexNmC) {
+		this.latexNmC = latexNmC;
+	}
+
+	@Column
+	public Boolean getLatexNmWY() {
+		return latexNmWY;
+	}
+
+	public void setLatexNmWY(Boolean latexNmWY) {
+		this.latexNmWY = latexNmWY;
+	}
+
+	@Column
+	public Boolean getLatexNmBEcoliKi() {
+		return latexNmBEcoliKi;
+	}
+
+	public void setLatexNmBEcoliKi(Boolean latexNmBEcoliKi) {
+		this.latexNmBEcoliKi = latexNmBEcoliKi;
+	}
+
+	@Column
+	public Boolean getLatexSPneumoniae() {
+		return latexSPneumoniae;
+	}
+
+	public void setLatexSPneumoniae(Boolean latexSPneumoniae) {
+		this.latexSPneumoniae = latexSPneumoniae;
+	}
+
+	@Column
+	public Boolean getLatexHib() {
+		return latexHib;
+	}
+
+	public void setLatexHib(Boolean latexHib) {
+		this.latexHib = latexHib;
+	}
+
+	@Column
+	public Boolean getLatexStrepB() {
+		return latexStrepB;
+	}
+
+	public void setLatexStrepB(Boolean latexStrepB) {
+		this.latexStrepB = latexStrepB;
+	}
+
+	@Column
+	public Boolean getLatexNegative() {
+		return latexNegative;
+	}
+
+	public void setLatexNegative(Boolean latexNegative) {
+		this.latexNegative = latexNegative;
+	}
+
+	@Enumerated(EnumType.STRING)
+	@Column
+	public YesNo getRdtDipstickPerformed() {
+		return rdtDipstickPerformed;
+	}
+
+	public void setRdtDipstickPerformed(YesNo rdtDipstickPerformed) {
+		this.rdtDipstickPerformed = rdtDipstickPerformed;
+	}
+
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	public String getRdtDipstickResults() {
+		return rdtDipstickResults;
+	}
+
+	public void setRdtDipstickResults(String rdtDipstickResults) {
+		this.rdtDipstickResults = rdtDipstickResults;
+	}
+
+	@Enumerated(EnumType.STRING)
+	@Column
+	public AntimicrobialSusceptibility getCeftriaxoneSusceptibility() {
+		return ceftriaxoneSusceptibility;
+	}
+
+	public void setCeftriaxoneSusceptibility(AntimicrobialSusceptibility ceftriaxoneSusceptibility) {
+		this.ceftriaxoneSusceptibility = ceftriaxoneSusceptibility;
+	}
+
+	@Enumerated(EnumType.STRING)
+	@Column
+	public AntimicrobialSusceptibility getAmpicillinSusceptibility() {
+		return ampicillinSusceptibility;
+	}
+
+	public void setAmpicillinSusceptibility(AntimicrobialSusceptibility ampicillinSusceptibility) {
+		this.ampicillinSusceptibility = ampicillinSusceptibility;
+	}
+
+	@Enumerated(EnumType.STRING)
+	@Column
+	public AntimicrobialSusceptibility getGentamycinSusceptibility() {
+		return gentamycinSusceptibility;
+	}
+
+	public void setGentamycinSusceptibility(AntimicrobialSusceptibility gentamycinSusceptibility) {
+		this.gentamycinSusceptibility = gentamycinSusceptibility;
+	}
+
+	@Enumerated(EnumType.STRING)
+	@Column
+	public AntimicrobialSusceptibility getOxacillinSusceptibility() {
+		return oxacillinSusceptibility;
+	}
+
+	public void setOxacillinSusceptibility(AntimicrobialSusceptibility oxacillinSusceptibility) {
+		this.oxacillinSusceptibility = oxacillinSusceptibility;
+	}
+
+	@Enumerated(EnumType.STRING)
+	@Column
+	public AntimicrobialSusceptibility getChloramphenicolSusceptibility() {
+		return chloramphenicolSusceptibility;
+	}
+
+	public void setChloramphenicolSusceptibility(AntimicrobialSusceptibility chloramphenicolSusceptibility) {
+		this.chloramphenicolSusceptibility = chloramphenicolSusceptibility;
+	}
+
+	@Enumerated(EnumType.STRING)
+	@Column
+	public AntimicrobialSusceptibility getBenzylPenicillinSusceptibility() {
+		return benzylPenicillinSusceptibility;
+	}
+
+	public void setBenzylPenicillinSusceptibility(AntimicrobialSusceptibility benzylPenicillinSusceptibility) {
+		this.benzylPenicillinSusceptibility = benzylPenicillinSusceptibility;
+	}
+
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	public String getOtherAntimicrobialDrugName() {
+		return otherAntimicrobialDrugName;
+	}
+
+	public void setOtherAntimicrobialDrugName(String otherAntimicrobialDrugName) {
+		this.otherAntimicrobialDrugName = otherAntimicrobialDrugName;
+	}
+
+	@Enumerated(EnumType.STRING)
+	@Column
+	public AntimicrobialSusceptibility getOtherAntimicrobialSusceptibility() {
+		return otherAntimicrobialSusceptibility;
+	}
+
+	public void setOtherAntimicrobialSusceptibility(AntimicrobialSusceptibility otherAntimicrobialSusceptibility) {
+		this.otherAntimicrobialSusceptibility = otherAntimicrobialSusceptibility;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getDatePcrPerformed() {
+		return datePcrPerformed;
+	}
+
+	public void setDatePcrPerformed(Date datePcrPerformed) {
+		this.datePcrPerformed = datePcrPerformed;
+	}
+
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	public String getPcrTypeText() {
+		return pcrTypeText;
+	}
+
+	public void setPcrTypeText(String pcrTypeText) {
+		this.pcrTypeText = pcrTypeText;
+	}
+
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	public String getPcrSerotype() {
+		return pcrSerotype;
+	}
+
+	public void setPcrSerotype(String pcrSerotype) {
+		this.pcrSerotype = pcrSerotype;
+	}
+
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	public String getOtherTestTypeSpecify() {
+		return otherTestTypeSpecify;
+	}
+
+	public void setOtherTestTypeSpecify(String otherTestTypeSpecify) {
+		this.otherTestTypeSpecify = otherTestTypeSpecify;
+	}
+
+	@Column(columnDefinition = "text")
+	public String getOtherTestResults() {
+		return otherTestResults;
+	}
+
+	public void setOtherTestResults(String otherTestResults) {
+		this.otherTestResults = otherTestResults;
+	}
+
 	@Enumerated(EnumType.STRING)
 	@Column
 	public YesNo getViralDetection() {

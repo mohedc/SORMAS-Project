@@ -15346,7 +15346,7 @@ ALTER TABLE cases ADD COLUMN IF NOT EXISTS menaconjunate varchar(255);
 ALTER TABLE cases ADD COLUMN IF NOT EXISTS menaconjunatedate timestamp;
 ALTER TABLE cases ADD COLUMN IF NOT EXISTS pcvi3i varchar(255);
 ALTER TABLE cases ADD COLUMN IF NOT EXISTS pcvi3idate timestamp;
-ALTER TABLE cases ADD COLUMN IF NOT EXISTS pvi3_2 varchar(255);
+ALTER TABLE cases ADD COLUMN IF NOT EXISTS pcvi3_2 varchar(255);
 ALTER TABLE cases ADD COLUMN IF NOT EXISTS pcvi3_2date timestamp;
 ALTER TABLE cases ADD COLUMN IF NOT EXISTS pcv13_3 varchar(255);
 ALTER TABLE cases ADD COLUMN IF NOT EXISTS pcv13_3date timestamp;
@@ -15408,8 +15408,143 @@ ALTER TABLE person_history ADD COLUMN IF NOT EXISTS caregivername varchar(255);
 
 INSERT INTO schema_version (version_number, comment) VALUES (658, 'Add meningitis parent and caregiver contact fields to person');
 
+-- Migration 659: Dedicated meningitis sample workflow fields
+ALTER TABLE samples ADD COLUMN IF NOT EXISTS barcode varchar(255);
+ALTER TABLE samples ADD COLUMN IF NOT EXISTS csfsamplecollected varchar(255);
+ALTER TABLE samples ADD COLUMN IF NOT EXISTS lpnotdonereason varchar(255);
+ALTER TABLE samples ADD COLUMN IF NOT EXISTS lpnotdonereasonother varchar(255);
+ALTER TABLE samples ADD COLUMN IF NOT EXISTS timeofinoculationintotransportmedia timestamp;
+ALTER TABLE samples ADD COLUMN IF NOT EXISTS samplesnotsentreason varchar(255);
+ALTER TABLE samples ADD COLUMN IF NOT EXISTS datetimesamplesenttolab timestamp;
+ALTER TABLE samples ADD COLUMN IF NOT EXISTS samplecontainerused varchar(255);
+ALTER TABLE samples ADD COLUMN IF NOT EXISTS samplecontainerusedother varchar(255);
+ALTER TABLE samples ADD COLUMN IF NOT EXISTS meningitisrdtperformed varchar(255);
+ALTER TABLE samples ADD COLUMN IF NOT EXISTS meningitisrdtresult varchar(255);
+ALTER TABLE samples ADD COLUMN IF NOT EXISTS labnumber varchar(255);
+ALTER TABLE samples ADD COLUMN IF NOT EXISTS samplecontainerreceived varchar(255);
+ALTER TABLE samples ADD COLUMN IF NOT EXISTS samplecontainerreceivedother varchar(255);
+ALTER TABLE samples ADD COLUMN IF NOT EXISTS sampleconditionatreception varchar(255);
+ALTER TABLE samples ADD COLUMN IF NOT EXISTS csfappearanceatcollection varchar(255);
+ALTER TABLE samples ADD COLUMN IF NOT EXISTS csfappearanceatreception varchar(255);
+
+ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS barcode varchar(255);
+ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS csfsamplecollected varchar(255);
+ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS lpnotdonereason varchar(255);
+ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS lpnotdonereasonother varchar(255);
+ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS timeofinoculationintotransportmedia timestamp;
+ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS samplesnotsentreason varchar(255);
+ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS datetimesamplesenttolab timestamp;
+ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS samplecontainerused varchar(255);
+ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS samplecontainerusedother varchar(255);
+ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS meningitisrdtperformed varchar(255);
+ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS meningitisrdtresult varchar(255);
+ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS labnumber varchar(255);
+ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS samplecontainerreceived varchar(255);
+ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS samplecontainerreceivedother varchar(255);
+ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS sampleconditionatreception varchar(255);
+ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS csfappearanceatcollection varchar(255);
+ALTER TABLE samples_history ADD COLUMN IF NOT EXISTS csfappearanceatreception varchar(255);
+
+INSERT INTO schema_version (version_number, comment) VALUES (659, 'Add dedicated meningitis sample workflow fields');
+
+-- Migration 660: CSM pathogen test multi-select pathogen test types and laboratory detail fields
+CREATE TABLE IF NOT EXISTS pathogentest_selectedpathogentesttypes (
+    pathogentest_id bigint NOT NULL,
+    testtype varchar(255) NOT NULL,
+    CONSTRAINT pk_pathogentest_selectedpathogentesttypes PRIMARY KEY (pathogentest_id, testtype),
+    CONSTRAINT fk_pathogentest_selectedpathogentesttypes_pathogentest FOREIGN KEY (pathogentest_id) REFERENCES pathogentest(id)
+);
+
+CREATE TABLE IF NOT EXISTS pathogentest_culturefindings (
+    pathogentest_id bigint NOT NULL,
+    finding varchar(255) NOT NULL,
+    CONSTRAINT pk_pathogentest_culturefindings PRIMARY KEY (pathogentest_id, finding),
+    CONSTRAINT fk_pathogentest_culturefindings_pathogentest FOREIGN KEY (pathogentest_id) REFERENCES pathogentest(id)
+);
+
+CREATE TABLE IF NOT EXISTS pathogentest_pcrfindings (
+    pathogentest_id bigint NOT NULL,
+    finding varchar(255) NOT NULL,
+    CONSTRAINT pk_pathogentest_pcrfindings PRIMARY KEY (pathogentest_id, finding),
+    CONSTRAINT fk_pathogentest_pcrfindings_pathogentest FOREIGN KEY (pathogentest_id) REFERENCES pathogentest(id)
+);
+
+ALTER TABLE pathogentest ADD COLUMN IF NOT EXISTS cultureothergermspecify varchar(255);
+ALTER TABLE pathogentest ADD COLUMN IF NOT EXISTS pcrothergermspecify varchar(255);
+ALTER TABLE pathogentest ADD COLUMN IF NOT EXISTS cellcountleucocytespermm3 varchar(255);
+ALTER TABLE pathogentest ADD COLUMN IF NOT EXISTS csfglucose varchar(255);
+ALTER TABLE pathogentest ADD COLUMN IF NOT EXISTS csfprotein varchar(255);
+ALTER TABLE pathogentest ADD COLUMN IF NOT EXISTS gramstaingpd boolean;
+ALTER TABLE pathogentest ADD COLUMN IF NOT EXISTS gramstaingnd boolean;
+ALTER TABLE pathogentest ADD COLUMN IF NOT EXISTS gramstaingpb boolean;
+ALTER TABLE pathogentest ADD COLUMN IF NOT EXISTS gramstaingnb boolean;
+ALTER TABLE pathogentest ADD COLUMN IF NOT EXISTS gramstainotherpathogens boolean;
+ALTER TABLE pathogentest ADD COLUMN IF NOT EXISTS gramstainotherpathogensspecify varchar(255);
+ALTER TABLE pathogentest ADD COLUMN IF NOT EXISTS gramstainnoorganismseen boolean;
+ALTER TABLE pathogentest ADD COLUMN IF NOT EXISTS latexnma boolean;
+ALTER TABLE pathogentest ADD COLUMN IF NOT EXISTS latexnmc boolean;
+ALTER TABLE pathogentest ADD COLUMN IF NOT EXISTS latexnmwy boolean;
+ALTER TABLE pathogentest ADD COLUMN IF NOT EXISTS latexnmbecoliki boolean;
+ALTER TABLE pathogentest ADD COLUMN IF NOT EXISTS latexspneumoniae boolean;
+ALTER TABLE pathogentest ADD COLUMN IF NOT EXISTS latexhib boolean;
+ALTER TABLE pathogentest ADD COLUMN IF NOT EXISTS latexstrepb boolean;
+ALTER TABLE pathogentest ADD COLUMN IF NOT EXISTS latexnegative boolean;
+ALTER TABLE pathogentest ADD COLUMN IF NOT EXISTS rdtdipstickperformed varchar(255);
+ALTER TABLE pathogentest ADD COLUMN IF NOT EXISTS rdtdipstickresults varchar(255);
+ALTER TABLE pathogentest ADD COLUMN IF NOT EXISTS ceftriaxonesusceptibility varchar(255);
+ALTER TABLE pathogentest ADD COLUMN IF NOT EXISTS ampicillinsusceptibility varchar(255);
+ALTER TABLE pathogentest ADD COLUMN IF NOT EXISTS gentamycinsusceptibility varchar(255);
+ALTER TABLE pathogentest ADD COLUMN IF NOT EXISTS oxacillinsusceptibility varchar(255);
+ALTER TABLE pathogentest ADD COLUMN IF NOT EXISTS chloramphenicolsusceptibility varchar(255);
+ALTER TABLE pathogentest ADD COLUMN IF NOT EXISTS benzylpenicillinsusceptibility varchar(255);
+ALTER TABLE pathogentest ADD COLUMN IF NOT EXISTS otherantimicrobialdrugname varchar(255);
+ALTER TABLE pathogentest ADD COLUMN IF NOT EXISTS otherantimicrobialsusceptibility varchar(255);
+ALTER TABLE pathogentest ADD COLUMN IF NOT EXISTS datepcrperformed timestamp;
+ALTER TABLE pathogentest ADD COLUMN IF NOT EXISTS pcrtypetext varchar(255);
+ALTER TABLE pathogentest ADD COLUMN IF NOT EXISTS pcrserotype varchar(255);
+ALTER TABLE pathogentest ADD COLUMN IF NOT EXISTS othertesttypespecify varchar(255);
+ALTER TABLE pathogentest ADD COLUMN IF NOT EXISTS othertestresults text;
+
+ALTER TABLE pathogentest_history ADD COLUMN IF NOT EXISTS cultureothergermspecify varchar(255);
+ALTER TABLE pathogentest_history ADD COLUMN IF NOT EXISTS pcrothergermspecify varchar(255);
+ALTER TABLE pathogentest_history ADD COLUMN IF NOT EXISTS cellcountleucocytespermm3 varchar(255);
+ALTER TABLE pathogentest_history ADD COLUMN IF NOT EXISTS csfglucose varchar(255);
+ALTER TABLE pathogentest_history ADD COLUMN IF NOT EXISTS csfprotein varchar(255);
+ALTER TABLE pathogentest_history ADD COLUMN IF NOT EXISTS gramstaingpd boolean;
+ALTER TABLE pathogentest_history ADD COLUMN IF NOT EXISTS gramstaingnd boolean;
+ALTER TABLE pathogentest_history ADD COLUMN IF NOT EXISTS gramstaingpb boolean;
+ALTER TABLE pathogentest_history ADD COLUMN IF NOT EXISTS gramstaingnb boolean;
+ALTER TABLE pathogentest_history ADD COLUMN IF NOT EXISTS gramstainotherpathogens boolean;
+ALTER TABLE pathogentest_history ADD COLUMN IF NOT EXISTS gramstainotherpathogensspecify varchar(255);
+ALTER TABLE pathogentest_history ADD COLUMN IF NOT EXISTS gramstainnoorganismseen boolean;
+ALTER TABLE pathogentest_history ADD COLUMN IF NOT EXISTS latexnma boolean;
+ALTER TABLE pathogentest_history ADD COLUMN IF NOT EXISTS latexnmc boolean;
+ALTER TABLE pathogentest_history ADD COLUMN IF NOT EXISTS latexnmwy boolean;
+ALTER TABLE pathogentest_history ADD COLUMN IF NOT EXISTS latexnmbecoliki boolean;
+ALTER TABLE pathogentest_history ADD COLUMN IF NOT EXISTS latexspneumoniae boolean;
+ALTER TABLE pathogentest_history ADD COLUMN IF NOT EXISTS latexhib boolean;
+ALTER TABLE pathogentest_history ADD COLUMN IF NOT EXISTS latexstrepb boolean;
+ALTER TABLE pathogentest_history ADD COLUMN IF NOT EXISTS latexnegative boolean;
+ALTER TABLE pathogentest_history ADD COLUMN IF NOT EXISTS rdtdipstickperformed varchar(255);
+ALTER TABLE pathogentest_history ADD COLUMN IF NOT EXISTS rdtdipstickresults varchar(255);
+ALTER TABLE pathogentest_history ADD COLUMN IF NOT EXISTS ceftriaxonesusceptibility varchar(255);
+ALTER TABLE pathogentest_history ADD COLUMN IF NOT EXISTS ampicillinsusceptibility varchar(255);
+ALTER TABLE pathogentest_history ADD COLUMN IF NOT EXISTS gentamycinsusceptibility varchar(255);
+ALTER TABLE pathogentest_history ADD COLUMN IF NOT EXISTS oxacillinsusceptibility varchar(255);
+ALTER TABLE pathogentest_history ADD COLUMN IF NOT EXISTS chloramphenicolsusceptibility varchar(255);
+ALTER TABLE pathogentest_history ADD COLUMN IF NOT EXISTS benzylpenicillinsusceptibility varchar(255);
+ALTER TABLE pathogentest_history ADD COLUMN IF NOT EXISTS otherantimicrobialdrugname varchar(255);
+ALTER TABLE pathogentest_history ADD COLUMN IF NOT EXISTS otherantimicrobialsusceptibility varchar(255);
+ALTER TABLE pathogentest_history ADD COLUMN IF NOT EXISTS datepcrperformed timestamp;
+ALTER TABLE pathogentest_history ADD COLUMN IF NOT EXISTS pcrtypetext varchar(255);
+ALTER TABLE pathogentest_history ADD COLUMN IF NOT EXISTS pcrserotype varchar(255);
+ALTER TABLE pathogentest_history ADD COLUMN IF NOT EXISTS othertesttypespecify varchar(255);
+ALTER TABLE pathogentest_history ADD COLUMN IF NOT EXISTS othertestresults text;
+
+INSERT INTO schema_version (version_number, comment) VALUES (660, 'CSM pathogen test selected types, join tables, and laboratory detail fields');
+
 ALTER TABLE samples ADD COLUMN outsidecountryname varchar(255);
-INSERT INTO schema_version (version_number, comment) VALUES (659, 'Add outsidecountryname to samples');
+INSERT INTO schema_version (version_number, comment) VALUES (661, 'Add outsidecountryname to samples');
 
 UPDATE pathogentest SET w1 = 'POSITIVE' WHERE w1 = 'YES';
 UPDATE pathogentest SET w1 = 'NEGATIVE' WHERE w1 = 'NO';
@@ -15429,15 +15564,14 @@ UPDATE pathogentest SET sl2 = 'NEGATIVE' WHERE sl2 = 'NO';
 UPDATE pathogentest SET sl3 = 'POSITIVE' WHERE sl3 = 'YES';
 UPDATE pathogentest SET sl3 = 'NEGATIVE' WHERE sl3 = 'NO';
 
-INSERT INTO schema_version (version_number, comment) VALUES (660, 'Migrated AFP TAIR W and SL results from Yes/No to Positive/Negative');
+INSERT INTO schema_version (version_number, comment) VALUES (662, 'Migrated AFP TAIR W and SL results from Yes/No to Positive/Negative');
 
 ALTER TABLE pathogentest ADD COLUMN discordantsabin varchar(255);
 ALTER TABLE pathogentest DROP COLUMN sabintype1;
 ALTER TABLE pathogentest DROP COLUMN sabintype2;
 ALTER TABLE pathogentest DROP COLUMN sabintype3;
 
-INSERT INTO schema_version (version_number, comment) VALUES (661, 'Dropped initial sabintype single columns and added one column at pathogentest');
-
+INSERT INTO schema_version (version_number, comment) VALUES (663, 'Dropped initial sabintype single columns and added one column at pathogentest');
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***
 
 

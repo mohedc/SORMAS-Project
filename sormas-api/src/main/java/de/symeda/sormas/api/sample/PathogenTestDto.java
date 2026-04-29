@@ -133,6 +133,44 @@ public class PathogenTestDto extends PseudonymizableDto {
 	public static final String OTHER_TESTS_PENDING_SPECIFY = "otherTestsPendingSpecify";
 	public static final String DATE_RESULTS_SENT_TO_REFERENCE_LABORATORY = "dateResultsSentToReferenceLaboratory";
 	public static final String REFERENCE_LABORATORY = "referenceLaboratory";
+	public static final String SELECTED_PATHOGEN_TEST_TYPES = "selectedPathogenTestTypes";
+	public static final String CULTURE_FINDINGS = "cultureFindings";
+	public static final String PCR_FINDINGS = "pcrFindings";
+	public static final String CULTURE_OTHER_GERMS_SPECIFY = "cultureOtherGermsSpecify";
+	public static final String PCR_OTHER_GERMS_SPECIFY = "pcrOtherGermsSpecify";
+	public static final String CELL_COUNT_LEUCOCYTES_PER_MM3 = "cellCountLeucocytesPerMm3";
+	public static final String CSF_GLUCOSE = "csfGlucose";
+	public static final String CSF_PROTEIN = "csfProtein";
+	public static final String GRAM_STAIN_GPD = "gramStainGpd";
+	public static final String GRAM_STAIN_GND = "gramStainGnd";
+	public static final String GRAM_STAIN_GPB = "gramStainGpb";
+	public static final String GRAM_STAIN_GNB = "gramStainGnb";
+	public static final String GRAM_STAIN_OTHER_PATHOGENS = "gramStainOtherPathogens";
+	public static final String GRAM_STAIN_OTHER_PATHOGENS_SPECIFY = "gramStainOtherPathogensSpecify";
+	public static final String GRAM_STAIN_NO_ORGANISM_SEEN = "gramStainNoOrganismSeen";
+	public static final String LATEX_NMA = "latexNmA";
+	public static final String LATEX_NMC = "latexNmC";
+	public static final String LATEX_NMWY = "latexNmWY";
+	public static final String LATEX_NM_B_E_COLI_KI = "latexNmBEcoliKi";
+	public static final String LATEX_S_PNEUMONIAE = "latexSPneumoniae";
+	public static final String LATEX_HIB = "latexHib";
+	public static final String LATEX_STREP_B = "latexStrepB";
+	public static final String LATEX_NEGATIVE = "latexNegative";
+	public static final String RDT_DIPSTICK_PERFORMED = "rdtDipstickPerformed";
+	public static final String RDT_DIPSTICK_RESULTS = "rdtDipstickResults";
+	public static final String CEFTRIAXONE_SUSCEPTIBILITY = "ceftriaxoneSusceptibility";
+	public static final String AMPICILLIN_SUSCEPTIBILITY = "ampicillinSusceptibility";
+	public static final String GENTAMYCIN_SUSCEPTIBILITY = "gentamycinSusceptibility";
+	public static final String OXACILLIN_SUSCEPTIBILITY = "oxacillinSusceptibility";
+	public static final String CHLORAMPHENICOL_SUSCEPTIBILITY = "chloramphenicolSusceptibility";
+	public static final String BENZYL_PENICILLIN_SUSCEPTIBILITY = "benzylPenicillinSusceptibility";
+	public static final String OTHER_ANTIMICROBIAL_DRUG_NAME = "otherAntimicrobialDrugName";
+	public static final String OTHER_ANTIMICROBIAL_SUSCEPTIBILITY = "otherAntimicrobialSusceptibility";
+	public static final String DATE_PCR_PERFORMED = "datePcrPerformed";
+	public static final String PCR_TYPE_TEXT = "pcrTypeText";
+	public static final String PCR_SEROTYPE = "pcrSerotype";
+	public static final String OTHER_TEST_TYPE_SPECIFY = "otherTestTypeSpecify";
+	public static final String OTHER_TEST_RESULTS = "otherTestResults";
 	public static final String VIRAL_DETECTION = "viralDetection";
 	public static final String VIRAL_DETECTION_TEST_TYPE = "viralDetectionTestType";
 	public static final String VIRAL_DETECTION_RESULTS = "viralDetectionResults";
@@ -358,6 +396,94 @@ public class PathogenTestDto extends PseudonymizableDto {
 	private Date dateResultsSentToReferenceLaboratory;
 	@Diseases(value = {Disease.CSM})
 	private FacilityReferenceDto referenceLaboratory;
+	@Diseases(value = {Disease.CSM})
+	private Set<PathogenTestType> selectedPathogenTestTypes;
+	@Diseases(value = {Disease.CSM})
+	private Set<CulturePcrFinding> cultureFindings;
+	@Diseases(value = {Disease.CSM})
+	private Set<CulturePcrFinding> pcrFindings;
+	@Diseases(value = {Disease.CSM})
+	@Size(max = FieldConstraints.CHARACTER_LIMIT_DEFAULT, message = Validations.textTooLong)
+	private String cultureOtherGermsSpecify;
+	@Diseases(value = {Disease.CSM})
+	@Size(max = FieldConstraints.CHARACTER_LIMIT_DEFAULT, message = Validations.textTooLong)
+	private String pcrOtherGermsSpecify;
+	@Diseases(value = {Disease.CSM})
+	@Size(max = FieldConstraints.CHARACTER_LIMIT_DEFAULT, message = Validations.textTooLong)
+	private String cellCountLeucocytesPerMm3;
+	@Diseases(value = {Disease.CSM})
+	@Size(max = FieldConstraints.CHARACTER_LIMIT_DEFAULT, message = Validations.textTooLong)
+	private String csfGlucose;
+	@Diseases(value = {Disease.CSM})
+	@Size(max = FieldConstraints.CHARACTER_LIMIT_DEFAULT, message = Validations.textTooLong)
+	private String csfProtein;
+	@Diseases(value = {Disease.CSM})
+	private Boolean gramStainGpd;
+	@Diseases(value = {Disease.CSM})
+	private Boolean gramStainGnd;
+	@Diseases(value = {Disease.CSM})
+	private Boolean gramStainGpb;
+	@Diseases(value = {Disease.CSM})
+	private Boolean gramStainGnb;
+	@Diseases(value = {Disease.CSM})
+	private Boolean gramStainOtherPathogens;
+	@Diseases(value = {Disease.CSM})
+	@Size(max = FieldConstraints.CHARACTER_LIMIT_DEFAULT, message = Validations.textTooLong)
+	private String gramStainOtherPathogensSpecify;
+	@Diseases(value = {Disease.CSM})
+	private Boolean gramStainNoOrganismSeen;
+	@Diseases(value = {Disease.CSM})
+	private Boolean latexNmA;
+	@Diseases(value = {Disease.CSM})
+	private Boolean latexNmC;
+	@Diseases(value = {Disease.CSM})
+	private Boolean latexNmWY;
+	@Diseases(value = {Disease.CSM})
+	private Boolean latexNmBEcoliKi;
+	@Diseases(value = {Disease.CSM})
+	private Boolean latexSPneumoniae;
+	@Diseases(value = {Disease.CSM})
+	private Boolean latexHib;
+	@Diseases(value = {Disease.CSM})
+	private Boolean latexStrepB;
+	@Diseases(value = {Disease.CSM})
+	private Boolean latexNegative;
+	@Diseases(value = {Disease.CSM})
+	private YesNo rdtDipstickPerformed;
+	@Diseases(value = {Disease.CSM})
+	@Size(max = FieldConstraints.CHARACTER_LIMIT_DEFAULT, message = Validations.textTooLong)
+	private String rdtDipstickResults;
+	@Diseases(value = {Disease.CSM})
+	private AntimicrobialSusceptibility ceftriaxoneSusceptibility;
+	@Diseases(value = {Disease.CSM})
+	private AntimicrobialSusceptibility ampicillinSusceptibility;
+	@Diseases(value = {Disease.CSM})
+	private AntimicrobialSusceptibility gentamycinSusceptibility;
+	@Diseases(value = {Disease.CSM})
+	private AntimicrobialSusceptibility oxacillinSusceptibility;
+	@Diseases(value = {Disease.CSM})
+	private AntimicrobialSusceptibility chloramphenicolSusceptibility;
+	@Diseases(value = {Disease.CSM})
+	private AntimicrobialSusceptibility benzylPenicillinSusceptibility;
+	@Diseases(value = {Disease.CSM})
+	@Size(max = FieldConstraints.CHARACTER_LIMIT_DEFAULT, message = Validations.textTooLong)
+	private String otherAntimicrobialDrugName;
+	@Diseases(value = {Disease.CSM})
+	private AntimicrobialSusceptibility otherAntimicrobialSusceptibility;
+	@Diseases(value = {Disease.CSM})
+	private Date datePcrPerformed;
+	@Diseases(value = {Disease.CSM})
+	@Size(max = FieldConstraints.CHARACTER_LIMIT_DEFAULT, message = Validations.textTooLong)
+	private String pcrTypeText;
+	@Diseases(value = {Disease.CSM})
+	@Size(max = FieldConstraints.CHARACTER_LIMIT_DEFAULT, message = Validations.textTooLong)
+	private String pcrSerotype;
+	@Diseases(value = {Disease.CSM})
+	@Size(max = FieldConstraints.CHARACTER_LIMIT_DEFAULT, message = Validations.textTooLong)
+	private String otherTestTypeSpecify;
+	@Diseases(value = {Disease.CSM})
+	@Size(max = FieldConstraints.CHARACTER_LIMIT_BIG, message = Validations.textTooLong)
+	private String otherTestResults;
 	@Diseases(value = {Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS})
 	private YesNo viralDetection;
 	@Diseases(value = {Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS})
@@ -1082,6 +1208,310 @@ public class PathogenTestDto extends PseudonymizableDto {
 
 	public void setReferenceLaboratory(FacilityReferenceDto referenceLaboratory) {
 		this.referenceLaboratory = referenceLaboratory;
+	}
+
+	public Set<PathogenTestType> getSelectedPathogenTestTypes() {
+		return selectedPathogenTestTypes;
+	}
+
+	public void setSelectedPathogenTestTypes(Set<PathogenTestType> selectedPathogenTestTypes) {
+		this.selectedPathogenTestTypes = selectedPathogenTestTypes;
+	}
+
+	public Set<CulturePcrFinding> getCultureFindings() {
+		return cultureFindings;
+	}
+
+	public void setCultureFindings(Set<CulturePcrFinding> cultureFindings) {
+		this.cultureFindings = cultureFindings;
+	}
+
+	public Set<CulturePcrFinding> getPcrFindings() {
+		return pcrFindings;
+	}
+
+	public void setPcrFindings(Set<CulturePcrFinding> pcrFindings) {
+		this.pcrFindings = pcrFindings;
+	}
+
+	public String getCultureOtherGermsSpecify() {
+		return cultureOtherGermsSpecify;
+	}
+
+	public void setCultureOtherGermsSpecify(String cultureOtherGermsSpecify) {
+		this.cultureOtherGermsSpecify = cultureOtherGermsSpecify;
+	}
+
+	public String getPcrOtherGermsSpecify() {
+		return pcrOtherGermsSpecify;
+	}
+
+	public void setPcrOtherGermsSpecify(String pcrOtherGermsSpecify) {
+		this.pcrOtherGermsSpecify = pcrOtherGermsSpecify;
+	}
+
+	public String getCellCountLeucocytesPerMm3() {
+		return cellCountLeucocytesPerMm3;
+	}
+
+	public void setCellCountLeucocytesPerMm3(String cellCountLeucocytesPerMm3) {
+		this.cellCountLeucocytesPerMm3 = cellCountLeucocytesPerMm3;
+	}
+
+	public String getCsfGlucose() {
+		return csfGlucose;
+	}
+
+	public void setCsfGlucose(String csfGlucose) {
+		this.csfGlucose = csfGlucose;
+	}
+
+	public String getCsfProtein() {
+		return csfProtein;
+	}
+
+	public void setCsfProtein(String csfProtein) {
+		this.csfProtein = csfProtein;
+	}
+
+	public Boolean getGramStainGpd() {
+		return gramStainGpd;
+	}
+
+	public void setGramStainGpd(Boolean gramStainGpd) {
+		this.gramStainGpd = gramStainGpd;
+	}
+
+	public Boolean getGramStainGnd() {
+		return gramStainGnd;
+	}
+
+	public void setGramStainGnd(Boolean gramStainGnd) {
+		this.gramStainGnd = gramStainGnd;
+	}
+
+	public Boolean getGramStainGpb() {
+		return gramStainGpb;
+	}
+
+	public void setGramStainGpb(Boolean gramStainGpb) {
+		this.gramStainGpb = gramStainGpb;
+	}
+
+	public Boolean getGramStainGnb() {
+		return gramStainGnb;
+	}
+
+	public void setGramStainGnb(Boolean gramStainGnb) {
+		this.gramStainGnb = gramStainGnb;
+	}
+
+	public Boolean getGramStainOtherPathogens() {
+		return gramStainOtherPathogens;
+	}
+
+	public void setGramStainOtherPathogens(Boolean gramStainOtherPathogens) {
+		this.gramStainOtherPathogens = gramStainOtherPathogens;
+	}
+
+	public String getGramStainOtherPathogensSpecify() {
+		return gramStainOtherPathogensSpecify;
+	}
+
+	public void setGramStainOtherPathogensSpecify(String gramStainOtherPathogensSpecify) {
+		this.gramStainOtherPathogensSpecify = gramStainOtherPathogensSpecify;
+	}
+
+	public Boolean getGramStainNoOrganismSeen() {
+		return gramStainNoOrganismSeen;
+	}
+
+	public void setGramStainNoOrganismSeen(Boolean gramStainNoOrganismSeen) {
+		this.gramStainNoOrganismSeen = gramStainNoOrganismSeen;
+	}
+
+	public Boolean getLatexNmA() {
+		return latexNmA;
+	}
+
+	public void setLatexNmA(Boolean latexNmA) {
+		this.latexNmA = latexNmA;
+	}
+
+	public Boolean getLatexNmC() {
+		return latexNmC;
+	}
+
+	public void setLatexNmC(Boolean latexNmC) {
+		this.latexNmC = latexNmC;
+	}
+
+	public Boolean getLatexNmWY() {
+		return latexNmWY;
+	}
+
+	public void setLatexNmWY(Boolean latexNmWY) {
+		this.latexNmWY = latexNmWY;
+	}
+
+	public Boolean getLatexNmBEcoliKi() {
+		return latexNmBEcoliKi;
+	}
+
+	public void setLatexNmBEcoliKi(Boolean latexNmBEcoliKi) {
+		this.latexNmBEcoliKi = latexNmBEcoliKi;
+	}
+
+	public Boolean getLatexSPneumoniae() {
+		return latexSPneumoniae;
+	}
+
+	public void setLatexSPneumoniae(Boolean latexSPneumoniae) {
+		this.latexSPneumoniae = latexSPneumoniae;
+	}
+
+	public Boolean getLatexHib() {
+		return latexHib;
+	}
+
+	public void setLatexHib(Boolean latexHib) {
+		this.latexHib = latexHib;
+	}
+
+	public Boolean getLatexStrepB() {
+		return latexStrepB;
+	}
+
+	public void setLatexStrepB(Boolean latexStrepB) {
+		this.latexStrepB = latexStrepB;
+	}
+
+	public Boolean getLatexNegative() {
+		return latexNegative;
+	}
+
+	public void setLatexNegative(Boolean latexNegative) {
+		this.latexNegative = latexNegative;
+	}
+
+	public YesNo getRdtDipstickPerformed() {
+		return rdtDipstickPerformed;
+	}
+
+	public void setRdtDipstickPerformed(YesNo rdtDipstickPerformed) {
+		this.rdtDipstickPerformed = rdtDipstickPerformed;
+	}
+
+	public String getRdtDipstickResults() {
+		return rdtDipstickResults;
+	}
+
+	public void setRdtDipstickResults(String rdtDipstickResults) {
+		this.rdtDipstickResults = rdtDipstickResults;
+	}
+
+	public AntimicrobialSusceptibility getCeftriaxoneSusceptibility() {
+		return ceftriaxoneSusceptibility;
+	}
+
+	public void setCeftriaxoneSusceptibility(AntimicrobialSusceptibility ceftriaxoneSusceptibility) {
+		this.ceftriaxoneSusceptibility = ceftriaxoneSusceptibility;
+	}
+
+	public AntimicrobialSusceptibility getAmpicillinSusceptibility() {
+		return ampicillinSusceptibility;
+	}
+
+	public void setAmpicillinSusceptibility(AntimicrobialSusceptibility ampicillinSusceptibility) {
+		this.ampicillinSusceptibility = ampicillinSusceptibility;
+	}
+
+	public AntimicrobialSusceptibility getGentamycinSusceptibility() {
+		return gentamycinSusceptibility;
+	}
+
+	public void setGentamycinSusceptibility(AntimicrobialSusceptibility gentamycinSusceptibility) {
+		this.gentamycinSusceptibility = gentamycinSusceptibility;
+	}
+
+	public AntimicrobialSusceptibility getOxacillinSusceptibility() {
+		return oxacillinSusceptibility;
+	}
+
+	public void setOxacillinSusceptibility(AntimicrobialSusceptibility oxacillinSusceptibility) {
+		this.oxacillinSusceptibility = oxacillinSusceptibility;
+	}
+
+	public AntimicrobialSusceptibility getChloramphenicolSusceptibility() {
+		return chloramphenicolSusceptibility;
+	}
+
+	public void setChloramphenicolSusceptibility(AntimicrobialSusceptibility chloramphenicolSusceptibility) {
+		this.chloramphenicolSusceptibility = chloramphenicolSusceptibility;
+	}
+
+	public AntimicrobialSusceptibility getBenzylPenicillinSusceptibility() {
+		return benzylPenicillinSusceptibility;
+	}
+
+	public void setBenzylPenicillinSusceptibility(AntimicrobialSusceptibility benzylPenicillinSusceptibility) {
+		this.benzylPenicillinSusceptibility = benzylPenicillinSusceptibility;
+	}
+
+	public String getOtherAntimicrobialDrugName() {
+		return otherAntimicrobialDrugName;
+	}
+
+	public void setOtherAntimicrobialDrugName(String otherAntimicrobialDrugName) {
+		this.otherAntimicrobialDrugName = otherAntimicrobialDrugName;
+	}
+
+	public AntimicrobialSusceptibility getOtherAntimicrobialSusceptibility() {
+		return otherAntimicrobialSusceptibility;
+	}
+
+	public void setOtherAntimicrobialSusceptibility(AntimicrobialSusceptibility otherAntimicrobialSusceptibility) {
+		this.otherAntimicrobialSusceptibility = otherAntimicrobialSusceptibility;
+	}
+
+	public Date getDatePcrPerformed() {
+		return datePcrPerformed;
+	}
+
+	public void setDatePcrPerformed(Date datePcrPerformed) {
+		this.datePcrPerformed = datePcrPerformed;
+	}
+
+	public String getPcrTypeText() {
+		return pcrTypeText;
+	}
+
+	public void setPcrTypeText(String pcrTypeText) {
+		this.pcrTypeText = pcrTypeText;
+	}
+
+	public String getPcrSerotype() {
+		return pcrSerotype;
+	}
+
+	public void setPcrSerotype(String pcrSerotype) {
+		this.pcrSerotype = pcrSerotype;
+	}
+
+	public String getOtherTestTypeSpecify() {
+		return otherTestTypeSpecify;
+	}
+
+	public void setOtherTestTypeSpecify(String otherTestTypeSpecify) {
+		this.otherTestTypeSpecify = otherTestTypeSpecify;
+	}
+
+	public String getOtherTestResults() {
+		return otherTestResults;
+	}
+
+	public void setOtherTestResults(String otherTestResults) {
+		this.otherTestResults = otherTestResults;
 	}
 
 	public YesNo getViralDetection() {

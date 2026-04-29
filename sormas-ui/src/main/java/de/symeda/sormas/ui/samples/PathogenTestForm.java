@@ -33,6 +33,7 @@ import de.symeda.sormas.api.utils.InjectionSite;
 import de.symeda.sormas.api.utils.YesNo;
 import org.apache.commons.collections4.CollectionUtils;
 
+import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.Label;
 import com.vaadin.v7.data.util.converter.Converter;
 import com.vaadin.v7.ui.AbstractSelect.ItemCaptionMode;
@@ -54,11 +55,14 @@ import de.symeda.sormas.api.sample.AgglutinationTestResult;
 import de.symeda.sormas.api.sample.GramStainResult;
 import de.symeda.sormas.api.sample.LaboratoryType;
 import de.symeda.sormas.api.sample.MacroscopicExamination;
+import de.symeda.sormas.api.sample.AntimicrobialSusceptibility;
+import de.symeda.sormas.api.sample.CulturePcrFinding;
 import de.symeda.sormas.api.sample.FinalClassification;
 import de.symeda.sormas.api.sample.PathogenStrainCallStatus;
 import de.symeda.sormas.api.sample.PathogenTestDto;
 import de.symeda.sormas.api.sample.PathogenTestResultType;
 import de.symeda.sormas.api.sample.PathogenTestType;
+import de.symeda.sormas.api.sample.PathogenTestTypeSelectionHelper;
 import de.symeda.sormas.api.sample.SampleDto;
 import de.symeda.sormas.api.sample.SamplePurpose;
 import de.symeda.sormas.api.sample.SeroGroupSpecification;
@@ -77,12 +81,14 @@ import de.symeda.sormas.ui.utils.FieldHelper;
 import de.symeda.sormas.ui.utils.NullableOptionGroup;
 import de.symeda.sormas.ui.utils.OptionGroupWithCaption;
 import de.symeda.sormas.ui.utils.PhoneNumberValidator;
+import de.symeda.sormas.ui.utils.components.CheckboxSet;
 
 public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 
 	private static final long serialVersionUID = -1218707278398543154L;
 
 	private static final String PATHOGEN_TEST_HEADING_LOC = "pathogenTestHeadingLoc";
+	private static final String LAB_ROLE_CONTEXT_LOC = "labRoleContextLoc";
 
 	private static final String PRESCRIBER_HEADING_LOC = "prescriberHeading";
 	protected static final String STOOL_SPECIMEN_RESULTS_HEADLINE_LOC = "stoolSpecimenResultsLoc";
@@ -153,17 +159,38 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 			fluidRowLocs(PathogenTestDto.TESTED_DISEASE, PathogenTestDto.TESTED_DISEASE_DETAILS) +
 			fluidRowLocs(PathogenTestDto.TEST_DATE_TIME, PathogenTestDto.LAB) +
 			fluidRowLocs(PathogenTestDto.LAB_DETAILS, "") +
+			loc(LAB_ROLE_CONTEXT_LOC) +
+			fluidRowLocs(PathogenTestDto.SELECTED_PATHOGEN_TEST_TYPES, "") +
 			fluidRowLocs(PathogenTestDto.MACROSCOPIC_EXAMINATION, "") +
-			fluidRowLocs(PathogenTestDto.TEST_TYPE, PathogenTestDto.TEST_TYPE_TEXT) +
-			fluidRowLocs(PathogenTestDto.CELL_COUNT_NORMAL, PathogenTestDto.CELL_COUNT_ABNORMAL) +
-			fluidRowLocs(PathogenTestDto.WBC_COUNT_POLYCYTES_PERCENT, PathogenTestDto.WBC_COUNT_MONOCYTES_PERCENT) +
-			fluidRowLocs(PathogenTestDto.GRAM_STAIN_RESULT, "") +
-			fluidRowLocs(PathogenTestDto.AGGLUTINATION_RESULT, PathogenTestDto.AGGLUTINATION_POSITIVE_RESULTS) +
-			fluidRowLocs(PathogenTestDto.AGGLUTINATION_OTHER_MICROORGANISM, "") +
-			fluidRowLocs(PathogenTestDto.DATE_RESULTS_SENT_TO_DISTRICT, "") +
-			fluidRowLocs(PathogenTestDto.DATE_RESULTS_SENT_TO_REGION, PathogenTestDto.DATE_RESULTS_SENT_TO_DISEASE_SURVEILLANCE) +
-			fluidRowLocs(PathogenTestDto.REFERENCE_LABORATORY, PathogenTestDto.DATE_RESULTS_SENT_TO_REFERENCE_LABORATORY) +
-			fluidRowLocs(PathogenTestDto.OTHER_TESTS_PENDING, PathogenTestDto.OTHER_TESTS_PENDING_SPECIFY) +
+			fluidRowLocs(PathogenTestDto.CELL_COUNT_LEUCOCYTES_PER_MM3, PathogenTestDto.WBC_COUNT_POLYCYTES_PERCENT) +
+			fluidRowLocs(PathogenTestDto.WBC_COUNT_MONOCYTES_PERCENT, PathogenTestDto.CSF_GLUCOSE) +
+			fluidRowLocs(PathogenTestDto.CSF_PROTEIN, "") +
+			fluidRowLocs(PathogenTestDto.GRAM_STAIN_GPD, PathogenTestDto.GRAM_STAIN_GND) +
+			fluidRowLocs(PathogenTestDto.GRAM_STAIN_GPB, PathogenTestDto.GRAM_STAIN_GNB) +
+			fluidRowLocs(PathogenTestDto.GRAM_STAIN_OTHER_PATHOGENS, PathogenTestDto.GRAM_STAIN_NO_ORGANISM_SEEN) +
+			fluidRowLocs(PathogenTestDto.GRAM_STAIN_OTHER_PATHOGENS_SPECIFY, "") +
+			fluidRowLocs(PathogenTestDto.LATEX_NMA, PathogenTestDto.LATEX_NMC) +
+			fluidRowLocs(PathogenTestDto.LATEX_NMWY, PathogenTestDto.LATEX_NM_B_E_COLI_KI) +
+			fluidRowLocs(PathogenTestDto.LATEX_S_PNEUMONIAE, PathogenTestDto.LATEX_HIB) +
+			fluidRowLocs(PathogenTestDto.LATEX_STREP_B, PathogenTestDto.LATEX_NEGATIVE) +
+			fluidRowLocs(PathogenTestDto.RDT_DIPSTICK_PERFORMED, PathogenTestDto.RDT_DIPSTICK_RESULTS) +
+			fluidRowLocs(PathogenTestDto.CULTURE_FINDINGS, "") +
+			fluidRowLocs(PathogenTestDto.CULTURE_OTHER_GERMS_SPECIFY, "") +
+			fluidRowLocs(PathogenTestDto.CEFTRIAXONE_SUSCEPTIBILITY, PathogenTestDto.AMPICILLIN_SUSCEPTIBILITY) +
+			fluidRowLocs(PathogenTestDto.GENTAMYCIN_SUSCEPTIBILITY, PathogenTestDto.OXACILLIN_SUSCEPTIBILITY) +
+			fluidRowLocs(PathogenTestDto.CHLORAMPHENICOL_SUSCEPTIBILITY, PathogenTestDto.BENZYL_PENICILLIN_SUSCEPTIBILITY) +
+			fluidRowLocs(PathogenTestDto.OTHER_ANTIMICROBIAL_DRUG_NAME, PathogenTestDto.OTHER_ANTIMICROBIAL_SUSCEPTIBILITY) +
+			fluidRowLocs(PathogenTestDto.SEROTYPE, "") +
+			fluidRowLocs(PathogenTestDto.DATE_PCR_PERFORMED, PathogenTestDto.PCR_TYPE_TEXT) +
+			fluidRowLocs(PathogenTestDto.PCR_FINDINGS, "") +
+			fluidRowLocs(PathogenTestDto.PCR_OTHER_GERMS_SPECIFY, "") +
+			fluidRowLocs(PathogenTestDto.PCR_SEROTYPE, "") +
+			fluidRowLocs(PathogenTestDto.OTHER_TEST_TYPE_SPECIFY, PathogenTestDto.OTHER_TEST_RESULTS) +
+			fluidRowLocs(PathogenTestDto.REPORT_DATE, PathogenTestDto.DATE_RESULTS_SENT_TO_DISTRICT) +
+			fluidRowLocs(PathogenTestDto.DATE_DISTRICT_RECEIVED_LAB_RESULTS, PathogenTestDto.DATE_RESULTS_SENT_TO_REGION) +
+			fluidRowLocs(PathogenTestDto.DATE_RESULTS_SENT_TO_DISEASE_SURVEILLANCE, PathogenTestDto.DATE_RESULTS_SENT_TO_REFERENCE_LABORATORY) +
+			fluidRowLocs(PathogenTestDto.REFERENCE_LABORATORY, PathogenTestDto.OTHER_TESTS_PENDING) +
+			fluidRowLocs(PathogenTestDto.OTHER_TESTS_PENDING_SPECIFY, "") +
 			fluidRowLocs(4, PathogenTestDto.TEST_RESULT, 4, PathogenTestDto.TEST_RESULT_VERIFIED, 4, "") +
 			fluidRowLocs(PathogenTestDto.TEST_RESULT_TEXT, "");
 
@@ -237,6 +264,15 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 	private TextField nameLabTechnicianSendResultsField;
 	private Disease caseDisease;
 	private DateField dateCaptured;
+	private Label labRoleContextLabel;
+	@SuppressWarnings("rawtypes")
+	private CheckboxSet selectedPathogenTestTypesField;
+	@SuppressWarnings("rawtypes")
+	private CheckboxSet cultureFindingsField;
+	@SuppressWarnings("rawtypes")
+	private CheckboxSet pcrFindingsField;
+	private boolean csmRdtListenerAdded;
+	private boolean csmGramOtherListenerAdded;
 
 	// List of tests that are used for serogrouping
 	List<PathogenTestType> seroGrpTests = Arrays.asList(
@@ -762,6 +798,79 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 		TextField otherTestsPendingSpecifyField = addField(PathogenTestDto.OTHER_TESTS_PENDING_SPECIFY, TextField.class);
 		otherTestsPendingSpecifyField.setVisible(false);
 
+		labRoleContextLabel = new Label();
+		labRoleContextLabel.setContentMode(ContentMode.HTML);
+		CssStyles.style(labRoleContextLabel, CssStyles.LABEL_BOLD, CssStyles.LABEL_SECONDARY, VSPACE_4);
+		labRoleContextLabel.setVisible(false);
+		getContent().addComponent(labRoleContextLabel, LAB_ROLE_CONTEXT_LOC);
+
+		selectedPathogenTestTypesField = addCustomField(PathogenTestDto.SELECTED_PATHOGEN_TEST_TYPES, java.util.Set.class, CheckboxSet.class);
+		selectedPathogenTestTypesField.setItems(new ArrayList<>(PathogenTestTypeSelectionHelper.MULTI_SELECT_PANEL_ORDER), null, v -> ((PathogenTestType) v).toString());
+		selectedPathogenTestTypesField.setVisible(false);
+
+		cultureFindingsField = addCustomField(PathogenTestDto.CULTURE_FINDINGS, java.util.Set.class, CheckboxSet.class);
+		cultureFindingsField.setItems(Arrays.asList(CulturePcrFinding.values()), null, v -> ((CulturePcrFinding) v).toString());
+		cultureFindingsField.setVisible(false);
+
+		pcrFindingsField = addCustomField(PathogenTestDto.PCR_FINDINGS, java.util.Set.class, CheckboxSet.class);
+		pcrFindingsField.setItems(Arrays.asList(CulturePcrFinding.values()), null, v -> ((CulturePcrFinding) v).toString());
+		pcrFindingsField.setVisible(false);
+
+		addField(PathogenTestDto.CELL_COUNT_LEUCOCYTES_PER_MM3, TextField.class).setVisible(false);
+		addField(PathogenTestDto.CSF_GLUCOSE, TextField.class).setVisible(false);
+		addField(PathogenTestDto.CSF_PROTEIN, TextField.class).setVisible(false);
+		addField(PathogenTestDto.GRAM_STAIN_GPD, CheckBox.class).setVisible(false);
+		addField(PathogenTestDto.GRAM_STAIN_GND, CheckBox.class).setVisible(false);
+		addField(PathogenTestDto.GRAM_STAIN_GPB, CheckBox.class).setVisible(false);
+		addField(PathogenTestDto.GRAM_STAIN_GNB, CheckBox.class).setVisible(false);
+		addField(PathogenTestDto.GRAM_STAIN_OTHER_PATHOGENS, CheckBox.class).setVisible(false);
+		addField(PathogenTestDto.GRAM_STAIN_OTHER_PATHOGENS_SPECIFY, TextField.class).setVisible(false);
+		addField(PathogenTestDto.GRAM_STAIN_NO_ORGANISM_SEEN, CheckBox.class).setVisible(false);
+		addField(PathogenTestDto.LATEX_NMA, CheckBox.class).setVisible(false);
+		addField(PathogenTestDto.LATEX_NMC, CheckBox.class).setVisible(false);
+		addField(PathogenTestDto.LATEX_NMWY, CheckBox.class).setVisible(false);
+		addField(PathogenTestDto.LATEX_NM_B_E_COLI_KI, CheckBox.class).setVisible(false);
+		addField(PathogenTestDto.LATEX_S_PNEUMONIAE, CheckBox.class).setVisible(false);
+		addField(PathogenTestDto.LATEX_HIB, CheckBox.class).setVisible(false);
+		addField(PathogenTestDto.LATEX_STREP_B, CheckBox.class).setVisible(false);
+		addField(PathogenTestDto.LATEX_NEGATIVE, CheckBox.class).setVisible(false);
+		NullableOptionGroup rdtDipstickPerformedField = addField(PathogenTestDto.RDT_DIPSTICK_PERFORMED, NullableOptionGroup.class);
+		FieldHelper.updateEnumData(rdtDipstickPerformedField, Arrays.asList(YesNo.YES, YesNo.NO));
+		rdtDipstickPerformedField.setVisible(false);
+		addField(PathogenTestDto.RDT_DIPSTICK_RESULTS, TextField.class).setVisible(false);
+		ComboBox abCeftriaxone = addField(PathogenTestDto.CEFTRIAXONE_SUSCEPTIBILITY, ComboBox.class);
+		FieldHelper.updateEnumData(abCeftriaxone, Arrays.asList(AntimicrobialSusceptibility.values()));
+		abCeftriaxone.setVisible(false);
+		ComboBox abAmpicillin = addField(PathogenTestDto.AMPICILLIN_SUSCEPTIBILITY, ComboBox.class);
+		FieldHelper.updateEnumData(abAmpicillin, Arrays.asList(AntimicrobialSusceptibility.values()));
+		abAmpicillin.setVisible(false);
+		ComboBox abGentamycin = addField(PathogenTestDto.GENTAMYCIN_SUSCEPTIBILITY, ComboBox.class);
+		FieldHelper.updateEnumData(abGentamycin, Arrays.asList(AntimicrobialSusceptibility.values()));
+		abGentamycin.setVisible(false);
+		ComboBox abOxacillin = addField(PathogenTestDto.OXACILLIN_SUSCEPTIBILITY, ComboBox.class);
+		FieldHelper.updateEnumData(abOxacillin, Arrays.asList(AntimicrobialSusceptibility.values()));
+		abOxacillin.setVisible(false);
+		ComboBox abChloramphenicol = addField(PathogenTestDto.CHLORAMPHENICOL_SUSCEPTIBILITY, ComboBox.class);
+		FieldHelper.updateEnumData(abChloramphenicol, Arrays.asList(AntimicrobialSusceptibility.values()));
+		abChloramphenicol.setVisible(false);
+		ComboBox abBenzylPen = addField(PathogenTestDto.BENZYL_PENICILLIN_SUSCEPTIBILITY, ComboBox.class);
+		FieldHelper.updateEnumData(abBenzylPen, Arrays.asList(AntimicrobialSusceptibility.values()));
+		abBenzylPen.setVisible(false);
+		addField(PathogenTestDto.OTHER_ANTIMICROBIAL_DRUG_NAME, TextField.class).setVisible(false);
+		ComboBox abOtherSus = addField(PathogenTestDto.OTHER_ANTIMICROBIAL_SUSCEPTIBILITY, ComboBox.class);
+		FieldHelper.updateEnumData(abOtherSus, Arrays.asList(AntimicrobialSusceptibility.values()));
+		abOtherSus.setVisible(false);
+		DateField datePcrPerformedField = addDateField(PathogenTestDto.DATE_PCR_PERFORMED, DateField.class, 7);
+		datePcrPerformedField.setVisible(false);
+		addField(PathogenTestDto.PCR_TYPE_TEXT, TextField.class).setVisible(false);
+		addField(PathogenTestDto.PCR_SEROTYPE, TextField.class).setVisible(false);
+		addField(PathogenTestDto.OTHER_TEST_TYPE_SPECIFY, TextField.class).setVisible(false);
+		TextArea otherTestResultsArea = addField(PathogenTestDto.OTHER_TEST_RESULTS, TextArea.class);
+		otherTestResultsArea.setRows(3);
+		otherTestResultsArea.setVisible(false);
+		addField(PathogenTestDto.CULTURE_OTHER_GERMS_SPECIFY, TextField.class).setVisible(false);
+		addField(PathogenTestDto.PCR_OTHER_GERMS_SPECIFY, TextField.class).setVisible(false);
+
 		addFields(PathogenTestDto.PRESCRIBER_PHYSICIAN_CODE, PathogenTestDto.PRESCRIBER_FIRST_NAME, PathogenTestDto.PRESCRIBER_LAST_NAME);
 		TextField proscriberPhoneField = addField(PathogenTestDto.PRESCRIBER_PHONE_NUMBER, TextField.class);
 		proscriberPhoneField.addValidator(
@@ -1226,71 +1335,37 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 	 * Configures fields specifically for meningitis pathogen tests
 	 */
 	protected void configureMeningitisFields() {
-		// Show macroscopic examination
+		testTypeField.setVisible(false);
+		setRequired(false, PathogenTestDto.TEST_TYPE);
+		testTypeTextField.setVisible(false);
+
 		getField(PathogenTestDto.MACROSCOPIC_EXAMINATION).setVisible(true);
 		ComboBox macroscopicExaminationField = (ComboBox) getField(PathogenTestDto.MACROSCOPIC_EXAMINATION);
 		macroscopicExaminationField.addItems(MacroscopicExamination.values());
 		macroscopicExaminationField.setItemCaptionMode(ItemCaptionMode.ID_TOSTRING);
 
-		// Show cell count fields when test type is CELL_COUNT
-		FieldHelper.setVisibleWhen(
-			getFieldGroup(),
-			Arrays.asList(PathogenTestDto.CELL_COUNT_NORMAL, PathogenTestDto.CELL_COUNT_ABNORMAL),
-			PathogenTestDto.TEST_TYPE,
-			Arrays.asList(PathogenTestType.CELL_COUNT),
-			true);
-
-		// Show WBC count fields when test type is WBC_COUNT
-		FieldHelper.setVisibleWhen(
-			getFieldGroup(),
-			Arrays.asList(PathogenTestDto.WBC_COUNT_POLYCYTES_PERCENT, PathogenTestDto.WBC_COUNT_MONOCYTES_PERCENT),
-			PathogenTestDto.TEST_TYPE,
-			Arrays.asList(PathogenTestType.WBC_COUNT),
-			true);
-
-		// Show Gram stain result when test type is GRAM_STAIN
-		FieldHelper.setVisibleWhen(
-			getFieldGroup(),
+		setVisible(
+			false,
+			PathogenTestDto.CELL_COUNT_NORMAL,
+			PathogenTestDto.CELL_COUNT_ABNORMAL,
 			PathogenTestDto.GRAM_STAIN_RESULT,
-			PathogenTestDto.TEST_TYPE,
-			Arrays.asList(PathogenTestType.GRAM_STAIN),
-			true);
-		ComboBox gramStainResultField = (ComboBox) getField(PathogenTestDto.GRAM_STAIN_RESULT);
-		gramStainResultField.addItems(GramStainResult.values());
-		gramStainResultField.setItemCaptionMode(ItemCaptionMode.ID_TOSTRING);
-
-		// Show agglutination fields when test type is LATEX_AGGLUTINATION or SLIDE_AGGLUTINATION
-		FieldHelper.setVisibleWhen(
-			getFieldGroup(),
-			Arrays.asList(PathogenTestDto.AGGLUTINATION_RESULT),
-			PathogenTestDto.TEST_TYPE,
-			Arrays.asList(PathogenTestType.AGGLUTINATION_TEST),
-			true);
-		NullableOptionGroup agglutinationResultField = (NullableOptionGroup) getField(PathogenTestDto.AGGLUTINATION_RESULT);
-		agglutinationResultField.addItems(AgglutinationTestResult.values());
-		agglutinationResultField.setItemCaptionMode(ItemCaptionMode.ID_TOSTRING);
-
-		ComboBox agglutinationPositiveResultsField = (ComboBox) getField(PathogenTestDto.AGGLUTINATION_POSITIVE_RESULTS);
-		agglutinationPositiveResultsField.addItems(AgglutinationPositiveResult.values());
-		agglutinationPositiveResultsField.setItemCaptionMode(ItemCaptionMode.ID_TOSTRING);
-
-		// Show agglutination positive results when agglutination result is POSITIVE
-		FieldHelper.setVisibleWhen(
-			getFieldGroup(),
-			Arrays.asList(PathogenTestDto.AGGLUTINATION_POSITIVE_RESULTS),
 			PathogenTestDto.AGGLUTINATION_RESULT,
-			Arrays.asList(AgglutinationTestResult.POSITIVE),
-			true);
-
-		// Show agglutination other microorganism when agglutination positive results is OTHER_MICROORGANISMS
-		FieldHelper.setVisibleWhen(
-			getFieldGroup(),
-			PathogenTestDto.AGGLUTINATION_OTHER_MICROORGANISM,
 			PathogenTestDto.AGGLUTINATION_POSITIVE_RESULTS,
-			Arrays.asList(AgglutinationPositiveResult.OTHER_MICROORGANISMS),
-			true);
+			PathogenTestDto.AGGLUTINATION_OTHER_MICROORGANISM);
 
-		// Show other tests pending specify when other tests pending is Yes
+		labRoleContextLabel.setVisible(true);
+		updateMeningitisLabCaptions();
+
+		selectedPathogenTestTypesField.setVisible(true);
+		refreshMeningitisPanelOptions();
+		selectedPathogenTestTypesField.addValueChangeListener(e -> updateMeningitisSectionVisibility());
+
+		cultureFindingsField.setVisible(true);
+		cultureFindingsField.addValueChangeListener(e -> updateMeningitisSectionVisibility());
+
+		pcrFindingsField.setVisible(true);
+		pcrFindingsField.addValueChangeListener(e -> updateMeningitisSectionVisibility());
+
 		FieldHelper.setVisibleWhen(
 			getFieldGroup(),
 			PathogenTestDto.OTHER_TESTS_PENDING_SPECIFY,
@@ -1298,38 +1373,180 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 			Arrays.asList(true),
 			true);
 
-		// Show other tests pending field
 		getField(PathogenTestDto.OTHER_TESTS_PENDING).setVisible(true);
 
-		// DATE_RESULTS_SENT_TO_DISTRICT is always visible (already in layout)
+		getField(PathogenTestDto.REPORT_DATE).setVisible(true);
+		getField(PathogenTestDto.REPORT_DATE).setCaption(I18nProperties.getCaption(Captions.PathogenTest_dateTimeOfResult));
 		getField(PathogenTestDto.DATE_RESULTS_SENT_TO_DISTRICT).setVisible(true);
 
-		// Set conditional visibility for date fields based on laboratory type
+		FieldHelper.updateEnumData(
+			testResultField,
+			Arrays.asList(
+				PathogenTestResultType.INDETERMINATE,
+				PathogenTestResultType.PENDING,
+				PathogenTestResultType.NEGATIVE,
+				PathogenTestResultType.POSITIVE,
+				PathogenTestResultType.CONTAMINATED,
+				PathogenTestResultType.NOT_TESTED,
+				PathogenTestResultType.IN_PROCESS));
+
+		getField(PathogenTestDto.TEST_RESULT_TEXT).setCaption(I18nProperties.getCaption(Captions.PathogenTest_laboratoryObservations));
+
+		if (sampleForm != null) {
+			Field<?> labTypeField = sampleForm.getField(SampleDto.LABORATORY_TYPE);
+			if (labTypeField != null) {
+				labTypeField.addValueChangeListener(e -> {
+					updateMeningitisLabCaptions();
+					refreshMeningitisPanelOptions();
+					updateMeningitisSectionVisibility();
+				});
+			}
+		}
+
+		if (!csmRdtListenerAdded) {
+			((NullableOptionGroup) getField(PathogenTestDto.RDT_DIPSTICK_PERFORMED))
+				.addValueChangeListener(e -> updateMeningitisSectionVisibility());
+			csmRdtListenerAdded = true;
+		}
+		if (!csmGramOtherListenerAdded) {
+			((CheckBox) getField(PathogenTestDto.GRAM_STAIN_OTHER_PATHOGENS)).addValueChangeListener(e -> updateMeningitisSectionVisibility());
+			csmGramOtherListenerAdded = true;
+		}
+
+		applyMeningitisDateFieldVisibilityByLaboratoryType();
+		updateMeningitisSectionVisibility();
+	}
+
+	private void updateMeningitisLabCaptions() {
+		ComboBox labField = (ComboBox) getField(PathogenTestDto.LAB);
+		TextField labDetailsField = (TextField) getField(PathogenTestDto.LAB_DETAILS);
+		String defaultLabCaption = I18nProperties.getPrefixCaption(PathogenTestDto.I18N_PREFIX, PathogenTestDto.LAB);
+		String defaultLabDetailsCaption = I18nProperties.getPrefixCaption(PathogenTestDto.I18N_PREFIX, PathogenTestDto.LAB_DETAILS);
 		LaboratoryType laboratoryType = getLaboratoryType();
 		if (laboratoryType == LaboratoryType.REGIONAL_LABORATORY) {
-			// For Regional Laboratory: Show regional lab specific fields
+			labField.setCaption(I18nProperties.getCaption(Captions.PathogenTest_nameRegionalLaboratory));
+			labDetailsField.setCaption(I18nProperties.getCaption(Captions.PathogenTest_regionalLaboratoryDetails));
+			labRoleContextLabel.setValue(I18nProperties.getCaption(Captions.PathogenTest_regionalLaboratorySubtitle));
+		} else if (laboratoryType == LaboratoryType.REFERENCE_LABORATORY) {
+			labField.setCaption(I18nProperties.getCaption(Captions.PathogenTest_nameReferenceLaboratory));
+			labDetailsField.setCaption(I18nProperties.getCaption(Captions.PathogenTest_referenceLaboratoryDetails));
+			labRoleContextLabel.setValue(I18nProperties.getCaption(Captions.PathogenTest_referenceLaboratorySubtitle));
+		} else {
+			labField.setCaption(defaultLabCaption);
+			labDetailsField.setCaption(defaultLabDetailsCaption);
+			labRoleContextLabel.setValue("");
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	private void refreshMeningitisPanelOptions() {
+		List<PathogenTestType> items = new ArrayList<>(PathogenTestTypeSelectionHelper.MULTI_SELECT_PANEL_ORDER);
+		if (getLaboratoryType() != LaboratoryType.REFERENCE_LABORATORY) {
+			items.remove(PathogenTestType.PCR);
+			Set<PathogenTestType> current = (Set<PathogenTestType>) selectedPathogenTestTypesField.getValue();
+			if (current != null && current.contains(PathogenTestType.PCR)) {
+				HashSet<PathogenTestType> copy = new HashSet<>(current);
+				copy.remove(PathogenTestType.PCR);
+				selectedPathogenTestTypesField.setValue(copy);
+			}
+		}
+		selectedPathogenTestTypesField.setItems(items, null, v -> ((PathogenTestType) v).toString());
+	}
+
+	private void applyMeningitisDateFieldVisibilityByLaboratoryType() {
+		LaboratoryType laboratoryType = getLaboratoryType();
+		if (laboratoryType == LaboratoryType.REGIONAL_LABORATORY) {
 			getField(PathogenTestDto.DATE_RESULTS_SENT_TO_REGION).setVisible(true);
 			getField(PathogenTestDto.DATE_DISTRICT_RECEIVED_LAB_RESULTS).setVisible(true);
 			getField(PathogenTestDto.DATE_RESULTS_SENT_TO_REFERENCE_LABORATORY).setVisible(true);
 			getField(PathogenTestDto.REFERENCE_LABORATORY).setVisible(true);
-			// Hide reference lab specific field
 			getField(PathogenTestDto.DATE_RESULTS_SENT_TO_DISEASE_SURVEILLANCE).setVisible(false);
 		} else if (laboratoryType == LaboratoryType.REFERENCE_LABORATORY) {
-			// For Reference Laboratory: Show reference lab specific field
 			getField(PathogenTestDto.DATE_RESULTS_SENT_TO_DISEASE_SURVEILLANCE).setVisible(true);
-			// Hide regional lab specific fields
 			getField(PathogenTestDto.DATE_RESULTS_SENT_TO_REGION).setVisible(false);
 			getField(PathogenTestDto.DATE_DISTRICT_RECEIVED_LAB_RESULTS).setVisible(false);
 			getField(PathogenTestDto.DATE_RESULTS_SENT_TO_REFERENCE_LABORATORY).setVisible(false);
 			getField(PathogenTestDto.REFERENCE_LABORATORY).setVisible(true);
 		} else {
-			// If laboratory type is not set or is HEALTH_LABORATORY, hide all conditional fields
 			getField(PathogenTestDto.DATE_RESULTS_SENT_TO_REGION).setVisible(false);
 			getField(PathogenTestDto.DATE_RESULTS_SENT_TO_DISEASE_SURVEILLANCE).setVisible(false);
 			getField(PathogenTestDto.DATE_DISTRICT_RECEIVED_LAB_RESULTS).setVisible(false);
 			getField(PathogenTestDto.DATE_RESULTS_SENT_TO_REFERENCE_LABORATORY).setVisible(false);
 			getField(PathogenTestDto.REFERENCE_LABORATORY).setVisible(false);
 		}
+	}
+
+	@SuppressWarnings("unchecked")
+	private void updateMeningitisSectionVisibility() {
+		Set<PathogenTestType> panels = (Set<PathogenTestType>) selectedPathogenTestTypesField.getValue();
+		boolean cell = panels != null && panels.contains(PathogenTestType.CELL_COUNT);
+		boolean gram = panels != null && panels.contains(PathogenTestType.GRAM_STAIN);
+		boolean latex = panels != null && panels.contains(PathogenTestType.LATEX);
+		boolean rdt = panels != null && panels.contains(PathogenTestType.RAPID_TEST);
+		boolean culture = panels != null && panels.contains(PathogenTestType.CULTURE);
+		boolean pcrPanel = panels != null && panels.contains(PathogenTestType.PCR);
+		boolean other = panels != null && panels.contains(PathogenTestType.OTHER);
+
+		Set<CulturePcrFinding> cultureFindings = (Set<CulturePcrFinding>) cultureFindingsField.getValue();
+		Set<CulturePcrFinding> pcrFindings = (Set<CulturePcrFinding>) pcrFindingsField.getValue();
+
+		boolean showCultureAb =
+			culture
+				&& cultureFindings != null
+				&& cultureFindings.stream().anyMatch(CulturePcrFinding::triggersAntibiogram);
+
+		setVisible(
+			cell,
+			PathogenTestDto.CELL_COUNT_LEUCOCYTES_PER_MM3,
+			PathogenTestDto.WBC_COUNT_POLYCYTES_PERCENT,
+			PathogenTestDto.WBC_COUNT_MONOCYTES_PERCENT,
+			PathogenTestDto.CSF_GLUCOSE,
+			PathogenTestDto.CSF_PROTEIN);
+
+		setVisible(
+			gram,
+			PathogenTestDto.GRAM_STAIN_GPD,
+			PathogenTestDto.GRAM_STAIN_GND,
+			PathogenTestDto.GRAM_STAIN_GPB,
+			PathogenTestDto.GRAM_STAIN_GNB,
+			PathogenTestDto.GRAM_STAIN_OTHER_PATHOGENS,
+			PathogenTestDto.GRAM_STAIN_NO_ORGANISM_SEEN);
+		CheckBox gramOtherPathogens = (CheckBox) getField(PathogenTestDto.GRAM_STAIN_OTHER_PATHOGENS);
+		setVisible(gram && Boolean.TRUE.equals(gramOtherPathogens.getValue()), PathogenTestDto.GRAM_STAIN_OTHER_PATHOGENS_SPECIFY);
+
+		setVisible(
+			latex,
+			PathogenTestDto.LATEX_NMA,
+			PathogenTestDto.LATEX_NMC,
+			PathogenTestDto.LATEX_NMWY,
+			PathogenTestDto.LATEX_NM_B_E_COLI_KI,
+			PathogenTestDto.LATEX_S_PNEUMONIAE,
+			PathogenTestDto.LATEX_HIB,
+			PathogenTestDto.LATEX_STREP_B,
+			PathogenTestDto.LATEX_NEGATIVE);
+
+		setVisible(rdt, PathogenTestDto.RDT_DIPSTICK_PERFORMED);
+		NullableOptionGroup rdtPerformedField = (NullableOptionGroup) getField(PathogenTestDto.RDT_DIPSTICK_PERFORMED);
+		setVisible(rdt && rdtPerformedField.getNullableValue() == YesNo.YES, PathogenTestDto.RDT_DIPSTICK_RESULTS);
+
+		setVisible(culture, PathogenTestDto.CULTURE_FINDINGS);
+		setVisible(
+			culture && cultureFindings != null && cultureFindings.contains(CulturePcrFinding.OTHER_GERMS),
+			PathogenTestDto.CULTURE_OTHER_GERMS_SPECIFY);
+		setVisible(showCultureAb, PathogenTestDto.CEFTRIAXONE_SUSCEPTIBILITY, PathogenTestDto.AMPICILLIN_SUSCEPTIBILITY);
+		setVisible(showCultureAb, PathogenTestDto.GENTAMYCIN_SUSCEPTIBILITY, PathogenTestDto.OXACILLIN_SUSCEPTIBILITY);
+		setVisible(showCultureAb, PathogenTestDto.CHLORAMPHENICOL_SUSCEPTIBILITY, PathogenTestDto.BENZYL_PENICILLIN_SUSCEPTIBILITY);
+		setVisible(showCultureAb, PathogenTestDto.OTHER_ANTIMICROBIAL_DRUG_NAME, PathogenTestDto.OTHER_ANTIMICROBIAL_SUSCEPTIBILITY);
+		setVisible(culture, PathogenTestDto.SEROTYPE);
+
+		setVisible(pcrPanel, PathogenTestDto.DATE_PCR_PERFORMED, PathogenTestDto.PCR_TYPE_TEXT);
+		setVisible(pcrPanel, PathogenTestDto.PCR_FINDINGS);
+		setVisible(
+			pcrPanel && pcrFindings != null && pcrFindings.contains(CulturePcrFinding.OTHER_GERMS),
+			PathogenTestDto.PCR_OTHER_GERMS_SPECIFY);
+		setVisible(pcrPanel, PathogenTestDto.PCR_SEROTYPE);
+
+		setVisible(other, PathogenTestDto.OTHER_TEST_TYPE_SPECIFY, PathogenTestDto.OTHER_TEST_RESULTS);
 	}
 
 	/**

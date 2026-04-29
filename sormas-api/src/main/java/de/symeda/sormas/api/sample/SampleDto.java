@@ -110,6 +110,23 @@ public class SampleDto extends SormasToSormasShareableDto implements IsSample {
 	public static final String DATE_SPECIMEN_SENT_TO_LABORATORY_TYPE = "dateSpecimenSentToLaboratoryType";
 	public static final String PACKAGING = "packaging";
 	public static final String PACKAGING_OTHER = "packagingOther";
+	public static final String BARCODE = "barcode";
+	public static final String CSF_SAMPLE_COLLECTED = "csfSampleCollected";
+	public static final String LP_NOT_DONE_REASON = "lpNotDoneReason";
+	public static final String LP_NOT_DONE_REASON_OTHER = "lpNotDoneReasonOther";
+	public static final String TIME_OF_INOCULATION_INTO_TRANSPORT_MEDIA = "timeOfInoculationIntoTransportMedia";
+	public static final String SAMPLES_NOT_SENT_REASON = "samplesNotSentReason";
+	public static final String DATE_TIME_SAMPLE_SENT_TO_LAB = "dateTimeSampleSentToLab";
+	public static final String SAMPLE_CONTAINER_USED = "sampleContainerUsed";
+	public static final String SAMPLE_CONTAINER_USED_OTHER = "sampleContainerUsedOther";
+	public static final String MENINGITIS_RDT_PERFORMED = "meningitisRdtPerformed";
+	public static final String MENINGITIS_RDT_RESULT = "meningitisRdtResult";
+	public static final String LAB_NUMBER = "labNumber";
+	public static final String SAMPLE_CONTAINER_RECEIVED = "sampleContainerReceived";
+	public static final String SAMPLE_CONTAINER_RECEIVED_OTHER = "sampleContainerReceivedOther";
+	public static final String SAMPLE_CONDITION_AT_RECEPTION = "sampleConditionAtReception";
+	public static final String CSF_APPEARANCE_AT_COLLECTION = "csfAppearanceAtCollection";
+	public static final String CSF_APPEARANCE_AT_RECEPTION = "csfAppearanceAtReception";
 	public static final String ELISA_IGM = "elisaIgm";
 	public static final String ELISA_IGM_DATE = "elisaIgmDate";
 	public static final String PCR = "pcr";
@@ -272,6 +289,69 @@ public class SampleDto extends SormasToSormasShareableDto implements IsSample {
 	@Diseases(value = {
 		Disease.CSM })
 	private String packagingOther;
+	@SensitiveData
+	@Size(max = FieldConstraints.CHARACTER_LIMIT_DEFAULT, message = Validations.textTooLong)
+	@Diseases(value = {
+		Disease.CSM })
+	private String barcode;
+	@Diseases(value = {
+		Disease.CSM })
+	private YesNo csfSampleCollected;
+	@Diseases(value = {
+		Disease.CSM })
+	private LpNotDoneReason lpNotDoneReason;
+	@SensitiveData
+	@Size(max = FieldConstraints.CHARACTER_LIMIT_DEFAULT, message = Validations.textTooLong)
+	@Diseases(value = {
+		Disease.CSM })
+	private String lpNotDoneReasonOther;
+	@Diseases(value = {
+		Disease.CSM })
+	private Date timeOfInoculationIntoTransportMedia;
+	@SensitiveData
+	@Size(max = FieldConstraints.CHARACTER_LIMIT_DEFAULT, message = Validations.textTooLong)
+	@Diseases(value = {
+		Disease.CSM })
+	private String samplesNotSentReason;
+	@Diseases(value = {
+		Disease.CSM })
+	private Date dateTimeSampleSentToLab;
+	@Diseases(value = {
+		Disease.CSM })
+	private SampleContainerType sampleContainerUsed;
+	@SensitiveData
+	@Size(max = FieldConstraints.CHARACTER_LIMIT_DEFAULT, message = Validations.textTooLong)
+	@Diseases(value = {
+		Disease.CSM })
+	private String sampleContainerUsedOther;
+	@Diseases(value = {
+		Disease.CSM })
+	private YesNo meningitisRdtPerformed;
+	@Diseases(value = {
+		Disease.CSM })
+	private MeningitisRdtResult meningitisRdtResult;
+	@SensitiveData
+	@Size(max = FieldConstraints.CHARACTER_LIMIT_DEFAULT, message = Validations.textTooLong)
+	@Diseases(value = {
+		Disease.CSM })
+	private String labNumber;
+	@Diseases(value = {
+		Disease.CSM })
+	private SampleContainerType sampleContainerReceived;
+	@SensitiveData
+	@Size(max = FieldConstraints.CHARACTER_LIMIT_DEFAULT, message = Validations.textTooLong)
+	@Diseases(value = {
+		Disease.CSM })
+	private String sampleContainerReceivedOther;
+	@Diseases(value = {
+		Disease.CSM })
+	private SpecimenCondition sampleConditionAtReception;
+	@Diseases(value = {
+		Disease.CSM })
+	private CsfAppearance csfAppearanceAtCollection;
+	@Diseases(value = {
+		Disease.CSM })
+	private CsfAppearance csfAppearanceAtReception;
 	@Diseases(value = {
 		Disease.YELLOW_FEVER,
 	Disease.AFP})
@@ -981,6 +1061,142 @@ public class SampleDto extends SormasToSormasShareableDto implements IsSample {
 
 	public void setPackagingOther(String packagingOther) {
 		this.packagingOther = packagingOther;
+	}
+
+	public String getBarcode() {
+		return barcode;
+	}
+
+	public void setBarcode(String barcode) {
+		this.barcode = barcode;
+	}
+
+	public YesNo getCsfSampleCollected() {
+		return csfSampleCollected;
+	}
+
+	public void setCsfSampleCollected(YesNo csfSampleCollected) {
+		this.csfSampleCollected = csfSampleCollected;
+	}
+
+	public LpNotDoneReason getLpNotDoneReason() {
+		return lpNotDoneReason;
+	}
+
+	public void setLpNotDoneReason(LpNotDoneReason lpNotDoneReason) {
+		this.lpNotDoneReason = lpNotDoneReason;
+	}
+
+	public String getLpNotDoneReasonOther() {
+		return lpNotDoneReasonOther;
+	}
+
+	public void setLpNotDoneReasonOther(String lpNotDoneReasonOther) {
+		this.lpNotDoneReasonOther = lpNotDoneReasonOther;
+	}
+
+	public Date getTimeOfInoculationIntoTransportMedia() {
+		return timeOfInoculationIntoTransportMedia;
+	}
+
+	public void setTimeOfInoculationIntoTransportMedia(Date timeOfInoculationIntoTransportMedia) {
+		this.timeOfInoculationIntoTransportMedia = timeOfInoculationIntoTransportMedia;
+	}
+
+	public String getSamplesNotSentReason() {
+		return samplesNotSentReason;
+	}
+
+	public void setSamplesNotSentReason(String samplesNotSentReason) {
+		this.samplesNotSentReason = samplesNotSentReason;
+	}
+
+	public Date getDateTimeSampleSentToLab() {
+		return dateTimeSampleSentToLab;
+	}
+
+	public void setDateTimeSampleSentToLab(Date dateTimeSampleSentToLab) {
+		this.dateTimeSampleSentToLab = dateTimeSampleSentToLab;
+	}
+
+	public SampleContainerType getSampleContainerUsed() {
+		return sampleContainerUsed;
+	}
+
+	public void setSampleContainerUsed(SampleContainerType sampleContainerUsed) {
+		this.sampleContainerUsed = sampleContainerUsed;
+	}
+
+	public String getSampleContainerUsedOther() {
+		return sampleContainerUsedOther;
+	}
+
+	public void setSampleContainerUsedOther(String sampleContainerUsedOther) {
+		this.sampleContainerUsedOther = sampleContainerUsedOther;
+	}
+
+	public YesNo getMeningitisRdtPerformed() {
+		return meningitisRdtPerformed;
+	}
+
+	public void setMeningitisRdtPerformed(YesNo meningitisRdtPerformed) {
+		this.meningitisRdtPerformed = meningitisRdtPerformed;
+	}
+
+	public MeningitisRdtResult getMeningitisRdtResult() {
+		return meningitisRdtResult;
+	}
+
+	public void setMeningitisRdtResult(MeningitisRdtResult meningitisRdtResult) {
+		this.meningitisRdtResult = meningitisRdtResult;
+	}
+
+	public String getLabNumber() {
+		return labNumber;
+	}
+
+	public void setLabNumber(String labNumber) {
+		this.labNumber = labNumber;
+	}
+
+	public SampleContainerType getSampleContainerReceived() {
+		return sampleContainerReceived;
+	}
+
+	public void setSampleContainerReceived(SampleContainerType sampleContainerReceived) {
+		this.sampleContainerReceived = sampleContainerReceived;
+	}
+
+	public String getSampleContainerReceivedOther() {
+		return sampleContainerReceivedOther;
+	}
+
+	public void setSampleContainerReceivedOther(String sampleContainerReceivedOther) {
+		this.sampleContainerReceivedOther = sampleContainerReceivedOther;
+	}
+
+	public SpecimenCondition getSampleConditionAtReception() {
+		return sampleConditionAtReception;
+	}
+
+	public void setSampleConditionAtReception(SpecimenCondition sampleConditionAtReception) {
+		this.sampleConditionAtReception = sampleConditionAtReception;
+	}
+
+	public CsfAppearance getCsfAppearanceAtCollection() {
+		return csfAppearanceAtCollection;
+	}
+
+	public void setCsfAppearanceAtCollection(CsfAppearance csfAppearanceAtCollection) {
+		this.csfAppearanceAtCollection = csfAppearanceAtCollection;
+	}
+
+	public CsfAppearance getCsfAppearanceAtReception() {
+		return csfAppearanceAtReception;
+	}
+
+	public void setCsfAppearanceAtReception(CsfAppearance csfAppearanceAtReception) {
+		this.csfAppearanceAtReception = csfAppearanceAtReception;
 	}
 
 	public SimpleTestResultType getElisaIgm() {

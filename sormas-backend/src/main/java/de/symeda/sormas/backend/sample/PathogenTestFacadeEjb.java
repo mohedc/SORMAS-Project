@@ -51,6 +51,7 @@ import de.symeda.sormas.api.sample.PathogenTestDto;
 import de.symeda.sormas.api.sample.PathogenTestFacade;
 import de.symeda.sormas.api.sample.PathogenTestResultType;
 import de.symeda.sormas.api.sample.PathogenTestType;
+import de.symeda.sormas.api.sample.PathogenTestTypeSelectionHelper;
 import de.symeda.sormas.api.sample.SampleReferenceDto;
 import de.symeda.sormas.api.user.NotificationType;
 import de.symeda.sormas.api.user.UserRight;
@@ -378,6 +379,46 @@ public class PathogenTestFacadeEjb implements PathogenTestFacade {
 		target.setResultExam(source.getResultExam());
 		target.setDiscordantSabin(source.getDiscordantSabin());
 
+		target.setSelectedPathogenTestTypes(
+			source.getSelectedPathogenTestTypes() == null ? null : new HashSet<>(source.getSelectedPathogenTestTypes()));
+		target.setCultureFindings(source.getCultureFindings() == null ? null : new HashSet<>(source.getCultureFindings()));
+		target.setPcrFindings(source.getPcrFindings() == null ? null : new HashSet<>(source.getPcrFindings()));
+		target.setCultureOtherGermsSpecify(source.getCultureOtherGermsSpecify());
+		target.setPcrOtherGermsSpecify(source.getPcrOtherGermsSpecify());
+		target.setCellCountLeucocytesPerMm3(source.getCellCountLeucocytesPerMm3());
+		target.setCsfGlucose(source.getCsfGlucose());
+		target.setCsfProtein(source.getCsfProtein());
+		target.setGramStainGpd(source.getGramStainGpd());
+		target.setGramStainGnd(source.getGramStainGnd());
+		target.setGramStainGpb(source.getGramStainGpb());
+		target.setGramStainGnb(source.getGramStainGnb());
+		target.setGramStainOtherPathogens(source.getGramStainOtherPathogens());
+		target.setGramStainOtherPathogensSpecify(source.getGramStainOtherPathogensSpecify());
+		target.setGramStainNoOrganismSeen(source.getGramStainNoOrganismSeen());
+		target.setLatexNmA(source.getLatexNmA());
+		target.setLatexNmC(source.getLatexNmC());
+		target.setLatexNmWY(source.getLatexNmWY());
+		target.setLatexNmBEcoliKi(source.getLatexNmBEcoliKi());
+		target.setLatexSPneumoniae(source.getLatexSPneumoniae());
+		target.setLatexHib(source.getLatexHib());
+		target.setLatexStrepB(source.getLatexStrepB());
+		target.setLatexNegative(source.getLatexNegative());
+		target.setRdtDipstickPerformed(source.getRdtDipstickPerformed());
+		target.setRdtDipstickResults(source.getRdtDipstickResults());
+		target.setCeftriaxoneSusceptibility(source.getCeftriaxoneSusceptibility());
+		target.setAmpicillinSusceptibility(source.getAmpicillinSusceptibility());
+		target.setGentamycinSusceptibility(source.getGentamycinSusceptibility());
+		target.setOxacillinSusceptibility(source.getOxacillinSusceptibility());
+		target.setChloramphenicolSusceptibility(source.getChloramphenicolSusceptibility());
+		target.setBenzylPenicillinSusceptibility(source.getBenzylPenicillinSusceptibility());
+		target.setOtherAntimicrobialDrugName(source.getOtherAntimicrobialDrugName());
+		target.setOtherAntimicrobialSusceptibility(source.getOtherAntimicrobialSusceptibility());
+		target.setDatePcrPerformed(source.getDatePcrPerformed());
+		target.setPcrTypeText(source.getPcrTypeText());
+		target.setPcrSerotype(source.getPcrSerotype());
+		target.setOtherTestTypeSpecify(source.getOtherTestTypeSpecify());
+		target.setOtherTestResults(source.getOtherTestResults());
+
 		return target;
 	}
 
@@ -489,6 +530,15 @@ public class PathogenTestFacadeEjb implements PathogenTestFacade {
 	public void validate(PathogenTestDto pathogenTest) throws ValidationRuntimeException {
 		if (pathogenTest.getSample() == null && pathogenTest.getEnvironmentSample() == null) {
 			throw new ValidationRuntimeException(I18nProperties.getValidationError(Validations.pathogenTestValidSampleOrEnvironment));
+		}
+
+		if (pathogenTest.getTestedDisease() == Disease.CSM
+			&& pathogenTest.getSelectedPathogenTestTypes() != null
+			&& !pathogenTest.getSelectedPathogenTestTypes().isEmpty()) {
+			PathogenTestType derived = PathogenTestTypeSelectionHelper.derivePrimaryTestType(pathogenTest.getSelectedPathogenTestTypes());
+			if (derived != null) {
+				pathogenTest.setTestType(derived);
+			}
 		}
 
 		if (pathogenTest.getTestType() == null) {
@@ -671,6 +721,45 @@ public class PathogenTestFacadeEjb implements PathogenTestFacade {
 		target.setOtherTestsPendingSpecify(source.getOtherTestsPendingSpecify());
 		target.setDateResultsSentToReferenceLaboratory(source.getDateResultsSentToReferenceLaboratory());
 		target.setReferenceLaboratory(facilityService.getByReferenceDto(source.getReferenceLaboratory()));
+		target.setSelectedPathogenTestTypes(
+			source.getSelectedPathogenTestTypes() == null ? null : new HashSet<>(source.getSelectedPathogenTestTypes()));
+		target.setCultureFindings(source.getCultureFindings() == null ? null : new HashSet<>(source.getCultureFindings()));
+		target.setPcrFindings(source.getPcrFindings() == null ? null : new HashSet<>(source.getPcrFindings()));
+		target.setCultureOtherGermsSpecify(source.getCultureOtherGermsSpecify());
+		target.setPcrOtherGermsSpecify(source.getPcrOtherGermsSpecify());
+		target.setCellCountLeucocytesPerMm3(source.getCellCountLeucocytesPerMm3());
+		target.setCsfGlucose(source.getCsfGlucose());
+		target.setCsfProtein(source.getCsfProtein());
+		target.setGramStainGpd(source.getGramStainGpd());
+		target.setGramStainGnd(source.getGramStainGnd());
+		target.setGramStainGpb(source.getGramStainGpb());
+		target.setGramStainGnb(source.getGramStainGnb());
+		target.setGramStainOtherPathogens(source.getGramStainOtherPathogens());
+		target.setGramStainOtherPathogensSpecify(source.getGramStainOtherPathogensSpecify());
+		target.setGramStainNoOrganismSeen(source.getGramStainNoOrganismSeen());
+		target.setLatexNmA(source.getLatexNmA());
+		target.setLatexNmC(source.getLatexNmC());
+		target.setLatexNmWY(source.getLatexNmWY());
+		target.setLatexNmBEcoliKi(source.getLatexNmBEcoliKi());
+		target.setLatexSPneumoniae(source.getLatexSPneumoniae());
+		target.setLatexHib(source.getLatexHib());
+		target.setLatexStrepB(source.getLatexStrepB());
+		target.setLatexNegative(source.getLatexNegative());
+		target.setRdtDipstickPerformed(source.getRdtDipstickPerformed());
+		target.setRdtDipstickResults(source.getRdtDipstickResults());
+		target.setCeftriaxoneSusceptibility(source.getCeftriaxoneSusceptibility());
+		target.setAmpicillinSusceptibility(source.getAmpicillinSusceptibility());
+		target.setGentamycinSusceptibility(source.getGentamycinSusceptibility());
+		target.setOxacillinSusceptibility(source.getOxacillinSusceptibility());
+		target.setChloramphenicolSusceptibility(source.getChloramphenicolSusceptibility());
+		target.setBenzylPenicillinSusceptibility(source.getBenzylPenicillinSusceptibility());
+		target.setOtherAntimicrobialDrugName(source.getOtherAntimicrobialDrugName());
+		target.setOtherAntimicrobialSusceptibility(source.getOtherAntimicrobialSusceptibility());
+		target.setDatePcrPerformed(source.getDatePcrPerformed());
+		target.setPcrTypeText(source.getPcrTypeText());
+		target.setPcrSerotype(source.getPcrSerotype());
+		target.setOtherTestTypeSpecify(source.getOtherTestTypeSpecify());
+		target.setOtherTestResults(source.getOtherTestResults());
 		target.setViralDetection(source.getViralDetection());
 		target.setViralDetectionTestType(source.getViralDetectionTestType());
 		target.setViralDetectionResults(source.getViralDetectionResults());
@@ -696,7 +785,6 @@ public class PathogenTestFacadeEjb implements PathogenTestFacade {
 		target.setResidualAnalysis(source.getResidualAnalysis());
 		target.setResultExam(source.getResultExam());
 		target.setDiscordantSabin(source.getDiscordantSabin());
-
 
 		return target;
 	}
