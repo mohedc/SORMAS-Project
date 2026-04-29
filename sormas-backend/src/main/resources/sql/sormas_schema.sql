@@ -15346,7 +15346,7 @@ ALTER TABLE cases ADD COLUMN IF NOT EXISTS menaconjunate varchar(255);
 ALTER TABLE cases ADD COLUMN IF NOT EXISTS menaconjunatedate timestamp;
 ALTER TABLE cases ADD COLUMN IF NOT EXISTS pcvi3i varchar(255);
 ALTER TABLE cases ADD COLUMN IF NOT EXISTS pcvi3idate timestamp;
-ALTER TABLE cases ADD COLUMN IF NOT EXISTS pvi3_2 varchar(255);
+ALTER TABLE cases ADD COLUMN IF NOT EXISTS pcvi3_2 varchar(255);
 ALTER TABLE cases ADD COLUMN IF NOT EXISTS pcvi3_2date timestamp;
 ALTER TABLE cases ADD COLUMN IF NOT EXISTS pcv13_3 varchar(255);
 ALTER TABLE cases ADD COLUMN IF NOT EXISTS pcv13_3date timestamp;
