@@ -3328,6 +3328,8 @@ public class CaseFacadeEjb extends AbstractCoreFacadeEjb<Case, CaseDataDto, Case
 		target.setDateLabResultsSentHealthFacilityRegion(source.getDateLabResultsSentHealthFacilityRegion());
 		target.setDateLabResultsReceivedAtHealthFacility(source.getDateLabResultsReceivedAtHealthFacility());
 		target.setRegionLabResultsReceived(RegionFacadeEjb.toReferenceDto(source.getRegionLabResultsReceived()));
+		target.setVdpvClassification(source.getVdpvClassification());
+		target.setSeroClassification(source.getSeroClassification());
 
 		return target;
 	}
@@ -3623,6 +3625,8 @@ public class CaseFacadeEjb extends AbstractCoreFacadeEjb<Case, CaseDataDto, Case
 		target.setDateLabResultsSentHealthFacilityRegion(source.getDateLabResultsSentHealthFacilityRegion());
 		target.setDateLabResultsReceivedAtHealthFacility(source.getDateLabResultsReceivedAtHealthFacility());
 		target.setRegionLabResultsReceived(regionService.getByReferenceDto(source.getRegionLabResultsReceived()));
+		target.setVdpvClassification(source.getVdpvClassification());
+		target.setSeroClassification(source.getSeroClassification());
         return target;
 	}
 

@@ -67,15 +67,6 @@ public enum FinalClassification {
 	NOT_AN_AFP_CASE,
 	@Diseases({
 			Disease.AFP})
-	cVDPV,
-	@Diseases({
-			Disease.AFP})
-	aVDPV,
-	@Diseases({
-			Disease.AFP})
-	iVDPV,
-	@Diseases({
-			Disease.AFP})
 	SERO_TYPE,
 	AFP_CLASSIFICATION;
 	@Override

@@ -271,6 +271,8 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 	public static final String SUPPLEMENTAL_IMMUNIZATION = "supplementalImmunization";
 	public static final String SUPPLEMENTAL_IMMUNIZATION_DETAILS = "supplementalImmunizationDetails";
 	public static final String FINAL_CLASSIFICATION = "finalClassification";
+	public static final String VDPV_CLASSIFICATION = "vdpvClassification";
+	public static final String SERO_CLASSIFICATION = "seroClassification";
 	public static final String IMMUNOCOMPROMISED_STATUS_SUSPECTED = "immunocompromisedStatusSuspected";
 	public static final String DATE_REGION_RECEIVES_LAB_RESULTS = "dateRegionReceivesLabResults";
 	public static final String DATE_LAB_RESULTS_SENT_HEALTH_FACILITY_REGION = "dateLabResultsSentHealthFacilityRegion";
@@ -980,6 +982,8 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 	private String healthWorkerCompletingForm;
 
 	private FinalClassification finalClassification;
+	private Vdpv vdpvClassification;
+	private SeroType seroClassification;
 	@Diseases({
 			Disease.CONGENITAL_RUBELLA })
 	private ClassificationByOrigin classificationByOrigin;
@@ -2892,6 +2896,22 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 
 	public void setRegionLabResultsReceived(RegionReferenceDto regionLabResultsReceived) {
 		this.regionLabResultsReceived = regionLabResultsReceived;
+	}
+
+	public Vdpv getVdpvClassification() {
+		return vdpvClassification;
+	}
+
+	public void setVdpvClassification(Vdpv vdpvClassification) {
+		this.vdpvClassification = vdpvClassification;
+	}
+
+	public SeroType getSeroClassification() {
+		return seroClassification;
+	}
+
+	public void setSeroClassification(SeroType seroClassification) {
+		this.seroClassification = seroClassification;
 	}
 
     @JsonIgnore

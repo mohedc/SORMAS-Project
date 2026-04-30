@@ -877,6 +877,7 @@ public interface Captions {
 	String CaseData_responsibleRegion = "CaseData.responsibleRegion";
 	String CaseData_regionLabResultsReceived = "CaseData.regionLabResultsReceived";
 	String CaseData_screeningType = "CaseData.screeningType";
+	String CaseData_seroClassification = "CaseData.seroClassification";
 	String CaseData_sequelae = "CaseData.sequelae";
 	String CaseData_sequelaeDetails = "CaseData.sequelaeDetails";
 	String CaseData_sharedToCountry = "CaseData.sharedToCountry";
@@ -896,6 +897,7 @@ public interface Captions {
 	String CaseData_vaccinationStatus = "CaseData.vaccinationStatus";
 	String CaseData_vaccinationStatusUpdate = "CaseData.vaccinationStatusUpdate";
 	String CaseData_visits = "CaseData.visits";
+	String CaseData_vdpvClassification = "CaseData.vdpvClassification";
 	String CaseData_wasInQuarantineBeforeIsolation = "CaseData.wasInQuarantineBeforeIsolation";
 	String caseDataEnterHomeAddressNow = "caseDataEnterHomeAddressNow";
 	String caseDefaultView = "caseDefaultView";

@@ -75,7 +75,7 @@ public class CaseFinalClassificationForm extends AbstractEditForm<CaseDataDto> {
 	private static final String AFP_HTML_LAYOUT =
 			loc(FINAL_CLASSIFICATION_HEADING_LOC) +
 					fluidRowLocs(6,CaseDataDto.IMMUNOCOMPROMISED_STATUS_SUSPECTED) +
-					fluidRowLocs(CaseDataDto.FINAL_CLASSIFICATION);
+					fluidRowLocs(CaseDataDto.FINAL_CLASSIFICATION, CaseDataDto.VDPV_CLASSIFICATION, CaseDataDto.SERO_CLASSIFICATION);
 
 	private static final String IDSR_HTML_LAYOUT =
 			loc(FINAL_CLASSIFICATION_HEADING_LOC) +
@@ -165,6 +165,8 @@ public class CaseFinalClassificationForm extends AbstractEditForm<CaseDataDto> {
 		addField(CaseDataDto.INVESTIGATOR_NAME, TextField.class);
 		addField(CaseDataDto.INVESTIGATOR_TEL, TextField.class);
 		finalClassificationField = addField(CaseDataDto.FINAL_CLASSIFICATION, ComboBox.class);
+		addField(CaseDataDto.VDPV_CLASSIFICATION, ComboBox.class);
+		addField(CaseDataDto.SERO_CLASSIFICATION, ComboBox.class);
 		finalClassificationField.setNullSelectionAllowed(true);
 		finalClassificationField.setItemCaptionMode(ComboBox.ItemCaptionMode.ID_TOSTRING);
 		TextArea classificationCommentField = addField(CaseDataDto.CLASSIFICATION_COMMENT, TextArea.class);
@@ -279,11 +281,7 @@ public class CaseFinalClassificationForm extends AbstractEditForm<CaseDataDto> {
 					FinalClassification.CONFIRMED_POLIO,
 					FinalClassification.COMPATIBLE,
 					FinalClassification.DISCARDED,
-					FinalClassification.NOT_AN_AFP_CASE,
-					FinalClassification.cVDPV,
-					FinalClassification.aVDPV,
-					FinalClassification.iVDPV,
-					FinalClassification.SERO_TYPE
+					FinalClassification.NOT_AN_AFP_CASE
 			);
 		}
 		return Arrays.asList(

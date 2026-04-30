@@ -15572,6 +15572,10 @@ ALTER TABLE pathogentest DROP COLUMN sabintype2;
 ALTER TABLE pathogentest DROP COLUMN sabintype3;
 
 INSERT INTO schema_version (version_number, comment) VALUES (663, 'Dropped initial sabintype single columns and added one column at pathogentest');
+
+ALTER TABLE cases ADD COLUMN vdpvclassification varchar(255);
+ALTER TABLE cases ADD COLUMN seroclassification varchar(255);
+INSERT INTO schema_version (version_number, comment) VALUES (664, 'Added two fields at cases for AFP classification');
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***
 
 

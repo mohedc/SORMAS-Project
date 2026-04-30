@@ -45,8 +45,7 @@ import de.symeda.sormas.api.caze.*;
 import de.symeda.sormas.api.caze.caseimport.MotherVaccinationStatus;
 import de.symeda.sormas.api.infrastructure.region.RegionReferenceDto;
 import de.symeda.sormas.api.sample.FinalClassification;
-import de.symeda.sormas.api.utils.Diseases;
-import de.symeda.sormas.api.utils.YesNo;
+import de.symeda.sormas.api.utils.*;
 import de.symeda.sormas.backend.afpimmunization.AfpImmunization;
 import de.symeda.sormas.backend.response.Response;
 import org.hibernate.annotations.Type;
@@ -58,8 +57,6 @@ import de.symeda.sormas.api.disease.DiseaseVariant;
 import de.symeda.sormas.api.disease.DiseaseVariantConverter;
 import de.symeda.sormas.api.externaldata.HasExternalData;
 import de.symeda.sormas.api.infrastructure.facility.FacilityType;
-import de.symeda.sormas.api.utils.PersonalData;
-import de.symeda.sormas.api.utils.YesNoUnknown;
 import de.symeda.sormas.backend.caze.maternalhistory.MaternalHistory;
 import de.symeda.sormas.backend.caze.porthealthinfo.PortHealthInfo;
 import de.symeda.sormas.backend.caze.surveillancereport.SurveillanceReport;
@@ -525,6 +522,8 @@ public class Case extends CoreAdo implements IsCase, SormasToSormasShareable, Ha
 	private Date dateLabResultsSentHealthFacilityRegion;
 	private Date dateLabResultsReceivedAtHealthFacility;
 	private Region  regionLabResultsReceived;
+	private Vdpv vdpvClassification;
+	private SeroType seroClassification;
 
     public static Case build() {
 		Case caze = new Case();
@@ -2662,5 +2661,21 @@ public class Case extends CoreAdo implements IsCase, SormasToSormasShareable, Ha
 
 	public void setRegionLabResultsReceived(Region regionLabResultsReceived) {
 		this.regionLabResultsReceived = regionLabResultsReceived;
+	}
+	@Enumerated(EnumType.STRING)
+	public Vdpv getVdpvClassification() {
+		return vdpvClassification;
+	}
+
+	public void setVdpvClassification(Vdpv vdpvClassification) {
+		this.vdpvClassification = vdpvClassification;
+	}
+	@Enumerated(EnumType.STRING)
+	public SeroType getSeroClassification() {
+		return seroClassification;
+	}
+
+	public void setSeroClassification(SeroType seroClassification) {
+		this.seroClassification = seroClassification;
 	}
 }
