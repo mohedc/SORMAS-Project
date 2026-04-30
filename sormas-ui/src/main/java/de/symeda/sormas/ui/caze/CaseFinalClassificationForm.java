@@ -286,6 +286,13 @@ public class CaseFinalClassificationForm extends AbstractEditForm<CaseDataDto> {
 					FinalClassification.SERO_TYPE
 			);
 		}
+		if (Disease.CSM.equals(disease)) {
+			return Arrays.asList(
+				FinalClassification.LAB_CONFIRMED,
+				FinalClassification.PROBABLE,
+				FinalClassification.SUSPECTED
+			);
+		}
 		return Arrays.asList(
 				FinalClassification.LAB_CONFIRMED,
 				FinalClassification.CONFIRMED_BY_EPIDEMIOLOGICAL_LINKAGE,
