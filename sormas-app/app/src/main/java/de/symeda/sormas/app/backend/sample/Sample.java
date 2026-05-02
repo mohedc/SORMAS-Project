@@ -35,16 +35,21 @@ import javax.persistence.Enumerated;
 import javax.persistence.Transient;
 
 import de.symeda.sormas.api.sample.AdditionalTestType;
+import de.symeda.sormas.api.sample.CsfAppearance;
+import de.symeda.sormas.api.sample.LpNotDoneReason;
+import de.symeda.sormas.api.sample.MeningitisRdtResult;
 import de.symeda.sormas.api.sample.PathogenTestResultType;
 import de.symeda.sormas.api.sample.PathogenTestType;
 import de.symeda.sormas.api.sample.LaboratoryType;
 import de.symeda.sormas.api.sample.LpAspect;
 import de.symeda.sormas.api.sample.LpPackaging;
 import de.symeda.sormas.api.sample.Packaging;
+import de.symeda.sormas.api.sample.SampleContainerType;
 import de.symeda.sormas.api.sample.SampleMaterial;
 import de.symeda.sormas.api.sample.SamplePurpose;
 import de.symeda.sormas.api.sample.SampleSource;
 import de.symeda.sormas.api.sample.SamplingReason;
+import de.symeda.sormas.api.sample.SimpleTestResultType;
 import de.symeda.sormas.api.sample.SpecimenCondition;
 import de.symeda.sormas.api.utils.YesNo;
 import de.symeda.sormas.app.backend.caze.Case;
@@ -190,6 +195,56 @@ public class Sample extends PseudonymizableAdo {
 	private Packaging packaging;
 	@Column(length = CHARACTER_LIMIT_DEFAULT)
 	private String packagingOther;
+
+	@Enumerated(EnumType.STRING)
+	private SimpleTestResultType elisaIgm;
+	@DatabaseField(dataType = DataType.DATE_LONG)
+	private Date elisaIgmDate;
+	@Enumerated(EnumType.STRING)
+	private PathogenTestResultType pcr;
+	@DatabaseField(dataType = DataType.DATE_LONG)
+	private Date pcrDate;
+	@Enumerated(EnumType.STRING)
+	private PathogenTestResultType prnt;
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	private String prntInputValue;
+	@DatabaseField(dataType = DataType.DATE_LONG)
+	private Date prntDate;
+
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	private String barcode;
+	@Enumerated(EnumType.STRING)
+	private YesNo csfSampleCollected;
+	@Enumerated(EnumType.STRING)
+	private LpNotDoneReason lpNotDoneReason;
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	private String lpNotDoneReasonOther;
+	@DatabaseField(dataType = DataType.DATE_LONG)
+	private Date timeOfInoculationIntoTransportMedia;
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	private String samplesNotSentReason;
+	@DatabaseField(dataType = DataType.DATE_LONG)
+	private Date dateTimeSampleSentToLab;
+	@Enumerated(EnumType.STRING)
+	private SampleContainerType sampleContainerUsed;
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	private String sampleContainerUsedOther;
+	@Enumerated(EnumType.STRING)
+	private YesNo meningitisRdtPerformed;
+	@Enumerated(EnumType.STRING)
+	private MeningitisRdtResult meningitisRdtResult;
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	private String labNumber;
+	@Enumerated(EnumType.STRING)
+	private SampleContainerType sampleContainerReceived;
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	private String sampleContainerReceivedOther;
+	@Enumerated(EnumType.STRING)
+	private SpecimenCondition sampleConditionAtReception;
+	@Enumerated(EnumType.STRING)
+	private CsfAppearance csfAppearanceAtCollection;
+	@Enumerated(EnumType.STRING)
+	private CsfAppearance csfAppearanceAtReception;
 
 	@Column(length = CHARACTER_LIMIT_DEFAULT)
 	private String noTestPossibleReason;
@@ -792,5 +847,205 @@ public class Sample extends PseudonymizableAdo {
 
 	public void setOwnershipHandedOver(boolean ownershipHandedOver) {
 		this.ownershipHandedOver = ownershipHandedOver;
+	}
+
+	public SimpleTestResultType getElisaIgm() {
+		return elisaIgm;
+	}
+
+	public void setElisaIgm(SimpleTestResultType elisaIgm) {
+		this.elisaIgm = elisaIgm;
+	}
+
+	public Date getElisaIgmDate() {
+		return elisaIgmDate;
+	}
+
+	public void setElisaIgmDate(Date elisaIgmDate) {
+		this.elisaIgmDate = elisaIgmDate;
+	}
+
+	public PathogenTestResultType getPcr() {
+		return pcr;
+	}
+
+	public void setPcr(PathogenTestResultType pcr) {
+		this.pcr = pcr;
+	}
+
+	public Date getPcrDate() {
+		return pcrDate;
+	}
+
+	public void setPcrDate(Date pcrDate) {
+		this.pcrDate = pcrDate;
+	}
+
+	public PathogenTestResultType getPrnt() {
+		return prnt;
+	}
+
+	public void setPrnt(PathogenTestResultType prnt) {
+		this.prnt = prnt;
+	}
+
+	public String getPrntInputValue() {
+		return prntInputValue;
+	}
+
+	public void setPrntInputValue(String prntInputValue) {
+		this.prntInputValue = prntInputValue;
+	}
+
+	public Date getPrntDate() {
+		return prntDate;
+	}
+
+	public void setPrntDate(Date prntDate) {
+		this.prntDate = prntDate;
+	}
+
+	public String getBarcode() {
+		return barcode;
+	}
+
+	public void setBarcode(String barcode) {
+		this.barcode = barcode;
+	}
+
+	public YesNo getCsfSampleCollected() {
+		return csfSampleCollected;
+	}
+
+	public void setCsfSampleCollected(YesNo csfSampleCollected) {
+		this.csfSampleCollected = csfSampleCollected;
+	}
+
+	public LpNotDoneReason getLpNotDoneReason() {
+		return lpNotDoneReason;
+	}
+
+	public void setLpNotDoneReason(LpNotDoneReason lpNotDoneReason) {
+		this.lpNotDoneReason = lpNotDoneReason;
+	}
+
+	public String getLpNotDoneReasonOther() {
+		return lpNotDoneReasonOther;
+	}
+
+	public void setLpNotDoneReasonOther(String lpNotDoneReasonOther) {
+		this.lpNotDoneReasonOther = lpNotDoneReasonOther;
+	}
+
+	public Date getTimeOfInoculationIntoTransportMedia() {
+		return timeOfInoculationIntoTransportMedia;
+	}
+
+	public void setTimeOfInoculationIntoTransportMedia(Date timeOfInoculationIntoTransportMedia) {
+		this.timeOfInoculationIntoTransportMedia = timeOfInoculationIntoTransportMedia;
+	}
+
+	public String getSamplesNotSentReason() {
+		return samplesNotSentReason;
+	}
+
+	public void setSamplesNotSentReason(String samplesNotSentReason) {
+		this.samplesNotSentReason = samplesNotSentReason;
+	}
+
+	public Date getDateTimeSampleSentToLab() {
+		return dateTimeSampleSentToLab;
+	}
+
+	public void setDateTimeSampleSentToLab(Date dateTimeSampleSentToLab) {
+		this.dateTimeSampleSentToLab = dateTimeSampleSentToLab;
+	}
+
+	public SampleContainerType getSampleContainerUsed() {
+		return sampleContainerUsed;
+	}
+
+	public void setSampleContainerUsed(SampleContainerType sampleContainerUsed) {
+		this.sampleContainerUsed = sampleContainerUsed;
+	}
+
+	public String getSampleContainerUsedOther() {
+		return sampleContainerUsedOther;
+	}
+
+	public void setSampleContainerUsedOther(String sampleContainerUsedOther) {
+		this.sampleContainerUsedOther = sampleContainerUsedOther;
+	}
+
+	public YesNo getMeningitisRdtPerformed() {
+		return meningitisRdtPerformed;
+	}
+
+	public void setMeningitisRdtPerformed(YesNo meningitisRdtPerformed) {
+		this.meningitisRdtPerformed = meningitisRdtPerformed;
+	}
+
+	public MeningitisRdtResult getMeningitisRdtResult() {
+		return meningitisRdtResult;
+	}
+
+	public void setMeningitisRdtResult(MeningitisRdtResult meningitisRdtResult) {
+		this.meningitisRdtResult = meningitisRdtResult;
+	}
+
+	public String getLabNumber() {
+		return labNumber;
+	}
+
+	public void setLabNumber(String labNumber) {
+		this.labNumber = labNumber;
+	}
+
+	public SampleContainerType getSampleContainerReceived() {
+		return sampleContainerReceived;
+	}
+
+	public void setSampleContainerReceived(SampleContainerType sampleContainerReceived) {
+		this.sampleContainerReceived = sampleContainerReceived;
+	}
+
+	public String getSampleContainerReceivedOther() {
+		return sampleContainerReceivedOther;
+	}
+
+	public void setSampleContainerReceivedOther(String sampleContainerReceivedOther) {
+		this.sampleContainerReceivedOther = sampleContainerReceivedOther;
+	}
+
+	public SpecimenCondition getSampleConditionAtReception() {
+		return sampleConditionAtReception;
+	}
+
+	public void setSampleConditionAtReception(SpecimenCondition sampleConditionAtReception) {
+		this.sampleConditionAtReception = sampleConditionAtReception;
+	}
+
+	public CsfAppearance getCsfAppearanceAtCollection() {
+		return csfAppearanceAtCollection;
+	}
+
+	public void setCsfAppearanceAtCollection(CsfAppearance csfAppearanceAtCollection) {
+		this.csfAppearanceAtCollection = csfAppearanceAtCollection;
+	}
+
+	public CsfAppearance getCsfAppearanceAtReception() {
+		return csfAppearanceAtReception;
+	}
+
+	public void setCsfAppearanceAtReception(CsfAppearance csfAppearanceAtReception) {
+		this.csfAppearanceAtReception = csfAppearanceAtReception;
+	}
+
+	public Date getDateResultsSentToReferringClinician() {
+		return dateResultsSentToReferringClinician;
+	}
+
+	public void setDateResultsSentToReferringClinician(Date dateResultsSentToReferringClinician) {
+		this.dateResultsSentToReferringClinician = dateResultsSentToReferringClinician;
 	}
 }

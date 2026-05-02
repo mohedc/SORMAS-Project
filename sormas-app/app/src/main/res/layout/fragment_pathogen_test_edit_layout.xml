@@ -31,8 +31,13 @@
         <import type="de.symeda.sormas.api.sample.PathogenTestResultType" />
         <import type="de.symeda.sormas.api.Disease" />
         <import type="de.symeda.sormas.api.disease.DiseaseVariant" />
+        <import type="de.symeda.sormas.api.sample.FinalClassification" />
+        <import type="de.symeda.sormas.api.sample.MacroscopicExamination" />
+        <import type="de.symeda.sormas.api.sample.GramStainResult" />
+        <import type="de.symeda.sormas.api.utils.YesNo" />
 
         <variable name="data" type="de.symeda.sormas.app.backend.sample.PathogenTest"/>
+        <variable name="yesNoClass" type="Class" />
     </data>
 
     <ScrollView
@@ -157,6 +162,166 @@
                     app:required="true"
                     app:value="@={data.testResult}"
                     style="@style/ControlSingleColumnStyle" />
+
+                <LinearLayout
+                    android:id="@+id/pathogenTest_cif_extended_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:id="@+id/pathogenTest_surveillance_dates_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <de.symeda.sormas.app.component.controls.ControlDateField
+                                android:id="@+id/pathogenTest_dateResultsSentToDistrict"
+                                app:value="@={data.dateResultsSentToDistrict}"
+                                style="@style/ControlFirstOfTwoColumnsStyle" />
+
+                            <de.symeda.sormas.app.component.controls.ControlDateField
+                                android:id="@+id/pathogenTest_dateDistrictReceivedLabResults"
+                                app:value="@={data.dateDistrictReceivedLabResults}"
+                                style="@style/ControlSecondOfTwoColumnsStyle" />
+
+                        </LinearLayout>
+
+                        <de.symeda.sormas.app.component.controls.ControlDateField
+                            android:id="@+id/pathogenTest_dateResultsSentToDiseaseSurveillance"
+                            app:value="@={data.dateResultsSentToDiseaseSurveillance}"
+                            style="@style/ControlSingleColumnStyle" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <de.symeda.sormas.app.component.controls.ControlDateField
+                                android:id="@+id/pathogenTest_dateIndirectResultsReceivedAtNationalEPIOffice"
+                                app:value="@={data.dateIndirectResultsReceivedAtNationalEPIOffice}"
+                                style="@style/ControlFirstOfTwoColumnsStyle" />
+
+                            <de.symeda.sormas.app.component.controls.ControlDateField
+                                android:id="@+id/pathogenTest_dateCapturedResultsReceivedAtNationalEPIOffice"
+                                app:value="@={data.dateCapturedResultsReceivedAtNationalEPIOffice}"
+                                style="@style/ControlSecondOfTwoColumnsStyle" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <de.symeda.sormas.app.component.controls.ControlDateField
+                                android:id="@+id/pathogenTest_dateResultsSentToRegion"
+                                app:value="@={data.dateResultsSentToRegion}"
+                                style="@style/ControlFirstOfTwoColumnsStyle" />
+
+                            <de.symeda.sormas.app.component.controls.ControlDateField
+                                android:id="@+id/pathogenTest_dateResultsSentToReferenceLaboratory"
+                                app:value="@={data.dateResultsSentToReferenceLaboratory}"
+                                style="@style/ControlSecondOfTwoColumnsStyle" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/pathogenTest_measles_yf_classification_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <de.symeda.sormas.app.component.controls.ControlSpinnerField
+                            android:id="@+id/pathogenTest_finalClassification"
+                            app:value="@={data.finalClassification}"
+                            style="@style/ControlSingleColumnStyle" />
+
+                        <de.symeda.sormas.app.component.controls.ControlSwitchField
+                            android:id="@+id/pathogenTest_communityInvestigation"
+                            app:useBoolean="true"
+                            app:value="@={data.communityInvestigation}"
+                            style="@style/ControlSingleColumnStyle" />
+
+                        <de.symeda.sormas.app.component.controls.ControlTextEditField
+                            android:id="@+id/pathogenTest_investigationResults"
+                            app:value="@={data.investigationResults}"
+                            style="@style/ControlSingleColumnStyle" />
+
+                        <de.symeda.sormas.app.component.controls.ControlTextEditField
+                            android:id="@+id/pathogenTest_sourceOfInfectionIdentified"
+                            app:value="@={data.sourceOfInfectionIdentified}"
+                            style="@style/ControlSingleColumnStyle" />
+
+                        <de.symeda.sormas.app.component.controls.ControlTextEditField
+                            android:id="@+id/pathogenTest_virusDetectionGenotype"
+                            app:value="@={data.virusDetectionGenotype}"
+                            style="@style/ControlSingleColumnStyle" />
+
+                        <de.symeda.sormas.app.component.controls.ControlSwitchField
+                            android:id="@+id/pathogenTest_virusIsolated"
+                            app:useBoolean="true"
+                            app:value="@={data.virusIsolated}"
+                            style="@style/ControlSingleColumnStyle" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/pathogenTest_crs_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <de.symeda.sormas.app.component.controls.ControlSwitchField
+                            android:id="@+id/pathogenTest_performRubellaTest"
+                            app:useBoolean="true"
+                            app:value="@={data.performRubellaTest}"
+                            style="@style/ControlSingleColumnStyle" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/pathogenTest_csm_lab_panel_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <de.symeda.sormas.app.component.controls.ControlSpinnerField
+                            android:id="@+id/pathogenTest_macroscopicExamination"
+                            app:value="@={data.macroscopicExamination}"
+                            style="@style/ControlSingleColumnStyle" />
+
+                        <de.symeda.sormas.app.component.controls.ControlSpinnerField
+                            android:id="@+id/pathogenTest_gramStainResult"
+                            app:value="@={data.gramStainResult}"
+                            style="@style/ControlSingleColumnStyle" />
+
+                        <de.symeda.sormas.app.component.controls.ControlSwitchField
+                            android:id="@+id/pathogenTest_rdtDipstickPerformed"
+                            app:enumClass="@{yesNoClass}"
+                            app:value="@={data.rdtDipstickPerformed}"
+                            style="@style/ControlSingleColumnStyle" />
+
+                        <de.symeda.sormas.app.component.controls.ControlTextEditField
+                            android:id="@+id/pathogenTest_rdtDipstickResults"
+                            app:value="@={data.rdtDipstickResults}"
+                            style="@style/ControlSingleColumnStyle" />
+
+                        <de.symeda.sormas.app.component.controls.InfrastructureSpinnerField
+                            android:id="@+id/pathogenTest_referenceLaboratory"
+                            app:value="@={data.referenceLaboratory}"
+                            style="@style/ControlSingleColumnStyle" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
 
                 <de.symeda.sormas.app.component.controls.ControlCheckBoxField
                     android:id="@+id/pathogenTest_fourFoldIncreaseAntibodyTiter"

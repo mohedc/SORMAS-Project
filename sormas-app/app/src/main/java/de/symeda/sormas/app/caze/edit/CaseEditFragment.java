@@ -243,6 +243,7 @@ public class CaseEditFragment extends BaseEditFragment<FragmentCaseEditLayoutBin
 			contentBinding.caseDataArrivalAtNationalLevelDate.setVisibility(VISIBLE);
 			contentBinding.caseDataVaccineType.setVisibility(VISIBLE);
 			contentBinding.caseDataHealthWorkerCompletingForm.setVisibility(VISIBLE);
+			contentBinding.caseDataCsmExtendedSection.setVisibility(VISIBLE);
 		} else {
 			contentBinding.caseDataCaseReferenceNumber.setVisibility(GONE);
 			contentBinding.caseDataRegionLevelDate.setVisibility(GONE);
@@ -251,6 +252,7 @@ public class CaseEditFragment extends BaseEditFragment<FragmentCaseEditLayoutBin
 			contentBinding.caseDataArrivalAtNationalLevelDate.setVisibility(GONE);
 			contentBinding.caseDataVaccineType.setVisibility(GONE);
 			contentBinding.caseDataHealthWorkerCompletingForm.setVisibility(GONE);
+			contentBinding.caseDataCsmExtendedSection.setVisibility(GONE);
 		}
 
 		// RUBELLA_LAYOUT - dateOfNotification already exists, visibility handled by field visibility checkers
@@ -742,6 +744,23 @@ public class CaseEditFragment extends BaseEditFragment<FragmentCaseEditLayoutBin
 		contentBinding.caseDataNationalLevelDate.initializeDateField(getFragmentManager());
 		contentBinding.caseDataArrivalAtRegionalPublicHealthOfficeDate.initializeDateField(getFragmentManager());
 		contentBinding.caseDataArrivalAtNationalLevelDate.initializeDateField(getFragmentManager());
+		contentBinding.caseDataMenacDate.initializeDateField(getFragmentManager());
+		contentBinding.caseDataMenacwDate.initializeDateField(getFragmentManager());
+		contentBinding.caseDataMenacwyDate.initializeDateField(getFragmentManager());
+		contentBinding.caseDataMenaConjunateDate.initializeDateField(getFragmentManager());
+		contentBinding.caseDataPcvi3IDate.initializeDateField(getFragmentManager());
+		contentBinding.caseDataPcvi32Date.initializeDateField(getFragmentManager());
+		contentBinding.caseDataPcv133Date.initializeDateField(getFragmentManager());
+		contentBinding.caseDataHibIDate.initializeDateField(getFragmentManager());
+		contentBinding.caseDataHib2Date.initializeDateField(getFragmentManager());
+		contentBinding.caseDataHib3Date.initializeDateField(getFragmentManager());
+		contentBinding.caseDataDistrictNotificationDate.initializeDateField(getFragmentManager());
+		contentBinding.caseDataDateFormSentToDistrict.initializeDateField(getFragmentManager());
+		contentBinding.caseDataDateFormReceivedAtDistrict.initializeDateField(getFragmentManager());
+		contentBinding.caseDataDateFormSentToRegion.initializeDateField(getFragmentManager());
+		contentBinding.caseDataDateFormReceivedAtRegion.initializeDateField(getFragmentManager());
+		contentBinding.caseDataDateFormSentToNational.initializeDateField(getFragmentManager());
+		contentBinding.caseDataDateFormReceivedAtNational.initializeDateField(getFragmentManager());
 
 		// Replace classification user field with classified by field when case has been classified automatically
 		if (contentBinding.getData().getClassificationDate() != null && contentBinding.getData().getClassificationUser() == null) {

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/base_layout">
+
+    <data>
+        <import type="de.symeda.sormas.api.utils.YesNo" />
+
+        <variable name="data" type="de.symeda.sormas.app.backend.caze.Case" />
+        <variable name="yesNoClass" type="Class" />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/main_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:orientation="vertical"
+            android:padding="@dimen/fragment_padding">
+
+            <de.symeda.sormas.app.component.controls.ControlSwitchField
+                android:id="@+id/caseData_measlesCommunityInvestigation"
+                android:visibility="gone"
+                app:enumClass="@{yesNoClass}"
+                app:value="@={data.measlesCommunityInvestigation}"
+                style="@style/ControlSingleColumnStyle" />
+
+            <de.symeda.sormas.app.component.controls.ControlTextEditField
+                android:id="@+id/caseData_measlesInvestigationResults"
+                android:visibility="gone"
+                app:value="@={data.measlesInvestigationResults}"
+                app:dependencyParentField="@{caseDataMeaslesCommunityInvestigation}"
+                app:dependencyParentValue="@{YesNo.YES}"
+                style="@style/ControlSingleColumnStyle" />
+
+            <de.symeda.sormas.app.component.controls.ControlSwitchField
+                android:id="@+id/caseData_sourceOfInfectionIdentifiedFinal"
+                android:visibility="gone"
+                app:enumClass="@{yesNoClass}"
+                app:value="@={data.sourceOfInfectionIdentified}"
+                style="@style/ControlSingleColumnStyle" />
+
+            <de.symeda.sormas.app.component.controls.ControlSpinnerField
+                android:id="@+id/caseData_finalClassification"
+                android:visibility="gone"
+                app:value="@={data.finalClassification}"
+                style="@style/ControlSingleColumnStyle" />
+
+            <de.symeda.sormas.app.component.controls.ControlTextEditField
+                android:id="@+id/caseData_classificationCommentFinal"
+                android:visibility="gone"
+                app:value="@={data.classificationComment}"
+                style="@style/ControlSingleColumnStyle" />
+
+            <de.symeda.sormas.app.component.controls.ControlTextEditField
+                android:id="@+id/caseData_finalClassificationDiscarded"
+                android:visibility="gone"
+                app:value="@={data.finalClassificationDiscarded}"
+                style="@style/ControlSingleColumnStyle" />
+
+            <de.symeda.sormas.app.component.controls.ControlDateField
+                android:id="@+id/caseData_classificationDateFinal"
+                android:visibility="gone"
+                app:value="@={data.classificationDate}"
+                style="@style/ControlSingleColumnStyle" />
+
+            <de.symeda.sormas.app.component.controls.ControlSpinnerField
+                android:id="@+id/caseData_classificationByOrigin"
+                android:visibility="gone"
+                app:value="@={data.classificationByOrigin}"
+                style="@style/ControlSingleColumnStyle" />
+
+            <de.symeda.sormas.app.component.controls.ControlTextEditField
+                android:id="@+id/caseData_investigatorNameFinal"
+                android:visibility="gone"
+                app:value="@={data.investigatorName}"
+                style="@style/ControlSingleColumnStyle" />
+
+            <de.symeda.sormas.app.component.controls.ControlTextEditField
+                android:id="@+id/caseData_investigatorTelFinal"
+                android:visibility="gone"
+                app:value="@={data.investigatorTel}"
+                style="@style/ControlSingleColumnStyle" />
+
+        </LinearLayout>
+    </ScrollView>
+</layout>

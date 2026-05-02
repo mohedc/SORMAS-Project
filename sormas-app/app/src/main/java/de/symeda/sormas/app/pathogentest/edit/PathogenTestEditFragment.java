@@ -31,11 +31,15 @@ import de.symeda.sormas.api.customizableenum.CustomizableEnumType;
 import de.symeda.sormas.api.disease.DiseaseVariant;
 import de.symeda.sormas.api.environment.environmentsample.Pathogen;
 import de.symeda.sormas.api.infrastructure.facility.FacilityDto;
+import de.symeda.sormas.api.sample.FinalClassification;
+import de.symeda.sormas.api.sample.GramStainResult;
+import de.symeda.sormas.api.sample.MacroscopicExamination;
 import de.symeda.sormas.api.sample.PCRTestSpecification;
 import de.symeda.sormas.api.sample.PathogenTestDto;
 import de.symeda.sormas.api.sample.PathogenTestResultType;
 import de.symeda.sormas.api.sample.PathogenTestType;
 import de.symeda.sormas.api.sample.SamplePurpose;
+import de.symeda.sormas.api.utils.YesNo;
 import de.symeda.sormas.api.utils.fieldaccess.UiFieldAccessCheckers;
 import de.symeda.sormas.api.utils.fieldvisibility.FieldVisibilityCheckers;
 import de.symeda.sormas.app.BaseEditFragment;
@@ -132,6 +136,7 @@ public class PathogenTestEditFragment extends BaseEditFragment<FragmentPathogenT
 	@Override
 	public void onLayoutBinding(FragmentPathogenTestEditLayoutBinding contentBinding) {
 		contentBinding.setData(record);
+		contentBinding.setYesNoClass(YesNo.class);
 
 		PathogenTestValidator.initializePathogenTestValidation(contentBinding);
 	}
@@ -246,6 +251,19 @@ public class PathogenTestEditFragment extends BaseEditFragment<FragmentPathogenT
 		if (sample != null && sample.getSamplePurpose() == SamplePurpose.INTERNAL) {
 			contentBinding.pathogenTestLab.setRequired(false);
 		}
+
+		contentBinding.pathogenTestFinalClassification.initializeSpinner(DataUtils.getEnumItems(FinalClassification.class, true));
+		contentBinding.pathogenTestMacroscopicExamination.initializeSpinner(DataUtils.getEnumItems(MacroscopicExamination.class, true));
+		contentBinding.pathogenTestGramStainResult.initializeSpinner(DataUtils.getEnumItems(GramStainResult.class, true));
+		contentBinding.pathogenTestReferenceLaboratory.initializeSpinner(DataUtils.toItems(labList));
+
+		contentBinding.pathogenTestDateResultsSentToDistrict.initializeDateField(getFragmentManager());
+		contentBinding.pathogenTestDateDistrictReceivedLabResults.initializeDateField(getFragmentManager());
+		contentBinding.pathogenTestDateResultsSentToDiseaseSurveillance.initializeDateField(getFragmentManager());
+		contentBinding.pathogenTestDateIndirectResultsReceivedAtNationalEPIOffice.initializeDateField(getFragmentManager());
+		contentBinding.pathogenTestDateCapturedResultsReceivedAtNationalEPIOffice.initializeDateField(getFragmentManager());
+		contentBinding.pathogenTestDateResultsSentToRegion.initializeDateField(getFragmentManager());
+		contentBinding.pathogenTestDateResultsSentToReferenceLaboratory.initializeDateField(getFragmentManager());
 	}
 
 	private void updateDiseaseVariantsField(FragmentPathogenTestEditLayoutBinding contentBinding) {

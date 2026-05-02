@@ -1278,6 +1278,205 @@
 
                 </LinearLayout>
 
+                <LinearLayout
+                    android:id="@+id/caseData_csm_extended_section"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <de.symeda.sormas.app.component.controls.ControlSwitchField
+                            android:id="@+id/caseData_menac"
+                            app:enumClass="@{yesNoUnknownClass}"
+                            app:value="@={data.menac}"
+                            style="@style/ControlFirstOfTwoColumnsStyle" />
+                        <de.symeda.sormas.app.component.controls.ControlDateField
+                            android:id="@+id/caseData_menacDate"
+                            app:value="@={data.menacDate}"
+                            style="@style/ControlSecondOfTwoColumnsStyle" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <de.symeda.sormas.app.component.controls.ControlSwitchField
+                            android:id="@+id/caseData_menacw"
+                            app:enumClass="@{yesNoUnknownClass}"
+                            app:value="@={data.menacw}"
+                            style="@style/ControlFirstOfTwoColumnsStyle" />
+                        <de.symeda.sormas.app.component.controls.ControlDateField
+                            android:id="@+id/caseData_menacwDate"
+                            app:value="@={data.menacwDate}"
+                            style="@style/ControlSecondOfTwoColumnsStyle" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <de.symeda.sormas.app.component.controls.ControlSwitchField
+                            android:id="@+id/caseData_menacwy"
+                            app:enumClass="@{yesNoUnknownClass}"
+                            app:value="@={data.menacwy}"
+                            style="@style/ControlFirstOfTwoColumnsStyle" />
+                        <de.symeda.sormas.app.component.controls.ControlDateField
+                            android:id="@+id/caseData_menacwyDate"
+                            app:value="@={data.menacwyDate}"
+                            style="@style/ControlSecondOfTwoColumnsStyle" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <de.symeda.sormas.app.component.controls.ControlSwitchField
+                            android:id="@+id/caseData_menaConjunate"
+                            app:enumClass="@{yesNoUnknownClass}"
+                            app:value="@={data.menaConjunate}"
+                            style="@style/ControlFirstOfTwoColumnsStyle" />
+                        <de.symeda.sormas.app.component.controls.ControlDateField
+                            android:id="@+id/caseData_menaConjunateDate"
+                            app:value="@={data.menaConjunateDate}"
+                            style="@style/ControlSecondOfTwoColumnsStyle" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <de.symeda.sormas.app.component.controls.ControlSwitchField
+                            android:id="@+id/caseData_pcvi3I"
+                            app:enumClass="@{yesNoUnknownClass}"
+                            app:value="@={data.pcvi3I}"
+                            style="@style/ControlFirstOfTwoColumnsStyle" />
+                        <de.symeda.sormas.app.component.controls.ControlDateField
+                            android:id="@+id/caseData_pcvi3IDate"
+                            app:value="@={data.pcvi3IDate}"
+                            style="@style/ControlSecondOfTwoColumnsStyle" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <de.symeda.sormas.app.component.controls.ControlSwitchField
+                            android:id="@+id/caseData_pcvi3_2"
+                            app:enumClass="@{yesNoUnknownClass}"
+                            app:value="@={data.pcvi3_2}"
+                            style="@style/ControlFirstOfTwoColumnsStyle" />
+                        <de.symeda.sormas.app.component.controls.ControlDateField
+                            android:id="@+id/caseData_pcvi3_2Date"
+                            app:value="@={data.pcvi3_2Date}"
+                            style="@style/ControlSecondOfTwoColumnsStyle" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <de.symeda.sormas.app.component.controls.ControlSwitchField
+                            android:id="@+id/caseData_pcv13_3"
+                            app:enumClass="@{yesNoUnknownClass}"
+                            app:value="@={data.pcv13_3}"
+                            style="@style/ControlFirstOfTwoColumnsStyle" />
+                        <de.symeda.sormas.app.component.controls.ControlDateField
+                            android:id="@+id/caseData_pcv13_3Date"
+                            app:value="@={data.pcv13_3Date}"
+                            style="@style/ControlSecondOfTwoColumnsStyle" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <de.symeda.sormas.app.component.controls.ControlSwitchField
+                            android:id="@+id/caseData_hibI"
+                            app:enumClass="@{yesNoUnknownClass}"
+                            app:value="@={data.hibI}"
+                            style="@style/ControlFirstOfTwoColumnsStyle" />
+                        <de.symeda.sormas.app.component.controls.ControlDateField
+                            android:id="@+id/caseData_hibIDate"
+                            app:value="@={data.hibIDate}"
+                            style="@style/ControlSecondOfTwoColumnsStyle" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <de.symeda.sormas.app.component.controls.ControlSwitchField
+                            android:id="@+id/caseData_hib2"
+                            app:enumClass="@{yesNoUnknownClass}"
+                            app:value="@={data.hib2}"
+                            style="@style/ControlFirstOfTwoColumnsStyle" />
+                        <de.symeda.sormas.app.component.controls.ControlDateField
+                            android:id="@+id/caseData_hib2Date"
+                            app:value="@={data.hib2Date}"
+                            style="@style/ControlSecondOfTwoColumnsStyle" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <de.symeda.sormas.app.component.controls.ControlSwitchField
+                            android:id="@+id/caseData_hib3"
+                            app:enumClass="@{yesNoUnknownClass}"
+                            app:value="@={data.hib3}"
+                            style="@style/ControlFirstOfTwoColumnsStyle" />
+                        <de.symeda.sormas.app.component.controls.ControlDateField
+                            android:id="@+id/caseData_hib3Date"
+                            app:value="@={data.hib3Date}"
+                            style="@style/ControlSecondOfTwoColumnsStyle" />
+                    </LinearLayout>
+
+                    <de.symeda.sormas.app.component.controls.ControlDateField
+                        android:id="@+id/caseData_districtNotificationDate"
+                        app:value="@={data.districtNotificationDate}"
+                        style="@style/ControlSingleColumnStyle" />
+
+                    <de.symeda.sormas.app.component.controls.ControlTextEditField
+                        android:id="@+id/caseData_personFullName"
+                        app:value="@={data.personFullName}"
+                        style="@style/ControlSingleColumnStyle" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <de.symeda.sormas.app.component.controls.ControlTextEditField
+                            android:id="@+id/caseData_personTelephone"
+                            app:value="@={data.personTelephone}"
+                            style="@style/ControlFirstOfTwoColumnsStyle" />
+                        <de.symeda.sormas.app.component.controls.ControlTextEditField
+                            android:id="@+id/caseData_personDesignation"
+                            app:value="@={data.personDesignation}"
+                            style="@style/ControlSecondOfTwoColumnsStyle" />
+                    </LinearLayout>
+
+                    <de.symeda.sormas.app.component.controls.ControlDateField
+                        android:id="@+id/caseData_dateFormSentToDistrict"
+                        app:value="@={data.dateFormSentToDistrict}"
+                        style="@style/ControlSingleColumnStyle" />
+                    <de.symeda.sormas.app.component.controls.ControlDateField
+                        android:id="@+id/caseData_dateFormReceivedAtDistrict"
+                        app:value="@={data.dateFormReceivedAtDistrict}"
+                        style="@style/ControlSingleColumnStyle" />
+                    <de.symeda.sormas.app.component.controls.ControlDateField
+                        android:id="@+id/caseData_dateFormSentToRegion"
+                        app:value="@={data.dateFormSentToRegion}"
+                        style="@style/ControlSingleColumnStyle" />
+                    <de.symeda.sormas.app.component.controls.ControlDateField
+                        android:id="@+id/caseData_dateFormReceivedAtRegion"
+                        app:value="@={data.dateFormReceivedAtRegion}"
+                        style="@style/ControlSingleColumnStyle" />
+                    <de.symeda.sormas.app.component.controls.ControlDateField
+                        android:id="@+id/caseData_dateFormSentToNational"
+                        app:value="@={data.dateFormSentToNational}"
+                        style="@style/ControlSingleColumnStyle" />
+                    <de.symeda.sormas.app.component.controls.ControlDateField
+                        android:id="@+id/caseData_dateFormReceivedAtNational"
+                        app:value="@={data.dateFormReceivedAtNational}"
+                        style="@style/ControlSingleColumnStyle" />
+
+                </LinearLayout>
+
                 <ImageView style="@style/FullHorizontalDividerStyle" />
 
                 <TextView
