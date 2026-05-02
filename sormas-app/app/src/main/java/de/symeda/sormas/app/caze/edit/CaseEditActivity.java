@@ -162,22 +162,13 @@ public class CaseEditActivity extends BaseEditActivity<Case> {
 				|| DatabaseHelper.getFeatureConfigurationDao().isFeatureDisabled(FeatureType.VIEW_TAB_CASES_HOSPITALIZATION))) {
 			menuItems.set(CaseSection.HOSPITALIZATION.ordinal(), null);
 		}
-		if (caze != null && caze.getDisease() == Disease.MEASLES) {
-			menuItems.set(CaseSection.HOSPITALIZATION.ordinal(), null);
-		}
 		if (caze != null && caze.getDisease() != Disease.CONGENITAL_RUBELLA) {
 			menuItems.set(CaseSection.MATERNAL_HISTORY.ordinal(), null);
 		}
 		if (DatabaseHelper.getFeatureConfigurationDao().isFeatureDisabled(FeatureType.VIEW_TAB_CASES_SYMPTOMS)) {
 			menuItems.set(CaseSection.SYMPTOMS.ordinal(), null);
 		}
-		if (caze == null
-			|| !(caze.getDisease() == Disease.MEASLES
-				|| caze.getDisease() == Disease.YELLOW_FEVER
-				|| caze.getDisease() == Disease.CONGENITAL_RUBELLA
-				|| caze.getDisease() == Disease.CSM)) {
-			menuItems.set(CaseSection.FINAL_CLASSIFICATION.ordinal(), null);
-		}
+		menuItems.set(CaseSection.FINAL_CLASSIFICATION.ordinal(), null);
 
 		return menuItems;
 	}
