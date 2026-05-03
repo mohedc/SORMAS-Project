@@ -15469,8 +15469,8 @@ CREATE TABLE IF NOT EXISTS pathogentest_pcrfindings (
     CONSTRAINT fk_pathogentest_pcrfindings_pathogentest FOREIGN KEY (pathogentest_id) REFERENCES pathogentest(id)
 );
 
-ALTER TABLE pathogentest ADD COLUMN IF NOT EXISTS cultureothergermspecify varchar(255);
-ALTER TABLE pathogentest ADD COLUMN IF NOT EXISTS pcrothergermspecify varchar(255);
+ALTER TABLE pathogentest ADD COLUMN IF NOT EXISTS pcrothergermsspecify varchar(255);
+ALTER TABLE pathogentest ADD COLUMN IF NOT EXISTS cultureothergermsspecify varchar(255);
 ALTER TABLE pathogentest ADD COLUMN IF NOT EXISTS cellcountleucocytespermm3 varchar(255);
 ALTER TABLE pathogentest ADD COLUMN IF NOT EXISTS csfglucose varchar(255);
 ALTER TABLE pathogentest ADD COLUMN IF NOT EXISTS csfprotein varchar(255);
