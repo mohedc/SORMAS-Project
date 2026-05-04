@@ -75,6 +75,7 @@ public class CaseFinalClassificationForm extends AbstractEditForm<CaseDataDto> {
 	private static final String AFP_HTML_LAYOUT =
 			loc(FINAL_CLASSIFICATION_HEADING_LOC) +
 					fluidRowLocs(6,CaseDataDto.IMMUNOCOMPROMISED_STATUS_SUSPECTED) +
+					fluidRowLocs(CaseDataDto.DATE_CAPTURED_RESULTS_RECEIVED_AT_NATIONAL_EPI_OFFICE, CaseDataDto.DATE_DIFFERENTIATION_RECEIVED_EPI) +
 					fluidRowLocs(CaseDataDto.FINAL_CLASSIFICATION, CaseDataDto.VDPV_CLASSIFICATION, CaseDataDto.SERO_CLASSIFICATION);
 
 	private static final String IDSR_HTML_LAYOUT =
@@ -110,6 +111,7 @@ public class CaseFinalClassificationForm extends AbstractEditForm<CaseDataDto> {
 	private FinalClassification previousFinalClassification;
 	private boolean isInitializing = true;
 	private String caseUuid;
+	private DateField dateCaptured;
 
 	public CaseFinalClassificationForm(
 		String caseUuid,
@@ -168,6 +170,8 @@ public class CaseFinalClassificationForm extends AbstractEditForm<CaseDataDto> {
 		finalClassificationField = addField(CaseDataDto.FINAL_CLASSIFICATION, ComboBox.class);
 		addField(CaseDataDto.VDPV_CLASSIFICATION, ComboBox.class);
 		addField(CaseDataDto.SERO_CLASSIFICATION, ComboBox.class);
+		dateCaptured = addDateField(CaseDataDto.DATE_CAPTURED_RESULTS_RECEIVED_AT_NATIONAL_EPI_OFFICE, DateField.class, 7);
+		addField(CaseDataDto.DATE_DIFFERENTIATION_RECEIVED_EPI, DateField.class);
 		finalClassificationField.setNullSelectionAllowed(true);
 		finalClassificationField.setItemCaptionMode(ComboBox.ItemCaptionMode.ID_TOSTRING);
 		TextArea classificationCommentField = addField(CaseDataDto.CLASSIFICATION_COMMENT, TextArea.class);

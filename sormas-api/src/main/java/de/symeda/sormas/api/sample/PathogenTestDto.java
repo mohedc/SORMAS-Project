@@ -180,7 +180,6 @@ public class PathogenTestDto extends PseudonymizableDto {
 	public static final String DATE_RESULTS_SENT_TO_NATIONAL_EPI = "dateResultsSentToNationalEpi";
 	public static final String DATE_SENT_FROM_IC_NATIONAL_REG_LAB = "dateSentFromIcNationalRegLab";
 	public static final String DATE_DIFFERENTIATION_SENT_EPI = "dateDifferentiationSentEpi";
-	public static final String DATE_DIFFERENTIATION_RECEIVED_EPI = "dateDifferentiationReceivedEpi";
 	public static final String DATE_ISOLATE_SENT_SEQUENCING = "dateIsolateSentSequencing";
 	public static final String DATE_SEQ_RESULTS_SENT_PROGRAM = "dateSeqResultsSentProgram";
 	public static final String W1 = "w1";

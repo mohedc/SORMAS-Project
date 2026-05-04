@@ -524,6 +524,8 @@ public class Case extends CoreAdo implements IsCase, SormasToSormasShareable, Ha
 	private Region  regionLabResultsReceived;
 	private Vdpv vdpvClassification;
 	private SeroType seroClassification;
+	private Date dateCapturedResultsReceivedAtNationalEPIOffice;
+	private Date dateDifferentiationReceivedEpi;
 
     public static Case build() {
 		Case caze = new Case();
@@ -2677,5 +2679,21 @@ public class Case extends CoreAdo implements IsCase, SormasToSormasShareable, Ha
 
 	public void setSeroClassification(SeroType seroClassification) {
 		this.seroClassification = seroClassification;
+	}
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getDateDifferentiationReceivedEpi() {
+		return dateDifferentiationReceivedEpi;
+	}
+
+	public void setDateDifferentiationReceivedEpi(Date dateDifferentiationReceivedEpi) {
+		this.dateDifferentiationReceivedEpi = dateDifferentiationReceivedEpi;
+	}
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getDateCapturedResultsReceivedAtNationalEPIOffice() {
+		return dateCapturedResultsReceivedAtNationalEPIOffice;
+	}
+
+	public void setDateCapturedResultsReceivedAtNationalEPIOffice(Date dateCapturedResultsReceivedAtNationalEPIOffice) {
+		this.dateCapturedResultsReceivedAtNationalEPIOffice = dateCapturedResultsReceivedAtNationalEPIOffice;
 	}
 }

@@ -1205,7 +1205,8 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 				pcrField,
 				Arrays.asList(
 						PathogenTestResultType.POSITIVE,
-						PathogenTestResultType.NEGATIVE
+						PathogenTestResultType.NEGATIVE,
+						PathogenTestResultType.NOT_TESTED
 				)
 		);
 
@@ -1213,7 +1214,8 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 				prntField,
 				Arrays.asList(
 						PathogenTestResultType.POSITIVE,
-						PathogenTestResultType.NEGATIVE
+						PathogenTestResultType.NEGATIVE,
+						PathogenTestResultType.NOT_TESTED
 				)
 		);
 

@@ -274,6 +274,8 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 	public static final String FOLLOW_UP_EXAMINATION = "followUpExamination";
 	public static final String VDPV_CLASSIFICATION = "vdpvClassification";
 	public static final String SERO_CLASSIFICATION = "seroClassification";
+	public static final String DATE_CAPTURED_RESULTS_RECEIVED_AT_NATIONAL_EPI_OFFICE = "dateCapturedResultsReceivedAtNationalEPIOffice";
+	public static final String DATE_DIFFERENTIATION_RECEIVED_EPI = "dateDifferentiationReceivedEpi";
 	public static final String IMMUNOCOMPROMISED_STATUS_SUSPECTED = "immunocompromisedStatusSuspected";
 	public static final String DATE_REGION_RECEIVES_LAB_RESULTS = "dateRegionReceivesLabResults";
 	public static final String DATE_LAB_RESULTS_SENT_HEALTH_FACILITY_REGION = "dateLabResultsSentHealthFacilityRegion";
@@ -1033,6 +1035,11 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 
 	@Valid
 	private ResponseDto response;
+
+	@Diseases(value = {Disease.AFP})
+	private Date dateCapturedResultsReceivedAtNationalEPIOffice;
+	@Diseases(value = {Disease.AFP})
+	private Date dateDifferentiationReceivedEpi;
 
 	public static CaseDataDto build(PersonReferenceDto person, Disease disease) {
 		return build(person, disease, HealthConditionsDto.build());
@@ -2913,6 +2920,22 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 
 	public void setSeroClassification(SeroType seroClassification) {
 		this.seroClassification = seroClassification;
+	}
+
+	public Date getDateDifferentiationReceivedEpi() {
+		return dateDifferentiationReceivedEpi;
+	}
+
+	public void setDateDifferentiationReceivedEpi(Date dateDifferentiationReceivedEpi) {
+		this.dateDifferentiationReceivedEpi = dateDifferentiationReceivedEpi;
+	}
+
+	public Date getDateCapturedResultsReceivedAtNationalEPIOffice() {
+		return dateCapturedResultsReceivedAtNationalEPIOffice;
+	}
+
+	public void setDateCapturedResultsReceivedAtNationalEPIOffice(Date dateCapturedResultsReceivedAtNationalEPIOffice) {
+		this.dateCapturedResultsReceivedAtNationalEPIOffice = dateCapturedResultsReceivedAtNationalEPIOffice;
 	}
 
     @JsonIgnore
