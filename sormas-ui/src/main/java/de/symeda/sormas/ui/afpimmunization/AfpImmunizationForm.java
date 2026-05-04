@@ -26,7 +26,6 @@ public class AfpImmunizationForm extends AbstractEditForm<AfpImmunizationDto> {
     private static final String INDICATE_99_LOC = "indicate99Loc";
 
     private static final String HTML_LAYOUT =
-            loc(IMMUNIZATION_HEADING_LOC) +
             loc(INDICATE_99_LOC)
                     + fluidRowLocs(6, AfpImmunizationDto.TOTAL_NUMBER_DOSES)
                     + fluidRowLocs(AfpImmunizationDto.OPV_DOSE_AT_BIRTH, AfpImmunizationDto.SECOND, AfpImmunizationDto.FOURTH)

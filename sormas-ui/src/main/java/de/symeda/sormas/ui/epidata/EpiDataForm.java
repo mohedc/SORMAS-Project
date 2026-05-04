@@ -180,6 +180,7 @@ public class EpiDataForm extends AbstractEditForm<EpiDataDto> {
 
 		Label seekHelpHeadingLabel = new Label(I18nProperties.getString(Strings.headingseekHelp));
 		seekHelpHeadingLabel.addStyleName(H3);
+		seekHelpHeadingLabel.addStyleName("afp-childseek-label");
 		getContent().addComponent(seekHelpHeadingLabel, SEEK_HELP_HEADING_LOC);
 
 		// For Congenital Rubella, add only the specific fields

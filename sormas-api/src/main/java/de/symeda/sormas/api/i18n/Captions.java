@@ -879,6 +879,8 @@ public interface Captions {
 	String CaseData_regionLabResultsReceived = "CaseData.regionLabResultsReceived";
 	String CaseData_screeningType = "CaseData.screeningType";
 	String CaseData_seroClassification = "CaseData.seroClassification";
+	String CaseData_dateCapturedResultsReceivedAtNationalEPIOffice = "CaseData.dateCapturedResultsReceivedAtNationalEPIOffice";
+	String CaseData_dateDifferentiationReceivedEpi = "CaseData.dateDifferentiationReceivedEpi";
 	String CaseData_sequelae = "CaseData.sequelae";
 	String CaseData_sequelaeDetails = "CaseData.sequelaeDetails";
 	String CaseData_sharedToCountry = "CaseData.sharedToCountry";

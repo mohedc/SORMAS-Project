@@ -15575,6 +15575,8 @@ INSERT INTO schema_version (version_number, comment) VALUES (663, 'Dropped initi
 
 ALTER TABLE cases ADD COLUMN vdpvclassification varchar(255);
 ALTER TABLE cases ADD COLUMN seroclassification varchar(255);
+ALTER TABLE cases ADD COLUMN datecapturedresultsreceivedatnationalepioffice timestamp;
+ALTER TABLE cases ADD COLUMN datedifferentiationreceivedepi timestamp;
 INSERT INTO schema_version (version_number, comment) VALUES (664, 'Added two fields at cases for AFP classification');
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***
 
