@@ -24,6 +24,7 @@ import de.symeda.sormas.ui.afpimmunization.AfpImmunizationForm;
 import de.symeda.sormas.ui.afpimmunization.AfpImmunizationView;
 import de.symeda.sormas.ui.response.ResponseForm;
 import de.symeda.sormas.ui.response.ResponseView;
+import de.symeda.sormas.ui.samples.FollowUpExaminationView;
 import org.apache.commons.collections4.CollectionUtils;
 
 import com.vaadin.icons.VaadinIcons;
@@ -180,6 +181,7 @@ public class CaseController {
 		}
 		navigator.addView(CaseSymptomsView.VIEW_NAME, CaseSymptomsView.class);
 		navigator.addView(CaseFinalClassificationView.VIEW_NAME, CaseFinalClassificationView.class);
+		navigator.addView(FollowUpExaminationView.VIEW_NAME, FollowUpExaminationView.class);
 		if (UiUtil.permitted(UserRight.CONTACT_VIEW)) {
 			navigator.addView(CaseContactsView.VIEW_NAME, CaseContactsView.class);
 		}
@@ -1451,10 +1453,11 @@ public class CaseController {
 			
 			// If final classification is LAB_CONFIRMED or CONFIRMED_BY_EPIDEMIOLOGICAL_LINKAGE for diseases requiring confirmation,
 			// set case classification to CONFIRMED
-			List<Disease> diseasesRequiringConfirmation = Arrays.asList(Disease.MEASLES, Disease.YELLOW_FEVER, Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS, Disease.NEONATAL_TETANUS);
+			List<Disease> diseasesRequiringConfirmation = Arrays.asList(Disease.MEASLES, Disease.YELLOW_FEVER, Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS, Disease.NEONATAL_TETANUS, Disease.AFP);
 			if (diseasesRequiringConfirmation.contains(cazeDto.getDisease())
 					&& (FinalClassification.LAB_CONFIRMED.equals(finalClassification)
-							|| FinalClassification.CONFIRMED_BY_EPIDEMIOLOGICAL_LINKAGE.equals(finalClassification))) {
+					|| FinalClassification.CONFIRMED_BY_EPIDEMIOLOGICAL_LINKAGE.equals(finalClassification)
+					|| FinalClassification.CONFIRMED_POLIO.equals(finalClassification))) {
 				cazeDto.setCaseClassification(CaseClassification.CONFIRMED);
 			}
 			

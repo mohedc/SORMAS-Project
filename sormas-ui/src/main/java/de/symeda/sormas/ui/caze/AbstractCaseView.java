@@ -49,6 +49,7 @@ import de.symeda.sormas.ui.epidata.CaseEpiDataView;
 import de.symeda.sormas.ui.externalmessage.ExternalMessagesView;
 import de.symeda.sormas.ui.hospitalization.HospitalizationView;
 import de.symeda.sormas.ui.response.ResponseView;
+import de.symeda.sormas.ui.samples.FollowUpExaminationView;
 import de.symeda.sormas.ui.therapy.TherapyView;
 import de.symeda.sormas.ui.utils.AbstractEditAllowedDetailView;
 import de.symeda.sormas.ui.utils.CssStyles;
@@ -245,6 +246,9 @@ public abstract class AbstractCaseView extends AbstractEditAllowedDetailView<Cas
 		menu.addView(CaseFinalClassificationView.VIEW_NAME, I18nProperties.getPrefixCaption(CaseDataDto.I18N_PREFIX, CaseDataDto.FINAL_CLASSIFICATION), params);
 		if(caze.getDisease() == Disease.NEONATAL_TETANUS){
 			menu.addView(ResponseView.VIEW_NAME, I18nProperties.getPrefixCaption(CaseDataDto.I18N_PREFIX, CaseDataDto.RESPONSE), params);
+		}
+		if(caze.getDisease() == Disease.AFP){
+			menu.addView(FollowUpExaminationView.VIEW_NAME, I18nProperties.getPrefixCaption(CaseDataDto.I18N_PREFIX, CaseDataDto.FOLLOW_UP_EXAMINATION), params);
 		}
 
 	}

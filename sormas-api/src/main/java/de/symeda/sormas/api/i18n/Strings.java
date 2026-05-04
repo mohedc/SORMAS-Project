@@ -1552,6 +1552,7 @@ public interface Strings {
 	String messagePasswordResetEmailLink = "messagePasswordResetEmailLink";
 	String messagePathogenTestSaved = "messagePathogenTestSaved";
 	String messagePathogenTestSavedShort = "messagePathogenTestSavedShort";
+	String messageFollowUpExamSavedShort = "messageFollowUpExamSavedShort";
 	String messagePathogenTestsDeleted = "messagePathogenTestsDeleted";
 	String messagePathogenTestsSavedShort = "messagePathogenTestsSavedShort";
 	String messagePersonAddedAsEventParticipant = "messagePersonAddedAsEventParticipant";

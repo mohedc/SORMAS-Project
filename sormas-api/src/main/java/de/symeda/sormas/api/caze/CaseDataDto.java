@@ -271,6 +271,7 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 	public static final String SUPPLEMENTAL_IMMUNIZATION = "supplementalImmunization";
 	public static final String SUPPLEMENTAL_IMMUNIZATION_DETAILS = "supplementalImmunizationDetails";
 	public static final String FINAL_CLASSIFICATION = "finalClassification";
+	public static final String FOLLOW_UP_EXAMINATION = "followUpExamination";
 	public static final String VDPV_CLASSIFICATION = "vdpvClassification";
 	public static final String SERO_CLASSIFICATION = "seroClassification";
 	public static final String IMMUNOCOMPROMISED_STATUS_SUSPECTED = "immunocompromisedStatusSuspected";

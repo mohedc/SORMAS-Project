@@ -99,7 +99,8 @@ public class CaseFinalClassificationForm extends AbstractEditForm<CaseDataDto> {
 		Disease.CSM,
 		Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS,
 		Disease.NEONATAL_TETANUS,
-		Disease.CONGENITAL_RUBELLA
+		Disease.CONGENITAL_RUBELLA,
+			Disease.AFP
 	);
 
 	private ComboBox finalClassificationField;
@@ -216,8 +217,9 @@ public class CaseFinalClassificationForm extends AbstractEditForm<CaseDataDto> {
 			// Check if the selected value is LAB_CONFIRMED or CONFIRMED_BY_EPIDEMIOLOGICAL_LINKAGE
 			// and the disease requires confirmation
 			if (selectedValue != null
-					&& (FinalClassification.LAB_CONFIRMED.equals(selectedValue) 
-							|| FinalClassification.CONFIRMED_BY_EPIDEMIOLOGICAL_LINKAGE.equals(selectedValue))
+					&& (FinalClassification.LAB_CONFIRMED.equals(selectedValue)
+					|| FinalClassification.CONFIRMED_BY_EPIDEMIOLOGICAL_LINKAGE.equals(selectedValue)
+					|| FinalClassification.CONFIRMED_POLIO.equals(selectedValue))
 					&& DISEASES_REQUIRING_CONFIRMATION.contains(disease)) {
 				
 				// Store the previous value from the form DTO to revert if user clicks No

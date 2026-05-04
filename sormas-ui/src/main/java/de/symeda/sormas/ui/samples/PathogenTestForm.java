@@ -93,7 +93,6 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 	private static final String PRESCRIBER_HEADING_LOC = "prescriberHeading";
 	protected static final String STOOL_SPECIMEN_RESULTS_HEADLINE_LOC = "stoolSpecimenResultsLoc";
 	protected static final String FINAL_LAB_RESULTS_HEADLINE_LOC = "finalLabResultsLoc";
-	protected static final String FOLLOW_UP_EXAMINATION_HEADLINE_LOC = "followUpExaminationLoc";
 
 	//@formatter:off
 	private static final String HTML_LAYOUT =
@@ -226,10 +225,7 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 					fluidRowLocs(PathogenTestDto.DATE_RESULTS_SENT_TO_NATIONAL_EPI, PathogenTestDto.DATE_SENT_FROM_IC_NATIONAL_REG_LAB)+
 					fluidRowLocs(PathogenTestDto.DATE_DIFFERENTIATION_RECEIVED_EPI, PathogenTestDto.DATE_ISOLATE_SENT_SEQUENCING) +
 					fluidRowLocs(6, PathogenTestDto.DATE_SEQ_RESULTS_SENT_PROGRAM) +
-
-					fluidRowLocs(6, PathogenTestDto.TESTED_PATHOGEN_DETAILS) +
-					loc(FOLLOW_UP_EXAMINATION_HEADLINE_LOC) +
-					fluidRowLocs(PathogenTestDto.DATE_FOLLOWUP_EXAM, PathogenTestDto.RESIDUAL_ANALYSIS, PathogenTestDto.RESULT_EXAM);
+					fluidRowLocs(6, PathogenTestDto.TESTED_PATHOGEN_DETAILS);
 
 
 	private static final String CONGENITAL_RUBELLA_HTML_LAYOUT =
@@ -482,9 +478,6 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 		CssStyles.style(finalLabResults, CssStyles.LABEL_BOLD, CssStyles.LABEL_SECONDARY, VSPACE_4);
 		getContent().addComponent(finalLabResults, FINAL_LAB_RESULTS_HEADLINE_LOC);
 
-		Label followUpExamination = new Label(I18nProperties.getString(Strings.headingFollowUpExamination));
-		CssStyles.style(followUpExamination, CssStyles.LABEL_BOLD, CssStyles.LABEL_SECONDARY, VSPACE_4);
-		getContent().addComponent(followUpExamination, FOLLOW_UP_EXAMINATION_HEADLINE_LOC);
 
 		addDateField(PathogenTestDto.REPORT_DATE, DateField.class, 0);
 		addField(PathogenTestDto.VIA_LIMS);
@@ -536,12 +529,6 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 		ComboBox finalCellCultureResults = addField(PathogenTestDto.FINAL_CELL_CULTURE_RESULTS, ComboBox.class);
 		List<PathogenTestResultType> cellResults = Arrays.asList(PathogenTestResultType.SUSPECTED_POLIOVIRUS, PathogenTestResultType.NEGATIVE, PathogenTestResultType.NPENT, PathogenTestResultType.SUSPECT_POLIOVIRUS_NPENT);
 		FieldHelper.updateEnumData(finalCellCultureResults, cellResults);
-		addField(PathogenTestDto.DATE_FOLLOWUP_EXAM, DateField.class);
-		NullableOptionGroup residualAnalysis = addField(PathogenTestDto.RESIDUAL_ANALYSIS, NullableOptionGroup.class);
-
-		List<InjectionSite> paralysisSite = Arrays.asList(InjectionSite.LEFT_ARM, InjectionSite.LEFT_LEG, InjectionSite.RIGHT_ARM, InjectionSite.RIGHT_LEG);
-		FieldHelper.updateEnumData(residualAnalysis, paralysisSite);
-		addField(PathogenTestDto.RESULT_EXAM, ComboBox.class);
 
 		// Tested Desease or Tested Pathogen, depending on sample type
 		diseaseField = addDiseaseField(PathogenTestDto.TESTED_DISEASE, true, create, false);

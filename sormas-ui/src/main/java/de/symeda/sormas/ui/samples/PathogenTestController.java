@@ -31,6 +31,7 @@ import java.util.stream.Collectors;
 import de.symeda.sormas.api.DiseaseHelper;
 import de.symeda.sormas.api.event.EventReferenceDto;
 import de.symeda.sormas.api.sample.PathogenTestType;
+import de.symeda.sormas.ui.utils.ViewMode;
 import org.apache.commons.collections4.CollectionUtils;
 
 import com.vaadin.ui.Label;
@@ -262,6 +263,46 @@ public class PathogenTestController {
 
 		}
 		editView.getButtonsPanel().setVisible(isEditOrDeleteAllowed);
+
+		return editView;
+	}
+
+	public CommitDiscardWrapperComponent<FollowUpExaminationForm> getFollowUpExaminationEditComponent(String pathogenTestUuid, ViewMode viewMode) {
+
+		PathogenTestDto pathogenTestDto = facade.getByUuid(pathogenTestUuid);
+
+		FollowUpExaminationForm followUpExaminationForm = new FollowUpExaminationForm(
+				pathogenTestUuid,
+				pathogenTestDto.getTestedDisease(),
+				viewMode,
+				pathogenTestDto.isPseudonymized(),
+				pathogenTestDto.isInJurisdiction());
+
+		followUpExaminationForm.setValue(pathogenTestDto);
+
+		CommitDiscardWrapperComponent<FollowUpExaminationForm> editView =
+				new CommitDiscardWrapperComponent<FollowUpExaminationForm>(
+						followUpExaminationForm,
+						UiUtil.permitted(UserRight.CASE_EDIT),
+						followUpExaminationForm.getFieldGroup());
+
+		editView.addCommitListener(() -> {
+			PathogenTestDto persisted = facade.getByUuid(pathogenTestUuid);
+			PathogenTestDto formValue = followUpExaminationForm.getValue();
+
+			persisted.setDateFollowupExam(formValue.getDateFollowupExam());
+			persisted.setResidualAnalysis(formValue.getResidualAnalysis());
+			persisted.setResultExam(formValue.getResultExam());
+
+			facade.savePathogenTest(persisted);
+
+			Notification.show(
+					I18nProperties.getString(Strings.messageFollowUpExamSavedShort),
+					TRAY_NOTIFICATION
+			);
+
+			SormasUI.refreshView();
+		});
 
 		return editView;
 	}

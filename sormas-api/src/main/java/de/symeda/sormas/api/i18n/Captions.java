@@ -813,6 +813,7 @@ public interface Captions {
 	String CaseData_dateFormReceivedAtRegion = "CaseData.dateFormReceivedAtRegion";
 	String CaseData_dateFormSentToNational = "CaseData.dateFormSentToNational";
 	String CaseData_dateFormReceivedAtNational = "CaseData.dateFormReceivedAtNational";
+	String CaseData_followUpExamination = "CaseData.followUpExamination";
 	String CaseData_immunocompromisedStatusSuspectedString = "CaseData.immunocompromisedStatusSuspected";
 	String CaseData_dateRegionReceivesLabResults = "CaseData.dateRegionReceivesLabResults";
 	String CaseData_dateLabResultsSentHealthFacilityRegion = "CaseData.dateLabResultsSentHealthFacilityRegion";
