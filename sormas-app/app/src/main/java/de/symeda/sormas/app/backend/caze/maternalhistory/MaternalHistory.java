@@ -83,6 +83,29 @@ public class MaternalHistory extends PseudonymizableAdo {
 	@DatabaseField(foreign = true, foreignAutoRefresh = true)
 	private Community rashExposureCommunity;
 
+	@Enumerated(EnumType.STRING)
+	private YesNoUnknown rubellaVaccination;
+	@DatabaseField(dataType = DataType.DATE_LONG)
+	private Date rubellaVaccinationDate;
+	@Column
+	private Integer rubellaMonth;
+	@Enumerated(EnumType.STRING)
+	private YesNoUnknown motherRubellaLabConfirmed;
+	@DatabaseField(dataType = DataType.DATE_LONG)
+	private Date motherRubellaLabConfirmedDate;
+	@Column
+	private Integer gestationalAgeAtExposure;
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	private String exposureLocationDescription;
+	@Enumerated(EnumType.STRING)
+	private YesNoUnknown motherTraveledDuringPregnancy;
+	@DatabaseField(dataType = DataType.DATE_LONG)
+	private Date motherTraveledDuringPregnancyDate;
+	@Column
+	private Integer gestationalAgeAtTravel;
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	private String travelLocationDescription;
+
 	@Override
 	public String getI18nPrefix() {
 		return I18N_PREFIX;
@@ -294,5 +317,93 @@ public class MaternalHistory extends PseudonymizableAdo {
 
 	public void setRashExposureCommunity(Community rashExposureCommunity) {
 		this.rashExposureCommunity = rashExposureCommunity;
+	}
+
+	public YesNoUnknown getRubellaVaccination() {
+		return rubellaVaccination;
+	}
+
+	public void setRubellaVaccination(YesNoUnknown rubellaVaccination) {
+		this.rubellaVaccination = rubellaVaccination;
+	}
+
+	public Date getRubellaVaccinationDate() {
+		return rubellaVaccinationDate;
+	}
+
+	public void setRubellaVaccinationDate(Date rubellaVaccinationDate) {
+		this.rubellaVaccinationDate = rubellaVaccinationDate;
+	}
+
+	public Integer getRubellaMonth() {
+		return rubellaMonth;
+	}
+
+	public void setRubellaMonth(Integer rubellaMonth) {
+		this.rubellaMonth = rubellaMonth;
+	}
+
+	public YesNoUnknown getMotherRubellaLabConfirmed() {
+		return motherRubellaLabConfirmed;
+	}
+
+	public void setMotherRubellaLabConfirmed(YesNoUnknown motherRubellaLabConfirmed) {
+		this.motherRubellaLabConfirmed = motherRubellaLabConfirmed;
+	}
+
+	public Date getMotherRubellaLabConfirmedDate() {
+		return motherRubellaLabConfirmedDate;
+	}
+
+	public void setMotherRubellaLabConfirmedDate(Date motherRubellaLabConfirmedDate) {
+		this.motherRubellaLabConfirmedDate = motherRubellaLabConfirmedDate;
+	}
+
+	public Integer getGestationalAgeAtExposure() {
+		return gestationalAgeAtExposure;
+	}
+
+	public void setGestationalAgeAtExposure(Integer gestationalAgeAtExposure) {
+		this.gestationalAgeAtExposure = gestationalAgeAtExposure;
+	}
+
+	public String getExposureLocationDescription() {
+		return exposureLocationDescription;
+	}
+
+	public void setExposureLocationDescription(String exposureLocationDescription) {
+		this.exposureLocationDescription = exposureLocationDescription;
+	}
+
+	public YesNoUnknown getMotherTraveledDuringPregnancy() {
+		return motherTraveledDuringPregnancy;
+	}
+
+	public void setMotherTraveledDuringPregnancy(YesNoUnknown motherTraveledDuringPregnancy) {
+		this.motherTraveledDuringPregnancy = motherTraveledDuringPregnancy;
+	}
+
+	public Date getMotherTraveledDuringPregnancyDate() {
+		return motherTraveledDuringPregnancyDate;
+	}
+
+	public void setMotherTraveledDuringPregnancyDate(Date motherTraveledDuringPregnancyDate) {
+		this.motherTraveledDuringPregnancyDate = motherTraveledDuringPregnancyDate;
+	}
+
+	public Integer getGestationalAgeAtTravel() {
+		return gestationalAgeAtTravel;
+	}
+
+	public void setGestationalAgeAtTravel(Integer gestationalAgeAtTravel) {
+		this.gestationalAgeAtTravel = gestationalAgeAtTravel;
+	}
+
+	public String getTravelLocationDescription() {
+		return travelLocationDescription;
+	}
+
+	public void setTravelLocationDescription(String travelLocationDescription) {
+		this.travelLocationDescription = travelLocationDescription;
 	}
 }

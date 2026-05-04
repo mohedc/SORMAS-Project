@@ -109,9 +109,8 @@ public class CaseReadActivity extends BaseReadActivity<Case> {
 			|| (caze != null && !DiseaseConfigurationCache.getInstance().hasFollowUp(caze.getDisease()))) {
 			menuItems.set(CaseSection.CONTACTS.ordinal(), null);
 		}
-		if (caze != null
-			&& (caze.getDisease() == Disease.CONGENITAL_RUBELLA
-				|| DatabaseHelper.getFeatureConfigurationDao().isFeatureDisabled(FeatureType.VIEW_TAB_CASES_EPIDEMIOLOGICAL_DATA))) {
+		if ((caze != null && (caze.getDisease() == Disease.CONGENITAL_RUBELLA || caze.getDisease() == Disease.MEASLES))
+			|| DatabaseHelper.getFeatureConfigurationDao().isFeatureDisabled(FeatureType.VIEW_TAB_CASES_EPIDEMIOLOGICAL_DATA)) {
 			menuItems.set(CaseSection.EPIDEMIOLOGICAL_DATA.ordinal(), null);
 		}
 		if (caze != null && (caze.getCaseOrigin() != CaseOrigin.POINT_OF_ENTRY || !ConfigProvider.hasUserRight(UserRight.PORT_HEALTH_INFO_VIEW))) {
@@ -123,11 +122,21 @@ public class CaseReadActivity extends BaseReadActivity<Case> {
 				|| DatabaseHelper.getFeatureConfigurationDao().isFeatureDisabled(FeatureType.VIEW_TAB_CASES_HOSPITALIZATION))) {
 			menuItems.set(CaseSection.HOSPITALIZATION.ordinal(), null);
 		}
+		if (caze != null && caze.getDisease() == Disease.MEASLES) {
+			menuItems.set(CaseSection.HOSPITALIZATION.ordinal(), null);
+		}
 		if (caze != null && caze.getDisease() != Disease.CONGENITAL_RUBELLA) {
 			menuItems.set(CaseSection.MATERNAL_HISTORY.ordinal(), null);
 		}
 		if (DatabaseHelper.getFeatureConfigurationDao().isFeatureDisabled(FeatureType.VIEW_TAB_CASES_SYMPTOMS)) {
 			menuItems.set(CaseSection.SYMPTOMS.ordinal(), null);
+		}
+		if (caze == null
+			|| !(caze.getDisease() == Disease.MEASLES
+				|| caze.getDisease() == Disease.YELLOW_FEVER
+				|| caze.getDisease() == Disease.CONGENITAL_RUBELLA
+				|| caze.getDisease() == Disease.CSM)) {
+			menuItems.set(CaseSection.FINAL_CLASSIFICATION.ordinal(), null);
 		}
 
 		return menuItems;
@@ -188,6 +197,9 @@ public class CaseReadActivity extends BaseReadActivity<Case> {
 			break;
 		case TASKS:
 			fragment = CaseReadTaskListFragment.newInstance(activityRootData);
+			break;
+		case FINAL_CLASSIFICATION:
+			fragment = CaseReadFinalClassificationFragment.newInstance(activityRootData);
 			break;
 		default:
 			throw new IndexOutOfBoundsException(DataHelper.toStringNullable(section));

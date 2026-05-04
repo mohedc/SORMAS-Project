@@ -36,6 +36,13 @@ import de.symeda.sormas.api.Disease;
 import de.symeda.sormas.api.customizableenum.CustomizableEnumType;
 import de.symeda.sormas.api.disease.DiseaseVariant;
 import de.symeda.sormas.api.environment.environmentsample.Pathogen;
+import de.symeda.sormas.api.utils.YesNo;
+import de.symeda.sormas.api.sample.AgglutinationPositiveResult;
+import de.symeda.sormas.api.sample.AgglutinationTestResult;
+import de.symeda.sormas.api.sample.AntimicrobialSusceptibility;
+import de.symeda.sormas.api.sample.CulturePcrFinding;
+import de.symeda.sormas.api.sample.GramStainResult;
+import de.symeda.sormas.api.sample.MacroscopicExamination;
 import de.symeda.sormas.api.sample.PCRTestSpecification;
 import de.symeda.sormas.api.sample.FinalClassification;
 import de.symeda.sormas.api.sample.PathogenTestResultType;
@@ -168,6 +175,168 @@ public class PathogenTest extends PseudonymizableAdo {
 
 	@Column(length = CHARACTER_LIMIT_DEFAULT)
 	private String sourceOfInfectionIdentified;
+
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	private String virusDetectionGenotype;
+
+	@DatabaseField
+	private Boolean virusIsolated;
+
+	@Enumerated(EnumType.STRING)
+	private MacroscopicExamination macroscopicExamination;
+
+	@DatabaseField
+	private Boolean cellCountNormal;
+
+	@DatabaseField
+	private Boolean cellCountAbnormal;
+
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	private String wbcCountPolycytesPercent;
+
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	private String wbcCountMonocytesPercent;
+
+	@Enumerated(EnumType.STRING)
+	private GramStainResult gramStainResult;
+
+	@Enumerated(EnumType.STRING)
+	private AgglutinationTestResult agglutinationResult;
+
+	@Enumerated(EnumType.STRING)
+	private AgglutinationPositiveResult agglutinationPositiveResults;
+
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	private String agglutinationOtherMicroorganism;
+
+	@DatabaseField(dataType = DataType.DATE_LONG, canBeNull = true)
+	private Date dateResultsSentToRegion;
+
+	@DatabaseField
+	private Boolean otherTestsPending;
+
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	private String otherTestsPendingSpecify;
+
+	@DatabaseField(dataType = DataType.DATE_LONG, canBeNull = true)
+	private Date dateResultsSentToReferenceLaboratory;
+
+	@DatabaseField(foreign = true, foreignAutoRefresh = true, maxForeignAutoRefreshLevel = 3)
+	private Facility referenceLaboratory;
+
+	@Column(columnDefinition = "text")
+	private String selectedPathogenTestTypesString;
+
+	@Column(columnDefinition = "text")
+	private String cultureFindingsString;
+
+	@Column(columnDefinition = "text")
+	private String pcrFindingsString;
+
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	private String cultureOtherGermsSpecify;
+
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	private String pcrOtherGermsSpecify;
+
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	private String cellCountLeucocytesPerMm3;
+
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	private String csfGlucose;
+
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	private String csfProtein;
+
+	@DatabaseField
+	private Boolean gramStainGpd;
+
+	@DatabaseField
+	private Boolean gramStainGnd;
+
+	@DatabaseField
+	private Boolean gramStainGpb;
+
+	@DatabaseField
+	private Boolean gramStainGnb;
+
+	@DatabaseField
+	private Boolean gramStainOtherPathogens;
+
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	private String gramStainOtherPathogensSpecify;
+
+	@DatabaseField
+	private Boolean gramStainNoOrganismSeen;
+
+	@DatabaseField
+	private Boolean latexNmA;
+
+	@DatabaseField
+	private Boolean latexNmC;
+
+	@DatabaseField
+	private Boolean latexNmWY;
+
+	@DatabaseField
+	private Boolean latexNmBEcoliKi;
+
+	@DatabaseField
+	private Boolean latexSPneumoniae;
+
+	@DatabaseField
+	private Boolean latexHib;
+
+	@DatabaseField
+	private Boolean latexStrepB;
+
+	@DatabaseField
+	private Boolean latexNegative;
+
+	@Enumerated(EnumType.STRING)
+	private YesNo rdtDipstickPerformed;
+
+	@Column(length = CHARACTER_LIMIT_BIG)
+	private String rdtDipstickResults;
+
+	@Enumerated(EnumType.STRING)
+	private AntimicrobialSusceptibility ceftriaxoneSusceptibility;
+
+	@Enumerated(EnumType.STRING)
+	private AntimicrobialSusceptibility ampicillinSusceptibility;
+
+	@Enumerated(EnumType.STRING)
+	private AntimicrobialSusceptibility gentamycinSusceptibility;
+
+	@Enumerated(EnumType.STRING)
+	private AntimicrobialSusceptibility oxacillinSusceptibility;
+
+	@Enumerated(EnumType.STRING)
+	private AntimicrobialSusceptibility chloramphenicolSusceptibility;
+
+	@Enumerated(EnumType.STRING)
+	private AntimicrobialSusceptibility benzylPenicillinSusceptibility;
+
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	private String otherAntimicrobialDrugName;
+
+	@Enumerated(EnumType.STRING)
+	private AntimicrobialSusceptibility otherAntimicrobialSusceptibility;
+
+	@DatabaseField(dataType = DataType.DATE_LONG, canBeNull = true)
+	private Date datePcrPerformed;
+
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	private String pcrTypeText;
+
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	private String pcrSerotype;
+
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	private String otherTestTypeSpecify;
+
+	@Column(length = CHARACTER_LIMIT_BIG)
+	private String otherTestResults;
 
 	public Sample getSample() {
 		return sample;
@@ -475,6 +644,438 @@ public class PathogenTest extends PseudonymizableAdo {
 
 	public void setSourceOfInfectionIdentified(String sourceOfInfectionIdentified) {
 		this.sourceOfInfectionIdentified = sourceOfInfectionIdentified;
+	}
+
+	public String getVirusDetectionGenotype() {
+		return virusDetectionGenotype;
+	}
+
+	public void setVirusDetectionGenotype(String virusDetectionGenotype) {
+		this.virusDetectionGenotype = virusDetectionGenotype;
+	}
+
+	public Boolean getVirusIsolated() {
+		return virusIsolated;
+	}
+
+	public void setVirusIsolated(Boolean virusIsolated) {
+		this.virusIsolated = virusIsolated;
+	}
+
+	public MacroscopicExamination getMacroscopicExamination() {
+		return macroscopicExamination;
+	}
+
+	public void setMacroscopicExamination(MacroscopicExamination macroscopicExamination) {
+		this.macroscopicExamination = macroscopicExamination;
+	}
+
+	public Boolean getCellCountNormal() {
+		return cellCountNormal;
+	}
+
+	public void setCellCountNormal(Boolean cellCountNormal) {
+		this.cellCountNormal = cellCountNormal;
+	}
+
+	public Boolean getCellCountAbnormal() {
+		return cellCountAbnormal;
+	}
+
+	public void setCellCountAbnormal(Boolean cellCountAbnormal) {
+		this.cellCountAbnormal = cellCountAbnormal;
+	}
+
+	public String getWbcCountPolycytesPercent() {
+		return wbcCountPolycytesPercent;
+	}
+
+	public void setWbcCountPolycytesPercent(String wbcCountPolycytesPercent) {
+		this.wbcCountPolycytesPercent = wbcCountPolycytesPercent;
+	}
+
+	public String getWbcCountMonocytesPercent() {
+		return wbcCountMonocytesPercent;
+	}
+
+	public void setWbcCountMonocytesPercent(String wbcCountMonocytesPercent) {
+		this.wbcCountMonocytesPercent = wbcCountMonocytesPercent;
+	}
+
+	public GramStainResult getGramStainResult() {
+		return gramStainResult;
+	}
+
+	public void setGramStainResult(GramStainResult gramStainResult) {
+		this.gramStainResult = gramStainResult;
+	}
+
+	public AgglutinationTestResult getAgglutinationResult() {
+		return agglutinationResult;
+	}
+
+	public void setAgglutinationResult(AgglutinationTestResult agglutinationResult) {
+		this.agglutinationResult = agglutinationResult;
+	}
+
+	public AgglutinationPositiveResult getAgglutinationPositiveResults() {
+		return agglutinationPositiveResults;
+	}
+
+	public void setAgglutinationPositiveResults(AgglutinationPositiveResult agglutinationPositiveResults) {
+		this.agglutinationPositiveResults = agglutinationPositiveResults;
+	}
+
+	public String getAgglutinationOtherMicroorganism() {
+		return agglutinationOtherMicroorganism;
+	}
+
+	public void setAgglutinationOtherMicroorganism(String agglutinationOtherMicroorganism) {
+		this.agglutinationOtherMicroorganism = agglutinationOtherMicroorganism;
+	}
+
+	public Date getDateResultsSentToRegion() {
+		return dateResultsSentToRegion;
+	}
+
+	public void setDateResultsSentToRegion(Date dateResultsSentToRegion) {
+		this.dateResultsSentToRegion = dateResultsSentToRegion;
+	}
+
+	public Boolean getOtherTestsPending() {
+		return otherTestsPending;
+	}
+
+	public void setOtherTestsPending(Boolean otherTestsPending) {
+		this.otherTestsPending = otherTestsPending;
+	}
+
+	public String getOtherTestsPendingSpecify() {
+		return otherTestsPendingSpecify;
+	}
+
+	public void setOtherTestsPendingSpecify(String otherTestsPendingSpecify) {
+		this.otherTestsPendingSpecify = otherTestsPendingSpecify;
+	}
+
+	public Date getDateResultsSentToReferenceLaboratory() {
+		return dateResultsSentToReferenceLaboratory;
+	}
+
+	public void setDateResultsSentToReferenceLaboratory(Date dateResultsSentToReferenceLaboratory) {
+		this.dateResultsSentToReferenceLaboratory = dateResultsSentToReferenceLaboratory;
+	}
+
+	public Facility getReferenceLaboratory() {
+		return referenceLaboratory;
+	}
+
+	public void setReferenceLaboratory(Facility referenceLaboratory) {
+		this.referenceLaboratory = referenceLaboratory;
+	}
+
+	public String getSelectedPathogenTestTypesString() {
+		return selectedPathogenTestTypesString;
+	}
+
+	public void setSelectedPathogenTestTypesString(String selectedPathogenTestTypesString) {
+		this.selectedPathogenTestTypesString = selectedPathogenTestTypesString;
+	}
+
+	public String getCultureFindingsString() {
+		return cultureFindingsString;
+	}
+
+	public void setCultureFindingsString(String cultureFindingsString) {
+		this.cultureFindingsString = cultureFindingsString;
+	}
+
+	public String getPcrFindingsString() {
+		return pcrFindingsString;
+	}
+
+	public void setPcrFindingsString(String pcrFindingsString) {
+		this.pcrFindingsString = pcrFindingsString;
+	}
+
+	public String getCultureOtherGermsSpecify() {
+		return cultureOtherGermsSpecify;
+	}
+
+	public void setCultureOtherGermsSpecify(String cultureOtherGermsSpecify) {
+		this.cultureOtherGermsSpecify = cultureOtherGermsSpecify;
+	}
+
+	public String getPcrOtherGermsSpecify() {
+		return pcrOtherGermsSpecify;
+	}
+
+	public void setPcrOtherGermsSpecify(String pcrOtherGermsSpecify) {
+		this.pcrOtherGermsSpecify = pcrOtherGermsSpecify;
+	}
+
+	public String getCellCountLeucocytesPerMm3() {
+		return cellCountLeucocytesPerMm3;
+	}
+
+	public void setCellCountLeucocytesPerMm3(String cellCountLeucocytesPerMm3) {
+		this.cellCountLeucocytesPerMm3 = cellCountLeucocytesPerMm3;
+	}
+
+	public String getCsfGlucose() {
+		return csfGlucose;
+	}
+
+	public void setCsfGlucose(String csfGlucose) {
+		this.csfGlucose = csfGlucose;
+	}
+
+	public String getCsfProtein() {
+		return csfProtein;
+	}
+
+	public void setCsfProtein(String csfProtein) {
+		this.csfProtein = csfProtein;
+	}
+
+	public Boolean getGramStainGpd() {
+		return gramStainGpd;
+	}
+
+	public void setGramStainGpd(Boolean gramStainGpd) {
+		this.gramStainGpd = gramStainGpd;
+	}
+
+	public Boolean getGramStainGnd() {
+		return gramStainGnd;
+	}
+
+	public void setGramStainGnd(Boolean gramStainGnd) {
+		this.gramStainGnd = gramStainGnd;
+	}
+
+	public Boolean getGramStainGpb() {
+		return gramStainGpb;
+	}
+
+	public void setGramStainGpb(Boolean gramStainGpb) {
+		this.gramStainGpb = gramStainGpb;
+	}
+
+	public Boolean getGramStainGnb() {
+		return gramStainGnb;
+	}
+
+	public void setGramStainGnb(Boolean gramStainGnb) {
+		this.gramStainGnb = gramStainGnb;
+	}
+
+	public Boolean getGramStainOtherPathogens() {
+		return gramStainOtherPathogens;
+	}
+
+	public void setGramStainOtherPathogens(Boolean gramStainOtherPathogens) {
+		this.gramStainOtherPathogens = gramStainOtherPathogens;
+	}
+
+	public String getGramStainOtherPathogensSpecify() {
+		return gramStainOtherPathogensSpecify;
+	}
+
+	public void setGramStainOtherPathogensSpecify(String gramStainOtherPathogensSpecify) {
+		this.gramStainOtherPathogensSpecify = gramStainOtherPathogensSpecify;
+	}
+
+	public Boolean getGramStainNoOrganismSeen() {
+		return gramStainNoOrganismSeen;
+	}
+
+	public void setGramStainNoOrganismSeen(Boolean gramStainNoOrganismSeen) {
+		this.gramStainNoOrganismSeen = gramStainNoOrganismSeen;
+	}
+
+	public Boolean getLatexNmA() {
+		return latexNmA;
+	}
+
+	public void setLatexNmA(Boolean latexNmA) {
+		this.latexNmA = latexNmA;
+	}
+
+	public Boolean getLatexNmC() {
+		return latexNmC;
+	}
+
+	public void setLatexNmC(Boolean latexNmC) {
+		this.latexNmC = latexNmC;
+	}
+
+	public Boolean getLatexNmWY() {
+		return latexNmWY;
+	}
+
+	public void setLatexNmWY(Boolean latexNmWY) {
+		this.latexNmWY = latexNmWY;
+	}
+
+	public Boolean getLatexNmBEcoliKi() {
+		return latexNmBEcoliKi;
+	}
+
+	public void setLatexNmBEcoliKi(Boolean latexNmBEcoliKi) {
+		this.latexNmBEcoliKi = latexNmBEcoliKi;
+	}
+
+	public Boolean getLatexSPneumoniae() {
+		return latexSPneumoniae;
+	}
+
+	public void setLatexSPneumoniae(Boolean latexSPneumoniae) {
+		this.latexSPneumoniae = latexSPneumoniae;
+	}
+
+	public Boolean getLatexHib() {
+		return latexHib;
+	}
+
+	public void setLatexHib(Boolean latexHib) {
+		this.latexHib = latexHib;
+	}
+
+	public Boolean getLatexStrepB() {
+		return latexStrepB;
+	}
+
+	public void setLatexStrepB(Boolean latexStrepB) {
+		this.latexStrepB = latexStrepB;
+	}
+
+	public Boolean getLatexNegative() {
+		return latexNegative;
+	}
+
+	public void setLatexNegative(Boolean latexNegative) {
+		this.latexNegative = latexNegative;
+	}
+
+	public YesNo getRdtDipstickPerformed() {
+		return rdtDipstickPerformed;
+	}
+
+	public void setRdtDipstickPerformed(YesNo rdtDipstickPerformed) {
+		this.rdtDipstickPerformed = rdtDipstickPerformed;
+	}
+
+	public String getRdtDipstickResults() {
+		return rdtDipstickResults;
+	}
+
+	public void setRdtDipstickResults(String rdtDipstickResults) {
+		this.rdtDipstickResults = rdtDipstickResults;
+	}
+
+	public AntimicrobialSusceptibility getCeftriaxoneSusceptibility() {
+		return ceftriaxoneSusceptibility;
+	}
+
+	public void setCeftriaxoneSusceptibility(AntimicrobialSusceptibility ceftriaxoneSusceptibility) {
+		this.ceftriaxoneSusceptibility = ceftriaxoneSusceptibility;
+	}
+
+	public AntimicrobialSusceptibility getAmpicillinSusceptibility() {
+		return ampicillinSusceptibility;
+	}
+
+	public void setAmpicillinSusceptibility(AntimicrobialSusceptibility ampicillinSusceptibility) {
+		this.ampicillinSusceptibility = ampicillinSusceptibility;
+	}
+
+	public AntimicrobialSusceptibility getGentamycinSusceptibility() {
+		return gentamycinSusceptibility;
+	}
+
+	public void setGentamycinSusceptibility(AntimicrobialSusceptibility gentamycinSusceptibility) {
+		this.gentamycinSusceptibility = gentamycinSusceptibility;
+	}
+
+	public AntimicrobialSusceptibility getOxacillinSusceptibility() {
+		return oxacillinSusceptibility;
+	}
+
+	public void setOxacillinSusceptibility(AntimicrobialSusceptibility oxacillinSusceptibility) {
+		this.oxacillinSusceptibility = oxacillinSusceptibility;
+	}
+
+	public AntimicrobialSusceptibility getChloramphenicolSusceptibility() {
+		return chloramphenicolSusceptibility;
+	}
+
+	public void setChloramphenicolSusceptibility(AntimicrobialSusceptibility chloramphenicolSusceptibility) {
+		this.chloramphenicolSusceptibility = chloramphenicolSusceptibility;
+	}
+
+	public AntimicrobialSusceptibility getBenzylPenicillinSusceptibility() {
+		return benzylPenicillinSusceptibility;
+	}
+
+	public void setBenzylPenicillinSusceptibility(AntimicrobialSusceptibility benzylPenicillinSusceptibility) {
+		this.benzylPenicillinSusceptibility = benzylPenicillinSusceptibility;
+	}
+
+	public String getOtherAntimicrobialDrugName() {
+		return otherAntimicrobialDrugName;
+	}
+
+	public void setOtherAntimicrobialDrugName(String otherAntimicrobialDrugName) {
+		this.otherAntimicrobialDrugName = otherAntimicrobialDrugName;
+	}
+
+	public AntimicrobialSusceptibility getOtherAntimicrobialSusceptibility() {
+		return otherAntimicrobialSusceptibility;
+	}
+
+	public void setOtherAntimicrobialSusceptibility(AntimicrobialSusceptibility otherAntimicrobialSusceptibility) {
+		this.otherAntimicrobialSusceptibility = otherAntimicrobialSusceptibility;
+	}
+
+	public Date getDatePcrPerformed() {
+		return datePcrPerformed;
+	}
+
+	public void setDatePcrPerformed(Date datePcrPerformed) {
+		this.datePcrPerformed = datePcrPerformed;
+	}
+
+	public String getPcrTypeText() {
+		return pcrTypeText;
+	}
+
+	public void setPcrTypeText(String pcrTypeText) {
+		this.pcrTypeText = pcrTypeText;
+	}
+
+	public String getPcrSerotype() {
+		return pcrSerotype;
+	}
+
+	public void setPcrSerotype(String pcrSerotype) {
+		this.pcrSerotype = pcrSerotype;
+	}
+
+	public String getOtherTestTypeSpecify() {
+		return otherTestTypeSpecify;
+	}
+
+	public void setOtherTestTypeSpecify(String otherTestTypeSpecify) {
+		this.otherTestTypeSpecify = otherTestTypeSpecify;
+	}
+
+	public String getOtherTestResults() {
+		return otherTestResults;
+	}
+
+	public void setOtherTestResults(String otherTestResults) {
+		this.otherTestResults = otherTestResults;
 	}
 
 	@Override

@@ -51,6 +51,7 @@ import de.symeda.sormas.api.caze.RabiesType;
 import de.symeda.sormas.api.caze.ScreeningType;
 import de.symeda.sormas.api.caze.Trimester;
 import de.symeda.sormas.api.caze.RoutineVaccinationType;
+import de.symeda.sormas.api.caze.ClassificationByOrigin;
 import de.symeda.sormas.api.caze.VaccinationRecordType;
 import de.symeda.sormas.api.caze.VaccinationStatus;
 import de.symeda.sormas.api.caze.VaccineType;
@@ -61,6 +62,7 @@ import de.symeda.sormas.api.disease.DiseaseVariant;
 import de.symeda.sormas.api.infrastructure.facility.FacilityType;
 import de.symeda.sormas.api.utils.DataHelper;
 import de.symeda.sormas.api.utils.Diseases;
+import de.symeda.sormas.api.sample.FinalClassification;
 import de.symeda.sormas.api.utils.YesNo;
 import de.symeda.sormas.api.utils.YesNoUnknown;
 import de.symeda.sormas.app.backend.caze.maternalhistory.MaternalHistory;
@@ -518,6 +520,79 @@ public class Case extends PseudonymizableAdo {
 	private String investigatorTel;
 	@DatabaseField
 	private String investigatorEmail;
+
+	@Enumerated(EnumType.STRING)
+	private YesNo measlesCommunityInvestigation;
+	@Column(length = CHARACTER_LIMIT_BIG)
+	private String measlesInvestigationResults;
+	@Enumerated(EnumType.STRING)
+	private FinalClassification finalClassification;
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	private String finalClassificationDiscarded;
+	@Enumerated(EnumType.STRING)
+	private ClassificationByOrigin classificationByOrigin;
+
+	@Enumerated(EnumType.STRING)
+	private YesNoUnknown menac;
+	@DatabaseField(dataType = DataType.DATE_LONG)
+	private Date menacDate;
+	@Enumerated(EnumType.STRING)
+	private YesNoUnknown menacw;
+	@DatabaseField(dataType = DataType.DATE_LONG)
+	private Date menacwDate;
+	@Enumerated(EnumType.STRING)
+	private YesNoUnknown menacwy;
+	@DatabaseField(dataType = DataType.DATE_LONG)
+	private Date menacwyDate;
+	@Enumerated(EnumType.STRING)
+	private YesNoUnknown menaConjunate;
+	@DatabaseField(dataType = DataType.DATE_LONG)
+	private Date menaConjunateDate;
+	@Enumerated(EnumType.STRING)
+	private YesNoUnknown pcvi3I;
+	@DatabaseField(dataType = DataType.DATE_LONG)
+	private Date pcvi3IDate;
+	@Enumerated(EnumType.STRING)
+	private YesNoUnknown pcvi3_2;
+	@DatabaseField(dataType = DataType.DATE_LONG)
+	private Date pcvi3_2Date;
+	@Enumerated(EnumType.STRING)
+	private YesNoUnknown pcv13_3;
+	@DatabaseField(dataType = DataType.DATE_LONG)
+	private Date pcv13_3Date;
+	@Enumerated(EnumType.STRING)
+	private YesNoUnknown hibI;
+	@DatabaseField(dataType = DataType.DATE_LONG)
+	private Date hibIDate;
+	@Enumerated(EnumType.STRING)
+	private YesNoUnknown hib2;
+	@DatabaseField(dataType = DataType.DATE_LONG)
+	private Date hib2Date;
+	@Enumerated(EnumType.STRING)
+	private YesNoUnknown hib3;
+	@DatabaseField(dataType = DataType.DATE_LONG)
+	private Date hib3Date;
+
+	@DatabaseField(dataType = DataType.DATE_LONG)
+	private Date districtNotificationDate;
+	@DatabaseField
+	private String personFullName;
+	@DatabaseField
+	private String personTelephone;
+	@DatabaseField
+	private String personDesignation;
+	@DatabaseField(dataType = DataType.DATE_LONG)
+	private Date dateFormSentToDistrict;
+	@DatabaseField(dataType = DataType.DATE_LONG)
+	private Date dateFormReceivedAtDistrict;
+	@DatabaseField(dataType = DataType.DATE_LONG)
+	private Date dateFormSentToRegion;
+	@DatabaseField(dataType = DataType.DATE_LONG)
+	private Date dateFormReceivedAtRegion;
+	@DatabaseField(dataType = DataType.DATE_LONG)
+	private Date dateFormSentToNational;
+	@DatabaseField(dataType = DataType.DATE_LONG)
+	private Date dateFormReceivedAtNational;
 
 	public boolean isUnreferredPortHealthCase() {
 		return caseOrigin == CaseOrigin.POINT_OF_ENTRY && healthFacility == null;
@@ -1795,5 +1870,285 @@ public class Case extends PseudonymizableAdo {
 
 	public void setInvestigatorName(String investigatorName) {
 		this.investigatorName = investigatorName;
+	}
+
+	public YesNo getMeaslesCommunityInvestigation() {
+		return measlesCommunityInvestigation;
+	}
+
+	public void setMeaslesCommunityInvestigation(YesNo measlesCommunityInvestigation) {
+		this.measlesCommunityInvestigation = measlesCommunityInvestigation;
+	}
+
+	public String getMeaslesInvestigationResults() {
+		return measlesInvestigationResults;
+	}
+
+	public void setMeaslesInvestigationResults(String measlesInvestigationResults) {
+		this.measlesInvestigationResults = measlesInvestigationResults;
+	}
+
+	public FinalClassification getFinalClassification() {
+		return finalClassification;
+	}
+
+	public void setFinalClassification(FinalClassification finalClassification) {
+		this.finalClassification = finalClassification;
+	}
+
+	public String getFinalClassificationDiscarded() {
+		return finalClassificationDiscarded;
+	}
+
+	public void setFinalClassificationDiscarded(String finalClassificationDiscarded) {
+		this.finalClassificationDiscarded = finalClassificationDiscarded;
+	}
+
+	public ClassificationByOrigin getClassificationByOrigin() {
+		return classificationByOrigin;
+	}
+
+	public void setClassificationByOrigin(ClassificationByOrigin classificationByOrigin) {
+		this.classificationByOrigin = classificationByOrigin;
+	}
+
+	public YesNoUnknown getMenac() {
+		return menac;
+	}
+
+	public void setMenac(YesNoUnknown menac) {
+		this.menac = menac;
+	}
+
+	public Date getMenacDate() {
+		return menacDate;
+	}
+
+	public void setMenacDate(Date menacDate) {
+		this.menacDate = menacDate;
+	}
+
+	public YesNoUnknown getMenacw() {
+		return menacw;
+	}
+
+	public void setMenacw(YesNoUnknown menacw) {
+		this.menacw = menacw;
+	}
+
+	public Date getMenacwDate() {
+		return menacwDate;
+	}
+
+	public void setMenacwDate(Date menacwDate) {
+		this.menacwDate = menacwDate;
+	}
+
+	public YesNoUnknown getMenacwy() {
+		return menacwy;
+	}
+
+	public void setMenacwy(YesNoUnknown menacwy) {
+		this.menacwy = menacwy;
+	}
+
+	public Date getMenacwyDate() {
+		return menacwyDate;
+	}
+
+	public void setMenacwyDate(Date menacwyDate) {
+		this.menacwyDate = menacwyDate;
+	}
+
+	public YesNoUnknown getMenaConjunate() {
+		return menaConjunate;
+	}
+
+	public void setMenaConjunate(YesNoUnknown menaConjunate) {
+		this.menaConjunate = menaConjunate;
+	}
+
+	public Date getMenaConjunateDate() {
+		return menaConjunateDate;
+	}
+
+	public void setMenaConjunateDate(Date menaConjunateDate) {
+		this.menaConjunateDate = menaConjunateDate;
+	}
+
+	public YesNoUnknown getPcvi3I() {
+		return pcvi3I;
+	}
+
+	public void setPcvi3I(YesNoUnknown pcvi3I) {
+		this.pcvi3I = pcvi3I;
+	}
+
+	public Date getPcvi3IDate() {
+		return pcvi3IDate;
+	}
+
+	public void setPcvi3IDate(Date pcvi3IDate) {
+		this.pcvi3IDate = pcvi3IDate;
+	}
+
+	public YesNoUnknown getPcvi3_2() {
+		return pcvi3_2;
+	}
+
+	public void setPcvi3_2(YesNoUnknown pcvi3_2) {
+		this.pcvi3_2 = pcvi3_2;
+	}
+
+	public Date getPcvi3_2Date() {
+		return pcvi3_2Date;
+	}
+
+	public void setPcvi3_2Date(Date pcvi3_2Date) {
+		this.pcvi3_2Date = pcvi3_2Date;
+	}
+
+	public YesNoUnknown getPcv13_3() {
+		return pcv13_3;
+	}
+
+	public void setPcv13_3(YesNoUnknown pcv13_3) {
+		this.pcv13_3 = pcv13_3;
+	}
+
+	public Date getPcv13_3Date() {
+		return pcv13_3Date;
+	}
+
+	public void setPcv13_3Date(Date pcv13_3Date) {
+		this.pcv13_3Date = pcv13_3Date;
+	}
+
+	public YesNoUnknown getHibI() {
+		return hibI;
+	}
+
+	public void setHibI(YesNoUnknown hibI) {
+		this.hibI = hibI;
+	}
+
+	public Date getHibIDate() {
+		return hibIDate;
+	}
+
+	public void setHibIDate(Date hibIDate) {
+		this.hibIDate = hibIDate;
+	}
+
+	public YesNoUnknown getHib2() {
+		return hib2;
+	}
+
+	public void setHib2(YesNoUnknown hib2) {
+		this.hib2 = hib2;
+	}
+
+	public Date getHib2Date() {
+		return hib2Date;
+	}
+
+	public void setHib2Date(Date hib2Date) {
+		this.hib2Date = hib2Date;
+	}
+
+	public YesNoUnknown getHib3() {
+		return hib3;
+	}
+
+	public void setHib3(YesNoUnknown hib3) {
+		this.hib3 = hib3;
+	}
+
+	public Date getHib3Date() {
+		return hib3Date;
+	}
+
+	public void setHib3Date(Date hib3Date) {
+		this.hib3Date = hib3Date;
+	}
+
+	public Date getDistrictNotificationDate() {
+		return districtNotificationDate;
+	}
+
+	public void setDistrictNotificationDate(Date districtNotificationDate) {
+		this.districtNotificationDate = districtNotificationDate;
+	}
+
+	public String getPersonFullName() {
+		return personFullName;
+	}
+
+	public void setPersonFullName(String personFullName) {
+		this.personFullName = personFullName;
+	}
+
+	public String getPersonTelephone() {
+		return personTelephone;
+	}
+
+	public void setPersonTelephone(String personTelephone) {
+		this.personTelephone = personTelephone;
+	}
+
+	public String getPersonDesignation() {
+		return personDesignation;
+	}
+
+	public void setPersonDesignation(String personDesignation) {
+		this.personDesignation = personDesignation;
+	}
+
+	public Date getDateFormSentToDistrict() {
+		return dateFormSentToDistrict;
+	}
+
+	public void setDateFormSentToDistrict(Date dateFormSentToDistrict) {
+		this.dateFormSentToDistrict = dateFormSentToDistrict;
+	}
+
+	public Date getDateFormReceivedAtDistrict() {
+		return dateFormReceivedAtDistrict;
+	}
+
+	public void setDateFormReceivedAtDistrict(Date dateFormReceivedAtDistrict) {
+		this.dateFormReceivedAtDistrict = dateFormReceivedAtDistrict;
+	}
+
+	public Date getDateFormSentToRegion() {
+		return dateFormSentToRegion;
+	}
+
+	public void setDateFormSentToRegion(Date dateFormSentToRegion) {
+		this.dateFormSentToRegion = dateFormSentToRegion;
+	}
+
+	public Date getDateFormReceivedAtRegion() {
+		return dateFormReceivedAtRegion;
+	}
+
+	public void setDateFormReceivedAtRegion(Date dateFormReceivedAtRegion) {
+		this.dateFormReceivedAtRegion = dateFormReceivedAtRegion;
+	}
+
+	public Date getDateFormSentToNational() {
+		return dateFormSentToNational;
+	}
+
+	public void setDateFormSentToNational(Date dateFormSentToNational) {
+		this.dateFormSentToNational = dateFormSentToNational;
+	}
+
+	public Date getDateFormReceivedAtNational() {
+		return dateFormReceivedAtNational;
+	}
+
+	public void setDateFormReceivedAtNational(Date dateFormReceivedAtNational) {
+		this.dateFormReceivedAtNational = dateFormReceivedAtNational;
 	}
 }

@@ -15,10 +15,17 @@
 
 package de.symeda.sormas.app.backend.sample;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import org.apache.commons.lang3.StringUtils;
 
 import de.symeda.sormas.api.PostResponse;
+import de.symeda.sormas.api.sample.CulturePcrFinding;
 import de.symeda.sormas.api.sample.PathogenTestDto;
+import de.symeda.sormas.api.sample.PathogenTestType;
 import de.symeda.sormas.app.backend.common.AdoDtoHelper;
 import de.symeda.sormas.app.backend.common.DatabaseHelper;
 import de.symeda.sormas.app.backend.environment.environmentsample.EnvironmentSample;
@@ -96,6 +103,61 @@ public class PathogenTestDtoHelper extends AdoDtoHelper<PathogenTest, PathogenTe
 		target.setInvestigationResults(source.getInvestigationResults());
 		target.setSourceOfInfectionIdentified(source.getSourceOfInfectionIdentified());
 
+		target.setVirusDetectionGenotype(source.getVirusDetectionGenotype());
+		target.setVirusIsolated(source.getVirusIsolated());
+		target.setMacroscopicExamination(source.getMacroscopicExamination());
+		target.setCellCountNormal(source.getCellCountNormal());
+		target.setCellCountAbnormal(source.getCellCountAbnormal());
+		target.setWbcCountPolycytesPercent(source.getWbcCountPolycytesPercent());
+		target.setWbcCountMonocytesPercent(source.getWbcCountMonocytesPercent());
+		target.setGramStainResult(source.getGramStainResult());
+		target.setAgglutinationResult(source.getAgglutinationResult());
+		target.setAgglutinationPositiveResults(source.getAgglutinationPositiveResults());
+		target.setAgglutinationOtherMicroorganism(source.getAgglutinationOtherMicroorganism());
+		target.setDateResultsSentToRegion(source.getDateResultsSentToRegion());
+		target.setOtherTestsPending(source.getOtherTestsPending());
+		target.setOtherTestsPendingSpecify(source.getOtherTestsPendingSpecify());
+		target.setDateResultsSentToReferenceLaboratory(source.getDateResultsSentToReferenceLaboratory());
+		target.setReferenceLaboratory(DatabaseHelper.getFacilityDao().getByReferenceDto(source.getReferenceLaboratory()));
+		target.setSelectedPathogenTestTypesString(enumSetToCsv(source.getSelectedPathogenTestTypes()));
+		target.setCultureFindingsString(enumSetToCsv(source.getCultureFindings()));
+		target.setPcrFindingsString(enumSetToCsv(source.getPcrFindings()));
+		target.setCultureOtherGermsSpecify(source.getCultureOtherGermsSpecify());
+		target.setPcrOtherGermsSpecify(source.getPcrOtherGermsSpecify());
+		target.setCellCountLeucocytesPerMm3(source.getCellCountLeucocytesPerMm3());
+		target.setCsfGlucose(source.getCsfGlucose());
+		target.setCsfProtein(source.getCsfProtein());
+		target.setGramStainGpd(source.getGramStainGpd());
+		target.setGramStainGnd(source.getGramStainGnd());
+		target.setGramStainGpb(source.getGramStainGpb());
+		target.setGramStainGnb(source.getGramStainGnb());
+		target.setGramStainOtherPathogens(source.getGramStainOtherPathogens());
+		target.setGramStainOtherPathogensSpecify(source.getGramStainOtherPathogensSpecify());
+		target.setGramStainNoOrganismSeen(source.getGramStainNoOrganismSeen());
+		target.setLatexNmA(source.getLatexNmA());
+		target.setLatexNmC(source.getLatexNmC());
+		target.setLatexNmWY(source.getLatexNmWY());
+		target.setLatexNmBEcoliKi(source.getLatexNmBEcoliKi());
+		target.setLatexSPneumoniae(source.getLatexSPneumoniae());
+		target.setLatexHib(source.getLatexHib());
+		target.setLatexStrepB(source.getLatexStrepB());
+		target.setLatexNegative(source.getLatexNegative());
+		target.setRdtDipstickPerformed(source.getRdtDipstickPerformed());
+		target.setRdtDipstickResults(source.getRdtDipstickResults());
+		target.setCeftriaxoneSusceptibility(source.getCeftriaxoneSusceptibility());
+		target.setAmpicillinSusceptibility(source.getAmpicillinSusceptibility());
+		target.setGentamycinSusceptibility(source.getGentamycinSusceptibility());
+		target.setOxacillinSusceptibility(source.getOxacillinSusceptibility());
+		target.setChloramphenicolSusceptibility(source.getChloramphenicolSusceptibility());
+		target.setBenzylPenicillinSusceptibility(source.getBenzylPenicillinSusceptibility());
+		target.setOtherAntimicrobialDrugName(source.getOtherAntimicrobialDrugName());
+		target.setOtherAntimicrobialSusceptibility(source.getOtherAntimicrobialSusceptibility());
+		target.setDatePcrPerformed(source.getDatePcrPerformed());
+		target.setPcrTypeText(source.getPcrTypeText());
+		target.setPcrSerotype(source.getPcrSerotype());
+		target.setOtherTestTypeSpecify(source.getOtherTestTypeSpecify());
+		target.setOtherTestResults(source.getOtherTestResults());
+
 		target.setPseudonymized(source.isPseudonymized());
 	}
 
@@ -159,7 +221,93 @@ public class PathogenTestDtoHelper extends AdoDtoHelper<PathogenTest, PathogenTe
 		target.setInvestigationResults(source.getInvestigationResults());
 		target.setSourceOfInfectionIdentified(source.getSourceOfInfectionIdentified());
 
+		target.setVirusDetectionGenotype(source.getVirusDetectionGenotype());
+		target.setVirusIsolated(source.getVirusIsolated());
+		target.setMacroscopicExamination(source.getMacroscopicExamination());
+		target.setCellCountNormal(source.getCellCountNormal());
+		target.setCellCountAbnormal(source.getCellCountAbnormal());
+		target.setWbcCountPolycytesPercent(source.getWbcCountPolycytesPercent());
+		target.setWbcCountMonocytesPercent(source.getWbcCountMonocytesPercent());
+		target.setGramStainResult(source.getGramStainResult());
+		target.setAgglutinationResult(source.getAgglutinationResult());
+		target.setAgglutinationPositiveResults(source.getAgglutinationPositiveResults());
+		target.setAgglutinationOtherMicroorganism(source.getAgglutinationOtherMicroorganism());
+		target.setDateResultsSentToRegion(source.getDateResultsSentToRegion());
+		target.setOtherTestsPending(source.getOtherTestsPending());
+		target.setOtherTestsPendingSpecify(source.getOtherTestsPendingSpecify());
+		target.setDateResultsSentToReferenceLaboratory(source.getDateResultsSentToReferenceLaboratory());
+		if (source.getReferenceLaboratory() != null) {
+			Facility refLab = DatabaseHelper.getFacilityDao().queryForId(source.getReferenceLaboratory().getId());
+			target.setReferenceLaboratory(FacilityDtoHelper.toReferenceDto(refLab));
+		} else {
+			target.setReferenceLaboratory(null);
+		}
+		target.setSelectedPathogenTestTypes(csvToEnumSet(source.getSelectedPathogenTestTypesString(), PathogenTestType.class));
+		target.setCultureFindings(csvToEnumSet(source.getCultureFindingsString(), CulturePcrFinding.class));
+		target.setPcrFindings(csvToEnumSet(source.getPcrFindingsString(), CulturePcrFinding.class));
+		target.setCultureOtherGermsSpecify(source.getCultureOtherGermsSpecify());
+		target.setPcrOtherGermsSpecify(source.getPcrOtherGermsSpecify());
+		target.setCellCountLeucocytesPerMm3(source.getCellCountLeucocytesPerMm3());
+		target.setCsfGlucose(source.getCsfGlucose());
+		target.setCsfProtein(source.getCsfProtein());
+		target.setGramStainGpd(source.getGramStainGpd());
+		target.setGramStainGnd(source.getGramStainGnd());
+		target.setGramStainGpb(source.getGramStainGpb());
+		target.setGramStainGnb(source.getGramStainGnb());
+		target.setGramStainOtherPathogens(source.getGramStainOtherPathogens());
+		target.setGramStainOtherPathogensSpecify(source.getGramStainOtherPathogensSpecify());
+		target.setGramStainNoOrganismSeen(source.getGramStainNoOrganismSeen());
+		target.setLatexNmA(source.getLatexNmA());
+		target.setLatexNmC(source.getLatexNmC());
+		target.setLatexNmWY(source.getLatexNmWY());
+		target.setLatexNmBEcoliKi(source.getLatexNmBEcoliKi());
+		target.setLatexSPneumoniae(source.getLatexSPneumoniae());
+		target.setLatexHib(source.getLatexHib());
+		target.setLatexStrepB(source.getLatexStrepB());
+		target.setLatexNegative(source.getLatexNegative());
+		target.setRdtDipstickPerformed(source.getRdtDipstickPerformed());
+		target.setRdtDipstickResults(source.getRdtDipstickResults());
+		target.setCeftriaxoneSusceptibility(source.getCeftriaxoneSusceptibility());
+		target.setAmpicillinSusceptibility(source.getAmpicillinSusceptibility());
+		target.setGentamycinSusceptibility(source.getGentamycinSusceptibility());
+		target.setOxacillinSusceptibility(source.getOxacillinSusceptibility());
+		target.setChloramphenicolSusceptibility(source.getChloramphenicolSusceptibility());
+		target.setBenzylPenicillinSusceptibility(source.getBenzylPenicillinSusceptibility());
+		target.setOtherAntimicrobialDrugName(source.getOtherAntimicrobialDrugName());
+		target.setOtherAntimicrobialSusceptibility(source.getOtherAntimicrobialSusceptibility());
+		target.setDatePcrPerformed(source.getDatePcrPerformed());
+		target.setPcrTypeText(source.getPcrTypeText());
+		target.setPcrSerotype(source.getPcrSerotype());
+		target.setOtherTestTypeSpecify(source.getOtherTestTypeSpecify());
+		target.setOtherTestResults(source.getOtherTestResults());
+
 		target.setPseudonymized(source.isPseudonymized());
+	}
+
+	private static String enumSetToCsv(Set<? extends Enum<?>> set) {
+
+		if (set == null || set.isEmpty()) {
+			return null;
+		}
+		return set.stream().map(Enum::name).collect(Collectors.joining(","));
+	}
+
+	private static <E extends Enum<E>> Set<E> csvToEnumSet(String csv, Class<E> clazz) {
+
+		if (StringUtils.isBlank(csv)) {
+			return null;
+		}
+		Set<E> out = new HashSet<>();
+		for (String part : csv.split(",")) {
+			String p = part.trim();
+			if (StringUtils.isNotBlank(p)) {
+				try {
+					out.add(Enum.valueOf(clazz, p));
+				} catch (IllegalArgumentException ignored) {
+				}
+			}
+		}
+		return out.isEmpty() ? null : out;
 	}
 
 	@Override

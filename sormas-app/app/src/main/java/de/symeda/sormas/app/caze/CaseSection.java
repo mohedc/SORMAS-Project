@@ -40,7 +40,8 @@ public enum CaseSection
 	TASKS(R.string.caption_case_tasks, R.drawable.ic_drawer_user_task_blue_24dp),
 	EVENTS(R.string.caption_case_events, R.drawable.ic_event_available_black_24dp),
 	IMMUNIZATIONS(R.string.caption_case_immunizations, R.drawable.ic_drawer_immunization_24dp),
-	VACCINATIONS(R.string.caption_case_vaccinations, R.drawable.ic_drawer_vaccines_24);
+	VACCINATIONS(R.string.caption_case_vaccinations, R.drawable.ic_drawer_vaccines_24),
+	FINAL_CLASSIFICATION(R.string.caption_case_final_classification, R.drawable.ic_check_circle_black_24dp);
 
 	private int friendlyNameResourceId;
 	private int iconResourceId;

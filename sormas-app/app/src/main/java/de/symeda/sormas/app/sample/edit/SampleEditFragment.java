@@ -40,10 +40,15 @@ import de.symeda.sormas.api.sample.AdditionalTestType;
 import de.symeda.sormas.api.sample.PathogenTestResultType;
 import de.symeda.sormas.api.sample.PathogenTestType;
 import de.symeda.sormas.api.sample.SampleDto;
+import de.symeda.sormas.api.sample.CsfAppearance;
+import de.symeda.sormas.api.sample.LpNotDoneReason;
+import de.symeda.sormas.api.sample.MeningitisRdtResult;
+import de.symeda.sormas.api.sample.SampleContainerType;
 import de.symeda.sormas.api.sample.SampleMaterial;
 import de.symeda.sormas.api.sample.SamplePurpose;
 import de.symeda.sormas.api.sample.SampleSource;
 import de.symeda.sormas.api.sample.SamplingReason;
+import de.symeda.sormas.api.sample.SimpleTestResultType;
 import de.symeda.sormas.api.sample.SpecimenCondition;
 import de.symeda.sormas.api.user.UserRight;
 import de.symeda.sormas.api.utils.YesNo;
@@ -110,6 +115,44 @@ public class SampleEditFragment extends BaseEditFragment<FragmentSampleEditLayou
 		}
 	}
 
+	private void configureDiseaseSpecificSampleUi(FragmentSampleEditLayoutBinding contentBinding, Disease disease) {
+		contentBinding.sampleMeaslesSpecimenDatesLayout.setVisibility(GONE);
+		contentBinding.sampleIpDakarResultsLayout.setVisibility(GONE);
+		contentBinding.sampleCsmSampleCollectionLayout.setVisibility(GONE);
+		contentBinding.sampleSampleMaterial.setVisibility(VISIBLE);
+		contentBinding.sampleSampleMaterialText.setVisibility(VISIBLE);
+		contentBinding.sampleWasSpecimenTaken.setEnabled(true);
+
+		if (disease == null) {
+			return;
+		}
+
+		if (disease == Disease.MEASLES) {
+			contentBinding.sampleMeaslesSpecimenDatesLayout.setVisibility(VISIBLE);
+		}
+		if (disease == Disease.MEASLES || disease == Disease.YELLOW_FEVER) {
+			contentBinding.sampleIpDakarResultsLayout.setVisibility(VISIBLE);
+			contentBinding.sampleElisaIgm.initializeSpinner(DataUtils.getEnumItems(SimpleTestResultType.class, true));
+			contentBinding.sampleIpDakarPcr.initializeSpinner(DataUtils.toItems(Arrays.asList(PathogenTestResultType.values()), true));
+			contentBinding.samplePrnt.initializeSpinner(DataUtils.toItems(Arrays.asList(PathogenTestResultType.values()), true));
+		}
+		if (disease == Disease.YELLOW_FEVER && record.getId() != null) {
+			contentBinding.samplePathogenTestResult.setEnabled(false);
+		}
+		if (disease == Disease.CSM) {
+			contentBinding.sampleCsmSampleCollectionLayout.setVisibility(VISIBLE);
+			contentBinding.sampleSampleMaterial.setVisibility(GONE);
+			contentBinding.sampleSampleMaterialText.setVisibility(GONE);
+			record.setWasSpecimenTaken(YesNo.YES);
+			contentBinding.sampleWasSpecimenTaken.setValue(YesNo.YES);
+			contentBinding.sampleWasSpecimenTaken.setEnabled(false);
+			if (record.getSampleMaterial() == null) {
+				record.setSampleMaterial(SampleMaterial.CEREBROSPINAL_FLUID);
+				contentBinding.sampleSampleMaterial.setValue(SampleMaterial.CEREBROSPINAL_FLUID);
+			}
+		}
+	}
+
 	private void setUpFieldVisibilities(final FragmentSampleEditLayoutBinding contentBinding) {
 		// Most recent test layout
 		if (!record.isReceived() || record.getSpecimenCondition() != SpecimenCondition.ADEQUATE) {
@@ -170,7 +213,14 @@ public class SampleEditFragment extends BaseEditFragment<FragmentSampleEditLayou
 			referredSample = null;
 		}
 
-		sampleMaterialList = DataUtils.getEnumItems(SampleMaterial.class, true, getFieldVisibilityCheckers());
+		Disease associatedDisease = getDiseaseOfAssociatedEntity(record);
+		if (associatedDisease == Disease.MEASLES) {
+			sampleMaterialList = DataUtils.toItems(Arrays.asList(SampleMaterial.BLOOD, SampleMaterial.THROAT_SWAB, SampleMaterial.URINE, SampleMaterial.OTHER));
+		} else if (associatedDisease == Disease.CSM) {
+			sampleMaterialList = DataUtils.toItems(Arrays.asList(SampleMaterial.CEREBROSPINAL_FLUID, SampleMaterial.OTHER));
+		} else {
+			sampleMaterialList = DataUtils.getEnumItems(SampleMaterial.class, true, getFieldVisibilityCheckers());
+		}
 		sampleSourceList = DataUtils.getEnumItems(SampleSource.class, true);
 		labList = DatabaseHelper.getFacilityDao().getActiveLaboratories(true);
 		samplePurposeList = DataUtils.getEnumItems(SamplePurpose.class, true);
@@ -272,6 +322,8 @@ public class SampleEditFragment extends BaseEditFragment<FragmentSampleEditLayou
 
 		contentBinding.sampleSamplingReason.initializeSpinner(samplingReasonList);
 
+		configureDiseaseSpecificSampleUi(contentBinding, disease);
+
 		// Initialize ControlDateFields and ControlDateTimeFields
 		contentBinding.sampleSampleDateTime.initializeDateTimeField(getFragmentManager());
 		contentBinding.sampleShipmentDate.initializeDateField(getFragmentManager());
@@ -279,6 +331,15 @@ public class SampleEditFragment extends BaseEditFragment<FragmentSampleEditLayou
 		contentBinding.sampleDispatchedToRegionalColdroomDate.initializeDateField(getFragmentManager());
 		contentBinding.sampleDispatchedToNationalLabByCourierDate.initializeDateField(getFragmentManager());
 		contentBinding.sampleDispatchedToNationalLabByRegionDistrictDate.initializeDateField(getFragmentManager());
+		contentBinding.sampleDateSpecimenSentFromFieldToNationalLab.initializeDateField(getFragmentManager());
+		contentBinding.sampleDateSpecimenSentToRegionalReferenceLab.initializeDateField(getFragmentManager());
+		contentBinding.sampleDateSpecimenReceivedAtNationalLab.initializeDateField(getFragmentManager());
+		contentBinding.sampleDateSpecimenReceivedAtRegionalReferenceLab.initializeDateField(getFragmentManager());
+		contentBinding.sampleReceivedDate.initializeDateField(getFragmentManager());
+		contentBinding.sampleDateResultsSentToReferringClinician.initializeDateField(getFragmentManager());
+		contentBinding.sampleElisaIgmDate.initializeDateField(getFragmentManager());
+		contentBinding.samplePcrDate.initializeDateField(getFragmentManager());
+		contentBinding.samplePrntDate.initializeDateField(getFragmentManager());
 		if (contentBinding.sampleDateFormCsfDispatchedToHealthDistrict != null) {
 			contentBinding.sampleDateFormCsfDispatchedToHealthDistrict.initializeDateField(getFragmentManager());
 		}
@@ -291,6 +352,8 @@ public class SampleEditFragment extends BaseEditFragment<FragmentSampleEditLayou
 		if (contentBinding.sampleDateSpecimenSentToLaboratoryType != null) {
 			contentBinding.sampleDateSpecimenSentToLaboratoryType.initializeDateField(getFragmentManager());
 		}
+		contentBinding.sampleTimeOfInoculationIntoTransportMedia.initializeDateField(getFragmentManager());
+		contentBinding.sampleDateTimeSampleSentToLab.initializeDateTimeField(getFragmentManager());
 
 		// Initialize enum spinners for Meningitis fields
 		if (contentBinding.sampleLpAspect != null) {
@@ -305,6 +368,13 @@ public class SampleEditFragment extends BaseEditFragment<FragmentSampleEditLayou
 		if (contentBinding.samplePackaging != null) {
 			contentBinding.samplePackaging.initializeSpinner(DataUtils.getEnumItems(de.symeda.sormas.api.sample.Packaging.class, true));
 		}
+		contentBinding.sampleLpNotDoneReason.initializeSpinner(DataUtils.getEnumItems(LpNotDoneReason.class, true));
+		contentBinding.sampleSampleContainerUsed.initializeSpinner(DataUtils.getEnumItems(SampleContainerType.class, true));
+		contentBinding.sampleMeningitisRdtResult.initializeSpinner(DataUtils.getEnumItems(MeningitisRdtResult.class, true));
+		contentBinding.sampleSampleContainerReceived.initializeSpinner(DataUtils.getEnumItems(SampleContainerType.class, true));
+		contentBinding.sampleSampleConditionAtReception.initializeSpinner(DataUtils.getEnumItems(SpecimenCondition.class, true));
+		contentBinding.sampleCsfAppearanceAtCollection.initializeSpinner(DataUtils.getEnumItems(CsfAppearance.class, true));
+		contentBinding.sampleCsfAppearanceAtReception.initializeSpinner(DataUtils.getEnumItems(CsfAppearance.class, true));
 
 		// Initialize on clicks
 		contentBinding.buttonScanFieldSampleId.setOnClickListener((View v) -> {

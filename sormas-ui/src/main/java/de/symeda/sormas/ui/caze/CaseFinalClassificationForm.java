@@ -290,6 +290,13 @@ public class CaseFinalClassificationForm extends AbstractEditForm<CaseDataDto> {
 					FinalClassification.NOT_AN_AFP_CASE
 			);
 		}
+		if (Disease.CSM.equals(disease)) {
+			return Arrays.asList(
+				FinalClassification.LAB_CONFIRMED,
+				FinalClassification.PROBABLE,
+				FinalClassification.SUSPECTED
+			);
+		}
 		return Arrays.asList(
 				FinalClassification.LAB_CONFIRMED,
 				FinalClassification.CONFIRMED_BY_EPIDEMIOLOGICAL_LINKAGE,

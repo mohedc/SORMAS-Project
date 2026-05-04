@@ -82,6 +82,9 @@ public class CaseEditMaternalHistoryFragment extends BaseEditFragment<FragmentCa
 		contentBinding.maternalHistoryRubellaOnset.initializeDateField(getFragmentManager());
 		contentBinding.maternalHistorySwollenLymphsOnset.initializeDateField(getFragmentManager());
 		contentBinding.maternalHistoryRashExposureDate.initializeDateField(getFragmentManager());
+		contentBinding.maternalHistoryRubellaVaccinationDate.initializeDateField(getFragmentManager());
+		contentBinding.maternalHistoryMotherRubellaLabConfirmedDate.initializeDateField(getFragmentManager());
+		contentBinding.maternalHistoryMotherTraveledDuringPregnancyDate.initializeDateField(getFragmentManager());
 
 		setFieldVisibilitiesAndAccesses(MaternalHistoryDto.class, contentBinding.mainContent);
 

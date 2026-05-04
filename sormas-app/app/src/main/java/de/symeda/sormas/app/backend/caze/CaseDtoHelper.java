@@ -275,6 +275,42 @@ public class CaseDtoHelper extends PersonDependentDtoHelper<Case, CaseDataDto> {
 		target.setAtLeastOneYellowFeverDose(source.getAtLeastOneYellowFeverDose());
 		target.setVaccineType(source.getVaccineType());
 		target.setHealthWorkerCompletingForm(source.getHealthWorkerCompletingForm());
+
+		target.setMeaslesCommunityInvestigation(source.getMeaslesCommunityInvestigation());
+		target.setMeaslesInvestigationResults(source.getMeaslesInvestigationResults());
+		target.setFinalClassification(source.getFinalClassification());
+		target.setFinalClassificationDiscarded(source.getFinalClassificationDiscarded());
+		target.setClassificationByOrigin(source.getClassificationByOrigin());
+		target.setMenac(source.getMenac());
+		target.setMenacDate(source.getMenacDate());
+		target.setMenacw(source.getMenacw());
+		target.setMenacwDate(source.getMenacwDate());
+		target.setMenacwy(source.getMenacwy());
+		target.setMenacwyDate(source.getMenacwyDate());
+		target.setMenaConjunate(source.getMenaConjunate());
+		target.setMenaConjunateDate(source.getMenaConjunateDate());
+		target.setPcvi3I(source.getPcvi3I());
+		target.setPcvi3IDate(source.getPcvi3IDate());
+		target.setPcvi3_2(source.getPcvi3_2());
+		target.setPcvi3_2Date(source.getPcvi3_2Date());
+		target.setPcv13_3(source.getPcv13_3());
+		target.setPcv13_3Date(source.getPcv13_3Date());
+		target.setHibI(source.getHibI());
+		target.setHibIDate(source.getHibIDate());
+		target.setHib2(source.getHib2());
+		target.setHib2Date(source.getHib2Date());
+		target.setHib3(source.getHib3());
+		target.setHib3Date(source.getHib3Date());
+		target.setDistrictNotificationDate(source.getDistrictNotificationDate());
+		target.setPersonFullName(source.getPersonFullName());
+		target.setPersonTelephone(source.getPersonTelephone());
+		target.setPersonDesignation(source.getPersonDesignation());
+		target.setDateFormSentToDistrict(source.getDateFormSentToDistrict());
+		target.setDateFormReceivedAtDistrict(source.getDateFormReceivedAtDistrict());
+		target.setDateFormSentToRegion(source.getDateFormSentToRegion());
+		target.setDateFormReceivedAtRegion(source.getDateFormReceivedAtRegion());
+		target.setDateFormSentToNational(source.getDateFormSentToNational());
+		target.setDateFormReceivedAtNational(source.getDateFormReceivedAtNational());
 	}
 
 	@Override
@@ -564,6 +600,42 @@ public class CaseDtoHelper extends PersonDependentDtoHelper<Case, CaseDataDto> {
 		target.setAtLeastOneYellowFeverDose(source.getAtLeastOneYellowFeverDose());
 		target.setVaccineType(source.getVaccineType());
 		target.setHealthWorkerCompletingForm(source.getHealthWorkerCompletingForm());
+
+		target.setMeaslesCommunityInvestigation(source.getMeaslesCommunityInvestigation());
+		target.setMeaslesInvestigationResults(source.getMeaslesInvestigationResults());
+		target.setFinalClassification(source.getFinalClassification());
+		target.setFinalClassificationDiscarded(source.getFinalClassificationDiscarded());
+		target.setClassificationByOrigin(source.getClassificationByOrigin());
+		target.setMenac(source.getMenac());
+		target.setMenacDate(source.getMenacDate());
+		target.setMenacw(source.getMenacw());
+		target.setMenacwDate(source.getMenacwDate());
+		target.setMenacwy(source.getMenacwy());
+		target.setMenacwyDate(source.getMenacwyDate());
+		target.setMenaConjunate(source.getMenaConjunate());
+		target.setMenaConjunateDate(source.getMenaConjunateDate());
+		target.setPcvi3I(source.getPcvi3I());
+		target.setPcvi3IDate(source.getPcvi3IDate());
+		target.setPcvi3_2(source.getPcvi3_2());
+		target.setPcvi3_2Date(source.getPcvi3_2Date());
+		target.setPcv13_3(source.getPcv13_3());
+		target.setPcv13_3Date(source.getPcv13_3Date());
+		target.setHibI(source.getHibI());
+		target.setHibIDate(source.getHibIDate());
+		target.setHib2(source.getHib2());
+		target.setHib2Date(source.getHib2Date());
+		target.setHib3(source.getHib3());
+		target.setHib3Date(source.getHib3Date());
+		target.setDistrictNotificationDate(source.getDistrictNotificationDate());
+		target.setPersonFullName(source.getPersonFullName());
+		target.setPersonTelephone(source.getPersonTelephone());
+		target.setPersonDesignation(source.getPersonDesignation());
+		target.setDateFormSentToDistrict(source.getDateFormSentToDistrict());
+		target.setDateFormReceivedAtDistrict(source.getDateFormReceivedAtDistrict());
+		target.setDateFormSentToRegion(source.getDateFormSentToRegion());
+		target.setDateFormReceivedAtRegion(source.getDateFormReceivedAtRegion());
+		target.setDateFormSentToNational(source.getDateFormSentToNational());
+		target.setDateFormReceivedAtNational(source.getDateFormReceivedAtNational());
 
 		if (source.getHealthConditions() != null) {
 			HealthConditions healthConditions = DatabaseHelper.getHealthConditionsDao().queryForId(source.getHealthConditions().getId());

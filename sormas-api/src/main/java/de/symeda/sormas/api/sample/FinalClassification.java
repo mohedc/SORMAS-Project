@@ -68,6 +68,8 @@ public enum FinalClassification {
 	@Diseases({
 			Disease.AFP})
 	SERO_TYPE,
+	PROBABLE,
+	SUSPECTED,
 	AFP_CLASSIFICATION;
 	@Override
 	public String toString() {
