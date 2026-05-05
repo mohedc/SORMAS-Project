@@ -17,7 +17,9 @@
  *******************************************************************************/
 package de.symeda.sormas.api.caze;
 
+import de.symeda.sormas.api.Disease;
 import de.symeda.sormas.api.i18n.I18nProperties;
+import de.symeda.sormas.api.utils.Diseases;
 
 /**
  * Enum representing the source type of vaccination information.
@@ -29,11 +31,14 @@ public enum VaccinationRecordType {
 	 * Vaccination information from vaccination card
 	 */
 	CARD,
-
-	/**
-	 * Vaccination information from historical record or recall
-	 */
-	HISTORY;
+	@Diseases(value = {Disease.CSM})
+	REGISTER,
+	@Diseases(value = {Disease.CSM}, hide = true)
+	HISTORY,
+	@Diseases(value = {Disease.CSM})
+	VERBAL,
+	@Diseases(value = {Disease.CSM})
+	UNKNOWN;	
 
 	@Override
 	public String toString() {
