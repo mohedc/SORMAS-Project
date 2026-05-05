@@ -455,6 +455,7 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 				fluidRowLocs(CaseDataDto.VACCINATED, CaseDataDto.VACCINATION_RECORD_TYPE) +
 				// fluidRowLocs(CaseDataDto.NUMBER_OF_VACCINATION_DOSES, CaseDataDto.LAST_VACCINATION_DATE) +
 				// fluidRowLocs(CaseDataDto.VACCINE_TYPE, CaseDataDto.HEALTH_WORKER_COMPLETING_FORM) +
+				// VACCINE TYPE HERE FOR CSM
 				fluidRowLocs(CaseDataDto.MENAC, CaseDataDto.MENAC_DATE) +
 				fluidRowLocs(CaseDataDto.MENACW, CaseDataDto.MENACW_DATE) +
 				fluidRowLocs(CaseDataDto.MENACWY, CaseDataDto.MENACWY_DATE) +
