@@ -563,8 +563,14 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 		ComboBox occupationTypeField = addCustomizableEnumField(PersonDto.OCCUPATION_TYPE);
 		TextField occupationTypeDetailsField = addField(PersonDto.OCCUPATION_DETAILS, TextField.class);
 		occupationTypeDetailsField.setVisible(false);
-		FieldHelper
-			.updateItems(occupationTypeField, FacadeProvider.getCustomizableEnumFacade().getEnumValues(CustomizableEnumType.OCCUPATION_TYPE, null));
+		List<OccupationType> occupationTypes =
+			FacadeProvider.getCustomizableEnumFacade().getEnumValues(CustomizableEnumType.OCCUPATION_TYPE, null);
+		if (occupationTypes == null || occupationTypes.isEmpty()) {
+			// Fallback to enum defaults when no customizable values are configured.
+			FieldHelper.updateEnumData(occupationTypeField, Arrays.asList(OccupationType.values()));
+		} else {
+			FieldHelper.updateItems(occupationTypeField, occupationTypes);
+		}
 		occupationTypeField.addValueChangeListener(e -> {
 			OccupationType occupationType = (OccupationType) e.getProperty().getValue();
 			occupationTypeDetailsField.setVisible(occupationType != null && occupationType.matchPropertyValue(OccupationType.HAS_DETAILS, true));
