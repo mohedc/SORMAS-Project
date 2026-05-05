@@ -161,6 +161,7 @@ public class LocationEditForm extends AbstractEditForm<LocationDto> implements L
 
 	private static final String AFP_LAYOUT =
 			fluidRowLocs(LocationDto.REGION, LocationDto.DISTRICT, LocationDto.COMMUNITY) +
+					fluidRowLocs(LocationDto.NEAREST_HEALTH_FACILITY, "") +
 					fluidRowLocs(LocationDto.HOME_RESIDENTIAL_ADDRESS, LocationDto.AREA_TYPE) +
 					fluidRowLocs(LocationDto.CITY, LocationDto.VILLAGE) +
 					loc(AFP_CASE_COORDINATES_HEADING_LOC) +
@@ -173,6 +174,7 @@ public class LocationEditForm extends AbstractEditForm<LocationDto> implements L
 	private static final String NNT_LAYOUT =
 			fluidRowLocs(6, LocationDto.AREA_TYPE) +
 			fluidRowLocs(LocationDto.REGION, LocationDto.DISTRICT, LocationDto.COMMUNITY) +
+					fluidRowLocs(LocationDto.NEAREST_HEALTH_FACILITY, "") +
 					fluidRowLocs(LocationDto.VILLAGE, LocationDto.COMPOUND_OWNER);
 
 	private static final String IDSR_LAYOUT =
