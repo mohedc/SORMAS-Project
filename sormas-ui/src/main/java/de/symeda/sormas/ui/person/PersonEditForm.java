@@ -566,8 +566,15 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 		List<OccupationType> occupationTypes =
 			FacadeProvider.getCustomizableEnumFacade().getEnumValues(CustomizableEnumType.OCCUPATION_TYPE, null);
 		if (occupationTypes == null || occupationTypes.isEmpty()) {
-			// Fallback to enum defaults when no customizable values are configured.
-			FieldHelper.updateEnumData(occupationTypeField, Arrays.asList(OccupationType.values()));
+			// Fallback to default customizable values when no DB entries are configured.
+			List<OccupationType> defaultOccupationTypes = OccupationType.getDefaultValues().entrySet().stream().map(entry -> {
+				OccupationType occupationType = new OccupationType();
+				occupationType.setValue(entry.getKey());
+				occupationType.setCaption(I18nProperties.getPrefixCaption(OccupationType.I18N_PREFIX, entry.getKey()));
+				occupationType.setProperties(entry.getValue());
+				return occupationType;
+			}).collect(Collectors.toList());
+			FieldHelper.updateItems(occupationTypeField, defaultOccupationTypes);
 		} else {
 			FieldHelper.updateItems(occupationTypeField, occupationTypes);
 		}
