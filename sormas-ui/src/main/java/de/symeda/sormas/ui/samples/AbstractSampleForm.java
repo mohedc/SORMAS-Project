@@ -175,7 +175,7 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 			fluidRowLocs(4, SampleDto.UUID, 4, REPORT_INFO_LABEL_LOC, 3, SampleDto.REPORTING_USER, 1, "") +
 					fluidRowLocs(SampleDto.SAMPLE_PURPOSE, SampleDto.FIELD_SAMPLE_ID) +
 					fluidRowLocs(SampleDto.SAMPLE_MATERIAL, SampleDto.SAMPLE_MATERIAL_TEXT) +
-					fluidRowLocs(SampleDto.BARCODE, SampleDto.SAMPLE_DATE_TIME) +
+					fluidRowLocs(SampleDto.SAMPLE_DATE_TIME, "") +
 					fluidRowLocs(SampleDto.DATE_FORM_CSF_DISPATCHED_TO_HEALTH_DISTRICT, SampleDto.DATE_HEALTH_FACILITY_NOTIFY_REGION) +
 					locCss(VSPACE_TOP_3, SampleDto.CSF_SAMPLE_COLLECTED) +
 					locCss(VSPACE_TOP_3, SampleDto.LUMBAR_PUNCTURE_PERFORMED) +
