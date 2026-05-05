@@ -114,7 +114,8 @@ public class HospitalizationForm extends AbstractEditForm<HospitalizationDto> {
 	private static final String MENINGITIS_LAYOUT =
 			loc(HOSPITALIZATION_HEADING_LOC) +
 			fluidRowLocs(HospitalizationDto.SELECT_INPATIENT_OUTPATIENT, "") +
-			fluidRowLocs(HospitalizationDto.ADMISSION_DATE, HospitalizationDto.DISCHARGE_DATE);
+			fluidRowLocs(HospitalizationDto.ADMISSION_DATE, HospitalizationDto.DISCHARGE_DATE) +
+			fluidRowLocs(6, HospitalizationDto.DATE_OF_DISEASE_ONSET);
 
 	private static final String AFP_LAYOUT =
 			loc(HOSPITALIZATION_HEADING_LOC) +
@@ -345,6 +346,7 @@ public class HospitalizationForm extends AbstractEditForm<HospitalizationDto> {
 		addDateField(HospitalizationDto.DATE_HEALTH_REGION_NOTIFIED, DateField.class, 7);
 		addField(HospitalizationDto.SEEN_AT_HEALTH_FACILITY, NullableOptionGroup.class);
 		DateField dateFirstSeenAtHealthFacility =  addDateField(HospitalizationDto.DATE_FIRST_SEEN_AT_HEALTH_FACILITY, DateField.class, 7);
+		addDateField(HospitalizationDto.DATE_OF_DISEASE_ONSET, DateField.class, 7);
 		addDateField(HospitalizationDto.DATE_HEALTH_FACILITY_NOTIFIED_DISTRICT, DateField.class, 7);
 
 		if(disease != Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS){

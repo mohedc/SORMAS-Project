@@ -15578,6 +15578,10 @@ ALTER TABLE cases ADD COLUMN seroclassification varchar(255);
 ALTER TABLE cases ADD COLUMN datecapturedresultsreceivedatnationalepioffice timestamp;
 ALTER TABLE cases ADD COLUMN datedifferentiationreceivedepi timestamp;
 INSERT INTO schema_version (version_number, comment) VALUES (664, 'Added two fields at cases for AFP classification');
+
+ALTER TABLE hospitalization_history ADD COLUMN dateofdiseaseonset date;
+ALTER TABLE hospitalization ADD COLUMN dateofdiseaseonset date;
+INSERT INTO schema_version (version_number, comment) VALUES (665, 'Add dateofdiseaseonset to hospitalization');
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***
 
 

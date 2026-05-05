@@ -58,6 +58,7 @@ public class Hospitalization extends AbstractDomainObject {
 	public static final String DESCRIPTION = "description";
 	public static final String SEEN_AT_HEALTH_FACILITY = "seenAtHealthFacility";
 	public static final String DATE_FIRST_SEEN_AT_HEALTH_FACILITY = "dateFirstSeenAtHealthFacility";
+	public static final String DATE_OF_DISEASE_ONSET = "dateOfDiseaseOnset";
 	public static final String DATE_HEALTH_FACILITY_NOTIFIED_DISTRICT = "dateHealthFacilityNotifiedDistrict";
 	public static final String SERIAL_NUMBER_IN_CONSULTATION_REGISTER = "serialNumberInConsultationRegister";
 	public static final String DATE_OF_CONSULTATION_AT_HEALTH_FACILITY = "dateOfConsultationAtHealthFacility";
@@ -84,6 +85,7 @@ public class Hospitalization extends AbstractDomainObject {
 	private String address;
 	private YesNoUnknown seenAtHealthFacility;
 	private Date dateFirstSeenAtHealthFacility;
+	private Date dateOfDiseaseOnset;
 	private Date dateHealthFacilityNotifiedDistrict;
 	private String serialNumberInConsultationRegister;
 	private Date dateOfConsultationAtHealthFacility;
@@ -268,6 +270,15 @@ public class Hospitalization extends AbstractDomainObject {
 
 	public void setDateFirstSeenAtHealthFacility(Date dateFirstSeenAtHealthFacility) {
 		this.dateFirstSeenAtHealthFacility = dateFirstSeenAtHealthFacility;
+	}
+
+	@Temporal(TemporalType.DATE)
+	public Date getDateOfDiseaseOnset() {
+		return dateOfDiseaseOnset;
+	}
+
+	public void setDateOfDiseaseOnset(Date dateOfDiseaseOnset) {
+		this.dateOfDiseaseOnset = dateOfDiseaseOnset;
 	}
 
 	@Temporal(TemporalType.DATE)

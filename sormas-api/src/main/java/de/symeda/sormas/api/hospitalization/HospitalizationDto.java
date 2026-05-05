@@ -58,6 +58,7 @@ public class HospitalizationDto extends EntityDto {
 	public static final String ADDRESS = "address";
 	public static final String SEEN_AT_HEALTH_FACILITY = "seenAtHealthFacility";
 	public static final String DATE_FIRST_SEEN_AT_HEALTH_FACILITY = "dateFirstSeenAtHealthFacility";
+	public static final String DATE_OF_DISEASE_ONSET = "dateOfDiseaseOnset";
 	public static final String DATE_HEALTH_FACILITY_NOTIFIED_DISTRICT = "dateHealthFacilityNotifiedDistrict";
 	public static final String SERIAL_NUMBER_IN_CONSULTATION_REGISTER = "serialNumberInConsultationRegister";
 	public static final String DATE_OF_CONSULTATION_AT_HEALTH_FACILITY = "dateOfConsultationAtHealthFacility";
@@ -99,6 +100,10 @@ public class HospitalizationDto extends EntityDto {
 		Disease.MEASLES,
 	Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS})
 	private Date dateFirstSeenAtHealthFacility;
+	@Diseases({
+		Disease.MEASLES,
+		Disease.CSM })
+	private Date dateOfDiseaseOnset;
 	@Diseases({
 		Disease.YELLOW_FEVER,
 		Disease.CSM })
@@ -272,6 +277,14 @@ public class HospitalizationDto extends EntityDto {
 
 	public void setDateFirstSeenAtHealthFacility(Date dateFirstSeenAtHealthFacility) {
 		this.dateFirstSeenAtHealthFacility = dateFirstSeenAtHealthFacility;
+	}
+
+	public Date getDateOfDiseaseOnset() {
+		return dateOfDiseaseOnset;
+	}
+
+	public void setDateOfDiseaseOnset(Date dateOfDiseaseOnset) {
+		this.dateOfDiseaseOnset = dateOfDiseaseOnset;
 	}
 
 	public Date getDateHealthFacilityNotifiedDistrict() {
