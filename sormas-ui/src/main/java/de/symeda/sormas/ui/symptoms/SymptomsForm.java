@@ -259,6 +259,9 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 							fluidColumn(8, 0, loc(SYMPTOMS_HINT_LOC))) +
 					fluidRow(fluidColumn(8,4, locCss(CssStyles.ALIGN_RIGHT,BUTTONS_LOC)))+
 					fluidRowLocs(6, FEVER, 6, FEVER_ONSET_DATE) +
+					fluidRowLocs(6, HEADACHE, 6, HEADACHE_ONSET_DATE) +
+					fluidRowLocs(6, NECK_STIFFNESS, 6, NECK_STIFFNESS_ONSET_DATE) +
+					fluidRowLocs(6, BULGING_FONTANELLE, 6, BULGING_FONTANELLE_ONSET_DATE) +
 					fluidRowLocs(6, VOMITING, 6, VOMITING_ONSET_DATE) +
 					fluidRowLocs(6, ALTERED_CONSCIOUSNESS, 6, ALTERED_CONSCIOUSNESS_ONSET_DATE) +
 					fluidRowLocs(6, SEIZURES, 6, SEIZURES_ONSET_DATE) +
@@ -659,6 +662,9 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 			JAUNDICE_ONSET_DATE,
 			HEMORRHAGIC_SYNDROME_ONSET_DATE,
 			OTHER_NON_HEMORRHAGIC_SYMPTOMS_ONSET_DATE,
+			HEADACHE_ONSET_DATE,
+			NECK_STIFFNESS_ONSET_DATE,
+			BULGING_FONTANELLE_ONSET_DATE,
 			VOMITING_ONSET_DATE,
 			ALTERED_CONSCIOUSNESS_ONSET_DATE,
 			SEIZURES_ONSET_DATE,
@@ -1113,7 +1119,7 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 		boolean isInfant = person != null
 			&& person.getApproximateAge() != null
 			&& ((person.getApproximateAge() <= 12 && person.getApproximateAgeType() == ApproximateAgeType.MONTHS) || person.getApproximateAge() <= 1);
-		if (!isInfant) {
+		if (!isInfant && !disease.equals(Disease.CSM)) {
 			getFieldGroup().getField(BULGING_FONTANELLE).setVisible(false);
 		}
 
@@ -1648,6 +1654,9 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 			break;
 		case CSM:
 			bindSymptomStateOnsetDate(FEVER, FEVER_ONSET_DATE);
+			bindSymptomStateOnsetDate(HEADACHE, HEADACHE_ONSET_DATE);
+			bindSymptomStateOnsetDate(NECK_STIFFNESS, NECK_STIFFNESS_ONSET_DATE);
+			bindSymptomStateOnsetDate(BULGING_FONTANELLE, BULGING_FONTANELLE_ONSET_DATE);
 			bindSymptomStateOnsetDate(VOMITING, VOMITING_ONSET_DATE);
 			bindSymptomStateOnsetDate(ALTERED_CONSCIOUSNESS, ALTERED_CONSCIOUSNESS_ONSET_DATE);
 			bindSymptomStateOnsetDate(SEIZURES, SEIZURES_ONSET_DATE);

@@ -316,6 +316,12 @@ public class Symptoms extends PseudonymizableAdo {
 	@DatabaseField(dataType = DataType.DATE_LONG)
 	private Date otherNonHemorrhagicSymptomsOnsetDate;
 	@DatabaseField(dataType = DataType.DATE_LONG)
+	private Date headacheOnsetDate;
+	@DatabaseField(dataType = DataType.DATE_LONG)
+	private Date neckStiffnessOnsetDate;
+	@DatabaseField(dataType = DataType.DATE_LONG)
+	private Date bulgingFontanelleOnsetDate;
+	@DatabaseField(dataType = DataType.DATE_LONG)
 	private Date vomitingOnsetDate;
 	@DatabaseField(dataType = DataType.DATE_LONG)
 	private Date alteredConsciousnessOnsetDate;
@@ -1526,6 +1532,30 @@ public class Symptoms extends PseudonymizableAdo {
 
 	public void setOtherNonHemorrhagicSymptomsOnsetDate(Date otherNonHemorrhagicSymptomsOnsetDate) {
 		this.otherNonHemorrhagicSymptomsOnsetDate = otherNonHemorrhagicSymptomsOnsetDate;
+	}
+
+	public Date getHeadacheOnsetDate() {
+		return headacheOnsetDate;
+	}
+
+	public void setHeadacheOnsetDate(Date headacheOnsetDate) {
+		this.headacheOnsetDate = headacheOnsetDate;
+	}
+
+	public Date getNeckStiffnessOnsetDate() {
+		return neckStiffnessOnsetDate;
+	}
+
+	public void setNeckStiffnessOnsetDate(Date neckStiffnessOnsetDate) {
+		this.neckStiffnessOnsetDate = neckStiffnessOnsetDate;
+	}
+
+	public Date getBulgingFontanelleOnsetDate() {
+		return bulgingFontanelleOnsetDate;
+	}
+
+	public void setBulgingFontanelleOnsetDate(Date bulgingFontanelleOnsetDate) {
+		this.bulgingFontanelleOnsetDate = bulgingFontanelleOnsetDate;
 	}
 
 	public Date getVomitingOnsetDate() {
