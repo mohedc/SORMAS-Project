@@ -3129,6 +3129,9 @@ public interface Captions {
 	String Symptoms_jaundiceOnsetDate = "Symptoms.jaundiceOnsetDate";
 	String Symptoms_hemorrhagicSyndromeOnsetDate = "Symptoms.hemorrhagicSyndromeOnsetDate";
 	String Symptoms_otherNonHemorrhagicSymptomsOnsetDate = "Symptoms.otherNonHemorrhagicSymptomsOnsetDate";
+	String Symptoms_headacheOnsetDate = "Symptoms.headacheOnsetDate";
+	String Symptoms_neckStiffnessOnsetDate = "Symptoms.neckStiffnessOnsetDate";
+	String Symptoms_bulgingFontanelleOnsetDate = "Symptoms.bulgingFontanelleOnsetDate";
 	String Symptoms_vomitingOnsetDate = "Symptoms.vomitingOnsetDate";
 	String Symptoms_alteredConsciousnessOnsetDate = "Symptoms.alteredConsciousnessOnsetDate";
 	String Symptoms_seizuresOnsetDate = "Symptoms.seizuresOnsetDate";

@@ -15582,6 +15582,16 @@ INSERT INTO schema_version (version_number, comment) VALUES (664, 'Added two fie
 ALTER TABLE hospitalization_history ADD COLUMN dateofdiseaseonset date;
 ALTER TABLE hospitalization ADD COLUMN dateofdiseaseonset date;
 INSERT INTO schema_version (version_number, comment) VALUES (665, 'Add dateofdiseaseonset to hospitalization');
+
+-- Migration 666: CSM onset dates for headache, neck stiffness, and bulging fontanelle
+ALTER TABLE symptoms ADD COLUMN IF NOT EXISTS headacheonsetdate timestamp;
+ALTER TABLE symptoms ADD COLUMN IF NOT EXISTS neckstiffnessonsetdate timestamp;
+ALTER TABLE symptoms ADD COLUMN IF NOT EXISTS bulgingfontanelleonsetdate timestamp;
+
+ALTER TABLE symptoms_history ADD COLUMN IF NOT EXISTS headacheonsetdate timestamp;
+ALTER TABLE symptoms_history ADD COLUMN IF NOT EXISTS neckstiffnessonsetdate timestamp;
+ALTER TABLE symptoms_history ADD COLUMN IF NOT EXISTS bulgingfontanelleonsetdate timestamp;
+INSERT INTO schema_version (version_number, comment) VALUES (666, 'Add CSM headache, neck stiffness and bulging fontanelle onset dates to symptoms');
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***
 
 

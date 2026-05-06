@@ -331,6 +331,12 @@ public class Symptoms extends AbstractDomainObject {
 	private Date hemorrhagicSyndromeOnsetDate;
 	@Column(name = "othernonhemorrhagicsymptomsonsetdate")
 	private Date otherNonHemorrhagicSymptomsOnsetDate;
+	@Column(name = "headacheonsetdate")
+	private Date headacheOnsetDate;
+	@Column(name = "neckstiffnessonsetdate")
+	private Date neckStiffnessOnsetDate;
+	@Column(name = "bulgingfontanelleonsetdate")
+	private Date bulgingFontanelleOnsetDate;
 	@Column(name = "vomitingonsetdate")
 	private Date vomitingOnsetDate;
 	@Column(name = "alteredconsciousnessonsetdate")
@@ -2559,6 +2565,33 @@ public class Symptoms extends AbstractDomainObject {
 
 	public void setOtherNonHemorrhagicSymptomsOnsetDate(Date otherNonHemorrhagicSymptomsOnsetDate) {
 		this.otherNonHemorrhagicSymptomsOnsetDate = otherNonHemorrhagicSymptomsOnsetDate;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getHeadacheOnsetDate() {
+		return headacheOnsetDate;
+	}
+
+	public void setHeadacheOnsetDate(Date headacheOnsetDate) {
+		this.headacheOnsetDate = headacheOnsetDate;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getNeckStiffnessOnsetDate() {
+		return neckStiffnessOnsetDate;
+	}
+
+	public void setNeckStiffnessOnsetDate(Date neckStiffnessOnsetDate) {
+		this.neckStiffnessOnsetDate = neckStiffnessOnsetDate;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getBulgingFontanelleOnsetDate() {
+		return bulgingFontanelleOnsetDate;
+	}
+
+	public void setBulgingFontanelleOnsetDate(Date bulgingFontanelleOnsetDate) {
+		this.bulgingFontanelleOnsetDate = bulgingFontanelleOnsetDate;
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)

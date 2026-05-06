@@ -312,6 +312,9 @@ public class SymptomsDto extends PseudonymizableDto {
 	public static final String JAUNDICE_ONSET_DATE = "jaundiceOnsetDate";
 	public static final String HEMORRHAGIC_SYNDROME_ONSET_DATE = "hemorrhagicSyndromeOnsetDate";
 	public static final String OTHER_NON_HEMORRHAGIC_SYMPTOMS_ONSET_DATE = "otherNonHemorrhagicSymptomsOnsetDate";
+	public static final String HEADACHE_ONSET_DATE = "headacheOnsetDate";
+	public static final String NECK_STIFFNESS_ONSET_DATE = "neckStiffnessOnsetDate";
+	public static final String BULGING_FONTANELLE_ONSET_DATE = "bulgingFontanelleOnsetDate";
 	public static final String VOMITING_ONSET_DATE = "vomitingOnsetDate";
 	public static final String ALTERED_CONSCIOUSNESS_ONSET_DATE = "alteredConsciousnessOnsetDate";
 	public static final String SEIZURES_ONSET_DATE = "seizuresOnsetDate";
@@ -1472,6 +1475,9 @@ public class SymptomsDto extends PseudonymizableDto {
 	private Date jaundiceOnsetDate;
 	private Date hemorrhagicSyndromeOnsetDate;
 	private Date otherNonHemorrhagicSymptomsOnsetDate;
+	private Date headacheOnsetDate;
+	private Date neckStiffnessOnsetDate;
+	private Date bulgingFontanelleOnsetDate;
 	private Date vomitingOnsetDate;
 	private Date alteredConsciousnessOnsetDate;
 	private Date seizuresOnsetDate;
@@ -2973,6 +2979,18 @@ public class SymptomsDto extends PseudonymizableDto {
 		return otherNonHemorrhagicSymptomsOnsetDate;
 	}
 
+	public Date getHeadacheOnsetDate() {
+		return headacheOnsetDate;
+	}
+
+	public Date getNeckStiffnessOnsetDate() {
+		return neckStiffnessOnsetDate;
+	}
+
+	public Date getBulgingFontanelleOnsetDate() {
+		return bulgingFontanelleOnsetDate;
+	}
+
 	public Date getVomitingOnsetDate() {
 		return vomitingOnsetDate;
 	}
@@ -4278,6 +4296,18 @@ public class SymptomsDto extends PseudonymizableDto {
 
 	public void setOtherNonHemorrhagicSymptomsOnsetDate(Date otherNonHemorrhagicSymptomsOnsetDate) {
 		this.otherNonHemorrhagicSymptomsOnsetDate = otherNonHemorrhagicSymptomsOnsetDate;
+	}
+
+	public void setHeadacheOnsetDate(Date headacheOnsetDate) {
+		this.headacheOnsetDate = headacheOnsetDate;
+	}
+
+	public void setNeckStiffnessOnsetDate(Date neckStiffnessOnsetDate) {
+		this.neckStiffnessOnsetDate = neckStiffnessOnsetDate;
+	}
+
+	public void setBulgingFontanelleOnsetDate(Date bulgingFontanelleOnsetDate) {
+		this.bulgingFontanelleOnsetDate = bulgingFontanelleOnsetDate;
 	}
 
 	public void setVomitingOnsetDate(Date vomitingOnsetDate) {
