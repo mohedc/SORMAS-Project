@@ -176,7 +176,7 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 					fluidRowLocs(SampleDto.SAMPLE_PURPOSE, SampleDto.FIELD_SAMPLE_ID) +
 					fluidRowLocs(SampleDto.SAMPLE_MATERIAL, SampleDto.SAMPLE_MATERIAL_TEXT) +
 					fluidRowLocs(SampleDto.SAMPLE_DATE_TIME, "") +
-					fluidRowLocs(SampleDto.DATE_FORM_CSF_DISPATCHED_TO_HEALTH_DISTRICT, SampleDto.DATE_HEALTH_FACILITY_NOTIFY_REGION) +
+//					fluidRowLocs(SampleDto.DATE_FORM_CSF_DISPATCHED_TO_HEALTH_DISTRICT, SampleDto.DATE_HEALTH_FACILITY_NOTIFY_REGION) +
 					locCss(VSPACE_TOP_3, SampleDto.CSF_SAMPLE_COLLECTED) +
 					locCss(VSPACE_TOP_3, SampleDto.LUMBAR_PUNCTURE_PERFORMED) +
 					fluidRowLocs(SampleDto.DATE_OF_LP, SampleDto.CSF_APPEARANCE_AT_COLLECTION) +
@@ -1008,8 +1008,8 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 		wasSpecimenTakenField.setReadOnly(true);
 
 		FieldHelper.updateEnumData(sampleMaterialComboBox, Arrays.asList(SampleMaterial.CSF, SampleMaterial.OTHER));
-		getField(SampleDto.SAMPLE_MATERIAL).setVisible(false);
-		getField(SampleDto.SAMPLE_MATERIAL_TEXT).setVisible(false);
+		// getField(SampleDto.SAMPLE_MATERIAL).setVisible(false);
+		// getField(SampleDto.SAMPLE_MATERIAL_TEXT).setVisible(false);
 
 		// Show meningitis-specific fields
 		getField(SampleDto.BARCODE).setVisible(true);
