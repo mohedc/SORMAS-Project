@@ -196,12 +196,9 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 //					locCss(VSPACE_TOP_3, SampleDto.WAS_SPECIMEN_TAKEN) +
 //					fluidRowLocs(SampleDto.DATE_SPECIMEN_SENT_TO_LABORATORY_TYPE) +
 					locCss(VSPACE_TOP_3, SampleDto.RECEIVED) +
-					fluidRowLocs(SampleDto.RECEIVED_DATE, SampleDto.LAB_NUMBER) +
-					fluidRowLocs(SampleDto.LAB_SAMPLE_ID, SampleDto.SAMPLE_CONTAINER_RECEIVED) +
-					fluidRowLocs(SampleDto.SAMPLE_CONTAINER_RECEIVED_OTHER, SampleDto.SAMPLE_CONDITION_AT_RECEPTION) +
-					fluidRowLocs(SampleDto.CSF_APPEARANCE_AT_RECEPTION, "") +
-//					fluidRowLocs(SampleDto.PACKAGING, SampleDto.PACKAGING_OTHER) +
-					fluidRowLocs(SampleDto.SPECIMEN_CONDITION);
+					fluidRowLocs(SampleDto.RECEIVED_DATE, SampleDto.LAB_SAMPLE_ID) +
+					fluidRowLocs(SampleDto.SAMPLE_CONTAINER_RECEIVED, SampleDto.SAMPLE_CONTAINER_RECEIVED_OTHER) +
+					fluidRowLocs(SampleDto.CSF_APPEARANCE_AT_RECEPTION, SampleDto.SPECIMEN_CONDITION);
 
 	protected static final String AFP_HTML_LAYOUT =
 			loc(STOOL_SPECIMEN_COLLECTION_HEADLINE_LOC) +
