@@ -176,6 +176,7 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 	private static final String MOTHER_VACCINATION_HEADING_LOC = "motherVaccinationHeadingLoc";
 	private static final String VACCINE_TYPE_HEADING_LOC = "vaccineTypeHeadingLoc";
 	private static final String MENINGITIS_NOTIFICATION_HEADING_LOC = "meningitisNotificationHeadingLoc";
+	private static final String SAMPLE_COLLECTION_INFORMATION_HEADING_LOC = "sampleCollectionInformationHeadingLoc";
 
 	//@formatter:off
 	private static final String MAIN_HTML_LAYOUT =
@@ -475,6 +476,7 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 				fluidRowLocs(CaseDataDto.DATE_FORM_RECEIVED_AT_DISTRICT, CaseDataDto.DATE_FORM_SENT_TO_REGION) +
 				fluidRowLocs(CaseDataDto.DATE_FORM_RECEIVED_AT_REGION, CaseDataDto.DATE_FORM_SENT_TO_NATIONAL) +
 				fluidRowLocs(CaseDataDto.DATE_FORM_RECEIVED_AT_NATIONAL, "") +
+				loc(SAMPLE_COLLECTION_INFORMATION_HEADING_LOC) +
 				locCss(VSPACE_TOP_3, CaseDataDto.CSF_SAMPLE_COLLECTED) +
 				fluidRowLocs(CaseDataDto.LP_NOT_DONE_REASON) +
 				fluidRowLocs(CaseDataDto.LP_NOT_DONE_REASON_OTHER);
@@ -692,6 +694,7 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 		createLabel(I18nProperties.getString(Strings.headingMotherVaccination), H3, MOTHER_VACCINATION_HEADING_LOC);
 		createLabel(I18nProperties.getCaption(Strings.HeadingVaccineType), H3, VACCINE_TYPE_HEADING_LOC);
 		createLabel(I18nProperties.getCaption(Captions.CaseData_notification), H3, MENINGITIS_NOTIFICATION_HEADING_LOC);
+		createLabel("Sample Collection Information.", H3, SAMPLE_COLLECTION_INFORMATION_HEADING_LOC);
 
 		Label caseDataHeadingLabel = new Label(I18nProperties.getString(Strings.headingCaseData));
 		caseDataHeadingLabel.addStyleName(H3);

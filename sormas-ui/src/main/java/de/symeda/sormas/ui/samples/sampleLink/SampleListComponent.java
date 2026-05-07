@@ -68,7 +68,11 @@ public class SampleListComponent extends SideComponent {
 
 			if (sampleCriteria.getSampleAssociationType() == SampleAssociationType.CASE && Disease.CSM == sampleCriteria.getDisease()) {
 				CaseDataDto caze = FacadeProvider.getCaseFacade().getCaseDataByUuid(sampleCriteria.getCaze().getUuid());
-				createButton.setEnabled(caze != null && YesNo.YES == caze.getCsfSampleCollected());
+				boolean isEnabled = caze != null && YesNo.YES == caze.getCsfSampleCollected();
+				createButton.setEnabled(isEnabled);
+				if (!isEnabled) {
+					createButton.setDescription(I18nProperties.getCaption(Captions.sampleSelectYesForCsfCollected));
+				}
 			}
 		}
 		addComponent(sampleList);
