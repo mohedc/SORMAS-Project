@@ -178,10 +178,10 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 					fluidRowLocs(SampleDto.SAMPLE_DATE_TIME, "") +
 //					fluidRowLocs(SampleDto.DATE_FORM_CSF_DISPATCHED_TO_HEALTH_DISTRICT, SampleDto.DATE_HEALTH_FACILITY_NOTIFY_REGION) +
 //					locCss(VSPACE_TOP_3, SampleDto.CSF_SAMPLE_COLLECTED) +
-					locCss(VSPACE_TOP_3, SampleDto.LUMBAR_PUNCTURE_PERFORMED) +
-					fluidRowLocs(SampleDto.DATE_OF_LP, SampleDto.CSF_APPEARANCE_AT_COLLECTION) +
-					fluidRowLocs(SampleDto.LP_NOT_DONE_REASON, SampleDto.LP_NOT_DONE_REASON_OTHER) +
-					fluidRowLocs(SampleDto.LP_PACKAGING, SampleDto.LP_PACKAGING_OTHER) +
+//					locCss(VSPACE_TOP_3, SampleDto.LUMBAR_PUNCTURE_PERFORMED) +
+//					fluidRowLocs(SampleDto.DATE_OF_LP, SampleDto.CSF_APPEARANCE_AT_COLLECTION) +
+//					fluidRowLocs(SampleDto.LP_NOT_DONE_REASON, SampleDto.LP_NOT_DONE_REASON_OTHER) +
+//					fluidRowLocs(SampleDto.LP_PACKAGING, SampleDto.LP_PACKAGING_OTHER) +
 					fluidRowLocs(SampleDto.TIME_OF_INOCULATION_INTO_TRANSPORT_MEDIA, "") +
 					locCss(VSPACE_TOP_3, "") +
 					fluidRowLocs(SampleDto.SHIPPED, SampleDto.DATE_TIME_SAMPLE_SENT_TO_LAB) +
@@ -1007,7 +1007,9 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 		wasSpecimenTakenField.setValue(YesNo.YES);
 		wasSpecimenTakenField.setReadOnly(true);
 
-		FieldHelper.updateEnumData(sampleMaterialComboBox, Arrays.asList(SampleMaterial.CSF, SampleMaterial.OTHER));
+		FieldHelper.updateEnumData(
+			sampleMaterialComboBox,
+			Arrays.asList(SampleMaterial.CSF, SampleMaterial.BLOOD, SampleMaterial.THROAT_SWAB, SampleMaterial.OTHER));
 		// getField(SampleDto.SAMPLE_MATERIAL).setVisible(false);
 		// getField(SampleDto.SAMPLE_MATERIAL_TEXT).setVisible(false);
 
