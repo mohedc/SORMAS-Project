@@ -15592,6 +15592,17 @@ ALTER TABLE symptoms_history ADD COLUMN IF NOT EXISTS headacheonsetdate timestam
 ALTER TABLE symptoms_history ADD COLUMN IF NOT EXISTS neckstiffnessonsetdate timestamp;
 ALTER TABLE symptoms_history ADD COLUMN IF NOT EXISTS bulgingfontanelleonsetdate timestamp;
 INSERT INTO schema_version (version_number, comment) VALUES (666, 'Add CSM headache, neck stiffness and bulging fontanelle onset dates to symptoms');
+
+-- Migration 667: CSM case CSF collection and LP not done reasons
+ALTER TABLE cases ADD COLUMN IF NOT EXISTS csfsamplecollected varchar(255);
+ALTER TABLE cases ADD COLUMN IF NOT EXISTS lpnotdonereason jsonb;
+ALTER TABLE cases ADD COLUMN IF NOT EXISTS lpnotdonereasonother varchar(255);
+
+ALTER TABLE cases_history ADD COLUMN IF NOT EXISTS csfsamplecollected varchar(255);
+ALTER TABLE cases_history ADD COLUMN IF NOT EXISTS lpnotdonereason jsonb;
+ALTER TABLE cases_history ADD COLUMN IF NOT EXISTS lpnotdonereasonother varchar(255);
+
+INSERT INTO schema_version (version_number, comment) VALUES (667, 'Add CSM CSF sample collected and LP not done reasons to cases');
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***
 
 
