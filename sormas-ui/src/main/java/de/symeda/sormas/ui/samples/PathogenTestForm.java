@@ -62,7 +62,6 @@ import de.symeda.sormas.api.sample.PathogenStrainCallStatus;
 import de.symeda.sormas.api.sample.PathogenTestDto;
 import de.symeda.sormas.api.sample.PathogenTestResultType;
 import de.symeda.sormas.api.sample.PathogenTestType;
-import de.symeda.sormas.api.sample.PathogenTestTypeSelectionHelper;
 import de.symeda.sormas.api.sample.SampleDto;
 import de.symeda.sormas.api.sample.SamplePurpose;
 import de.symeda.sormas.api.sample.SeroGroupSpecification;
@@ -159,8 +158,9 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 			fluidRowLocs(PathogenTestDto.TEST_DATE_TIME, PathogenTestDto.LAB) +
 			fluidRowLocs(PathogenTestDto.LAB_DETAILS, "") +
 			loc(LAB_ROLE_CONTEXT_LOC) +
-			fluidRowLocs(PathogenTestDto.SELECTED_PATHOGEN_TEST_TYPES, "") +
-			fluidRowLocs(PathogenTestDto.MACROSCOPIC_EXAMINATION, "") +
+			 fluidRowLocs(PathogenTestDto.TEST_TYPE, PathogenTestDto.TEST_TYPE_TEXT) +
+//			fluidRowLocs(PathogenTestDto.SELECTED_PATHOGEN_TEST_TYPES, "") +
+//			fluidRowLocs(PathogenTestDto.MACROSCOPIC_EXAMINATION, "") +
 			fluidRowLocs(PathogenTestDto.CELL_COUNT_LEUCOCYTES_PER_MM3, PathogenTestDto.WBC_COUNT_POLYCYTES_PERCENT) +
 			fluidRowLocs(PathogenTestDto.WBC_COUNT_MONOCYTES_PERCENT, PathogenTestDto.CSF_GLUCOSE) +
 			fluidRowLocs(PathogenTestDto.CSF_PROTEIN, "") +
@@ -790,7 +790,7 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 		getContent().addComponent(labRoleContextLabel, LAB_ROLE_CONTEXT_LOC);
 
 		selectedPathogenTestTypesField = addCustomField(PathogenTestDto.SELECTED_PATHOGEN_TEST_TYPES, java.util.Set.class, CheckboxSet.class);
-		selectedPathogenTestTypesField.setItems(new ArrayList<>(PathogenTestTypeSelectionHelper.MULTI_SELECT_PANEL_ORDER), null, v -> ((PathogenTestType) v).toString());
+		selectedPathogenTestTypesField.setItems(Collections.emptyList(), null, v -> ((PathogenTestType) v).toString());
 		selectedPathogenTestTypesField.setVisible(false);
 
 		cultureFindingsField = addCustomField(PathogenTestDto.CULTURE_FINDINGS, java.util.Set.class, CheckboxSet.class);
@@ -1085,6 +1085,9 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 			if (disease == Disease.CONGENITAL_RUBELLA) {
 				configureCongenitalRubellaFields();
 			}
+			if (disease == Disease.CSM) {
+				updateMeningitisSectionVisibility();
+			}
 		});
 
 		testResultField.addValueChangeListener(e -> {
@@ -1320,10 +1323,6 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 	 * Configures fields specifically for meningitis pathogen tests
 	 */
 	protected void configureMeningitisFields() {
-		testTypeField.setVisible(false);
-		setRequired(false, PathogenTestDto.TEST_TYPE);
-		testTypeTextField.setVisible(false);
-
 		getField(PathogenTestDto.MACROSCOPIC_EXAMINATION).setVisible(true);
 		ComboBox macroscopicExaminationField = (ComboBox) getField(PathogenTestDto.MACROSCOPIC_EXAMINATION);
 		macroscopicExaminationField.addItems(MacroscopicExamination.values());
@@ -1341,9 +1340,18 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 		labRoleContextLabel.setVisible(true);
 		updateMeningitisLabCaptions();
 
-		selectedPathogenTestTypesField.setVisible(true);
-		refreshMeningitisPanelOptions();
-		selectedPathogenTestTypesField.addValueChangeListener(e -> updateMeningitisSectionVisibility());
+		selectedPathogenTestTypesField.setVisible(false);
+		FieldHelper.updateEnumData(
+			testTypeField,
+			Arrays.asList(
+				PathogenTestType.CELL_COUNT,
+				PathogenTestType.GRAM_STAIN,
+				PathogenTestType.LATEX,
+				PathogenTestType.RAPID_TEST,
+				PathogenTestType.CULTURE,
+				PathogenTestType.PCR,
+				PathogenTestType.OTHER));
+		testTypeField.setItemCaption(PathogenTestType.RAPID_TEST, "RDT (Dipstick)");
 
 		cultureFindingsField.setVisible(true);
 		cultureFindingsField.addValueChangeListener(e -> updateMeningitisSectionVisibility());
@@ -1382,7 +1390,6 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 			if (labTypeField != null) {
 				labTypeField.addValueChangeListener(e -> {
 					updateMeningitisLabCaptions();
-					refreshMeningitisPanelOptions();
 					updateMeningitisSectionVisibility();
 				});
 			}
@@ -1423,21 +1430,6 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
-	private void refreshMeningitisPanelOptions() {
-		List<PathogenTestType> items = new ArrayList<>(PathogenTestTypeSelectionHelper.MULTI_SELECT_PANEL_ORDER);
-		if (getLaboratoryType() != LaboratoryType.REFERENCE_LABORATORY) {
-			items.remove(PathogenTestType.PCR);
-			Set<PathogenTestType> current = (Set<PathogenTestType>) selectedPathogenTestTypesField.getValue();
-			if (current != null && current.contains(PathogenTestType.PCR)) {
-				HashSet<PathogenTestType> copy = new HashSet<>(current);
-				copy.remove(PathogenTestType.PCR);
-				selectedPathogenTestTypesField.setValue(copy);
-			}
-		}
-		selectedPathogenTestTypesField.setItems(items, null, v -> ((PathogenTestType) v).toString());
-	}
-
 	private void applyMeningitisDateFieldVisibilityByLaboratoryType() {
 		LaboratoryType laboratoryType = getLaboratoryType();
 		if (laboratoryType == LaboratoryType.REGIONAL_LABORATORY) {
@@ -1461,16 +1453,15 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	private void updateMeningitisSectionVisibility() {
-		Set<PathogenTestType> panels = (Set<PathogenTestType>) selectedPathogenTestTypesField.getValue();
-		boolean cell = panels != null && panels.contains(PathogenTestType.CELL_COUNT);
-		boolean gram = panels != null && panels.contains(PathogenTestType.GRAM_STAIN);
-		boolean latex = panels != null && panels.contains(PathogenTestType.LATEX);
-		boolean rdt = panels != null && panels.contains(PathogenTestType.RAPID_TEST);
-		boolean culture = panels != null && panels.contains(PathogenTestType.CULTURE);
-		boolean pcrPanel = panels != null && panels.contains(PathogenTestType.PCR);
-		boolean other = panels != null && panels.contains(PathogenTestType.OTHER);
+		PathogenTestType selectedTestType = (PathogenTestType) testTypeField.getValue();
+		boolean cell = selectedTestType == PathogenTestType.CELL_COUNT;
+		boolean gram = selectedTestType == PathogenTestType.GRAM_STAIN;
+		boolean latex = selectedTestType == PathogenTestType.LATEX;
+		boolean rdt = selectedTestType == PathogenTestType.RAPID_TEST;
+		boolean culture = selectedTestType == PathogenTestType.CULTURE;
+		boolean pcrPanel = selectedTestType == PathogenTestType.PCR;
+		boolean other = selectedTestType == PathogenTestType.OTHER;
 
 		Set<CulturePcrFinding> cultureFindings = (Set<CulturePcrFinding>) cultureFindingsField.getValue();
 		Set<CulturePcrFinding> pcrFindings = (Set<CulturePcrFinding>) pcrFindingsField.getValue();
