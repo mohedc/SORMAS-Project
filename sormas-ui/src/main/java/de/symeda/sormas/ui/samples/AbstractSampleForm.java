@@ -175,14 +175,15 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 			fluidRowLocs(4, SampleDto.UUID, 4, REPORT_INFO_LABEL_LOC, 3, SampleDto.REPORTING_USER, 1, "") +
 					fluidRowLocs(SampleDto.SAMPLE_PURPOSE, SampleDto.FIELD_SAMPLE_ID) +
 					fluidRowLocs(SampleDto.SAMPLE_MATERIAL, SampleDto.SAMPLE_MATERIAL_TEXT) +
-					fluidRowLocs(SampleDto.SAMPLE_DATE_TIME, "") +
+					fluidRowLocs(SampleDto.LABORATORY_TYPE, SampleDto.LAB) +
+					fluidRowLocs(SampleDto.LAB_DETAILS, SampleDto.SAMPLE_DATE_TIME) +
 //					fluidRowLocs(SampleDto.DATE_FORM_CSF_DISPATCHED_TO_HEALTH_DISTRICT, SampleDto.DATE_HEALTH_FACILITY_NOTIFY_REGION) +
 //					locCss(VSPACE_TOP_3, SampleDto.CSF_SAMPLE_COLLECTED) +
 //					locCss(VSPACE_TOP_3, SampleDto.LUMBAR_PUNCTURE_PERFORMED) +
 //					fluidRowLocs(SampleDto.DATE_OF_LP, SampleDto.CSF_APPEARANCE_AT_COLLECTION) +
 //					fluidRowLocs(SampleDto.LP_NOT_DONE_REASON, SampleDto.LP_NOT_DONE_REASON_OTHER) +
 //					fluidRowLocs(SampleDto.LP_PACKAGING, SampleDto.LP_PACKAGING_OTHER) +
-					fluidRowLocs(SampleDto.TIME_OF_INOCULATION_INTO_TRANSPORT_MEDIA, "") +
+					fluidRowLocs(SampleDto.CSF_APPEARANCE_AT_COLLECTION, SampleDto.TIME_OF_INOCULATION_INTO_TRANSPORT_MEDIA) +
 					locCss(VSPACE_TOP_3, "") +
 					fluidRowLocs(SampleDto.SHIPPED, SampleDto.DATE_TIME_SAMPLE_SENT_TO_LAB) +
 					fluidRowLocs(SampleDto.SAMPLES_NOT_SENT_REASON, "") +
@@ -190,8 +191,6 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 					locCss(VSPACE_TOP_3, SampleDto.MENINGITIS_RDT_PERFORMED) +
 					fluidRowLocs(SampleDto.MENINGITIS_RDT_RESULT, "") +
 					locCss(VSPACE_TOP_3, SampleDto.WAS_SPECIMEN_TAKEN) +
-					fluidRowLocs(SampleDto.LABORATORY_TYPE, SampleDto.LAB) +
-					fluidRowLocs(SampleDto.LAB_DETAILS, "") +
 					fluidRowLocs(SampleDto.DATE_SPECIMEN_SENT_TO_LABORATORY_TYPE) +
 					fluidRowLocs(SampleDto.SHIPMENT_DATE, SampleDto.SHIPMENT_DETAILS) +
 					locCss(VSPACE_TOP_3, SampleDto.RECEIVED) +
