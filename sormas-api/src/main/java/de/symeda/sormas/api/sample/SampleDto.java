@@ -348,7 +348,7 @@ public class SampleDto extends SormasToSormasShareableDto implements IsSample {
 	private SpecimenCondition sampleConditionAtReception;
 	@Diseases(value = {
 		Disease.CSM })
-	private CsfAppearance csfAppearanceAtCollection;
+	private Set<CsfAppearance> csfAppearanceAtCollection;
 	@Diseases(value = {
 		Disease.CSM })
 	private CsfAppearance csfAppearanceAtReception;
@@ -1183,11 +1183,11 @@ public class SampleDto extends SormasToSormasShareableDto implements IsSample {
 		this.sampleConditionAtReception = sampleConditionAtReception;
 	}
 
-	public CsfAppearance getCsfAppearanceAtCollection() {
+	public Set<CsfAppearance> getCsfAppearanceAtCollection() {
 		return csfAppearanceAtCollection;
 	}
 
-	public void setCsfAppearanceAtCollection(CsfAppearance csfAppearanceAtCollection) {
+	public void setCsfAppearanceAtCollection(Set<CsfAppearance> csfAppearanceAtCollection) {
 		this.csfAppearanceAtCollection = csfAppearanceAtCollection;
 	}
 
