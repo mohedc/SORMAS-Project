@@ -24,6 +24,7 @@ import static de.symeda.sormas.api.utils.FieldConstraints.CHARACTER_LIMIT_BIG;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Max;
@@ -67,6 +68,7 @@ import de.symeda.sormas.api.person.PersonDto;
 import de.symeda.sormas.api.person.PersonReferenceDto;
 import de.symeda.sormas.api.person.notifier.NotifierReferenceDto;
 import de.symeda.sormas.api.sample.FinalClassification;
+import de.symeda.sormas.api.sample.LpNotDoneReason;
 import de.symeda.sormas.api.sormastosormas.S2SIgnoreProperty;
 import de.symeda.sormas.api.sormastosormas.SormasToSormasConfig;
 import de.symeda.sormas.api.sormastosormas.SormasToSormasShareableDto;
@@ -314,6 +316,9 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 	public static final String HIB_2_DATE = "hib2Date";
 	public static final String HIB_3 = "hib3";
 	public static final String HIB_3_DATE = "hib3Date";
+	public static final String CSF_SAMPLE_COLLECTED = "csfSampleCollected";
+	public static final String LP_NOT_DONE_REASON = "lpNotDoneReason";
+	public static final String LP_NOT_DONE_REASON_OTHER = "lpNotDoneReasonOther";
 	public static final String CLASSIFICATION_BY_ORIGIN = "classificationByOrigin";
 	public static final String REGION_LAB_RESULTS_RECEIVED = "regionLabResultsReceived";
 
@@ -979,6 +984,16 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 	@Diseases({
 			Disease.CSM})
 	private Date hib3Date;
+	@Diseases({
+			Disease.CSM})
+	private YesNo csfSampleCollected;
+	@Diseases({
+			Disease.CSM})
+	private Set<LpNotDoneReason> lpNotDoneReason;
+	@Diseases({
+			Disease.CSM})
+	@Size(max = FieldConstraints.CHARACTER_LIMIT_DEFAULT, message = Validations.textTooLong)
+	private String lpNotDoneReasonOther;
 	@Diseases({
 			Disease.CSM})
 	@Size(max = FieldConstraints.CHARACTER_LIMIT_DEFAULT, message = Validations.textTooLong)
@@ -2769,6 +2784,30 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 
 	public void setHib3Date(Date hib3Date) {
 		this.hib3Date = hib3Date;
+	}
+
+	public YesNo getCsfSampleCollected() {
+		return csfSampleCollected;
+	}
+
+	public void setCsfSampleCollected(YesNo csfSampleCollected) {
+		this.csfSampleCollected = csfSampleCollected;
+	}
+
+	public Set<LpNotDoneReason> getLpNotDoneReason() {
+		return lpNotDoneReason;
+	}
+
+	public void setLpNotDoneReason(Set<LpNotDoneReason> lpNotDoneReason) {
+		this.lpNotDoneReason = lpNotDoneReason;
+	}
+
+	public String getLpNotDoneReasonOther() {
+		return lpNotDoneReasonOther;
+	}
+
+	public void setLpNotDoneReasonOther(String lpNotDoneReasonOther) {
+		this.lpNotDoneReasonOther = lpNotDoneReasonOther;
 	}
 
 	public String getHealthWorkerCompletingForm() {

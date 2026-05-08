@@ -35,6 +35,7 @@ import org.apache.commons.collections4.CollectionUtils;
 
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.themes.ValoTheme;
 import com.vaadin.v7.data.util.converter.Converter;
 import com.vaadin.v7.ui.AbstractSelect.ItemCaptionMode;
 
@@ -62,7 +63,6 @@ import de.symeda.sormas.api.sample.PathogenStrainCallStatus;
 import de.symeda.sormas.api.sample.PathogenTestDto;
 import de.symeda.sormas.api.sample.PathogenTestResultType;
 import de.symeda.sormas.api.sample.PathogenTestType;
-import de.symeda.sormas.api.sample.PathogenTestTypeSelectionHelper;
 import de.symeda.sormas.api.sample.SampleDto;
 import de.symeda.sormas.api.sample.SamplePurpose;
 import de.symeda.sormas.api.sample.SeroGroupSpecification;
@@ -93,6 +93,25 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 	private static final String PRESCRIBER_HEADING_LOC = "prescriberHeading";
 	protected static final String STOOL_SPECIMEN_RESULTS_HEADLINE_LOC = "stoolSpecimenResultsLoc";
 	protected static final String FINAL_LAB_RESULTS_HEADLINE_LOC = "finalLabResultsLoc";
+	private static final String CULTURE_RESULTS_HEADLINE_LOC = "cultureResultsHeadlineLoc";
+	private static final String ANTIBIOGRAM_HEADLINE_LOC = "antibiogramHeadlineLoc";
+
+	private static final List<CulturePcrFinding> CSM_CULTURE_FINDINGS_DISPLAY_ORDER = Collections.unmodifiableList(
+		Arrays.asList(
+			CulturePcrFinding.NMA,
+			CulturePcrFinding.NMC,
+			CulturePcrFinding.NMW,
+			CulturePcrFinding.NMY,
+			CulturePcrFinding.NMB,
+			CulturePcrFinding.NMX,
+			CulturePcrFinding.NM_INDETERMINATE,
+			CulturePcrFinding.S_PNEUMONIAE,
+			CulturePcrFinding.HIB,
+			CulturePcrFinding.H_INFLUENZAE_INDETERMINATE,
+			CulturePcrFinding.STREP_B,
+			CulturePcrFinding.CONTAMINATED,
+			CulturePcrFinding.NEGATIVE,
+			CulturePcrFinding.OTHER_GERMS));
 
 	//@formatter:off
 	private static final String HTML_LAYOUT =
@@ -159,8 +178,9 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 			fluidRowLocs(PathogenTestDto.TEST_DATE_TIME, PathogenTestDto.LAB) +
 			fluidRowLocs(PathogenTestDto.LAB_DETAILS, "") +
 			loc(LAB_ROLE_CONTEXT_LOC) +
-			fluidRowLocs(PathogenTestDto.SELECTED_PATHOGEN_TEST_TYPES, "") +
-			fluidRowLocs(PathogenTestDto.MACROSCOPIC_EXAMINATION, "") +
+			 fluidRowLocs(PathogenTestDto.TEST_TYPE, PathogenTestDto.TEST_TYPE_TEXT) +
+//			fluidRowLocs(PathogenTestDto.SELECTED_PATHOGEN_TEST_TYPES, "") +
+//			fluidRowLocs(PathogenTestDto.MACROSCOPIC_EXAMINATION, "") +
 			fluidRowLocs(PathogenTestDto.CELL_COUNT_LEUCOCYTES_PER_MM3, PathogenTestDto.WBC_COUNT_POLYCYTES_PERCENT) +
 			fluidRowLocs(PathogenTestDto.WBC_COUNT_MONOCYTES_PERCENT, PathogenTestDto.CSF_GLUCOSE) +
 			fluidRowLocs(PathogenTestDto.CSF_PROTEIN, "") +
@@ -173,8 +193,10 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 			fluidRowLocs(PathogenTestDto.LATEX_S_PNEUMONIAE, PathogenTestDto.LATEX_HIB) +
 			fluidRowLocs(PathogenTestDto.LATEX_STREP_B, PathogenTestDto.LATEX_NEGATIVE) +
 			fluidRowLocs(PathogenTestDto.RDT_DIPSTICK_PERFORMED, PathogenTestDto.RDT_DIPSTICK_RESULTS) +
+			loc(CULTURE_RESULTS_HEADLINE_LOC) +
 			fluidRowLocs(PathogenTestDto.CULTURE_FINDINGS, "") +
 			fluidRowLocs(PathogenTestDto.CULTURE_OTHER_GERMS_SPECIFY, "") +
+			loc(ANTIBIOGRAM_HEADLINE_LOC) +
 			fluidRowLocs(PathogenTestDto.CEFTRIAXONE_SUSCEPTIBILITY, PathogenTestDto.AMPICILLIN_SUSCEPTIBILITY) +
 			fluidRowLocs(PathogenTestDto.GENTAMYCIN_SUSCEPTIBILITY, PathogenTestDto.OXACILLIN_SUSCEPTIBILITY) +
 			fluidRowLocs(PathogenTestDto.CHLORAMPHENICOL_SUSCEPTIBILITY, PathogenTestDto.BENZYL_PENICILLIN_SUSCEPTIBILITY) +
@@ -268,6 +290,8 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 	private CheckboxSet pcrFindingsField;
 	private boolean csmRdtListenerAdded;
 	private boolean csmGramOtherListenerAdded;
+	private Label cultureResultsHeadlineLabel;
+	private Label antibiogramHeadlineLabel;
 
 	// List of tests that are used for serogrouping
 	List<PathogenTestType> seroGrpTests = Arrays.asList(
@@ -457,13 +481,25 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 		if (disease == Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS) {
 			applyIDSRDiseaseFilter();
 		}
+		if (disease == Disease.CSM) {
+			applyMeningitisCultureAndPcrFindingItems();
+			updateMeningitisSectionVisibility();
+		}
 	}
 
 	@Override
 	protected void addFields() {
 
-		CaseDataDto caseDataDto = FacadeProvider.getCaseFacade().getCaseDataByUuid(sample.getAssociatedCase().getUuid());
-		caseDisease = caseDataDto.getDisease();
+		SampleDto sampleForAssociatedCase = sample;
+		if (sampleForAssociatedCase == null && sampleForm != null) {
+			sampleForAssociatedCase = (SampleDto) sampleForm.getValue();
+		}
+		caseDisease = null;
+		if (sampleForAssociatedCase != null && sampleForAssociatedCase.getAssociatedCase() != null) {
+			CaseDataDto caseDataDto =
+				FacadeProvider.getCaseFacade().getCaseDataByUuid(sampleForAssociatedCase.getAssociatedCase().getUuid());
+			caseDisease = caseDataDto.getDisease();
+		}
 
 		pathogenTestHeadingLabel = new Label();
 		pathogenTestHeadingLabel.addStyleName(H3);
@@ -476,6 +512,15 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 		Label finalLabResults = new Label(I18nProperties.getString(Strings.headingFinalLabResults));
 		CssStyles.style(finalLabResults, CssStyles.LABEL_BOLD, CssStyles.LABEL_SECONDARY, VSPACE_4);
 		getContent().addComponent(finalLabResults, FINAL_LAB_RESULTS_HEADLINE_LOC);
+
+		cultureResultsHeadlineLabel = new Label(I18nProperties.getString(Strings.headingCultureResults));
+		CssStyles.style(cultureResultsHeadlineLabel, CssStyles.LABEL_BOLD, CssStyles.LABEL_SECONDARY, VSPACE_4);
+		cultureResultsHeadlineLabel.setVisible(false);
+		getContent().addComponent(cultureResultsHeadlineLabel, CULTURE_RESULTS_HEADLINE_LOC);
+		antibiogramHeadlineLabel = new Label(I18nProperties.getString(Strings.headingAntibiogram));
+		CssStyles.style(antibiogramHeadlineLabel, CssStyles.LABEL_BOLD, CssStyles.LABEL_SECONDARY, VSPACE_4);
+		antibiogramHeadlineLabel.setVisible(false);
+		getContent().addComponent(antibiogramHeadlineLabel, ANTIBIOGRAM_HEADLINE_LOC);
 
 
 		addDateField(PathogenTestDto.REPORT_DATE, DateField.class, 0);
@@ -789,15 +834,15 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 		labRoleContextLabel.setVisible(false);
 		getContent().addComponent(labRoleContextLabel, LAB_ROLE_CONTEXT_LOC);
 
-		selectedPathogenTestTypesField = addCustomField(PathogenTestDto.SELECTED_PATHOGEN_TEST_TYPES, java.util.Set.class, CheckboxSet.class);
-		selectedPathogenTestTypesField.setItems(new ArrayList<>(PathogenTestTypeSelectionHelper.MULTI_SELECT_PANEL_ORDER), null, v -> ((PathogenTestType) v).toString());
+		selectedPathogenTestTypesField = addField(PathogenTestDto.SELECTED_PATHOGEN_TEST_TYPES, CheckboxSet.class);
+		selectedPathogenTestTypesField.setItems(Collections.emptyList(), null, v -> ((PathogenTestType) v).toString());
 		selectedPathogenTestTypesField.setVisible(false);
 
-		cultureFindingsField = addCustomField(PathogenTestDto.CULTURE_FINDINGS, java.util.Set.class, CheckboxSet.class);
-		cultureFindingsField.setItems(Arrays.asList(CulturePcrFinding.values()), null, v -> ((CulturePcrFinding) v).toString());
+		cultureFindingsField = addField(PathogenTestDto.CULTURE_FINDINGS, CheckboxSet.class);
+		cultureFindingsField.setItems(CSM_CULTURE_FINDINGS_DISPLAY_ORDER, null, v -> ((CulturePcrFinding) v).toString());
 		cultureFindingsField.setVisible(false);
 
-		pcrFindingsField = addCustomField(PathogenTestDto.PCR_FINDINGS, java.util.Set.class, CheckboxSet.class);
+		pcrFindingsField = addField(PathogenTestDto.PCR_FINDINGS, CheckboxSet.class);
 		pcrFindingsField.setItems(Arrays.asList(CulturePcrFinding.values()), null, v -> ((CulturePcrFinding) v).toString());
 		pcrFindingsField.setVisible(false);
 
@@ -823,28 +868,14 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 		FieldHelper.updateEnumData(rdtDipstickPerformedField, Arrays.asList(YesNo.YES, YesNo.NO));
 		rdtDipstickPerformedField.setVisible(false);
 		addField(PathogenTestDto.RDT_DIPSTICK_RESULTS, TextField.class).setVisible(false);
-		ComboBox abCeftriaxone = addField(PathogenTestDto.CEFTRIAXONE_SUSCEPTIBILITY, ComboBox.class);
-		FieldHelper.updateEnumData(abCeftriaxone, Arrays.asList(AntimicrobialSusceptibility.values()));
-		abCeftriaxone.setVisible(false);
-		ComboBox abAmpicillin = addField(PathogenTestDto.AMPICILLIN_SUSCEPTIBILITY, ComboBox.class);
-		FieldHelper.updateEnumData(abAmpicillin, Arrays.asList(AntimicrobialSusceptibility.values()));
-		abAmpicillin.setVisible(false);
-		ComboBox abGentamycin = addField(PathogenTestDto.GENTAMYCIN_SUSCEPTIBILITY, ComboBox.class);
-		FieldHelper.updateEnumData(abGentamycin, Arrays.asList(AntimicrobialSusceptibility.values()));
-		abGentamycin.setVisible(false);
-		ComboBox abOxacillin = addField(PathogenTestDto.OXACILLIN_SUSCEPTIBILITY, ComboBox.class);
-		FieldHelper.updateEnumData(abOxacillin, Arrays.asList(AntimicrobialSusceptibility.values()));
-		abOxacillin.setVisible(false);
-		ComboBox abChloramphenicol = addField(PathogenTestDto.CHLORAMPHENICOL_SUSCEPTIBILITY, ComboBox.class);
-		FieldHelper.updateEnumData(abChloramphenicol, Arrays.asList(AntimicrobialSusceptibility.values()));
-		abChloramphenicol.setVisible(false);
-		ComboBox abBenzylPen = addField(PathogenTestDto.BENZYL_PENICILLIN_SUSCEPTIBILITY, ComboBox.class);
-		FieldHelper.updateEnumData(abBenzylPen, Arrays.asList(AntimicrobialSusceptibility.values()));
-		abBenzylPen.setVisible(false);
+		configureAntibiogramSusceptibilityField(addField(PathogenTestDto.CEFTRIAXONE_SUSCEPTIBILITY, NullableOptionGroup.class));
+		configureAntibiogramSusceptibilityField(addField(PathogenTestDto.AMPICILLIN_SUSCEPTIBILITY, NullableOptionGroup.class));
+		configureAntibiogramSusceptibilityField(addField(PathogenTestDto.GENTAMYCIN_SUSCEPTIBILITY, NullableOptionGroup.class));
+		configureAntibiogramSusceptibilityField(addField(PathogenTestDto.OXACILLIN_SUSCEPTIBILITY, NullableOptionGroup.class));
+		configureAntibiogramSusceptibilityField(addField(PathogenTestDto.CHLORAMPHENICOL_SUSCEPTIBILITY, NullableOptionGroup.class));
+		configureAntibiogramSusceptibilityField(addField(PathogenTestDto.BENZYL_PENICILLIN_SUSCEPTIBILITY, NullableOptionGroup.class));
 		addField(PathogenTestDto.OTHER_ANTIMICROBIAL_DRUG_NAME, TextField.class).setVisible(false);
-		ComboBox abOtherSus = addField(PathogenTestDto.OTHER_ANTIMICROBIAL_SUSCEPTIBILITY, ComboBox.class);
-		FieldHelper.updateEnumData(abOtherSus, Arrays.asList(AntimicrobialSusceptibility.values()));
-		abOtherSus.setVisible(false);
+		configureAntibiogramSusceptibilityField(addField(PathogenTestDto.OTHER_ANTIMICROBIAL_SUSCEPTIBILITY, NullableOptionGroup.class));
 		DateField datePcrPerformedField = addDateField(PathogenTestDto.DATE_PCR_PERFORMED, DateField.class, 7);
 		datePcrPerformedField.setVisible(false);
 		addField(PathogenTestDto.PCR_TYPE_TEXT, TextField.class).setVisible(false);
@@ -957,11 +988,15 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 			disease = latestDisease;
 			updateDiseaseVariantField.accept(disease);
 
-			FieldHelper.updateItems(
-				testTypeField,
-				Arrays.asList(PathogenTestType.values()),
-				FieldVisibilityCheckers.withDisease(disease),
-				PathogenTestType.class);
+			if (disease == Disease.CSM) {
+				applyMeningitisPathogenTestTypeWhitelist();
+			} else {
+				FieldHelper.updateItems(
+					testTypeField,
+					Arrays.asList(PathogenTestType.values()),
+					FieldVisibilityCheckers.withDisease(disease),
+					PathogenTestType.class);
+			}
 
 			if (Disease.MEASLES.equals(caseDisease)) {
 				applyMeaslesCaseTestTypeRestriction(disease);
@@ -1084,6 +1119,9 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 			// Reconfigure congenital rubella fields when test type changes
 			if (disease == Disease.CONGENITAL_RUBELLA) {
 				configureCongenitalRubellaFields();
+			}
+			if (disease == Disease.CSM) {
+				updateMeningitisSectionVisibility();
 			}
 		});
 
@@ -1316,14 +1354,68 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 		}
 	}
 
+	private void configureAntibiogramSusceptibilityField(NullableOptionGroup group) {
+		FieldHelper.updateEnumData(group, Arrays.asList(AntimicrobialSusceptibility.values()));
+		CssStyles.style(group, ValoTheme.OPTIONGROUP_HORIZONTAL, CssStyles.OPTIONGROUP_CAPTION_INLINE);
+		group.setVisible(false);
+	}
+
+	private void setCultureAntibiogramSusceptibilitiesVisible(boolean visible) {
+		getField(PathogenTestDto.CEFTRIAXONE_SUSCEPTIBILITY).setVisible(visible);
+		getField(PathogenTestDto.AMPICILLIN_SUSCEPTIBILITY).setVisible(visible);
+		getField(PathogenTestDto.GENTAMYCIN_SUSCEPTIBILITY).setVisible(visible);
+		getField(PathogenTestDto.OXACILLIN_SUSCEPTIBILITY).setVisible(visible);
+		getField(PathogenTestDto.CHLORAMPHENICOL_SUSCEPTIBILITY).setVisible(visible);
+		getField(PathogenTestDto.BENZYL_PENICILLIN_SUSCEPTIBILITY).setVisible(visible);
+		getField(PathogenTestDto.OTHER_ANTIMICROBIAL_DRUG_NAME).setVisible(visible);
+		getField(PathogenTestDto.OTHER_ANTIMICROBIAL_SUSCEPTIBILITY).setVisible(visible);
+	}
+
+	/** Antibiogram is shown only when at least one of NmA–NmX (except indeterminate), Hib, or Strep B is selected in culture results. */
+	private static boolean cultureSelectionTriggersAntibiogram(Set<CulturePcrFinding> cultureFindings) {
+		if (cultureFindings == null) {
+			return false;
+		}
+		for (CulturePcrFinding finding : cultureFindings) {
+			if (CulturePcrFinding.triggersAntibiogram(finding)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * CSM meningitis laboratory pathogen-test types. Must not run through {@link FieldHelper#updateItems} with PathogenTestType disease
+	 * filtering: {@link PathogenTestType#CULTURE}, {@link PathogenTestType#RAPID_TEST}, etc. declare {@code @Diseases(..., CSM, hide = true)},
+	 * which would remove them from the combo and clear the saved selection on reload.
+	 */
+	private void applyMeningitisPathogenTestTypeWhitelist() {
+		FieldHelper.updateEnumData(
+			testTypeField,
+			Arrays.asList(
+				PathogenTestType.CELL_COUNT,
+				PathogenTestType.GRAM_STAIN,
+				PathogenTestType.LATEX,
+				PathogenTestType.RAPID_TEST,
+				PathogenTestType.CULTURE,
+				PathogenTestType.PCR,
+				PathogenTestType.OTHER));
+		testTypeField.setItemCaption(PathogenTestType.RAPID_TEST, "RDT (Dipstick)");
+	}
+
+	/**
+	 * Rebuilds CheckboxSet rows from the bound bean value. Needed after loading a DTO ({@linkplain #setValue}) because rebuilding the layout can
+	 * run before bind order finishes; {@linkplain CheckboxSet#setItems} then syncs checkbox state from the field value.
+	 */
+	private void applyMeningitisCultureAndPcrFindingItems() {
+		cultureFindingsField.setItems(CSM_CULTURE_FINDINGS_DISPLAY_ORDER, null, v -> ((CulturePcrFinding) v).toString());
+		pcrFindingsField.setItems(Arrays.asList(CulturePcrFinding.values()), null, v -> ((CulturePcrFinding) v).toString());
+	}
+
 	/**
 	 * Configures fields specifically for meningitis pathogen tests
 	 */
 	protected void configureMeningitisFields() {
-		testTypeField.setVisible(false);
-		setRequired(false, PathogenTestDto.TEST_TYPE);
-		testTypeTextField.setVisible(false);
-
 		getField(PathogenTestDto.MACROSCOPIC_EXAMINATION).setVisible(true);
 		ComboBox macroscopicExaminationField = (ComboBox) getField(PathogenTestDto.MACROSCOPIC_EXAMINATION);
 		macroscopicExaminationField.addItems(MacroscopicExamination.values());
@@ -1341,9 +1433,10 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 		labRoleContextLabel.setVisible(true);
 		updateMeningitisLabCaptions();
 
-		selectedPathogenTestTypesField.setVisible(true);
-		refreshMeningitisPanelOptions();
-		selectedPathogenTestTypesField.addValueChangeListener(e -> updateMeningitisSectionVisibility());
+		selectedPathogenTestTypesField.setVisible(false);
+		applyMeningitisPathogenTestTypeWhitelist();
+
+		applyMeningitisCultureAndPcrFindingItems();
 
 		cultureFindingsField.setVisible(true);
 		cultureFindingsField.addValueChangeListener(e -> updateMeningitisSectionVisibility());
@@ -1382,7 +1475,6 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 			if (labTypeField != null) {
 				labTypeField.addValueChangeListener(e -> {
 					updateMeningitisLabCaptions();
-					refreshMeningitisPanelOptions();
 					updateMeningitisSectionVisibility();
 				});
 			}
@@ -1423,21 +1515,6 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
-	private void refreshMeningitisPanelOptions() {
-		List<PathogenTestType> items = new ArrayList<>(PathogenTestTypeSelectionHelper.MULTI_SELECT_PANEL_ORDER);
-		if (getLaboratoryType() != LaboratoryType.REFERENCE_LABORATORY) {
-			items.remove(PathogenTestType.PCR);
-			Set<PathogenTestType> current = (Set<PathogenTestType>) selectedPathogenTestTypesField.getValue();
-			if (current != null && current.contains(PathogenTestType.PCR)) {
-				HashSet<PathogenTestType> copy = new HashSet<>(current);
-				copy.remove(PathogenTestType.PCR);
-				selectedPathogenTestTypesField.setValue(copy);
-			}
-		}
-		selectedPathogenTestTypesField.setItems(items, null, v -> ((PathogenTestType) v).toString());
-	}
-
 	private void applyMeningitisDateFieldVisibilityByLaboratoryType() {
 		LaboratoryType laboratoryType = getLaboratoryType();
 		if (laboratoryType == LaboratoryType.REGIONAL_LABORATORY) {
@@ -1461,24 +1538,18 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	private void updateMeningitisSectionVisibility() {
-		Set<PathogenTestType> panels = (Set<PathogenTestType>) selectedPathogenTestTypesField.getValue();
-		boolean cell = panels != null && panels.contains(PathogenTestType.CELL_COUNT);
-		boolean gram = panels != null && panels.contains(PathogenTestType.GRAM_STAIN);
-		boolean latex = panels != null && panels.contains(PathogenTestType.LATEX);
-		boolean rdt = panels != null && panels.contains(PathogenTestType.RAPID_TEST);
-		boolean culture = panels != null && panels.contains(PathogenTestType.CULTURE);
-		boolean pcrPanel = panels != null && panels.contains(PathogenTestType.PCR);
-		boolean other = panels != null && panels.contains(PathogenTestType.OTHER);
+		PathogenTestType selectedTestType = (PathogenTestType) testTypeField.getValue();
+		boolean cell = selectedTestType == PathogenTestType.CELL_COUNT;
+		boolean gram = selectedTestType == PathogenTestType.GRAM_STAIN;
+		boolean latex = selectedTestType == PathogenTestType.LATEX;
+		boolean rdt = selectedTestType == PathogenTestType.RAPID_TEST;
+		boolean culture = selectedTestType == PathogenTestType.CULTURE;
+		boolean pcrPanel = selectedTestType == PathogenTestType.PCR;
+		boolean other = selectedTestType == PathogenTestType.OTHER;
 
 		Set<CulturePcrFinding> cultureFindings = (Set<CulturePcrFinding>) cultureFindingsField.getValue();
 		Set<CulturePcrFinding> pcrFindings = (Set<CulturePcrFinding>) pcrFindingsField.getValue();
-
-		boolean showCultureAb =
-			culture
-				&& cultureFindings != null
-				&& cultureFindings.stream().anyMatch(CulturePcrFinding::triggersAntibiogram);
 
 		setVisible(
 			cell,
@@ -1514,14 +1585,18 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 		NullableOptionGroup rdtPerformedField = (NullableOptionGroup) getField(PathogenTestDto.RDT_DIPSTICK_PERFORMED);
 		setVisible(rdt && rdtPerformedField.getNullableValue() == YesNo.YES, PathogenTestDto.RDT_DIPSTICK_RESULTS);
 
-		setVisible(culture, PathogenTestDto.CULTURE_FINDINGS);
-		setVisible(
-			culture && cultureFindings != null && cultureFindings.contains(CulturePcrFinding.OTHER_GERMS),
-			PathogenTestDto.CULTURE_OTHER_GERMS_SPECIFY);
-		setVisible(showCultureAb, PathogenTestDto.CEFTRIAXONE_SUSCEPTIBILITY, PathogenTestDto.AMPICILLIN_SUSCEPTIBILITY);
-		setVisible(showCultureAb, PathogenTestDto.GENTAMYCIN_SUSCEPTIBILITY, PathogenTestDto.OXACILLIN_SUSCEPTIBILITY);
-		setVisible(showCultureAb, PathogenTestDto.CHLORAMPHENICOL_SUSCEPTIBILITY, PathogenTestDto.BENZYL_PENICILLIN_SUSCEPTIBILITY);
-		setVisible(showCultureAb, PathogenTestDto.OTHER_ANTIMICROBIAL_DRUG_NAME, PathogenTestDto.OTHER_ANTIMICROBIAL_SUSCEPTIBILITY);
+		boolean meningitisCultureUi = Disease.CSM.equals(caseDisease) || Disease.CSM.equals(disease);
+		boolean cultureLabFieldsShown =
+			culture && (meningitisCultureUi || isVisibleAllowed(PathogenTestDto.CULTURE_FINDINGS));
+		boolean showCultureAntibiogram = cultureLabFieldsShown && cultureSelectionTriggersAntibiogram(cultureFindings);
+
+		cultureResultsHeadlineLabel.setVisible(culture);
+		antibiogramHeadlineLabel.setVisible(showCultureAntibiogram);
+
+		cultureFindingsField.setVisible(cultureLabFieldsShown);
+		getField(PathogenTestDto.CULTURE_OTHER_GERMS_SPECIFY).setVisible(
+			cultureLabFieldsShown && cultureFindings != null && cultureFindings.contains(CulturePcrFinding.OTHER_GERMS));
+		setCultureAntibiogramSusceptibilitiesVisible(showCultureAntibiogram);
 		setVisible(culture, PathogenTestDto.SEROTYPE);
 
 		setVisible(pcrPanel, PathogenTestDto.DATE_PCR_PERFORMED, PathogenTestDto.PCR_TYPE_TEXT);

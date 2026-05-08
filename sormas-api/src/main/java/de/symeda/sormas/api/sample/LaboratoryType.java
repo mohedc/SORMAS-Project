@@ -17,10 +17,14 @@
  *******************************************************************************/
 package de.symeda.sormas.api.sample;
 
+import de.symeda.sormas.api.Disease;
 import de.symeda.sormas.api.i18n.I18nProperties;
+import de.symeda.sormas.api.utils.Diseases;
 
 public enum LaboratoryType {
 
+	@Diseases(value = {
+			Disease.CSM }, hide = true)
 	HEALTH_LABORATORY,
 	REGIONAL_LABORATORY,
 	REFERENCE_LABORATORY;

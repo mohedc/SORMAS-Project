@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.v7.data.Property;
+import com.vaadin.v7.shared.ui.datefield.Resolution;
 import com.vaadin.v7.ui.AbstractField;
 import com.vaadin.v7.ui.CheckBox;
 import com.vaadin.v7.ui.ComboBox;
@@ -175,32 +176,29 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 			fluidRowLocs(4, SampleDto.UUID, 4, REPORT_INFO_LABEL_LOC, 3, SampleDto.REPORTING_USER, 1, "") +
 					fluidRowLocs(SampleDto.SAMPLE_PURPOSE, SampleDto.FIELD_SAMPLE_ID) +
 					fluidRowLocs(SampleDto.SAMPLE_MATERIAL, SampleDto.SAMPLE_MATERIAL_TEXT) +
+					fluidRowLocs(SampleDto.LABORATORY_TYPE, "") +
+					fluidRowLocs(SampleDto.LAB, SampleDto.LAB_DETAILS) +
 					fluidRowLocs(SampleDto.SAMPLE_DATE_TIME, "") +
 //					fluidRowLocs(SampleDto.DATE_FORM_CSF_DISPATCHED_TO_HEALTH_DISTRICT, SampleDto.DATE_HEALTH_FACILITY_NOTIFY_REGION) +
-					locCss(VSPACE_TOP_3, SampleDto.CSF_SAMPLE_COLLECTED) +
-					locCss(VSPACE_TOP_3, SampleDto.LUMBAR_PUNCTURE_PERFORMED) +
-					fluidRowLocs(SampleDto.DATE_OF_LP, SampleDto.CSF_APPEARANCE_AT_COLLECTION) +
-					fluidRowLocs(SampleDto.LP_NOT_DONE_REASON, SampleDto.LP_NOT_DONE_REASON_OTHER) +
-					fluidRowLocs(SampleDto.LP_PACKAGING, SampleDto.LP_PACKAGING_OTHER) +
-					fluidRowLocs(SampleDto.TIME_OF_INOCULATION_INTO_TRANSPORT_MEDIA, "") +
+//					locCss(VSPACE_TOP_3, SampleDto.CSF_SAMPLE_COLLECTED) +
+//					locCss(VSPACE_TOP_3, SampleDto.LUMBAR_PUNCTURE_PERFORMED) +
+//					fluidRowLocs(SampleDto.DATE_OF_LP, SampleDto.CSF_APPEARANCE_AT_COLLECTION) +
+//					fluidRowLocs(SampleDto.LP_NOT_DONE_REASON, SampleDto.LP_NOT_DONE_REASON_OTHER) +
+//					fluidRowLocs(SampleDto.LP_PACKAGING, SampleDto.LP_PACKAGING_OTHER) +
+					fluidRowLocs(SampleDto.CSF_APPEARANCE_AT_COLLECTION, SampleDto.TIME_OF_INOCULATION_INTO_TRANSPORT_MEDIA) +
 					locCss(VSPACE_TOP_3, "") +
-					fluidRowLocs(SampleDto.SHIPPED, SampleDto.DATE_TIME_SAMPLE_SENT_TO_LAB) +
+					fluidRowLocs(SampleDto.SHIPPED, "") +
+					fluidRowLocs(SampleDto.SHIPMENT_DATE, SampleDto.SHIPMENT_DETAILS) +
 					fluidRowLocs(SampleDto.SAMPLES_NOT_SENT_REASON, "") +
 					fluidRowLocs(SampleDto.SAMPLE_CONTAINER_USED, SampleDto.SAMPLE_CONTAINER_USED_OTHER) +
-					locCss(VSPACE_TOP_3, SampleDto.MENINGITIS_RDT_PERFORMED) +
-					fluidRowLocs(SampleDto.MENINGITIS_RDT_RESULT, "") +
-					locCss(VSPACE_TOP_3, SampleDto.WAS_SPECIMEN_TAKEN) +
-					fluidRowLocs(SampleDto.LABORATORY_TYPE, SampleDto.LAB) +
-					fluidRowLocs(SampleDto.LAB_DETAILS, "") +
-					fluidRowLocs(SampleDto.DATE_SPECIMEN_SENT_TO_LABORATORY_TYPE) +
-					fluidRowLocs(SampleDto.SHIPMENT_DATE, SampleDto.SHIPMENT_DETAILS) +
+//					locCss(VSPACE_TOP_3, SampleDto.MENINGITIS_RDT_PERFORMED) +
+//					fluidRowLocs(SampleDto.MENINGITIS_RDT_RESULT, "") +
+//					locCss(VSPACE_TOP_3, SampleDto.WAS_SPECIMEN_TAKEN) +
+//					fluidRowLocs(SampleDto.DATE_SPECIMEN_SENT_TO_LABORATORY_TYPE) +
 					locCss(VSPACE_TOP_3, SampleDto.RECEIVED) +
-					fluidRowLocs(SampleDto.RECEIVED_DATE, SampleDto.LAB_NUMBER) +
-					fluidRowLocs(SampleDto.LAB_SAMPLE_ID, SampleDto.SAMPLE_CONTAINER_RECEIVED) +
-					fluidRowLocs(SampleDto.SAMPLE_CONTAINER_RECEIVED_OTHER, SampleDto.SAMPLE_CONDITION_AT_RECEPTION) +
-					fluidRowLocs(SampleDto.CSF_APPEARANCE_AT_RECEPTION, "") +
-					fluidRowLocs(SampleDto.PACKAGING, SampleDto.PACKAGING_OTHER) +
-					fluidRowLocs(SampleDto.SPECIMEN_CONDITION);
+					fluidRowLocs(SampleDto.RECEIVED_DATE, SampleDto.LAB_SAMPLE_ID) +
+					fluidRowLocs(SampleDto.SAMPLE_CONTAINER_RECEIVED, SampleDto.SAMPLE_CONTAINER_RECEIVED_OTHER) +
+					fluidRowLocs(SampleDto.CSF_APPEARANCE_AT_RECEPTION, SampleDto.SPECIMEN_CONDITION);
 
 	protected static final String AFP_HTML_LAYOUT =
 			loc(STOOL_SPECIMEN_COLLECTION_HEADLINE_LOC) +
@@ -380,13 +378,18 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 		addField(SampleDto.CSF_SAMPLE_COLLECTED, NullableOptionGroup.class);
 		addField(SampleDto.LUMBAR_PUNCTURE_PERFORMED, NullableOptionGroup.class);
 		addDateField(SampleDto.DATE_OF_LP, DateField.class, 7);
-		addField(SampleDto.CSF_APPEARANCE_AT_COLLECTION, ComboBox.class);
+		OptionGroup csfAppearanceAtCollectionField = addField(SampleDto.CSF_APPEARANCE_AT_COLLECTION, OptionGroup.class);
+		CssStyles.style(csfAppearanceAtCollectionField, CssStyles.OPTIONGROUP_CHECKBOXES_HORIZONTAL);
+		csfAppearanceAtCollectionField.setMultiSelect(true);
+		csfAppearanceAtCollectionField.addItems(Arrays.asList(CsfAppearance.values()));
 		addField(SampleDto.LP_NOT_DONE_REASON, ComboBox.class);
 		addField(SampleDto.LP_NOT_DONE_REASON_OTHER, TextField.class);
 		addField(SampleDto.LP_ASPECT, ComboBox.class);
 		addField(SampleDto.LP_PACKAGING, ComboBox.class);
 		addField(SampleDto.LP_PACKAGING_OTHER, TextField.class);
-		addDateField(SampleDto.TIME_OF_INOCULATION_INTO_TRANSPORT_MEDIA, DateField.class, 7);
+		DateField timeOfInoculationIntoTransportMedia = addDateField(SampleDto.TIME_OF_INOCULATION_INTO_TRANSPORT_MEDIA, DateField.class, 7);
+		timeOfInoculationIntoTransportMedia.setResolution(Resolution.MINUTE);
+		timeOfInoculationIntoTransportMedia.setDateFormat("HH:mm");
 		addField(SampleDto.DATE_TIME_SAMPLE_SENT_TO_LAB, DateTimeField.class);
 		addField(SampleDto.SAMPLES_NOT_SENT_REASON, TextField.class);
 		addField(SampleDto.SAMPLE_CONTAINER_USED, ComboBox.class);
@@ -1007,7 +1010,9 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 		wasSpecimenTakenField.setValue(YesNo.YES);
 		wasSpecimenTakenField.setReadOnly(true);
 
-		FieldHelper.updateEnumData(sampleMaterialComboBox, Arrays.asList(SampleMaterial.CSF, SampleMaterial.OTHER));
+		FieldHelper.updateEnumData(
+			sampleMaterialComboBox,
+			Arrays.asList(SampleMaterial.CSF, SampleMaterial.BLOOD, SampleMaterial.THROAT_SWAB, SampleMaterial.OTHER));
 		// getField(SampleDto.SAMPLE_MATERIAL).setVisible(false);
 		// getField(SampleDto.SAMPLE_MATERIAL_TEXT).setVisible(false);
 
@@ -1023,26 +1028,26 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 
 		// LP fields visibility - shown when lumbarPuncturePerformed = YES
 		Field<?> lumbarPunctureField = getField(SampleDto.LUMBAR_PUNCTURE_PERFORMED);
-		FieldHelper.setVisibleWhen(
-			getFieldGroup(),
-			Arrays.asList(
-				SampleDto.DATE_OF_LP,
-				SampleDto.CSF_APPEARANCE_AT_COLLECTION,
-				SampleDto.LP_PACKAGING,
-				SampleDto.TIME_OF_INOCULATION_INTO_TRANSPORT_MEDIA),
-			SampleDto.LUMBAR_PUNCTURE_PERFORMED,
-			Arrays.asList(YesNo.YES),
-			true);
-		FieldHelper.setEnabledWhen(
-			getFieldGroup(),
-			lumbarPunctureField,
-			Arrays.asList(YesNo.YES),
-			Arrays.asList(
-				SampleDto.DATE_OF_LP,
-				SampleDto.CSF_APPEARANCE_AT_COLLECTION,
-				SampleDto.LP_PACKAGING,
-				SampleDto.TIME_OF_INOCULATION_INTO_TRANSPORT_MEDIA),
-			true);
+		// FieldHelper.setVisibleWhen(
+		// 	getFieldGroup(),
+		// 	Arrays.asList(
+		// 		SampleDto.DATE_OF_LP,
+		// 		SampleDto.CSF_APPEARANCE_AT_COLLECTION,
+		// 		SampleDto.LP_PACKAGING,
+		// 		SampleDto.TIME_OF_INOCULATION_INTO_TRANSPORT_MEDIA),
+		// 	SampleDto.LUMBAR_PUNCTURE_PERFORMED,
+		// 	Arrays.asList(YesNo.YES),
+		// 	true);
+		// FieldHelper.setEnabledWhen(
+		// 	getFieldGroup(),
+		// 	lumbarPunctureField,
+		// 	Arrays.asList(YesNo.YES),
+		// 	Arrays.asList(
+		// 		SampleDto.DATE_OF_LP,
+		// 		SampleDto.CSF_APPEARANCE_AT_COLLECTION,
+		// 		SampleDto.LP_PACKAGING,
+		// 		SampleDto.TIME_OF_INOCULATION_INTO_TRANSPORT_MEDIA),
+		// 	true);
 
 		FieldHelper.setVisibleWhen(
 			getFieldGroup(),
@@ -1073,7 +1078,7 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 			true);
 		FieldHelper.setVisibleWhen(
 			getFieldGroup(),
-			Arrays.asList(SampleDto.DATE_TIME_SAMPLE_SENT_TO_LAB, SampleDto.SAMPLE_CONTAINER_USED),
+			Arrays.asList(SampleDto.SAMPLE_CONTAINER_USED),
 			SampleDto.SHIPPED,
 			Arrays.asList(true),
 			true);
@@ -1162,14 +1167,14 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 		if (laboratoryTypeField != null && labField != null) {
 			LaboratoryType currentLaboratoryType = (LaboratoryType) laboratoryTypeField.getValue();
 			if (currentLaboratoryType != null) {
-				labField.setCaption("Name of " + currentLaboratoryType.toString() + " the laboratory receiving");
+				labField.setCaption("Name of " + currentLaboratoryType.toString());
 			}
 			
 			// Add value change listener
 			laboratoryTypeField.addValueChangeListener(e -> {
 				LaboratoryType selectedType = (LaboratoryType) e.getProperty().getValue();
 				if (selectedType != null) {
-					labField.setCaption("Name of " + selectedType.toString() + " the laboratory receiving");
+					labField.setCaption("Name of " + selectedType.toString());
 				} else {
 					labField.setCaption(defaultLabCaption);
 				}

@@ -45,6 +45,7 @@ import javax.persistence.Transient;
 import de.symeda.sormas.api.Disease;
 import de.symeda.sormas.api.sample.*;
 import de.symeda.sormas.api.utils.*;
+import de.symeda.sormas.backend.util.ModelConstants;
 import org.apache.commons.lang3.StringUtils;
 
 import de.symeda.sormas.api.caze.IdsrType;
@@ -58,6 +59,7 @@ import de.symeda.sormas.backend.sormastosormas.entities.SormasToSormasShareable;
 import de.symeda.sormas.backend.sormastosormas.origin.SormasToSormasOriginInfo;
 import de.symeda.sormas.backend.sormastosormas.share.outgoing.SormasToSormasShareInfo;
 import de.symeda.sormas.backend.user.User;
+import org.hibernate.annotations.Type;
 
 @Entity(name = "samples")
 public class Sample extends DeletableAdo implements IsSample, SormasToSormasShareable {
@@ -235,7 +237,7 @@ public class Sample extends DeletableAdo implements IsSample, SormasToSormasShar
 	private SampleContainerType sampleContainerReceived;
 	private String sampleContainerReceivedOther;
 	private SpecimenCondition sampleConditionAtReception;
-	private CsfAppearance csfAppearanceAtCollection;
+	private Set<CsfAppearance> csfAppearanceAtCollection;
 	private CsfAppearance csfAppearanceAtReception;
 	private SimpleTestResultType elisaIgm;
 	private Date elisaIgmDate;
@@ -1125,12 +1127,13 @@ public class Sample extends DeletableAdo implements IsSample, SormasToSormasShar
 		this.sampleConditionAtReception = sampleConditionAtReception;
 	}
 
-	@Enumerated(EnumType.STRING)
-	public CsfAppearance getCsfAppearanceAtCollection() {
+	@Type(type = ModelConstants.HIBERNATE_TYPE_JSON)
+	@Column(columnDefinition = ModelConstants.COLUMN_DEFINITION_JSON)
+	public Set<CsfAppearance> getCsfAppearanceAtCollection() {
 		return csfAppearanceAtCollection;
 	}
 
-	public void setCsfAppearanceAtCollection(CsfAppearance csfAppearanceAtCollection) {
+	public void setCsfAppearanceAtCollection(Set<CsfAppearance> csfAppearanceAtCollection) {
 		this.csfAppearanceAtCollection = csfAppearanceAtCollection;
 	}
 

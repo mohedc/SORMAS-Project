@@ -21,12 +21,16 @@ import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.themes.ValoTheme;
 
+import de.symeda.sormas.api.Disease;
+import de.symeda.sormas.api.FacadeProvider;
+import de.symeda.sormas.api.caze.CaseDataDto;
 import de.symeda.sormas.api.i18n.Captions;
 import de.symeda.sormas.api.i18n.I18nProperties;
 import de.symeda.sormas.api.i18n.Strings;
 import de.symeda.sormas.api.sample.SampleAssociationType;
 import de.symeda.sormas.api.sample.SampleCriteria;
 import de.symeda.sormas.api.user.UserRight;
+import de.symeda.sormas.api.utils.YesNo;
 import de.symeda.sormas.ui.ControllerProvider;
 import de.symeda.sormas.ui.SormasUI;
 import de.symeda.sormas.ui.utils.ButtonHelper;
@@ -61,6 +65,15 @@ public class SampleListComponent extends SideComponent {
 					throw new IllegalArgumentException("Invalid sample association type:" + sampleCriteria.getSampleAssociationType());
 				}
 			}, UserRight.SAMPLE_CREATE);
+
+			if (sampleCriteria.getSampleAssociationType() == SampleAssociationType.CASE && Disease.CSM == sampleCriteria.getDisease()) {
+				CaseDataDto caze = FacadeProvider.getCaseFacade().getCaseDataByUuid(sampleCriteria.getCaze().getUuid());
+				boolean isEnabled = caze != null && YesNo.YES == caze.getCsfSampleCollected();
+				createButton.setEnabled(isEnabled);
+				if (!isEnabled) {
+					createButton.setDescription(I18nProperties.getCaption(Captions.sampleSelectYesForCsfCollected));
+				}
+			}
 		}
 		addComponent(sampleList);
 		sampleList.reload();

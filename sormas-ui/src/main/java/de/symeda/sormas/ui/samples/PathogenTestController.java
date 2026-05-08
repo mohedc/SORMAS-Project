@@ -29,7 +29,6 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import de.symeda.sormas.api.DiseaseHelper;
-import de.symeda.sormas.api.event.EventReferenceDto;
 import de.symeda.sormas.api.sample.PathogenTestType;
 import de.symeda.sormas.ui.utils.ViewMode;
 import org.apache.commons.collections4.CollectionUtils;
@@ -79,6 +78,31 @@ public class PathogenTestController {
 	public PathogenTestController() {
 	}
 
+	/**
+	 * Disease for {@linkplain de.symeda.sormas.api.utils.fieldvisibility.FieldVisibilityCheckers}
+	 * when building {@link PathogenTestForm}: prefer case / contact / event disease from the sample (matches create flow),
+	 * not only {@link PathogenTestDto#getTestedDisease()}, so CSM-specific fields resolve on edit when tested disease is unset.
+	 */
+	private static Disease resolveDiseaseForPathogenTestFieldVisibility(SampleDto sampleDto) {
+		if (sampleDto == null) {
+			return null;
+		}
+		if (sampleDto.getAssociatedCase() != null) {
+			return FacadeProvider.getCaseFacade().getByUuid(sampleDto.getAssociatedCase().getUuid()).getDisease();
+		}
+		if (sampleDto.getAssociatedEventParticipant() != null) {
+			EventParticipantDto eventParticipant =
+				FacadeProvider.getEventParticipantFacade().getEventParticipantByUuid(sampleDto.getAssociatedEventParticipant().getUuid());
+			EventDto participantEvent =
+				FacadeProvider.getEventFacade().getEventByUuid(eventParticipant.getEvent().getUuid(), false);
+			return participantEvent.getDisease();
+		}
+		if (sampleDto.getAssociatedContact() != null) {
+			return FacadeProvider.getContactFacade().getByUuid(sampleDto.getAssociatedContact().getUuid()).getDisease();
+		}
+		return null;
+	}
+
 	public List<PathogenTestDto> getPathogenTestsBySample(SampleReferenceDto sampleRef) {
 		return facade.getAllBySample(sampleRef);
 	}
@@ -122,21 +146,7 @@ public class PathogenTestController {
 		Consumer<PathogenTestDto> onSavedPathogenTest,
 		boolean suppressNavigateToCase) {
 		// Pathogen tests can be created for a sample that is associated with a case, event participant or contact.
-		Disease associatedEventOrCaseOrContactDisease = null;
-		if (sampleDto.getAssociatedCase() != null) {
-			CaseDataDto caseDataDto = FacadeProvider.getCaseFacade().getByUuid(sampleDto.getAssociatedCase().getUuid());
-			associatedEventOrCaseOrContactDisease = caseDataDto.getDisease();
-		}
-		if (associatedEventOrCaseOrContactDisease == null && sampleDto.getAssociatedEventParticipant() != null) {
-			EventParticipantDto eventParticipant = FacadeProvider.getEventParticipantFacade().getEventParticipantByUuid(sampleDto.getAssociatedEventParticipant().getUuid());
-			EventReferenceDto eventDto = eventParticipant.getEvent();
-			EventDto participantEvent = FacadeProvider.getEventFacade().getEventByUuid(eventDto.getUuid(), false);
-			associatedEventOrCaseOrContactDisease = participantEvent.getDisease();
-		}
-		if (associatedEventOrCaseOrContactDisease == null && sampleDto.getAssociatedContact() != null) {
-			ContactDto contact = FacadeProvider.getContactFacade().getByUuid(sampleDto.getAssociatedContact().getUuid());
-			associatedEventOrCaseOrContactDisease = contact.getDisease();
-		}
+		Disease associatedEventOrCaseOrContactDisease = resolveDiseaseForPathogenTestFieldVisibility(sampleDto);
 		PathogenTestForm createForm = new PathogenTestForm(sampleDto, true, caseSampleCount, false, true, associatedEventOrCaseOrContactDisease); // Valid because jurisdiction doesn't matter for entities that are about to be created
 		// Defaulting the case disease as tested disease
 		// For IDSR, tested disease must be the sample suspected disease
@@ -218,7 +228,11 @@ public class PathogenTestController {
 		final PathogenTestForm form;
 		if (forHumanSample) {
 			SampleDto sample = FacadeProvider.getSampleFacade().getSampleByUuid(pathogenTest.getSample().getUuid());
-			form = new PathogenTestForm(sample, false, 0, pathogenTest.isPseudonymized(), pathogenTest.isInJurisdiction(), pathogenTest.getTestedDisease());
+			Disease fieldVisibilityDisease = resolveDiseaseForPathogenTestFieldVisibility(sample);
+			if (fieldVisibilityDisease == null) {
+				fieldVisibilityDisease = pathogenTest.getTestedDisease();
+			}
+			form = new PathogenTestForm(sample, false, 0, pathogenTest.isPseudonymized(), pathogenTest.isInJurisdiction(), fieldVisibilityDisease);
 		} else {
 			EnvironmentSampleDto environmentSample =
 				FacadeProvider.getEnvironmentSampleFacade().getByUuid(pathogenTest.getEnvironmentSample().getUuid());

@@ -26,20 +26,7 @@ import java.sql.Timestamp;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Function;
@@ -3314,6 +3301,11 @@ public class CaseFacadeEjb extends AbstractCoreFacadeEjb<Case, CaseDataDto, Case
 		target.setHib2Date(source.getHib2Date());
 		target.setHib3(source.getHib3());
 		target.setHib3Date(source.getHib3Date());
+		target.setCsfSampleCollected(source.getCsfSampleCollected());
+		if (source.getLpNotDoneReason() != null) {
+			target.setLpNotDoneReason(new HashSet<>(source.getLpNotDoneReason()));
+		}
+		target.setLpNotDoneReasonOther(source.getLpNotDoneReasonOther());
 		target.setHealthWorkerCompletingForm(source.getHealthWorkerCompletingForm());
 		target.setNotifiedByText(source.getNotifiedByText());
 		target.setFinalClassification(source.getFinalClassification());
@@ -3613,6 +3605,9 @@ public class CaseFacadeEjb extends AbstractCoreFacadeEjb<Case, CaseDataDto, Case
 		target.setHib2Date(source.getHib2Date());
 		target.setHib3(source.getHib3());
 		target.setHib3Date(source.getHib3Date());
+		target.setCsfSampleCollected(source.getCsfSampleCollected());
+		target.setLpNotDoneReason(source.getLpNotDoneReason());
+		target.setLpNotDoneReasonOther(source.getLpNotDoneReasonOther());
 		target.setHealthWorkerCompletingForm(source.getHealthWorkerCompletingForm());
 		target.setNotifiedByText(source.getNotifiedByText());
 		target.setFinalClassification(source.getFinalClassification());

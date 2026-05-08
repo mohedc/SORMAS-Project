@@ -2820,6 +2820,7 @@ public interface Captions {
 	String SampleExport_wbcCount = "SampleExport.wbcCount";
 	String sampleIncludeTestOnCreation = "sampleIncludeTestOnCreation";
 	String sampleNewSample = "sampleNewSample";
+	String sampleSelectYesForCsfCollected = "sampleSelectYesForCsfCollected";
 	String sampleNoSamplesForCase = "sampleNoSamplesForCase";
 	String sampleNoSamplesForContact = "sampleNoSamplesForContact";
 	String sampleNoSamplesForEventParticipant = "sampleNoSamplesForEventParticipant";

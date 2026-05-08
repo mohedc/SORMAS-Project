@@ -242,7 +242,7 @@ public class Sample extends PseudonymizableAdo {
 	@Enumerated(EnumType.STRING)
 	private SpecimenCondition sampleConditionAtReception;
 	@Enumerated(EnumType.STRING)
-	private CsfAppearance csfAppearanceAtCollection;
+	private Set<CsfAppearance> csfAppearanceAtCollection;
 	@Enumerated(EnumType.STRING)
 	private CsfAppearance csfAppearanceAtReception;
 
@@ -1025,11 +1025,11 @@ public class Sample extends PseudonymizableAdo {
 		this.sampleConditionAtReception = sampleConditionAtReception;
 	}
 
-	public CsfAppearance getCsfAppearanceAtCollection() {
+	public Set<CsfAppearance> getCsfAppearanceAtCollection() {
 		return csfAppearanceAtCollection;
 	}
 
-	public void setCsfAppearanceAtCollection(CsfAppearance csfAppearanceAtCollection) {
+	public void setCsfAppearanceAtCollection(Set<CsfAppearance> csfAppearanceAtCollection) {
 		this.csfAppearanceAtCollection = csfAppearanceAtCollection;
 	}
 

@@ -96,12 +96,14 @@ import de.symeda.sormas.api.infrastructure.region.RegionReferenceDto;
 import de.symeda.sormas.api.person.PersonDto;
 import de.symeda.sormas.api.sample.PathogenTestDto;
 import de.symeda.sormas.api.sample.SampleDto;
+import de.symeda.sormas.api.sample.LpNotDoneReason;
 import de.symeda.sormas.api.symptoms.SymptomsDto;
 import de.symeda.sormas.api.user.JurisdictionLevel;
 import de.symeda.sormas.api.user.UserRight;
 import de.symeda.sormas.api.utils.DataHelper;
 import de.symeda.sormas.api.utils.DateHelper;
 import de.symeda.sormas.api.utils.ExtendedReduced;
+import de.symeda.sormas.api.utils.YesNo;
 import de.symeda.sormas.api.utils.YesNoUnknown;
 import de.symeda.sormas.api.utils.fieldaccess.UiFieldAccessCheckers;
 import de.symeda.sormas.api.utils.fieldvisibility.FieldVisibilityCheckers;
@@ -174,6 +176,7 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 	private static final String MOTHER_VACCINATION_HEADING_LOC = "motherVaccinationHeadingLoc";
 	private static final String VACCINE_TYPE_HEADING_LOC = "vaccineTypeHeadingLoc";
 	private static final String MENINGITIS_NOTIFICATION_HEADING_LOC = "meningitisNotificationHeadingLoc";
+	private static final String SAMPLE_COLLECTION_INFORMATION_HEADING_LOC = "sampleCollectionInformationHeadingLoc";
 
 	//@formatter:off
 	private static final String MAIN_HTML_LAYOUT =
@@ -472,8 +475,13 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 				fluidRowLocs(CaseDataDto.PERSON_TELEPHONE, CaseDataDto.DATE_FORM_SENT_TO_DISTRICT) +
 				fluidRowLocs(CaseDataDto.DATE_FORM_RECEIVED_AT_DISTRICT, CaseDataDto.DATE_FORM_SENT_TO_REGION) +
 				fluidRowLocs(CaseDataDto.DATE_FORM_RECEIVED_AT_REGION, CaseDataDto.DATE_FORM_SENT_TO_NATIONAL) +
-				fluidRowLocs(CaseDataDto.DATE_FORM_RECEIVED_AT_NATIONAL, "");
-
+				fluidRowLocs(CaseDataDto.DATE_FORM_RECEIVED_AT_NATIONAL, "") +
+				loc(SAMPLE_COLLECTION_INFORMATION_HEADING_LOC) +
+				locCss(VSPACE_TOP_3, CaseDataDto.CSF_SAMPLE_COLLECTED) +
+				fluidRowLocs(CaseDataDto.LP_NOT_DONE_REASON) +
+				fluidRowLocs(CaseDataDto.LP_NOT_DONE_REASON_OTHER);
+// CSF Sample Collected? [Yes, No] here
+				
 	private static final String NNT_LAYOUT =
 			fluidRowLocs(4, CaseDataDto.UUID, 3, CaseDataDto.REPORT_DATE, 3, CaseDataDto.REPORTING_USER, 2, "") +
 					inlineLocs(CaseDataDto.CASE_CLASSIFICATION, CLASSIFICATION_RULES_LOC, CASE_CONFIRMATION_BASIS, CASE_CLASSIFICATION_CALCULATE_BTN_LOC) +
@@ -686,6 +694,7 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 		createLabel(I18nProperties.getString(Strings.headingMotherVaccination), H3, MOTHER_VACCINATION_HEADING_LOC);
 		createLabel(I18nProperties.getCaption(Strings.HeadingVaccineType), H3, VACCINE_TYPE_HEADING_LOC);
 		createLabel(I18nProperties.getCaption(Captions.CaseData_notification), H3, MENINGITIS_NOTIFICATION_HEADING_LOC);
+		createLabel("Sample Collection Information.", H3, SAMPLE_COLLECTION_INFORMATION_HEADING_LOC);
 
 		Label caseDataHeadingLabel = new Label(I18nProperties.getString(Strings.headingCaseData));
 		caseDataHeadingLabel.addStyleName(H3);
@@ -1318,6 +1327,15 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 		addField(CaseDataDto.DATE_FORM_RECEIVED_AT_REGION, DateField.class);
 		addField(CaseDataDto.DATE_FORM_SENT_TO_NATIONAL, DateField.class);
 		addField(CaseDataDto.DATE_FORM_RECEIVED_AT_NATIONAL, DateField.class);
+		NullableOptionGroup csfSampleCollected = addField(CaseDataDto.CSF_SAMPLE_COLLECTED, NullableOptionGroup.class);
+		OptionGroup lpNotDoneReason = addField(CaseDataDto.LP_NOT_DONE_REASON, OptionGroup.class);
+		CssStyles.style(lpNotDoneReason, CssStyles.OPTIONGROUP_CHECKBOXES_HORIZONTAL);
+		lpNotDoneReason.setMultiSelect(true);
+		lpNotDoneReason.addItems(
+			Arrays.stream(LpNotDoneReason.values())
+				.filter(c -> fieldVisibilityCheckers.isVisible(LpNotDoneReason.class, c.name()))
+				.collect(Collectors.toList()));
+		TextField lpNotDoneReasonOther = addField(CaseDataDto.LP_NOT_DONE_REASON_OTHER, TextField.class);
 
 		addField(CaseDataDto.PERSON_FULLNAME, TextField.class);
 		addField(CaseDataDto.PERSON_TELEPHONE, TextField.class);
@@ -1357,6 +1375,34 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 			FieldHelper.setVisibleWhen(getFieldGroup(), CaseDataDto.HIB_I_DATE, CaseDataDto.HIB_I, Arrays.asList(YesNoUnknown.YES), true);
 			FieldHelper.setVisibleWhen(getFieldGroup(), CaseDataDto.HIB_2_DATE, CaseDataDto.HIB_2, Arrays.asList(YesNoUnknown.YES), true);
 			FieldHelper.setVisibleWhen(getFieldGroup(), CaseDataDto.HIB_3_DATE, CaseDataDto.HIB_3, Arrays.asList(YesNoUnknown.YES), true);
+			FieldHelper.setVisibleWhen(
+				getFieldGroup(),
+				Arrays.asList(CaseDataDto.LP_NOT_DONE_REASON),
+				CaseDataDto.CSF_SAMPLE_COLLECTED,
+				Arrays.asList(YesNo.NO),
+				true);
+			csfSampleCollected.addValueChangeListener(e -> {
+				Object rawValue = e.getProperty().getValue();
+				YesNo value = rawValue instanceof YesNo ? (YesNo) rawValue : null;
+				if (!YesNo.NO.equals(value)) {
+					lpNotDoneReason.setValue(null);
+					lpNotDoneReasonOther.setValue(null);
+					lpNotDoneReasonOther.setVisible(false);
+				}
+			});
+			lpNotDoneReason.addValueChangeListener(e -> {
+				@SuppressWarnings("unchecked")
+				boolean showOther = e.getProperty().getValue() != null
+					&& ((java.util.Set<LpNotDoneReason>) e.getProperty().getValue()).contains(LpNotDoneReason.OTHER);
+				lpNotDoneReasonOther.setVisible(showOther);
+				if (!showOther) {
+					lpNotDoneReasonOther.setValue(null);
+				}
+			});
+			@SuppressWarnings("unchecked")
+			boolean showLpOther = lpNotDoneReason.getValue() != null
+				&& ((java.util.Set<LpNotDoneReason>) lpNotDoneReason.getValue()).contains(LpNotDoneReason.OTHER);
+			lpNotDoneReasonOther.setVisible(showLpOther);
 
 			// Set required status for vaccination fields when visible (for Meningitis)
 			FieldHelper.setRequiredWhen(

@@ -45,6 +45,7 @@ import de.symeda.sormas.api.caze.*;
 import de.symeda.sormas.api.caze.caseimport.MotherVaccinationStatus;
 import de.symeda.sormas.api.infrastructure.region.RegionReferenceDto;
 import de.symeda.sormas.api.sample.FinalClassification;
+import de.symeda.sormas.api.sample.LpNotDoneReason;
 import de.symeda.sormas.api.utils.*;
 import de.symeda.sormas.backend.afpimmunization.AfpImmunization;
 import de.symeda.sormas.backend.response.Response;
@@ -503,6 +504,9 @@ public class Case extends CoreAdo implements IsCase, SormasToSormasShareable, Ha
 	private Date hib2Date;
 	private YesNoUnknown hib3;
 	private Date hib3Date;
+	private YesNo csfSampleCollected;
+	private Set<LpNotDoneReason> lpNotDoneReason;
+	private String lpNotDoneReasonOther;
 	private String healthWorkerCompletingForm;
 	private String notifiedByText;
 	private FinalClassification finalClassification;
@@ -2502,6 +2506,34 @@ public class Case extends CoreAdo implements IsCase, SormasToSormasShareable, Ha
 
 	public void setHib3Date(Date hib3Date) {
 		this.hib3Date = hib3Date;
+	}
+
+	@Enumerated(EnumType.STRING)
+	public YesNo getCsfSampleCollected() {
+		return csfSampleCollected;
+	}
+
+	public void setCsfSampleCollected(YesNo csfSampleCollected) {
+		this.csfSampleCollected = csfSampleCollected;
+	}
+
+	@Type(type = ModelConstants.HIBERNATE_TYPE_JSON)
+	@Column(columnDefinition = ModelConstants.COLUMN_DEFINITION_JSON)
+	public Set<LpNotDoneReason> getLpNotDoneReason() {
+		return lpNotDoneReason;
+	}
+
+	public void setLpNotDoneReason(Set<LpNotDoneReason> lpNotDoneReason) {
+		this.lpNotDoneReason = lpNotDoneReason;
+	}
+
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	public String getLpNotDoneReasonOther() {
+		return lpNotDoneReasonOther;
+	}
+
+	public void setLpNotDoneReasonOther(String lpNotDoneReasonOther) {
+		this.lpNotDoneReasonOther = lpNotDoneReasonOther;
 	}
 
 	@Column(length = CHARACTER_LIMIT_DEFAULT)
