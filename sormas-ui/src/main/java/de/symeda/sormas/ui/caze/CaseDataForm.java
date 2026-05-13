@@ -456,20 +456,20 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 //					fluidRowLocs(TYPE_GROUP_LOC, CaseDataDto.FACILITY_TYPE) +
 					fluidRowLocs(CaseDataDto.HEALTH_FACILITY, CaseDataDto.HEALTH_FACILITY_DETAILS) +
 				loc(ADDITIONAL_MEDICAL_INFORMATION) +
-				fluidRowLocs(CaseDataDto.VACCINATED, CaseDataDto.VACCINATION_RECORD_TYPE) +
+				fluidRowLocs(CaseDataDto.VACCINATED, "") +
 				// fluidRowLocs(CaseDataDto.NUMBER_OF_VACCINATION_DOSES, CaseDataDto.LAST_VACCINATION_DATE) +
 				// fluidRowLocs(CaseDataDto.VACCINE_TYPE, CaseDataDto.HEALTH_WORKER_COMPLETING_FORM) +
 				loc(VACCINE_TYPE_HEADING_LOC) +
-				fluidRowLocs(CaseDataDto.MENAC, CaseDataDto.MENAC_DATE) +
-				fluidRowLocs(CaseDataDto.MENACW, CaseDataDto.MENACW_DATE) +
-				fluidRowLocs(CaseDataDto.MENACWY, CaseDataDto.MENACWY_DATE) +
-				fluidRowLocs(CaseDataDto.MENA_CONJUNATE, CaseDataDto.MENA_CONJUNATE_DATE) +
-				fluidRowLocs(CaseDataDto.PCVI3_I, CaseDataDto.PCVI3_I_DATE) +
-				fluidRowLocs(CaseDataDto.PCVI3_2, CaseDataDto.PCVI3_2_DATE) +
-				fluidRowLocs(CaseDataDto.PCV13_3, CaseDataDto.PCV13_3_DATE) +
-				fluidRowLocs(CaseDataDto.HIB_I, CaseDataDto.HIB_I_DATE) +
-				fluidRowLocs(CaseDataDto.HIB_2, CaseDataDto.HIB_2_DATE) +
-				fluidRowLocs(CaseDataDto.HIB_3, CaseDataDto.HIB_3_DATE) +
+				fluidRowLocs(4, CaseDataDto.MENAC, 4, CaseDataDto.MENAC_DATE, 4, CaseDataDto.MENAC_SOURCE_OF_VACCINATION) +
+				fluidRowLocs(4, CaseDataDto.MENACW, 4, CaseDataDto.MENACW_DATE, 4, CaseDataDto.MENACW_SOURCE_OF_VACCINATION) +
+				fluidRowLocs(4, CaseDataDto.MENACWY, 4, CaseDataDto.MENACWY_DATE, 4, CaseDataDto.MENACWY_SOURCE_OF_VACCINATION) +
+				fluidRowLocs(4, CaseDataDto.MENA_CONJUNATE, 4, CaseDataDto.MENA_CONJUNATE_DATE, 4, CaseDataDto.MENA_CONJUNATE_SOURCE_OF_VACCINATION) +
+				fluidRowLocs(4, CaseDataDto.PCVI3_I, 4, CaseDataDto.PCVI3_I_DATE, 4, CaseDataDto.PCVI3_I_SOURCE_OF_VACCINATION) +
+				fluidRowLocs(4, CaseDataDto.PCVI3_2, 4, CaseDataDto.PCVI3_2_DATE, 4, CaseDataDto.PCVI3_2_SOURCE_OF_VACCINATION) +
+				fluidRowLocs(4, CaseDataDto.PCV13_3, 4, CaseDataDto.PCV13_3_DATE, 4, CaseDataDto.PCV13_3_SOURCE_OF_VACCINATION) +
+				fluidRowLocs(4, CaseDataDto.HIB_I, 4, CaseDataDto.HIB_I_DATE, 4, CaseDataDto.HIB_I_SOURCE_OF_VACCINATION) +
+				fluidRowLocs(4, CaseDataDto.HIB_2, 4, CaseDataDto.HIB_2_DATE, 4, CaseDataDto.HIB_2_SOURCE_OF_VACCINATION) +
+				fluidRowLocs(4, CaseDataDto.HIB_3, 4, CaseDataDto.HIB_3_DATE, 4, CaseDataDto.HIB_3_SOURCE_OF_VACCINATION) +
 				loc(MENINGITIS_NOTIFICATION_HEADING_LOC) +
 				fluidRowLocs(CaseDataDto.DISTRICT_NOTIFICATION_DATE, CaseDataDto.PERSON_FULLNAME) +
 				fluidRowLocs(CaseDataDto.PERSON_TELEPHONE, CaseDataDto.DATE_FORM_SENT_TO_DISTRICT) +
@@ -1288,24 +1288,54 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 		FieldHelper.updateEnumData(vaccineTypeCombo, Arrays.asList(VaccineType.values()));
 		addField(CaseDataDto.MENAC, NullableOptionGroup.class);
 		addField(CaseDataDto.MENAC_DATE, DateField.class);
+		ComboBox menacSourceOfVaccination = addField(CaseDataDto.MENAC_SOURCE_OF_VACCINATION, ComboBox.class);
+		menacSourceOfVaccination.setNullSelectionAllowed(true);
+		FieldHelper.updateEnumData(menacSourceOfVaccination, Arrays.asList(MeningitisVaccinationSource.values()));
 		addField(CaseDataDto.MENACW, NullableOptionGroup.class);
 		addField(CaseDataDto.MENACW_DATE, DateField.class);
+		ComboBox menacwSourceOfVaccination = addField(CaseDataDto.MENACW_SOURCE_OF_VACCINATION, ComboBox.class);
+		menacwSourceOfVaccination.setNullSelectionAllowed(true);
+		FieldHelper.updateEnumData(menacwSourceOfVaccination, Arrays.asList(MeningitisVaccinationSource.values()));
 		addField(CaseDataDto.MENACWY, NullableOptionGroup.class);
 		addField(CaseDataDto.MENACWY_DATE, DateField.class);
+		ComboBox menacwySourceOfVaccination = addField(CaseDataDto.MENACWY_SOURCE_OF_VACCINATION, ComboBox.class);
+		menacwySourceOfVaccination.setNullSelectionAllowed(true);
+		FieldHelper.updateEnumData(menacwySourceOfVaccination, Arrays.asList(MeningitisVaccinationSource.values()));
 		addField(CaseDataDto.MENA_CONJUNATE, NullableOptionGroup.class);
 		addField(CaseDataDto.MENA_CONJUNATE_DATE, DateField.class);
+		ComboBox menaConjunateSourceOfVaccination = addField(CaseDataDto.MENA_CONJUNATE_SOURCE_OF_VACCINATION, ComboBox.class);
+		menaConjunateSourceOfVaccination.setNullSelectionAllowed(true);
+		FieldHelper.updateEnumData(menaConjunateSourceOfVaccination, Arrays.asList(MeningitisVaccinationSource.values()));
 		addField(CaseDataDto.PCVI3_I, NullableOptionGroup.class);
 		addField(CaseDataDto.PCVI3_I_DATE, DateField.class);
+		ComboBox pcvi3ISourceOfVaccination = addField(CaseDataDto.PCVI3_I_SOURCE_OF_VACCINATION, ComboBox.class);
+		pcvi3ISourceOfVaccination.setNullSelectionAllowed(true);
+		FieldHelper.updateEnumData(pcvi3ISourceOfVaccination, Arrays.asList(MeningitisVaccinationSource.values()));
 		addField(CaseDataDto.PCVI3_2, NullableOptionGroup.class);
 		addField(CaseDataDto.PCVI3_2_DATE, DateField.class);
+		ComboBox pcvi3_2SourceOfVaccination = addField(CaseDataDto.PCVI3_2_SOURCE_OF_VACCINATION, ComboBox.class);
+		pcvi3_2SourceOfVaccination.setNullSelectionAllowed(true);
+		FieldHelper.updateEnumData(pcvi3_2SourceOfVaccination, Arrays.asList(MeningitisVaccinationSource.values()));
 		addField(CaseDataDto.PCV13_3, NullableOptionGroup.class);
 		addField(CaseDataDto.PCV13_3_DATE, DateField.class);
+		ComboBox pcv13_3SourceOfVaccination = addField(CaseDataDto.PCV13_3_SOURCE_OF_VACCINATION, ComboBox.class);
+		pcv13_3SourceOfVaccination.setNullSelectionAllowed(true);
+		FieldHelper.updateEnumData(pcv13_3SourceOfVaccination, Arrays.asList(MeningitisVaccinationSource.values()));
 		addField(CaseDataDto.HIB_I, NullableOptionGroup.class);
 		addField(CaseDataDto.HIB_I_DATE, DateField.class);
+		ComboBox hibISourceOfVaccination = addField(CaseDataDto.HIB_I_SOURCE_OF_VACCINATION, ComboBox.class);
+		hibISourceOfVaccination.setNullSelectionAllowed(true);
+		FieldHelper.updateEnumData(hibISourceOfVaccination, Arrays.asList(MeningitisVaccinationSource.values()));
 		addField(CaseDataDto.HIB_2, NullableOptionGroup.class);
 		addField(CaseDataDto.HIB_2_DATE, DateField.class);
+		ComboBox hib2SourceOfVaccination = addField(CaseDataDto.HIB_2_SOURCE_OF_VACCINATION, ComboBox.class);
+		hib2SourceOfVaccination.setNullSelectionAllowed(true);
+		FieldHelper.updateEnumData(hib2SourceOfVaccination, Arrays.asList(MeningitisVaccinationSource.values()));
 		addField(CaseDataDto.HIB_3, NullableOptionGroup.class);
 		addField(CaseDataDto.HIB_3_DATE, DateField.class);
+		ComboBox hib3SourceOfVaccination = addField(CaseDataDto.HIB_3_SOURCE_OF_VACCINATION, ComboBox.class);
+		hib3SourceOfVaccination.setNullSelectionAllowed(true);
+		FieldHelper.updateEnumData(hib3SourceOfVaccination, Arrays.asList(MeningitisVaccinationSource.values()));
 		configurePrefixedDateCaption(CaseDataDto.MENAC, CaseDataDto.MENAC_DATE);
 		configurePrefixedDateCaption(CaseDataDto.MENACW, CaseDataDto.MENACW_DATE);
 		configurePrefixedDateCaption(CaseDataDto.MENACWY, CaseDataDto.MENACWY_DATE);
@@ -1316,6 +1346,16 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 		configurePrefixedDateCaption(CaseDataDto.HIB_I, CaseDataDto.HIB_I_DATE);
 		configurePrefixedDateCaption(CaseDataDto.HIB_2, CaseDataDto.HIB_2_DATE);
 		configurePrefixedDateCaption(CaseDataDto.HIB_3, CaseDataDto.HIB_3_DATE);
+		configureVaccineSourceCaption(CaseDataDto.MENAC, CaseDataDto.MENAC_SOURCE_OF_VACCINATION);
+		configureVaccineSourceCaption(CaseDataDto.MENACW, CaseDataDto.MENACW_SOURCE_OF_VACCINATION);
+		configureVaccineSourceCaption(CaseDataDto.MENACWY, CaseDataDto.MENACWY_SOURCE_OF_VACCINATION);
+		configureVaccineSourceCaption(CaseDataDto.MENA_CONJUNATE, CaseDataDto.MENA_CONJUNATE_SOURCE_OF_VACCINATION);
+		configureVaccineSourceCaption(CaseDataDto.PCVI3_I, CaseDataDto.PCVI3_I_SOURCE_OF_VACCINATION);
+		configureVaccineSourceCaption(CaseDataDto.PCVI3_2, CaseDataDto.PCVI3_2_SOURCE_OF_VACCINATION);
+		configureVaccineSourceCaption(CaseDataDto.PCV13_3, CaseDataDto.PCV13_3_SOURCE_OF_VACCINATION);
+		configureVaccineSourceCaption(CaseDataDto.HIB_I, CaseDataDto.HIB_I_SOURCE_OF_VACCINATION);
+		configureVaccineSourceCaption(CaseDataDto.HIB_2, CaseDataDto.HIB_2_SOURCE_OF_VACCINATION);
+		configureVaccineSourceCaption(CaseDataDto.HIB_3, CaseDataDto.HIB_3_SOURCE_OF_VACCINATION);
 		addField(CaseDataDto.HEALTH_WORKER_COMPLETING_FORM, TextField.class);
 
 		// Add field for "At least one yellow fever dose"
@@ -1375,6 +1415,16 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 			FieldHelper.setVisibleWhen(getFieldGroup(), CaseDataDto.HIB_I_DATE, CaseDataDto.HIB_I, Arrays.asList(YesNoUnknown.YES), true);
 			FieldHelper.setVisibleWhen(getFieldGroup(), CaseDataDto.HIB_2_DATE, CaseDataDto.HIB_2, Arrays.asList(YesNoUnknown.YES), true);
 			FieldHelper.setVisibleWhen(getFieldGroup(), CaseDataDto.HIB_3_DATE, CaseDataDto.HIB_3, Arrays.asList(YesNoUnknown.YES), true);
+			FieldHelper.setVisibleWhen(getFieldGroup(), CaseDataDto.MENAC_SOURCE_OF_VACCINATION, CaseDataDto.MENAC, Arrays.asList(YesNoUnknown.YES), true);
+			FieldHelper.setVisibleWhen(getFieldGroup(), CaseDataDto.MENACW_SOURCE_OF_VACCINATION, CaseDataDto.MENACW, Arrays.asList(YesNoUnknown.YES), true);
+			FieldHelper.setVisibleWhen(getFieldGroup(), CaseDataDto.MENACWY_SOURCE_OF_VACCINATION, CaseDataDto.MENACWY, Arrays.asList(YesNoUnknown.YES), true);
+			FieldHelper.setVisibleWhen(getFieldGroup(), CaseDataDto.MENA_CONJUNATE_SOURCE_OF_VACCINATION, CaseDataDto.MENA_CONJUNATE, Arrays.asList(YesNoUnknown.YES), true);
+			FieldHelper.setVisibleWhen(getFieldGroup(), CaseDataDto.PCVI3_I_SOURCE_OF_VACCINATION, CaseDataDto.PCVI3_I, Arrays.asList(YesNoUnknown.YES), true);
+			FieldHelper.setVisibleWhen(getFieldGroup(), CaseDataDto.PCVI3_2_SOURCE_OF_VACCINATION, CaseDataDto.PCVI3_2, Arrays.asList(YesNoUnknown.YES), true);
+			FieldHelper.setVisibleWhen(getFieldGroup(), CaseDataDto.PCV13_3_SOURCE_OF_VACCINATION, CaseDataDto.PCV13_3, Arrays.asList(YesNoUnknown.YES), true);
+			FieldHelper.setVisibleWhen(getFieldGroup(), CaseDataDto.HIB_I_SOURCE_OF_VACCINATION, CaseDataDto.HIB_I, Arrays.asList(YesNoUnknown.YES), true);
+			FieldHelper.setVisibleWhen(getFieldGroup(), CaseDataDto.HIB_2_SOURCE_OF_VACCINATION, CaseDataDto.HIB_2, Arrays.asList(YesNoUnknown.YES), true);
+			FieldHelper.setVisibleWhen(getFieldGroup(), CaseDataDto.HIB_3_SOURCE_OF_VACCINATION, CaseDataDto.HIB_3, Arrays.asList(YesNoUnknown.YES), true);
 			FieldHelper.setVisibleWhen(
 				getFieldGroup(),
 				Arrays.asList(CaseDataDto.LP_NOT_DONE_REASON),
@@ -2115,6 +2165,14 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 		Field<?> dateField = getField(dateFieldName);
 		if (vaccineField != null && dateField != null) {
 			dateField.setCaption(vaccineField.getCaption() + " Date");
+		}
+	}
+
+	private void configureVaccineSourceCaption(String vaccineFieldName, String sourceFieldName) {
+		Field<?> vaccineField = getField(vaccineFieldName);
+		Field<?> sourceField = getField(sourceFieldName);
+		if (vaccineField != null && sourceField != null) {
+			sourceField.setCaption(vaccineField.getCaption() + " Source of Vaccination");
 		}
 	}
 

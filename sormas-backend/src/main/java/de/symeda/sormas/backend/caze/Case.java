@@ -486,24 +486,34 @@ public class Case extends CoreAdo implements IsCase, SormasToSormasShareable, Ha
 	private VaccineType vaccineType;
 	private YesNoUnknown menac;
 	private Date menacDate;
+	private MeningitisVaccinationSource menacSourceOfVaccination;
 	private YesNoUnknown menacw;
 	private Date menacwDate;
+	private MeningitisVaccinationSource menacwSourceOfVaccination;
 	private YesNoUnknown menacwy;
 	private Date menacwyDate;
+	private MeningitisVaccinationSource menacwySourceOfVaccination;
 	private YesNoUnknown menaConjunate;
 	private Date menaConjunateDate;
+	private MeningitisVaccinationSource menaConjunateSourceOfVaccination;
 	private YesNoUnknown pcvi3I;
 	private Date pcvi3IDate;
+	private MeningitisVaccinationSource pcvi3ISourceOfVaccination;
 	private YesNoUnknown pcvi3_2;
 	private Date pcvi3_2Date;
+	private MeningitisVaccinationSource pcvi3_2SourceOfVaccination;
 	private YesNoUnknown pcv13_3;
 	private Date pcv13_3Date;
+	private MeningitisVaccinationSource pcv13_3SourceOfVaccination;
 	private YesNoUnknown hibI;
 	private Date hibIDate;
+	private MeningitisVaccinationSource hibISourceOfVaccination;
 	private YesNoUnknown hib2;
 	private Date hib2Date;
+	private MeningitisVaccinationSource hib2SourceOfVaccination;
 	private YesNoUnknown hib3;
 	private Date hib3Date;
+	private MeningitisVaccinationSource hib3SourceOfVaccination;
 	private YesNo csfSampleCollected;
 	private Set<LpNotDoneReason> lpNotDoneReason;
 	private String lpNotDoneReasonOther;
@@ -2347,6 +2357,15 @@ public class Case extends CoreAdo implements IsCase, SormasToSormasShareable, Ha
 	}
 
 	@Enumerated(EnumType.STRING)
+	public MeningitisVaccinationSource getMenacSourceOfVaccination() {
+		return menacSourceOfVaccination;
+	}
+
+	public void setMenacSourceOfVaccination(MeningitisVaccinationSource menacSourceOfVaccination) {
+		this.menacSourceOfVaccination = menacSourceOfVaccination;
+	}
+
+	@Enumerated(EnumType.STRING)
 	public YesNoUnknown getMenacw() {
 		return menacw;
 	}
@@ -2362,6 +2381,15 @@ public class Case extends CoreAdo implements IsCase, SormasToSormasShareable, Ha
 
 	public void setMenacwDate(Date menacwDate) {
 		this.menacwDate = menacwDate;
+	}
+
+	@Enumerated(EnumType.STRING)
+	public MeningitisVaccinationSource getMenacwSourceOfVaccination() {
+		return menacwSourceOfVaccination;
+	}
+
+	public void setMenacwSourceOfVaccination(MeningitisVaccinationSource menacwSourceOfVaccination) {
+		this.menacwSourceOfVaccination = menacwSourceOfVaccination;
 	}
 
 	@Enumerated(EnumType.STRING)
@@ -2383,6 +2411,15 @@ public class Case extends CoreAdo implements IsCase, SormasToSormasShareable, Ha
 	}
 
 	@Enumerated(EnumType.STRING)
+	public MeningitisVaccinationSource getMenacwySourceOfVaccination() {
+		return menacwySourceOfVaccination;
+	}
+
+	public void setMenacwySourceOfVaccination(MeningitisVaccinationSource menacwySourceOfVaccination) {
+		this.menacwySourceOfVaccination = menacwySourceOfVaccination;
+	}
+
+	@Enumerated(EnumType.STRING)
 	public YesNoUnknown getMenaConjunate() {
 		return menaConjunate;
 	}
@@ -2398,6 +2435,15 @@ public class Case extends CoreAdo implements IsCase, SormasToSormasShareable, Ha
 
 	public void setMenaConjunateDate(Date menaConjunateDate) {
 		this.menaConjunateDate = menaConjunateDate;
+	}
+
+	@Enumerated(EnumType.STRING)
+	public MeningitisVaccinationSource getMenaConjunateSourceOfVaccination() {
+		return menaConjunateSourceOfVaccination;
+	}
+
+	public void setMenaConjunateSourceOfVaccination(MeningitisVaccinationSource menaConjunateSourceOfVaccination) {
+		this.menaConjunateSourceOfVaccination = menaConjunateSourceOfVaccination;
 	}
 
 	@Enumerated(EnumType.STRING)
@@ -2419,6 +2465,15 @@ public class Case extends CoreAdo implements IsCase, SormasToSormasShareable, Ha
 	}
 
 	@Enumerated(EnumType.STRING)
+	public MeningitisVaccinationSource getPcvi3ISourceOfVaccination() {
+		return pcvi3ISourceOfVaccination;
+	}
+
+	public void setPcvi3ISourceOfVaccination(MeningitisVaccinationSource pcvi3ISourceOfVaccination) {
+		this.pcvi3ISourceOfVaccination = pcvi3ISourceOfVaccination;
+	}
+
+	@Enumerated(EnumType.STRING)
 	public YesNoUnknown getPcvi3_2() {
 		return pcvi3_2;
 	}
@@ -2434,6 +2489,15 @@ public class Case extends CoreAdo implements IsCase, SormasToSormasShareable, Ha
 
 	public void setPcvi3_2Date(Date pcvi3_2Date) {
 		this.pcvi3_2Date = pcvi3_2Date;
+	}
+
+	@Enumerated(EnumType.STRING)
+	public MeningitisVaccinationSource getPcvi3_2SourceOfVaccination() {
+		return pcvi3_2SourceOfVaccination;
+	}
+
+	public void setPcvi3_2SourceOfVaccination(MeningitisVaccinationSource pcvi3_2SourceOfVaccination) {
+		this.pcvi3_2SourceOfVaccination = pcvi3_2SourceOfVaccination;
 	}
 
 	@Enumerated(EnumType.STRING)
@@ -2455,6 +2519,15 @@ public class Case extends CoreAdo implements IsCase, SormasToSormasShareable, Ha
 	}
 
 	@Enumerated(EnumType.STRING)
+	public MeningitisVaccinationSource getPcv13_3SourceOfVaccination() {
+		return pcv13_3SourceOfVaccination;
+	}
+
+	public void setPcv13_3SourceOfVaccination(MeningitisVaccinationSource pcv13_3SourceOfVaccination) {
+		this.pcv13_3SourceOfVaccination = pcv13_3SourceOfVaccination;
+	}
+
+	@Enumerated(EnumType.STRING)
 	public YesNoUnknown getHibI() {
 		return hibI;
 	}
@@ -2470,6 +2543,15 @@ public class Case extends CoreAdo implements IsCase, SormasToSormasShareable, Ha
 
 	public void setHibIDate(Date hibIDate) {
 		this.hibIDate = hibIDate;
+	}
+
+	@Enumerated(EnumType.STRING)
+	public MeningitisVaccinationSource getHibISourceOfVaccination() {
+		return hibISourceOfVaccination;
+	}
+
+	public void setHibISourceOfVaccination(MeningitisVaccinationSource hibISourceOfVaccination) {
+		this.hibISourceOfVaccination = hibISourceOfVaccination;
 	}
 
 	@Enumerated(EnumType.STRING)
@@ -2491,6 +2573,15 @@ public class Case extends CoreAdo implements IsCase, SormasToSormasShareable, Ha
 	}
 
 	@Enumerated(EnumType.STRING)
+	public MeningitisVaccinationSource getHib2SourceOfVaccination() {
+		return hib2SourceOfVaccination;
+	}
+
+	public void setHib2SourceOfVaccination(MeningitisVaccinationSource hib2SourceOfVaccination) {
+		this.hib2SourceOfVaccination = hib2SourceOfVaccination;
+	}
+
+	@Enumerated(EnumType.STRING)
 	public YesNoUnknown getHib3() {
 		return hib3;
 	}
@@ -2506,6 +2597,15 @@ public class Case extends CoreAdo implements IsCase, SormasToSormasShareable, Ha
 
 	public void setHib3Date(Date hib3Date) {
 		this.hib3Date = hib3Date;
+	}
+
+	@Enumerated(EnumType.STRING)
+	public MeningitisVaccinationSource getHib3SourceOfVaccination() {
+		return hib3SourceOfVaccination;
+	}
+
+	public void setHib3SourceOfVaccination(MeningitisVaccinationSource hib3SourceOfVaccination) {
+		this.hib3SourceOfVaccination = hib3SourceOfVaccination;
 	}
 
 	@Enumerated(EnumType.STRING)

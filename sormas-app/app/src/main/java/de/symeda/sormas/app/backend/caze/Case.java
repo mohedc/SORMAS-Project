@@ -54,6 +54,7 @@ import de.symeda.sormas.api.caze.RoutineVaccinationType;
 import de.symeda.sormas.api.caze.ClassificationByOrigin;
 import de.symeda.sormas.api.caze.VaccinationRecordType;
 import de.symeda.sormas.api.caze.VaccinationStatus;
+import de.symeda.sormas.api.caze.MeningitisVaccinationSource;
 import de.symeda.sormas.api.caze.VaccineType;
 import de.symeda.sormas.api.caze.caseimport.MotherVaccinationStatus;
 import de.symeda.sormas.api.contact.QuarantineType;
@@ -537,41 +538,61 @@ public class Case extends PseudonymizableAdo {
 	@DatabaseField(dataType = DataType.DATE_LONG)
 	private Date menacDate;
 	@Enumerated(EnumType.STRING)
+	private MeningitisVaccinationSource menacSourceOfVaccination;
+	@Enumerated(EnumType.STRING)
 	private YesNoUnknown menacw;
 	@DatabaseField(dataType = DataType.DATE_LONG)
 	private Date menacwDate;
+	@Enumerated(EnumType.STRING)
+	private MeningitisVaccinationSource menacwSourceOfVaccination;
 	@Enumerated(EnumType.STRING)
 	private YesNoUnknown menacwy;
 	@DatabaseField(dataType = DataType.DATE_LONG)
 	private Date menacwyDate;
 	@Enumerated(EnumType.STRING)
+	private MeningitisVaccinationSource menacwySourceOfVaccination;
+	@Enumerated(EnumType.STRING)
 	private YesNoUnknown menaConjunate;
 	@DatabaseField(dataType = DataType.DATE_LONG)
 	private Date menaConjunateDate;
+	@Enumerated(EnumType.STRING)
+	private MeningitisVaccinationSource menaConjunateSourceOfVaccination;
 	@Enumerated(EnumType.STRING)
 	private YesNoUnknown pcvi3I;
 	@DatabaseField(dataType = DataType.DATE_LONG)
 	private Date pcvi3IDate;
 	@Enumerated(EnumType.STRING)
+	private MeningitisVaccinationSource pcvi3ISourceOfVaccination;
+	@Enumerated(EnumType.STRING)
 	private YesNoUnknown pcvi3_2;
 	@DatabaseField(dataType = DataType.DATE_LONG)
 	private Date pcvi3_2Date;
+	@Enumerated(EnumType.STRING)
+	private MeningitisVaccinationSource pcvi3_2SourceOfVaccination;
 	@Enumerated(EnumType.STRING)
 	private YesNoUnknown pcv13_3;
 	@DatabaseField(dataType = DataType.DATE_LONG)
 	private Date pcv13_3Date;
 	@Enumerated(EnumType.STRING)
+	private MeningitisVaccinationSource pcv13_3SourceOfVaccination;
+	@Enumerated(EnumType.STRING)
 	private YesNoUnknown hibI;
 	@DatabaseField(dataType = DataType.DATE_LONG)
 	private Date hibIDate;
+	@Enumerated(EnumType.STRING)
+	private MeningitisVaccinationSource hibISourceOfVaccination;
 	@Enumerated(EnumType.STRING)
 	private YesNoUnknown hib2;
 	@DatabaseField(dataType = DataType.DATE_LONG)
 	private Date hib2Date;
 	@Enumerated(EnumType.STRING)
+	private MeningitisVaccinationSource hib2SourceOfVaccination;
+	@Enumerated(EnumType.STRING)
 	private YesNoUnknown hib3;
 	@DatabaseField(dataType = DataType.DATE_LONG)
 	private Date hib3Date;
+	@Enumerated(EnumType.STRING)
+	private MeningitisVaccinationSource hib3SourceOfVaccination;
 
 	@DatabaseField(dataType = DataType.DATE_LONG)
 	private Date districtNotificationDate;
@@ -1928,6 +1949,14 @@ public class Case extends PseudonymizableAdo {
 		this.menacDate = menacDate;
 	}
 
+	public MeningitisVaccinationSource getMenacSourceOfVaccination() {
+		return menacSourceOfVaccination;
+	}
+
+	public void setMenacSourceOfVaccination(MeningitisVaccinationSource menacSourceOfVaccination) {
+		this.menacSourceOfVaccination = menacSourceOfVaccination;
+	}
+
 	public YesNoUnknown getMenacw() {
 		return menacw;
 	}
@@ -1942,6 +1971,14 @@ public class Case extends PseudonymizableAdo {
 
 	public void setMenacwDate(Date menacwDate) {
 		this.menacwDate = menacwDate;
+	}
+
+	public MeningitisVaccinationSource getMenacwSourceOfVaccination() {
+		return menacwSourceOfVaccination;
+	}
+
+	public void setMenacwSourceOfVaccination(MeningitisVaccinationSource menacwSourceOfVaccination) {
+		this.menacwSourceOfVaccination = menacwSourceOfVaccination;
 	}
 
 	public YesNoUnknown getMenacwy() {
@@ -1960,6 +1997,14 @@ public class Case extends PseudonymizableAdo {
 		this.menacwyDate = menacwyDate;
 	}
 
+	public MeningitisVaccinationSource getMenacwySourceOfVaccination() {
+		return menacwySourceOfVaccination;
+	}
+
+	public void setMenacwySourceOfVaccination(MeningitisVaccinationSource menacwySourceOfVaccination) {
+		this.menacwySourceOfVaccination = menacwySourceOfVaccination;
+	}
+
 	public YesNoUnknown getMenaConjunate() {
 		return menaConjunate;
 	}
@@ -1974,6 +2019,14 @@ public class Case extends PseudonymizableAdo {
 
 	public void setMenaConjunateDate(Date menaConjunateDate) {
 		this.menaConjunateDate = menaConjunateDate;
+	}
+
+	public MeningitisVaccinationSource getMenaConjunateSourceOfVaccination() {
+		return menaConjunateSourceOfVaccination;
+	}
+
+	public void setMenaConjunateSourceOfVaccination(MeningitisVaccinationSource menaConjunateSourceOfVaccination) {
+		this.menaConjunateSourceOfVaccination = menaConjunateSourceOfVaccination;
 	}
 
 	public YesNoUnknown getPcvi3I() {
@@ -1992,6 +2045,14 @@ public class Case extends PseudonymizableAdo {
 		this.pcvi3IDate = pcvi3IDate;
 	}
 
+	public MeningitisVaccinationSource getPcvi3ISourceOfVaccination() {
+		return pcvi3ISourceOfVaccination;
+	}
+
+	public void setPcvi3ISourceOfVaccination(MeningitisVaccinationSource pcvi3ISourceOfVaccination) {
+		this.pcvi3ISourceOfVaccination = pcvi3ISourceOfVaccination;
+	}
+
 	public YesNoUnknown getPcvi3_2() {
 		return pcvi3_2;
 	}
@@ -2006,6 +2067,14 @@ public class Case extends PseudonymizableAdo {
 
 	public void setPcvi3_2Date(Date pcvi3_2Date) {
 		this.pcvi3_2Date = pcvi3_2Date;
+	}
+
+	public MeningitisVaccinationSource getPcvi3_2SourceOfVaccination() {
+		return pcvi3_2SourceOfVaccination;
+	}
+
+	public void setPcvi3_2SourceOfVaccination(MeningitisVaccinationSource pcvi3_2SourceOfVaccination) {
+		this.pcvi3_2SourceOfVaccination = pcvi3_2SourceOfVaccination;
 	}
 
 	public YesNoUnknown getPcv13_3() {
@@ -2024,6 +2093,14 @@ public class Case extends PseudonymizableAdo {
 		this.pcv13_3Date = pcv13_3Date;
 	}
 
+	public MeningitisVaccinationSource getPcv13_3SourceOfVaccination() {
+		return pcv13_3SourceOfVaccination;
+	}
+
+	public void setPcv13_3SourceOfVaccination(MeningitisVaccinationSource pcv13_3SourceOfVaccination) {
+		this.pcv13_3SourceOfVaccination = pcv13_3SourceOfVaccination;
+	}
+
 	public YesNoUnknown getHibI() {
 		return hibI;
 	}
@@ -2038,6 +2115,14 @@ public class Case extends PseudonymizableAdo {
 
 	public void setHibIDate(Date hibIDate) {
 		this.hibIDate = hibIDate;
+	}
+
+	public MeningitisVaccinationSource getHibISourceOfVaccination() {
+		return hibISourceOfVaccination;
+	}
+
+	public void setHibISourceOfVaccination(MeningitisVaccinationSource hibISourceOfVaccination) {
+		this.hibISourceOfVaccination = hibISourceOfVaccination;
 	}
 
 	public YesNoUnknown getHib2() {
@@ -2056,6 +2141,14 @@ public class Case extends PseudonymizableAdo {
 		this.hib2Date = hib2Date;
 	}
 
+	public MeningitisVaccinationSource getHib2SourceOfVaccination() {
+		return hib2SourceOfVaccination;
+	}
+
+	public void setHib2SourceOfVaccination(MeningitisVaccinationSource hib2SourceOfVaccination) {
+		this.hib2SourceOfVaccination = hib2SourceOfVaccination;
+	}
+
 	public YesNoUnknown getHib3() {
 		return hib3;
 	}
@@ -2070,6 +2163,14 @@ public class Case extends PseudonymizableAdo {
 
 	public void setHib3Date(Date hib3Date) {
 		this.hib3Date = hib3Date;
+	}
+
+	public MeningitisVaccinationSource getHib3SourceOfVaccination() {
+		return hib3SourceOfVaccination;
+	}
+
+	public void setHib3SourceOfVaccination(MeningitisVaccinationSource hib3SourceOfVaccination) {
+		this.hib3SourceOfVaccination = hib3SourceOfVaccination;
 	}
 
 	public Date getDistrictNotificationDate() {

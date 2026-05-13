@@ -15633,6 +15633,31 @@ ALTER TABLE pathogentest ADD COLUMN IF NOT EXISTS datefinalresultssenttoreportin
 ALTER TABLE pathogentest_history ADD COLUMN IF NOT EXISTS datefinalresultssenttoreportinghealthfacility timestamp;
 
 INSERT INTO schema_version (version_number, comment) VALUES (670, 'Add date final results sent to reporting health facility on PathogenTest');
+
+-- Migration 671: CSM case source of vaccination per meningitis vaccine row
+ALTER TABLE cases ADD COLUMN IF NOT EXISTS menacsourceofvaccination varchar(255);
+ALTER TABLE cases ADD COLUMN IF NOT EXISTS menacwsourceofvaccination varchar(255);
+ALTER TABLE cases ADD COLUMN IF NOT EXISTS menacwysourceofvaccination varchar(255);
+ALTER TABLE cases ADD COLUMN IF NOT EXISTS menaconjunatesourceofvaccination varchar(255);
+ALTER TABLE cases ADD COLUMN IF NOT EXISTS pcvi3isourceofvaccination varchar(255);
+ALTER TABLE cases ADD COLUMN IF NOT EXISTS pcvi3_2sourceofvaccination varchar(255);
+ALTER TABLE cases ADD COLUMN IF NOT EXISTS pcv13_3sourceofvaccination varchar(255);
+ALTER TABLE cases ADD COLUMN IF NOT EXISTS hibisourceofvaccination varchar(255);
+ALTER TABLE cases ADD COLUMN IF NOT EXISTS hib2sourceofvaccination varchar(255);
+ALTER TABLE cases ADD COLUMN IF NOT EXISTS hib3sourceofvaccination varchar(255);
+
+ALTER TABLE cases_history ADD COLUMN IF NOT EXISTS menacsourceofvaccination varchar(255);
+ALTER TABLE cases_history ADD COLUMN IF NOT EXISTS menacwsourceofvaccination varchar(255);
+ALTER TABLE cases_history ADD COLUMN IF NOT EXISTS menacwysourceofvaccination varchar(255);
+ALTER TABLE cases_history ADD COLUMN IF NOT EXISTS menaconjunatesourceofvaccination varchar(255);
+ALTER TABLE cases_history ADD COLUMN IF NOT EXISTS pcvi3isourceofvaccination varchar(255);
+ALTER TABLE cases_history ADD COLUMN IF NOT EXISTS pcvi3_2sourceofvaccination varchar(255);
+ALTER TABLE cases_history ADD COLUMN IF NOT EXISTS pcv13_3sourceofvaccination varchar(255);
+ALTER TABLE cases_history ADD COLUMN IF NOT EXISTS hibisourceofvaccination varchar(255);
+ALTER TABLE cases_history ADD COLUMN IF NOT EXISTS hib2sourceofvaccination varchar(255);
+ALTER TABLE cases_history ADD COLUMN IF NOT EXISTS hib3sourceofvaccination varchar(255);
+
+INSERT INTO schema_version (version_number, comment) VALUES (671, 'Add CSM meningitis vaccine source-of-vaccination fields to cases');
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***
 
 

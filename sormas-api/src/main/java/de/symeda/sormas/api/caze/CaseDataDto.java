@@ -298,24 +298,34 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 	public static final String HEALTH_WORKER_COMPLETING_FORM = "healthWorkerCompletingForm";
 	public static final String MENAC = "menac";
 	public static final String MENAC_DATE = "menacDate";
+	public static final String MENAC_SOURCE_OF_VACCINATION = "menacSourceOfVaccination";
 	public static final String MENACW = "menacw";
 	public static final String MENACW_DATE = "menacwDate";
+	public static final String MENACW_SOURCE_OF_VACCINATION = "menacwSourceOfVaccination";
 	public static final String MENACWY = "menacwy";
 	public static final String MENACWY_DATE = "menacwyDate";
+	public static final String MENACWY_SOURCE_OF_VACCINATION = "menacwySourceOfVaccination";
 	public static final String MENA_CONJUNATE = "menaConjunate";
 	public static final String MENA_CONJUNATE_DATE = "menaConjunateDate";
+	public static final String MENA_CONJUNATE_SOURCE_OF_VACCINATION = "menaConjunateSourceOfVaccination";
 	public static final String PCVI3_I = "pcvi3I";
 	public static final String PCVI3_I_DATE = "pcvi3IDate";
+	public static final String PCVI3_I_SOURCE_OF_VACCINATION = "pcvi3ISourceOfVaccination";
 	public static final String PCVI3_2 = "pcvi3_2";
 	public static final String PCVI3_2_DATE = "pcvi3_2Date";
+	public static final String PCVI3_2_SOURCE_OF_VACCINATION = "pcvi3_2SourceOfVaccination";
 	public static final String PCV13_3 = "pcv13_3";
 	public static final String PCV13_3_DATE = "pcv13_3Date";
+	public static final String PCV13_3_SOURCE_OF_VACCINATION = "pcv13_3SourceOfVaccination";
 	public static final String HIB_I = "hibI";
 	public static final String HIB_I_DATE = "hibIDate";
+	public static final String HIB_I_SOURCE_OF_VACCINATION = "hibISourceOfVaccination";
 	public static final String HIB_2 = "hib2";
 	public static final String HIB_2_DATE = "hib2Date";
+	public static final String HIB_2_SOURCE_OF_VACCINATION = "hib2SourceOfVaccination";
 	public static final String HIB_3 = "hib3";
 	public static final String HIB_3_DATE = "hib3Date";
+	public static final String HIB_3_SOURCE_OF_VACCINATION = "hib3SourceOfVaccination";
 	public static final String CSF_SAMPLE_COLLECTED = "csfSampleCollected";
 	public static final String LP_NOT_DONE_REASON = "lpNotDoneReason";
 	public static final String LP_NOT_DONE_REASON_OTHER = "lpNotDoneReasonOther";
@@ -932,10 +942,16 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 	private Date menacDate;
 	@Diseases({
 			Disease.CSM})
+	private MeningitisVaccinationSource menacSourceOfVaccination;
+	@Diseases({
+			Disease.CSM})
 	private YesNoUnknown menacw;
 	@Diseases({
 			Disease.CSM})
 	private Date menacwDate;
+	@Diseases({
+			Disease.CSM})
+	private MeningitisVaccinationSource menacwSourceOfVaccination;
 	@Diseases({
 			Disease.CSM})
 	private YesNoUnknown menacwy;
@@ -944,10 +960,16 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 	private Date menacwyDate;
 	@Diseases({
 			Disease.CSM})
+	private MeningitisVaccinationSource menacwySourceOfVaccination;
+	@Diseases({
+			Disease.CSM})
 	private YesNoUnknown menaConjunate;
 	@Diseases({
 			Disease.CSM})
 	private Date menaConjunateDate;
+	@Diseases({
+			Disease.CSM})
+	private MeningitisVaccinationSource menaConjunateSourceOfVaccination;
 	@Diseases({
 			Disease.CSM})
 	private YesNoUnknown pcvi3I;
@@ -956,10 +978,16 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 	private Date pcvi3IDate;
 	@Diseases({
 			Disease.CSM})
+	private MeningitisVaccinationSource pcvi3ISourceOfVaccination;
+	@Diseases({
+			Disease.CSM})
 	private YesNoUnknown pcvi3_2;
 	@Diseases({
 			Disease.CSM})
 	private Date pcvi3_2Date;
+	@Diseases({
+			Disease.CSM})
+	private MeningitisVaccinationSource pcvi3_2SourceOfVaccination;
 	@Diseases({
 			Disease.CSM})
 	private YesNoUnknown pcv13_3;
@@ -968,10 +996,16 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 	private Date pcv13_3Date;
 	@Diseases({
 			Disease.CSM})
+	private MeningitisVaccinationSource pcv13_3SourceOfVaccination;
+	@Diseases({
+			Disease.CSM})
 	private YesNoUnknown hibI;
 	@Diseases({
 			Disease.CSM})
 	private Date hibIDate;
+	@Diseases({
+			Disease.CSM})
+	private MeningitisVaccinationSource hibISourceOfVaccination;
 	@Diseases({
 			Disease.CSM})
 	private YesNoUnknown hib2;
@@ -980,10 +1014,16 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 	private Date hib2Date;
 	@Diseases({
 			Disease.CSM})
+	private MeningitisVaccinationSource hib2SourceOfVaccination;
+	@Diseases({
+			Disease.CSM})
 	private YesNoUnknown hib3;
 	@Diseases({
 			Disease.CSM})
 	private Date hib3Date;
+	@Diseases({
+			Disease.CSM})
+	private MeningitisVaccinationSource hib3SourceOfVaccination;
 	@Diseases({
 			Disease.CSM})
 	private YesNo csfSampleCollected;
@@ -2642,6 +2682,14 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 		this.menacDate = menacDate;
 	}
 
+	public MeningitisVaccinationSource getMenacSourceOfVaccination() {
+		return menacSourceOfVaccination;
+	}
+
+	public void setMenacSourceOfVaccination(MeningitisVaccinationSource menacSourceOfVaccination) {
+		this.menacSourceOfVaccination = menacSourceOfVaccination;
+	}
+
 	public YesNoUnknown getMenacw() {
 		return menacw;
 	}
@@ -2656,6 +2704,14 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 
 	public void setMenacwDate(Date menacwDate) {
 		this.menacwDate = menacwDate;
+	}
+
+	public MeningitisVaccinationSource getMenacwSourceOfVaccination() {
+		return menacwSourceOfVaccination;
+	}
+
+	public void setMenacwSourceOfVaccination(MeningitisVaccinationSource menacwSourceOfVaccination) {
+		this.menacwSourceOfVaccination = menacwSourceOfVaccination;
 	}
 
 	public YesNoUnknown getMenacwy() {
@@ -2674,6 +2730,14 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 		this.menacwyDate = menacwyDate;
 	}
 
+	public MeningitisVaccinationSource getMenacwySourceOfVaccination() {
+		return menacwySourceOfVaccination;
+	}
+
+	public void setMenacwySourceOfVaccination(MeningitisVaccinationSource menacwySourceOfVaccination) {
+		this.menacwySourceOfVaccination = menacwySourceOfVaccination;
+	}
+
 	public YesNoUnknown getMenaConjunate() {
 		return menaConjunate;
 	}
@@ -2688,6 +2752,14 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 
 	public void setMenaConjunateDate(Date menaConjunateDate) {
 		this.menaConjunateDate = menaConjunateDate;
+	}
+
+	public MeningitisVaccinationSource getMenaConjunateSourceOfVaccination() {
+		return menaConjunateSourceOfVaccination;
+	}
+
+	public void setMenaConjunateSourceOfVaccination(MeningitisVaccinationSource menaConjunateSourceOfVaccination) {
+		this.menaConjunateSourceOfVaccination = menaConjunateSourceOfVaccination;
 	}
 
 	public YesNoUnknown getPcvi3I() {
@@ -2706,6 +2778,14 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 		this.pcvi3IDate = pcvi3iDate;
 	}
 
+	public MeningitisVaccinationSource getPcvi3ISourceOfVaccination() {
+		return pcvi3ISourceOfVaccination;
+	}
+
+	public void setPcvi3ISourceOfVaccination(MeningitisVaccinationSource pcvi3ISourceOfVaccination) {
+		this.pcvi3ISourceOfVaccination = pcvi3ISourceOfVaccination;
+	}
+
 	public YesNoUnknown getPcvi3_2() {
 		return pcvi3_2;
 	}
@@ -2720,6 +2800,14 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 
 	public void setPcvi3_2Date(Date pcvi3_2Date) {
 		this.pcvi3_2Date = pcvi3_2Date;
+	}
+
+	public MeningitisVaccinationSource getPcvi3_2SourceOfVaccination() {
+		return pcvi3_2SourceOfVaccination;
+	}
+
+	public void setPcvi3_2SourceOfVaccination(MeningitisVaccinationSource pcvi3_2SourceOfVaccination) {
+		this.pcvi3_2SourceOfVaccination = pcvi3_2SourceOfVaccination;
 	}
 
 	public YesNoUnknown getPcv13_3() {
@@ -2738,6 +2826,14 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 		this.pcv13_3Date = pcv13_3Date;
 	}
 
+	public MeningitisVaccinationSource getPcv13_3SourceOfVaccination() {
+		return pcv13_3SourceOfVaccination;
+	}
+
+	public void setPcv13_3SourceOfVaccination(MeningitisVaccinationSource pcv13_3SourceOfVaccination) {
+		this.pcv13_3SourceOfVaccination = pcv13_3SourceOfVaccination;
+	}
+
 	public YesNoUnknown getHibI() {
 		return hibI;
 	}
@@ -2752,6 +2848,14 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 
 	public void setHibIDate(Date hibIDate) {
 		this.hibIDate = hibIDate;
+	}
+
+	public MeningitisVaccinationSource getHibISourceOfVaccination() {
+		return hibISourceOfVaccination;
+	}
+
+	public void setHibISourceOfVaccination(MeningitisVaccinationSource hibISourceOfVaccination) {
+		this.hibISourceOfVaccination = hibISourceOfVaccination;
 	}
 
 	public YesNoUnknown getHib2() {
@@ -2770,6 +2874,14 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 		this.hib2Date = hib2Date;
 	}
 
+	public MeningitisVaccinationSource getHib2SourceOfVaccination() {
+		return hib2SourceOfVaccination;
+	}
+
+	public void setHib2SourceOfVaccination(MeningitisVaccinationSource hib2SourceOfVaccination) {
+		this.hib2SourceOfVaccination = hib2SourceOfVaccination;
+	}
+
 	public YesNoUnknown getHib3() {
 		return hib3;
 	}
@@ -2784,6 +2896,14 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 
 	public void setHib3Date(Date hib3Date) {
 		this.hib3Date = hib3Date;
+	}
+
+	public MeningitisVaccinationSource getHib3SourceOfVaccination() {
+		return hib3SourceOfVaccination;
+	}
+
+	public void setHib3SourceOfVaccination(MeningitisVaccinationSource hib3SourceOfVaccination) {
+		this.hib3SourceOfVaccination = hib3SourceOfVaccination;
 	}
 
 	public YesNo getCsfSampleCollected() {
