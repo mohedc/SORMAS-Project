@@ -352,6 +352,7 @@ public class PathogenTestFacadeEjb implements PathogenTestFacade {
 		target.setOtherTestsPending(source.getOtherTestsPending());
 		target.setOtherTestsPendingSpecify(source.getOtherTestsPendingSpecify());
 		target.setDateResultsSentToReferenceLaboratory(source.getDateResultsSentToReferenceLaboratory());
+		target.setDateFinalResultsSentToReportingHealthFacility(source.getDateFinalResultsSentToReportingHealthFacility());
 		target.setDateResultsSentToEdcUnitEpi(source.getDateResultsSentToEdcUnitEpi());
 		target.setDateSampleSentToReferenceLaboratory(source.getDateSampleSentToReferenceLaboratory());
 		target.setReferenceLaboratory(FacilityFacadeEjb.toReferenceDto(source.getReferenceLaboratory()));
@@ -722,6 +723,7 @@ public class PathogenTestFacadeEjb implements PathogenTestFacade {
 		target.setOtherTestsPending(source.getOtherTestsPending());
 		target.setOtherTestsPendingSpecify(source.getOtherTestsPendingSpecify());
 		target.setDateResultsSentToReferenceLaboratory(source.getDateResultsSentToReferenceLaboratory());
+		target.setDateFinalResultsSentToReportingHealthFacility(source.getDateFinalResultsSentToReportingHealthFacility());
 		target.setDateResultsSentToEdcUnitEpi(source.getDateResultsSentToEdcUnitEpi());
 		target.setDateSampleSentToReferenceLaboratory(source.getDateSampleSentToReferenceLaboratory());
 		target.setReferenceLaboratory(facilityService.getByReferenceDto(source.getReferenceLaboratory()));

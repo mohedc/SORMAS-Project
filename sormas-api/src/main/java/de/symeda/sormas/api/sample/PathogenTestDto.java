@@ -132,6 +132,7 @@ public class PathogenTestDto extends PseudonymizableDto {
 	public static final String OTHER_TESTS_PENDING = "otherTestsPending";
 	public static final String OTHER_TESTS_PENDING_SPECIFY = "otherTestsPendingSpecify";
 	public static final String DATE_RESULTS_SENT_TO_REFERENCE_LABORATORY = "dateResultsSentToReferenceLaboratory";
+	public static final String DATE_FINAL_RESULTS_SENT_TO_REPORTING_HEALTH_FACILITY = "dateFinalResultsSentToReportingHealthFacility";
 	public static final String DATE_RESULTS_SENT_TO_EDC_UNIT_EPI = "dateResultsSentToEdcUnitEpi";
 	public static final String REFERENCE_LABORATORY = "referenceLaboratory";
 	public static final String SELECTED_PATHOGEN_TEST_TYPES = "selectedPathogenTestTypes";
@@ -395,6 +396,8 @@ public class PathogenTestDto extends PseudonymizableDto {
 	private String otherTestsPendingSpecify;
 	@Diseases(value = {Disease.CSM})
 	private Date dateResultsSentToReferenceLaboratory;
+	@Diseases(value = {Disease.CSM})
+	private Date dateFinalResultsSentToReportingHealthFacility;
 	@HideForCountriesExcept(countries = CountryHelper.COUNTRY_CODE_GAMBIA)
 	private Date dateResultsSentToEdcUnitEpi;
 	@HideForCountriesExcept(countries = CountryHelper.COUNTRY_CODE_GAMBIA)
@@ -1205,6 +1208,14 @@ public class PathogenTestDto extends PseudonymizableDto {
 
 	public void setDateResultsSentToReferenceLaboratory(Date dateResultsSentToReferenceLaboratory) {
 		this.dateResultsSentToReferenceLaboratory = dateResultsSentToReferenceLaboratory;
+	}
+
+	public Date getDateFinalResultsSentToReportingHealthFacility() {
+		return dateFinalResultsSentToReportingHealthFacility;
+	}
+
+	public void setDateFinalResultsSentToReportingHealthFacility(Date dateFinalResultsSentToReportingHealthFacility) {
+		this.dateFinalResultsSentToReportingHealthFacility = dateFinalResultsSentToReportingHealthFacility;
 	}
 
 	public Date getDateResultsSentToEdcUnitEpi() {

@@ -129,6 +129,7 @@ public class PathogenTest extends DeletableAdo {
 	public static final String OTHER_TESTS_PENDING = "otherTestsPending";
 	public static final String OTHER_TESTS_PENDING_SPECIFY = "otherTestsPendingSpecify";
 	public static final String DATE_RESULTS_SENT_TO_REFERENCE_LABORATORY = "dateResultsSentToReferenceLaboratory";
+	public static final String DATE_FINAL_RESULTS_SENT_TO_REPORTING_HEALTH_FACILITY = "dateFinalResultsSentToReportingHealthFacility";
 	public static final String DATE_RESULTS_SENT_TO_EDC_UNIT_EPI = "dateResultsSentToEdcUnitEpi";
 	public static final String DATE_SAMPLE_SENT_TO_REFERENCE_LABORATORY = "dateSampleSentToReferenceLaboratory";
 	public static final String REFERENCE_LABORATORY = "referenceLaboratory";
@@ -216,6 +217,7 @@ public class PathogenTest extends DeletableAdo {
 	private Boolean otherTestsPending;
 	private String otherTestsPendingSpecify;
 	private Date dateResultsSentToReferenceLaboratory;
+	private Date dateFinalResultsSentToReportingHealthFacility;
 	private Date dateResultsSentToEdcUnitEpi;
 	private Date dateSampleSentToReferenceLaboratory;
 	private Facility referenceLaboratory;
@@ -1005,6 +1007,15 @@ public class PathogenTest extends DeletableAdo {
 
 	public void setDateResultsSentToReferenceLaboratory(Date dateResultsSentToReferenceLaboratory) {
 		this.dateResultsSentToReferenceLaboratory = dateResultsSentToReferenceLaboratory;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getDateFinalResultsSentToReportingHealthFacility() {
+		return dateFinalResultsSentToReportingHealthFacility;
+	}
+
+	public void setDateFinalResultsSentToReportingHealthFacility(Date dateFinalResultsSentToReportingHealthFacility) {
+		this.dateFinalResultsSentToReportingHealthFacility = dateFinalResultsSentToReportingHealthFacility;
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)

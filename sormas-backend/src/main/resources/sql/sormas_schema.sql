@@ -15628,6 +15628,11 @@ ALTER TABLE pathogentest_history ADD COLUMN IF NOT EXISTS dateresultssenttoedcun
 ALTER TABLE pathogentest_history ADD COLUMN IF NOT EXISTS datesamplesenttoreferencelaboratory timestamp;
 
 INSERT INTO schema_version (version_number, comment) VALUES (669, 'Add Gambia EDC/EPI and sample-to-ref-lab dates on PathogenTest');
+
+ALTER TABLE pathogentest ADD COLUMN IF NOT EXISTS datefinalresultssenttoreportinghealthfacility timestamp;
+ALTER TABLE pathogentest_history ADD COLUMN IF NOT EXISTS datefinalresultssenttoreportinghealthfacility timestamp;
+
+INSERT INTO schema_version (version_number, comment) VALUES (670, 'Add date final results sent to reporting health facility on PathogenTest');
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***
 
 

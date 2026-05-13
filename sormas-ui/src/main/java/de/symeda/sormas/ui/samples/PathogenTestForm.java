@@ -209,11 +209,13 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 			fluidRowLocs(PathogenTestDto.OTHER_TEST_TYPE_SPECIFY, PathogenTestDto.OTHER_TEST_RESULTS) +
 			fluidRowLocs(PathogenTestDto.REPORT_DATE, "") +
 //			fluidRowLocs("", PathogenTestDto.DATE_RESULTS_SENT_TO_REGION) +
-			fluidRowLocs(PathogenTestDto.DATE_SAMPLE_SENT_TO_REFERENCE_LABORATORY, PathogenTestDto.DATE_RESULTS_SENT_TO_EDC_UNIT_EPI) +
 //			fluidRowLocs(PathogenTestDto.REFERENCE_LABORATORY, PathogenTestDto.OTHER_TESTS_PENDING) +
 //			fluidRowLocs(PathogenTestDto.OTHER_TESTS_PENDING_SPECIFY, "") +
 			fluidRowLocs(4, PathogenTestDto.TEST_RESULT, 4, PathogenTestDto.TEST_RESULT_VERIFIED, 4, "") +
-			fluidRowLocs(PathogenTestDto.TEST_RESULT_TEXT, "");
+			fluidRowLocs(PathogenTestDto.TEST_RESULT_TEXT, "") +
+			fluidRowLocs(PathogenTestDto.DATE_SAMPLE_SENT_TO_REFERENCE_LABORATORY, "") +
+			fluidRowLocs(PathogenTestDto.DATE_RESULTS_SENT_TO_EDC_UNIT_EPI, "") +
+			fluidRowLocs(PathogenTestDto.DATE_FINAL_RESULTS_SENT_TO_REPORTING_HEALTH_FACILITY, "");
 
 	private static final String IDSR_HTML_LAYOUT =
 			loc(PATHOGEN_TEST_HEADING_LOC) +
@@ -822,6 +824,7 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 		addDateField(PathogenTestDto.DATE_RESULTS_SENT_TO_REFERENCE_LABORATORY, DateField.class, 7);
 		addDateField(PathogenTestDto.DATE_RESULTS_SENT_TO_EDC_UNIT_EPI, DateField.class, 7);
 		addDateField(PathogenTestDto.DATE_SAMPLE_SENT_TO_REFERENCE_LABORATORY, DateField.class, 7);
+		addDateField(PathogenTestDto.DATE_FINAL_RESULTS_SENT_TO_REPORTING_HEALTH_FACILITY, DateField.class, 7);
 		ComboBox referenceLaboratoryField = addInfrastructureField(PathogenTestDto.REFERENCE_LABORATORY);
 		referenceLaboratoryField.addItems(FacadeProvider.getFacilityFacade().getAllActiveLaboratories(true));
 		referenceLaboratoryField.setVisible(false);
@@ -1541,6 +1544,11 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 			getField(PathogenTestDto.REFERENCE_LABORATORY).setVisible(false);
 			getField(PathogenTestDto.DATE_RESULTS_SENT_TO_EDC_UNIT_EPI).setVisible(true);
 		}
+
+		boolean showFinalResultsToReportingHealthFacility =
+			laboratoryType == LaboratoryType.REGIONAL_LABORATORY || laboratoryType == LaboratoryType.REFERENCE_LABORATORY;
+		getField(PathogenTestDto.DATE_FINAL_RESULTS_SENT_TO_REPORTING_HEALTH_FACILITY).setVisible(
+			showFinalResultsToReportingHealthFacility && isVisibleAllowed(PathogenTestDto.DATE_FINAL_RESULTS_SENT_TO_REPORTING_HEALTH_FACILITY));
 	}
 
 	private void updateMeningitisSectionVisibility() {
