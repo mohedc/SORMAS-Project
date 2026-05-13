@@ -1452,9 +1452,8 @@ public class CaseController {
 			cazeDto.setSourceOfInfectionIdentified(finalClassificationForm.getValue().getSourceOfInfectionIdentified());
 			
 			// If final classification is LAB_CONFIRMED or CONFIRMED_BY_EPIDEMIOLOGICAL_LINKAGE for diseases requiring confirmation,
-			// set case classification to CONFIRMED
-			List<Disease> diseasesRequiringConfirmation = Arrays.asList(Disease.MEASLES, Disease.YELLOW_FEVER, Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS, Disease.NEONATAL_TETANUS, Disease.AFP);
-			if (diseasesRequiringConfirmation.contains(cazeDto.getDisease())
+			// set case classification to CONFIRMED (same disease set as CaseFinalClassificationForm confirmation dialog)
+			if (CaseFinalClassificationForm.DISEASES_REQUIRING_CONFIRMATION.contains(cazeDto.getDisease())
 					&& (FinalClassification.LAB_CONFIRMED.equals(finalClassification)
 					|| FinalClassification.CONFIRMED_BY_EPIDEMIOLOGICAL_LINKAGE.equals(finalClassification)
 					|| FinalClassification.CONFIRMED_POLIO.equals(finalClassification))) {

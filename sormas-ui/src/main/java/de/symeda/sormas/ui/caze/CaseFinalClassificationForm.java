@@ -94,7 +94,7 @@ public class CaseFinalClassificationForm extends AbstractEditForm<CaseDataDto> {
 
 	//@formatter:on
 
-	private static final List<Disease> DISEASES_REQUIRING_CONFIRMATION = Arrays.asList(
+	public static final List<Disease> DISEASES_REQUIRING_CONFIRMATION = Arrays.asList(
 		Disease.MEASLES,
 		Disease.YELLOW_FEVER,
 		Disease.CSM,
