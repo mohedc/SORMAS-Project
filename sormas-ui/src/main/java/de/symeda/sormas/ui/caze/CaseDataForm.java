@@ -692,7 +692,7 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 
 		createLabel(I18nProperties.getString(Strings.headingPersonCompleting), H3, PERSON_COMPLETING_HEADING_LOC);
 		createLabel(I18nProperties.getString(Strings.headingMotherVaccination), H3, MOTHER_VACCINATION_HEADING_LOC);
-		createLabel(I18nProperties.getCaption(Strings.HeadingVaccineType), H3, VACCINE_TYPE_HEADING_LOC);
+		createLabel(I18nProperties.getString(Strings.HeadingVaccinesReceived), H3, VACCINE_TYPE_HEADING_LOC);
 		createLabel(I18nProperties.getCaption(Captions.CaseData_notification), H3, MENINGITIS_NOTIFICATION_HEADING_LOC);
 		createLabel("Sample Collection Information.", H3, SAMPLE_COLLECTION_INFORMATION_HEADING_LOC);
 

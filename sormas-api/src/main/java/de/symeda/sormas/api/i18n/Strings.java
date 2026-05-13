@@ -836,6 +836,7 @@ public interface Strings {
 	String headingPersonCompleting = "headingPersonCompleting";
 	String headingMotherVaccination = "headingMotherVaccination";
 	String HeadingVaccineType = "headingVaccineType";
+	String HeadingVaccinesReceived = "headingVaccinesReceived";
 	String additionalHeading = "additionalHeading";
 	String headingRejectSormasToSormasShareRequest = "headingRejectSormasToSormasShareRequest";
 	String headingRemoveCaseFromContact = "headingRemoveCaseFromContact";
