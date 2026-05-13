@@ -178,7 +178,7 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 			fluidRowLocs(PathogenTestDto.TEST_DATE_TIME, PathogenTestDto.LAB) +
 			fluidRowLocs(PathogenTestDto.LAB_DETAILS, "") +
 			loc(LAB_ROLE_CONTEXT_LOC) +
-			 fluidRowLocs(PathogenTestDto.TEST_TYPE, PathogenTestDto.TEST_TYPE_TEXT) +
+			 fluidRowLocs(PathogenTestDto.TEST_TYPE, "") +
 //			fluidRowLocs(PathogenTestDto.SELECTED_PATHOGEN_TEST_TYPES, "") +
 //			fluidRowLocs(PathogenTestDto.MACROSCOPIC_EXAMINATION, "") +
 			fluidRowLocs(PathogenTestDto.CELL_COUNT_LEUCOCYTES_PER_MM3, PathogenTestDto.WBC_COUNT_POLYCYTES_PERCENT) +
@@ -207,11 +207,11 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 			fluidRowLocs(PathogenTestDto.PCR_OTHER_GERMS_SPECIFY, "") +
 			fluidRowLocs(PathogenTestDto.PCR_SEROTYPE, "") +
 			fluidRowLocs(PathogenTestDto.OTHER_TEST_TYPE_SPECIFY, PathogenTestDto.OTHER_TEST_RESULTS) +
-			fluidRowLocs(PathogenTestDto.REPORT_DATE, PathogenTestDto.DATE_RESULTS_SENT_TO_DISTRICT) +
+			fluidRowLocs(PathogenTestDto.REPORT_DATE, "") +
 			fluidRowLocs(PathogenTestDto.DATE_DISTRICT_RECEIVED_LAB_RESULTS, PathogenTestDto.DATE_RESULTS_SENT_TO_REGION) +
-			fluidRowLocs(PathogenTestDto.DATE_RESULTS_SENT_TO_DISEASE_SURVEILLANCE, PathogenTestDto.DATE_RESULTS_SENT_TO_REFERENCE_LABORATORY) +
-			fluidRowLocs(PathogenTestDto.REFERENCE_LABORATORY, PathogenTestDto.OTHER_TESTS_PENDING) +
-			fluidRowLocs(PathogenTestDto.OTHER_TESTS_PENDING_SPECIFY, "") +
+			fluidRowLocs(PathogenTestDto.DATE_RESULTS_SENT_TO_REFERENCE_LABORATORY, "") +
+//			fluidRowLocs(PathogenTestDto.REFERENCE_LABORATORY, PathogenTestDto.OTHER_TESTS_PENDING) +
+//			fluidRowLocs(PathogenTestDto.OTHER_TESTS_PENDING_SPECIFY, "") +
 			fluidRowLocs(4, PathogenTestDto.TEST_RESULT, 4, PathogenTestDto.TEST_RESULT_VERIFIED, 4, "") +
 			fluidRowLocs(PathogenTestDto.TEST_RESULT_TEXT, "");
 
@@ -1466,7 +1466,7 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 				PathogenTestResultType.POSITIVE,
 				PathogenTestResultType.CONTAMINATED,
 				PathogenTestResultType.NOT_TESTED,
-				PathogenTestResultType.IN_PROCESS));
+				PathogenTestResultType.IN_PROGRESS));
 
 		getField(PathogenTestDto.TEST_RESULT_TEXT).setCaption(I18nProperties.getCaption(Captions.PathogenTest_laboratoryObservations));
 

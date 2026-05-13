@@ -47,8 +47,10 @@ public enum PathogenTestResultType {
 	INCONCLUSIVE,
 	@Diseases(value = { Disease.YELLOW_FEVER, Disease.AFP }, hide = true)
 	NOT_TESTED,
-	@Diseases(value = { Disease.YELLOW_FEVER }, hide = true)
-	IN_PROCESS;
+	@Diseases(value = { Disease.YELLOW_FEVER, Disease.CSM }, hide = true)
+	IN_PROCESS,
+	@Diseases(value = { Disease.CSM }, hide = false)
+	IN_PROGRESS;
 
 	@Override
 	public String toString() {
