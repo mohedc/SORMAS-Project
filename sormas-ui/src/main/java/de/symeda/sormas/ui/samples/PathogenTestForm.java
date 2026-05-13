@@ -208,8 +208,8 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 			fluidRowLocs(PathogenTestDto.PCR_SEROTYPE, "") +
 			fluidRowLocs(PathogenTestDto.OTHER_TEST_TYPE_SPECIFY, PathogenTestDto.OTHER_TEST_RESULTS) +
 			fluidRowLocs(PathogenTestDto.REPORT_DATE, "") +
-			fluidRowLocs(PathogenTestDto.DATE_DISTRICT_RECEIVED_LAB_RESULTS, PathogenTestDto.DATE_RESULTS_SENT_TO_REGION) +
-			fluidRowLocs(PathogenTestDto.DATE_RESULTS_SENT_TO_REFERENCE_LABORATORY, "") +
+//			fluidRowLocs("", PathogenTestDto.DATE_RESULTS_SENT_TO_REGION) +
+			fluidRowLocs(PathogenTestDto.DATE_SAMPLE_SENT_TO_REFERENCE_LABORATORY, PathogenTestDto.DATE_RESULTS_SENT_TO_EDC_UNIT_EPI) +
 //			fluidRowLocs(PathogenTestDto.REFERENCE_LABORATORY, PathogenTestDto.OTHER_TESTS_PENDING) +
 //			fluidRowLocs(PathogenTestDto.OTHER_TESTS_PENDING_SPECIFY, "") +
 			fluidRowLocs(4, PathogenTestDto.TEST_RESULT, 4, PathogenTestDto.TEST_RESULT_VERIFIED, 4, "") +
@@ -820,6 +820,8 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 		agglutinationOtherMicroorganismField.setVisible(false);
 		addDateField(PathogenTestDto.DATE_RESULTS_SENT_TO_REGION, DateField.class, 7);
 		addDateField(PathogenTestDto.DATE_RESULTS_SENT_TO_REFERENCE_LABORATORY, DateField.class, 7);
+		addDateField(PathogenTestDto.DATE_RESULTS_SENT_TO_EDC_UNIT_EPI, DateField.class, 7);
+		addDateField(PathogenTestDto.DATE_SAMPLE_SENT_TO_REFERENCE_LABORATORY, DateField.class, 7);
 		ComboBox referenceLaboratoryField = addInfrastructureField(PathogenTestDto.REFERENCE_LABORATORY);
 		referenceLaboratoryField.addItems(FacadeProvider.getFacilityFacade().getAllActiveLaboratories(true));
 		referenceLaboratoryField.setVisible(false);
@@ -1475,6 +1477,7 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 			if (labTypeField != null) {
 				labTypeField.addValueChangeListener(e -> {
 					updateMeningitisLabCaptions();
+					applyMeningitisDateFieldVisibilityByLaboratoryType();
 					updateMeningitisSectionVisibility();
 				});
 			}
@@ -1518,23 +1521,25 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 	private void applyMeningitisDateFieldVisibilityByLaboratoryType() {
 		LaboratoryType laboratoryType = getLaboratoryType();
 		if (laboratoryType == LaboratoryType.REGIONAL_LABORATORY) {
-			getField(PathogenTestDto.DATE_RESULTS_SENT_TO_REGION).setVisible(true);
-			getField(PathogenTestDto.DATE_DISTRICT_RECEIVED_LAB_RESULTS).setVisible(true);
+//			getField(PathogenTestDto.DATE_RESULTS_SENT_TO_REGION).setVisible(true);
 			getField(PathogenTestDto.DATE_RESULTS_SENT_TO_REFERENCE_LABORATORY).setVisible(true);
 			getField(PathogenTestDto.REFERENCE_LABORATORY).setVisible(true);
 			getField(PathogenTestDto.DATE_RESULTS_SENT_TO_DISEASE_SURVEILLANCE).setVisible(false);
+			getField(PathogenTestDto.DATE_RESULTS_SENT_TO_EDC_UNIT_EPI).setVisible(false);
+			getField(PathogenTestDto.DATE_SAMPLE_SENT_TO_REFERENCE_LABORATORY).setVisible(true);
 		} else if (laboratoryType == LaboratoryType.REFERENCE_LABORATORY) {
 			getField(PathogenTestDto.DATE_RESULTS_SENT_TO_DISEASE_SURVEILLANCE).setVisible(true);
-			getField(PathogenTestDto.DATE_RESULTS_SENT_TO_REGION).setVisible(false);
-			getField(PathogenTestDto.DATE_DISTRICT_RECEIVED_LAB_RESULTS).setVisible(false);
+//			getField(PathogenTestDto.DATE_RESULTS_SENT_TO_REGION).setVisible(false);
 			getField(PathogenTestDto.DATE_RESULTS_SENT_TO_REFERENCE_LABORATORY).setVisible(false);
 			getField(PathogenTestDto.REFERENCE_LABORATORY).setVisible(true);
+			getField(PathogenTestDto.DATE_RESULTS_SENT_TO_EDC_UNIT_EPI).setVisible(true);
+			getField(PathogenTestDto.DATE_SAMPLE_SENT_TO_REFERENCE_LABORATORY).setVisible(false);
 		} else {
-			getField(PathogenTestDto.DATE_RESULTS_SENT_TO_REGION).setVisible(false);
+//			getField(PathogenTestDto.DATE_RESULTS_SENT_TO_REGION).setVisible(false);
 			getField(PathogenTestDto.DATE_RESULTS_SENT_TO_DISEASE_SURVEILLANCE).setVisible(false);
-			getField(PathogenTestDto.DATE_DISTRICT_RECEIVED_LAB_RESULTS).setVisible(false);
 			getField(PathogenTestDto.DATE_RESULTS_SENT_TO_REFERENCE_LABORATORY).setVisible(false);
 			getField(PathogenTestDto.REFERENCE_LABORATORY).setVisible(false);
+			getField(PathogenTestDto.DATE_RESULTS_SENT_TO_EDC_UNIT_EPI).setVisible(true);
 		}
 	}
 

@@ -2385,6 +2385,8 @@ public interface Captions {
 	String PathogenTest_dateResultsSentToDiseaseSurveillance = "PathogenTest.dateResultsSentToDiseaseSurveillance";
 	String PathogenTest_dateIndirectResultsReceivedAtNationalEPIOffice = "PathogenTest.dateIndirectResultsReceivedAtNationalEPIOffice";
 	String PathogenTest_dateCapturedResultsReceivedAtNationalEPIOffice = "PathogenTest.dateCapturedResultsReceivedAtNationalEPIOffice";
+	String PathogenTest_dateResultsSentToEdcUnitEpi = "PathogenTest.dateResultsSentToEdcUnitEpi";
+	String PathogenTest_dateSampleSentToReferenceLaboratory = "PathogenTest.dateSampleSentToReferenceLaboratory";
 	String PathogenTest_finalClassification = "PathogenTest.finalClassification";
 	String PathogenTest_communityInvestigation = "PathogenTest.communityInvestigation";
 	String PathogenTest_performRubellaTest = "PathogenTest.performRubellaTest";

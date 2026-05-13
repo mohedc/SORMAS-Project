@@ -132,6 +132,7 @@ public class PathogenTestDto extends PseudonymizableDto {
 	public static final String OTHER_TESTS_PENDING = "otherTestsPending";
 	public static final String OTHER_TESTS_PENDING_SPECIFY = "otherTestsPendingSpecify";
 	public static final String DATE_RESULTS_SENT_TO_REFERENCE_LABORATORY = "dateResultsSentToReferenceLaboratory";
+	public static final String DATE_RESULTS_SENT_TO_EDC_UNIT_EPI = "dateResultsSentToEdcUnitEpi";
 	public static final String REFERENCE_LABORATORY = "referenceLaboratory";
 	public static final String SELECTED_PATHOGEN_TEST_TYPES = "selectedPathogenTestTypes";
 	public static final String CULTURE_FINDINGS = "cultureFindings";
@@ -195,6 +196,7 @@ public class PathogenTestDto extends PseudonymizableDto {
 	public static final String DATE_FOLLOWUP_EXAM = "dateFollowupExam";
 	public static final String RESIDUAL_ANALYSIS = "residualAnalysis";
 	public static final String RESULT_EXAM = "resultExam";
+	public static final String DATE_SAMPLE_SENT_TO_REFERENCE_LABORATORY = "dateSampleSentToReferenceLaboratory";
 
 
 	private Date dateCombinedCellCultureResults;
@@ -393,6 +395,10 @@ public class PathogenTestDto extends PseudonymizableDto {
 	private String otherTestsPendingSpecify;
 	@Diseases(value = {Disease.CSM})
 	private Date dateResultsSentToReferenceLaboratory;
+	@HideForCountriesExcept(countries = CountryHelper.COUNTRY_CODE_GAMBIA)
+	private Date dateResultsSentToEdcUnitEpi;
+	@HideForCountriesExcept(countries = CountryHelper.COUNTRY_CODE_GAMBIA)
+	private Date dateSampleSentToReferenceLaboratory;
 	@Diseases(value = {Disease.CSM})
 	private FacilityReferenceDto referenceLaboratory;
 	@Diseases(value = {Disease.CSM})
@@ -1199,6 +1205,22 @@ public class PathogenTestDto extends PseudonymizableDto {
 
 	public void setDateResultsSentToReferenceLaboratory(Date dateResultsSentToReferenceLaboratory) {
 		this.dateResultsSentToReferenceLaboratory = dateResultsSentToReferenceLaboratory;
+	}
+
+	public Date getDateResultsSentToEdcUnitEpi() {
+		return dateResultsSentToEdcUnitEpi;
+	}
+
+	public void setDateResultsSentToEdcUnitEpi(Date dateResultsSentToEdcUnitEpi) {
+		this.dateResultsSentToEdcUnitEpi = dateResultsSentToEdcUnitEpi;
+	}
+
+	public Date getDateSampleSentToReferenceLaboratory() {
+		return dateSampleSentToReferenceLaboratory;
+	}
+
+	public void setDateSampleSentToReferenceLaboratory(Date dateSampleSentToReferenceLaboratory) {
+		this.dateSampleSentToReferenceLaboratory = dateSampleSentToReferenceLaboratory;
 	}
 
 	public FacilityReferenceDto getReferenceLaboratory() {

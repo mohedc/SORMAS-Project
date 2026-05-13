@@ -352,6 +352,8 @@ public class PathogenTestFacadeEjb implements PathogenTestFacade {
 		target.setOtherTestsPending(source.getOtherTestsPending());
 		target.setOtherTestsPendingSpecify(source.getOtherTestsPendingSpecify());
 		target.setDateResultsSentToReferenceLaboratory(source.getDateResultsSentToReferenceLaboratory());
+		target.setDateResultsSentToEdcUnitEpi(source.getDateResultsSentToEdcUnitEpi());
+		target.setDateSampleSentToReferenceLaboratory(source.getDateSampleSentToReferenceLaboratory());
 		target.setReferenceLaboratory(FacilityFacadeEjb.toReferenceDto(source.getReferenceLaboratory()));
 		target.setViralDetection(source.getViralDetection());
 		target.setViralDetectionTestType(source.getViralDetectionTestType());
@@ -720,6 +722,8 @@ public class PathogenTestFacadeEjb implements PathogenTestFacade {
 		target.setOtherTestsPending(source.getOtherTestsPending());
 		target.setOtherTestsPendingSpecify(source.getOtherTestsPendingSpecify());
 		target.setDateResultsSentToReferenceLaboratory(source.getDateResultsSentToReferenceLaboratory());
+		target.setDateResultsSentToEdcUnitEpi(source.getDateResultsSentToEdcUnitEpi());
+		target.setDateSampleSentToReferenceLaboratory(source.getDateSampleSentToReferenceLaboratory());
 		target.setReferenceLaboratory(facilityService.getByReferenceDto(source.getReferenceLaboratory()));
 		target.setSelectedPathogenTestTypes(
 			source.getSelectedPathogenTestTypes() == null ? null : new HashSet<>(source.getSelectedPathogenTestTypes()));
