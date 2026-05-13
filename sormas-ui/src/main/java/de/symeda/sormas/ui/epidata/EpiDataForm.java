@@ -240,18 +240,18 @@ public class EpiDataForm extends AbstractEditForm<EpiDataDto> {
 			ogExposureDetailsKnown.setEnabled(CollectionUtils.isEmpty(exposuresField.getValue()));
 		});
 
-		addField(PersonDto.PLACE, TextField.class);
-		addField(PersonDto.DURATION_MONTHS, TextField.class);
-		addField(PersonDto.DURATION_DAYS, TextField.class);
-		addField(PersonDto.PLACE2, TextField.class);
-		addField(PersonDto.DURATION_MONTHS2, TextField.class);
-		addField(PersonDto.DURATION_DAYS2, TextField.class);
-		addField(PersonDto.PLACE3, TextField.class);
-		addField(PersonDto.DURATION_MONTHS3, TextField.class);
-		addField(PersonDto.DURATION_DAYS3, TextField.class);
-		addField(PersonDto.PLACE4, TextField.class);
-		addField(PersonDto.DURATION_MONTHS4, TextField.class);
-		addField(PersonDto.DURATION_DAYS4, TextField.class);
+		addField(EpiDataDto.PLACE, TextField.class);
+		addField(EpiDataDto.DURATION_MONTHS, TextField.class);
+		addField(EpiDataDto.DURATION_DAYS, TextField.class);
+		addField(EpiDataDto.PLACE2, TextField.class);
+		addField(EpiDataDto.DURATION_MONTHS2, TextField.class);
+		addField(EpiDataDto.DURATION_DAYS2, TextField.class);
+		addField(EpiDataDto.PLACE3, TextField.class);
+		addField(EpiDataDto.DURATION_MONTHS3, TextField.class);
+		addField(EpiDataDto.DURATION_DAYS3, TextField.class);
+		addField(EpiDataDto.PLACE4, TextField.class);
+		addField(EpiDataDto.DURATION_MONTHS4, TextField.class);
+		addField(EpiDataDto.DURATION_DAYS4, TextField.class);
 	}
 
 	private void addCongenitalRubellaFields() {

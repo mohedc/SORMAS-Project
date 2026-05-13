@@ -1317,31 +1317,23 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 			TextField labDetailsField,
 			TextField outsideCountryField,
 			boolean isNationalUser) {
-
 		if (isNationalUser && value == SamplePurpose.OUTSIDE_COUNTRY_LAB_TESTING) {
 			outsideCountryField.setVisible(true);
 			outsideCountryField.setRequired(true);
-
-			labField.setValue(
-					labField.getItemIds().stream()
-							.filter(f -> ((FacilityReferenceDto) f).getUuid().equals(FacilityDto.OTHER_FACILITY_UUID))
-							.findFirst()
-							.orElse(null)
-			);
-
 			labDetailsField.setVisible(true);
 			labDetailsField.setRequired(true);
-		} else {
-			outsideCountryField.setVisible(false);
-			outsideCountryField.setRequired(false);
-			outsideCountryField.clear();
-
-			labField.clear();
-
-			labDetailsField.setVisible(false);
-			labDetailsField.setRequired(false);
-			labDetailsField.clear();
+			Object otherFacility = labField.getItemIds().stream()
+					.filter(f -> f instanceof FacilityReferenceDto)
+					.filter(f -> FacilityDto.OTHER_FACILITY_UUID.equals(((FacilityReferenceDto) f).getUuid()))
+					.findFirst()
+					.orElse(null);
+			labField.setValue(otherFacility);
+			return;
 		}
+		outsideCountryField.setVisible(false);
+		outsideCountryField.setRequired(false);
+		labDetailsField.setVisible(true);
+		labDetailsField.setRequired(false);
 	}
 
 	private void handleIDSR() {
