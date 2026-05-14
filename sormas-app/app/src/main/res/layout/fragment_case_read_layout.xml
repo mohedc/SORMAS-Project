@@ -456,6 +456,11 @@
                     app:value="@{data.healthFacilityDetails}"
                     style="@style/ControlSingleColumnStyle" />
 
+                <de.symeda.sormas.app.component.controls.ControlTextReadField
+                    android:id="@+id/caseData_department"
+                    app:value="@{data.department}"
+                    style="@style/ControlSingleColumnStyle" />
+
                 <LinearLayout
                     android:id="@+id/point_of_entry_fields_layout"
                     android:layout_width="match_parent"

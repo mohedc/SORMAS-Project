@@ -486,6 +486,7 @@ public class CaseNewFragment extends BaseEditFragment<FragmentCaseNewLayoutBindi
 		record.setFacilityType(lastCase.getFacilityType());
 		record.setHealthFacility(lastCase.getHealthFacility());
 		record.setHealthFacilityDetails(lastCase.getHealthFacilityDetails());
+		record.setDepartment(lastCase.getDepartment());
 		record.setPointOfEntry(lastCase.getPointOfEntry());
 		record.setPointOfEntryDetails(lastCase.getPointOfEntryDetails());
 		record.setReportDate(lastCase.getReportDate());

@@ -120,6 +120,7 @@ public class CaseDtoHelper extends PersonDependentDtoHelper<Case, CaseDataDto> {
 
 		target.setHealthFacility(DatabaseHelper.getFacilityDao().getByReferenceDto(source.getHealthFacility()));
 		target.setHealthFacilityDetails(source.getHealthFacilityDetails());
+		target.setDepartment(source.getDepartment());
 		target.setPerson(DatabaseHelper.getPersonDao().getByReferenceDto(source.getPerson()));
 		target.setInvestigatedDate(source.getInvestigatedDate());
 		target.setDistrictLevelDate(source.getDistrictLevelDate());
@@ -360,6 +361,7 @@ public class CaseDtoHelper extends PersonDependentDtoHelper<Case, CaseDataDto> {
 			target.setHealthFacility(null);
 		}
 		target.setHealthFacilityDetails(source.getHealthFacilityDetails());
+		target.setDepartment(source.getDepartment());
 
 		if (source.getPerson() != null) {
 			Person person = DatabaseHelper.getPersonDao().queryForId(source.getPerson().getId());

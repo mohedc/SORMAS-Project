@@ -246,6 +246,11 @@
                 app:softRequired="true"
                 app:value="@={data.healthFacilityDetails}" />
 
+            <de.symeda.sormas.app.component.controls.ControlTextEditField
+                android:id="@+id/caseData_department"
+                style="@style/ControlSingleColumnStyle"
+                app:value="@={data.department}" />
+
             <de.symeda.sormas.app.component.controls.InfrastructureSpinnerField
                 android:id="@+id/caseData_pointOfEntry"
                 style="@style/ControlSingleColumnStyle"
@@ -424,6 +429,11 @@
                 android:id="@+id/person_nationality"
                 style="@style/ControlSingleColumnStyle"
                 app:value="@={data.person.nationality}" />
+
+            <de.symeda.sormas.app.component.controls.ControlTextEditField
+                android:id="@+id/person_passportNumber"
+                style="@style/ControlSingleColumnStyle"
+                app:value="@={data.person.passportNumber}" />
 
         </LinearLayout>
 

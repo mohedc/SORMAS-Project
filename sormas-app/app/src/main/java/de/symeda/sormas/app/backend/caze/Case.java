@@ -213,6 +213,9 @@ public class Case extends PseudonymizableAdo {
 	@Column(length = CHARACTER_LIMIT_DEFAULT)
 	private String healthFacilityDetails;
 
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	private String department;
+
 	@DatabaseField(foreign = true, foreignAutoRefresh = true, maxForeignAutoRefreshLevel = 3)
 	private PointOfEntry pointOfEntry;
 
@@ -851,6 +854,14 @@ public class Case extends PseudonymizableAdo {
 
 	public void setHealthFacilityDetails(String healthFacilityDetails) {
 		this.healthFacilityDetails = healthFacilityDetails;
+	}
+
+	public String getDepartment() {
+		return department;
+	}
+
+	public void setDepartment(String department) {
+		this.department = department;
 	}
 
 	public Symptoms getSymptoms() {
