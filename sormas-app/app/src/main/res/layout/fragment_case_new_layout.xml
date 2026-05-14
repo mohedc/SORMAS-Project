@@ -435,6 +435,25 @@
                 style="@style/ControlSingleColumnStyle"
                 app:value="@={data.person.passportNumber}" />
 
+            <LinearLayout
+                android:id="@+id/person_phone_email_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <de.symeda.sormas.app.component.controls.ControlTextEditField
+                    android:id="@+id/person_phone"
+                    style="@style/ControlFirstOfTwoColumnsStyle"
+                    app:inputType="phone"
+                    app:value="@={data.person.phone}" />
+
+                <de.symeda.sormas.app.component.controls.ControlTextEditField
+                    android:id="@+id/person_emailAddress"
+                    style="@style/ControlSecondOfTwoColumnsStyle"
+                    app:value="@={data.person.emailAddress}" />
+
+            </LinearLayout>
+
         </LinearLayout>
 
 

@@ -21,6 +21,7 @@ import java.util.List;
 import de.symeda.sormas.api.PostResponse;
 import de.symeda.sormas.api.location.LocationDto;
 import de.symeda.sormas.api.person.PersonContactDetailDto;
+import de.symeda.sormas.api.person.PersonContactDetailType;
 import de.symeda.sormas.api.person.PersonDto;
 import de.symeda.sormas.api.person.PersonReferenceDto;
 import de.symeda.sormas.app.backend.common.AdoDtoHelper;
@@ -145,6 +146,9 @@ public class PersonDtoHelper extends AdoDtoHelper<Person, PersonDto> {
 		}
 		target.setPersonContactDetails(personContactDetails);
 
+		target.setPhone(source.getPhone());
+		target.setEmailAddress(source.getEmailAddress());
+
 		target.setExternalId(source.getExternalId());
 		target.setExternalToken(source.getExternalToken());
 		target.setInternalToken(source.getInternalToken());
@@ -260,10 +264,17 @@ public class PersonDtoHelper extends AdoDtoHelper<Person, PersonDto> {
 		// Necessary because the person is synchronized independently
 		DatabaseHelper.getPersonDao().initPersonContactDetails(source);
 		for (PersonContactDetail personContactDetail : source.getPersonContactDetails()) {
+			if (personContactDetail.isPrimaryContact()
+				&& (personContactDetail.getPersonContactDetailType() == PersonContactDetailType.PHONE
+					|| personContactDetail.getPersonContactDetailType() == PersonContactDetailType.EMAIL)) {
+				continue;
+			}
 			PersonContactDetailDto personContactDetailDto = personContactDetailDtoHelper.adoToDto(personContactDetail);
 			personContactDetailDtos.add(personContactDetailDto);
 		}
 		target.setPersonContactDetails(personContactDetailDtos);
+		target.setPhone(source.getPhone() != null ? source.getPhone() : "");
+		target.setEmailAddress(source.getEmailAddress() != null ? source.getEmailAddress() : "");
 
 		target.setExternalId(source.getExternalId());
 		target.setExternalToken(source.getExternalToken());

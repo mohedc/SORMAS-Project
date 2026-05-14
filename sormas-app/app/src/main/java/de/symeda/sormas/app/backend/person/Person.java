@@ -186,6 +186,10 @@ public class Person extends PseudonymizableAdo {
 	private String passportNumber;
 	@Column
 	private String nationalHealthId;
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	private String phone;
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	private String emailAddress;
 
 	private List<Location> addresses = new ArrayList<>();
 	private List<PersonContactDetail> personContactDetails = new ArrayList<>();
@@ -628,6 +632,24 @@ public class Person extends PseudonymizableAdo {
 
 	public void setNationalHealthId(String nationalHealthId) {
 		this.nationalHealthId = nationalHealthId;
+	}
+
+	@Bindable
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	@Bindable
+	public String getEmailAddress() {
+		return emailAddress;
+	}
+
+	public void setEmailAddress(String emailAddress) {
+		this.emailAddress = emailAddress;
 	}
 
 	public FacilityType getPlaceOfBirthFacilityType() {
