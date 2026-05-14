@@ -101,6 +101,7 @@ public enum Disease
 	ZIKA_VIRUS(true, false, true, false, true,14, true, false, false),
 	HUMAN_AFRICAN_TRYPANOSOMIASIS(true, false, true, false, true,14, true, false, false),
 	SCABIES(true, false, true, false, true,14, true, false, false),
+	SOIL_TRANSMITTED_HELMINTHIASIS(true, false, true, false, true,14, true, false, false),
 	VHF(true, false, true, false, true,14, true, false, false);
 
     private final boolean defaultActive;
@@ -241,8 +242,8 @@ public enum Disease
 			Disease.ZIKA_VIRUS,
 			Disease.MONKEYPOX,
 			Disease.HUMAN_AFRICAN_TRYPANOSOMIASIS,
-			Disease.SOIL_TRANSMITTED_HELMINTHS,
-			Disease.SCABIES
+			Disease.SCABIES,
+			Disease.SOIL_TRANSMITTED_HELMINTHIASIS
 	);
 
 }
