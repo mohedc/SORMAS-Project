@@ -281,7 +281,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/caseData_dateFields_heading"
+                android:id="@+id/caseData_dateFields_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -300,6 +300,13 @@
                     app:value="@={data.symptoms.onsetDate}" />
 
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/caseData_headingPatientIdentification"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{I18nProperties.getString(Strings.headingPatientIdentification)}"
+                style="@style/SubHeadingStyle" />
 
             <LinearLayout
                 android:id="@+id/name_fields_layout"
@@ -320,6 +327,12 @@
                     app:value="@={data.person.lastName}" />
 
             </LinearLayout>
+
+            <de.symeda.sormas.app.component.controls.ControlTextEditField
+                android:id="@+id/caseData_otherNames"
+                style="@style/ControlSingleColumnStyle"
+                app:required="true"
+                app:value="@={data.person.otherNames}" />
 
             <TextView
                 android:id="@+id/person_birthdateLabel"
@@ -358,6 +371,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/approximate_age_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -382,6 +396,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/sex_and_citizenship_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -398,6 +413,7 @@
                     style="@style/ControlSecondOfTwoColumnsStyle" />
 
             </LinearLayout>
+
 
             <de.symeda.sormas.app.component.controls.ControlSpinnerField
                 android:id="@+id/person_presentCondition"

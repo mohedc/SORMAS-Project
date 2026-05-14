@@ -718,6 +718,7 @@ public interface Strings {
 	String headingImportDistricts = "headingImportDistricts";
 	String headingImportedCaseInfo = "headingImportedCaseInfo";
 	String headingImportedPersonInfo = "headingImportedPersonInfo";
+	String headingPatientIdentification = "headingPatientIdentification";
 	String headingImportEnvironments = "headingImportEnvironments";
 	String headingImportError = "headingImportError";
 	String headingImportEvent = "headingImportEvent";
