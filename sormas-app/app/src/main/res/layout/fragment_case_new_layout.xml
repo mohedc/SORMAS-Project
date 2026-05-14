@@ -29,6 +29,7 @@
         <import type="de.symeda.sormas.api.i18n.Strings" />
         <import type="de.symeda.sormas.api.disease.DiseaseVariant" />
         <import type="de.symeda.sormas.api.caze.IdsrType" />
+        <import type="de.symeda.sormas.api.caze.CaseOrigin" />
 
         <variable name="data" type="de.symeda.sormas.app.backend.caze.Case" />
         <variable name="caseOriginClass" type="Class" />
@@ -432,8 +433,10 @@
 
             <de.symeda.sormas.app.component.controls.ControlTextEditField
                 android:id="@+id/person_passportNumber"
-                style="@style/ControlSingleColumnStyle"
-                app:value="@={data.person.passportNumber}" />
+                app:value="@={data.person.passportNumber}"
+                app:dependencyParentField="@{caseDataCaseOrigin}"
+                app:dependencyParentValue="@{CaseOrigin.POINT_OF_ENTRY}"
+                style="@style/ControlSingleColumnStyle" />
 
             <LinearLayout
                 android:id="@+id/person_phone_email_layout"
