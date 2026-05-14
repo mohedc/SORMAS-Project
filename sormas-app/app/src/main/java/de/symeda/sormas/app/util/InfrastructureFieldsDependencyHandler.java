@@ -385,7 +385,7 @@ public class InfrastructureFieldsDependencyHandler {
 					typeGroupField.setSpinnerData(null);
 					facilityDetailsField.setValue(null);
 					facilityDetailsField.setVisibility(GONE);
-				} else if (TypeOfPlace.HOME.equals(selectedType)) {
+				} else if (TypeOfPlace.HOME.equals(selectedType) || TypeOfPlace.OTHER.equals(selectedType)) {
 					typeGroupField.setSpinnerData(null);
 					typeField.setSpinnerData(null);
 					Facility noneFacility = DatabaseHelper.getFacilityDao().queryUuid(FacilityDto.NONE_FACILITY_UUID);

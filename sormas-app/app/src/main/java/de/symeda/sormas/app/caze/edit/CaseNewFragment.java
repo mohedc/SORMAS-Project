@@ -43,16 +43,21 @@ import de.symeda.sormas.api.person.Sex;
 import de.symeda.sormas.api.utils.DataHelper;
 import de.symeda.sormas.api.user.JurisdictionLevel;
 import de.symeda.sormas.api.utils.DateHelper;
+import de.symeda.sormas.api.i18n.I18nProperties;
+import de.symeda.sormas.api.i18n.Validations;
 import de.symeda.sormas.api.utils.fieldvisibility.FieldVisibilityCheckers;
+import de.symeda.sormas.app.BaseActivity;
 import de.symeda.sormas.app.BaseEditFragment;
 import de.symeda.sormas.app.R;
 import de.symeda.sormas.app.backend.caze.Case;
 import de.symeda.sormas.app.backend.common.DatabaseHelper;
 import de.symeda.sormas.app.backend.config.ConfigProvider;
 import de.symeda.sormas.app.backend.facility.Facility;
+import de.symeda.sormas.app.backend.location.Location;
 import de.symeda.sormas.app.backend.user.User;
 import de.symeda.sormas.app.backend.user.UserRole;
 import de.symeda.sormas.app.component.Item;
+import de.symeda.sormas.app.component.dialog.LocationDialog;
 import de.symeda.sormas.app.databinding.FragmentCaseNewLayoutBinding;
 import de.symeda.sormas.app.person.edit.PersonValidator;
 import de.symeda.sormas.app.util.Bundler;
@@ -266,15 +271,22 @@ public class CaseNewFragment extends BaseEditFragment<FragmentCaseNewLayoutBindi
 		contentBinding.personPresentCondition.initializeSpinner(presentConditionList);
 
 		contentBinding.facilityOrHome.addValueChangedListener(e -> {
-			if (e.getValue() == TypeOfPlace.FACILITY) {
+			TypeOfPlace place = (TypeOfPlace) e.getValue();
+			if (TypeOfPlace.FACILITY.equals(place)) {
 				contentBinding.facilityTypeGroup.setValue(FacilityTypeGroup.MEDICAL_FACILITY);
 				contentBinding.caseDataFacilityType.setValue(FacilityType.HOSPITAL);
 				User user = ConfigProvider.getUser();
 				if (!user.hasJurisdictionLevel(JurisdictionLevel.HEALTH_FACILITY)) {
 					contentBinding.caseDataHealthFacility.setValue(null);
 				}
+			} else if (TypeOfPlace.HOME.equals(place)) {
+				contentBinding.caseDataHealthFacilityDetails.setValue(null);
 			}
+			updatePlaceOfStayDependentFieldVisibility(contentBinding);
 		});
+
+		setUpPersonHomeAddressClick(contentBinding);
+
 		contentBinding.caseDataDisease.addValueChangedListener(e -> {
 			contentBinding.rapidCaseEntryCheckBox.setVisibility(
 				e.getValue() != null && ((CaseNewActivity) getActivity()).getLineListingDiseases().contains(e.getValue()) ? VISIBLE : GONE);
@@ -291,10 +303,20 @@ public class CaseNewFragment extends BaseEditFragment<FragmentCaseNewLayoutBindi
 
 	@Override
 	public void onAfterLayoutBinding(final FragmentCaseNewLayoutBinding contentBinding) {
-		InfrastructureDaoHelper
-			.initializeHealthFacilityDetailsFieldVisibility(contentBinding.caseDataHealthFacility, contentBinding.caseDataHealthFacilityDetails);
-		InfrastructureDaoHelper
-			.initializePointOfEntryDetailsFieldVisibility(contentBinding.caseDataPointOfEntry, contentBinding.caseDataPointOfEntryDetails);
+		InfrastructureDaoHelper.initializeHealthFacilityDetailsFieldVisibility(
+			contentBinding.caseDataHealthFacility,
+			contentBinding.caseDataHealthFacilityDetails,
+			contentBinding.facilityOrHome);
+
+		contentBinding.personAddress.setValidationCallback(() -> {
+			if (contentBinding.personPlaceOfStayHomeAddressLayout.getVisibility() != VISIBLE) {
+				return false;
+			}
+			return validatePersonHomeAddressWhenRequired(contentBinding);
+		});
+		InfrastructureDaoHelper.initializePointOfEntryDetailsFieldVisibility(
+			contentBinding.caseDataPointOfEntry,
+			contentBinding.caseDataPointOfEntryDetails);
 
 		if (!ConfigProvider.isConfiguredServer(CountryHelper.COUNTRY_CODE_GERMANY)
 			&& !ConfigProvider.isConfiguredServer(CountryHelper.COUNTRY_CODE_SWITZERLAND)) {
@@ -366,6 +388,7 @@ public class CaseNewFragment extends BaseEditFragment<FragmentCaseNewLayoutBindi
 			contentBinding.caseDataDiseaseVariant.setVisibility(GONE);
 			contentBinding.caseDataDiseaseVariantDetails.setVisibility(GONE);
 			contentBinding.facilityOrHome.setVisibility(GONE);
+			contentBinding.personPlaceOfStayHomeAddressLayout.setVisibility(GONE);
 			contentBinding.caseDataCommunity.setVisibility(GONE);
 			contentBinding.facilityTypeFieldsLayout.setVisibility(GONE);
 			contentBinding.caseDataHealthFacility.setVisibility(GONE);
@@ -393,11 +416,78 @@ public class CaseNewFragment extends BaseEditFragment<FragmentCaseNewLayoutBindi
 					contentBinding.facilityOrHome.setRequired(false);
 					contentBinding.facilityOrHome.setValue(null);
 				}
+				updatePlaceOfStayDependentFieldVisibility(contentBinding);
 			});
 		} else {
 			contentBinding.caseDataCaseOrigin.setVisibility(GONE);
 			contentBinding.caseDataPointOfEntry.setVisibility(GONE);
 		}
+
+		updatePlaceOfStayDependentFieldVisibility(contentBinding);
+	}
+
+	/**
+	 * Same pattern as {@link de.symeda.sormas.app.person.edit.PersonEditFragment#setUpControlListeners}:
+	 * {@code locationValue} binding only updates the caption; opening the editor requires a click listener.
+	 */
+	private void setUpPersonHomeAddressClick(FragmentCaseNewLayoutBinding contentBinding) {
+		contentBinding.personAddress.setOnClickListener(v -> openPersonHomeAddressPopup(contentBinding));
+	}
+
+	private void openPersonHomeAddressPopup(FragmentCaseNewLayoutBinding contentBinding) {
+		final Location location = record.getPerson().getAddress();
+		final Location locationClone = (Location) location.clone();
+		final LocationDialog locationDialog = new LocationDialog(BaseActivity.getActiveActivity(), locationClone, getFieldAccessCheckers());
+		locationDialog.show();
+		locationDialog.showHideFieldsForDisease(record.getDisease(), FormType.PERSON_LOCATION_EDIT);
+
+		locationDialog.setPositiveCallback(() -> {
+			contentBinding.personAddress.setValue(locationClone);
+			record.getPerson().setAddress(locationClone);
+		});
+	}
+
+	private void updatePlaceOfStayDependentFieldVisibility(FragmentCaseNewLayoutBinding contentBinding) {
+		if (UserRole.isPortHealthUser(ConfigProvider.getUser().getUserRoles())) {
+			return;
+		}
+
+		TypeOfPlace place = (TypeOfPlace) contentBinding.facilityOrHome.getValue();
+		boolean home = TypeOfPlace.HOME.equals(place);
+		contentBinding.personPlaceOfStayHomeAddressLayout.setVisibility(home ? VISIBLE : GONE);
+		contentBinding.personAddress.setRequired(home);
+		if (!home) {
+			contentBinding.personAddress.disableErrorState();
+		}
+	}
+
+	/**
+	 * @return true if a validation error was applied (see {@link de.symeda.sormas.app.component.controls.ControlPropertyEditField#setValidationCallback}).
+	 */
+	private static boolean validatePersonHomeAddressWhenRequired(FragmentCaseNewLayoutBinding contentBinding) {
+		Location address = contentBinding.getData().getPerson().getAddress();
+		if (address.getRegion() == null) {
+			contentBinding.personAddress.enableErrorState(I18nProperties.getValidationError(Validations.validRegion));
+			return true;
+		}
+		if (address.getDistrict() == null) {
+			contentBinding.personAddress.enableErrorState(I18nProperties.getValidationError(Validations.validDistrict));
+			return true;
+		}
+		if (address.getCommunity() == null) {
+			contentBinding.personAddress.enableErrorState(I18nProperties.getValidationError(Validations.requiredField));
+			return true;
+		}
+		if (DataHelper.isNullOrEmpty(address.getVillage())) {
+			contentBinding.personAddress.enableErrorState(I18nProperties.getValidationError(Validations.requiredField));
+			return true;
+		}
+		if (address.getFacility() == null) {
+			contentBinding.personAddress.enableErrorState(I18nProperties.getValidationError(Validations.requiredField));
+			return true;
+		}
+		contentBinding.personAddress.disableErrorState();
+		return false;
 	}
 
 	private void updateDiseaseVariantsField(FragmentCaseNewLayoutBinding contentBinding) {
@@ -498,5 +588,10 @@ public class CaseNewFragment extends BaseEditFragment<FragmentCaseNewLayoutBindi
 		record.setCaseOrigin(lastCase.getCaseOrigin());
 
 		getContentBinding().setData(record);
+
+		FragmentCaseNewLayoutBinding binding = getContentBinding();
+		if (binding != null) {
+			updatePlaceOfStayDependentFieldVisibility(binding);
+		}
 	}
 }

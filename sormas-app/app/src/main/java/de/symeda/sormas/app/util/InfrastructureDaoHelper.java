@@ -27,6 +27,7 @@ import java.util.stream.Collectors;
 import androidx.annotation.Nullable;
 
 import de.symeda.sormas.api.caze.CaseDataDto;
+import de.symeda.sormas.api.event.TypeOfPlace;
 import de.symeda.sormas.api.i18n.Captions;
 import de.symeda.sormas.api.i18n.I18nProperties;
 import de.symeda.sormas.api.infrastructure.facility.FacilityDto;
@@ -258,41 +259,118 @@ public final class InfrastructureDaoHelper {
 	public static void initializeHealthFacilityDetailsFieldVisibility(
 		final ControlPropertyField healthFacilityField,
 		final ControlPropertyField healthFacilityDetailsField) {
-		setHealthFacilityDetailsFieldVisibility(healthFacilityField, healthFacilityDetailsField);
-		healthFacilityField
-			.addValueChangedListener(field -> setHealthFacilityDetailsFieldVisibility(healthFacilityField, healthFacilityDetailsField));
+		initializeHealthFacilityDetailsFieldVisibility(healthFacilityField, healthFacilityDetailsField, null);
+	}
+
+	/**
+	 * Same as {@link #initializeHealthFacilityDetailsFieldVisibility(ControlPropertyField, ControlPropertyField)},
+	 * but when {@code facilityOrHomeField} is set, visibility and required state follow web case create rules
+	 * ({@code CaseCreateForm#updateFacilityFields}): hide details for {@link TypeOfPlace#HOME}; show "place description"
+	 * for {@link TypeOfPlace#OTHER} with a none facility; keep behaviour for {@link TypeOfPlace#FACILITY}.
+	 */
+	public static void initializeHealthFacilityDetailsFieldVisibility(
+		final ControlPropertyField healthFacilityField,
+		final ControlPropertyField healthFacilityDetailsField,
+		@Nullable final ControlSpinnerField facilityOrHomeField) {
+
+		Runnable refresh = () -> {
+			TypeOfPlace place = facilityOrHomeField != null ? (TypeOfPlace) facilityOrHomeField.getValue() : null;
+			setHealthFacilityDetailsFieldVisibility(healthFacilityField, healthFacilityDetailsField, place);
+		};
+		refresh.run();
+		healthFacilityField.addValueChangedListener(field -> refresh.run());
+		if (facilityOrHomeField != null) {
+			facilityOrHomeField.addValueChangedListener(field -> refresh.run());
+		}
 	}
 
 	public static void setHealthFacilityDetailsFieldVisibility(
 		ControlPropertyField healthFacilityField,
 		ControlPropertyField healthFacilityDetailsField) {
+		setHealthFacilityDetailsFieldVisibility(healthFacilityField, healthFacilityDetailsField, null);
+	}
+
+	public static void setHealthFacilityDetailsFieldVisibility(
+		ControlPropertyField healthFacilityField,
+		ControlPropertyField healthFacilityDetailsField,
+		@Nullable TypeOfPlace placeOfStay) {
+
 		Facility selectedFacility = (Facility) healthFacilityField.getValue();
 
-		if (selectedFacility != null) {
-			boolean otherHealthFacility = FacilityDto.OTHER_FACILITY_UUID.equals(selectedFacility.getUuid());
-			boolean noneHealthFacility = FacilityDto.NONE_FACILITY_UUID.equals(selectedFacility.getUuid());
+		if (placeOfStay != null && TypeOfPlace.HOME.equals(placeOfStay)) {
+			hideHealthFacilityDetails(healthFacilityDetailsField, true, true);
+			return;
+		}
 
-			if (otherHealthFacility) {
+		if (selectedFacility == null) {
+			if (placeOfStay != null) {
+				hideHealthFacilityDetails(healthFacilityDetailsField, true, true);
+			} else {
+				hideHealthFacilityDetails(healthFacilityDetailsField, false, false);
+			}
+			return;
+		}
+
+		boolean otherHealthFacility = FacilityDto.OTHER_FACILITY_UUID.equals(selectedFacility.getUuid());
+		boolean noneHealthFacility = FacilityDto.NONE_FACILITY_UUID.equals(selectedFacility.getUuid());
+
+		if (placeOfStay != null) {
+			boolean showNonePlaceDescription = noneHealthFacility && TypeOfPlace.OTHER.equals(placeOfStay);
+			boolean visibleAndRequired = otherHealthFacility || showNonePlaceDescription;
+			if (visibleAndRequired) {
 				healthFacilityDetailsField.setVisibility(VISIBLE);
-				String caption = I18nProperties.getPrefixCaption(CaseDataDto.I18N_PREFIX, CaseDataDto.HEALTH_FACILITY_DETAILS);
-				healthFacilityDetailsField.setCaption(caption);
-				if (healthFacilityDetailsField instanceof ControlPropertyEditField) {
-					ControlPropertyEditField healthFacilityDetailsEditField = (ControlPropertyEditField) healthFacilityDetailsField;
-					healthFacilityDetailsEditField.setHint(caption);
-				}
-			} else if (noneHealthFacility) {
-				healthFacilityDetailsField.setVisibility(VISIBLE);
-				String caption = I18nProperties.getCaption(Captions.CaseData_noneHealthFacilityDetails);
-				healthFacilityDetailsField.setCaption(caption);
-				if (healthFacilityDetailsField instanceof ControlPropertyEditField) {
-					ControlPropertyEditField healthFacilityDetailsEditField = (ControlPropertyEditField) healthFacilityDetailsField;
-					healthFacilityDetailsEditField.setHint(caption);
+				setHealthFacilityDetailsRequired(healthFacilityDetailsField, true);
+				if (otherHealthFacility) {
+					applyHealthFacilityDetailsCaption(
+						healthFacilityDetailsField,
+						I18nProperties.getPrefixCaption(CaseDataDto.I18N_PREFIX, CaseDataDto.HEALTH_FACILITY_DETAILS));
+				} else {
+					applyHealthFacilityDetailsCaption(
+						healthFacilityDetailsField,
+						I18nProperties.getCaption(Captions.CaseData_noneHealthFacilityDetails));
 				}
 			} else {
-				healthFacilityDetailsField.setVisibility(GONE);
+				hideHealthFacilityDetails(healthFacilityDetailsField, true, true);
 			}
+			return;
+		}
+
+		if (otherHealthFacility) {
+			healthFacilityDetailsField.setVisibility(VISIBLE);
+			String caption = I18nProperties.getPrefixCaption(CaseDataDto.I18N_PREFIX, CaseDataDto.HEALTH_FACILITY_DETAILS);
+			applyHealthFacilityDetailsCaption(healthFacilityDetailsField, caption);
+		} else if (noneHealthFacility) {
+			healthFacilityDetailsField.setVisibility(VISIBLE);
+			String caption = I18nProperties.getCaption(Captions.CaseData_noneHealthFacilityDetails);
+			applyHealthFacilityDetailsCaption(healthFacilityDetailsField, caption);
 		} else {
-			healthFacilityDetailsField.setVisibility(GONE);
+			hideHealthFacilityDetails(healthFacilityDetailsField, false, false);
+		}
+	}
+
+	private static void setHealthFacilityDetailsRequired(ControlPropertyField field, boolean required) {
+		if (field instanceof ControlPropertyEditField) {
+			((ControlPropertyEditField) field).setRequired(required);
+		}
+	}
+
+	private static void applyHealthFacilityDetailsCaption(ControlPropertyField healthFacilityDetailsField, String caption) {
+		healthFacilityDetailsField.setCaption(caption);
+		if (healthFacilityDetailsField instanceof ControlPropertyEditField) {
+			((ControlPropertyEditField) healthFacilityDetailsField).setHint(caption);
+		}
+	}
+
+	private static void hideHealthFacilityDetails(
+		ControlPropertyField healthFacilityDetailsField,
+		boolean clearValue,
+		boolean clearRequired) {
+		healthFacilityDetailsField.setVisibility(GONE);
+		if (clearRequired) {
+			setHealthFacilityDetailsRequired(healthFacilityDetailsField, false);
+		}
+		if (clearValue && healthFacilityDetailsField instanceof ControlPropertyEditField) {
+			((ControlPropertyEditField) healthFacilityDetailsField).setValue(null);
 		}
 	}
 

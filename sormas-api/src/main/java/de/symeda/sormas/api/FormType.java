@@ -43,8 +43,8 @@ public enum FormType {
     EVENT_EDIT,
     EPI_LOCATION_EDIT,
     INVESTIGATION_NOTES_EDIT,
-    FOLLOW_UP_VISITS;
-
+    FOLLOW_UP_VISITS,
+    CASE_CREATE_LOCATION;
 	@Override
 	public String toString() {
 		return I18nProperties.getEnumCaption(this);
