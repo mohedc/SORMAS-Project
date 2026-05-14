@@ -241,8 +241,13 @@ public class Sample extends PseudonymizableAdo {
 	private String sampleContainerReceivedOther;
 	@Enumerated(EnumType.STRING)
 	private SpecimenCondition sampleConditionAtReception;
-	@Enumerated(EnumType.STRING)
+
+	@Column(name = "csfAppearanceAtCollection", length = CHARACTER_LIMIT_DEFAULT)
+	private String csfAppearanceAtCollectionString;
+
+	@Transient
 	private Set<CsfAppearance> csfAppearanceAtCollection;
+
 	@Enumerated(EnumType.STRING)
 	private CsfAppearance csfAppearanceAtReception;
 
@@ -1025,12 +1030,48 @@ public class Sample extends PseudonymizableAdo {
 		this.sampleConditionAtReception = sampleConditionAtReception;
 	}
 
+	public String getCsfAppearanceAtCollectionString() {
+		return csfAppearanceAtCollectionString;
+	}
+
+	public void setCsfAppearanceAtCollectionString(String csfAppearanceAtCollectionString) {
+		this.csfAppearanceAtCollectionString = csfAppearanceAtCollectionString;
+		this.csfAppearanceAtCollection = null;
+	}
+
 	public Set<CsfAppearance> getCsfAppearanceAtCollection() {
+		if (csfAppearanceAtCollection == null) {
+			csfAppearanceAtCollection = new HashSet<>();
+			if (!StringUtils.isEmpty(csfAppearanceAtCollectionString)) {
+				for (String value : csfAppearanceAtCollectionString.split(",")) {
+					if (StringUtils.isNotBlank(value)) {
+						csfAppearanceAtCollection.add(CsfAppearance.valueOf(value.trim()));
+					}
+				}
+			}
+		}
 		return csfAppearanceAtCollection;
 	}
 
 	public void setCsfAppearanceAtCollection(Set<CsfAppearance> csfAppearanceAtCollection) {
 		this.csfAppearanceAtCollection = csfAppearanceAtCollection;
+
+		if (this.csfAppearanceAtCollection == null || this.csfAppearanceAtCollection.isEmpty()) {
+			csfAppearanceAtCollectionString = null;
+			return;
+		}
+
+		StringBuilder sb = new StringBuilder();
+		for (CsfAppearance appearance : this.csfAppearanceAtCollection) {
+			if (appearance == null) {
+				continue;
+			}
+			if (sb.length() > 0) {
+				sb.append(',');
+			}
+			sb.append(appearance.name());
+		}
+		csfAppearanceAtCollectionString = sb.length() > 0 ? sb.toString() : null;
 	}
 
 	public CsfAppearance getCsfAppearanceAtReception() {
