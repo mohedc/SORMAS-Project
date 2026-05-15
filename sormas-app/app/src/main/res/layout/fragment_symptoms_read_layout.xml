@@ -104,6 +104,45 @@
                     app:valueFormat="@string/two_strings_with_hyphen_format"
                     style="@style/ControlSingleColumnStyle" />
 
+                <de.symeda.sormas.app.component.controls.ControlTextReadField
+                    android:id="@+id/symptoms_arthralgia"
+                    app:value="@{data.arthralgia}"
+                    style="@style/ControlSingleColumnStyle" />
+
+                <de.symeda.sormas.app.component.controls.ControlTextReadField
+                    android:id="@+id/symptoms_arthralgiaOnsetDate"
+                    app:value="@{data.arthralgiaOnsetDate}"
+                    app:goneIfEmpty="@{data.arthralgiaOnsetDate}"
+                    style="@style/ControlSingleColumnStyle" />
+
+                <de.symeda.sormas.app.component.controls.ControlTextReadField
+                    android:id="@+id/symptoms_myalgia"
+                    app:value="@{data.myalgia}"
+                    style="@style/ControlSingleColumnStyle" />
+
+                <de.symeda.sormas.app.component.controls.ControlTextReadField
+                    android:id="@+id/symptoms_myalgiaOnsetDate"
+                    app:value="@{data.myalgiaOnsetDate}"
+                    app:goneIfEmpty="@{data.myalgiaOnsetDate}"
+                    style="@style/ControlSingleColumnStyle" />
+
+                <de.symeda.sormas.app.component.controls.ControlTextReadField
+                    android:id="@+id/symptoms_cataracts"
+                    app:value="@{data.cataracts}"
+                    style="@style/ControlSingleColumnStyle" />
+
+                <de.symeda.sormas.app.component.controls.ControlTextReadField
+                    android:id="@+id/symptoms_feverOnsetDate"
+                    app:value="@{data.feverOnsetDate}"
+                    app:goneIfEmpty="@{data.feverOnsetDate}"
+                    style="@style/ControlSingleColumnStyle" />
+
+                <de.symeda.sormas.app.component.controls.ControlTextReadField
+                    android:id="@+id/symptoms_causeOfDeath"
+                    app:value="@{data.causeOfDeath}"
+                    app:goneIfEmpty="@{data.causeOfDeath}"
+                    style="@style/ControlSingleColumnStyle" />
+
             </LinearLayout>
 
             <LinearLayout
@@ -231,6 +270,12 @@
                 app:goneIfEmpty="@{data.otherNonHemorrhagicSymptomsText}"
                 app:value="@{data.otherNonHemorrhagicSymptoms}"
                 app:valueFormat="@{@string/two_strings_with_hyphen_format}"/>
+
+            <de.symeda.sormas.app.component.controls.ControlTextReadField
+                android:id="@+id/symptoms_otherNonHemorrhagicSymptomsOnsetDate"
+                app:value="@{data.otherNonHemorrhagicSymptomsOnsetDate}"
+                app:goneIfEmpty="@{data.otherNonHemorrhagicSymptomsOnsetDate}"
+                style="@style/ControlSingleColumnStyle" />
 
             <de.symeda.sormas.app.component.controls.ControlTextReadField
                 android:id="@+id/symptoms_otherComplications"

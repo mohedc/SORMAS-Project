@@ -462,6 +462,10 @@ public class Symptoms extends PseudonymizableAdo {
 	@Enumerated(EnumType.STRING)
 	private SymptomState hemorrhagicSyndrome;
 	@Enumerated(EnumType.STRING)
+	private SymptomState arthralgia;
+	@Enumerated(EnumType.STRING)
+	private SymptomState myalgia;
+	@Enumerated(EnumType.STRING)
 	private SymptomState hyperglycemia;
 	@Enumerated(EnumType.STRING)
 	private SymptomState hypoglycemia;
@@ -477,6 +481,8 @@ public class Symptoms extends PseudonymizableAdo {
 	private SymptomState bilateralCataracts;
 	@Enumerated(EnumType.STRING)
 	private SymptomState unilateralCataracts;
+	@Enumerated(EnumType.STRING)
+	private SymptomState cataracts;
 	@Enumerated(EnumType.STRING)
 	private SymptomState congenitalGlaucoma;
 	@Enumerated(EnumType.STRING)
@@ -570,6 +576,8 @@ public class Symptoms extends PseudonymizableAdo {
 	private SymptomState stiffness;
 	@Enumerated(EnumType.STRING)
 	private CaseOutcome outcome;
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	private String causeOfDeath;
 	@Enumerated(EnumType.STRING)
 	private SymptomState babydied;
 
@@ -2070,6 +2078,22 @@ public class Symptoms extends PseudonymizableAdo {
 		this.hemorrhagicSyndrome = hemorrhagicSyndrome;
 	}
 
+	public SymptomState getArthralgia() {
+		return arthralgia;
+	}
+
+	public void setArthralgia(SymptomState arthralgia) {
+		this.arthralgia = arthralgia;
+	}
+
+	public SymptomState getMyalgia() {
+		return myalgia;
+	}
+
+	public void setMyalgia(SymptomState myalgia) {
+		this.myalgia = myalgia;
+	}
+
 	public SymptomState getHyperglycemia() {
 		return hyperglycemia;
 	}
@@ -2116,6 +2140,14 @@ public class Symptoms extends PseudonymizableAdo {
 
 	public void setUnilateralCataracts(SymptomState unilateralCataracts) {
 		this.unilateralCataracts = unilateralCataracts;
+	}
+
+	public SymptomState getCataracts() {
+		return cataracts;
+	}
+
+	public void setCataracts(SymptomState cataracts) {
+		this.cataracts = cataracts;
 	}
 
 	public SymptomState getCongenitalGlaucoma() {
@@ -2536,6 +2568,14 @@ public class Symptoms extends PseudonymizableAdo {
 
 	public void setOutcome(CaseOutcome outcome) {
 		this.outcome = outcome;
+	}
+
+	public String getCauseOfDeath() {
+		return causeOfDeath;
+	}
+
+	public void setCauseOfDeath(String causeOfDeath) {
+		this.causeOfDeath = causeOfDeath;
 	}
 	public SymptomState getBabyDied() {
 		return babydied;

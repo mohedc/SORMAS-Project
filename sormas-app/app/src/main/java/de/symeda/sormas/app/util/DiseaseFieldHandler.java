@@ -135,7 +135,7 @@ public class DiseaseFieldHandler {
             return false;
         }
 
-        boolean isVisible = relevantFields.isEmpty() || relevantFields.contains(viewIdName);
+        boolean isVisible = relevantFields.isEmpty() || matchesAnyFormField(viewIdName, relevantFields);
         view.setVisibility(isVisible ? View.VISIBLE : View.GONE);
         return isVisible;
     }
@@ -153,6 +153,9 @@ public class DiseaseFieldHandler {
             try {
                 String resourceName = context.getResources().getResourceEntryName(view.getId());
                 viewsByFieldName.put(resourceName, view);
+                if (resourceName.startsWith("symptoms_")) {
+                    viewsByFieldName.put(resourceName.substring("symptoms_".length()), view);
+                }
             } catch (Resources.NotFoundException e) {
                 Log.e(TAG, "Could not find resource name for ID: " + view.getId());
             }

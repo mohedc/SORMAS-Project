@@ -17,6 +17,7 @@ package de.symeda.sormas.app.symptoms;
 
 import android.content.res.Resources;
 import android.view.View;
+import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -189,10 +190,7 @@ public class SymptomsEditFragment extends BaseEditFragment<FragmentSymptomsEditL
 			contentBinding.symptomsBulgingFontanelle.setVisibility(GONE);
 		}
 
-		contentBinding.symptomsOnsetDate.initializeDateField(getFragmentManager());
-		if (contentBinding.symptomsAutopsyDate != null) {
-			contentBinding.symptomsAutopsyDate.initializeDateField(getFragmentManager());
-		}
+		initializeAllControlDateFields(contentBinding.mainContent);
 
 		contentBinding.symptomsTemperature.initializeSpinner(DataUtils.addEmptyItem(bodyTempList));
 		contentBinding.symptomsTemperatureSource.initializeSpinner(DataUtils.addEmptyItem(tempSourceList));
@@ -354,5 +352,17 @@ public class SymptomsEditFragment extends BaseEditFragment<FragmentSymptomsEditL
 		}
 
 		return temperature;
+	}
+
+	private void initializeAllControlDateFields(View view) {
+		if (view instanceof ControlDateField) {
+			ControlDateField dateField = (ControlDateField) view;
+			dateField.initializeDateField(getFragmentManager());
+		} else if (view instanceof ViewGroup) {
+			ViewGroup group = (ViewGroup) view;
+			for (int i = 0; i < group.getChildCount(); i++) {
+				initializeAllControlDateFields(group.getChildAt(i));
+			}
+		}
 	}
 }
