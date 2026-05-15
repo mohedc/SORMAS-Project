@@ -87,6 +87,7 @@ public class LocationDtoHelper extends AdoDtoHelper<Location, LocationDto> {
 		target.setCompoundOwner(source.getCompoundOwner());
 		target.setLandmark(source.getLandmark());
 		target.setVillage(source.getVillage());
+		target.setNearestHealthFacility(source.getNearestHealthFacility());
 		target.setAdditionalInformation(source.getAdditionalInformation());
 		target.setAddressType(source.getAddressType());
 		target.setAddressTypeDetails(source.getAddressTypeDetails());
@@ -149,6 +150,7 @@ public class LocationDtoHelper extends AdoDtoHelper<Location, LocationDto> {
 		target.setCompoundOwner(source.getCompoundOwner());
 		target.setLandmark(source.getLandmark());
 		target.setVillage(source.getVillage());
+		target.setNearestHealthFacility(source.getNearestHealthFacility());
 		target.setAdditionalInformation(source.getAdditionalInformation());
 		target.setAddressType(source.getAddressType());
 		target.setAddressTypeDetails(source.getAddressTypeDetails());

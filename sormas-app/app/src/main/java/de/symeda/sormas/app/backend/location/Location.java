@@ -101,6 +101,8 @@ public class Location extends PseudonymizableAdo {
 	@Column(length = CHARACTER_LIMIT_DEFAULT)
 	private String village;
 	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	private String nearestHealthFacility;
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
 	private String additionalInformation;
 	@Column
 	private PersonAddressType addressType;
@@ -280,6 +282,15 @@ public class Location extends PseudonymizableAdo {
 
 	public void setVillage(String village) {
 		this.village = village;
+	}
+
+	@Bindable
+	public String getNearestHealthFacility() {
+		return nearestHealthFacility;
+	}
+
+	public void setNearestHealthFacility(String nearestHealthFacility) {
+		this.nearestHealthFacility = nearestHealthFacility;
 	}
 
 	@Bindable

@@ -161,6 +161,11 @@
                     style="@style/ControlSingleColumnStyle"
                     app:value="@={data.village}" />
 
+                <de.symeda.sormas.app.component.controls.ControlTextEditField
+                    android:id="@+id/location_nearestHealthFacility"
+                    style="@style/ControlSingleColumnStyle"
+                    app:value="@={data.nearestHealthFacility}" />
+
                 <de.symeda.sormas.app.component.controls.ControlSpinnerField
                     android:id="@+id/facilityTypeGroup"
                     style="@style/ControlSingleColumnStyle"
