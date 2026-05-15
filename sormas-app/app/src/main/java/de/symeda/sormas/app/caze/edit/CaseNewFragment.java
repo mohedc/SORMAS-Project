@@ -297,6 +297,8 @@ public class CaseNewFragment extends BaseEditFragment<FragmentCaseNewLayoutBindi
 				super.hideFieldsForDisease(selectedDisease, contentBinding.mainContent, FormType.CASE_CREATE);
 				CaseOrigin currentCaseOrigin = (CaseOrigin) contentBinding.caseDataCaseOrigin.getValue();
 				contentBinding.personPassportNumber.setVisibility(currentCaseOrigin == CaseOrigin.POINT_OF_ENTRY ? VISIBLE : GONE);
+				// HOME address is only required when facilityOrHome is HOME
+				contentBinding.personPlaceOfStayHomeAddressLayout.setVisibility(TypeOfPlace.HOME.equals(contentBinding.facilityOrHome.getValue()) ? VISIBLE : GONE);
 			}
 			});
 	}
@@ -435,11 +437,15 @@ public class CaseNewFragment extends BaseEditFragment<FragmentCaseNewLayoutBindi
 	}
 
 	private void openPersonHomeAddressPopup(FragmentCaseNewLayoutBinding contentBinding) {
-		final Location location = record.getPerson().getAddress();
+		Location location = record.getPerson().getAddress();
+		if (location == null) {
+			location = DatabaseHelper.getLocationDao().build();
+			record.getPerson().setAddress(location);
+		}
 		final Location locationClone = (Location) location.clone();
 		final LocationDialog locationDialog = new LocationDialog(BaseActivity.getActiveActivity(), locationClone, getFieldAccessCheckers());
 		locationDialog.show();
-		locationDialog.showHideFieldsForDisease(record.getDisease(), FormType.PERSON_LOCATION_EDIT);
+		locationDialog.showHideFieldsForDisease(record.getDisease(), FormType.CASE_CREATE_LOCATION);
 
 		locationDialog.setPositiveCallback(() -> {
 			contentBinding.personAddress.setValue(locationClone);
@@ -466,6 +472,10 @@ public class CaseNewFragment extends BaseEditFragment<FragmentCaseNewLayoutBindi
 	 */
 	private static boolean validatePersonHomeAddressWhenRequired(FragmentCaseNewLayoutBinding contentBinding) {
 		Location address = contentBinding.getData().getPerson().getAddress();
+		if (address == null || address.isEmptyLocation()) {
+			contentBinding.personAddress.enableErrorState(I18nProperties.getValidationError(Validations.requiredField));
+			return true;
+		}
 		if (address.getRegion() == null) {
 			contentBinding.personAddress.enableErrorState(I18nProperties.getValidationError(Validations.validRegion));
 			return true;
@@ -478,14 +488,14 @@ public class CaseNewFragment extends BaseEditFragment<FragmentCaseNewLayoutBindi
 			contentBinding.personAddress.enableErrorState(I18nProperties.getValidationError(Validations.requiredField));
 			return true;
 		}
-		if (DataHelper.isNullOrEmpty(address.getVillage())) {
-			contentBinding.personAddress.enableErrorState(I18nProperties.getValidationError(Validations.requiredField));
-			return true;
-		}
-		if (address.getFacility() == null) {
-			contentBinding.personAddress.enableErrorState(I18nProperties.getValidationError(Validations.requiredField));
-			return true;
-		}
+		// if (DataHelper.isNullOrEmpty(address.getVillage())) {
+		// 	contentBinding.personAddress.enableErrorState(I18nProperties.getValidationError(Validations.requiredField));
+		// 	return true;
+		// }
+		// if (address.getFacility() == null) {
+		// 	contentBinding.personAddress.enableErrorState(I18nProperties.getValidationError(Validations.requiredField));
+		// 	return true;
+		// }
 		contentBinding.personAddress.disableErrorState();
 		return false;
 	}

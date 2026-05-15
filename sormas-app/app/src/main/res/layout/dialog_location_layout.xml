@@ -54,7 +54,6 @@
                     android:id="@+id/location_addressType"
                     style="@style/ControlSingleColumnStyle"
                     android:visibility="gone"
-                    app:required="true"
                     app:value="@={data.addressType}" />
 
             </LinearLayout>
@@ -181,7 +180,6 @@
                 <de.symeda.sormas.app.component.controls.ControlTextEditField
                     android:id="@+id/location_facilityDetails"
                     style="@style/ControlSingleColumnStyle"
-                    app:required="true"
                     app:value="@={data.facilityDetails}" />
 
                 <de.symeda.sormas.app.component.controls.ControlTextEditField
