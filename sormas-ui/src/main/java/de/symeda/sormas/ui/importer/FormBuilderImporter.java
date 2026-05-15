@@ -169,8 +169,8 @@ public class FormBuilderImporter extends DataImporter {
 	}
 
 	/**
-	 * Parses the comma-separated formFields string and resolves UUIDs.
-	 * Supports both UUID format and fieldName format.
+	 * Parses the comma-separated formFields string and resolves each entry to a field UUID.
+	 * Supports field names (preferred for cross-instance import) and legacy UUID values.
 	 */
 	private void parseFormFields(FormBuilderDto formBuilderDto, String formFieldsValue) throws ImportErrorException {
 		if (StringUtils.isBlank(formFieldsValue)) {
@@ -186,25 +186,12 @@ public class FormBuilderImporter extends DataImporter {
 				continue;
 			}
 
-			String fieldUuid = null;
-
-			// Try to resolve as UUID first
-			if (isValidUuid(identifier)) {
-				// Check if UUID exists
-				de.symeda.sormas.api.infrastructure.fields.FormFieldsDto fieldDto = FacadeProvider.getFormFieldFacade().getByUuid(identifier);
-				if (fieldDto != null) {
-					fieldUuid = identifier;
-				} else {
-					throw new ImportErrorException(
-						I18nProperties.getValidationError(Validations.importErrorInColumn, "formFields") + ": FormField with UUID '" + identifier + "' not found");
-				}
-			} else {
-				// Try to resolve by fieldName
-				fieldUuid = resolveFieldNameToUuid(identifier);
-				if (fieldUuid == null) {
-					throw new ImportErrorException(
-						I18nProperties.getValidationError(Validations.importErrorInColumn, "formFields") + ": FormField with fieldName '" + identifier + "' not found");
-				}
+			String fieldUuid = resolveFormFieldIdentifier(identifier, formBuilderDto.getFormType());
+			if (fieldUuid == null) {
+				throw new ImportErrorException(
+					I18nProperties.getValidationError(Validations.importErrorInColumn, "formFields")
+						+ ": FormField '" + identifier + "' not found"
+						+ (formBuilderDto.getFormType() != null ? " for formType '" + formBuilderDto.getFormType().name() + "'" : ""));
 			}
 
 			// Create FormFieldReferenceDto with displayOrder
@@ -229,21 +216,37 @@ public class FormBuilderImporter extends DataImporter {
 	}
 
 	/**
-	 * Resolves a fieldName to UUID by searching through FormFields.
+	 * Resolves a field name or UUID to the field's UUID on this instance.
 	 */
-	private String resolveFieldNameToUuid(String fieldName) {
-		// Get all active form fields
+	private String resolveFormFieldIdentifier(String identifier, FormType formType) throws ImportErrorException {
+		if (isValidUuid(identifier)) {
+			de.symeda.sormas.api.infrastructure.fields.FormFieldsDto fieldDto = FacadeProvider.getFormFieldFacade().getByUuid(identifier);
+			if (fieldDto != null) {
+				return identifier;
+			}
+			return null;
+		}
+
 		FormFieldsCriteria criteria = new FormFieldsCriteria();
 		criteria.relevanceStatus(EntityRelevanceStatus.ACTIVE);
-		List<FormFieldIndexDto> allFields = FacadeProvider.getFormFieldFacade().getIndexList(criteria, null, null, null);
+		if (formType != null) {
+			criteria.formType(formType);
+		}
+		List<FormFieldIndexDto> fields = FacadeProvider.getFormFieldFacade().getIndexList(criteria, null, null, null);
 
-		// Search for field with matching fieldName (case-insensitive)
-		for (FormFieldIndexDto field : allFields) {
-			if (field.getFieldName() != null && field.getFieldName().equalsIgnoreCase(fieldName)) {
-				return field.getUuid();
+		String matchedUuid = null;
+		for (FormFieldIndexDto field : fields) {
+			if (field.getFieldName() != null && field.getFieldName().equalsIgnoreCase(identifier)) {
+				if (matchedUuid != null) {
+					throw new ImportErrorException(
+						I18nProperties.getValidationError(Validations.importErrorInColumn, "formFields")
+							+ ": Multiple FormFields named '" + identifier + "'"
+							+ (formType != null ? " for formType '" + formType.name() + "'" : ""));
+				}
+				matchedUuid = field.getUuid();
 			}
 		}
 
-		return null;
+		return matchedUuid;
 	}
 }

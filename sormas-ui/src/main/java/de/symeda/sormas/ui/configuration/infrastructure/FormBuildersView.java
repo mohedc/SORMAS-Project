@@ -24,11 +24,13 @@ import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import com.opencsv.CSVWriter;
 import com.vaadin.icons.VaadinIcons;
@@ -54,6 +56,7 @@ import de.symeda.sormas.api.i18n.Captions;
 import de.symeda.sormas.api.i18n.I18nProperties;
 import de.symeda.sormas.api.i18n.Strings;
 import de.symeda.sormas.api.infrastructure.fields.FormFieldReferenceDto;
+import de.symeda.sormas.api.infrastructure.fields.FormFieldsDto;
 import de.symeda.sormas.api.infrastructure.forms.FormBuilderCriteria;
 import de.symeda.sormas.api.infrastructure.forms.FormBuilderDto;
 import de.symeda.sormas.api.user.UserRight;
@@ -382,7 +385,7 @@ public class FormBuildersView extends AbstractConfigurationView {
 						dataRow[2] = fullForm.getDisease() != null ? fullForm.getDisease().name() : "";
 						// active (boolean as string)
 						dataRow[3] = fullForm.getActive() != null ? fullForm.getActive().toString() : "";
-						// formFields (comma-separated UUIDs)
+						// formFields (comma-separated field names for portable import across instances)
 						dataRow[4] = formatFormFields(fullForm.getFormFields());
 
 						writer.writeNext(dataRow);
@@ -407,7 +410,7 @@ public class FormBuildersView extends AbstractConfigurationView {
 	}
 
 	/**
-	 * Formats formFields list as comma-separated UUIDs string (matching import format).
+	 * Formats formFields as comma-separated field names (import resolves names to UUIDs on the target instance).
 	 */
 	private String formatFormFields(List<FormFieldReferenceDto> formFields) {
 		if (formFields == null || formFields.isEmpty()) {
@@ -415,9 +418,26 @@ public class FormBuildersView extends AbstractConfigurationView {
 		}
 
 		return formFields.stream()
-			.map(FormFieldReferenceDto::getUuid)
-			.filter(uuid -> uuid != null && !uuid.isEmpty())
+			.sorted(Comparator.comparing(FormFieldReferenceDto::getDisplayOrder, Comparator.nullsLast(Comparator.naturalOrder())))
+			.map(this::formatFormFieldIdentifierForExport)
+			.filter(StringUtils::isNotBlank)
 			.collect(Collectors.joining(","));
+	}
+
+	private String formatFormFieldIdentifierForExport(FormFieldReferenceDto formFieldRef) {
+		if (formFieldRef == null) {
+			return null;
+		}
+		if (StringUtils.isNotBlank(formFieldRef.getFieldName())) {
+			return formFieldRef.getFieldName();
+		}
+		if (StringUtils.isNotBlank(formFieldRef.getUuid())) {
+			FormFieldsDto fieldDto = FacadeProvider.getFormFieldFacade().getByUuid(formFieldRef.getUuid());
+			if (fieldDto != null && StringUtils.isNotBlank(fieldDto.getFieldName())) {
+				return fieldDto.getFieldName();
+			}
+		}
+		return formFieldRef.getUuid();
 	}
 }
 
