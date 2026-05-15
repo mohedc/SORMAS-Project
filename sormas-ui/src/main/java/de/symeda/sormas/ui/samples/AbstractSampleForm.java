@@ -205,6 +205,7 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 					fluidRowLocs(SampleDto.UUID, SampleDto.FIELD_SAMPLE_ID) +
 					fluidRowLocs(SampleDto.SAMPLE_PURPOSE, SampleDto.OUTSIDE_COUNTRY_NAME) +
 					fluidRowLocs(6, SampleDto.SAMPLE_MATERIAL) +
+					fluidRowLocs(SampleDto.SAMPLE_DATE_TIME, "") +
 					fluidRowLocs(SampleDto.LAB, SampleDto.LAB_DETAILS) +
 					fluidRowLocs(SampleDto.LAB_SAMPLE_ID) +
 					fluidRowLocs(SampleDto.DATE_FIRST_SPECIMEN, SampleDto.DATE_SECOND_SPECIMEN) +
@@ -1196,12 +1197,10 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 		CssStyles.style(stoolSpecimenCollection, CssStyles.LABEL_BOLD, CssStyles.LABEL_SECONDARY, VSPACE_4);
 		getContent().addComponent(stoolSpecimenCollection, STOOL_SPECIMEN_COLLECTION_HEADLINE_LOC);
 
-		setRequired(false, SampleDto.SAMPLE_PURPOSE, SampleDto.SAMPLE_DATE_TIME, SampleDto.SAMPLE_MATERIAL);
+		setRequired(false, SampleDto.SAMPLE_PURPOSE, SampleDto.SAMPLE_MATERIAL);
 		FieldHelper.updateEnumData(sampleMaterialComboBox, Arrays.asList(SampleMaterial.STOOL));
 		sampleMaterialComboBox.setValue(SampleMaterial.STOOL);
 		sampleMaterialComboBox.setEnabled(false);
-
-		getValue().setSampleDateTime(new Date());
 
 		NullableOptionGroup pcrField = (NullableOptionGroup) getField(SampleDto.PCR);
 		NullableOptionGroup prntField = (NullableOptionGroup) getField(SampleDto.PRNT);
