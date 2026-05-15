@@ -1032,16 +1032,16 @@ public class SymptomsDto extends PseudonymizableDto {
 	@SymptomGrouping(SymptomGroup.SKIN)
 	private Boolean lesionsLegs;
 
-	@Diseases({
-		MONKEYPOX,
-		ANTHRAX,
-		MEASLES,
-		YELLOW_FEVER,
-		CSM,
-		CONGENITAL_RUBELLA })
-	@DependantOn(LESIONS)
-	@HideForCountries
-	@SymptomGrouping(SymptomGroup.SKIN)
+	// @Diseases({
+	// 	MONKEYPOX,
+	// 	ANTHRAX,
+	// 	MEASLES,
+	// 	YELLOW_FEVER,
+	// 	CSM,
+	// 	CONGENITAL_RUBELLA })
+	@DependantOn(SKIN_RASH)
+	// @HideForCountries
+	// @SymptomGrouping(SymptomGroup.SKIN)
 	private Date lesionsOnsetDate;
 
 	@Diseases({
@@ -1454,52 +1454,99 @@ public class SymptomsDto extends PseudonymizableDto {
 	@Size(max = FieldConstraints.CHARACTER_LIMIT_DEFAULT, message = Validations.textTooLong)
 	private String onsetSymptom;
 
+	@DependantOn(BACKACHE)
 	private Date backacheOnsetDate;
+	@DependantOn(NORMAL_CRY_AND_SUCK)
 	private Date normalCryAndSuckOnsetDate;
+	@DependantOn(STIFFNESS)
 	private Date stiffnessOnsetDate;
+	@DependantOn(SPASMS_CONVULSION)
 	private Date spasmsConvulsionOnsetDate;
+	@DependantOn(FEVER)
 	private Date feverOnsetDate;
+	@DependantOn(COUGH)
 	private Date coughOnsetDate;
+	@DependantOn(RUNNY_NOSE)
 	private Date runnyNoseOnsetDate;
+	@DependantOn(CONJUNCTIVITIS)
 	private Date conjunctivitisOnsetDate;
+	@DependantOn(FEVER_ONSET_PARALYSIS)
 	private Date feverOnsetParalysisOnsetDate;
+	@DependantOn(PROGRESSIVE_PARALYSIS)
 	private Date progressiveParalysisOnsetDate;
+	@DependantOn(PROGRESSIVE_FLACID_ACUTE)
 	private Date progressiveFlaccidAcuteOnsetDate;
+	@DependantOn(ASSYMETRIC)
 	private Date assymetricOnsetDate;
+	@DependantOn(SITE_OF_PARALYSIS)
 	private Date siteOfParalysisOnsetDate;
+	@DependantOn(PARALYSED_LIMB_SENSITIVE_TO_PAIN)
 	private Date paralysedLimbSensitiveToPainOnsetDate;
+	@DependantOn(INJECTION_SITE_BEFORE_ONSET_PARALYSIS)
 	private Date injectionSiteBeforeOnsetParalysisOnsetDate;
+	@DependantOn(INJECTION_SITE)
 	private Date injectionSiteOnsetDate;
+	@DependantOn(ARTHRALGIA)
 	private Date arthralgiaOnsetDate;
+	@DependantOn(MYALGIA)
 	private Date myalgiaOnsetDate;
+	@DependantOn(JAUNDICE)
 	private Date jaundiceOnsetDate;
+	@DependantOn(HEMORRHAGIC_SYNDROME)
 	private Date hemorrhagicSyndromeOnsetDate;
+	@DependantOn(OTHER_NON_HEMORRHAGIC_SYMPTOMS)
 	private Date otherNonHemorrhagicSymptomsOnsetDate;
+	@DependantOn(HEADACHE)
 	private Date headacheOnsetDate;
+	@DependantOn(NECK_STIFFNESS)
 	private Date neckStiffnessOnsetDate;
+	@DependantOn(BULGING_FONTANELLE)
 	private Date bulgingFontanelleOnsetDate;
+	@DependantOn(VOMITING)
 	private Date vomitingOnsetDate;
+	@DependantOn(ALTERED_CONSCIOUSNESS)
 	private Date alteredConsciousnessOnsetDate;
+	@DependantOn(SEIZURES)
 	private Date seizuresOnsetDate;
+	@DependantOn(RAPID_BREATHING)
 	private Date rapidBreathingOnsetDate;
+	@DependantOn(CONGENITAL_HEART_DISEASE)
 	private Date congenitalHeartDiseaseOnsetDate;
+	@DependantOn(CATARACTS)
 	private Date cataractsOnsetDate;
+	@DependantOn(CONGENITAL_GLAUCOMA)
 	private Date congenitalGlaucomaOnsetDate;
+	@DependantOn(PIGMENTARY_RETINOPATHY)
 	private Date pigmentaryRetinopathyOnsetDate;
+	@DependantOn(HEARINGLOSS)
 	private Date hearinglossOnsetDate;
+	@DependantOn(PURPURIC_RASH)
 	private Date purpuricRashOnsetDate;
+	@DependantOn(MICROCEPHALY)
 	private Date microcephalyOnsetDate;
+	@DependantOn(MENINGOENCEPHALITIS)
 	private Date meningoencephalitisOnsetDate;
+	@DependantOn(SPLENOMEGALY)
 	private Date splenomegalyOnsetDate;
+	@DependantOn(DEVELOPMENTAL_DELAY)
 	private Date developmentalDelayOnsetDate;
+	@DependantOn(RADIOLUCENT_BONE_DISEASE)
 	private Date radiolucentBoneDiseaseOnsetDate;
+	@DependantOn(SEVERE_REACTION_AFTER_VACCINATION)
 	private Date severeReactionAfterVaccinationOnsetDate;
+	@DependantOn(ANIMAL_BITE_SCRATCH)
 	private Date animalBiteScratchOnsetDate;
+	@DependantOn(ACUTE_WATERY_DIARRHEA)
 	private Date acuteWateryDiarrheaOnsetDate;
+	@DependantOn(BLOOD_IN_STOOL)
 	private Date bloodInStoolOnsetDate;
+	@DependantOn(BLOOD_URINE)
 	private Date bloodUrineOnsetDate;
+	@DependantOn(PERSISTENT_LIMB)
 	private Date persistentLimbOnsetDate;
+	@DependantOn(GENITAL_SWELLING)
 	private Date genitalSwellingOnsetDate;
+	@DependantOn(RED_EYE)
 	private Date redEyeOnsetDate;
 
 	@Diseases({

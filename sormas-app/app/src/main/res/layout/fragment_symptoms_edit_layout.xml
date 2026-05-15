@@ -1372,12 +1372,12 @@
 
                 </LinearLayout>
 
-                <de.symeda.sormas.app.component.controls.ControlDateField
+            </LinearLayout>
+
+            <de.symeda.sormas.app.component.controls.ControlDateField
                     android:id="@+id/symptoms_lesionsOnsetDate"
                     app:value="@={data.lesionsOnsetDate}"
                     style="@style/ControlSingleColumnStyle" />
-
-            </LinearLayout>
 
             <de.symeda.sormas.app.component.controls.ControlSwitchField
                 android:id="@+id/symptoms_vomiting"
