@@ -562,7 +562,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/person_mothersName_layout"
+                android:id="@+id/person_mothers_and_father_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
