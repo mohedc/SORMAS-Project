@@ -59,6 +59,11 @@
             style="@style/LayoutSingleContentSpaceBelowStyle">
 
             <requestFocus/>
+            <!-- uuid -->
+            <de.symeda.sormas.app.component.controls.ControlTextReadField
+                android:id="@+id/person_uuid"
+                app:value="@{data.uuid}"
+                style="@style/ControlSingleColumnStyle" />
 
             <LinearLayout
                 android:id="@+id/name_fields_layout"
