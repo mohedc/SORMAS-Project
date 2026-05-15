@@ -488,14 +488,14 @@ public class CaseNewFragment extends BaseEditFragment<FragmentCaseNewLayoutBindi
 			contentBinding.personAddress.enableErrorState(I18nProperties.getValidationError(Validations.requiredField));
 			return true;
 		}
-		if (DataHelper.isNullOrEmpty(address.getVillage())) {
-			contentBinding.personAddress.enableErrorState(I18nProperties.getValidationError(Validations.requiredField));
-			return true;
-		}
-		if (DataHelper.isNullOrEmpty(address.getNearestHealthFacility())) {
-			contentBinding.personAddress.enableErrorState(I18nProperties.getValidationError(Validations.requiredField));
-			return true;
-		}
+//		if (DataHelper.isNullOrEmpty(address.getVillage())) {
+//			contentBinding.personAddress.enableErrorState(I18nProperties.getValidationError(Validations.requiredField));
+//			return true;
+//		}
+//		if (DataHelper.isNullOrEmpty(address.getNearestHealthFacility())) {
+//			contentBinding.personAddress.enableErrorState(I18nProperties.getValidationError(Validations.requiredField));
+//			return true;
+//		}
 		contentBinding.personAddress.disableErrorState();
 		return false;
 	}

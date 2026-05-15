@@ -140,6 +140,29 @@ public class DiseaseFieldHandler {
         return isVisible;
     }
 
+    /** FormField.fieldName may be the DTO property (e.g. fever) or the Android resource id (e.g. symptoms_fever). */
+    static boolean formFieldMatchesViewResource(String resourceEntryName, String formFieldName) {
+        if (resourceEntryName == null || formFieldName == null) {
+            return false;
+        }
+        if (resourceEntryName.equals(formFieldName)) {
+            return true;
+        }
+        if (resourceEntryName.startsWith("symptoms_")) {
+            return resourceEntryName.substring("symptoms_".length()).equals(formFieldName);
+        }
+        return ("symptoms_" + formFieldName).equals(resourceEntryName);
+    }
+
+    private static boolean matchesAnyFormField(String resourceEntryName, List<String> relevantFields) {
+        for (String fn : relevantFields) {
+            if (formFieldMatchesViewResource(resourceEntryName, fn)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     private void reorderFieldsForDisease(List<FormField> orderedFields, ViewGroup parent) {
         // Create a lookup map for all views

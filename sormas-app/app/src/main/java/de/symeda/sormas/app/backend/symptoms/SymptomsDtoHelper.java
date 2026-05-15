@@ -243,6 +243,7 @@ public class SymptomsDtoHelper extends AdoDtoHelper<Symptoms, SymptomsDto> {
 		target.setStoppedSuckingAfterTwoDays(source.getStoppedSuckingAfterTwoDays());
 		target.setNormalCryAndSuck(source.getNormalCryAndSuck());
 		target.setStiffness(source.getStiffness());
+		target.setSpasmsConvulsion(source.getSpasmsConvulsion());
 		target.setOutcome(source.getOutcome());
 		target.setBabyDied(source.getBabyDied());
 		target.setClinicianName(source.getClinicianName());
@@ -489,6 +490,7 @@ public class SymptomsDtoHelper extends AdoDtoHelper<Symptoms, SymptomsDto> {
 		target.setStoppedSuckingAfterTwoDays(source.getStoppedSuckingAfterTwoDays());
 		target.setNormalCryAndSuck(source.getNormalCryAndSuck());
 		target.setStiffness(source.getStiffness());
+		target.setSpasmsConvulsion(source.getSpasmsConvulsion());
 		target.setOutcome(source.getOutcome());
 		target.setBabyDied(source.getBabyDied());
 		target.setClinicianName(source.getClinicianName());

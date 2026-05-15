@@ -446,6 +446,8 @@ public class Symptoms extends PseudonymizableAdo {
 	@Enumerated(EnumType.STRING)
 	private SymptomState convulsion;
 	@Enumerated(EnumType.STRING)
+	private SymptomState spasmsConvulsion;
+	@Enumerated(EnumType.STRING)
 	private SymptomState otherHemorrhagicSymptoms;
 	@Column(length = CHARACTER_LIMIT_DEFAULT)
 	private String otherHemorrhagicSymptomsText;
@@ -2012,6 +2014,14 @@ public class Symptoms extends PseudonymizableAdo {
 
 	public void setConvulsion(SymptomState convulsion) {
 		this.convulsion = convulsion;
+	}
+
+	public SymptomState getSpasmsConvulsion() {
+		return spasmsConvulsion;
+	}
+
+	public void setSpasmsConvulsion(SymptomState spasmsConvulsion) {
+		this.spasmsConvulsion = spasmsConvulsion;
 	}
 
 	public String getPatientIllLocation() {
