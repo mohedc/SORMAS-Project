@@ -231,7 +231,7 @@
     <string name="caption_settings_server_url">Server URL</string>
     <string name="caption_smallpox_vaccination_scar_img">Smallpox Vaccination Scar</string>
     <string name="caption_suspected_case">Suspected Case</string>
-    <string name="caption_symptoms">Symptom Information</string>
+    <string name="caption_symptoms">Clinical History</string>
     <string name="caption_symptoms_onset_short">Symptom onset</string>
     <string name="caption_task_filters">Filter Task Assignees</string>
     <string name="caption_task_information">Task Information</string>
@@ -418,7 +418,7 @@
     <string name="heading_source_case">Source Case</string>
     <string name="heading_source_of_information">Source of Information</string>
     <string name="heading_surveillance_outbreak">Surveillance Outbreak</string>
-    <string name="heading_symptoms">Signs &amp; Symptoms</string>
+    <string name="heading_symptoms">Clinical History</string>
     <string name="heading_sync_conflicts">Synchronization Conflicts</string>
     <string name="heading_synchronization">Synchronizing with server…</string>
     <string name="heading_task_edit">Task</string>

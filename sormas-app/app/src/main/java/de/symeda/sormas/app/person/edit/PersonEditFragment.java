@@ -622,6 +622,9 @@ public class PersonEditFragment extends BaseEditFragment<FragmentPersonEditLayou
 
 	@Override
 	public void onAfterLayoutBinding(final FragmentPersonEditLayoutBinding contentBinding) {
+		if (rootData instanceof Case) {
+			contentBinding.personPatientIdentificationHeading.setVisibility(VISIBLE);
+		}
 		if (!ConfigProvider.isConfiguredServer(CountryHelper.COUNTRY_CODE_GERMANY)) {
 			contentBinding.personArmedForcesRelationType.setVisibility(GONE);
 		}

@@ -59,6 +59,15 @@
             style="@style/LayoutSingleContentSpaceBelowStyle">
 
             <requestFocus/>
+
+            <TextView
+                android:id="@+id/person_patient_identification_heading"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/heading_patient_identification"
+                android:visibility="gone"
+                style="@style/SubHeadingCompactStyle" />
+
             <!-- uuid -->
             <de.symeda.sormas.app.component.controls.ControlTextReadField
                 android:id="@+id/person_uuid"

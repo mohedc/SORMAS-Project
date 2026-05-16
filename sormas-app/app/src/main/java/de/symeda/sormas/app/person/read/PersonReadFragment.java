@@ -16,6 +16,7 @@
 package de.symeda.sormas.app.person.read;
 
 import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 
 import android.os.Bundle;
 import android.view.View;
@@ -206,6 +207,9 @@ public class PersonReadFragment extends BaseReadFragment<FragmentPersonReadLayou
 	@Override
 	public void onAfterLayoutBinding(FragmentPersonReadLayoutBinding contentBinding) {
 		PersonReadFragment.setUpFieldVisibilities(this, contentBinding, rootData);
+		if (rootData instanceof Case) {
+			contentBinding.personPatientIdentificationHeading.setVisibility(VISIBLE);
+		}
 	}
 
 	@Override

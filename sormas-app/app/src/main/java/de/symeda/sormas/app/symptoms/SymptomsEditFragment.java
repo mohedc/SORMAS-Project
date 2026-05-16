@@ -24,6 +24,7 @@ import java.util.List;
 
 import de.symeda.sormas.api.Disease;
 import de.symeda.sormas.api.FormType;
+import de.symeda.sormas.api.caze.CaseOutcome;
 import de.symeda.sormas.api.person.ApproximateAgeType;
 import de.symeda.sormas.api.symptoms.CongenitalHeartDiseaseType;
 import de.symeda.sormas.api.symptoms.SymptomState;
@@ -72,6 +73,7 @@ public class SymptomsEditFragment extends BaseEditFragment<FragmentSymptomsEditL
 	private List<Item> bodyTempList;
 	private List<Item> tempSourceList;
 	private List<Item> congenitalHeartDiseaseList;
+	private List<Item> caseOutcomeList;
 
 	private IEntryItemOnClickListener clearAllCallback;
 	private IEntryItemOnClickListener setClearedToNoCallback;
@@ -148,6 +150,7 @@ public class SymptomsEditFragment extends BaseEditFragment<FragmentSymptomsEditL
 		bodyTempList = getTemperatures(true);
 		tempSourceList = DataUtils.getEnumItems(TemperatureSource.class, true);
 		congenitalHeartDiseaseList = DataUtils.getEnumItems(CongenitalHeartDiseaseType.class, true);
+		caseOutcomeList = DataUtils.getEnumItems(CaseOutcome.class, true);
 	}
 
 	@Override
@@ -195,6 +198,7 @@ public class SymptomsEditFragment extends BaseEditFragment<FragmentSymptomsEditL
 		contentBinding.symptomsTemperature.initializeSpinner(DataUtils.addEmptyItem(bodyTempList));
 		contentBinding.symptomsTemperatureSource.initializeSpinner(DataUtils.addEmptyItem(tempSourceList));
 		contentBinding.symptomsCongenitalHeartDiseaseType.initializeSpinner(congenitalHeartDiseaseList);
+		contentBinding.symptomsOutcome.initializeSpinner(caseOutcomeList);
 		contentBinding.symptomsOnsetSymptom.initializeSpinner(DataUtils.toItems(null, true));
 
 		contentBinding.symptomsTemperature.setSelectionOnOpen(37.0f);

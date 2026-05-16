@@ -53,6 +53,14 @@
             android:id="@+id/main_content"
             style="@style/LayoutSingleContentSpaceBelowStyle">
 
+            <TextView
+                android:id="@+id/person_patient_identification_heading"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/heading_patient_identification"
+                android:visibility="gone"
+                style="@style/SubHeadingCompactStyle" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
