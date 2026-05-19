@@ -3422,10 +3422,14 @@ public class CaseFacadeEjb extends AbstractCoreFacadeEjb<Case, CaseDataDto, Case
 			source.setPortHealthInfo(PortHealthInfoDto.build());
 		}
 		target.setPortHealthInfo(portHealthInfoFacade.fillOrBuildEntity(source.getPortHealthInfo(), target.getPortHealthInfo(), checkChangeDate));
-		if (source.getResponse() == null) {
-			source.setResponse(ResponseDto.build());
+		if (source.getResponse() != null) {
+			target.setResponse(responseFacade.fillOrBuildEntity(source.getResponse(), target.getResponse(), checkChangeDate));
+		} else if (target.getResponse() == null) {
+			// Initial creation: neither side has a Response yet, so build a fresh one.
+			// If the existing entity already has a Response, keep it untouched – clients that don't
+			// manage the Response field (e.g. the Android app) must not cause the persisted Response to be replaced.
+			target.setResponse(responseFacade.fillOrBuildEntity(ResponseDto.build(), null, checkChangeDate));
 		}
-		target.setResponse(responseFacade.fillOrBuildEntity(source.getResponse(), target.getResponse(), checkChangeDate));
 		target.setResponsibleRegion(regionService.getByReferenceDto(source.getResponsibleRegion()));
 		target.setResponsibleDistrict(districtService.getByReferenceDto(source.getResponsibleDistrict()));
 		target.setResponsibleCommunity(communityService.getByReferenceDto(source.getResponsibleCommunity()));
