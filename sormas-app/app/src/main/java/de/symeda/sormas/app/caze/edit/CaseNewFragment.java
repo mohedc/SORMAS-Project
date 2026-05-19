@@ -136,6 +136,8 @@ public class CaseNewFragment extends BaseEditFragment<FragmentCaseNewLayoutBindi
 		monthList = DataUtils.getMonthItems(true);
 
 		sexList = DataUtils.getEnumItems(Sex.class, true);
+		sexList.remove(new Item<>(Sex.OTHER.toString(), Sex.OTHER));
+		sexList.remove(new Item<>(Sex.UNKNOWN.toString(), Sex.UNKNOWN));
 		presentConditionList = DataUtils.getEnumItems(PresentCondition.class, true);
 
 		initialResponsibleDistricts = InfrastructureDaoHelper.loadDistricts(record.getResponsibleRegion());
