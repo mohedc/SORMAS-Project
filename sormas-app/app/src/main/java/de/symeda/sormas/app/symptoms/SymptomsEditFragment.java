@@ -150,7 +150,7 @@ public class SymptomsEditFragment extends BaseEditFragment<FragmentSymptomsEditL
 		bodyTempList = getTemperatures(true);
 		tempSourceList = DataUtils.getEnumItems(TemperatureSource.class, true);
 		congenitalHeartDiseaseList = DataUtils.getEnumItems(CongenitalHeartDiseaseType.class, true);
-		caseOutcomeList = DataUtils.getEnumItems(CaseOutcome.class, true);
+		caseOutcomeList = getCaseOutcomeListByDisease(disease);
 	}
 
 	@Override
@@ -356,6 +356,14 @@ public class SymptomsEditFragment extends BaseEditFragment<FragmentSymptomsEditL
 		}
 
 		return temperature;
+	}
+
+	private List<Item> getCaseOutcomeListByDisease(Disease disease) {
+		if (disease == Disease.MEASLES) {
+			return DataUtils.toItems(new ArrayList<>(List.of(CaseOutcome.ALIVE, CaseOutcome.DECEASED, CaseOutcome.UNKNOWN)), true);
+		}
+
+		return DataUtils.getEnumItems(CaseOutcome.class, true);
 	}
 
 	private void initializeAllControlDateFields(View view) {

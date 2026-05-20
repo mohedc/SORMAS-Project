@@ -156,12 +156,12 @@ public class CaseEditActivity extends BaseEditActivity<Case> {
 		if (caze != null && (caze.getCaseOrigin() != CaseOrigin.POINT_OF_ENTRY || !ConfigProvider.hasUserRight(UserRight.PORT_HEALTH_INFO_EDIT))) {
 			menuItems.set(CaseSection.PORT_HEALTH_INFO.ordinal(), null);
 		}
-		if (caze != null
-			&& (caze.isUnreferredPortHealthCase()
-				|| UserRole.isPortHealthUser(ConfigProvider.getUser().getUserRoles())
-				|| DatabaseHelper.getFeatureConfigurationDao().isFeatureDisabled(FeatureType.VIEW_TAB_CASES_HOSPITALIZATION))) {
+//		if (caze != null
+//			&& (caze.isUnreferredPortHealthCase()
+//				|| UserRole.isPortHealthUser(ConfigProvider.getUser().getUserRoles())
+//				|| DatabaseHelper.getFeatureConfigurationDao().isFeatureDisabled(FeatureType.VIEW_TAB_CASES_HOSPITALIZATION))) {
 			menuItems.set(CaseSection.HOSPITALIZATION.ordinal(), null);
-		}
+//		}
 		if (caze != null && caze.getDisease() != Disease.CONGENITAL_RUBELLA) {
 			menuItems.set(CaseSection.MATERNAL_HISTORY.ordinal(), null);
 		}
