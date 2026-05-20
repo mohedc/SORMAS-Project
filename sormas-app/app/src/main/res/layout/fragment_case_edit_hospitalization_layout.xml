@@ -144,7 +144,7 @@
                     style="@style/ControlSingleColumnStyle" />
 
                 <LinearLayout
-                    android:id="@+id/caseHospitalization_admission_discharge_Date_heading"
+                    android:id="@+id/caseHospitalization_admission_discharge_Date_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
