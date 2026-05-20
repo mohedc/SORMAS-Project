@@ -262,7 +262,8 @@
                     app:iconStart="@drawable/ic_edit_location_black_24dp"
                     app:locationValue="@={data.person.address}"
                     app:dependencyParentField="@{facilityOrHome}"
-                    app:dependencyParentValue="@{TypeOfPlace.HOME}"/>
+                    app:dependencyParentValue="@{TypeOfPlace.HOME}"
+                    app:dependencyParentClearOnHide="@{false}"/>
 
             </LinearLayout>
 

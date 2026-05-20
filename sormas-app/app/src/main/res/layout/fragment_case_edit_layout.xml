@@ -1437,12 +1437,20 @@
                         app:value="@={data.districtNotificationDate}"
                         style="@style/ControlSingleColumnStyle" />
 
+                    <TextView
+                        android:id="@+id/caseData_headingPersonCompleting"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@{I18nProperties.getString(Strings.headingPersonCompleting)}"
+                        style="@style/SubHeadingStyle" />
+
                     <de.symeda.sormas.app.component.controls.ControlTextEditField
                         android:id="@+id/caseData_personFullName"
                         app:value="@={data.personFullName}"
                         style="@style/ControlSingleColumnStyle" />
 
                     <LinearLayout
+                        android:id="@+id/telephone_designation_fields_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
