@@ -417,6 +417,12 @@
                 app:value="@={data.nationality}"
                 style="@style/ControlSingleColumnStyle" />
 
+            <de.symeda.sormas.app.component.controls.ControlTextEditField
+                android:id="@+id/person_telNumber"
+                app:value="@={data.telNumber}"
+                app:inputType="phone"
+                style="@style/ControlSingleColumnStyle" />
+
             <de.symeda.sormas.app.component.controls.ControlTextPopupField
                 android:id="@+id/person_address"
                 app:iconStart="@drawable/ic_edit_location_black_24dp"
