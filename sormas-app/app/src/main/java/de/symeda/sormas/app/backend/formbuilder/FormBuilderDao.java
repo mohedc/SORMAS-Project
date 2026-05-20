@@ -72,6 +72,7 @@ public class FormBuilderDao extends AbstractInfrastructureAdoDao<FormBuilder> {
 			where.and(
 				where.eq(FormBuilder.FORM_TYPE, formType),
 				where.eq(FormBuilder.DISEASE, disease),
+				where.eq(FormBuilder.ACTIVE, true),
 				where.eq(AbstractDomainObject.SNAPSHOT, false));
 			return builder.queryForFirst();
 		} catch (SQLException e) {
@@ -89,6 +90,7 @@ public class FormBuilderDao extends AbstractInfrastructureAdoDao<FormBuilder> {
 			Where<FormBuilder, Long> where = builder.where();
 			where.and(
 				where.eq(FormBuilder.DISEASE, disease),
+				where.eq(FormBuilder.ACTIVE, true),
 				where.eq(AbstractDomainObject.SNAPSHOT, false));
 			return builder.query();
 		} catch (SQLException e) {

@@ -357,7 +357,7 @@
             <de.symeda.sormas.app.component.controls.ControlTextEditField
                 android:id="@+id/caseData_otherNames"
                 style="@style/ControlSingleColumnStyle"
-                app:required="true"
+                app:required="false"
                 app:value="@={data.person.otherNames}" />
 
             <TextView
