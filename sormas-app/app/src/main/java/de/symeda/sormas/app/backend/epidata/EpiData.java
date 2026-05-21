@@ -90,6 +90,12 @@ public class EpiData extends PseudonymizableAdo {
 	private Integer gestationalAgeAtTravel;
 	@Column(length = CHARACTER_LIMIT_DEFAULT)
 	private String travelLocationDescription;
+	@Enumerated(EnumType.STRING)
+	private YesNo recentTravelOutbreak;
+	@Enumerated(EnumType.STRING)
+	private YesNo contactSimilarOutbreak;
+	@Enumerated(EnumType.STRING)
+	private YesNo contactSickAnimals;
 
 	public YesNoUnknown getExposureDetailsKnown() {
 		return exposureDetailsKnown;
@@ -249,6 +255,30 @@ public class EpiData extends PseudonymizableAdo {
 
 	public void setTravelLocationDescription(String travelLocationDescription) {
 		this.travelLocationDescription = travelLocationDescription;
+	}
+
+	public YesNo getRecentTravelOutbreak() {
+		return recentTravelOutbreak;
+	}
+
+	public void setRecentTravelOutbreak(YesNo recentTravelOutbreak) {
+		this.recentTravelOutbreak = recentTravelOutbreak;
+	}
+
+	public YesNo getContactSimilarOutbreak() {
+		return contactSimilarOutbreak;
+	}
+
+	public void setContactSimilarOutbreak(YesNo contactSimilarOutbreak) {
+		this.contactSimilarOutbreak = contactSimilarOutbreak;
+	}
+
+	public YesNo getContactSickAnimals() {
+		return contactSickAnimals;
+	}
+
+	public void setContactSickAnimals(YesNo contactSickAnimals) {
+		this.contactSickAnimals = contactSickAnimals;
 	}
 
 	@Override
