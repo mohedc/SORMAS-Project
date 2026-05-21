@@ -56,6 +56,7 @@ import de.symeda.sormas.api.person.Salutation;
 import de.symeda.sormas.api.person.Sex;
 import de.symeda.sormas.api.utils.DataHelper;
 import de.symeda.sormas.api.utils.DateHelper;
+import de.symeda.sormas.api.utils.YesNo;
 import de.symeda.sormas.api.utils.YesNoUnknown;
 import de.symeda.sormas.api.utils.fieldaccess.UiFieldAccessCheckers;
 import de.symeda.sormas.api.utils.fieldvisibility.FieldVisibilityCheckers;
@@ -612,6 +613,7 @@ public class PersonEditFragment extends BaseEditFragment<FragmentPersonEditLayou
 		getContentBinding().setPersonContactDetailBindCallback(this::setPersonContactDetailFieldVisibilitiesAndAccesses);
 		contentBinding.setAttendedByClass(AttendedBy.class);
 		contentBinding.setYesNoUnknownClass(YesNoUnknown.class);
+		contentBinding.setYesNoClass(YesNo.class);
 
 		setUpLayoutBinding(this, record, contentBinding);
 
@@ -630,6 +632,16 @@ public class PersonEditFragment extends BaseEditFragment<FragmentPersonEditLayou
 		}
 		contentBinding.personCitizenship.setVisibility(GONE);
 		contentBinding.personBirthCountry.setVisibility(GONE);
+
+		if(disease != null && disease == Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS){
+			contentBinding.personApplicable.addValueChangedListener(event -> {
+				YesNo applicableValue = (YesNo) contentBinding.personApplicable.getValue();
+				int visibility = YesNo.YES.equals(applicableValue) ? View.VISIBLE : View.GONE;
+
+				contentBinding.personMothersName.setVisibility(visibility);
+				contentBinding.personFathersName.setVisibility(visibility);
+			});
+		}
 	}
 
 	@Override

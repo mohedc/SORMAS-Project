@@ -168,6 +168,8 @@ public class PersonDtoHelper extends AdoDtoHelper<Person, PersonDto> {
 		target.setLocationOfBirth(source.getLocationOfBirth());
 		target.setCurrentWeight(source.getCurrentWeight());
 		target.setCaregiverTelephoneNumber(source.getCaregiverTelephoneNumber());
+		target.setApplicable(source.getApplicable());
+		target.setLocatingInfo(source.getLocatingInfo());
 	}
 
 	@Override
@@ -296,6 +298,8 @@ public class PersonDtoHelper extends AdoDtoHelper<Person, PersonDto> {
 		target.setLocationOfBirth(source.getLocationOfBirth());
 		target.setCurrentWeight(source.getCurrentWeight());
 		target.setCaregiverTelephoneNumber(source.getCaregiverTelephoneNumber());
+		target.setApplicable(source.getApplicable());
+		target.setLocatingInfo(source.getLocatingInfo());
 	}
 
     @Override

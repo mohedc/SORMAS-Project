@@ -51,6 +51,7 @@ import de.symeda.sormas.api.person.OccupationType;
 import de.symeda.sormas.api.person.PresentCondition;
 import de.symeda.sormas.api.person.Salutation;
 import de.symeda.sormas.api.person.Sex;
+import de.symeda.sormas.api.utils.YesNo;
 import de.symeda.sormas.api.utils.YesNoUnknown;
 import de.symeda.sormas.app.backend.common.DatabaseHelper;
 import de.symeda.sormas.app.backend.common.PseudonymizableAdo;
@@ -237,6 +238,10 @@ public class Person extends PseudonymizableAdo {
 	private Integer currentWeight;
 	@Column(length = CHARACTER_LIMIT_DEFAULT)
 	private String caregiverTelephoneNumber;
+	@Enumerated(EnumType.STRING)
+	private YesNo applicable;
+	@Column(columnDefinition = "text")
+	private String locatingInfo;
 
 	public Person() {
 	}
@@ -827,4 +832,22 @@ public class Person extends PseudonymizableAdo {
 	public void setCaregiverTelephoneNumber(String caregiverTelephoneNumber) {
 		this.caregiverTelephoneNumber = caregiverTelephoneNumber;
 	}
+
+	public YesNo getApplicable() {
+		return applicable;
+	}
+
+	public void setApplicable(YesNo applicable) {
+		this.applicable = applicable;
+	}
+
+	public String getLocatingInfo() {
+		return locatingInfo;
+	}
+
+	public void setLocatingInfo(String locatingInfo) {
+		this.locatingInfo = locatingInfo;
+	}
+
+
 }
