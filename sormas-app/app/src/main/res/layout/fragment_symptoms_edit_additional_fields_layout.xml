@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ SORMAS(R) - Surveillance Outbreak Response Management & Analysis System
+  ~ Copyright (C) 2016-2018 Helmholtz-Zentrum fuer Infektionsforschung GmbH (HZI)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program. If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <import type="de.symeda.sormas.api.symptoms.SymptomState" />
+
+        <variable name="data" type="de.symeda.sormas.app.backend.symptoms.Symptoms" />
+        <variable name="symptomStateClass" type="Class" />
+    </data>
+
+    <merge>
+        <LinearLayout
+            android:id="@+id/symptoms_severeReactionAfterVaccination_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <de.symeda.sormas.app.component.controls.ControlSwitchField
+                android:id="@+id/symptoms_severeReactionAfterVaccination"
+                app:enumClass="@{symptomStateClass}"
+                app:slim="true"
+                app:value="@={data.severeReactionAfterVaccination}"
+                style="@style/ControlFirstOfTwoColumnsStyle" />
+
+            <de.symeda.sormas.app.component.controls.ControlDateField
+                android:id="@+id/symptoms_severeReactionAfterVaccinationOnsetDate"
+                app:value="@={data.severeReactionAfterVaccinationOnsetDate}"
+                app:dependencyParentField="@{symptomsSevereReactionAfterVaccination}"
+                app:dependencyParentValue="@{SymptomState.YES}"
+                style="@style/ControlSecondOfTwoColumnsStyle" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/symptoms_animalBiteScratch_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <de.symeda.sormas.app.component.controls.ControlSwitchField
+                android:id="@+id/symptoms_animalBiteScratch"
+                app:enumClass="@{symptomStateClass}"
+                app:slim="true"
+                app:value="@={data.animalBiteScratch}"
+                style="@style/ControlFirstOfTwoColumnsStyle" />
+
+            <de.symeda.sormas.app.component.controls.ControlDateField
+                android:id="@+id/symptoms_animalBiteScratchOnsetDate"
+                app:value="@={data.animalBiteScratchOnsetDate}"
+                app:dependencyParentField="@{symptomsAnimalBiteScratch}"
+                app:dependencyParentValue="@{SymptomState.YES}"
+                style="@style/ControlSecondOfTwoColumnsStyle" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/symptoms_acuteWateryDiarrhea_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <de.symeda.sormas.app.component.controls.ControlSwitchField
+                android:id="@+id/symptoms_acuteWateryDiarrhea"
+                app:enumClass="@{symptomStateClass}"
+                app:slim="true"
+                app:value="@={data.acuteWateryDiarrhea}"
+                style="@style/ControlFirstOfTwoColumnsStyle" />
+
+            <de.symeda.sormas.app.component.controls.ControlDateField
+                android:id="@+id/symptoms_acuteWateryDiarrheaOnsetDate"
+                app:value="@={data.acuteWateryDiarrheaOnsetDate}"
+                app:dependencyParentField="@{symptomsAcuteWateryDiarrhea}"
+                app:dependencyParentValue="@{SymptomState.YES}"
+                style="@style/ControlSecondOfTwoColumnsStyle" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/symptoms_bloodInStool_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <de.symeda.sormas.app.component.controls.ControlSwitchField
+                android:id="@+id/symptoms_bloodInStool"
+                app:enumClass="@{symptomStateClass}"
+                app:slim="true"
+                app:value="@={data.bloodInStool}"
+                style="@style/ControlFirstOfTwoColumnsStyle" />
+
+            <de.symeda.sormas.app.component.controls.ControlDateField
+                android:id="@+id/symptoms_bloodInStoolOnsetDate"
+                app:value="@={data.bloodInStoolOnsetDate}"
+                app:dependencyParentField="@{symptomsBloodInStool}"
+                app:dependencyParentValue="@{SymptomState.YES}"
+                style="@style/ControlSecondOfTwoColumnsStyle" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/symptoms_bloodUrine_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <de.symeda.sormas.app.component.controls.ControlSwitchField
+                android:id="@+id/symptoms_bloodUrine"
+                app:enumClass="@{symptomStateClass}"
+                app:slim="true"
+                app:value="@={data.bloodUrine}"
+                app:softRequired="true"
+                style="@style/ControlFirstOfTwoColumnsStyle" />
+
+            <de.symeda.sormas.app.component.controls.ControlDateField
+                android:id="@+id/symptoms_bloodUrineOnsetDate"
+                app:value="@={data.bloodUrineOnsetDate}"
+                app:dependencyParentField="@{symptomsBloodUrine}"
+                app:dependencyParentValue="@{SymptomState.YES}"
+                style="@style/ControlSecondOfTwoColumnsStyle" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/symptoms_persistentLimb_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <de.symeda.sormas.app.component.controls.ControlSwitchField
+                android:id="@+id/symptoms_persistentLimb"
+                app:enumClass="@{symptomStateClass}"
+                app:slim="true"
+                app:value="@={data.persistentLimb}"
+                style="@style/ControlFirstOfTwoColumnsStyle" />
+
+            <de.symeda.sormas.app.component.controls.ControlDateField
+                android:id="@+id/symptoms_persistentLimbOnsetDate"
+                app:value="@={data.persistentLimbOnsetDate}"
+                app:dependencyParentField="@{symptomsPersistentLimb}"
+                app:dependencyParentValue="@{SymptomState.YES}"
+                style="@style/ControlSecondOfTwoColumnsStyle" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/symptoms_genitalSwelling_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <de.symeda.sormas.app.component.controls.ControlSwitchField
+                android:id="@+id/symptoms_genitalSwelling"
+                app:enumClass="@{symptomStateClass}"
+                app:slim="true"
+                app:value="@={data.genitalSwelling}"
+                style="@style/ControlFirstOfTwoColumnsStyle" />
+
+            <de.symeda.sormas.app.component.controls.ControlDateField
+                android:id="@+id/symptoms_genitalSwellingOnsetDate"
+                app:value="@={data.genitalSwellingOnsetDate}"
+                app:dependencyParentField="@{symptomsGenitalSwelling}"
+                app:dependencyParentValue="@{SymptomState.YES}"
+                style="@style/ControlSecondOfTwoColumnsStyle" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/symptoms_redEye_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <de.symeda.sormas.app.component.controls.ControlSwitchField
+                android:id="@+id/symptoms_redEye"
+                app:enumClass="@{symptomStateClass}"
+                app:slim="true"
+                app:value="@={data.redEye}"
+                style="@style/ControlFirstOfTwoColumnsStyle" />
+
+            <de.symeda.sormas.app.component.controls.ControlDateField
+                android:id="@+id/symptoms_redEyeOnsetDate"
+                app:value="@={data.redEyeOnsetDate}"
+                app:dependencyParentField="@{symptomsRedEye}"
+                app:dependencyParentValue="@{SymptomState.YES}"
+                style="@style/ControlSecondOfTwoColumnsStyle" />
+
+        </LinearLayout>
+    </merge>
+</layout>

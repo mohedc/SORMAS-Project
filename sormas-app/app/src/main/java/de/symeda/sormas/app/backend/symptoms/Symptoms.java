@@ -35,6 +35,7 @@ import de.symeda.sormas.api.symptoms.DiagnosisType;
 import de.symeda.sormas.api.symptoms.InfectionSite;
 import de.symeda.sormas.api.symptoms.SymptomState;
 import de.symeda.sormas.api.symptoms.TemperatureSource;
+import de.symeda.sormas.api.utils.DependantOn;
 import de.symeda.sormas.api.utils.YesNoUnknown;
 import de.symeda.sormas.app.backend.common.EmbeddedAdo;
 import de.symeda.sormas.app.backend.common.PseudonymizableAdo;
@@ -595,6 +596,34 @@ public class Symptoms extends PseudonymizableAdo {
 	private String autopsyFindings;
 	@DatabaseField(dataType = DataType.DATE_LONG)
 	private Date autopsyDate;
+	@DatabaseField(dataType = DataType.ENUM_STRING)
+	private SymptomState severeReactionAfterVaccination;
+	@DatabaseField(dataType = DataType.ENUM_STRING)
+	private SymptomState animalBiteScratch;
+	@DatabaseField(dataType = DataType.ENUM_STRING)
+	private SymptomState acuteWateryDiarrhea;
+	@DatabaseField(dataType = DataType.ENUM_STRING)
+	private SymptomState persistentLimb;
+	@DatabaseField(dataType = DataType.ENUM_STRING)
+	private SymptomState genitalSwelling;
+	@DatabaseField(dataType = DataType.ENUM_STRING)
+	private SymptomState redEye;
+	@DatabaseField(dataType = DataType.DATE_LONG)
+	private Date severeReactionAfterVaccinationOnsetDate;
+	@DatabaseField(dataType = DataType.DATE_LONG)
+	private Date animalBiteScratchOnsetDate;
+	@DatabaseField(dataType = DataType.DATE_LONG)
+	private Date acuteWateryDiarrheaOnsetDate;
+	@DatabaseField(dataType = DataType.DATE_LONG)
+	private Date bloodInStoolOnsetDate;
+	@DatabaseField(dataType = DataType.DATE_LONG)
+	private Date bloodUrineOnsetDate;
+	@DatabaseField(dataType = DataType.DATE_LONG)
+	private Date persistentLimbOnsetDate;
+	@DatabaseField(dataType = DataType.DATE_LONG)
+	private Date genitalSwellingOnsetDate;
+	@DatabaseField(dataType = DataType.DATE_LONG)
+	private Date redEyeOnsetDate;
 
 	@Override
 	public String getI18nPrefix() {
@@ -2641,5 +2670,114 @@ public class Symptoms extends PseudonymizableAdo {
 
 	public void setAutopsyDate(Date autopsyDate) {
 		this.autopsyDate = autopsyDate;
+	}
+	public SymptomState getSevereReactionAfterVaccination() {
+		return severeReactionAfterVaccination;
+	}
+
+	public void setSevereReactionAfterVaccination(SymptomState severeReactionAfterVaccination) {
+		this.severeReactionAfterVaccination = severeReactionAfterVaccination;
+	}
+
+	public SymptomState getAnimalBiteScratch() {
+		return animalBiteScratch;
+	}
+
+	public void setAnimalBiteScratch(SymptomState animalBiteScratch) {
+		this.animalBiteScratch = animalBiteScratch;
+	}
+
+	public SymptomState getAcuteWateryDiarrhea() {
+		return acuteWateryDiarrhea;
+	}
+
+	public void setAcuteWateryDiarrhea(SymptomState acuteWateryDiarrhea) {
+		this.acuteWateryDiarrhea = acuteWateryDiarrhea;
+	}
+
+	public SymptomState getPersistentLimb() {
+		return persistentLimb;
+	}
+
+	public void setPersistentLimb(SymptomState persistentLimb) {
+		this.persistentLimb = persistentLimb;
+	}
+
+	public SymptomState getGenitalSwelling() {
+		return genitalSwelling;
+	}
+
+	public void setGenitalSwelling(SymptomState genitalSwelling) {
+		this.genitalSwelling = genitalSwelling;
+	}
+
+	public SymptomState getRedEye() {
+		return redEye;
+	}
+
+	public void setRedEye(SymptomState redEye) {
+		this.redEye = redEye;
+	}
+
+	public Date getSevereReactionAfterVaccinationOnsetDate() {
+		return severeReactionAfterVaccinationOnsetDate;
+	}
+	public void setSevereReactionAfterVaccinationOnsetDate(Date severeReactionAfterVaccinationOnsetDate) {
+		this.severeReactionAfterVaccinationOnsetDate = severeReactionAfterVaccinationOnsetDate;
+	}
+	public Date getAnimalBiteScratchOnsetDate() {
+		return animalBiteScratchOnsetDate;
+	}
+
+	public void setAnimalBiteScratchOnsetDate(Date animalBiteScratchOnsetDate) {
+		this.animalBiteScratchOnsetDate = animalBiteScratchOnsetDate;
+	}
+
+	public Date getAcuteWateryDiarrheaOnsetDate() {
+		return acuteWateryDiarrheaOnsetDate;
+	}
+
+	public void setAcuteWateryDiarrheaOnsetDate(Date acuteWateryDiarrheaOnsetDate) {
+		this.acuteWateryDiarrheaOnsetDate = acuteWateryDiarrheaOnsetDate;
+	}
+
+	public Date getBloodInStoolOnsetDate() {
+		return bloodInStoolOnsetDate;
+	}
+
+	public void setBloodInStoolOnsetDate(Date bloodInStoolOnsetDate) {
+		this.bloodInStoolOnsetDate = bloodInStoolOnsetDate;
+	}
+
+	public Date getBloodUrineOnsetDate() {
+		return bloodUrineOnsetDate;
+	}
+
+	public void setBloodUrineOnsetDate(Date bloodUrineOnsetDate) {
+		this.bloodUrineOnsetDate = bloodUrineOnsetDate;
+	}
+
+	public Date getPersistentLimbOnsetDate() {
+		return persistentLimbOnsetDate;
+	}
+
+	public void setPersistentLimbOnsetDate(Date persistentLimbOnsetDate) {
+		this.persistentLimbOnsetDate = persistentLimbOnsetDate;
+	}
+
+	public Date getGenitalSwellingOnsetDate() {
+		return genitalSwellingOnsetDate;
+	}
+
+	public void setGenitalSwellingOnsetDate(Date genitalSwellingOnsetDate) {
+		this.genitalSwellingOnsetDate = genitalSwellingOnsetDate;
+	}
+
+	public Date getRedEyeOnsetDate() {
+		return redEyeOnsetDate;
+	}
+
+	public void setRedEyeOnsetDate(Date redEyeOnsetDate) {
+		this.redEyeOnsetDate = redEyeOnsetDate;
 	}
 }

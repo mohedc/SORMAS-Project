@@ -296,6 +296,20 @@ public class SymptomsDtoHelper extends AdoDtoHelper<Symptoms, SymptomsDto> {
 		target.setSplenomegalyOnsetDate(source.getSplenomegalyOnsetDate());
 		target.setDevelopmentalDelayOnsetDate(source.getDevelopmentalDelayOnsetDate());
 		target.setRadiolucentBoneDiseaseOnsetDate(source.getRadiolucentBoneDiseaseOnsetDate());
+		target.setSevereReactionAfterVaccination(source.getSevereReactionAfterVaccination());
+		target.setAnimalBiteScratch(source.getAnimalBiteScratch());
+		target.setAcuteWateryDiarrhea(source.getAcuteWateryDiarrhea());
+		target.setPersistentLimb(source.getPersistentLimb());
+		target.setGenitalSwelling(source.getGenitalSwelling());
+		target.setRedEye(source.getRedEye());
+		target.setSevereReactionAfterVaccinationOnsetDate(source.getSevereReactionAfterVaccinationOnsetDate());
+		target.setAnimalBiteScratchOnsetDate(source.getAnimalBiteScratchOnsetDate());
+		target.setAcuteWateryDiarrheaOnsetDate(source.getAcuteWateryDiarrheaOnsetDate());
+		target.setPersistentLimbOnsetDate(source.getPersistentLimbOnsetDate());
+		target.setGenitalSwellingOnsetDate(source.getGenitalSwellingOnsetDate());
+		target.setRedEyeOnsetDate(source.getRedEyeOnsetDate());
+		target.setBloodInStoolOnsetDate(source.getBloodInStoolOnsetDate());
+		target.setBloodUrineOnsetDate(source.getBloodUrineOnsetDate());
 
 		target.setPseudonymized(source.isPseudonymized());
 	}
@@ -543,6 +557,20 @@ public class SymptomsDtoHelper extends AdoDtoHelper<Symptoms, SymptomsDto> {
 		target.setSplenomegalyOnsetDate(source.getSplenomegalyOnsetDate());
 		target.setDevelopmentalDelayOnsetDate(source.getDevelopmentalDelayOnsetDate());
 		target.setRadiolucentBoneDiseaseOnsetDate(source.getRadiolucentBoneDiseaseOnsetDate());
+		target.setSevereReactionAfterVaccination(source.getSevereReactionAfterVaccination());
+		target.setAnimalBiteScratch(source.getAnimalBiteScratch());
+		target.setAcuteWateryDiarrhea(source.getAcuteWateryDiarrhea());
+		target.setPersistentLimb(source.getPersistentLimb());
+		target.setGenitalSwelling(source.getGenitalSwelling());
+		target.setRedEye(source.getRedEye());
+		target.setSevereReactionAfterVaccinationOnsetDate(source.getSevereReactionAfterVaccinationOnsetDate());
+		target.setAnimalBiteScratchOnsetDate(source.getAnimalBiteScratchOnsetDate());
+		target.setAcuteWateryDiarrheaOnsetDate(source.getAcuteWateryDiarrheaOnsetDate());
+		target.setPersistentLimbOnsetDate(source.getPersistentLimbOnsetDate());
+		target.setGenitalSwellingOnsetDate(source.getGenitalSwellingOnsetDate());
+		target.setRedEyeOnsetDate(source.getRedEyeOnsetDate());
+		target.setBloodInStoolOnsetDate(source.getBloodInStoolOnsetDate());
+		target.setBloodUrineOnsetDate(source.getBloodUrineOnsetDate());
 
 		target.setPseudonymized(source.isPseudonymized());
 	}

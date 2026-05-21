@@ -196,7 +196,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	public static final String DATABASE_NAME = "sormas.db";
 	// any time you make changes to your database objects, you may have to increase the database version
 
-	public static final int DATABASE_VERSION = 389;
+	public static final int DATABASE_VERSION = 390;
 
 	private static DatabaseHelper instance = null;
 
@@ -3541,6 +3541,23 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 				getDao(Person.class).executeRaw("ALTER TABLE person ADD COLUMN telNumber varchar(255);");
 				getDao(Person.class).executeRaw("ALTER TABLE person ADD COLUMN applicable varchar(255);");
 				getDao(Person.class).executeRaw("ALTER TABLE person ADD COLUMN locatingInfo varchar(255);");
+
+			case 389:
+				currentVersion = 389;
+				getDao(Symptoms.class).executeRaw("ALTER TABLE symptoms ADD COLUMN severeReactionAfterVaccination varchar(255);");
+				getDao(Symptoms.class).executeRaw("ALTER TABLE symptoms ADD COLUMN animalBiteScratch varchar(255);");
+				getDao(Symptoms.class).executeRaw("ALTER TABLE symptoms ADD COLUMN acuteWateryDiarrhea varchar(255);");
+				getDao(Symptoms.class).executeRaw("ALTER TABLE symptoms ADD COLUMN persistentLimb varchar(255);");
+				getDao(Symptoms.class).executeRaw("ALTER TABLE symptoms ADD COLUMN genitalSwelling varchar(255);");
+				getDao(Symptoms.class).executeRaw("ALTER TABLE symptoms ADD COLUMN redEye varchar(255);");
+				getDao(Symptoms.class).executeRaw("ALTER TABLE symptoms ADD COLUMN severeReactionAfterVaccinationOnsetDate timestamp;");
+				getDao(Symptoms.class).executeRaw("ALTER TABLE symptoms ADD COLUMN animalBiteScratchOnsetDate timestamp;");
+				getDao(Symptoms.class).executeRaw("ALTER TABLE symptoms ADD COLUMN acuteWateryDiarrheaOnsetDate timestamp;");
+				getDao(Symptoms.class).executeRaw("ALTER TABLE symptoms ADD COLUMN bloodInStoolOnsetDate timestamp;");
+				getDao(Symptoms.class).executeRaw("ALTER TABLE symptoms ADD COLUMN bloodUrineOnsetDate timestamp;");
+				getDao(Symptoms.class).executeRaw("ALTER TABLE symptoms ADD COLUMN persistentLimbOnsetDate timestamp;");
+				getDao(Symptoms.class).executeRaw("ALTER TABLE symptoms ADD COLUMN genitalSwellingOnsetDate timestamp;");
+				getDao(Symptoms.class).executeRaw("ALTER TABLE symptoms ADD COLUMN redEyeOnsetDate timestamp;");
 
 				// ATTENTION: break should only be done after last version
 				break;
