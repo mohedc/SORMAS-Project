@@ -35,6 +35,7 @@ import de.symeda.sormas.api.caze.RabiesType;
 import de.symeda.sormas.api.customizableenum.CustomizableEnumType;
 import de.symeda.sormas.api.disease.DiseaseVariant;
 import de.symeda.sormas.api.event.TypeOfPlace;
+import de.symeda.sormas.api.infrastructure.facility.FacilityDto;
 import de.symeda.sormas.api.infrastructure.facility.FacilityType;
 import de.symeda.sormas.api.infrastructure.facility.FacilityTypeGroup;
 import de.symeda.sormas.api.person.ApproximateAgeType;
@@ -277,8 +278,9 @@ public class CaseNewFragment extends BaseEditFragment<FragmentCaseNewLayoutBindi
 			if (TypeOfPlace.FACILITY.equals(place)) {
 				contentBinding.facilityTypeGroup.setValue(FacilityTypeGroup.MEDICAL_FACILITY);
 				contentBinding.caseDataFacilityType.setValue(FacilityType.HOSPITAL);
-				User user = ConfigProvider.getUser();
-				if (!user.hasJurisdictionLevel(JurisdictionLevel.HEALTH_FACILITY)) {
+				record.setFacilityType(FacilityType.HOSPITAL);
+				if (record.getHealthFacility() != null && FacilityDto.NONE_FACILITY_UUID.equals(record.getHealthFacility().getUuid())) {
+					record.setHealthFacility(null);
 					contentBinding.caseDataHealthFacility.setValue(null);
 				}
 			} else if (TypeOfPlace.HOME.equals(place)) {
