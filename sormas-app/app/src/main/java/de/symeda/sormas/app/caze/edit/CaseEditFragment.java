@@ -82,9 +82,13 @@ import de.symeda.sormas.app.backend.user.User;
 import de.symeda.sormas.app.backend.user.UserRole;
 import de.symeda.sormas.app.component.Item;
 import de.symeda.sormas.app.component.controls.ControlPropertyField;
+import de.symeda.sormas.app.component.controls.ControlTextEditField;
 import de.symeda.sormas.app.component.controls.ValueChangeListener;
 import de.symeda.sormas.app.component.dialog.ConfirmationDialog;
 import de.symeda.sormas.app.component.dialog.InfoDialog;
+import de.symeda.sormas.app.component.validation.ValidationHelper;
+import de.symeda.sormas.app.core.notification.NotificationHelper;
+import de.symeda.sormas.app.core.notification.NotificationType;
 import de.symeda.sormas.app.databinding.DialogClassificationRulesLayoutBinding;
 import de.symeda.sormas.app.databinding.FragmentCaseEditLayoutBinding;
 import de.symeda.sormas.app.util.DataUtils;
@@ -92,6 +96,7 @@ import de.symeda.sormas.app.util.DiseaseConfigurationCache;
 import de.symeda.sormas.app.util.FieldVisibilityAndAccessHelper;
 import de.symeda.sormas.app.util.InfrastructureDaoHelper;
 import de.symeda.sormas.app.util.InfrastructureFieldsDependencyHandler;
+import de.symeda.sormas.app.util.LocationService;
 
 public class CaseEditFragment extends BaseEditFragment<FragmentCaseEditLayoutBinding, Case, Case> {
 
@@ -215,6 +220,11 @@ public class CaseEditFragment extends BaseEditFragment<FragmentCaseEditLayoutBin
 
 		contentBinding.caseDataQuarantineExtended.setVisibility(record.isQuarantineExtended() ? VISIBLE : GONE);
 		contentBinding.caseDataQuarantineReduced.setVisibility(record.isQuarantineReduced() ? VISIBLE : GONE);
+
+		if (!isFieldAccessible(CaseDataDto.class, contentBinding.caseDataReportLat)
+			|| !isFieldAccessible(CaseDataDto.class, contentBinding.caseDataReportLon)) {
+			contentBinding.caseDataPickGpsCoordinates.setVisibility(GONE);
+		}
 
 		User user = ConfigProvider.getUser();
 		if (user.hasJurisdictionLevel(JurisdictionLevel.HEALTH_FACILITY) || getPrimaryData().getHealthFacility() == null) {
@@ -674,6 +684,37 @@ public class CaseEditFragment extends BaseEditFragment<FragmentCaseEditLayoutBin
 			.addValueChangedListener(e -> contentBinding.caseDataQuarantineReduced.setVisibility(record.isQuarantineReduced() ? VISIBLE : GONE));
 
 		CaseValidator.initializeProhibitionToWorkIntervalValidator(contentBinding);
+
+		contentBinding.caseDataPickGpsCoordinates.setOnClickListener(v -> {
+			final ConfirmationDialog confirmationDialog = new ConfirmationDialog(
+				getActivity(),
+				R.string.heading_confirmation_dialog,
+				R.string.confirmation_pick_gps,
+				R.string.yes,
+				R.string.no);
+
+			confirmationDialog.setPositiveCallback(() -> {
+				android.location.Location phoneLocation = LocationService.instance().getLocation(getActivity());
+				if (phoneLocation != null) {
+					contentBinding.caseDataReportLat.setDoubleValue(phoneLocation.getLatitude());
+					contentBinding.caseDataReportLon.setDoubleValue(phoneLocation.getLongitude());
+					contentBinding.caseDataReportLatLonAccuracy.setFloatValue(phoneLocation.getAccuracy());
+				} else {
+					NotificationHelper.showNotification(getContentBinding(), NotificationType.WARNING, R.string.message_gps_problem);
+				}
+			});
+			confirmationDialog.show();
+		});
+
+		contentBinding.caseDataReportLat.setValidationCallback(() -> {
+			Double latitude = ControlTextEditField.getDoubleValue(contentBinding.caseDataReportLat);
+			return ValidationHelper.validateLatitude(latitude, contentBinding.caseDataReportLat);
+		});
+
+		contentBinding.caseDataReportLon.setValidationCallback(() -> {
+			Double longitude = ControlTextEditField.getDoubleValue(contentBinding.caseDataReportLon);
+			return ValidationHelper.validateLongitude(longitude, contentBinding.caseDataReportLon);
+		});
 
 		Disease disease = record.getDisease();
 		if (disease == Disease.NEONATAL_TETANUS) {

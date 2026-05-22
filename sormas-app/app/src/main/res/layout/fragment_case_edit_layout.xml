@@ -782,6 +782,18 @@
                     app:value="@={data.endOfIsolationReasonDetails}"
                     style="@style/ControlSingleColumnStyle" />
 
+                <ImageView style="@style/FullHorizontalDividerStyle" />
+
+                <de.symeda.sormas.app.component.controls.ControlButton
+                    android:id="@+id/caseData_pickGpsCoordinates"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/buttonControlMarginBottom"
+                    app:slim="true"
+                    app:iconStart="@drawable/ic_gps_fixed_black_24dp"
+                    app:buttonType="@{ControlButtonType.SECONDARY}"
+                    android:text="@string/action_pick_gps" />
+
                 <LinearLayout
                     android:id="@+id/caseData_reportLat_reportLon_layout"
                     android:layout_width="match_parent"
