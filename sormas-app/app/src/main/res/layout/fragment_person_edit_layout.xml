@@ -396,7 +396,7 @@
             <ImageView style="@style/FullHorizontalDividerStyle"/>
 
             <LinearLayout
-                android:id="@+id/person_passportNumber_layout"
+                android:id="@+id/person_passport_national_health_id_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
