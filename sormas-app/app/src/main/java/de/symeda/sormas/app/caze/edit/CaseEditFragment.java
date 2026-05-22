@@ -21,6 +21,8 @@ import static de.symeda.sormas.api.caze.CaseConfirmationBasis.CLINICAL_CONFIRMAT
 import static de.symeda.sormas.api.caze.CaseConfirmationBasis.EPIDEMIOLOGICAL_CONFIRMATION;
 import static de.symeda.sormas.api.caze.CaseConfirmationBasis.LABORATORY_DIAGNOSTIC_CONFIRMATION;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -82,6 +84,7 @@ import de.symeda.sormas.app.backend.user.User;
 import de.symeda.sormas.app.backend.user.UserRole;
 import de.symeda.sormas.app.component.Item;
 import de.symeda.sormas.app.component.controls.ControlPropertyField;
+import de.symeda.sormas.app.component.controls.ControlSwitchField;
 import de.symeda.sormas.app.component.controls.ControlTextEditField;
 import de.symeda.sormas.app.component.controls.ValueChangeListener;
 import de.symeda.sormas.app.component.dialog.ConfirmationDialog;
@@ -500,11 +503,13 @@ public class CaseEditFragment extends BaseEditFragment<FragmentCaseEditLayoutBin
 						this.currentDisease = null;
 
 						updateDiseaseVariantsField(contentBinding);
+						updateVaccinationRecordTypeForDisease(contentBinding);
 					});
 					dlg.show();
 				} else if (this.currentDisease == null) {
 					// It means the disease were already changed
 					updateDiseaseVariantsField(contentBinding);
+					updateVaccinationRecordTypeForDisease(contentBinding);
 				}
 			}
 		});
@@ -720,6 +725,7 @@ public class CaseEditFragment extends BaseEditFragment<FragmentCaseEditLayoutBin
 		if (disease == Disease.NEONATAL_TETANUS) {
 			handleNNT();
 		}
+		updateVaccinationRecordTypeForDisease(contentBinding);
 
 		if (disease != null) {
 			super.hideFieldsForDisease(disease, contentBinding.mainContent, FormType.CASE_EDIT);
@@ -849,6 +855,8 @@ public class CaseEditFragment extends BaseEditFragment<FragmentCaseEditLayoutBin
 
 		contentBinding.caseDataReportingUser.setPseudonymized(record.isPseudonymized());
 		contentBinding.caseDataSurveillanceOfficer.setPseudonymized(record.isPseudonymized());
+
+		updateVaccinationRecordTypeForDisease(contentBinding);
 	}
 
 	private void updateDiseaseVariantsField(FragmentCaseEditLayoutBinding contentBinding) {
@@ -862,6 +870,36 @@ public class CaseEditFragment extends BaseEditFragment<FragmentCaseEditLayoutBin
 		contentBinding.caseDataDiseaseVariant.setSpinnerData(diseaseVariantList);
 		contentBinding.caseDataDiseaseVariant.setValue(null);
 		contentBinding.caseDataDiseaseVariant.setVisibility(diseaseVariants.isEmpty() ? GONE : VISIBLE);
+	}
+
+	private void updateVaccinationRecordTypeForDisease(FragmentCaseEditLayoutBinding contentBinding) {
+		Disease disease = (Disease) contentBinding.caseDataDisease.getValue();
+		if (disease == null) {
+			disease = record.getDisease();
+		}
+		if (disease == Disease.MEASLES) {
+			handleMeasles();
+		} else {
+			ControlSwitchField vaccinationRecordTypeField = contentBinding.caseDataVaccinationRecordType;
+			vaccinationRecordTypeField.setEnumClass(VaccinationRecordType.class);
+			vaccinationRecordTypeField.setValue(record.getVaccinationRecordType());
+		}
+	}
+
+	private void handleMeasles() {
+		FragmentCaseEditLayoutBinding contentBinding = getContentBinding();
+		ControlSwitchField vaccinationRecordTypeField = contentBinding.caseDataVaccinationRecordType;
+		List<Item> vaccinationRecordTypeList = new ArrayList<>();
+		vaccinationRecordTypeList.add(new Item<>(VaccinationRecordType.CARD.toString(), VaccinationRecordType.CARD));
+		vaccinationRecordTypeList.add(new Item<>(VaccinationRecordType.HISTORY.toString(), VaccinationRecordType.HISTORY));
+		vaccinationRecordTypeField.setEnumItems(vaccinationRecordTypeList);
+
+		VaccinationRecordType currentValue = record.getVaccinationRecordType();
+		if (currentValue != null && !Arrays.asList(VaccinationRecordType.CARD, VaccinationRecordType.HISTORY).contains(currentValue)) {
+			vaccinationRecordTypeField.setValue(null);
+		} else {
+			vaccinationRecordTypeField.setValue(currentValue);
+		}
 	}
 
 	private void handleNNT() {
