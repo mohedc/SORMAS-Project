@@ -190,6 +190,7 @@ public class CaseNewActivity extends BaseEditActivity<Case> {
 		} else if (eventParticipantUuid != null && contactUuid == null) {
 			fragment = CaseNewFragment.newInstanceFromEventParticipant(activityRootData, eventParticipantUuid);
 		} else {
+			activityRootData.setCaseClassification(CaseClassification.SUSPECT);
 			fragment = CaseNewFragment.newInstance(activityRootData);
 		}
 		fragment.setLiveValidationDisabled(true);

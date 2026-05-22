@@ -301,6 +301,10 @@ public class CaseNewFragment extends BaseEditFragment<FragmentCaseNewLayoutBindi
 				super.hideFieldsForDisease(selectedDisease, contentBinding.mainContent, FormType.CASE_CREATE);
 				CaseOrigin currentCaseOrigin = (CaseOrigin) contentBinding.caseDataCaseOrigin.getValue();
 				contentBinding.personPassportNumber.setVisibility(currentCaseOrigin == CaseOrigin.POINT_OF_ENTRY ? VISIBLE : GONE);
+				contentBinding.caseDataPointOfEntry.setVisibility(currentCaseOrigin == CaseOrigin.POINT_OF_ENTRY ? VISIBLE : GONE);
+				InfrastructureDaoHelper.initializePointOfEntryDetailsFieldVisibility(
+						contentBinding.caseDataPointOfEntry,
+						contentBinding.caseDataPointOfEntryDetails);
 				// HOME address is only required when facilityOrHome is HOME
 				contentBinding.personPlaceOfStayHomeAddressLayout.setVisibility(TypeOfPlace.HOME.equals(contentBinding.facilityOrHome.getValue()) ? VISIBLE : GONE);
 			}

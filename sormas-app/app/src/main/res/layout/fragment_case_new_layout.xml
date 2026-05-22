@@ -276,6 +276,8 @@
                 android:id="@+id/caseData_pointOfEntry"
                 style="@style/ControlSingleColumnStyle"
                 app:required="true"
+                app:dependencyParentField="@{caseDataCaseOrigin}"
+                app:dependencyParentValue="@{CaseOrigin.POINT_OF_ENTRY}"
                 app:value="@={data.pointOfEntry}" />
 
             <de.symeda.sormas.app.component.controls.ControlTextEditField
