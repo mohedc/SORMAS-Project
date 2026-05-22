@@ -389,6 +389,13 @@
 
                 </LinearLayout>
 
+                <TextView
+                    android:id="@+id/caseData_headingNotifyInvestigate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/heading_notify_investigate"
+                    style="@style/SubHeadingStyle" />
+
                 <LinearLayout
                     android:id="@+id/caseData_notifiedBy_notifiedByDetails_layout"
                     android:layout_width="match_parent"
@@ -405,7 +412,7 @@
                         app:value="@={data.notifiedByDetails}"
                         app:dependencyParentField="@{caseDataNotifiedBy}"
                         app:dependencyParentValue="@{NotifiedBy.OTHER}"
-                        style="@style/ControlSingleColumnStyle" />
+                        style="@style/ControlSecondOfTwoColumnsStyle" />
 
                 </LinearLayout>
 

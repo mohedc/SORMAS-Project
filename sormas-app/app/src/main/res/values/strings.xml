@@ -389,6 +389,7 @@
     <string name="heading_most_recent_hospitalization">Most Recent Hospitalization</string>
     <string name="heading_most_recent_test">Most Recent Pathogen Test</string>
     <string name="heading_new_sormas_version">New SORMAS version</string>
+    <string name="heading_notify_investigate">NOTIFICATION/INVESTIGATION</string>
     <string name="heading_outbreak_response">Outbreak Response</string>
     <string name="heading_person_contact_detail">Person contact details</string>
     <string name="heading_pick_or_create_person">Pick or Create Person</string>
