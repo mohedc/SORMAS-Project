@@ -713,13 +713,14 @@ public class CaseEditFragment extends BaseEditFragment<FragmentCaseEditLayoutBin
 		});
 
 		Disease disease = record.getDisease();
-		if (disease == Disease.NEONATAL_TETANUS) {
-			handleNNT();
-		}
 		updateVaccinationRecordTypeForDisease(contentBinding);
 
 		if (disease != null) {
 			super.hideFieldsForDisease(disease, contentBinding.mainContent, FormType.CASE_EDIT);
+		}
+
+		if (disease == Disease.NEONATAL_TETANUS) {
+			handleNNT();
 		}
 	}
 
@@ -880,6 +881,8 @@ public class CaseEditFragment extends BaseEditFragment<FragmentCaseEditLayoutBin
 		}
 		if (disease == Disease.MEASLES) {
 			handleMeasles();
+		} else if (disease == Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS) {
+			handleIDSR();
 		} else {
 			ControlSwitchField vaccinationRecordTypeField = contentBinding.caseDataVaccinationRecordType;
 			vaccinationRecordTypeField.setEnumClass(VaccinationRecordType.class);
@@ -942,6 +945,30 @@ public class CaseEditFragment extends BaseEditFragment<FragmentCaseEditLayoutBin
 		contentBinding.caseDataMotherTTDateFour.setVisibility(numberOfDoses >= 4 ? VISIBLE : GONE);
 		contentBinding.caseDataMotherTTDateFive.setVisibility(numberOfDoses >= 5 ? VISIBLE : GONE);
 		contentBinding.caseDataMotherLastDoseDate.setVisibility(numberOfDoses >= 6 ? VISIBLE : GONE);
+	}
+
+	private void handleIDSR() {
+		FragmentCaseEditLayoutBinding contentBinding = getContentBinding();
+		ControlSwitchField vaccinationRecordTypeField = contentBinding.caseDataVaccinationRecordType;
+		List<Item> vaccinationRecordTypeList = new ArrayList<>();
+		vaccinationRecordTypeList.add(new Item<>(VaccinationRecordType.CARD.toString(), VaccinationRecordType.CARD));
+		vaccinationRecordTypeList.add(new Item<>(VaccinationRecordType.HISTORY.toString(), VaccinationRecordType.HISTORY));
+		vaccinationRecordTypeField.setEnumItems(vaccinationRecordTypeList);
+		VaccinationRecordType currentValue = record.getVaccinationRecordType();
+		if (currentValue != null && !Arrays.asList(VaccinationRecordType.CARD, VaccinationRecordType.HISTORY).contains(currentValue)) {
+			vaccinationRecordTypeField.setValue(null);
+		} else {
+			vaccinationRecordTypeField.setValue(currentValue);
+		}
+		vaccinationRecordTypeField.addValueChangedListener(field -> {
+			VaccinationRecordType value = (VaccinationRecordType) field.getValue();
+			boolean showLastVaccinationDate = value == VaccinationRecordType.CARD;
+			contentBinding.caseDataLastVaccinationDate.setVisibility(showLastVaccinationDate ? VISIBLE : GONE);
+			if (!showLastVaccinationDate) {
+				contentBinding.caseDataLastVaccinationDate.setValue(null);
+			}
+		});
+		contentBinding.caseDataNumberOfVaccinationDoses.setCaption("Number of vaccine doses received:");
 	}
 
 	@Override
