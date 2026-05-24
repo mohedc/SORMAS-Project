@@ -856,6 +856,16 @@ public class CaseEditFragment extends BaseEditFragment<FragmentCaseEditLayoutBin
 		contentBinding.caseDataReportingUser.setPseudonymized(record.isPseudonymized());
 		contentBinding.caseDataSurveillanceOfficer.setPseudonymized(record.isPseudonymized());
 
+		contentBinding.caseDataNotifiedBy.addValueChangedListener(field -> {
+			boolean isOther = NotifiedBy.OTHER.equals(contentBinding.caseDataNotifiedBy.getValue());
+			contentBinding.caseDataNotifiedBy.setVisibility(VISIBLE);
+			contentBinding.caseDataNotifiedByDetails.setVisibility(isOther ? VISIBLE : GONE);
+		});
+		contentBinding.caseDataNotifiedBy.setVisibility(VISIBLE);
+		contentBinding.caseDataNotifiedByDetails.setVisibility(
+				NotifiedBy.OTHER.equals(contentBinding.caseDataNotifiedBy.getValue()) ? VISIBLE : GONE
+		);
+
 		updateVaccinationRecordTypeForDisease(contentBinding);
 	}
 
