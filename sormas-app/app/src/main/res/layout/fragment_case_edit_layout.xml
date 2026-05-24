@@ -389,6 +389,13 @@
 
                 </LinearLayout>
 
+                <TextView
+                    android:id="@+id/caseData_headingNotifyInvestigate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/heading_notify_investigate"
+                    style="@style/SubHeadingStyle" />
+
                 <LinearLayout
                     android:id="@+id/caseData_notifiedBy_notifiedByDetails_layout"
                     android:layout_width="match_parent"
@@ -405,7 +412,7 @@
                         app:value="@={data.notifiedByDetails}"
                         app:dependencyParentField="@{caseDataNotifiedBy}"
                         app:dependencyParentValue="@{NotifiedBy.OTHER}"
-                        style="@style/ControlSingleColumnStyle" />
+                        style="@style/ControlSecondOfTwoColumnsStyle" />
 
                 </LinearLayout>
 
@@ -782,6 +789,18 @@
                     app:value="@={data.endOfIsolationReasonDetails}"
                     style="@style/ControlSingleColumnStyle" />
 
+                <ImageView style="@style/FullHorizontalDividerStyle" />
+
+                <de.symeda.sormas.app.component.controls.ControlButton
+                    android:id="@+id/caseData_pickGpsCoordinates"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/buttonControlMarginBottom"
+                    app:slim="true"
+                    app:iconStart="@drawable/ic_gps_fixed_black_24dp"
+                    app:buttonType="@{ControlButtonType.SECONDARY}"
+                    android:text="@string/action_pick_gps" />
+
                 <LinearLayout
                     android:id="@+id/caseData_reportLat_reportLon_layout"
                     android:layout_width="match_parent"
@@ -842,6 +861,7 @@
                 <ImageView style="@style/FullHorizontalDividerStyle" />
 
                 <TextView
+                    android:id="@+id/heading_additional_medical_information"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/heading_additional_medical_information"

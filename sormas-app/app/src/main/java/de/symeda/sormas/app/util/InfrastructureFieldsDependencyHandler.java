@@ -397,6 +397,29 @@ public class InfrastructureFieldsDependencyHandler {
 					}
 				} else if (TypeOfPlace.FACILITY.equals(selectedType)) {
 					typeGroupField.setSpinnerData(typeGroups);
+					FacilityTypeGroup selectedGroup = (FacilityTypeGroup) typeGroupField.getValue();
+					if (selectedGroup == null) {
+						selectedGroup = FacilityTypeGroup.MEDICAL_FACILITY;
+						typeGroupField.setValue(selectedGroup);
+					}
+					if (typeField != null) {
+						if (showAllFacilityTypeGroups) {
+							typeField.setSpinnerData(DataUtils.toItems(FacilityType.getTypes(selectedGroup), true));
+						} else {
+							typeField.setSpinnerData(DataUtils.toItems(FacilityType.getAccommodationTypes(selectedGroup), true));
+						}
+						if (typeField.getValue() == null && FacilityTypeGroup.MEDICAL_FACILITY.equals(selectedGroup)) {
+							typeField.setValue(FacilityType.HOSPITAL);
+						}
+					}
+					Facility selectedFacility = (Facility) facilityField.getValue();
+					if (selectedFacility != null && FacilityDto.NONE_FACILITY_UUID.equals(selectedFacility.getUuid())) {
+						facilityField.setValue(null);
+						if (caze != null) {
+							caze.setHealthFacility(null);
+						}
+					}
+					handleCommunityChange(communityField, districtField, facilityField, typeField, initialFacility, caze);
 					if (facilityField.getValue() != null
 						&& !FacilityDto.OTHER_FACILITY_UUID.equals(((Facility) facilityField.getValue()).getUuid())) {
 						facilityDetailsField.setValue(null);
@@ -626,9 +649,27 @@ public class InfrastructureFieldsDependencyHandler {
 		ControlSpinnerField facilityField,
 		ControlSpinnerField typeField,
 		Facility initialFacility) {
+		handleCommunityChange(communityField, districtField, facilityField, typeField, initialFacility, null);
+	}
+
+	public void handleCommunityChange(
+		ControlPropertyField communityField,
+		ControlSpinnerField districtField,
+		ControlSpinnerField facilityField,
+		ControlSpinnerField typeField,
+		Facility initialFacility,
+		Case caze) {
 		Item facilityItem = initialFacility != null ? DataUtils.toItem(initialFacility) : null;
 		Community selectedCommunity = (Community) communityField.getValue();
 		District selectedDistrict = (District) districtField.getValue();
+		if (caze != null) {
+			if (isEmptyDistrict(selectedDistrict)) {
+				selectedDistrict = caze.getResponsibleDistrict();
+			}
+			if (selectedCommunity == null) {
+				selectedCommunity = caze.getResponsibleCommunity();
+			}
+		}
 
 		final List<Item> newFacilities;
 		if (selectedCommunity != null && typeField == null) {
@@ -662,8 +703,14 @@ public class InfrastructureFieldsDependencyHandler {
 		}
 
 		Facility selectedFacility = (Facility) facilityField.getValue();
+		if (isNoneFacility(selectedFacility)) {
+			selectedFacility = null;
+			if (caze != null) {
+				caze.setHealthFacility(null);
+			}
+		}
 		if (selectedFacility == null) {
-			facilityField.setSpinnerData(addUnknownItem(newFacilities, unknownFacility));
+			facilityField.setSpinnerData(addUnknownItem(newFacilities, unknownFacility), null);
 		} else {
 			if (isEmptyFacility(selectedFacility) && !isEmptyFacility(initialFacility) && !isEmptyDistrict(selectedDistrict)) {
 				selectedFacility = null;
@@ -671,6 +718,10 @@ public class InfrastructureFieldsDependencyHandler {
 
 			facilityField.setSpinnerData(addUnknownItem(newFacilities, unknownFacility), selectedFacility);
 		}
+	}
+
+	private static boolean isNoneFacility(Facility facility) {
+		return facility != null && FacilityDto.NONE_FACILITY_UUID.equals(facility.getUuid());
 	}
 
 	private List<Item> addUnknownItem(List<Item> items, Object unknownItem) {

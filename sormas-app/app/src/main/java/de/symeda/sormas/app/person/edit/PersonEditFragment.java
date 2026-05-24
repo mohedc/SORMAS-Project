@@ -33,6 +33,7 @@ import androidx.databinding.ObservableList;
 
 import de.symeda.sormas.api.CountryHelper;
 import de.symeda.sormas.api.Disease;
+import de.symeda.sormas.api.caze.CaseOrigin;
 import de.symeda.sormas.api.FormType;
 import de.symeda.sormas.api.customizableenum.CustomizableEnum;
 import de.symeda.sormas.api.customizableenum.CustomizableEnumType;
@@ -622,11 +623,20 @@ public class PersonEditFragment extends BaseEditFragment<FragmentPersonEditLayou
 		}
 	}
 
+	public static void updatePassportNumberVisibility(View passportNumberField, AbstractDomainObject rootData) {
+		if (rootData instanceof Case && ((Case) rootData).getCaseOrigin() == CaseOrigin.POINT_OF_ENTRY) {
+			passportNumberField.setVisibility(VISIBLE);
+		} else {
+			passportNumberField.setVisibility(GONE);
+		}
+	}
+
 	@Override
 	public void onAfterLayoutBinding(final FragmentPersonEditLayoutBinding contentBinding) {
 		if (rootData instanceof Case) {
 			contentBinding.personPatientIdentificationHeading.setVisibility(VISIBLE);
 		}
+		updatePassportNumberVisibility(contentBinding.personPassportNumber, rootData);
 		if (!ConfigProvider.isConfiguredServer(CountryHelper.COUNTRY_CODE_GERMANY)) {
 			contentBinding.personArmedForcesRelationType.setVisibility(GONE);
 		}

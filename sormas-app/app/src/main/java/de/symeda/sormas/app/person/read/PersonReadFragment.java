@@ -137,6 +137,7 @@ public class PersonReadFragment extends BaseReadFragment<FragmentPersonReadLayou
 		if (!ConfigProvider.isConfiguredServer(CountryHelper.COUNTRY_CODE_GERMANY)) {
 			contentBinding.personArmedForcesRelationType.setVisibility(GONE);
 		}
+		PersonEditFragment.updatePassportNumberVisibility(contentBinding.personPassportNumber, rootData);
 	}
 
 	// Overrides

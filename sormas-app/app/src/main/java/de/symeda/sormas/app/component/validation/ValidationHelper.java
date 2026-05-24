@@ -130,4 +130,17 @@ public class ValidationHelper {
 
 		return false;
 	}
+
+	public static boolean validateLatLonAccuracy(Float latLonAccuracy, ControlPropertyEditField<?> fieldToValidate) {
+		if (latLonAccuracy != null) {
+			boolean hasError = latLonAccuracy < 1f || latLonAccuracy > 5f;
+			if (hasError) {
+				fieldToValidate.enableErrorState(I18nProperties.getValidationError(Validations.latLonAccuracyBetweenOneAndFive));
+			}
+
+			return hasError;
+		}
+
+		return false;
+	}
 }

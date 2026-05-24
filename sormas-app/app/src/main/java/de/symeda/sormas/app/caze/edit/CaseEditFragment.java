@@ -21,6 +21,8 @@ import static de.symeda.sormas.api.caze.CaseConfirmationBasis.CLINICAL_CONFIRMAT
 import static de.symeda.sormas.api.caze.CaseConfirmationBasis.EPIDEMIOLOGICAL_CONFIRMATION;
 import static de.symeda.sormas.api.caze.CaseConfirmationBasis.LABORATORY_DIAGNOSTIC_CONFIRMATION;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -82,9 +84,14 @@ import de.symeda.sormas.app.backend.user.User;
 import de.symeda.sormas.app.backend.user.UserRole;
 import de.symeda.sormas.app.component.Item;
 import de.symeda.sormas.app.component.controls.ControlPropertyField;
+import de.symeda.sormas.app.component.controls.ControlSwitchField;
+import de.symeda.sormas.app.component.controls.ControlTextEditField;
 import de.symeda.sormas.app.component.controls.ValueChangeListener;
 import de.symeda.sormas.app.component.dialog.ConfirmationDialog;
 import de.symeda.sormas.app.component.dialog.InfoDialog;
+import de.symeda.sormas.app.component.validation.ValidationHelper;
+import de.symeda.sormas.app.core.notification.NotificationHelper;
+import de.symeda.sormas.app.core.notification.NotificationType;
 import de.symeda.sormas.app.databinding.DialogClassificationRulesLayoutBinding;
 import de.symeda.sormas.app.databinding.FragmentCaseEditLayoutBinding;
 import de.symeda.sormas.app.util.DataUtils;
@@ -92,6 +99,7 @@ import de.symeda.sormas.app.util.DiseaseConfigurationCache;
 import de.symeda.sormas.app.util.FieldVisibilityAndAccessHelper;
 import de.symeda.sormas.app.util.InfrastructureDaoHelper;
 import de.symeda.sormas.app.util.InfrastructureFieldsDependencyHandler;
+import de.symeda.sormas.app.util.LocationService;
 
 public class CaseEditFragment extends BaseEditFragment<FragmentCaseEditLayoutBinding, Case, Case> {
 
@@ -215,6 +223,11 @@ public class CaseEditFragment extends BaseEditFragment<FragmentCaseEditLayoutBin
 
 		contentBinding.caseDataQuarantineExtended.setVisibility(record.isQuarantineExtended() ? VISIBLE : GONE);
 		contentBinding.caseDataQuarantineReduced.setVisibility(record.isQuarantineReduced() ? VISIBLE : GONE);
+
+		if (!isFieldAccessible(CaseDataDto.class, contentBinding.caseDataReportLat)
+			|| !isFieldAccessible(CaseDataDto.class, contentBinding.caseDataReportLon)) {
+			contentBinding.caseDataPickGpsCoordinates.setVisibility(GONE);
+		}
 
 		User user = ConfigProvider.getUser();
 		if (user.hasJurisdictionLevel(JurisdictionLevel.HEALTH_FACILITY) || getPrimaryData().getHealthFacility() == null) {
@@ -490,11 +503,13 @@ public class CaseEditFragment extends BaseEditFragment<FragmentCaseEditLayoutBin
 						this.currentDisease = null;
 
 						updateDiseaseVariantsField(contentBinding);
+						updateVaccinationRecordTypeForDisease(contentBinding);
 					});
 					dlg.show();
 				} else if (this.currentDisease == null) {
 					// It means the disease were already changed
 					updateDiseaseVariantsField(contentBinding);
+					updateVaccinationRecordTypeForDisease(contentBinding);
 				}
 			}
 		});
@@ -675,10 +690,42 @@ public class CaseEditFragment extends BaseEditFragment<FragmentCaseEditLayoutBin
 
 		CaseValidator.initializeProhibitionToWorkIntervalValidator(contentBinding);
 
+		contentBinding.caseDataPickGpsCoordinates.setOnClickListener(v -> {
+			final ConfirmationDialog confirmationDialog = new ConfirmationDialog(
+				getActivity(),
+				R.string.heading_confirmation_dialog,
+				R.string.confirmation_pick_gps,
+				R.string.yes,
+				R.string.no);
+
+			confirmationDialog.setPositiveCallback(() -> {
+				android.location.Location phoneLocation = LocationService.instance().getLocation(getActivity());
+				if (phoneLocation != null) {
+					contentBinding.caseDataReportLat.setDoubleValue(phoneLocation.getLatitude());
+					contentBinding.caseDataReportLon.setDoubleValue(phoneLocation.getLongitude());
+					contentBinding.caseDataReportLatLonAccuracy.setFloatValue(phoneLocation.getAccuracy());
+				} else {
+					NotificationHelper.showNotification(getContentBinding(), NotificationType.WARNING, R.string.message_gps_problem);
+				}
+			});
+			confirmationDialog.show();
+		});
+
+		contentBinding.caseDataReportLat.setValidationCallback(() -> {
+			Double latitude = ControlTextEditField.getDoubleValue(contentBinding.caseDataReportLat);
+			return ValidationHelper.validateLatitude(latitude, contentBinding.caseDataReportLat);
+		});
+
+		contentBinding.caseDataReportLon.setValidationCallback(() -> {
+			Double longitude = ControlTextEditField.getDoubleValue(contentBinding.caseDataReportLon);
+			return ValidationHelper.validateLongitude(longitude, contentBinding.caseDataReportLon);
+		});
+
 		Disease disease = record.getDisease();
 		if (disease == Disease.NEONATAL_TETANUS) {
 			handleNNT();
 		}
+		updateVaccinationRecordTypeForDisease(contentBinding);
 
 		if (disease != null) {
 			super.hideFieldsForDisease(disease, contentBinding.mainContent, FormType.CASE_EDIT);
@@ -808,6 +855,8 @@ public class CaseEditFragment extends BaseEditFragment<FragmentCaseEditLayoutBin
 
 		contentBinding.caseDataReportingUser.setPseudonymized(record.isPseudonymized());
 		contentBinding.caseDataSurveillanceOfficer.setPseudonymized(record.isPseudonymized());
+
+		updateVaccinationRecordTypeForDisease(contentBinding);
 	}
 
 	private void updateDiseaseVariantsField(FragmentCaseEditLayoutBinding contentBinding) {
@@ -821,6 +870,36 @@ public class CaseEditFragment extends BaseEditFragment<FragmentCaseEditLayoutBin
 		contentBinding.caseDataDiseaseVariant.setSpinnerData(diseaseVariantList);
 		contentBinding.caseDataDiseaseVariant.setValue(null);
 		contentBinding.caseDataDiseaseVariant.setVisibility(diseaseVariants.isEmpty() ? GONE : VISIBLE);
+	}
+
+	private void updateVaccinationRecordTypeForDisease(FragmentCaseEditLayoutBinding contentBinding) {
+		Disease disease = (Disease) contentBinding.caseDataDisease.getValue();
+		if (disease == null) {
+			disease = record.getDisease();
+		}
+		if (disease == Disease.MEASLES) {
+			handleMeasles();
+		} else {
+			ControlSwitchField vaccinationRecordTypeField = contentBinding.caseDataVaccinationRecordType;
+			vaccinationRecordTypeField.setEnumClass(VaccinationRecordType.class);
+			vaccinationRecordTypeField.setValue(record.getVaccinationRecordType());
+		}
+	}
+
+	private void handleMeasles() {
+		FragmentCaseEditLayoutBinding contentBinding = getContentBinding();
+		ControlSwitchField vaccinationRecordTypeField = contentBinding.caseDataVaccinationRecordType;
+		List<Item> vaccinationRecordTypeList = new ArrayList<>();
+		vaccinationRecordTypeList.add(new Item<>(VaccinationRecordType.CARD.toString(), VaccinationRecordType.CARD));
+		vaccinationRecordTypeList.add(new Item<>(VaccinationRecordType.HISTORY.toString(), VaccinationRecordType.HISTORY));
+		vaccinationRecordTypeField.setEnumItems(vaccinationRecordTypeList);
+
+		VaccinationRecordType currentValue = record.getVaccinationRecordType();
+		if (currentValue != null && !Arrays.asList(VaccinationRecordType.CARD, VaccinationRecordType.HISTORY).contains(currentValue)) {
+			vaccinationRecordTypeField.setValue(null);
+		} else {
+			vaccinationRecordTypeField.setValue(currentValue);
+		}
 	}
 
 	private void handleNNT() {

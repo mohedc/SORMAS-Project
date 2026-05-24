@@ -173,6 +173,7 @@ public class ControlSpinnerField extends ControlPropertyEditField<Object> {
 		}
 
 		if (value == null) {
+			valueOnBind = null;
 			removeSelection();
 			return;
 		}

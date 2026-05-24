@@ -213,6 +213,11 @@ public class LocationDialog extends FormDialog {
 			return ValidationHelper.validateLongitude(longitude, contentBinding.locationLongitude);
 		});
 
+		contentBinding.locationLatLonAccuracy.setValidationCallback(() -> {
+			Float latLonAccuracy = ControlTextEditField.getFloatValue(contentBinding.locationLatLonAccuracy);
+			return ValidationHelper.validateLatLonAccuracy(latLonAccuracy, contentBinding.locationLatLonAccuracy);
+		});
+
 		if (data.getId() == null) {
 			setLiveValidationDisabled(true);
 		}

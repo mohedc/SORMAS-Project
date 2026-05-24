@@ -105,19 +105,21 @@ public class ControlSwitchField extends ControlPropertyEditField<Object> {
 
 	public void setEnumClass(Class<? extends Enum> c) {
 		if (!DataHelper.equal(c, enumClass)) {
-			suppressListeners = true;
-			removeAllItems();
-
-			List<Item> items = DataUtils.getEnumItems(c, false);
-
-			int itemTotal = items.size();
-			for (int i = 0; i < items.size(); i++) {
-				addItem(i, itemTotal - 1, items.get(i));
-			}
-
+			setEnumItems(DataUtils.getEnumItems(c, false));
 			enumClass = c;
-			suppressListeners = false;
 		}
+	}
+
+	public void setEnumItems(List<Item> items) {
+		suppressListeners = true;
+		removeAllItems();
+
+		int itemTotal = items.size();
+		for (int i = 0; i < items.size(); i++) {
+			addItem(i, itemTotal - 1, items.get(i));
+		}
+
+		suppressListeners = false;
 	}
 
 	public void setBooleanContent() {
