@@ -10,8 +10,10 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import de.symeda.sormas.api.Disease;
@@ -164,35 +166,30 @@ public class DiseaseFieldHandler {
     }
 
 
-    private void reorderFieldsForDisease(List<FormField> orderedFields, ViewGroup parent) {
-        // Create a lookup map for all views
+    void reorderFieldsForDisease(List<FormField> orderedFields, ViewGroup parent) {
+        // Create a lookup map from every selectable child id to its direct row in the main content.
         Map<String, View> viewsByFieldName = new HashMap<>();
 
         // Hide all views initially
         for (int i = 0; i < parent.getChildCount(); i++) {
             View view = parent.getChildAt(i);
             view.setVisibility(View.GONE);
-
-            try {
-                String resourceName = context.getResources().getResourceEntryName(view.getId());
-                viewsByFieldName.put(resourceName, view);
-                if (resourceName.startsWith("symptoms_")) {
-                    viewsByFieldName.put(resourceName.substring("symptoms_".length()), view);
-                }
-            } catch (Resources.NotFoundException e) {
-                Log.e(TAG, "Could not find resource name for ID: " + view.getId());
-            }
+            mapViewAndDescendantsToDirectChild(view, view, viewsByFieldName);
         }
+
+        Set<View> alreadyOrderedViews = new HashSet<>();
 
         // Now show only the views in orderedFields, in the specified order
         for (FormField field : orderedFields) {
             String fieldName = field.getFieldName();
             View view = viewsByFieldName.get(fieldName);
 
-            if (view != null) {
+            if (view != null && alreadyOrderedViews.add(view)) {
                 view.setVisibility(View.VISIBLE);
                 // Bring the view to front so it appears in the correct order visually
                 view.bringToFront();
+            } else if (view != null) {
+                Log.d(TAG, "View already ordered for FormField with name: " + fieldName);
             } else {
                 Log.d(TAG, "No matching View found for FormField with name: " + fieldName);
             }
@@ -200,6 +197,27 @@ public class DiseaseFieldHandler {
 
         parent.requestLayout();
         parent.invalidate();
+    }
+
+    private void mapViewAndDescendantsToDirectChild(View view, View directChild, Map<String, View> viewsByFieldName) {
+        if (view.getId() != View.NO_ID && view.getId() != 0) {
+            try {
+                String resourceName = context.getResources().getResourceEntryName(view.getId());
+                viewsByFieldName.put(resourceName, directChild);
+                if (resourceName.startsWith("symptoms_")) {
+                    viewsByFieldName.put(resourceName.substring("symptoms_".length()), directChild);
+                }
+            } catch (Resources.NotFoundException e) {
+                Log.e(TAG, "Could not find resource name for ID: " + view.getId());
+            }
+        }
+
+        if (view instanceof ViewGroup) {
+            ViewGroup viewGroup = (ViewGroup) view;
+            for (int i = 0; i < viewGroup.getChildCount(); i++) {
+                mapViewAndDescendantsToDirectChild(viewGroup.getChildAt(i), directChild, viewsByFieldName);
+            }
+        }
     }
 
     // Helper class to store view information

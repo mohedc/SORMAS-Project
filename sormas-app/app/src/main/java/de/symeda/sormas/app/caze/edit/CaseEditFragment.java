@@ -257,15 +257,6 @@ public class CaseEditFragment extends BaseEditFragment<FragmentCaseEditLayoutBin
 			contentBinding.caseDataVaccineType.setVisibility(VISIBLE);
 			contentBinding.caseDataHealthWorkerCompletingForm.setVisibility(VISIBLE);
 			contentBinding.caseDataCsmExtendedSection.setVisibility(VISIBLE);
-		} else {
-			contentBinding.caseDataCaseReferenceNumber.setVisibility(GONE);
-			contentBinding.caseDataRegionLevelDate.setVisibility(GONE);
-			contentBinding.caseDataNationalLevelDate.setVisibility(GONE);
-			contentBinding.caseDataArrivalAtRegionalPublicHealthOfficeDate.setVisibility(GONE);
-			contentBinding.caseDataArrivalAtNationalLevelDate.setVisibility(GONE);
-			contentBinding.caseDataVaccineType.setVisibility(GONE);
-			contentBinding.caseDataHealthWorkerCompletingForm.setVisibility(GONE);
-			contentBinding.caseDataCsmExtendedSection.setVisibility(GONE);
 		}
 
 		// RUBELLA_LAYOUT - dateOfNotification already exists, visibility handled by field visibility checkers
