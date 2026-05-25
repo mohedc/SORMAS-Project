@@ -209,6 +209,11 @@ public class CaseEditHospitalizationFragment extends BaseEditFragment<FragmentCa
 			contentBinding.hospitalizationDateOfConsultationAtHealthFacility.initializeDateField(getFragmentManager());
 		}
 
+		if (caze.getDisease() != null && caze.getDisease() == Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS){
+			contentBinding.caseHospitalizationDateFirstSeenAtHealthFacility.setCaption("Date seen at health facility");
+			contentBinding.hospitalizationDateHealthRegionNotified.setCaption("Date Health Region Notified");
+		}
+
 		verifyPrevHospitalizationStatus();
 	}
 
