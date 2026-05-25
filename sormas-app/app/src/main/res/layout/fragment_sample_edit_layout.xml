@@ -281,7 +281,7 @@
                     <ImageView style="@style/FullHorizontalDividerStyle"/>
 
                     <LinearLayout
-                        android:id="@+id/sample_ship_heading"
+                        android:id="@+id/sample_shipment_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
@@ -769,7 +769,7 @@
                     <ImageView style="@style/FullHorizontalDividerStyle"/>
 
                     <LinearLayout
-                        android:id="@+id/sample_received_heading"
+                        android:id="@+id/sample_received_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
@@ -789,6 +789,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/specimenCondition_and_noTestPossibleReason_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">

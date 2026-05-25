@@ -321,23 +321,21 @@ public class SampleEditFragment extends BaseEditFragment<FragmentSampleEditLayou
 			}
 		}
 
-		contentBinding.samplePurpose.initializeSpinner(samplePurposeList, field -> {
-			SamplePurpose samplePurpose = (SamplePurpose) field.getValue();
-			if (SamplePurpose.EXTERNAL == samplePurpose) {
-				contentBinding.externalSampleFieldsLayout.setVisibility(VISIBLE);
-				contentBinding.samplePathogenTestingRequested
-					.setVisibility(ConfigProvider.getUser().equals(record.getReportingUser()) ? VISIBLE : GONE);
-				contentBinding.sampleAdditionalTestingRequested
-					.setVisibility(ConfigProvider.getUser().equals(record.getReportingUser()) ? VISIBLE : GONE);
-			} else {
-				contentBinding.sampleShipped.setValue(null);
-				contentBinding.sampleShipmentDate.setValue(null);
-				contentBinding.sampleShipmentDetails.setValue(null);
-				contentBinding.externalSampleFieldsLayout.setVisibility(GONE);
-				contentBinding.samplePathogenTestingRequested.setVisibility(GONE);
-				contentBinding.sampleAdditionalTestingRequested.setVisibility(GONE);
-			}
-		});
+		// contentBinding.samplePurpose.initializeSpinner(samplePurposeList, field -> {
+		// 	SamplePurpose samplePurpose = (SamplePurpose) field.getValue();
+		// 	if (SamplePurpose.EXTERNAL == samplePurpose) {
+		// 		contentBinding.externalSampleFieldsLayout.setVisibility(VISIBLE);
+		// 		contentBinding.samplePathogenTestingRequested.setVisibility(ConfigProvider.getUser().equals(record.getReportingUser()) ? VISIBLE : GONE);
+		// 		contentBinding.sampleAdditionalTestingRequested.setVisibility(ConfigProvider.getUser().equals(record.getReportingUser()) ? VISIBLE : GONE);
+		// 	} else {
+		// 		contentBinding.sampleShipped.setValue(null);
+		// 		contentBinding.sampleShipmentDate.setValue(null);
+		// 		contentBinding.sampleShipmentDetails.setValue(null);
+		// 		contentBinding.externalSampleFieldsLayout.setVisibility(GONE);
+		// 		contentBinding.samplePathogenTestingRequested.setVisibility(GONE);
+		// 		contentBinding.sampleAdditionalTestingRequested.setVisibility(GONE);
+		// 	}
+		// });
 		getContentBinding().sampleReceived.setEnabled(false);
 		contentBinding.sampleSamplingReason.initializeSpinner(samplingReasonList);
 
