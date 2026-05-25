@@ -359,8 +359,16 @@ public class SymptomsEditFragment extends BaseEditFragment<FragmentSymptomsEditL
 	}
 
 	private List<Item> getCaseOutcomeListByDisease(Disease disease) {
-		if (disease == Disease.MEASLES) {
-			return DataUtils.toItems(new ArrayList<>(List.of(CaseOutcome.ALIVE, CaseOutcome.DECEASED, CaseOutcome.UNKNOWN)), true);
+
+		if (disease == Disease.MEASLES
+				|| disease == Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS) {
+
+			return DataUtils.toItems(
+					new ArrayList<>(List.of(
+							CaseOutcome.ALIVE,
+							CaseOutcome.DECEASED,
+							CaseOutcome.UNKNOWN)),
+					true);
 		}
 
 		return DataUtils.getEnumItems(CaseOutcome.class, true);
