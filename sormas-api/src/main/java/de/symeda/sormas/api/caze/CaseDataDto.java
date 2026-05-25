@@ -771,7 +771,6 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 	@Diseases(value = {
 		Disease.TUBERCULOSIS })
 	private boolean postMortem;
-	@HideForCountriesExcept(countries = COUNTRY_CODE_LUXEMBOURG)
 	private String department;
 
 	private NotifierReferenceDto notifier;
