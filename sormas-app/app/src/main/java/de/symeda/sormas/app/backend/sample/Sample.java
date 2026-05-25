@@ -34,6 +34,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Transient;
 
+import de.symeda.sormas.api.Disease;
 import de.symeda.sormas.api.sample.AdditionalTestType;
 import de.symeda.sormas.api.sample.CsfAppearance;
 import de.symeda.sormas.api.sample.LpNotDoneReason;
@@ -122,6 +123,8 @@ public class Sample extends PseudonymizableAdo {
 
 	@Column(length = CHARACTER_LIMIT_DEFAULT)
 	private String labDetails;
+	@Enumerated(EnumType.STRING)
+	private Disease suspectedDisease;
 
 	@Enumerated(EnumType.STRING)
 	private SamplePurpose samplePurpose;
@@ -400,6 +403,14 @@ public class Sample extends PseudonymizableAdo {
 
 	public void setLabDetails(String labDetails) {
 		this.labDetails = labDetails;
+	}
+
+	public Disease getSuspectedDisease() {
+		return suspectedDisease;
+	}
+
+	public void setSuspectedDisease(Disease suspectedDisease) {
+		this.suspectedDisease = suspectedDisease;
 	}
 
 	public SamplePurpose getSamplePurpose() {

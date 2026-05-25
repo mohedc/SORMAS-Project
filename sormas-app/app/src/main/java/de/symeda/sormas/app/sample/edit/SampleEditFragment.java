@@ -79,6 +79,7 @@ public class SampleEditFragment extends BaseEditFragment<FragmentSampleEditLayou
 
 	private List<Item> sampleMaterialList;
 	private List<Item> sampleSourceList;
+	private List<Item> sampleSuspectedList;
 	private List<Facility> labList;
 	private List<Item> samplePurposeList;
 	private List<Item> samplingReasonList;
@@ -218,10 +219,27 @@ public class SampleEditFragment extends BaseEditFragment<FragmentSampleEditLayou
 			sampleMaterialList = DataUtils.toItems(Arrays.asList(SampleMaterial.BLOOD, SampleMaterial.THROAT_SWAB, SampleMaterial.URINE, SampleMaterial.OTHER));
 		} else if (associatedDisease == Disease.CSM) {
 			sampleMaterialList = DataUtils.toItems(Arrays.asList(SampleMaterial.CEREBROSPINAL_FLUID, SampleMaterial.OTHER));
+		} else if (associatedDisease == Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS) {
+			sampleMaterialList = DataUtils.toItems(Arrays.asList(
+					SampleMaterial.STOOL,
+					SampleMaterial.BLOOD,
+					SampleMaterial.CSF,
+					SampleMaterial.OTHER));
+
 		} else {
 			sampleMaterialList = DataUtils.getEnumItems(SampleMaterial.class, true, getFieldVisibilityCheckers());
 		}
 		sampleSourceList = DataUtils.getEnumItems(SampleSource.class, true);
+		sampleSuspectedList = DataUtils.toItems(Arrays.asList(
+				Disease.AFP,
+				Disease.CORONAVIRUS,
+				Disease.CONGENITAL_RUBELLA,
+				Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS,
+				Disease.MEASLES,
+				Disease.CSM,
+				Disease.NEONATAL_TETANUS,
+				Disease.YELLOW_FEVER
+		), true);
 		labList = DatabaseHelper.getFacilityDao().getActiveLaboratories(true);
 		samplePurposeList = DataUtils.getEnumItems(SamplePurpose.class, true);
 		samplingReasonList = DataUtils.getEnumItems(SamplingReason.class, true, getFieldVisibilityCheckers());
@@ -285,6 +303,7 @@ public class SampleEditFragment extends BaseEditFragment<FragmentSampleEditLayou
 		// Initialize ControlSpinnerFields
 		contentBinding.sampleSampleMaterial.initializeSpinner(sampleMaterialList);
 		contentBinding.sampleSampleSource.initializeSpinner(sampleSourceList);
+		contentBinding.sampleSuspectedDisease.initializeSpinner(sampleSuspectedList);
 		contentBinding.samplePurpose.setEnabled(referredSample == null || record.getSamplePurpose() != SamplePurpose.EXTERNAL);
 		contentBinding.sampleLab.initializeSpinner(DataUtils.toItems(labList), field -> {
 			Facility laboratory = (Facility) field.getValue();
@@ -319,7 +338,7 @@ public class SampleEditFragment extends BaseEditFragment<FragmentSampleEditLayou
 				contentBinding.sampleAdditionalTestingRequested.setVisibility(GONE);
 			}
 		});
-
+		getContentBinding().sampleReceived.setEnabled(false);
 		contentBinding.sampleSamplingReason.initializeSpinner(samplingReasonList);
 
 		configureDiseaseSpecificSampleUi(contentBinding, disease);
@@ -336,6 +355,7 @@ public class SampleEditFragment extends BaseEditFragment<FragmentSampleEditLayou
 		contentBinding.sampleDateSpecimenReceivedAtNationalLab.initializeDateField(getFragmentManager());
 		contentBinding.sampleDateSpecimenReceivedAtRegionalReferenceLab.initializeDateField(getFragmentManager());
 		contentBinding.sampleReceivedDate.initializeDateField(getFragmentManager());
+		contentBinding.sampleReceivedDate.setEnabled(false);
 		contentBinding.sampleDateResultsSentToReferringClinician.initializeDateField(getFragmentManager());
 		contentBinding.sampleElisaIgmDate.initializeDateField(getFragmentManager());
 		contentBinding.samplePcrDate.initializeDateField(getFragmentManager());

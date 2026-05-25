@@ -176,6 +176,11 @@ public class CaseEditActivity extends BaseEditActivity<Case> {
 
 	@Override
 	protected BaseEditFragment buildEditFragment(PageMenuItem menuItem, Case activityRootData) {
+
+		if (menuItem == null) {
+			return CaseEditFragment.newInstance(activityRootData);
+		}
+
 		CaseSection section = CaseSection.fromOrdinal(menuItem.getPosition());
 		BaseEditFragment fragment;
 		switch (section) {

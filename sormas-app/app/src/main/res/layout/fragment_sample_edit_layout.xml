@@ -113,6 +113,7 @@
                     style="@style/ControlSingleColumnStyle" />
 
                 <LinearLayout
+                    android:id="@+id/sample_sampleMaterial_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -186,6 +187,12 @@
                     app:dependencyParentField="@{samplePurpose}"
                     app:dependencyParentValue="@{SamplePurpose.EXTERNAL}"
                     app:value="@={data.labDetails}"
+                    style="@style/ControlSingleColumnStyle" />
+
+                <de.symeda.sormas.app.component.controls.ControlSpinnerField
+                    android:id="@+id/sample_suspectedDisease"
+                    app:required="true"
+                    app:value="@={data.suspectedDisease}"
                     style="@style/ControlSingleColumnStyle" />
 
                 <de.symeda.sormas.app.component.controls.ControlTextEditField
@@ -274,6 +281,7 @@
                     <ImageView style="@style/FullHorizontalDividerStyle"/>
 
                     <LinearLayout
+                        android:id="@+id/sample_ship_heading"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
@@ -761,6 +769,7 @@
                     <ImageView style="@style/FullHorizontalDividerStyle"/>
 
                     <LinearLayout
+                        android:id="@+id/sample_received_heading"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
