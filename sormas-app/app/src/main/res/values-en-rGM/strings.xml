@@ -184,7 +184,7 @@
     <string name="caption_event_period">Date of event</string>
     <string name="caption_event_tasks">Event Tasks</string>
     <string name="caption_executed_by">Executed by</string>
-    <string name="caption_facility_or_home">Place of stay</string>
+    <string name="caption_facility_or_home">Place of detection</string>
     <string name="caption_fatalities">Fatalities</string>
     <string name="caption_first_name">First Name</string>
     <string name="caption_sex">Sex</string>

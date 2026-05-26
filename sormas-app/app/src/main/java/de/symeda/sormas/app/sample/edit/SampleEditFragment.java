@@ -321,7 +321,14 @@ public class SampleEditFragment extends BaseEditFragment<FragmentSampleEditLayou
 		}
 
 		//initialize sample purpose
-		contentBinding.samplePurpose.initializeSpinner(samplePurposeList);
+		if (disease == Disease.AFP) {
+			contentBinding.samplePurpose.initializeSpinner(samplePurposeList);
+		} else {
+			contentBinding.samplePurpose.initializeSpinner(DataUtils.toItems(Arrays.asList(
+				SamplePurpose.INTERNAL,
+				SamplePurpose.EXTERNAL
+			), true));
+		}
 
 		// contentBinding.samplePurpose.initializeSpinner(samplePurposeList, field -> {
 		// 	SamplePurpose samplePurpose = (SamplePurpose) field.getValue();
