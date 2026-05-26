@@ -177,6 +177,12 @@
 
             </LinearLayout>
 
+            <de.symeda.sormas.app.component.controls.ControlSwitchField
+                android:id="@+id/person_birthInInstitution"
+                app:value="@={data.birthInInstitution}"
+                app:enumClass="@{yesNoUnknownClass}"
+                style="@style/ControlSecondOfTwoColumnsStyle" />
+
             <LinearLayout
                 android:id="@+id/person_placeOfBirthRegion_layout"
                 android:layout_width="match_parent"
@@ -186,11 +192,15 @@
                 <de.symeda.sormas.app.component.controls.InfrastructureSpinnerField
                     android:id="@+id/person_placeOfBirthRegion"
                     app:value="@={data.placeOfBirthRegion}"
+                    app:dependencyParentField="@{personBirthInInstitution}"
+                    app:dependencyParentValue="@{YesNoUnknown.YES}"
                     style="@style/ControlFirstOfTwoColumnsStyle" />
 
                 <de.symeda.sormas.app.component.controls.InfrastructureSpinnerField
                     android:id="@+id/person_placeOfBirthDistrict"
                     app:value="@={data.placeOfBirthDistrict}"
+                    app:dependencyParentField="@{personBirthInInstitution}"
+                    app:dependencyParentValue="@{YesNoUnknown.YES}"
                     style="@style/ControlSecondOfTwoColumnsStyle" />
 
             </LinearLayout>
@@ -204,11 +214,15 @@
                 <de.symeda.sormas.app.component.controls.InfrastructureSpinnerField
                     android:id="@+id/person_placeOfBirthCommunity"
                     app:value="@={data.placeOfBirthCommunity}"
+                    app:dependencyParentField="@{personBirthInInstitution}"
+                    app:dependencyParentValue="@{YesNoUnknown.YES}"
                     style="@style/ControlFirstOfTwoColumnsStyle" />
 
                 <de.symeda.sormas.app.component.controls.ControlSpinnerField
                     android:id="@+id/person_placeOfBirthFacilityType"
                     style="@style/ControlSecondOfTwoColumnsStyle"
+                    app:dependencyParentField="@{personBirthInInstitution}"
+                    app:dependencyParentValue="@{YesNoUnknown.YES}"
                     app:value="@={data.placeOfBirthFacilityType}"/>
 
             </LinearLayout>
@@ -216,6 +230,8 @@
             <de.symeda.sormas.app.component.controls.InfrastructureSpinnerField
                 android:id="@+id/person_placeOfBirthFacility"
                 style="@style/ControlSingleColumnStyle"
+                app:dependencyParentField="@{personBirthInInstitution}"
+                app:dependencyParentValue="@{YesNoUnknown.YES}"
                 app:value="@={data.placeOfBirthFacility}" />
 
             <de.symeda.sormas.app.component.controls.ControlTextEditField
@@ -417,6 +433,14 @@
                 android:id="@+id/person_nationality"
                 app:value="@={data.nationality}"
                 style="@style/ControlSingleColumnStyle" />
+
+            <TextView
+                android:id="@+id/person_headingBirthInfant"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/heading_birth_infant"
+                android:visibility="gone"
+                style="@style/SubHeadingCompactStyle" />
 
             <de.symeda.sormas.app.component.controls.ControlTextEditField
                 android:id="@+id/person_telNumber"

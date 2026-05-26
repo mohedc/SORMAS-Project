@@ -117,7 +117,8 @@ public class Person extends PseudonymizableAdo {
 	private ApproximateAgeType approximateAgeType;
 	@DatabaseField(dataType = DataType.DATE_LONG)
 	private Date approximateAgeReferenceDate;
-
+	@Enumerated(EnumType.STRING)
+	private YesNoUnknown birthInInstitution;
 	@DatabaseField(foreign = true, foreignAutoRefresh = true, maxForeignAutoRefreshLevel = 3)
 	private Region placeOfBirthRegion;
 	@DatabaseField(foreign = true, foreignAutoRefresh = true, maxForeignAutoRefreshLevel = 3)
@@ -575,6 +576,14 @@ public class Person extends PseudonymizableAdo {
 
 	public void setNamesOfGuardians(String namesOfGuardians) {
 		this.namesOfGuardians = namesOfGuardians;
+	}
+
+	public YesNoUnknown getBirthInInstitution() {
+		return birthInInstitution;
+	}
+
+	public void setBirthInInstitution(YesNoUnknown birthInInstitution) {
+		this.birthInInstitution = birthInInstitution;
 	}
 
 	public Region getPlaceOfBirthRegion() {
