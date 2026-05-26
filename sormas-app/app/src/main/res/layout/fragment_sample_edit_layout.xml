@@ -206,11 +206,7 @@
                     app:value="@={data.pathogenTestResult}"
                     style="@style/ControlSingleColumnStyle" />
 
-                <LinearLayout
-                    android:id="@+id/external_sample_fields_layout"
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+             
 
                     <ImageView
                         android:id="@+id/pathogenTestingDivider"
@@ -312,13 +308,6 @@
                         app:value="@={data.sentToIpDakar}"
                         style="@style/ControlSingleColumnStyle" />
 
-                    <LinearLayout
-                        android:id="@+id/sample_ip_dakar_results_layout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:visibility="gone">
-
                         <de.symeda.sormas.app.component.controls.ControlSpinnerField
                             android:id="@+id/sample_elisaIgm"
                             app:value="@={data.elisaIgm}"
@@ -368,7 +357,6 @@
                             app:dependencyParentValue="@{PathogenTestResultType.POSITIVE}"
                             style="@style/ControlSingleColumnStyle" />
 
-                    </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -783,7 +771,6 @@
                         app:goneIfEmpty="@{referredSample}"
                         style="@style/ControlSingleColumnStyle" />
 
-                </LinearLayout>
 
             </LinearLayout>
 
