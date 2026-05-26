@@ -181,7 +181,7 @@
                 android:id="@+id/person_birthInInstitution"
                 app:value="@={data.birthInInstitution}"
                 app:enumClass="@{yesNoUnknownClass}"
-                style="@style/ControlSecondOfTwoColumnsStyle" />
+                style="@style/ControlSingleColumnStyle" />
 
             <LinearLayout
                 android:id="@+id/person_placeOfBirthRegion_layout"
@@ -674,12 +674,19 @@
                     style="@style/ControlFirstOfTwoColumnsStyle" />
 
                 <de.symeda.sormas.app.component.controls.ControlTextEditField
-                    android:id="@+id/person_prenatalTotalVisits"
-                    app:value="@={data.prenatalTotalVisits}"
-                    app:inputType="number"
+                    android:id="@+id/person_receivedAntenatalCareWhere"
+                    app:value="@={data.receivedAntenatalCareWhere}"
+                    app:dependencyParentField="@{personReceivedAntenatalCare}"
+                    app:dependencyParentValue="@{YesNoUnknown.YES}"
                     style="@style/ControlSecondOfTwoColumnsStyle" />
 
             </LinearLayout>
+
+            <de.symeda.sormas.app.component.controls.ControlTextEditField
+                android:id="@+id/person_prenatalTotalVisits"
+                app:value="@={data.prenatalTotalVisits}"
+                app:inputType="number"
+                style="@style/ControlSingleColumnStyle" />
 
             <LinearLayout
                 android:layout_width="match_parent"

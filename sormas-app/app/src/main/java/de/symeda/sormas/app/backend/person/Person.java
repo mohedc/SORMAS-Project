@@ -216,6 +216,8 @@ public class Person extends PseudonymizableAdo {
 
 	@Enumerated(EnumType.STRING)
 	private YesNoUnknown receivedAntenatalCare;
+	@Column(columnDefinition = "text")
+	private String receivedAntenatalCareWhere;
 	@Column
 	private Integer prenatalTotalVisits;
 	@Enumerated(EnumType.STRING)
@@ -754,6 +756,14 @@ public class Person extends PseudonymizableAdo {
 
 	public void setReceivedAntenatalCare(YesNoUnknown receivedAntenatalCare) {
 		this.receivedAntenatalCare = receivedAntenatalCare;
+	}
+
+	public String getReceivedAntenatalCareWhere() {
+		return receivedAntenatalCareWhere;
+	}
+
+	public void setReceivedAntenatalCareWhere(String receivedAntenatalCareWhere) {
+		this.receivedAntenatalCareWhere = receivedAntenatalCareWhere;
 	}
 
 	public Integer getPrenatalTotalVisits() {

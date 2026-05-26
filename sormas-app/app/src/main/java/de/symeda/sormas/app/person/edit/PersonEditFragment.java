@@ -170,7 +170,10 @@ public class PersonEditFragment extends BaseEditFragment<FragmentPersonEditLayou
 		List<Item> initialPlaceOfBirthDistricts = InfrastructureDaoHelper.loadDistricts(record.getPlaceOfBirthRegion());
 		List<Item> initialPlaceOfBirthCommunities = InfrastructureDaoHelper.loadCommunities(record.getPlaceOfBirthDistrict());
 		List<Item> initialPlaceOfBirthFacilities =
-			InfrastructureDaoHelper.loadFacilities(record.getPlaceOfBirthDistrict(), record.getPlaceOfBirthCommunity(), null);
+			InfrastructureDaoHelper.loadFacilities(
+				record.getPlaceOfBirthDistrict(),
+				record.getPlaceOfBirthCommunity(),
+				record.getPlaceOfBirthFacilityType());
 
 		List<Item> occupationTypeList = DataUtils.toItems(
 			DatabaseHelper.getCustomizableEnumValueDao()
