@@ -321,6 +321,9 @@ public class SampleEditFragment extends BaseEditFragment<FragmentSampleEditLayou
 			}
 		}
 
+		//initialize sample purpose
+		contentBinding.samplePurpose.initializeSpinner(samplePurposeList);
+
 		// contentBinding.samplePurpose.initializeSpinner(samplePurposeList, field -> {
 		// 	SamplePurpose samplePurpose = (SamplePurpose) field.getValue();
 		// 	if (SamplePurpose.EXTERNAL == samplePurpose) {
