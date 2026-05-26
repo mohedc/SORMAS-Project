@@ -64,6 +64,8 @@ import de.symeda.sormas.app.backend.sample.PathogenTest;
 import de.symeda.sormas.app.backend.sample.Sample;
 import de.symeda.sormas.app.barcode.BarcodeActivity;
 import de.symeda.sormas.app.component.Item;
+import de.symeda.sormas.app.component.controls.ControlPropertyField;
+import de.symeda.sormas.app.component.controls.ValueChangeListener;
 import de.symeda.sormas.app.databinding.FragmentSampleEditLayoutBinding;
 import de.symeda.sormas.app.sample.read.SampleReadActivity;
 import de.symeda.sormas.app.util.DataUtils;
@@ -116,43 +118,36 @@ public class SampleEditFragment extends BaseEditFragment<FragmentSampleEditLayou
 		}
 	}
 
-	private void configureDiseaseSpecificSampleUi(FragmentSampleEditLayoutBinding contentBinding, Disease disease) {
-		contentBinding.sampleMeaslesSpecimenDatesLayout.setVisibility(GONE);
-		contentBinding.sampleIpDakarResultsLayout.setVisibility(GONE);
-		contentBinding.sampleCsmSampleCollectionLayout.setVisibility(GONE);
-		contentBinding.sampleSampleMaterial.setVisibility(VISIBLE);
-		contentBinding.sampleSampleMaterialText.setVisibility(VISIBLE);
-		contentBinding.sampleWasSpecimenTaken.setEnabled(true);
-
-		if (disease == null) {
-			return;
-		}
-
-		if (disease == Disease.MEASLES) {
-			contentBinding.sampleMeaslesSpecimenDatesLayout.setVisibility(VISIBLE);
-		}
-		if (disease == Disease.MEASLES || disease == Disease.YELLOW_FEVER) {
-			contentBinding.sampleIpDakarResultsLayout.setVisibility(VISIBLE);
-			contentBinding.sampleElisaIgm.initializeSpinner(DataUtils.getEnumItems(SimpleTestResultType.class, true));
-			contentBinding.sampleIpDakarPcr.initializeSpinner(DataUtils.toItems(Arrays.asList(PathogenTestResultType.values()), true));
-			contentBinding.samplePrnt.initializeSpinner(DataUtils.toItems(Arrays.asList(PathogenTestResultType.values()), true));
-		}
-		if (disease == Disease.YELLOW_FEVER && record.getId() != null) {
-			contentBinding.samplePathogenTestResult.setEnabled(false);
-		}
-		if (disease == Disease.CSM) {
-			contentBinding.sampleCsmSampleCollectionLayout.setVisibility(VISIBLE);
-			contentBinding.sampleSampleMaterial.setVisibility(GONE);
-			contentBinding.sampleSampleMaterialText.setVisibility(GONE);
-			record.setWasSpecimenTaken(YesNo.YES);
-			contentBinding.sampleWasSpecimenTaken.setValue(YesNo.YES);
-			contentBinding.sampleWasSpecimenTaken.setEnabled(false);
-			if (record.getSampleMaterial() == null) {
-				record.setSampleMaterial(SampleMaterial.CEREBROSPINAL_FLUID);
-				contentBinding.sampleSampleMaterial.setValue(SampleMaterial.CEREBROSPINAL_FLUID);
-			}
-		}
-	}
+//	private void configureDiseaseSpecificSampleUi(FragmentSampleEditLayoutBinding contentBinding, Disease disease) {
+//		contentBinding.sampleIpDakarResultsLayout.setVisibility(GONE);
+//		contentBinding.sampleCsmSampleCollectionLayout.setVisibility(GONE);
+//		contentBinding.sampleSampleMaterial.setVisibility(VISIBLE);
+//		contentBinding.sampleSampleMaterialText.setVisibility(VISIBLE);
+//		contentBinding.sampleWasSpecimenTaken.setEnabled(true);
+//
+//		if (disease == null) {
+//			return;
+//		}
+//
+//			contentBinding.sampleElisaIgm.initializeSpinner(DataUtils.getEnumItems(SimpleTestResultType.class, true));
+//			contentBinding.sampleIpDakarPcr.initializeSpinner(DataUtils.toItems(Arrays.asList(PathogenTestResultType.values()), true));
+//			contentBinding.samplePrnt.initializeSpinner(DataUtils.toItems(Arrays.asList(PathogenTestResultType.values()), true));
+//		if (disease == Disease.YELLOW_FEVER && record.getId() != null) {
+//			contentBinding.samplePathogenTestResult.setEnabled(false);
+//		}
+//		if (disease == Disease.CSM) {
+//			contentBinding.sampleCsmSampleCollectionLayout.setVisibility(VISIBLE);
+//			contentBinding.sampleSampleMaterial.setVisibility(GONE);
+//			contentBinding.sampleSampleMaterialText.setVisibility(GONE);
+//			record.setWasSpecimenTaken(YesNo.YES);
+//			contentBinding.sampleWasSpecimenTaken.setValue(YesNo.YES);
+//			contentBinding.sampleWasSpecimenTaken.setEnabled(false);
+//			if (record.getSampleMaterial() == null) {
+//				record.setSampleMaterial(SampleMaterial.CEREBROSPINAL_FLUID);
+//				contentBinding.sampleSampleMaterial.setValue(SampleMaterial.CEREBROSPINAL_FLUID);
+//			}
+//		}
+//	}
 
 	private void setUpFieldVisibilities(final FragmentSampleEditLayoutBinding contentBinding) {
 		// Most recent test layout
@@ -300,6 +295,10 @@ public class SampleEditFragment extends BaseEditFragment<FragmentSampleEditLayou
 			super.hideFieldsForDisease(disease, contentBinding.mainContent, formType);
 		}
 
+		if (disease == Disease.MEASLES) {
+			handleMeasles(contentBinding);
+		}
+
 		// Initialize ControlSpinnerFields
 		contentBinding.sampleSampleMaterial.initializeSpinner(sampleMaterialList);
 		contentBinding.sampleSampleSource.initializeSpinner(sampleSourceList);
@@ -321,6 +320,9 @@ public class SampleEditFragment extends BaseEditFragment<FragmentSampleEditLayou
 			}
 		}
 
+		//initialize sample purpose
+		contentBinding.samplePurpose.initializeSpinner(samplePurposeList);
+
 		// contentBinding.samplePurpose.initializeSpinner(samplePurposeList, field -> {
 		// 	SamplePurpose samplePurpose = (SamplePurpose) field.getValue();
 		// 	if (SamplePurpose.EXTERNAL == samplePurpose) {
@@ -337,9 +339,11 @@ public class SampleEditFragment extends BaseEditFragment<FragmentSampleEditLayou
 		// 	}
 		// });
 		getContentBinding().sampleReceived.setEnabled(false);
+		contentBinding.sampleDateSpecimenReceivedAtNationalLab.setEnabled(false);
+		contentBinding.sampleDateSpecimenReceivedAtRegionalReferenceLab.setEnabled(false);
 		contentBinding.sampleSamplingReason.initializeSpinner(samplingReasonList);
 
-		configureDiseaseSpecificSampleUi(contentBinding, disease);
+//		configureDiseaseSpecificSampleUi(contentBinding, disease);
 
 		// Initialize ControlDateFields and ControlDateTimeFields
 		contentBinding.sampleSampleDateTime.initializeDateTimeField(getFragmentManager());
@@ -478,6 +482,32 @@ public class SampleEditFragment extends BaseEditFragment<FragmentSampleEditLayou
 		} else {
 			super.onActivityResult(requestCode, resultCode, data);
 		}
+	}
+
+	private void handleMeasles(FragmentSampleEditLayoutBinding contentBinding) {
+		List<Item> pathogenTestResultList = DataUtils.toItems(
+			Arrays.asList(PathogenTestResultType.PENDING, PathogenTestResultType.NEGATIVE, PathogenTestResultType.POSITIVE));
+		contentBinding.samplePathogenTestResult.initializeSpinner(pathogenTestResultList);
+
+		contentBinding.sampleShipmentDate.setVisibility(Boolean.TRUE.equals(contentBinding.sampleShipped.getValue()) ? VISIBLE : GONE);
+		contentBinding.sampleShipmentDetails.setVisibility(Boolean.TRUE.equals(contentBinding.sampleShipped.getValue()) ? VISIBLE : GONE);
+		contentBinding.sampleDateSpecimenSentFromFieldToNationalLab.setVisibility(Boolean.TRUE.equals(contentBinding.sampleShipped.getValue()) ? VISIBLE : GONE);
+		contentBinding.sampleDateSpecimenSentToRegionalReferenceLab.setVisibility(Boolean.TRUE.equals(contentBinding.sampleShipped.getValue()) ? VISIBLE : GONE);
+		contentBinding.sampleShipped.addValueChangedListener(field -> {
+			contentBinding.sampleShipmentDate.setVisibility(Boolean.TRUE.equals(field.getValue()) ? VISIBLE : GONE);
+			contentBinding.sampleShipmentDetails.setVisibility(Boolean.TRUE.equals(field.getValue()) ? VISIBLE : GONE);
+			contentBinding.sampleDateSpecimenSentFromFieldToNationalLab.setVisibility(Boolean.TRUE.equals(field.getValue()) ? VISIBLE : GONE);
+			contentBinding.sampleDateSpecimenSentToRegionalReferenceLab.setVisibility(Boolean.TRUE.equals(field.getValue()) ? VISIBLE : GONE);
+		});
+		
+		//received, 
+		contentBinding.sampleSpecimenCondition.setVisibility(Boolean.TRUE.equals(contentBinding.sampleReceived.getValue()) ? VISIBLE : GONE);
+		contentBinding.sampleLabSampleID.setVisibility(Boolean.TRUE.equals(contentBinding.sampleReceived.getValue()) ? VISIBLE : GONE);
+		contentBinding.sampleReceivedDate.setVisibility(Boolean.TRUE.equals(contentBinding.sampleReceived.getValue()) ? VISIBLE : GONE);
+		contentBinding.sampleDateSpecimenReceivedAtRegionalReferenceLab.setVisibility(Boolean.TRUE.equals(contentBinding.sampleReceived.getValue()) ? VISIBLE : GONE);
+		contentBinding.sampleDateSpecimenReceivedAtNationalLab.setVisibility(Boolean.TRUE.equals(contentBinding.sampleReceived.getValue()) ? VISIBLE : GONE);
+		contentBinding.samplePathogenTestResult.setVisibility(Boolean.TRUE.equals(contentBinding.sampleReceived.getValue()) ? VISIBLE : GONE);
+
 	}
 
 	protected static Disease getDiseaseOfAssociatedEntity(Sample sample) {
