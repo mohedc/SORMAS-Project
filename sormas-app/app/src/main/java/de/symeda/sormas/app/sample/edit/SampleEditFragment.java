@@ -64,6 +64,8 @@ import de.symeda.sormas.app.backend.sample.PathogenTest;
 import de.symeda.sormas.app.backend.sample.Sample;
 import de.symeda.sormas.app.barcode.BarcodeActivity;
 import de.symeda.sormas.app.component.Item;
+import de.symeda.sormas.app.component.controls.ControlPropertyField;
+import de.symeda.sormas.app.component.controls.ValueChangeListener;
 import de.symeda.sormas.app.databinding.FragmentSampleEditLayoutBinding;
 import de.symeda.sormas.app.sample.read.SampleReadActivity;
 import de.symeda.sormas.app.util.DataUtils;
@@ -293,6 +295,10 @@ public class SampleEditFragment extends BaseEditFragment<FragmentSampleEditLayou
 			super.hideFieldsForDisease(disease, contentBinding.mainContent, formType);
 		}
 
+		if (disease == Disease.MEASLES) {
+			handleMeasles(contentBinding);
+		}
+
 		// Initialize ControlSpinnerFields
 		contentBinding.sampleSampleMaterial.initializeSpinner(sampleMaterialList);
 		contentBinding.sampleSampleSource.initializeSpinner(sampleSourceList);
@@ -333,6 +339,8 @@ public class SampleEditFragment extends BaseEditFragment<FragmentSampleEditLayou
 		// 	}
 		// });
 		getContentBinding().sampleReceived.setEnabled(false);
+		contentBinding.sampleDateSpecimenReceivedAtNationalLab.setEnabled(false);
+		contentBinding.sampleDateSpecimenReceivedAtRegionalReferenceLab.setEnabled(false);
 		contentBinding.sampleSamplingReason.initializeSpinner(samplingReasonList);
 
 //		configureDiseaseSpecificSampleUi(contentBinding, disease);
@@ -474,6 +482,32 @@ public class SampleEditFragment extends BaseEditFragment<FragmentSampleEditLayou
 		} else {
 			super.onActivityResult(requestCode, resultCode, data);
 		}
+	}
+
+	private void handleMeasles(FragmentSampleEditLayoutBinding contentBinding) {
+		List<Item> pathogenTestResultList = DataUtils.toItems(
+			Arrays.asList(PathogenTestResultType.PENDING, PathogenTestResultType.NEGATIVE, PathogenTestResultType.POSITIVE));
+		contentBinding.samplePathogenTestResult.initializeSpinner(pathogenTestResultList);
+
+		contentBinding.sampleShipmentDate.setVisibility(Boolean.TRUE.equals(contentBinding.sampleShipped.getValue()) ? VISIBLE : GONE);
+		contentBinding.sampleShipmentDetails.setVisibility(Boolean.TRUE.equals(contentBinding.sampleShipped.getValue()) ? VISIBLE : GONE);
+		contentBinding.sampleDateSpecimenSentFromFieldToNationalLab.setVisibility(Boolean.TRUE.equals(contentBinding.sampleShipped.getValue()) ? VISIBLE : GONE);
+		contentBinding.sampleDateSpecimenSentToRegionalReferenceLab.setVisibility(Boolean.TRUE.equals(contentBinding.sampleShipped.getValue()) ? VISIBLE : GONE);
+		contentBinding.sampleShipped.addValueChangedListener(field -> {
+			contentBinding.sampleShipmentDate.setVisibility(Boolean.TRUE.equals(field.getValue()) ? VISIBLE : GONE);
+			contentBinding.sampleShipmentDetails.setVisibility(Boolean.TRUE.equals(field.getValue()) ? VISIBLE : GONE);
+			contentBinding.sampleDateSpecimenSentFromFieldToNationalLab.setVisibility(Boolean.TRUE.equals(field.getValue()) ? VISIBLE : GONE);
+			contentBinding.sampleDateSpecimenSentToRegionalReferenceLab.setVisibility(Boolean.TRUE.equals(field.getValue()) ? VISIBLE : GONE);
+		});
+		
+		//received, 
+		contentBinding.sampleSpecimenCondition.setVisibility(Boolean.TRUE.equals(contentBinding.sampleReceived.getValue()) ? VISIBLE : GONE);
+		contentBinding.sampleLabSampleID.setVisibility(Boolean.TRUE.equals(contentBinding.sampleReceived.getValue()) ? VISIBLE : GONE);
+		contentBinding.sampleReceivedDate.setVisibility(Boolean.TRUE.equals(contentBinding.sampleReceived.getValue()) ? VISIBLE : GONE);
+		contentBinding.sampleDateSpecimenReceivedAtRegionalReferenceLab.setVisibility(Boolean.TRUE.equals(contentBinding.sampleReceived.getValue()) ? VISIBLE : GONE);
+		contentBinding.sampleDateSpecimenReceivedAtNationalLab.setVisibility(Boolean.TRUE.equals(contentBinding.sampleReceived.getValue()) ? VISIBLE : GONE);
+		contentBinding.samplePathogenTestResult.setVisibility(Boolean.TRUE.equals(contentBinding.sampleReceived.getValue()) ? VISIBLE : GONE);
+
 	}
 
 	protected static Disease getDiseaseOfAssociatedEntity(Sample sample) {
