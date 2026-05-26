@@ -211,7 +211,7 @@ public class SampleEditFragment extends BaseEditFragment<FragmentSampleEditLayou
 
 		Disease associatedDisease = getDiseaseOfAssociatedEntity(record);
 		if (associatedDisease == Disease.MEASLES) {
-			sampleMaterialList = DataUtils.toItems(Arrays.asList(SampleMaterial.BLOOD, SampleMaterial.THROAT_SWAB, SampleMaterial.URINE, SampleMaterial.OTHER));
+			sampleMaterialList = DataUtils.toItems(Arrays.asList(SampleMaterial.BLOOD, SampleMaterial.THROAT_SWAB, SampleMaterial.OTHER));
 		} else if (associatedDisease == Disease.CSM) {
 			sampleMaterialList = DataUtils.toItems(Arrays.asList(SampleMaterial.CEREBROSPINAL_FLUID, SampleMaterial.OTHER));
 		} else if (associatedDisease == Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS) {
