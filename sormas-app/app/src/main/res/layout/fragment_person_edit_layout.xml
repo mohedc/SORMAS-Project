@@ -716,18 +716,18 @@
                 android:orientation="horizontal">
 
                 <de.symeda.sormas.app.component.controls.ControlSwitchField
-                    android:id="@+id/person_attendedByDoctorNurse"
-                    app:value="@={data.attendedByDoctorNurse}"
-                    app:enumClass="@{attendedByClass}"
-                    style="@style/ControlFirstOfTwoColumnsStyle" />
-
-                <de.symeda.sormas.app.component.controls.ControlSwitchField
                     android:id="@+id/person_cutCordWithSterileBlade"
                     app:value="@={data.cutCordWithSterileBlade}"
                     app:enumClass="@{yesNoUnknownClass}"
-                    style="@style/ControlSecondOfTwoColumnsStyle" />
+                    style="@style/ControlFirstOfTwoColumnsStyle" />
 
             </LinearLayout>
+
+            <de.symeda.sormas.app.component.controls.ControlSwitchField
+                android:id="@+id/person_attendedByDoctorNurse"
+                app:value="@={data.attendedByDoctorNurse}"
+                app:enumClass="@{attendedByClass}"
+                style="@style/ControlSingleColumnStyle" />
 
 
             <LinearLayout
