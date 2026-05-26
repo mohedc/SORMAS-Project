@@ -411,12 +411,6 @@
                         app:value="@={data.dispatchedToNationalLabByRegionDistrictDate}"
                         style="@style/ControlSingleColumnStyle" />
 
-                    <LinearLayout
-                        android:id="@+id/sample_measles_specimen_dates_layout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:visibility="gone">
 
                         <LinearLayout
                             android:id="@+id/sample_dateSpecimenSentFromFieldToNationalLab_layout"
@@ -458,7 +452,6 @@
                             app:value="@={data.dateResultsSentToReferringClinician}"
                             style="@style/ControlSingleColumnStyle" />
 
-                    </LinearLayout>
 
                     <ImageView style="@style/FullHorizontalDividerStyle"/>
 

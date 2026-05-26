@@ -116,43 +116,36 @@ public class SampleEditFragment extends BaseEditFragment<FragmentSampleEditLayou
 		}
 	}
 
-	private void configureDiseaseSpecificSampleUi(FragmentSampleEditLayoutBinding contentBinding, Disease disease) {
-		contentBinding.sampleMeaslesSpecimenDatesLayout.setVisibility(GONE);
-		contentBinding.sampleIpDakarResultsLayout.setVisibility(GONE);
-		contentBinding.sampleCsmSampleCollectionLayout.setVisibility(GONE);
-		contentBinding.sampleSampleMaterial.setVisibility(VISIBLE);
-		contentBinding.sampleSampleMaterialText.setVisibility(VISIBLE);
-		contentBinding.sampleWasSpecimenTaken.setEnabled(true);
-
-		if (disease == null) {
-			return;
-		}
-
-		if (disease == Disease.MEASLES) {
-			contentBinding.sampleMeaslesSpecimenDatesLayout.setVisibility(VISIBLE);
-		}
-		if (disease == Disease.MEASLES || disease == Disease.YELLOW_FEVER) {
-			contentBinding.sampleIpDakarResultsLayout.setVisibility(VISIBLE);
-			contentBinding.sampleElisaIgm.initializeSpinner(DataUtils.getEnumItems(SimpleTestResultType.class, true));
-			contentBinding.sampleIpDakarPcr.initializeSpinner(DataUtils.toItems(Arrays.asList(PathogenTestResultType.values()), true));
-			contentBinding.samplePrnt.initializeSpinner(DataUtils.toItems(Arrays.asList(PathogenTestResultType.values()), true));
-		}
-		if (disease == Disease.YELLOW_FEVER && record.getId() != null) {
-			contentBinding.samplePathogenTestResult.setEnabled(false);
-		}
-		if (disease == Disease.CSM) {
-			contentBinding.sampleCsmSampleCollectionLayout.setVisibility(VISIBLE);
-			contentBinding.sampleSampleMaterial.setVisibility(GONE);
-			contentBinding.sampleSampleMaterialText.setVisibility(GONE);
-			record.setWasSpecimenTaken(YesNo.YES);
-			contentBinding.sampleWasSpecimenTaken.setValue(YesNo.YES);
-			contentBinding.sampleWasSpecimenTaken.setEnabled(false);
-			if (record.getSampleMaterial() == null) {
-				record.setSampleMaterial(SampleMaterial.CEREBROSPINAL_FLUID);
-				contentBinding.sampleSampleMaterial.setValue(SampleMaterial.CEREBROSPINAL_FLUID);
-			}
-		}
-	}
+//	private void configureDiseaseSpecificSampleUi(FragmentSampleEditLayoutBinding contentBinding, Disease disease) {
+//		contentBinding.sampleIpDakarResultsLayout.setVisibility(GONE);
+//		contentBinding.sampleCsmSampleCollectionLayout.setVisibility(GONE);
+//		contentBinding.sampleSampleMaterial.setVisibility(VISIBLE);
+//		contentBinding.sampleSampleMaterialText.setVisibility(VISIBLE);
+//		contentBinding.sampleWasSpecimenTaken.setEnabled(true);
+//
+//		if (disease == null) {
+//			return;
+//		}
+//
+//			contentBinding.sampleElisaIgm.initializeSpinner(DataUtils.getEnumItems(SimpleTestResultType.class, true));
+//			contentBinding.sampleIpDakarPcr.initializeSpinner(DataUtils.toItems(Arrays.asList(PathogenTestResultType.values()), true));
+//			contentBinding.samplePrnt.initializeSpinner(DataUtils.toItems(Arrays.asList(PathogenTestResultType.values()), true));
+//		if (disease == Disease.YELLOW_FEVER && record.getId() != null) {
+//			contentBinding.samplePathogenTestResult.setEnabled(false);
+//		}
+//		if (disease == Disease.CSM) {
+//			contentBinding.sampleCsmSampleCollectionLayout.setVisibility(VISIBLE);
+//			contentBinding.sampleSampleMaterial.setVisibility(GONE);
+//			contentBinding.sampleSampleMaterialText.setVisibility(GONE);
+//			record.setWasSpecimenTaken(YesNo.YES);
+//			contentBinding.sampleWasSpecimenTaken.setValue(YesNo.YES);
+//			contentBinding.sampleWasSpecimenTaken.setEnabled(false);
+//			if (record.getSampleMaterial() == null) {
+//				record.setSampleMaterial(SampleMaterial.CEREBROSPINAL_FLUID);
+//				contentBinding.sampleSampleMaterial.setValue(SampleMaterial.CEREBROSPINAL_FLUID);
+//			}
+//		}
+//	}
 
 	private void setUpFieldVisibilities(final FragmentSampleEditLayoutBinding contentBinding) {
 		// Most recent test layout
@@ -342,7 +335,7 @@ public class SampleEditFragment extends BaseEditFragment<FragmentSampleEditLayou
 		getContentBinding().sampleReceived.setEnabled(false);
 		contentBinding.sampleSamplingReason.initializeSpinner(samplingReasonList);
 
-		configureDiseaseSpecificSampleUi(contentBinding, disease);
+//		configureDiseaseSpecificSampleUi(contentBinding, disease);
 
 		// Initialize ControlDateFields and ControlDateTimeFields
 		contentBinding.sampleSampleDateTime.initializeDateTimeField(getFragmentManager());
