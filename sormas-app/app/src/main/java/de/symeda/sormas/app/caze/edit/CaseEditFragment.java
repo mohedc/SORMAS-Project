@@ -879,30 +879,25 @@ public class CaseEditFragment extends BaseEditFragment<FragmentCaseEditLayoutBin
 		if (disease == null) {
 			disease = record.getDisease();
 		}
-		if (disease == Disease.MEASLES) {
-			handleMeasles();
+		if (Arrays.asList(Disease.MEASLES, Disease.YELLOW_FEVER, Disease.CSM).contains(disease)) {
+			ControlSwitchField vaccinationRecordTypeField = contentBinding.caseDataVaccinationRecordType;
+			List<Item> vaccinationRecordTypeList = new ArrayList<>();
+			vaccinationRecordTypeList.add(new Item<>(VaccinationRecordType.CARD.toString(), VaccinationRecordType.CARD));
+			vaccinationRecordTypeList.add(new Item<>(VaccinationRecordType.HISTORY.toString(), VaccinationRecordType.HISTORY));
+			vaccinationRecordTypeField.setEnumItems(vaccinationRecordTypeList);
+
+			VaccinationRecordType currentValue = record.getVaccinationRecordType();
+			if (currentValue != null && !Arrays.asList(VaccinationRecordType.CARD, VaccinationRecordType.HISTORY).contains(currentValue)) {
+				vaccinationRecordTypeField.setValue(null);
+			} else {
+				vaccinationRecordTypeField.setValue(currentValue);
+			}
 		} else if (disease == Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS) {
 			handleIDSR();
 		} else {
 			ControlSwitchField vaccinationRecordTypeField = contentBinding.caseDataVaccinationRecordType;
 			vaccinationRecordTypeField.setEnumClass(VaccinationRecordType.class);
 			vaccinationRecordTypeField.setValue(record.getVaccinationRecordType());
-		}
-	}
-
-	private void handleMeasles() {
-		FragmentCaseEditLayoutBinding contentBinding = getContentBinding();
-		ControlSwitchField vaccinationRecordTypeField = contentBinding.caseDataVaccinationRecordType;
-		List<Item> vaccinationRecordTypeList = new ArrayList<>();
-		vaccinationRecordTypeList.add(new Item<>(VaccinationRecordType.CARD.toString(), VaccinationRecordType.CARD));
-		vaccinationRecordTypeList.add(new Item<>(VaccinationRecordType.HISTORY.toString(), VaccinationRecordType.HISTORY));
-		vaccinationRecordTypeField.setEnumItems(vaccinationRecordTypeList);
-
-		VaccinationRecordType currentValue = record.getVaccinationRecordType();
-		if (currentValue != null && !Arrays.asList(VaccinationRecordType.CARD, VaccinationRecordType.HISTORY).contains(currentValue)) {
-			vaccinationRecordTypeField.setValue(null);
-		} else {
-			vaccinationRecordTypeField.setValue(currentValue);
 		}
 	}
 
