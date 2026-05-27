@@ -310,6 +310,7 @@ public class SymptomsDtoHelper extends AdoDtoHelper<Symptoms, SymptomsDto> {
 		target.setRedEyeOnsetDate(source.getRedEyeOnsetDate());
 		target.setBloodInStoolOnsetDate(source.getBloodInStoolOnsetDate());
 		target.setBloodUrineOnsetDate(source.getBloodUrineOnsetDate());
+		target.setSignsOfOnsetDays(source.getSignsOfOnsetDays());
 
 		target.setPseudonymized(source.isPseudonymized());
 	}
@@ -571,6 +572,7 @@ public class SymptomsDtoHelper extends AdoDtoHelper<Symptoms, SymptomsDto> {
 		target.setRedEyeOnsetDate(source.getRedEyeOnsetDate());
 		target.setBloodInStoolOnsetDate(source.getBloodInStoolOnsetDate());
 		target.setBloodUrineOnsetDate(source.getBloodUrineOnsetDate());
+		target.setSignsOfOnsetDays(source.getSignsOfOnsetDays());
 
 		target.setPseudonymized(source.isPseudonymized());
 	}

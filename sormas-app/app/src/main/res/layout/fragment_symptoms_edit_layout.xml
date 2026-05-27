@@ -1538,6 +1538,13 @@
                 android:id="@+id/symptoms_otherComplicationsText"
                 app:value="@={data.otherComplicationsText}"
                 app:softRequired="true"
+                app:dependencyParentField="@{symptomsOtherComplications}"
+                app:dependencyParentValue="@{SymptomState.YES}"
+                style="@style/ControlSingleColumnStyle" />
+
+            <de.symeda.sormas.app.component.controls.ControlTextEditField
+                android:id="@+id/symptoms_signsOfOnsetDays"
+                app:value="@={data.signsOfOnsetDays}"
                 style="@style/ControlSingleColumnStyle" />
 
             <de.symeda.sormas.app.component.controls.ControlSwitchField
@@ -1566,7 +1573,7 @@
                     android:id="@+id/symptoms_ageAtOnsetDays"
                     app:value="@={data.ageAtOnsetDays}"
                     app:dependencyParentField="@{symptomsBabyDied}"
-                    app:dependencyParentValue="@{SymptomState.YES}"
+                    app:dependencyParentValue="@{SymptomState.NO}"
                     app:inputType="number"
                     style="@style/ControlSecondOfTwoColumnsStyle" />
 
