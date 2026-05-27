@@ -297,6 +297,8 @@ public class SampleEditFragment extends BaseEditFragment<FragmentSampleEditLayou
 
 		if (disease == Disease.MEASLES) {
 			handleMeasles(contentBinding);
+		} else if (disease == Disease.YELLOW_FEVER) {
+			handleYellowFever(contentBinding);
 		}
 
 		// Initialize ControlSpinnerFields
@@ -517,7 +519,21 @@ public class SampleEditFragment extends BaseEditFragment<FragmentSampleEditLayou
 
 	}
 
-	protected static Disease getDiseaseOfAssociatedEntity(Sample sample) {
+
+	private void handleYellowFever(FragmentSampleEditLayoutBinding contentBinding) {
+		contentBinding.sampleShipmentDate.setVisibility(Boolean.TRUE.equals(contentBinding.sampleShipped.getValue()) ? VISIBLE : GONE);
+		contentBinding.sampleShipmentDetails.setVisibility(Boolean.TRUE.equals(contentBinding.sampleShipped.getValue()) ? VISIBLE : GONE);
+
+		contentBinding.sampleShipped.addValueChangedListener(field -> {
+			contentBinding.sampleShipmentDate.setVisibility(Boolean.TRUE.equals(field.getValue()) ? VISIBLE : GONE);
+			contentBinding.sampleShipmentDetails.setVisibility(Boolean.TRUE.equals(field.getValue()) ? VISIBLE : GONE);
+		});
+
+		contentBinding.sampleReceivedDate.setVisibility(Boolean.TRUE.equals(contentBinding.sampleReceived.getValue()) ? VISIBLE : GONE);
+	}
+
+
+		protected static Disease getDiseaseOfAssociatedEntity(Sample sample) {
 		if (sample.getAssociatedCase() != null) {
 			return sample.getAssociatedCase().getDisease();
 		} else if (sample.getAssociatedContact() != null) {
