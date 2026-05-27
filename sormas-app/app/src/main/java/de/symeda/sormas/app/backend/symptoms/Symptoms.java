@@ -536,6 +536,8 @@ public class Symptoms extends PseudonymizableAdo {
 	private SymptomState otherComplications;
 	@Column(length = CHARACTER_LIMIT_DEFAULT)
 	private String otherComplicationsText;
+	@Column
+	private Integer signsOfOnsetDays;
 
 	@Enumerated(EnumType.STRING)
 	private SymptomState feverishFeeling;
@@ -2411,6 +2413,14 @@ public class Symptoms extends PseudonymizableAdo {
 
 	public void setOtherComplicationsText(String otherComplicationsText) {
 		this.otherComplicationsText = otherComplicationsText;
+	}
+
+	public Integer getSignsOfOnsetDays() {
+		return signsOfOnsetDays;
+	}
+
+	public void setSignsOfOnsetDays(Integer signsOfOnsetDays) {
+		this.signsOfOnsetDays = signsOfOnsetDays;
 	}
 
 	public SymptomState getRespiratoryDiseaseVentilation() {

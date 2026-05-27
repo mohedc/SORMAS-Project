@@ -117,7 +117,8 @@ public class Person extends PseudonymizableAdo {
 	private ApproximateAgeType approximateAgeType;
 	@DatabaseField(dataType = DataType.DATE_LONG)
 	private Date approximateAgeReferenceDate;
-
+	@Enumerated(EnumType.STRING)
+	private YesNoUnknown birthInInstitution;
 	@DatabaseField(foreign = true, foreignAutoRefresh = true, maxForeignAutoRefreshLevel = 3)
 	private Region placeOfBirthRegion;
 	@DatabaseField(foreign = true, foreignAutoRefresh = true, maxForeignAutoRefreshLevel = 3)
@@ -215,6 +216,8 @@ public class Person extends PseudonymizableAdo {
 
 	@Enumerated(EnumType.STRING)
 	private YesNoUnknown receivedAntenatalCare;
+	@Column(columnDefinition = "text")
+	private String receivedAntenatalCareWhere;
 	@Column
 	private Integer prenatalTotalVisits;
 	@Enumerated(EnumType.STRING)
@@ -577,6 +580,14 @@ public class Person extends PseudonymizableAdo {
 		this.namesOfGuardians = namesOfGuardians;
 	}
 
+	public YesNoUnknown getBirthInInstitution() {
+		return birthInInstitution;
+	}
+
+	public void setBirthInInstitution(YesNoUnknown birthInInstitution) {
+		this.birthInInstitution = birthInInstitution;
+	}
+
 	public Region getPlaceOfBirthRegion() {
 		return placeOfBirthRegion;
 	}
@@ -745,6 +756,14 @@ public class Person extends PseudonymizableAdo {
 
 	public void setReceivedAntenatalCare(YesNoUnknown receivedAntenatalCare) {
 		this.receivedAntenatalCare = receivedAntenatalCare;
+	}
+
+	public String getReceivedAntenatalCareWhere() {
+		return receivedAntenatalCareWhere;
+	}
+
+	public void setReceivedAntenatalCareWhere(String receivedAntenatalCareWhere) {
+		this.receivedAntenatalCareWhere = receivedAntenatalCareWhere;
 	}
 
 	public Integer getPrenatalTotalVisits() {

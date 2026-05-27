@@ -199,6 +199,7 @@ public class SymptomsEditFragment extends BaseEditFragment<FragmentSymptomsEditL
 		contentBinding.symptomsTemperatureSource.initializeSpinner(DataUtils.addEmptyItem(tempSourceList));
 		contentBinding.symptomsCongenitalHeartDiseaseType.initializeSpinner(congenitalHeartDiseaseList);
 		contentBinding.symptomsOutcome.initializeSpinner(caseOutcomeList);
+		initializeNntBabyDiedOutcomeHandling(contentBinding);
 		contentBinding.symptomsOnsetSymptom.initializeSpinner(DataUtils.toItems(null, true));
 
 		contentBinding.symptomsTemperature.setSelectionOnOpen(37.0f);
@@ -216,6 +217,36 @@ public class SymptomsEditFragment extends BaseEditFragment<FragmentSymptomsEditL
 				contentBinding.symptomsCongenitalHeartDiseaseDetails.setVisibility(GONE);
 			}
 		});
+	}
+
+	private void initializeNntBabyDiedOutcomeHandling(FragmentSymptomsEditLayoutBinding contentBinding) {
+		if (disease != Disease.NEONATAL_TETANUS) {
+			return;
+		}
+
+		boolean outcomeEditable = contentBinding.symptomsOutcome.isEnabled();
+		contentBinding.symptomsBabyDied.addValueChangedListener(
+			field -> updateOutcomeByBabyDied((SymptomState) field.getValue(), contentBinding.symptomsOutcome, outcomeEditable));
+
+		if (contentBinding.symptomsBabyDied.getValue() == SymptomState.YES) {
+			updateOutcomeByBabyDied(SymptomState.YES, contentBinding.symptomsOutcome, outcomeEditable);
+		}
+	}
+
+	private void updateOutcomeByBabyDied(SymptomState babyDied, ControlSpinnerField outcomeField, boolean outcomeEditable) {
+		if (babyDied == SymptomState.YES) {
+			record.setOutcome(CaseOutcome.DECEASED);
+			outcomeField.setValue(CaseOutcome.DECEASED);
+			outcomeField.setEnabled(false);
+		} else if (babyDied == SymptomState.NO) {
+			record.setOutcome(CaseOutcome.ALIVE);
+			outcomeField.setValue(CaseOutcome.ALIVE);
+			outcomeField.setEnabled(false);
+		} else {
+			record.setOutcome(null);
+			outcomeField.setValue(null);
+			outcomeField.setEnabled(outcomeEditable);
+		}
 	}
 
 	private void initSymptomFields(FragmentSymptomsEditLayoutBinding contentBinding) {

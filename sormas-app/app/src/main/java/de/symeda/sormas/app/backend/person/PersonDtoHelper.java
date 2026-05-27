@@ -116,6 +116,7 @@ public class PersonDtoHelper extends AdoDtoHelper<Person, PersonDto> {
 		target.setPlaceOfBirthDistrict(DatabaseHelper.getDistrictDao().getByReferenceDto(source.getPlaceOfBirthDistrict()));
 		target.setPlaceOfBirthCommunity(DatabaseHelper.getCommunityDao().getByReferenceDto(source.getPlaceOfBirthCommunity()));
 		target.setPlaceOfBirthFacility(DatabaseHelper.getFacilityDao().getByReferenceDto(source.getPlaceOfBirthFacility()));
+		target.setBirthInInstitution(source.getBirthInInstitution());
 		target.setPlaceOfBirthFacilityDetails(source.getPlaceOfBirthFacilityDetails());
 		target.setGestationAgeAtBirth(source.getGestationAgeAtBirth());
 		target.setBirthWeight(source.getBirthWeight());
@@ -157,6 +158,7 @@ public class PersonDtoHelper extends AdoDtoHelper<Person, PersonDto> {
 		target.setCitizenship(DatabaseHelper.getCountryDao().getByReferenceDto(source.getCitizenship()));
 		target.setAdditionalDetails(source.getAdditionalDetails());
 		target.setReceivedAntenatalCare(source.getReceivedAntenatalCare());
+		target.setReceivedAntenatalCareWhere(source.getReceivedAntenatalCareWhere());
 		target.setPrenatalTotalVisits(source.getPrenatalTotalVisits());
 		target.setAttendedByTrainedTBA(source.getAttendedByTrainedTBA());
 		target.setAttendedByTrainedTBAMidwifeName(source.getAttendedByTrainedTBAMidwifeName());
@@ -244,7 +246,7 @@ public class PersonDtoHelper extends AdoDtoHelper<Person, PersonDto> {
 		} else {
 			target.setPlaceOfBirthFacility(null);
 		}
-
+		target.setBirthInInstitution(source.getBirthInInstitution());
 		target.setPlaceOfBirthFacilityDetails(source.getPlaceOfBirthFacilityDetails());
 		target.setGestationAgeAtBirth(source.getGestationAgeAtBirth());
 		target.setBirthWeight(source.getBirthWeight());
@@ -287,6 +289,7 @@ public class PersonDtoHelper extends AdoDtoHelper<Person, PersonDto> {
 		target.setCitizenship(CountryDtoHelper.toReferenceDto(source.getCitizenship()));
 		target.setAdditionalDetails(source.getAdditionalDetails());
 		target.setReceivedAntenatalCare(source.getReceivedAntenatalCare());
+		target.setReceivedAntenatalCareWhere(source.getReceivedAntenatalCareWhere());
 		target.setPrenatalTotalVisits(source.getPrenatalTotalVisits());
 		target.setAttendedByTrainedTBA(source.getAttendedByTrainedTBA());
 		target.setAttendedByTrainedTBAMidwifeName(source.getAttendedByTrainedTBAMidwifeName());

@@ -1026,6 +1026,13 @@
 
                 </LinearLayout>
 
+                <TextView
+                    android:id="@+id/caseData_headingMotherVaccination"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{I18nProperties.getString(Strings.headingMotherVaccination)}"
+                    style="@style/SubHeadingStyle" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -1057,6 +1064,8 @@
                     <de.symeda.sormas.app.component.controls.ControlTextEditField
                         android:id="@+id/caseData_motherNumberOfDoses"
                         app:value="@={data.motherNumberOfDoses}"
+                        app:dependencyParentField="@{caseDataMotherHaveCard}"
+                        app:dependencyParentValue="@{YesNoUnknown.YES}"
                         app:inputType="number"
                         style="@style/ControlFirstOfTwoColumnsStyle" />
 
@@ -1064,6 +1073,8 @@
                         android:id="@+id/caseData_motherVaccinationStatus"
                         app:enumClass="@{motherVaccinationStatusClass}"
                         app:value="@={data.motherVaccinationStatus}"
+                        app:dependencyParentField="@{caseDataMotherVaccinatedWithTT}"
+                        app:dependencyParentValue="@{YesNoUnknown.YES}"
                         style="@style/ControlSecondOfTwoColumnsStyle" />
 
                 </LinearLayout>
