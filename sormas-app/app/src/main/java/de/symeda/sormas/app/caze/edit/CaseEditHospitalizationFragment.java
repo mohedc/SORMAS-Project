@@ -215,22 +215,14 @@ public class CaseEditHospitalizationFragment extends BaseEditFragment<FragmentCa
 			contentBinding.caseHospitalizationDateFirstSeenAtHealthFacility.setCaption("Date seen at health facility");
 			contentBinding.hospitalizationDateHealthRegionNotified.setCaption("Date Health Region Notified");
 		}
-		if (caze.getDisease() != null && caze.getDisease() == Disease.CONGENITAL_RUBELLA){
-
-
-			contentBinding.caseHospitalizationDateFirstSeenAtHealthFacility.setVisibility(contentBinding.caseHospitalizationSelectInpatientOutpatient.getValue() == InpatOutpat.OUTPATIENT || contentBinding.caseHospitalizationSelectInpatientOutpatient.getValue() == InpatOutpat.INPATIENT ? View.VISIBLE : View.GONE);
-			contentBinding.hospitalizationDateHealthRegionNotified.setVisibility(contentBinding.caseHospitalizationSelectInpatientOutpatient.getValue() == InpatOutpat.OUTPATIENT || contentBinding.caseHospitalizationSelectInpatientOutpatient.getValue() == InpatOutpat.INPATIENT ? View.VISIBLE : View.GONE);
-			// caseHospitalization_selectInpatientOutpatient
+		if (caze.getDisease() != null && caze.getDisease() == Disease.CONGENITAL_RUBELLA) {
+			updateCongenitalRubellaDateFieldsVisibility(
+				contentBinding,
+				(InpatOutpat) contentBinding.caseHospitalizationSelectInpatientOutpatient.getValue());
 			contentBinding.caseHospitalizationSelectInpatientOutpatient.addValueChangedListener(new ValueChangeListener() {
 				@Override
 				public void onChange(ControlPropertyField field) {
-					if (contentBinding.caseHospitalizationSelectInpatientOutpatient.getValue() == InpatOutpat.OUTPATIENT || contentBinding.caseHospitalizationSelectInpatientOutpatient.getValue() == InpatOutpat.INPATIENT) {
-						contentBinding.caseHospitalizationDateFirstSeenAtHealthFacility.setVisibility(View.VISIBLE);
-						contentBinding.hospitalizationDateHealthRegionNotified.setVisibility(View.VISIBLE);
-					} else {
-						contentBinding.caseHospitalizationDateFirstSeenAtHealthFacility.setVisibility(View.GONE);
-						contentBinding.hospitalizationDateHealthRegionNotified.setVisibility(View.GONE);
-					}
+					updateCongenitalRubellaDateFieldsVisibility(contentBinding, (InpatOutpat) field.getValue());
 				}
 			});
 		}
@@ -250,5 +242,16 @@ public class CaseEditHospitalizationFragment extends BaseEditFragment<FragmentCa
 			new FieldVisibilityCheckers(),
 			getFieldAccessCheckers());
 
+	}
+
+	private void updateCongenitalRubellaDateFieldsVisibility(
+		FragmentCaseEditHospitalizationLayoutBinding contentBinding,
+		InpatOutpat inpatOutpatValue) {
+
+		boolean showCongenitalRubellaDateFields = inpatOutpatValue == InpatOutpat.OUTPATIENT || inpatOutpatValue == InpatOutpat.INPATIENT;
+		int visibility = showCongenitalRubellaDateFields ? View.VISIBLE : View.GONE;
+
+		contentBinding.caseHospitalizationAdmissionDate.setVisibility(visibility);
+		contentBinding.caseHospitalizationDischargeDate.setVisibility(visibility);
 	}
 }

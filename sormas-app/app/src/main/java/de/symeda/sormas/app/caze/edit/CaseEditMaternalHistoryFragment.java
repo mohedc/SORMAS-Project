@@ -132,7 +132,6 @@ public class CaseEditMaternalHistoryFragment extends BaseEditFragment<FragmentCa
 		contentBinding.maternalHistoryArthralgiaArthritisOnset.setVisibility(contentBinding.maternalHistoryArthralgiaArthritis.getValue() == YesNoUnknown.YES ? View.VISIBLE : View.GONE);
 		contentBinding.maternalHistoryOtherComplicationsOnset.setVisibility(contentBinding.maternalHistoryOtherComplications.getValue() == YesNoUnknown.YES ? View.VISIBLE : View.GONE);
 		// 
-				contentBinding.maternalHistoryOtherComplicationsDetails.setVisibility(contentBinding.maternalHistoryOtherComplications.getValue() == YesNoUnknown.YES ? View.VISIBLE : View.GONE);
 
 
 		contentBinding.maternalHistoryConjunctivitis.addValueChangedListener(new ValueChangeListener() {
