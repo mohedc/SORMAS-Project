@@ -3128,6 +3128,7 @@ public interface Captions {
 	String Symptoms_paralysedLimbSensitiveToPainOnsetDate = "Symptoms.paralysedLimbSensitiveToPainOnsetDate";
 	String Symptoms_injectionSiteBeforeOnsetParalysisOnsetDate = "Symptoms.injectionSiteBeforeOnsetParalysisOnsetDate";
 	String Symptoms_injectionSiteOnsetDate = "Symptoms.injectionSiteOnsetDate";
+	String Symptoms_provisionalDiagnosis = "Symptoms.provisionalDiagnosis";
 	String Symptoms_arthralgiaOnsetDate = "Symptoms.arthralgiaOnsetDate";
 	String Symptoms_myalgiaOnsetDate = "Symptoms.myalgiaOnsetDate";
 	String Symptoms_jaundiceOnsetDate = "Symptoms.jaundiceOnsetDate";
