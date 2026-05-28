@@ -470,7 +470,7 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 				fluidRowLocs(4, CaseDataDto.HIB_I, 4, CaseDataDto.HIB_I_DATE, 4, CaseDataDto.HIB_I_SOURCE_OF_VACCINATION) +
 				fluidRowLocs(4, CaseDataDto.HIB_2, 4, CaseDataDto.HIB_2_DATE, 4, CaseDataDto.HIB_2_SOURCE_OF_VACCINATION) +
 				fluidRowLocs(4, CaseDataDto.HIB_3, 4, CaseDataDto.HIB_3_DATE, 4, CaseDataDto.HIB_3_SOURCE_OF_VACCINATION) +
-				loc(MENINGITIS_NOTIFICATION_HEADING_LOC) +
+				loc(NOTIFY_INVESTIGATE_HEADING_LOC) +
 				fluidRowLocs(CaseDataDto.DISTRICT_NOTIFICATION_DATE, CaseDataDto.PERSON_FULLNAME) +
 				fluidRowLocs(CaseDataDto.PERSON_TELEPHONE, CaseDataDto.DATE_FORM_SENT_TO_DISTRICT) +
 				fluidRowLocs(CaseDataDto.DATE_FORM_RECEIVED_AT_DISTRICT, CaseDataDto.DATE_FORM_SENT_TO_REGION) +
