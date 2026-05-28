@@ -160,6 +160,14 @@ public class SampleDtoHelper extends AdoDtoHelper<Sample, SampleDto> {
 			sormasToSormasOriginInfoDtoHelper.fillOrCreateFromDto(target.getSormasToSormasOriginInfo(), source.getSormasToSormasOriginInfo()));
 		target.setOwnershipHandedOver(source.isOwnershipHandedOver());
 
+		target.setDateFirstSpecimen(source.getDateFirstSpecimen());
+		target.setDateSecondSpecimen(source.getDateSecondSpecimen());
+		target.setDateSpecimenSentNationalLevel(source.getDateSpecimenSentNationalLevel());
+		target.setDateSpecimenReceivedNationalLevel(source.getDateSpecimenReceivedNationalLevel());
+		target.setDateSpecimenSentInter(source.getDateSpecimenSentInter());
+		target.setDateSpecimenReceivedInter(source.getDateSpecimenReceivedInter());
+		target.setOutsideCountryName(source.getOutsideCountryName());
+
 		target.setPseudonymized(source.isPseudonymized());
 	}
 
@@ -275,6 +283,14 @@ public class SampleDtoHelper extends AdoDtoHelper<Sample, SampleDto> {
 		if (source.getSormasToSormasOriginInfo() != null) {
 			target.setSormasToSormasOriginInfo(sormasToSormasOriginInfoDtoHelper.adoToDto(source.getSormasToSormasOriginInfo()));
 		}
+
+		target.setDateFirstSpecimen(source.getDateFirstSpecimen());
+		target.setDateSecondSpecimen(source.getDateSecondSpecimen());
+		target.setDateSpecimenSentNationalLevel(source.getDateSpecimenSentNationalLevel());
+		target.setDateSpecimenReceivedNationalLevel(source.getDateSpecimenReceivedNationalLevel());
+		target.setDateSpecimenSentInter(source.getDateSpecimenSentInter());
+		target.setDateSpecimenReceivedInter(source.getDateSpecimenReceivedInter());
+		target.setOutsideCountryName(source.getOutsideCountryName());
 
 		target.setPseudonymized(source.isPseudonymized());
 	}

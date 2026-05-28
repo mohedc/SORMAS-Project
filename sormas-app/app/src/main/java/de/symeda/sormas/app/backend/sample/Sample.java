@@ -214,6 +214,22 @@ public class Sample extends PseudonymizableAdo {
 	@DatabaseField(dataType = DataType.DATE_LONG)
 	private Date prntDate;
 
+	// AFP-specific fields
+	@DatabaseField(dataType = DataType.DATE_LONG)
+	private Date dateFirstSpecimen;
+	@DatabaseField(dataType = DataType.DATE_LONG)
+	private Date dateSecondSpecimen;
+	@DatabaseField(dataType = DataType.DATE_LONG)
+	private Date dateSpecimenSentNationalLevel;
+	@DatabaseField(dataType = DataType.DATE_LONG)
+	private Date dateSpecimenReceivedNationalLevel;
+	@DatabaseField(dataType = DataType.DATE_LONG)
+	private Date dateSpecimenSentInter;
+	@DatabaseField(dataType = DataType.DATE_LONG)
+	private Date dateSpecimenReceivedInter;
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	private String outsideCountryName;
+
 	@Column(length = CHARACTER_LIMIT_DEFAULT)
 	private String barcode;
 	@Enumerated(EnumType.STRING)
@@ -1100,4 +1116,60 @@ public class Sample extends PseudonymizableAdo {
 	public void setDateResultsSentToReferringClinician(Date dateResultsSentToReferringClinician) {
 		this.dateResultsSentToReferringClinician = dateResultsSentToReferringClinician;
 	}
+	public Date getDateFirstSpecimen() {
+		return dateFirstSpecimen;
+	}
+
+	public void setDateFirstSpecimen(Date dateFirstSpecimen) {
+		this.dateFirstSpecimen = dateFirstSpecimen;
+	}
+
+	public Date getDateSecondSpecimen() {
+		return dateSecondSpecimen;
+	}
+
+	public void setDateSecondSpecimen(Date dateSecondSpecimen) {
+		this.dateSecondSpecimen = dateSecondSpecimen;
+	}
+
+	public Date getDateSpecimenSentNationalLevel() {
+		return dateSpecimenSentNationalLevel;
+	}
+
+	public void setDateSpecimenSentNationalLevel(Date dateSpecimenSentNationalLevel) {
+		this.dateSpecimenSentNationalLevel = dateSpecimenSentNationalLevel;
+	}
+
+	public Date getDateSpecimenReceivedNationalLevel() {
+		return dateSpecimenReceivedNationalLevel;
+	}
+
+	public void setDateSpecimenReceivedNationalLevel(Date dateSpecimenReceivedNationalLevel) {
+		this.dateSpecimenReceivedNationalLevel = dateSpecimenReceivedNationalLevel;
+	}
+
+	public Date getDateSpecimenSentInter() {
+		return dateSpecimenSentInter;
+	}
+
+	public void setDateSpecimenSentInter(Date dateSpecimenSentInter) {
+		this.dateSpecimenSentInter = dateSpecimenSentInter;
+	}
+
+	public Date getDateSpecimenReceivedInter() {
+		return dateSpecimenReceivedInter;
+	}
+
+	public void setDateSpecimenReceivedInter(Date dateSpecimenReceivedInter) {
+		this.dateSpecimenReceivedInter = dateSpecimenReceivedInter;
+	}
+
+	public String getOutsideCountryName() {
+		return outsideCountryName;
+	}
+
+	public void setOutsideCountryName(String outsideCountryName) {
+		this.outsideCountryName = outsideCountryName;
+	}
+
 }

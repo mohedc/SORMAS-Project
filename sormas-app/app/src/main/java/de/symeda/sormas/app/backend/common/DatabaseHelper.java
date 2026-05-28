@@ -198,7 +198,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	public static final String DATABASE_NAME = "sormas.db";
 	// any time you make changes to your database objects, you may have to increase the database version
 
-	public static final int DATABASE_VERSION = 396;
+	public static final int DATABASE_VERSION = 397;
 
 	private static DatabaseHelper instance = null;
 
@@ -3620,6 +3620,16 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 						+ "totalIpvDosesReceivedThroughRi varchar(512)," + "dateLastIpvDosesReceivedThroughSia timestamp,"
 						+ "sourceRiVaccinationInformation varchar(255)," + "UNIQUE(snapshot, uuid));");
 				getDao(Case.class).executeRaw("ALTER TABLE cases ADD COLUMN afpImmunization_id bigint REFERENCES afpimmunization(id);");
+
+			case 396:
+				currentVersion = 396;
+				getDao(Sample.class).executeRaw("ALTER TABLE samples ADD COLUMN dateFirstSpecimen timestamp;");
+				getDao(Sample.class).executeRaw("ALTER TABLE samples ADD COLUMN dateSecondSpecimen timestamp;");
+				getDao(Sample.class).executeRaw("ALTER TABLE samples ADD COLUMN dateSpecimenSentNationalLevel timestamp;");
+				getDao(Sample.class).executeRaw("ALTER TABLE samples ADD COLUMN dateSpecimenReceivedNationalLevel timestamp;");
+				getDao(Sample.class).executeRaw("ALTER TABLE samples ADD COLUMN dateSpecimenSentInter timestamp;");
+				getDao(Sample.class).executeRaw("ALTER TABLE samples ADD COLUMN dateSpecimenReceivedInter timestamp;");
+				getDao(Sample.class).executeRaw("ALTER TABLE samples ADD COLUMN outsideCountryName varchar(512);");
 
 				// ATTENTION: break should only be done after last version
 				break;
