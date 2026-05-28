@@ -683,10 +683,6 @@ public class SampleEditFragment extends BaseEditFragment<FragmentSampleEditLayou
 		contentBinding.samplePrntDate.setVisibility(vis);
 		contentBinding.samplePrntInputValue.setVisibility(vis);
 	}
-
-
-	protected static Disease getDiseaseOfAssociatedEntity(Sample sample) {
-
 	private void handleYellowFever(FragmentSampleEditLayoutBinding contentBinding) {
 		contentBinding.sampleShipmentDate.setVisibility(Boolean.TRUE.equals(contentBinding.sampleShipped.getValue()) ? VISIBLE : GONE);
 		contentBinding.sampleShipmentDetails.setVisibility(Boolean.TRUE.equals(contentBinding.sampleShipped.getValue()) ? VISIBLE : GONE);
@@ -698,9 +694,7 @@ public class SampleEditFragment extends BaseEditFragment<FragmentSampleEditLayou
 
 		contentBinding.sampleReceivedDate.setVisibility(Boolean.TRUE.equals(contentBinding.sampleReceived.getValue()) ? VISIBLE : GONE);
 	}
-
-
-		protected static Disease getDiseaseOfAssociatedEntity(Sample sample) {
+	protected static Disease getDiseaseOfAssociatedEntity(Sample sample) {
 		if (sample.getAssociatedCase() != null) {
 			return sample.getAssociatedCase().getDisease();
 		} else if (sample.getAssociatedContact() != null) {

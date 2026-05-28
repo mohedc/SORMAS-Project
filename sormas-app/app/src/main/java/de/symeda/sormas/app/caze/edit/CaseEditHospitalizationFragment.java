@@ -218,6 +218,8 @@ public class CaseEditHospitalizationFragment extends BaseEditFragment<FragmentCa
 		if (caze.getDisease() != null && caze.getDisease() == Disease.AFP){
 			contentBinding.caseHospitalizationAdmissionDate.setCaption("Date of Admission to Hospital, If Applicable");
 			initializeAfpAdmissionDischargeVisibility(contentBinding);
+		}
+
 		if (caze.getDisease() != null && caze.getDisease() == Disease.CONGENITAL_RUBELLA) {
 			updateCongenitalRubellaDateFieldsVisibility(
 				contentBinding,
