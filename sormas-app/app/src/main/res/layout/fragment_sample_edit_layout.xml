@@ -155,6 +155,7 @@
                     style="@style/ControlSingleColumnStyle" />
 
                 <LinearLayout
+                    android:id="@+id/sample_scan_field_fieldSampleIdLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
