@@ -196,7 +196,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	public static final String DATABASE_NAME = "sormas.db";
 	// any time you make changes to your database objects, you may have to increase the database version
 
-	public static final int DATABASE_VERSION = 394;
+	public static final int DATABASE_VERSION = 395;
 
 	private static DatabaseHelper instance = null;
 
@@ -3587,6 +3587,21 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 				getDao(Symptoms.class).executeRaw("ALTER TABLE symptoms ADD COLUMN injectionSiteString varchar(512);");
 				getDao(Symptoms.class).executeRaw("ALTER TABLE symptoms ADD COLUMN provisionalDiagnosis varchar(512);");
 				getDao(Symptoms.class).executeRaw("ALTER TABLE symptoms ADD COLUMN trueAfp varchar(255);");
+
+			case 394:
+				currentVersion = 394;
+				getDao(EpiData.class).executeRaw("ALTER TABLE epidata ADD COLUMN place varchar(512);");
+				getDao(EpiData.class).executeRaw("ALTER TABLE epidata ADD COLUMN durationMonths varchar(512);");
+				getDao(EpiData.class).executeRaw("ALTER TABLE epidata ADD COLUMN durationDays varchar(512);");
+				getDao(EpiData.class).executeRaw("ALTER TABLE epidata ADD COLUMN place2 varchar(512);");
+				getDao(EpiData.class).executeRaw("ALTER TABLE epidata ADD COLUMN durationMonths2 varchar(512);");
+				getDao(EpiData.class).executeRaw("ALTER TABLE epidata ADD COLUMN durationDays2 varchar(512);");
+				getDao(EpiData.class).executeRaw("ALTER TABLE epidata ADD COLUMN place3 varchar(512);");
+				getDao(EpiData.class).executeRaw("ALTER TABLE epidata ADD COLUMN durationMonths3 varchar(512);");
+				getDao(EpiData.class).executeRaw("ALTER TABLE epidata ADD COLUMN durationDays3 varchar(512);");
+				getDao(EpiData.class).executeRaw("ALTER TABLE epidata ADD COLUMN place4 varchar(512);");
+				getDao(EpiData.class).executeRaw("ALTER TABLE epidata ADD COLUMN durationMonths4 varchar(512);");
+				getDao(EpiData.class).executeRaw("ALTER TABLE epidata ADD COLUMN durationDays4 varchar(512);");
 
 				// ATTENTION: break should only be done after last version
 				break;

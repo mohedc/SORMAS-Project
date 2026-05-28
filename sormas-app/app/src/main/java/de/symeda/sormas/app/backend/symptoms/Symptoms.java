@@ -2709,6 +2709,7 @@ public class Symptoms extends PseudonymizableAdo {
 		this.dateOnsetParalysis = dateOnsetParalysis;
 	}
 
+	@Transient
 	public Set<InjectionSite> getSiteOfParalysis() {
 		if (siteOfParalysis == null) {
 			siteOfParalysis = StringUtils.isEmpty(requestedSiteOfParalysisString)
@@ -2752,6 +2753,7 @@ public class Symptoms extends PseudonymizableAdo {
 		this.injectionSiteBeforeOnsetParalysis = injectionSiteBeforeOnsetParalysis;
 	}
 
+	@Transient
 	public Set<InjectionSite> getInjectionSite() {
 		if (injectionSite == null) {
 			injectionSite = StringUtils.isEmpty(injectionSiteString)
