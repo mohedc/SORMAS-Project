@@ -114,8 +114,9 @@ public class EpidemiologicalDataEditFragment extends BaseEditFragment<FragmentEd
 		onActivityAsCaseItemClickListener = (v, item) -> {
 			final ActivityAsCase activityAsCase = (ActivityAsCase) item;
 			final ActivityAsCase activityAsCaseClone = (ActivityAsCase) activityAsCase.clone();
+			final Disease disease = getDiseaseOfCaseOrContact(getActivityRootData());
 			final ActivityAsCaseDialog dialog =
-				new ActivityAsCaseDialog(CaseEditActivity.getActiveActivity(), activityAsCaseClone, getActivityRootData(), false);
+				new ActivityAsCaseDialog(CaseEditActivity.getActiveActivity(), activityAsCaseClone, getActivityRootData(), disease, false);
 
 			dialog.setPositiveCallback(() -> {
 				record.getActivitiesAsCase().set(record.getActivitiesAsCase().indexOf(activityAsCase), activityAsCaseClone);
@@ -132,8 +133,9 @@ public class EpidemiologicalDataEditFragment extends BaseEditFragment<FragmentEd
 
 		contentBinding.btnAddActivityascase.setOnClickListener(v -> {
 			final ActivityAsCase activityAsCase = DatabaseHelper.getActivityAsCaseDao().build();
+			final Disease disease = getDiseaseOfCaseOrContact(getActivityRootData());
 			final ActivityAsCaseDialog dialog =
-				new ActivityAsCaseDialog(CaseEditActivity.getActiveActivity(), activityAsCase, getActivityRootData(), true);
+				new ActivityAsCaseDialog(CaseEditActivity.getActiveActivity(), activityAsCase, getActivityRootData(), disease, true);
 
 			dialog.setPositiveCallback(() -> addActivityAsCase(activityAsCase));
 			dialog.show();
