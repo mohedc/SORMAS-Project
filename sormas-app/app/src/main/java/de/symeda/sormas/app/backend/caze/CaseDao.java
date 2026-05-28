@@ -58,6 +58,7 @@ import de.symeda.sormas.api.utils.InfoProvider;
 import de.symeda.sormas.api.utils.YesNoUnknown;
 import de.symeda.sormas.app.R;
 import de.symeda.sormas.app.backend.activityascase.ActivityAsCase;
+import de.symeda.sormas.app.backend.afpimmunization.AfpImmunization;
 import de.symeda.sormas.app.backend.clinicalcourse.ClinicalCourse;
 import de.symeda.sormas.app.backend.clinicalcourse.ClinicalVisit;
 import de.symeda.sormas.app.backend.clinicalcourse.ClinicalVisitCriteria;
@@ -139,6 +140,11 @@ public class CaseDao extends AbstractAdoDao<Case> {
 		Date hospitalizationDate = DatabaseHelper.getHospitalizationDao().getLatestChangeDate();
 		if (hospitalizationDate != null && hospitalizationDate.after(date)) {
 			date = hospitalizationDate;
+		}
+
+		Date afpImmunizationDate = getLatestChangeDateJoin(AfpImmunization.TABLE_NAME, Case.AFP_IMMUNIZATION);
+		if (afpImmunizationDate != null && afpImmunizationDate.after(date)) {
+			date = afpImmunizationDate;
 		}
 
 		Date epiDataDate = getLatestChangeDateJoin(EpiData.TABLE_NAME, Case.EPI_DATA);
@@ -238,6 +244,9 @@ public class CaseDao extends AbstractAdoDao<Case> {
 
 		// Hospitalization
 		caze.setHospitalization(DatabaseHelper.getHospitalizationDao().build());
+
+		// AFP Immunization
+		caze.setAfpImmunization(DatabaseHelper.getAfpImmunizationDao().build());
 
 		// Epi Data
 		caze.setEpiData(DatabaseHelper.getEpiDataDao().build());

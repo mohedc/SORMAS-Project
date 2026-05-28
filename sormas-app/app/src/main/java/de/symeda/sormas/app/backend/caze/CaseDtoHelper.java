@@ -22,6 +22,8 @@ import de.symeda.sormas.api.caze.CaseDataDto;
 import de.symeda.sormas.api.caze.CaseReferenceDto;
 import de.symeda.sormas.api.person.PersonReferenceDto;
 import de.symeda.sormas.api.symptoms.SymptomsDto;
+import de.symeda.sormas.app.backend.afpimmunization.AfpImmunization;
+import de.symeda.sormas.app.backend.afpimmunization.AfpImmunizationDtoHelper;
 import de.symeda.sormas.app.backend.caze.maternalhistory.MaternalHistoryDtoHelper;
 import de.symeda.sormas.app.backend.caze.porthealthinfo.PortHealthInfoDtoHelper;
 import de.symeda.sormas.app.backend.clinicalcourse.ClinicalCourse;
@@ -61,6 +63,7 @@ public class CaseDtoHelper extends PersonDependentDtoHelper<Case, CaseDataDto> {
 
 	private SymptomsDtoHelper symptomsDtoHelper = new SymptomsDtoHelper();
 	private HospitalizationDtoHelper hospitalizationDtoHelper = new HospitalizationDtoHelper();
+	private AfpImmunizationDtoHelper afpImmunizationDtoHelper = new AfpImmunizationDtoHelper();
 	private EpiDataDtoHelper epiDataDtoHelper = new EpiDataDtoHelper();
 	private TherapyDtoHelper therapyDtoHelper = new TherapyDtoHelper();
 	private ClinicalCourseDtoHelper clinicalCourseDtoHelper = new ClinicalCourseDtoHelper();
@@ -141,6 +144,7 @@ public class CaseDtoHelper extends PersonDependentDtoHelper<Case, CaseDataDto> {
 		target.setPointOfEntryDetails(source.getPointOfEntryDetails());
 
 		target.setHospitalization(hospitalizationDtoHelper.fillOrCreateFromDto(target.getHospitalization(), source.getHospitalization()));
+		target.setAfpImmunization(afpImmunizationDtoHelper.fillOrCreateFromDto(target.getAfpImmunization(), source.getAfpImmunization()));
 		target.setEpiData(epiDataDtoHelper.fillOrCreateFromDto(target.getEpiData(), source.getEpiData()));
 		target.setTherapy(therapyDtoHelper.fillOrCreateFromDto(target.getTherapy(), source.getTherapy()));
 		target.setClinicalCourse(clinicalCourseDtoHelper.fillOrCreateFromDto(target.getClinicalCourse(), source.getClinicalCourse()));
@@ -449,6 +453,13 @@ public class CaseDtoHelper extends PersonDependentDtoHelper<Case, CaseDataDto> {
 			target.setHospitalization(hospitalizationDtoHelper.adoToDto(hospitalization));
 		} else {
 			target.setHospitalization(null);
+		}
+
+		if (source.getAfpImmunization() != null) {
+			AfpImmunization afpImmunization = DatabaseHelper.getAfpImmunizationDao().queryForId(source.getAfpImmunization().getId());
+			target.setAfpImmunization(afpImmunizationDtoHelper.adoToDto(afpImmunization));
+		} else {
+			target.setAfpImmunization(null);
 		}
 
 		if (source.getEpiData() != null) {

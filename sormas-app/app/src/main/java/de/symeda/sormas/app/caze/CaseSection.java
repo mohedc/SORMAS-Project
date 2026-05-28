@@ -28,6 +28,7 @@ public enum CaseSection
 	PERSON_INFO(R.string.caption_person_information, R.drawable.ic_person_black_24dp),
 	MATERNAL_HISTORY(R.string.caption_case_maternal_history, R.drawable.ic_pregnant_woman_black_24dp),
 	HOSPITALIZATION(R.string.caption_case_hospitalization, R.drawable.ic_local_hospital_black_24dp),
+	AFP_IMMUNIZATION(R.string.caption_case_afp_immunization, R.drawable.ic_drawer_immunization_24dp),
 	PORT_HEALTH_INFO(R.string.caption_case_port_health_info, R.drawable.ic_transfer_case_24dp),
 	SYMPTOMS(R.string.caption_symptoms, R.drawable.ic_healing_black_24dp),
 	HEALTH_CONDITIONS(R.string.caption_case_health_conditions, R.drawable.ic_dvr_black_24dp),

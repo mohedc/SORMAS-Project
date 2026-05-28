@@ -37,6 +37,7 @@ import de.symeda.sormas.app.backend.caze.CaseEditAuthorization;
 import de.symeda.sormas.app.backend.common.DatabaseHelper;
 import de.symeda.sormas.app.backend.config.ConfigProvider;
 import de.symeda.sormas.app.backend.user.UserRole;
+import de.symeda.sormas.app.afpimmunization.CaseReadAfpImmunizationFragment;
 import de.symeda.sormas.app.caze.CaseSection;
 import de.symeda.sormas.app.caze.edit.CaseEditActivity;
 import de.symeda.sormas.app.component.menu.PageMenuItem;
@@ -73,6 +74,9 @@ public class CaseReadActivity extends BaseReadActivity<Case> {
 		List<PageMenuItem> menuItems = PageMenuItem.fromEnum(CaseSection.values(), getContext());
 		Case caze = getStoredRootEntity();
 		// Sections must be removed in reverse order
+		if (caze == null || caze.getDisease() != Disease.AFP) {
+			menuItems.set(CaseSection.AFP_IMMUNIZATION.ordinal(), null);
+		}
 		if (DatabaseHelper.getFeatureConfigurationDao().isFeatureDisabled(FeatureType.TASK_MANAGEMENT)) {
 			menuItems.set(CaseSection.TASKS.ordinal(), null);
 		}
@@ -158,6 +162,9 @@ public class CaseReadActivity extends BaseReadActivity<Case> {
 			break;
 		case HOSPITALIZATION:
 			fragment = CaseReadHospitalizationFragment.newInstance(activityRootData);
+			break;
+		case AFP_IMMUNIZATION:
+			fragment = CaseReadAfpImmunizationFragment.newInstance(activityRootData);
 			break;
 		case PORT_HEALTH_INFO:
 			fragment = CaseReadPortHealthInfoFragment.newInstance(activityRootData);

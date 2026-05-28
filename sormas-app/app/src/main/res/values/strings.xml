@@ -149,6 +149,7 @@
     <string name="caption_case_samples">Case Samples</string>
     <string name="caption_case_tasks">Case Tasks</string>
     <string name="caption_case_events">Case Events</string>
+    <string name="caption_case_afp_immunization">Immunization</string>
     <string name="caption_case_immunizations">Case Immunizations</string>
     <string name="caption_case_vaccinations">Case Vaccinations</string>
     <string name="caption_case_treatments">Treatments</string>
