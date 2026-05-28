@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Optional;
 
 import android.util.Log;
+import android.view.View;
 import android.webkit.WebView;
 
 import androidx.fragment.app.FragmentActivity;
@@ -35,6 +36,7 @@ import androidx.fragment.app.FragmentActivity;
 import de.symeda.sormas.api.CountryHelper;
 import de.symeda.sormas.api.Disease;
 import de.symeda.sormas.api.FormType;
+import de.symeda.sormas.api.i18n.I18nProperties;
 import de.symeda.sormas.api.caze.CaseClassification;
 import de.symeda.sormas.api.caze.CaseConfirmationBasis;
 import de.symeda.sormas.api.caze.CaseDataDto;
@@ -84,6 +86,7 @@ import de.symeda.sormas.app.backend.user.User;
 import de.symeda.sormas.app.backend.user.UserRole;
 import de.symeda.sormas.app.component.Item;
 import de.symeda.sormas.app.component.controls.ControlPropertyField;
+import de.symeda.sormas.app.component.controls.ControlDateField;
 import de.symeda.sormas.app.component.controls.ControlSwitchField;
 import de.symeda.sormas.app.component.controls.ControlTextEditField;
 import de.symeda.sormas.app.component.controls.ValueChangeListener;
@@ -139,6 +142,7 @@ public class CaseEditFragment extends BaseEditFragment<FragmentCaseEditLayoutBin
 	private List<Item> vaccineTypeList;
 
 	private boolean differentPlaceOfStayJurisdiction;
+	private boolean meningitisHandlersRegistered;
 
 	// Static methods
 
@@ -243,18 +247,6 @@ public class CaseEditFragment extends BaseEditFragment<FragmentCaseEditLayoutBin
 			contentBinding.caseDataAtLeastOneYellowFeverDose.setVisibility(VISIBLE);
 		} else {
 			contentBinding.caseDataAtLeastOneYellowFeverDose.setVisibility(GONE);
-		}
-
-		if (disease == Disease.CSM) {
-			// MENINGITIS_LAYOUT fields
-			contentBinding.caseDataCaseReferenceNumber.setVisibility(VISIBLE);
-			contentBinding.caseDataRegionLevelDate.setVisibility(VISIBLE);
-			contentBinding.caseDataNationalLevelDate.setVisibility(VISIBLE);
-			contentBinding.caseDataArrivalAtRegionalPublicHealthOfficeDate.setVisibility(VISIBLE);
-			contentBinding.caseDataArrivalAtNationalLevelDate.setVisibility(VISIBLE);
-			contentBinding.caseDataVaccineType.setVisibility(VISIBLE);
-			contentBinding.caseDataHealthWorkerCompletingForm.setVisibility(VISIBLE);
-			contentBinding.caseDataCsmExtendedSection.setVisibility(VISIBLE);
 		}
 
 		// RUBELLA_LAYOUT - dateOfNotification already exists, visibility handled by field visibility checkers
@@ -717,6 +709,9 @@ public class CaseEditFragment extends BaseEditFragment<FragmentCaseEditLayoutBin
 		if (disease == Disease.NEONATAL_TETANUS) {
 			handleNNT();
 		}
+		if (disease == Disease.CSM) {
+			handleMeningitis();
+		}
 	}
 
 	private void fillConfirmedCaseClassificationCombo() {
@@ -864,6 +859,13 @@ public class CaseEditFragment extends BaseEditFragment<FragmentCaseEditLayoutBin
 		);
 
 		updateVaccinationRecordTypeForDisease(contentBinding);
+		Disease disease = record.getDisease();
+		if (disease == null) {
+			disease = (Disease) contentBinding.caseDataDisease.getValue();
+		}
+		if (disease == Disease.CSM) {
+			handleMeningitis();
+		}
 	}
 
 	private void updateDiseaseVariantsField(FragmentCaseEditLayoutBinding contentBinding) {
@@ -903,6 +905,9 @@ public class CaseEditFragment extends BaseEditFragment<FragmentCaseEditLayoutBin
 			ControlSwitchField vaccinationRecordTypeField = contentBinding.caseDataVaccinationRecordType;
 			vaccinationRecordTypeField.setEnumClass(VaccinationRecordType.class);
 			vaccinationRecordTypeField.setValue(record.getVaccinationRecordType());
+		}
+		if (disease == Disease.CSM) {
+			handleMeningitis();
 		}
 	}
 
@@ -969,6 +974,131 @@ public class CaseEditFragment extends BaseEditFragment<FragmentCaseEditLayoutBin
 			}
 		});
 		contentBinding.caseDataNumberOfVaccinationDoses.setCaption("Number of vaccine doses received:");
+	}
+
+
+	private boolean isCsmCaseVaccinated(FragmentCaseEditLayoutBinding contentBinding) {
+		return VaccinationStatus.VACCINATED.equals(contentBinding.caseDataVaccinated.getValue())
+			|| VaccinationStatus.VACCINATED.equals(contentBinding.caseDataVaccinationStatus.getValue());
+	}
+
+	private void setFieldAndParentsVisible(View field, View sectionRoot) {
+		View view = field;
+		while (view != null && view != sectionRoot) {
+			view.setVisibility(VISIBLE);
+			if (!(view.getParent() instanceof View)) {
+				break;
+			}
+			view = (View) view.getParent();
+		}
+	}
+
+	private void handleMeningitis() {
+		FragmentCaseEditLayoutBinding contentBinding = getContentBinding();
+		View csmSection = contentBinding.caseDataCsmExtendedSection;
+		csmSection.setVisibility(VISIBLE);
+		contentBinding.caseDataNumberOfVaccinationDoses.setVisibility(GONE);
+
+		// Field ids with underscores (pcvi3_2, pcv13_3) resolve to wrong auto-captions ("2", "3")
+		contentBinding.caseDataPcvi32.setCaption(
+			I18nProperties.getPrefixCaption(CaseDataDto.I18N_PREFIX, CaseDataDto.PCVI3_2));
+		contentBinding.caseDataPcvi32Date.setCaption(
+			I18nProperties.getPrefixCaption(CaseDataDto.I18N_PREFIX, CaseDataDto.PCVI3_2_DATE));
+		contentBinding.caseDataPcv133.setCaption(
+			I18nProperties.getPrefixCaption(CaseDataDto.I18N_PREFIX, CaseDataDto.PCV13_3));
+		contentBinding.caseDataPcv133Date.setCaption(
+			I18nProperties.getPrefixCaption(CaseDataDto.I18N_PREFIX, CaseDataDto.PCV13_3_DATE));
+
+		ControlSwitchField[] vaccineFields = {
+			contentBinding.caseDataMenac,
+			contentBinding.caseDataMenacw,
+			contentBinding.caseDataMenacwy,
+			contentBinding.caseDataMenaConjunate,
+			contentBinding.caseDataPcvi3I,
+			contentBinding.caseDataPcvi32,
+			contentBinding.caseDataPcv133,
+			contentBinding.caseDataHibI,
+			contentBinding.caseDataHib2,
+			contentBinding.caseDataHib3
+		};
+		ControlDateField[] vaccineDateFields = {
+			contentBinding.caseDataMenacDate,
+			contentBinding.caseDataMenacwDate,
+			contentBinding.caseDataMenacwyDate,
+			contentBinding.caseDataMenaConjunateDate,
+			contentBinding.caseDataPcvi3IDate,
+			contentBinding.caseDataPcvi32Date,
+			contentBinding.caseDataPcv133Date,
+			contentBinding.caseDataHibIDate,
+			contentBinding.caseDataHib2Date,
+			contentBinding.caseDataHib3Date
+		};
+
+		View vaccinationRecordTypeLayout = contentBinding.getRoot()
+			.findViewById(R.id.caseData_vaccinationRecordType_numberOfVaccinationDoses_layout);
+
+		Runnable updateVaccinatedVisibility = () -> {
+			Disease disease = (Disease) contentBinding.caseDataDisease.getValue();
+			if (disease == null) {
+				disease = record.getDisease();
+			}
+			if (disease != Disease.CSM) {
+				return;
+			}
+			boolean show = isCsmCaseVaccinated(contentBinding);
+			ControlSwitchField vaccinationRecordType = contentBinding.caseDataVaccinationRecordType;
+
+			if (vaccinationRecordTypeLayout != null) {
+				vaccinationRecordTypeLayout.setVisibility(show ? VISIBLE : GONE);
+			}
+			if (show) {
+				vaccinationRecordType.setVisibility(VISIBLE);
+			} else {
+				vaccinationRecordType.hideField(true);
+			}
+			vaccinationRecordType.setRequired(show);
+
+			for (ControlSwitchField vaccineField : vaccineFields) {
+				if (show) {
+					setFieldAndParentsVisible(vaccineField, csmSection);
+					vaccineField.setVisibility(VISIBLE);
+				} else {
+					vaccineField.hideField(true);
+				}
+			}
+			if (!show) {
+				for (ControlDateField dateField : vaccineDateFields) {
+					dateField.hideField(true);
+				}
+			} else {
+				for (int i = 0; i < vaccineFields.length; i++) {
+					if (YesNoUnknown.YES.equals(vaccineFields[i].getValue())) {
+						setFieldAndParentsVisible(vaccineDateFields[i], csmSection);
+						vaccineDateFields[i].setVisibility(VISIBLE);
+					}
+				}
+			}
+		};
+
+		if (!meningitisHandlersRegistered) {
+			ValueChangeListener vaccinationVisibilityListener = field -> updateVaccinatedVisibility.run();
+			contentBinding.caseDataVaccinated.addValueChangedListener(vaccinationVisibilityListener);
+			contentBinding.caseDataVaccinationStatus.addValueChangedListener(vaccinationVisibilityListener);
+
+			setVisibleWhen(contentBinding.caseDataMenacDate, contentBinding.caseDataMenac, YesNoUnknown.YES);
+			setVisibleWhen(contentBinding.caseDataMenacwDate, contentBinding.caseDataMenacw, YesNoUnknown.YES);
+			setVisibleWhen(contentBinding.caseDataMenacwyDate, contentBinding.caseDataMenacwy, YesNoUnknown.YES);
+			setVisibleWhen(contentBinding.caseDataMenaConjunateDate, contentBinding.caseDataMenaConjunate, YesNoUnknown.YES);
+			setVisibleWhen(contentBinding.caseDataPcvi3IDate, contentBinding.caseDataPcvi3I, YesNoUnknown.YES);
+			setVisibleWhen(contentBinding.caseDataPcvi32Date, contentBinding.caseDataPcvi32, YesNoUnknown.YES);
+			setVisibleWhen(contentBinding.caseDataPcv133Date, contentBinding.caseDataPcv133, YesNoUnknown.YES);
+			setVisibleWhen(contentBinding.caseDataHibIDate, contentBinding.caseDataHibI, YesNoUnknown.YES);
+			setVisibleWhen(contentBinding.caseDataHib2Date, contentBinding.caseDataHib2, YesNoUnknown.YES);
+			setVisibleWhen(contentBinding.caseDataHib3Date, contentBinding.caseDataHib3, YesNoUnknown.YES);
+
+			meningitisHandlersRegistered = true;
+		}
+		updateVaccinatedVisibility.run();
 	}
 
 	@Override
