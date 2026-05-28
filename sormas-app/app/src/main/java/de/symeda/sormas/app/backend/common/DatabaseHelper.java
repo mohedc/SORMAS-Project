@@ -196,7 +196,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	public static final String DATABASE_NAME = "sormas.db";
 	// any time you make changes to your database objects, you may have to increase the database version
 
-	public static final int DATABASE_VERSION = 393;
+	public static final int DATABASE_VERSION = 394;
 
 	private static DatabaseHelper instance = null;
 
@@ -3574,6 +3574,19 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 				getDao(Person.class).executeRaw("ALTER TABLE person ADD COLUMN birthInInstitution VARCHAR(255);");
 				getDao(Person.class).executeRaw("ALTER TABLE person ADD COLUMN receivedAntenatalCareWhere VARCHAR(255);");
 				getDao(Symptoms.class).executeRaw("ALTER TABLE symptoms ADD COLUMN signsOfOnsetDays Integer;");
+			case 393:
+				currentVersion = 393;
+				getDao(Symptoms.class).executeRaw("ALTER TABLE symptoms ADD COLUMN feverOnsetParalysis varchar(255);");
+				getDao(Symptoms.class).executeRaw("ALTER TABLE symptoms ADD COLUMN progressiveParalysis varchar(255);");
+				getDao(Symptoms.class).executeRaw("ALTER TABLE symptoms ADD COLUMN progressiveFlaccidAcute varchar(255);");
+				getDao(Symptoms.class).executeRaw("ALTER TABLE symptoms ADD COLUMN assymetric varchar(255);");
+				getDao(Symptoms.class).executeRaw("ALTER TABLE symptoms ADD COLUMN dateOnsetParalysis INTEGER;");
+				getDao(Symptoms.class).executeRaw("ALTER TABLE symptoms ADD COLUMN requestedSiteOfParalysisString varchar(512);");
+				getDao(Symptoms.class).executeRaw("ALTER TABLE symptoms ADD COLUMN paralysedLimbSensitiveToPain varchar(255);");
+				getDao(Symptoms.class).executeRaw("ALTER TABLE symptoms ADD COLUMN injectionSiteBeforeOnsetParalysis varchar(255);");
+				getDao(Symptoms.class).executeRaw("ALTER TABLE symptoms ADD COLUMN injectionSiteString varchar(512);");
+				getDao(Symptoms.class).executeRaw("ALTER TABLE symptoms ADD COLUMN provisionalDiagnosis varchar(512);");
+				getDao(Symptoms.class).executeRaw("ALTER TABLE symptoms ADD COLUMN trueAfp varchar(255);");
 
 				// ATTENTION: break should only be done after last version
 				break;
