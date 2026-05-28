@@ -42,6 +42,7 @@
             android:id="@+id/main_content">
 
             <LinearLayout
+                android:id="@+id/maternalHistory_childrenNumberLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -66,6 +67,7 @@
                 style="@style/ControlSingleColumnStyle" />
 
             <LinearLayout
+                android:id="@+id/maternalHistory_conjunctivitisLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -77,13 +79,13 @@
                     app:dependencyParentValue="@{YesNoUnknown.YES}"
                     style="@style/ControlFirstOfTwoColumnsStyle" />
 
-                <de.symeda.sormas.app.component.controls.ControlTextEditField
+                <!-- <de.symeda.sormas.app.component.controls.ControlTextEditField
                     android:id="@+id/maternalHistory_conjunctivitisMonth"
                     app:value="@={data.conjunctivitisMonth}"
                     app:inputType="number"
                     app:dependencyParentField="@{maternalHistoryConjunctivitis}"
                     app:dependencyParentValue="@{YesNoUnknown.YES}"
-                    style="@style/ControlSecondOfTwoColumnsStyle" />
+                    style="@style/ControlSecondOfTwoColumnsStyle" /> -->
 
             </LinearLayout>
 
@@ -93,6 +95,7 @@
                 style="@style/ControlSingleColumnStyle" />
 
             <LinearLayout
+                android:id="@+id/maternalHistory_maculopapularRashLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -104,13 +107,13 @@
                     app:dependencyParentValue="@{YesNoUnknown.YES}"
                     style="@style/ControlFirstOfTwoColumnsStyle" />
 
-                <de.symeda.sormas.app.component.controls.ControlTextEditField
+                <!-- <de.symeda.sormas.app.component.controls.ControlTextEditField
                     android:id="@+id/maternalHistory_maculopapularRashMonth"
                     app:value="@={data.maculopapularRashMonth}"
                     app:inputType="number"
                     app:dependencyParentField="@{maternalHistoryMaculopapularRash}"
                     app:dependencyParentValue="@{YesNoUnknown.YES}"
-                    style="@style/ControlSecondOfTwoColumnsStyle" />
+                    style="@style/ControlSecondOfTwoColumnsStyle" /> -->
 
             </LinearLayout>
 
@@ -120,6 +123,7 @@
                 style="@style/ControlSingleColumnStyle" />
 
             <LinearLayout
+                android:id="@+id/maternalHistory_swollenLymphsLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -131,13 +135,13 @@
                     app:dependencyParentValue="@{YesNoUnknown.YES}"
                     style="@style/ControlFirstOfTwoColumnsStyle" />
 
-                <de.symeda.sormas.app.component.controls.ControlTextEditField
+                <!-- <de.symeda.sormas.app.component.controls.ControlTextEditField
                     android:id="@+id/maternalHistory_swollenLymphsMonth"
                     app:value="@={data.swollenLymphsMonth}"
                     app:inputType="number"
                     app:dependencyParentField="@{maternalHistorySwollenLymphs}"
                     app:dependencyParentValue="@{YesNoUnknown.YES}"
-                    style="@style/ControlSecondOfTwoColumnsStyle" />
+                    style="@style/ControlSecondOfTwoColumnsStyle" /> -->
 
             </LinearLayout>
 
@@ -147,6 +151,7 @@
                 style="@style/ControlSingleColumnStyle" />
 
             <LinearLayout
+                android:id="@+id/maternalHistory_arthralgiaArthritisLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -158,13 +163,13 @@
                     app:dependencyParentValue="@{YesNoUnknown.YES}"
                     style="@style/ControlFirstOfTwoColumnsStyle" />
 
-                <de.symeda.sormas.app.component.controls.ControlTextEditField
+                <!-- <de.symeda.sormas.app.component.controls.ControlTextEditField
                     android:id="@+id/maternalHistory_arthralgiaArthritisMonth"
                     app:value="@{data.arthralgiaArthritisMonth}"
                     app:inputType="number"
                     app:dependencyParentField="@{maternalHistoryArthralgiaArthritis}"
                     app:dependencyParentValue="@{YesNoUnknown.YES}"
-                    style="@style/ControlSecondOfTwoColumnsStyle" />
+                    style="@style/ControlSecondOfTwoColumnsStyle" /> -->
 
             </LinearLayout>
 
@@ -174,6 +179,7 @@
                 style="@style/ControlSingleColumnStyle" />
 
             <LinearLayout
+                android:id="@+id/maternalHistory_otherComplicationsLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -185,13 +191,13 @@
                     app:dependencyParentValue="@{YesNoUnknown.YES}"
                     style="@style/ControlFirstOfTwoColumnsStyle" />
 
-                <de.symeda.sormas.app.component.controls.ControlTextEditField
+                <!-- <de.symeda.sormas.app.component.controls.ControlTextEditField
                     android:id="@+id/maternalHistory_otherComplicationsMonth"
                     app:value="@={data.otherComplicationsMonth}"
                     app:inputType="number"
                     app:dependencyParentField="@{maternalHistoryOtherComplications}"
                     app:dependencyParentValue="@{YesNoUnknown.YES}"
-                    style="@style/ControlSecondOfTwoColumnsStyle" />
+                    style="@style/ControlSecondOfTwoColumnsStyle" /> -->
 
             </LinearLayout>
 
@@ -203,6 +209,7 @@
                 style="@style/ControlSingleColumnStyle" />
 
             <LinearLayout
+                android:id="@+id/maternalHistory_rubellaLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -222,6 +229,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/maternalHistory_rashExposureLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -241,17 +249,18 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/maternalHistory_rashExposureMonthLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <de.symeda.sormas.app.component.controls.ControlTextEditField
+                <!-- <de.symeda.sormas.app.component.controls.ControlTextEditField
                     android:id="@+id/maternalHistory_rashExposureMonth"
                     app:value="@={data.rashExposureMonth}"
                     app:inputType="number"
                     app:dependencyParentField="@{maternalHistoryRashExposure}"
                     app:dependencyParentValue="@{YesNoUnknown.YES}"
-                    style="@style/ControlFirstOfTwoColumnsStyle" />
+                    style="@style/ControlFirstOfTwoColumnsStyle" /> -->
 
                 <de.symeda.sormas.app.component.controls.InfrastructureSpinnerField
                     android:id="@+id/maternalHistory_rashExposureRegion"
@@ -263,6 +272,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/maternalHistory_rashExposureDistrictLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -283,10 +293,11 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+<!--            <LinearLayout-->
+<!--                android:id="@+id/maternalHistory_rubellaVaccinationLayout"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="horizontal">-->
 
                 <de.symeda.sormas.app.component.controls.ControlSwitchField
                     android:id="@+id/maternalHistory_rubellaVaccination"
@@ -300,7 +311,7 @@
                     app:dependencyParentValue="@{YesNoUnknown.YES}"
                     style="@style/ControlSecondOfTwoColumnsStyle" />
 
-            </LinearLayout>
+<!--            </LinearLayout>-->
 
             <de.symeda.sormas.app.component.controls.ControlTextEditField
                 android:id="@+id/maternalHistory_rubellaMonth"
@@ -309,6 +320,7 @@
                 style="@style/ControlSingleColumnStyle" />
 
             <LinearLayout
+                android:id="@+id/maternalHistory_motherRubellaLabConfirmedLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -339,6 +351,7 @@
                 style="@style/ControlSingleColumnStyle" />
 
             <LinearLayout
+                android:id="@+id/maternalHistory_gestationalAgeAtExposureLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">

@@ -18,8 +18,12 @@ package de.symeda.sormas.app.caze.edit;
 import java.util.List;
 
 import android.content.res.Resources;
+import android.view.View;
 
+import de.symeda.sormas.api.Disease;
+import de.symeda.sormas.api.FormType;
 import de.symeda.sormas.api.caze.maternalhistory.MaternalHistoryDto;
+import de.symeda.sormas.api.utils.YesNoUnknown;
 import de.symeda.sormas.api.utils.fieldaccess.UiFieldAccessCheckers;
 import de.symeda.sormas.app.BaseEditFragment;
 import de.symeda.sormas.app.R;
@@ -27,6 +31,8 @@ import de.symeda.sormas.app.backend.caze.Case;
 import de.symeda.sormas.app.backend.caze.maternalhistory.MaternalHistory;
 import de.symeda.sormas.app.backend.config.ConfigProvider;
 import de.symeda.sormas.app.component.Item;
+import de.symeda.sormas.app.component.controls.ControlPropertyField;
+import de.symeda.sormas.app.component.controls.ValueChangeListener;
 import de.symeda.sormas.app.databinding.FragmentCaseEditMaternalHistoryLayoutBinding;
 import de.symeda.sormas.app.util.InfrastructureDaoHelper;
 import de.symeda.sormas.app.util.InfrastructureFieldsDependencyHandler;
@@ -87,6 +93,7 @@ public class CaseEditMaternalHistoryFragment extends BaseEditFragment<FragmentCa
 		contentBinding.maternalHistoryMotherTraveledDuringPregnancyDate.initializeDateField(getFragmentManager());
 
 		setFieldVisibilitiesAndAccesses(MaternalHistoryDto.class, contentBinding.mainContent);
+		
 
 		List<Item> initialRegions = InfrastructureDaoHelper.loadRegionsByServerCountry();
 		List<Item> initialDistricts = InfrastructureDaoHelper.loadDistricts(record.getRashExposureRegion());
@@ -101,6 +108,65 @@ public class CaseEditMaternalHistoryFragment extends BaseEditFragment<FragmentCa
 			contentBinding.maternalHistoryRashExposureCommunity,
 			initialCommunities,
 			record.getRashExposureCommunity());
+
+
+		Disease disease = getActivityRootData().getDisease();
+		if (disease != null) {
+			super.hideFieldsForDisease(disease, contentBinding.mainContent, FormType.MATERNAL_HISTORY_EDIT);
+			if (disease == Disease.CONGENITAL_RUBELLA) {
+				handleCongenitalRubella(contentBinding);
+			}
+		}
+
+
+	}
+
+	public void handleCongenitalRubella(FragmentCaseEditMaternalHistoryLayoutBinding contentBinding) {
+		
+		// listerner
+		//conjunctivitis, maculopapularRash, swollenLymphs, arthralgiaArthritis, otherComplications
+		// conjunctivitis date onset
+		contentBinding.maternalHistoryConjunctivitisOnset.setVisibility(contentBinding.maternalHistoryConjunctivitis.getValue() == YesNoUnknown.YES ? View.VISIBLE : View.GONE);
+		contentBinding.maternalHistoryMaculopapularRashOnset.setVisibility(contentBinding.maternalHistoryMaculopapularRash.getValue() == YesNoUnknown.YES ? View.VISIBLE : View.GONE);
+		contentBinding.maternalHistorySwollenLymphsOnset.setVisibility(contentBinding.maternalHistorySwollenLymphs.getValue() == YesNoUnknown.YES ? View.VISIBLE : View.GONE);
+		contentBinding.maternalHistoryArthralgiaArthritisOnset.setVisibility(contentBinding.maternalHistoryArthralgiaArthritis.getValue() == YesNoUnknown.YES ? View.VISIBLE : View.GONE);
+		contentBinding.maternalHistoryOtherComplicationsOnset.setVisibility(contentBinding.maternalHistoryOtherComplications.getValue() == YesNoUnknown.YES ? View.VISIBLE : View.GONE);
+		// 
+				contentBinding.maternalHistoryOtherComplicationsDetails.setVisibility(contentBinding.maternalHistoryOtherComplications.getValue() == YesNoUnknown.YES ? View.VISIBLE : View.GONE);
+
+
+		contentBinding.maternalHistoryConjunctivitis.addValueChangedListener(new ValueChangeListener() {
+			@Override
+			public void onChange(ControlPropertyField field) {
+				contentBinding.maternalHistoryConjunctivitisOnset.setVisibility(contentBinding.maternalHistoryConjunctivitis.getValue() == YesNoUnknown.YES ? View.VISIBLE : View.	GONE);
+			}
+		});
+		contentBinding.maternalHistoryMaculopapularRash.addValueChangedListener(new ValueChangeListener() {
+			@Override
+			public void onChange(ControlPropertyField field) {
+				contentBinding.maternalHistoryMaculopapularRashOnset.setVisibility(contentBinding.maternalHistoryMaculopapularRash.getValue() == YesNoUnknown.YES ? View.VISIBLE : View.GONE);
+			}
+		});
+		contentBinding.maternalHistorySwollenLymphs.addValueChangedListener(new ValueChangeListener() {
+			@Override
+			public void onChange(ControlPropertyField field) {
+				contentBinding.maternalHistorySwollenLymphsOnset.setVisibility(contentBinding.maternalHistorySwollenLymphs.getValue() == YesNoUnknown.YES ? View.VISIBLE : View.GONE);
+			}
+		});
+		contentBinding.maternalHistoryArthralgiaArthritis.addValueChangedListener(new ValueChangeListener() {
+
+			@Override
+			public void onChange(ControlPropertyField field) {
+				contentBinding.maternalHistoryOtherComplicationsOnset.setVisibility(contentBinding.maternalHistoryOtherComplications.getValue() == YesNoUnknown.YES ? View.VISIBLE : View.GONE);
+			}
+		});
+		contentBinding.maternalHistoryOtherComplications.addValueChangedListener(new ValueChangeListener() {
+			@Override
+			public void onChange(ControlPropertyField field) {
+				contentBinding.maternalHistoryOtherComplicationsOnset.setVisibility(contentBinding.maternalHistoryOtherComplications.getValue() == YesNoUnknown.YES ? View.VISIBLE : View.GONE);
+				// contentBinding.maternalHistoryOtherComplicationsDetails.setVisibility(contentBinding.maternalHistoryOtherComplications.getValue() == YesNoUnknown.YES ? View.VISIBLE : View.GONE);
+			}
+		});
 	}
 
 	@Override
