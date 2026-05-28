@@ -164,7 +164,20 @@ public class CaseEditMaternalHistoryFragment extends BaseEditFragment<FragmentCa
 			@Override
 			public void onChange(ControlPropertyField field) {
 				contentBinding.maternalHistoryOtherComplicationsOnset.setVisibility(contentBinding.maternalHistoryOtherComplications.getValue() == YesNoUnknown.YES ? View.VISIBLE : View.GONE);
-				// contentBinding.maternalHistoryOtherComplicationsDetails.setVisibility(contentBinding.maternalHistoryOtherComplications.getValue() == YesNoUnknown.YES ? View.VISIBLE : View.GONE);
+			}
+		});
+
+		// motherTraveledDuringPregnancy
+		contentBinding.maternalHistoryMotherTraveledDuringPregnancyDate.setVisibility(contentBinding.maternalHistoryMotherTraveledDuringPregnancy.getValue() == YesNoUnknown.YES ? View.VISIBLE : View.GONE);
+		contentBinding.maternalHistoryGestationalAgeAtTravel.setVisibility(contentBinding.maternalHistoryMotherTraveledDuringPregnancy.getValue() == YesNoUnknown.YES ? View.VISIBLE : View.GONE);
+		contentBinding.maternalHistoryTravelLocationDescription.setVisibility(contentBinding.maternalHistoryMotherTraveledDuringPregnancy.getValue() == YesNoUnknown.YES ? View.VISIBLE : View.GONE);
+
+		contentBinding.maternalHistoryMotherTraveledDuringPregnancy.addValueChangedListener(new ValueChangeListener() {
+			@Override
+			public void onChange(ControlPropertyField field) {
+				contentBinding.maternalHistoryGestationalAgeAtTravel.setVisibility(contentBinding.maternalHistoryMotherTraveledDuringPregnancy.getValue() == YesNoUnknown.YES ? View.VISIBLE : View.GONE);
+				contentBinding.maternalHistoryTravelLocationDescription.setVisibility(contentBinding.maternalHistoryMotherTraveledDuringPregnancy.getValue() == YesNoUnknown.YES ? View.VISIBLE : View.GONE);
+				contentBinding.maternalHistoryMotherTraveledDuringPregnancyDate.setVisibility(contentBinding.maternalHistoryMotherTraveledDuringPregnancy.getValue() == YesNoUnknown.YES ? View.VISIBLE : View.GONE);
 			}
 		});
 	}

@@ -204,8 +204,6 @@
             <de.symeda.sormas.app.component.controls.ControlTextEditField
                 android:id="@+id/maternalHistory_otherComplicationsDetails"
                 app:value="@={data.otherComplicationsDetails}"
-                app:dependencyParentField="@{maternalHistoryOtherComplications}"
-                app:dependencyParentValue="@{YesNoUnknown.YES}"
                 style="@style/ControlSingleColumnStyle" />
 
             <LinearLayout

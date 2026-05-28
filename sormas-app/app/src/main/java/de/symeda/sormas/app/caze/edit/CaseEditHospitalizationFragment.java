@@ -40,6 +40,8 @@ import de.symeda.sormas.app.backend.config.ConfigProvider;
 import de.symeda.sormas.app.backend.hospitalization.Hospitalization;
 import de.symeda.sormas.app.backend.hospitalization.PreviousHospitalization;
 import de.symeda.sormas.app.component.Item;
+import de.symeda.sormas.app.component.controls.ControlPropertyField;
+import de.symeda.sormas.app.component.controls.ValueChangeListener;
 import de.symeda.sormas.app.core.IEntryItemOnClickListener;
 import de.symeda.sormas.app.databinding.FragmentCaseEditHospitalizationLayoutBinding;
 import de.symeda.sormas.app.util.DataUtils;
@@ -212,6 +214,25 @@ public class CaseEditHospitalizationFragment extends BaseEditFragment<FragmentCa
 		if (caze.getDisease() != null && caze.getDisease() == Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS){
 			contentBinding.caseHospitalizationDateFirstSeenAtHealthFacility.setCaption("Date seen at health facility");
 			contentBinding.hospitalizationDateHealthRegionNotified.setCaption("Date Health Region Notified");
+		}
+		if (caze.getDisease() != null && caze.getDisease() == Disease.CONGENITAL_RUBELLA){
+
+
+			contentBinding.caseHospitalizationDateFirstSeenAtHealthFacility.setVisibility(contentBinding.caseHospitalizationSelectInpatientOutpatient.getValue() == InpatOutpat.OUTPATIENT || contentBinding.caseHospitalizationSelectInpatientOutpatient.getValue() == InpatOutpat.INPATIENT ? View.VISIBLE : View.GONE);
+			contentBinding.hospitalizationDateHealthRegionNotified.setVisibility(contentBinding.caseHospitalizationSelectInpatientOutpatient.getValue() == InpatOutpat.OUTPATIENT || contentBinding.caseHospitalizationSelectInpatientOutpatient.getValue() == InpatOutpat.INPATIENT ? View.VISIBLE : View.GONE);
+			// caseHospitalization_selectInpatientOutpatient
+			contentBinding.caseHospitalizationSelectInpatientOutpatient.addValueChangedListener(new ValueChangeListener() {
+				@Override
+				public void onChange(ControlPropertyField field) {
+					if (contentBinding.caseHospitalizationSelectInpatientOutpatient.getValue() == InpatOutpat.OUTPATIENT || contentBinding.caseHospitalizationSelectInpatientOutpatient.getValue() == InpatOutpat.INPATIENT) {
+						contentBinding.caseHospitalizationDateFirstSeenAtHealthFacility.setVisibility(View.VISIBLE);
+						contentBinding.hospitalizationDateHealthRegionNotified.setVisibility(View.VISIBLE);
+					} else {
+						contentBinding.caseHospitalizationDateFirstSeenAtHealthFacility.setVisibility(View.GONE);
+						contentBinding.hospitalizationDateHealthRegionNotified.setVisibility(View.GONE);
+					}
+				}
+			});
 		}
 
 		verifyPrevHospitalizationStatus();
