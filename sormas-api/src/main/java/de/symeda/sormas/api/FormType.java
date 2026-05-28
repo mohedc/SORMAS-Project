@@ -44,7 +44,8 @@ public enum FormType {
     EPI_LOCATION_EDIT,
     INVESTIGATION_NOTES_EDIT,
     FOLLOW_UP_VISITS,
-    CASE_CREATE_LOCATION;
+    CASE_CREATE_LOCATION,
+    AFP_IMMUNIZATION_EDIT;
 	@Override
 	public String toString() {
 		return I18nProperties.getEnumCaption(this);
