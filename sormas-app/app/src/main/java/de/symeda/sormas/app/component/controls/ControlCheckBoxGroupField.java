@@ -108,6 +108,7 @@ public class ControlCheckBoxGroupField extends ControlPropertyEditField<Object> 
 			if (inverseBindingListener != null) {
 				inverseBindingListener.onChange();
 			}
+			onValueChanged();
 		});
 		return checkBox;
 	}

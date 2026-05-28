@@ -49,10 +49,14 @@
         <import type="de.symeda.sormas.api.i18n.Strings" />
         <import type="de.symeda.sormas.api.disease.DiseaseVariant" />
         <import type="de.symeda.sormas.api.caze.IdsrType" />
+        <import type="de.symeda.sormas.api.utils.YesNo" />
+        <import type="de.symeda.sormas.api.sample.LpNotDoneReason" />
 
         <variable name="data" type="de.symeda.sormas.app.backend.caze.Case"/>
         <variable name="caseEditData" type="de.symeda.sormas.app.caze.edit.CaseEditFragment" />
         <variable name="yesNoUnknownClass" type="Class" />
+        <variable name="yesNoClass" type="Class" />
+        <variable name="lpNotDoneReasonClass" type="Class" />
         <variable name="vaccinationStatusClass" type="Class" />
         <variable name="routineVaccinationTypeClass" type="Class" />
         <variable name="vaccinationRecordTypeClass" type="Class" />
@@ -1518,6 +1522,33 @@
                     <de.symeda.sormas.app.component.controls.ControlDateField
                         android:id="@+id/caseData_dateFormReceivedAtNational"
                         app:value="@={data.dateFormReceivedAtNational}"
+                        style="@style/ControlSingleColumnStyle" />
+
+                    <TextView
+                        android:id="@+id/caseData_headingSampleCollectionInformation"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Sample Collection Information."
+                        style="@style/SubHeadingStyle" />
+
+                    <de.symeda.sormas.app.component.controls.ControlSwitchField
+                        android:id="@+id/caseData_csfSampleCollected"
+                        app:enumClass="@{yesNoClass}"
+                        app:value="@={data.csfSampleCollected}"
+                        style="@style/ControlSingleColumnStyle" />
+
+                    <de.symeda.sormas.app.component.controls.ControlCheckBoxGroupField
+                        android:id="@+id/caseData_lpNotDoneReason"
+                        app:enumClass="@{lpNotDoneReasonClass}"
+                        app:value="@={data.lpNotDoneReason}"
+                        app:dependencyParentField="@{caseDataCsfSampleCollected}"
+                        app:dependencyParentValue="@{YesNo.NO}"
+                        style="@style/ControlSingleColumnStyle" />
+
+                    <de.symeda.sormas.app.component.controls.ControlTextEditField
+                        android:id="@+id/caseData_lpNotDoneReasonOther"
+                        android:visibility="gone"
+                        app:value="@={data.lpNotDoneReasonOther}"
                         style="@style/ControlSingleColumnStyle" />
 
                 </LinearLayout>

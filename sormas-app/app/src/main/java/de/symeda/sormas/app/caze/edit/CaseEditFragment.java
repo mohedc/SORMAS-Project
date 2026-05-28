@@ -24,8 +24,10 @@ import static de.symeda.sormas.api.caze.CaseConfirmationBasis.LABORATORY_DIAGNOS
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import android.util.Log;
 import android.view.View;
@@ -69,6 +71,8 @@ import de.symeda.sormas.api.infrastructure.facility.FacilityDto;
 import de.symeda.sormas.api.infrastructure.facility.FacilityTypeGroup;
 import de.symeda.sormas.api.user.JurisdictionLevel;
 import de.symeda.sormas.api.user.UserRight;
+import de.symeda.sormas.api.sample.LpNotDoneReason;
+import de.symeda.sormas.api.utils.YesNo;
 import de.symeda.sormas.api.utils.YesNoUnknown;
 import de.symeda.sormas.api.utils.fieldaccess.UiFieldAccessCheckers;
 import de.symeda.sormas.api.utils.fieldvisibility.FieldVisibilityCheckers;
@@ -86,6 +90,7 @@ import de.symeda.sormas.app.backend.user.User;
 import de.symeda.sormas.app.backend.user.UserRole;
 import de.symeda.sormas.app.component.Item;
 import de.symeda.sormas.app.component.controls.ControlPropertyField;
+import de.symeda.sormas.app.component.controls.ControlCheckBoxGroupField;
 import de.symeda.sormas.app.component.controls.ControlDateField;
 import de.symeda.sormas.app.component.controls.ControlSwitchField;
 import de.symeda.sormas.app.component.controls.ControlTextEditField;
@@ -143,6 +148,7 @@ public class CaseEditFragment extends BaseEditFragment<FragmentCaseEditLayoutBin
 
 	private boolean differentPlaceOfStayJurisdiction;
 	private boolean meningitisHandlersRegistered;
+	private boolean updatingMeningitisVaccinationVisibility;
 
 	// Static methods
 
@@ -497,6 +503,8 @@ public class CaseEditFragment extends BaseEditFragment<FragmentCaseEditLayoutBin
 
 		contentBinding.setData(record);
 		contentBinding.setYesNoUnknownClass(YesNoUnknown.class);
+		contentBinding.setYesNoClass(YesNo.class);
+		contentBinding.setLpNotDoneReasonClass(LpNotDoneReason.class);
 		contentBinding.setVaccinationStatusClass(VaccinationStatus.class);
 		contentBinding.setRoutineVaccinationTypeClass(RoutineVaccinationType.class);
 		contentBinding.setVaccinationRecordTypeClass(VaccinationRecordType.class);
@@ -993,6 +1001,16 @@ public class CaseEditFragment extends BaseEditFragment<FragmentCaseEditLayoutBin
 		}
 	}
 
+	private void hideControlField(ControlPropertyField field, boolean eraseValue) {
+		if (field == null) {
+			return;
+		}
+		field.setVisibility(GONE);
+		if (eraseValue && field.getValue() != null) {
+			field.setValue(null);
+		}
+	}
+
 	private void handleMeningitis() {
 		FragmentCaseEditLayoutBinding contentBinding = getContentBinding();
 		View csmSection = contentBinding.caseDataCsmExtendedSection;
@@ -1038,50 +1056,62 @@ public class CaseEditFragment extends BaseEditFragment<FragmentCaseEditLayoutBin
 			.findViewById(R.id.caseData_vaccinationRecordType_numberOfVaccinationDoses_layout);
 
 		Runnable updateVaccinatedVisibility = () -> {
-			Disease disease = (Disease) contentBinding.caseDataDisease.getValue();
-			if (disease == null) {
-				disease = record.getDisease();
-			}
-			if (disease != Disease.CSM) {
+			if (updatingMeningitisVaccinationVisibility) {
 				return;
 			}
-			boolean show = isCsmCaseVaccinated(contentBinding);
-			ControlSwitchField vaccinationRecordType = contentBinding.caseDataVaccinationRecordType;
+			updatingMeningitisVaccinationVisibility = true;
+			try {
+				Disease disease = (Disease) contentBinding.caseDataDisease.getValue();
+				if (disease == null) {
+					disease = record.getDisease();
+				}
+				if (disease != Disease.CSM) {
+					return;
+				}
+				boolean show = isCsmCaseVaccinated(contentBinding);
+				ControlSwitchField vaccinationRecordType = contentBinding.caseDataVaccinationRecordType;
 
-			if (vaccinationRecordTypeLayout != null) {
-				vaccinationRecordTypeLayout.setVisibility(show ? VISIBLE : GONE);
-			}
-			if (show) {
-				vaccinationRecordType.setVisibility(VISIBLE);
-			} else {
-				vaccinationRecordType.hideField(true);
-			}
-			vaccinationRecordType.setRequired(show);
-
-			for (ControlSwitchField vaccineField : vaccineFields) {
+				if (vaccinationRecordTypeLayout != null) {
+					vaccinationRecordTypeLayout.setVisibility(show ? VISIBLE : GONE);
+				}
 				if (show) {
-					setFieldAndParentsVisible(vaccineField, csmSection);
-					vaccineField.setVisibility(VISIBLE);
+					vaccinationRecordType.setVisibility(VISIBLE);
 				} else {
-					vaccineField.hideField(true);
+					hideControlField(vaccinationRecordType, true);
 				}
-			}
-			if (!show) {
-				for (ControlDateField dateField : vaccineDateFields) {
-					dateField.hideField(true);
-				}
-			} else {
-				for (int i = 0; i < vaccineFields.length; i++) {
-					if (YesNoUnknown.YES.equals(vaccineFields[i].getValue())) {
-						setFieldAndParentsVisible(vaccineDateFields[i], csmSection);
-						vaccineDateFields[i].setVisibility(VISIBLE);
+				vaccinationRecordType.setRequired(show);
+
+				for (ControlSwitchField vaccineField : vaccineFields) {
+					if (show) {
+						setFieldAndParentsVisible(vaccineField, csmSection);
+						vaccineField.setVisibility(VISIBLE);
+					} else {
+						hideControlField(vaccineField, true);
 					}
 				}
+				if (!show) {
+					for (ControlDateField dateField : vaccineDateFields) {
+						hideControlField(dateField, true);
+					}
+				} else {
+					for (int i = 0; i < vaccineFields.length; i++) {
+						if (YesNoUnknown.YES.equals(vaccineFields[i].getValue())) {
+							setFieldAndParentsVisible(vaccineDateFields[i], csmSection);
+							vaccineDateFields[i].setVisibility(VISIBLE);
+						}
+					}
+				}
+			} finally {
+				updatingMeningitisVaccinationVisibility = false;
 			}
 		};
 
 		if (!meningitisHandlersRegistered) {
-			ValueChangeListener vaccinationVisibilityListener = field -> updateVaccinatedVisibility.run();
+			ValueChangeListener vaccinationVisibilityListener = field -> {
+				if (!updatingMeningitisVaccinationVisibility) {
+					updateVaccinatedVisibility.run();
+				}
+			};
 			contentBinding.caseDataVaccinated.addValueChangedListener(vaccinationVisibilityListener);
 			contentBinding.caseDataVaccinationStatus.addValueChangedListener(vaccinationVisibilityListener);
 
@@ -1096,9 +1126,42 @@ public class CaseEditFragment extends BaseEditFragment<FragmentCaseEditLayoutBin
 			setVisibleWhen(contentBinding.caseDataHib2Date, contentBinding.caseDataHib2, YesNoUnknown.YES);
 			setVisibleWhen(contentBinding.caseDataHib3Date, contentBinding.caseDataHib3, YesNoUnknown.YES);
 
+			registerSampleCollectionHandlers(contentBinding);
+
 			meningitisHandlersRegistered = true;
 		}
 		updateVaccinatedVisibility.run();
+	}
+
+	private void registerSampleCollectionHandlers(FragmentCaseEditLayoutBinding contentBinding) {
+		ControlCheckBoxGroupField lpNotDoneReasonField = contentBinding.caseDataLpNotDoneReason;
+		ControlTextEditField lpNotDoneReasonOtherField = contentBinding.caseDataLpNotDoneReasonOther;
+
+		Runnable updateLpNotDoneReasonOtherVisibility = () -> {
+			if (!YesNo.NO.equals(contentBinding.caseDataCsfSampleCollected.getValue())) {
+				hideControlField(lpNotDoneReasonOtherField, true);
+				return;
+			}
+			Object value = lpNotDoneReasonField.getValue();
+			boolean showOther = value instanceof Set && ((Set<?>) value).contains(LpNotDoneReason.OTHER);
+			if (showOther) {
+				setFieldAndParentsVisible(lpNotDoneReasonOtherField, contentBinding.caseDataCsmExtendedSection);
+				lpNotDoneReasonOtherField.setVisibility(VISIBLE);
+			} else {
+				hideControlField(lpNotDoneReasonOtherField, true);
+			}
+		};
+
+		contentBinding.caseDataCsfSampleCollected.addValueChangedListener(field -> {
+			if (!YesNo.NO.equals(field.getValue())) {
+				lpNotDoneReasonField.setValue(new HashSet<>());
+				lpNotDoneReasonOtherField.setValue(null);
+			}
+			updateLpNotDoneReasonOtherVisibility.run();
+		});
+
+		lpNotDoneReasonField.addValueChangedListener(field -> updateLpNotDoneReasonOtherVisibility.run());
+		updateLpNotDoneReasonOtherVisibility.run();
 	}
 
 	@Override

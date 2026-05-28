@@ -326,6 +326,9 @@ public class CaseDtoHelper extends PersonDependentDtoHelper<Case, CaseDataDto> {
 		target.setDateFormReceivedAtRegion(source.getDateFormReceivedAtRegion());
 		target.setDateFormSentToNational(source.getDateFormSentToNational());
 		target.setDateFormReceivedAtNational(source.getDateFormReceivedAtNational());
+		target.setCsfSampleCollected(source.getCsfSampleCollected());
+		target.setLpNotDoneReason(source.getLpNotDoneReason());
+		target.setLpNotDoneReasonOther(source.getLpNotDoneReasonOther());
 	}
 
 	@Override
@@ -669,6 +672,9 @@ public class CaseDtoHelper extends PersonDependentDtoHelper<Case, CaseDataDto> {
 		target.setDateFormReceivedAtRegion(source.getDateFormReceivedAtRegion());
 		target.setDateFormSentToNational(source.getDateFormSentToNational());
 		target.setDateFormReceivedAtNational(source.getDateFormReceivedAtNational());
+		target.setCsfSampleCollected(source.getCsfSampleCollected());
+		target.setLpNotDoneReason(source.getLpNotDoneReason());
+		target.setLpNotDoneReasonOther(source.getLpNotDoneReasonOther());
 
 		if (source.getHealthConditions() != null) {
 			HealthConditions healthConditions = DatabaseHelper.getHealthConditionsDao().queryForId(source.getHealthConditions().getId());

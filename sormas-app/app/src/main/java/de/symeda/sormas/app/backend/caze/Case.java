@@ -19,6 +19,9 @@ import static de.symeda.sormas.api.utils.FieldConstraints.CHARACTER_LIMIT_BIG;
 import static de.symeda.sormas.api.utils.FieldConstraints.CHARACTER_LIMIT_DEFAULT;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -64,6 +67,7 @@ import de.symeda.sormas.api.infrastructure.facility.FacilityType;
 import de.symeda.sormas.api.utils.DataHelper;
 import de.symeda.sormas.api.utils.Diseases;
 import de.symeda.sormas.api.sample.FinalClassification;
+import de.symeda.sormas.api.sample.LpNotDoneReason;
 import de.symeda.sormas.api.utils.YesNo;
 import de.symeda.sormas.api.utils.YesNoUnknown;
 import de.symeda.sormas.app.backend.afpimmunization.AfpImmunization;
@@ -622,6 +626,14 @@ public class Case extends PseudonymizableAdo {
 	private Date dateFormSentToNational;
 	@DatabaseField(dataType = DataType.DATE_LONG)
 	private Date dateFormReceivedAtNational;
+
+	@Enumerated(EnumType.STRING)
+	private YesNo csfSampleCollected;
+	@DatabaseField
+	private String lpNotDoneReasonString;
+	private Set<LpNotDoneReason> lpNotDoneReason;
+	@DatabaseField
+	private String lpNotDoneReasonOther;
 
 	public boolean isUnreferredPortHealthCase() {
 		return caseOrigin == CaseOrigin.POINT_OF_ENTRY && healthFacility == null;
@@ -2275,5 +2287,45 @@ public class Case extends PseudonymizableAdo {
 
 	public void setDateFormReceivedAtNational(Date dateFormReceivedAtNational) {
 		this.dateFormReceivedAtNational = dateFormReceivedAtNational;
+	}
+
+	public YesNo getCsfSampleCollected() {
+		return csfSampleCollected;
+	}
+
+	public void setCsfSampleCollected(YesNo csfSampleCollected) {
+		this.csfSampleCollected = csfSampleCollected;
+	}
+
+	@Transient
+	public Set<LpNotDoneReason> getLpNotDoneReason() {
+		if (lpNotDoneReason == null) {
+			lpNotDoneReason = new HashSet<>();
+			if (!StringUtils.isEmpty(lpNotDoneReasonString)) {
+				for (String value : lpNotDoneReasonString.split(",")) {
+					if (!StringUtils.isEmpty(value)) {
+						lpNotDoneReason.add(LpNotDoneReason.valueOf(value.trim()));
+					}
+				}
+			}
+		}
+		return lpNotDoneReason;
+	}
+
+	public void setLpNotDoneReason(Set<LpNotDoneReason> lpNotDoneReason) {
+		this.lpNotDoneReason = lpNotDoneReason;
+		lpNotDoneReasonString = toCommaSeparatedNames(lpNotDoneReason);
+	}
+
+	public String getLpNotDoneReasonOther() {
+		return lpNotDoneReasonOther;
+	}
+
+	public void setLpNotDoneReasonOther(String lpNotDoneReasonOther) {
+		this.lpNotDoneReasonOther = lpNotDoneReasonOther;
+	}
+
+	private static String toCommaSeparatedNames(Set<? extends Enum<?>> values) {
+		return values == null || values.isEmpty() ? null : values.stream().map(Enum::name).collect(Collectors.joining(","));
 	}
 }
