@@ -162,8 +162,6 @@ public class CaseEditFragment extends BaseEditFragment<FragmentCaseEditLayoutBin
 	private void setUpFieldVisibilities(final FragmentCaseEditLayoutBinding contentBinding) {
 		setFieldVisibilitiesAndAccesses(CaseDataDto.class, contentBinding.mainContent);
 		InfrastructureDaoHelper
-			.initializeHealthFacilityDetailsFieldVisibility(contentBinding.caseDataHealthFacility, contentBinding.caseDataHealthFacilityDetails);
-		InfrastructureDaoHelper
 			.initializePointOfEntryDetailsFieldVisibility(contentBinding.caseDataPointOfEntry, contentBinding.caseDataPointOfEntryDetails);
 
 		if (!isFieldAccessible(CaseDataDto.class, contentBinding.caseDataCommunity)) {
@@ -540,9 +538,6 @@ public class CaseEditFragment extends BaseEditFragment<FragmentCaseEditLayoutBin
 			null,
 			() -> Boolean.TRUE.equals(contentBinding.caseDataDifferentPlaceOfStayJurisdiction.getValue()));
 
-		InfrastructureDaoHelper
-			.initializeHealthFacilityDetailsFieldVisibility(contentBinding.caseDataHealthFacility, contentBinding.caseDataHealthFacilityDetails);
-
 		InfrastructureFieldsDependencyHandler.instance.initializeFacilityFields(
 			record,
 			contentBinding.caseDataRegion,
@@ -816,13 +811,23 @@ public class CaseEditFragment extends BaseEditFragment<FragmentCaseEditLayoutBin
 			contentBinding.caseDataHealthFacility.setVisibility(GONE);
 			contentBinding.caseDataHealthFacilityDetails.setVisibility(GONE);
 		} else if (record.getHealthFacility() != null && FacilityDto.NONE_FACILITY_UUID.equals(record.getHealthFacility().getUuid())) {
-			contentBinding.facilityOrHome.setValue(TypeOfPlace.HOME);
+			String healthFacilityDetails = record.getHealthFacilityDetails();
+			if (healthFacilityDetails != null && !healthFacilityDetails.trim().isEmpty()) {
+				contentBinding.facilityOrHome.setValue(TypeOfPlace.OTHER);
+			} else {
+				contentBinding.facilityOrHome.setValue(TypeOfPlace.HOME);
+			}
 		} else {
 			contentBinding.facilityOrHome.setValue(TypeOfPlace.FACILITY);
 			if (record.getFacilityType() != null) {
 				contentBinding.facilityTypeGroup.setValue(record.getFacilityType().getFacilityTypeGroup());
 			}
 		}
+
+		InfrastructureDaoHelper.initializeHealthFacilityDetailsFieldVisibility(
+			contentBinding.caseDataHealthFacility,
+			contentBinding.caseDataHealthFacilityDetails,
+			contentBinding.facilityOrHome);
 
 		// Swiss fields
 		contentBinding.caseDataQuarantineReasonBeforeIsolation.initializeSpinner(quarantineReasonList);
@@ -879,30 +884,25 @@ public class CaseEditFragment extends BaseEditFragment<FragmentCaseEditLayoutBin
 		if (disease == null) {
 			disease = record.getDisease();
 		}
-		if (disease == Disease.MEASLES) {
-			handleMeasles();
+		if (Arrays.asList(Disease.MEASLES, Disease.YELLOW_FEVER, Disease.CSM).contains(disease)) {
+			ControlSwitchField vaccinationRecordTypeField = contentBinding.caseDataVaccinationRecordType;
+			List<Item> vaccinationRecordTypeList = new ArrayList<>();
+			vaccinationRecordTypeList.add(new Item<>(VaccinationRecordType.CARD.toString(), VaccinationRecordType.CARD));
+			vaccinationRecordTypeList.add(new Item<>(VaccinationRecordType.HISTORY.toString(), VaccinationRecordType.HISTORY));
+			vaccinationRecordTypeField.setEnumItems(vaccinationRecordTypeList);
+
+			VaccinationRecordType currentValue = record.getVaccinationRecordType();
+			if (currentValue != null && !Arrays.asList(VaccinationRecordType.CARD, VaccinationRecordType.HISTORY).contains(currentValue)) {
+				vaccinationRecordTypeField.setValue(null);
+			} else {
+				vaccinationRecordTypeField.setValue(currentValue);
+			}
 		} else if (disease == Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS) {
 			handleIDSR();
 		} else {
 			ControlSwitchField vaccinationRecordTypeField = contentBinding.caseDataVaccinationRecordType;
 			vaccinationRecordTypeField.setEnumClass(VaccinationRecordType.class);
 			vaccinationRecordTypeField.setValue(record.getVaccinationRecordType());
-		}
-	}
-
-	private void handleMeasles() {
-		FragmentCaseEditLayoutBinding contentBinding = getContentBinding();
-		ControlSwitchField vaccinationRecordTypeField = contentBinding.caseDataVaccinationRecordType;
-		List<Item> vaccinationRecordTypeList = new ArrayList<>();
-		vaccinationRecordTypeList.add(new Item<>(VaccinationRecordType.CARD.toString(), VaccinationRecordType.CARD));
-		vaccinationRecordTypeList.add(new Item<>(VaccinationRecordType.HISTORY.toString(), VaccinationRecordType.HISTORY));
-		vaccinationRecordTypeField.setEnumItems(vaccinationRecordTypeList);
-
-		VaccinationRecordType currentValue = record.getVaccinationRecordType();
-		if (currentValue != null && !Arrays.asList(VaccinationRecordType.CARD, VaccinationRecordType.HISTORY).contains(currentValue)) {
-			vaccinationRecordTypeField.setValue(null);
-		} else {
-			vaccinationRecordTypeField.setValue(currentValue);
 		}
 	}
 

@@ -12,6 +12,8 @@ import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.FragmentActivity;
 
 import de.symeda.sormas.api.CountryHelper;
+import de.symeda.sormas.api.Disease;
+import de.symeda.sormas.api.FormType;
 import de.symeda.sormas.api.activityascase.ActivityAsCaseDto;
 import de.symeda.sormas.api.activityascase.ActivityAsCaseType;
 import de.symeda.sormas.api.event.MeansOfTransport;
@@ -48,10 +50,11 @@ import static de.symeda.sormas.app.core.notification.NotificationType.ERROR;
 public class ActivityAsCaseDialog extends FormDialog {
 
 	private final ActivityAsCase data;
+	private final Disease disease;
 	private DialogActivityAsCaseEditLayoutBinding contentBinding;
 	private final boolean create;
 
-	ActivityAsCaseDialog(final FragmentActivity activity, ActivityAsCase activityAsCase, PseudonymizableAdo activityRootData, boolean create) {
+	ActivityAsCaseDialog(final FragmentActivity activity, ActivityAsCase activityAsCase, PseudonymizableAdo activityRootData, Disease disease, boolean create) {
 		super(
 			activity,
 			R.layout.dialog_root_layout,
@@ -64,7 +67,8 @@ public class ActivityAsCaseDialog extends FormDialog {
 			FieldVisibilityCheckers.withDisease(getDiseaseOfCaseOrContact(activityRootData)).andWithCountry(ConfigProvider.getServerCountryCode()));
 
 		this.data = activityAsCase;
-		this.create = create;
+        this.disease = disease;
+        this.create = create;
 	}
 
 	private void openAddressPopup() {
@@ -74,6 +78,7 @@ public class ActivityAsCaseDialog extends FormDialog {
 		locationDialog.show();
 		locationDialog.setFacilityFieldsVisible(TypeOfPlace.isFacilityType(data.getTypeOfPlace()), true);
 		locationDialog.updateContinentFieldsVisibility();
+		locationDialog.showHideFieldsForDisease(disease, FormType.EPI_ACTIVITIES_AS_CASE_LOC);
 
 		locationDialog.setPositiveCallback(() -> {
 			contentBinding.activityAsCaseLocation.setValue(locationClone);

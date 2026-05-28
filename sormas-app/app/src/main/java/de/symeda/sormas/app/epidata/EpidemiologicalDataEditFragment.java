@@ -103,7 +103,7 @@ public class EpidemiologicalDataEditFragment extends BaseEditFragment<FragmentEd
 
 		contentBinding.epiDataExposureDetailsKnown.addValueChangedListener(field -> {
 			YesNoUnknown value = (YesNoUnknown) field.getValue();
-			contentBinding.exposuresLayout.setVisibility(value == YesNoUnknown.YES ? VISIBLE : GONE);
+			updateExposuresLayoutVisibility(contentBinding, value);
 			if (value != YesNoUnknown.YES) {
 				clearExposures();
 			}
@@ -114,8 +114,9 @@ public class EpidemiologicalDataEditFragment extends BaseEditFragment<FragmentEd
 		onActivityAsCaseItemClickListener = (v, item) -> {
 			final ActivityAsCase activityAsCase = (ActivityAsCase) item;
 			final ActivityAsCase activityAsCaseClone = (ActivityAsCase) activityAsCase.clone();
+			final Disease disease = getDiseaseOfCaseOrContact(getActivityRootData());
 			final ActivityAsCaseDialog dialog =
-				new ActivityAsCaseDialog(CaseEditActivity.getActiveActivity(), activityAsCaseClone, getActivityRootData(), false);
+				new ActivityAsCaseDialog(CaseEditActivity.getActiveActivity(), activityAsCaseClone, getActivityRootData(), disease, false);
 
 			dialog.setPositiveCallback(() -> {
 				record.getActivitiesAsCase().set(record.getActivitiesAsCase().indexOf(activityAsCase), activityAsCaseClone);
@@ -132,8 +133,9 @@ public class EpidemiologicalDataEditFragment extends BaseEditFragment<FragmentEd
 
 		contentBinding.btnAddActivityascase.setOnClickListener(v -> {
 			final ActivityAsCase activityAsCase = DatabaseHelper.getActivityAsCaseDao().build();
+			final Disease disease = getDiseaseOfCaseOrContact(getActivityRootData());
 			final ActivityAsCaseDialog dialog =
-				new ActivityAsCaseDialog(CaseEditActivity.getActiveActivity(), activityAsCase, getActivityRootData(), true);
+				new ActivityAsCaseDialog(CaseEditActivity.getActiveActivity(), activityAsCase, getActivityRootData(), disease, true);
 
 			dialog.setPositiveCallback(() -> addActivityAsCase(activityAsCase));
 			dialog.show();
@@ -141,7 +143,7 @@ public class EpidemiologicalDataEditFragment extends BaseEditFragment<FragmentEd
 
 		contentBinding.epiDataActivityAsCaseDetailsKnown.addValueChangedListener(field -> {
 			YesNoUnknown value = (YesNoUnknown) field.getValue();
-			contentBinding.activityascaseLayout.setVisibility(value == YesNoUnknown.YES ? VISIBLE : GONE);
+			updateActivitiesAsCaseLayoutVisibility(contentBinding, value);
 			if (value != YesNoUnknown.YES) {
 				clearActivitiesAsCase();
 			}
@@ -283,6 +285,11 @@ public class EpidemiologicalDataEditFragment extends BaseEditFragment<FragmentEd
 			contentBinding.epiDataActivityAsCaseDetailsKnown.setVisibility(GONE);
 		}
 
+		updateExposuresLayoutVisibility(contentBinding, record.getExposureDetailsKnown());
+		if (getActivityRootData() instanceof Case) {
+			updateActivitiesAsCaseLayoutVisibility(contentBinding, record.getActivityAsCaseDetailsKnown());
+		}
+
 		// Initialize ControlDateFields for Congenital Rubella
 		if (contentBinding.epiDataMotherRubellaLabConfirmedDate != null) {
 			contentBinding.epiDataMotherRubellaLabConfirmedDate.initializeDateField(getFragmentManager());
@@ -321,6 +328,15 @@ public class EpidemiologicalDataEditFragment extends BaseEditFragment<FragmentEd
 		return false;
 	}
 
+	private void updateExposuresLayoutVisibility(FragmentEditEpidLayoutBinding contentBinding, YesNoUnknown exposureDetailsKnown) {
+		contentBinding.exposuresLayout.setVisibility(exposureDetailsKnown == YesNoUnknown.YES ? VISIBLE : GONE);
+	}
+
+	private void updateActivitiesAsCaseLayoutVisibility(FragmentEditEpidLayoutBinding contentBinding, YesNoUnknown activityAsCaseDetailsKnown) {
+		contentBinding.activityascaseLayout.setVisibility(activityAsCaseDetailsKnown == YesNoUnknown.YES ? VISIBLE : GONE);
+		updateAddActivitiesAsCaseButtonVisibility();
+	}
+
 	private void updateAddExposuresButtonVisibility() {
 		if (getActivityRootData() instanceof Contact && !getExposureList().isEmpty()) {
 			getContentBinding().btnAddExposure.setVisibility(GONE);
@@ -331,9 +347,9 @@ public class EpidemiologicalDataEditFragment extends BaseEditFragment<FragmentEd
 
 	private void updateAddActivitiesAsCaseButtonVisibility() {
 		if (getActivityRootData() instanceof Contact) {
-			getContentBinding().btnAddActivityascase.setVisibility(View.GONE);
-		} else if (getActivityRootData() instanceof Case && !getActivityAsCaseList().isEmpty()) {
-			getContentBinding().btnAddActivityascase.setVisibility(View.VISIBLE);
+			getContentBinding().btnAddActivityascase.setVisibility(GONE);
+		} else {
+			getContentBinding().btnAddActivityascase.setVisibility(VISIBLE);
 		}
 	}
 }

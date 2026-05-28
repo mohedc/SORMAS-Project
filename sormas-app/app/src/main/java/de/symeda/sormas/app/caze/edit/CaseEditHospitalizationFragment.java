@@ -40,6 +40,8 @@ import de.symeda.sormas.app.backend.config.ConfigProvider;
 import de.symeda.sormas.app.backend.hospitalization.Hospitalization;
 import de.symeda.sormas.app.backend.hospitalization.PreviousHospitalization;
 import de.symeda.sormas.app.component.Item;
+import de.symeda.sormas.app.component.controls.ControlPropertyField;
+import de.symeda.sormas.app.component.controls.ValueChangeListener;
 import de.symeda.sormas.app.core.IEntryItemOnClickListener;
 import de.symeda.sormas.app.databinding.FragmentCaseEditHospitalizationLayoutBinding;
 import de.symeda.sormas.app.util.DataUtils;
@@ -216,6 +218,16 @@ public class CaseEditHospitalizationFragment extends BaseEditFragment<FragmentCa
 		if (caze.getDisease() != null && caze.getDisease() == Disease.AFP){
 			contentBinding.caseHospitalizationAdmissionDate.setCaption("Date of Admission to Hospital, If Applicable");
 			initializeAfpAdmissionDischargeVisibility(contentBinding);
+		if (caze.getDisease() != null && caze.getDisease() == Disease.CONGENITAL_RUBELLA) {
+			updateCongenitalRubellaDateFieldsVisibility(
+				contentBinding,
+				(InpatOutpat) contentBinding.caseHospitalizationSelectInpatientOutpatient.getValue());
+			contentBinding.caseHospitalizationSelectInpatientOutpatient.addValueChangedListener(new ValueChangeListener() {
+				@Override
+				public void onChange(ControlPropertyField field) {
+					updateCongenitalRubellaDateFieldsVisibility(contentBinding, (InpatOutpat) field.getValue());
+				}
+			});
 		}
 
 		verifyPrevHospitalizationStatus();
@@ -249,5 +261,16 @@ public class CaseEditHospitalizationFragment extends BaseEditFragment<FragmentCa
 			new FieldVisibilityCheckers(),
 			getFieldAccessCheckers());
 
+	}
+
+	private void updateCongenitalRubellaDateFieldsVisibility(
+		FragmentCaseEditHospitalizationLayoutBinding contentBinding,
+		InpatOutpat inpatOutpatValue) {
+
+		boolean showCongenitalRubellaDateFields = inpatOutpatValue == InpatOutpat.OUTPATIENT || inpatOutpatValue == InpatOutpat.INPATIENT;
+		int visibility = showCongenitalRubellaDateFields ? View.VISIBLE : View.GONE;
+
+		contentBinding.caseHospitalizationAdmissionDate.setVisibility(visibility);
+		contentBinding.caseHospitalizationDischargeDate.setVisibility(visibility);
 	}
 }
