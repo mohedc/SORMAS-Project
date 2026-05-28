@@ -70,6 +70,8 @@ import de.symeda.sormas.app.databinding.FragmentSampleEditLayoutBinding;
 import de.symeda.sormas.app.sample.read.SampleReadActivity;
 import de.symeda.sormas.app.util.DataUtils;
 
+import de.symeda.sormas.api.user.JurisdictionLevel;
+
 public class SampleEditFragment extends BaseEditFragment<FragmentSampleEditLayoutBinding, Sample, Sample> {
 
 	private Sample record;
@@ -88,6 +90,9 @@ public class SampleEditFragment extends BaseEditFragment<FragmentSampleEditLayou
 	private List<String> requestedPathogenTests = new ArrayList<>();
 	private List<String> requestedAdditionalTests = new ArrayList<>();
 	private List<Item> finalTestResults;
+	private List<Item> afpPcrPrntResultList;
+	private List<Item> afpElisaIgmList;
+	private List<Item> afpSamplePurposeList;
 
 	public static SampleEditFragment newInstance(Sample activityRootData) {
 		return newInstanceWithFieldCheckers(
@@ -266,6 +271,23 @@ public class SampleEditFragment extends BaseEditFragment<FragmentSampleEditLayou
 						.collect(Collectors.toList()));
 			}
 		}
+
+		if (associatedDisease == Disease.AFP) {
+			afpPcrPrntResultList = DataUtils.toItems(
+				Arrays.asList(PathogenTestResultType.POSITIVE, PathogenTestResultType.NEGATIVE, PathogenTestResultType.NOT_TESTED),
+				true);
+			afpElisaIgmList = DataUtils.getEnumItems(SimpleTestResultType.class, true);
+			boolean isNationalUser = ConfigProvider.getUser().hasJurisdictionLevel(JurisdictionLevel.NATION);
+			if (isNationalUser) {
+				afpSamplePurposeList = DataUtils.toItems(
+					Arrays.asList(SamplePurpose.EXTERNAL, SamplePurpose.INTERNAL, SamplePurpose.OUTSIDE_COUNTRY_LAB_TESTING),
+					true);
+			} else {
+				afpSamplePurposeList = DataUtils.toItems(
+					Arrays.asList(SamplePurpose.EXTERNAL, SamplePurpose.INTERNAL),
+					true);
+			}
+		}
 	}
 
 	@Override
@@ -322,9 +344,9 @@ public class SampleEditFragment extends BaseEditFragment<FragmentSampleEditLayou
 			}
 		}
 
-		//initialize sample purpose
+		//initialize sample purpose and AFP-specific UI
 		if (disease == Disease.AFP) {
-			contentBinding.samplePurpose.initializeSpinner(samplePurposeList);
+			handleAfp(contentBinding);
 		} else {
 			contentBinding.samplePurpose.initializeSpinner(DataUtils.toItems(Arrays.asList(
 				SamplePurpose.INTERNAL,
@@ -519,6 +541,151 @@ public class SampleEditFragment extends BaseEditFragment<FragmentSampleEditLayou
 
 	}
 
+	private void handleAfp(final FragmentSampleEditLayoutBinding contentBinding) {
+		// Show AFP-specific heading and container
+		contentBinding.sampleHeadingStoolSpecimenCollection.setVisibility(VISIBLE);
+		contentBinding.sampleAfpSampleLayout.setVisibility(VISIBLE);
+
+		// ── Sample material: forced to STOOL ──────────────────────
+		if (record.getSampleMaterial() == null) {
+			record.setSampleMaterial(SampleMaterial.STOOL);
+			contentBinding.sampleSampleMaterial.setValue(SampleMaterial.STOOL);
+		}
+		contentBinding.sampleSampleMaterial.setEnabled(false);
+		contentBinding.sampleSampleMaterialText.setVisibility(GONE);
+
+		// ── Sample purpose: role-filtered options, not required ───
+		contentBinding.sampleSampleMaterial.setRequired(false);
+		contentBinding.samplePurpose.setRequired(false);
+		contentBinding.samplePurpose.initializeSpinner(afpSamplePurposeList, field -> {
+			SamplePurpose purpose = (SamplePurpose) field.getValue();
+			updateAfpOutsideCountryVisibility(contentBinding, purpose);
+		});
+
+		// If non-national user somehow has OUTSIDE_COUNTRY_LAB_TESTING, clear it
+		boolean isNationalUser = ConfigProvider.getUser().hasJurisdictionLevel(JurisdictionLevel.NATION);
+		if (!isNationalUser && record.getSamplePurpose() == SamplePurpose.OUTSIDE_COUNTRY_LAB_TESTING) {
+			record.setSamplePurpose(null);
+			contentBinding.samplePurpose.setValue(null);
+		}
+
+		// Init visibility immediately for current purpose value
+		updateAfpOutsideCountryVisibility(contentBinding, record.getSamplePurpose());
+
+		// ── Initialize AFP date fields ────────────────────────────
+		contentBinding.sampleDateFirstSpecimen.initializeDateField(getFragmentManager());
+		contentBinding.sampleDateSecondSpecimen.initializeDateField(getFragmentManager());
+		contentBinding.sampleDateSpecimenSentNationalLevel.initializeDateField(getFragmentManager());
+		contentBinding.sampleDateSpecimenSentInter.initializeDateField(getFragmentManager());
+		contentBinding.sampleDateSpecimenReceivedNationalLevel.initializeDateField(getFragmentManager());
+		contentBinding.sampleDateSpecimenReceivedInter.initializeDateField(getFragmentManager());
+		contentBinding.sampleDateSpecimenReceivedNationalLevel.setEnabled(false);
+		contentBinding.sampleDateSpecimenReceivedInter.setEnabled(false);
+
+		updateAfpShipmentVisibility(contentBinding, record.isShipped());
+		contentBinding.sampleShipped.addValueChangedListener(field -> {
+			updateAfpShipmentVisibility(contentBinding, Boolean.TRUE.equals(field.getValue()));
+		});
+
+		// ── ELISA IGM spinner ─────────────────────────────────────
+		contentBinding.sampleElisaIgm.initializeSpinner(afpElisaIgmList);
+
+		// ── PCR / PRNT spinners (restricted result types) ─────────
+		contentBinding.sampleIpDakarPcr.initializeSpinner(afpPcrPrntResultList);
+		contentBinding.samplePrnt.initializeSpinner(afpPcrPrntResultList);
+
+		// ── SENT_TO_IP_DAKAR: visible only when RECEIVED == true ──
+		updateAfpReceivedVisibility(contentBinding, record.isReceived());
+		contentBinding.sampleReceived.addValueChangedListener(field -> {
+			updateAfpReceivedVisibility(contentBinding, Boolean.TRUE.equals(field.getValue()));
+		});
+
+		// ── ELISA/PCR/PRNT headings: follow sentToIpDakar value ───
+		updateAfpIpDakarSectionVisibility(contentBinding, record.isReceived() ? record.getSentToIpDakar() : null);
+		contentBinding.sampleSentToIpDakar.addValueChangedListener(field -> {
+			YesNo val = (YesNo) field.getValue();
+			updateAfpIpDakarSectionVisibility(contentBinding, Boolean.TRUE.equals(contentBinding.sampleReceived.getValue()) ? val : null);
+		});
+	}
+
+	private void updateAfpOutsideCountryVisibility(
+		FragmentSampleEditLayoutBinding contentBinding, SamplePurpose purpose) {
+
+		boolean isNationalUser = ConfigProvider.getUser().hasJurisdictionLevel(JurisdictionLevel.NATION);
+		boolean isOutside = isNationalUser && SamplePurpose.OUTSIDE_COUNTRY_LAB_TESTING == purpose;
+
+		if (isOutside) {
+			contentBinding.sampleOutsideCountryName.setVisibility(VISIBLE);
+			contentBinding.sampleOutsideCountryName.setRequired(true);
+			contentBinding.sampleLabDetails.setVisibility(VISIBLE);
+			contentBinding.sampleLabDetails.setRequired(true);
+			// Default lab to "Other facility"
+			if (contentBinding.sampleLab.getValue() == null) {
+				de.symeda.sormas.app.backend.facility.Facility otherFacility =
+					DatabaseHelper.getFacilityDao().queryUuid(FacilityDto.OTHER_FACILITY_UUID);
+				if (otherFacility != null) {
+					record.setLab(otherFacility);
+					contentBinding.sampleLab.setValue(otherFacility);
+				}
+			}
+		} else {
+			contentBinding.sampleOutsideCountryName.setVisibility(GONE);
+			contentBinding.sampleOutsideCountryName.setRequired(false);
+			contentBinding.sampleLabDetails.setRequired(false);
+		}
+	}
+
+	private void updateAfpShipmentVisibility(
+		FragmentSampleEditLayoutBinding contentBinding, boolean shipped) {
+
+		int vis = shipped ? VISIBLE : GONE;
+		contentBinding.sampleShipmentDate.setVisibility(vis);
+		contentBinding.sampleShipmentDetails.setVisibility(vis);
+		contentBinding.sampleDateSpecimenSentNationalLevel.setVisibility(vis);
+		contentBinding.sampleDateSpecimenSentInter.setVisibility(vis);
+	}
+
+	private void updateAfpReceivedVisibility(
+		FragmentSampleEditLayoutBinding contentBinding, boolean received) {
+
+		int vis = received ? VISIBLE : GONE;
+		contentBinding.sampleReceivedDate.setVisibility(vis);
+		contentBinding.sampleLabSampleID.setVisibility(vis);
+		contentBinding.sampleDateSpecimenReceivedNationalLevel.setVisibility(vis);
+		contentBinding.sampleDateSpecimenReceivedInter.setVisibility(vis);
+		updateAfpSentToIpDakarVisibility(contentBinding, received);
+		updateAfpIpDakarSectionVisibility(contentBinding, received ? (YesNo) contentBinding.sampleSentToIpDakar.getValue() : null);
+	}
+
+	private void updateAfpSentToIpDakarVisibility(
+		FragmentSampleEditLayoutBinding contentBinding, boolean received) {
+
+		int vis = received ? VISIBLE : GONE;
+		contentBinding.sampleSentToIpDakar.setVisibility(vis);
+		if (!received) {
+			// Also collapse everything that depends on sentToIpDakar
+			updateAfpIpDakarSectionVisibility(contentBinding, null);
+		}
+	}
+
+	private void updateAfpIpDakarSectionVisibility(
+		FragmentSampleEditLayoutBinding contentBinding, YesNo sentToIpDakar) {
+
+		int vis = (sentToIpDakar == YesNo.YES) ? VISIBLE : GONE;
+		contentBinding.sampleHeadingElisaIgm.setVisibility(vis);
+		contentBinding.sampleElisaIgm.setVisibility(vis);
+		contentBinding.sampleElisaIgmDate.setVisibility(vis);
+		contentBinding.sampleHeadingPcr.setVisibility(vis);
+		contentBinding.sampleIpDakarPcr.setVisibility(vis);
+		contentBinding.samplePcrDate.setVisibility(vis);
+		contentBinding.sampleHeadingPrnt.setVisibility(vis);
+		contentBinding.samplePrnt.setVisibility(vis);
+		contentBinding.samplePrntDate.setVisibility(vis);
+		contentBinding.samplePrntInputValue.setVisibility(vis);
+	}
+
+
+	protected static Disease getDiseaseOfAssociatedEntity(Sample sample) {
 
 	private void handleYellowFever(FragmentSampleEditLayoutBinding contentBinding) {
 		contentBinding.sampleShipmentDate.setVisibility(Boolean.TRUE.equals(contentBinding.sampleShipped.getValue()) ? VISIBLE : GONE);

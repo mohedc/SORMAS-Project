@@ -22,9 +22,13 @@
 
     <data>
         <import type="de.symeda.sormas.api.symptoms.SymptomState" />
+        <import type="de.symeda.sormas.api.utils.YesNo" />
+        <import type="de.symeda.sormas.api.utils.YesNoUnknown" />
 
         <variable name="data" type="de.symeda.sormas.app.backend.symptoms.Symptoms" />
         <variable name="symptomStateClass" type="Class" />
+        <variable name="yesNoClass" type="Class" />
+        <variable name="injectionSiteClass" type="Class" />
     </data>
 
     <merge>
@@ -204,5 +208,186 @@
                 style="@style/ControlSecondOfTwoColumnsStyle" />
 
         </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/symptoms_feverOnsetParalysis_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <de.symeda.sormas.app.component.controls.ControlSwitchField
+                android:id="@+id/symptoms_feverOnsetParalysis"
+                app:slim="true"
+                app:value="@={data.feverOnsetParalysis}"
+                style="@style/ControlFirstOfTwoColumnsStyle" />
+
+            <de.symeda.sormas.app.component.controls.ControlDateField
+                android:id="@+id/symptoms_feverOnsetParalysisOnsetDate"
+                app:value="@={data.feverOnsetParalysisOnsetDate}"
+                app:dependencyParentField="@{symptomsFeverOnsetParalysis}"
+                app:dependencyParentValue="@{YesNoUnknown.YES}"
+                style="@style/ControlSecondOfTwoColumnsStyle" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/symptoms_progressiveParalysis_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <de.symeda.sormas.app.component.controls.ControlSwitchField
+                android:id="@+id/symptoms_progressiveParalysis"
+                app:slim="true"
+                app:value="@={data.progressiveParalysis}"
+                style="@style/ControlFirstOfTwoColumnsStyle" />
+
+            <de.symeda.sormas.app.component.controls.ControlDateField
+                android:id="@+id/symptoms_progressiveParalysisOnsetDate"
+                app:value="@={data.progressiveParalysisOnsetDate}"
+                app:dependencyParentField="@{symptomsProgressiveParalysis}"
+                app:dependencyParentValue="@{YesNoUnknown.YES}"
+                style="@style/ControlSecondOfTwoColumnsStyle" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/symptoms_progressiveFlaccidAcute_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <de.symeda.sormas.app.component.controls.ControlSwitchField
+                android:id="@+id/symptoms_progressiveFlaccidAcute"
+                app:slim="true"
+                app:value="@={data.progressiveFlaccidAcute}"
+                style="@style/ControlFirstOfTwoColumnsStyle" />
+
+            <de.symeda.sormas.app.component.controls.ControlDateField
+                android:id="@+id/symptoms_progressiveFlaccidAcuteOnsetDate"
+                app:value="@={data.progressiveFlaccidAcuteOnsetDate}"
+                app:dependencyParentField="@{symptomsProgressiveFlaccidAcute}"
+                app:dependencyParentValue="@{YesNoUnknown.YES}"
+                style="@style/ControlSecondOfTwoColumnsStyle" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/symptoms_assymetric_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <de.symeda.sormas.app.component.controls.ControlSwitchField
+                android:id="@+id/symptoms_assymetric"
+                app:slim="true"
+                app:value="@={data.assymetric}"
+                style="@style/ControlFirstOfTwoColumnsStyle" />
+
+            <de.symeda.sormas.app.component.controls.ControlDateField
+                android:id="@+id/symptoms_assymetricOnsetDate"
+                app:value="@={data.assymetricOnsetDate}"
+                app:dependencyParentField="@{symptomsAssymetric}"
+                app:dependencyParentValue="@{YesNoUnknown.YES}"
+                style="@style/ControlSecondOfTwoColumnsStyle" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/symptoms_siteOfParalysis_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <de.symeda.sormas.app.component.controls.ControlCheckBoxGroupField
+                android:id="@+id/symptoms_siteOfParalysis"
+                app:enumClass="@{injectionSiteClass}"
+                app:value="@={data.siteOfParalysis}"
+                style="@style/ControlFirstOfTwoColumnsStyle" />
+
+            <de.symeda.sormas.app.component.controls.ControlDateField
+                android:id="@+id/symptoms_siteOfParalysisOnsetDate"
+                app:value="@={data.siteOfParalysisOnsetDate}"
+                style="@style/ControlSecondOfTwoColumnsStyle" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/symptoms_paralysedLimbSensitiveToPain_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <de.symeda.sormas.app.component.controls.ControlSwitchField
+                android:id="@+id/symptoms_paralysedLimbSensitiveToPain"
+                app:enumClass="@{yesNoClass}"
+                app:slim="true"
+                app:value="@={data.paralysedLimbSensitiveToPain}"
+                style="@style/ControlFirstOfTwoColumnsStyle" />
+
+            <de.symeda.sormas.app.component.controls.ControlDateField
+                android:id="@+id/symptoms_paralysedLimbSensitiveToPainOnsetDate"
+                app:value="@={data.paralysedLimbSensitiveToPainOnsetDate}"
+                app:dependencyParentField="@{symptomsParalysedLimbSensitiveToPain}"
+                app:dependencyParentValue="@{YesNo.YES}"
+                style="@style/ControlSecondOfTwoColumnsStyle" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/symptoms_injectionSiteBeforeOnsetParalysis_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <de.symeda.sormas.app.component.controls.ControlSwitchField
+                android:id="@+id/symptoms_injectionSiteBeforeOnsetParalysis"
+                app:enumClass="@{yesNoClass}"
+                app:slim="true"
+                app:value="@={data.injectionSiteBeforeOnsetParalysis}"
+                style="@style/ControlFirstOfTwoColumnsStyle" />
+
+            <de.symeda.sormas.app.component.controls.ControlDateField
+                android:id="@+id/symptoms_injectionSiteBeforeOnsetParalysisOnsetDate"
+                app:value="@={data.injectionSiteBeforeOnsetParalysisOnsetDate}"
+                app:dependencyParentField="@{symptomsInjectionSiteBeforeOnsetParalysis}"
+                app:dependencyParentValue="@{YesNo.YES}"
+                style="@style/ControlSecondOfTwoColumnsStyle" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/symptoms_injectionSite_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <de.symeda.sormas.app.component.controls.ControlCheckBoxGroupField
+                android:id="@+id/symptoms_injectionSite"
+                app:enumClass="@{injectionSiteClass}"
+                app:value="@={data.injectionSite}"
+                app:dependencyParentField="@{symptomsInjectionSiteBeforeOnsetParalysis}"
+                app:dependencyParentValue="@{YesNo.YES}"
+                style="@style/ControlFirstOfTwoColumnsStyle" />
+
+            <de.symeda.sormas.app.component.controls.ControlDateField
+                android:id="@+id/symptoms_injectionSiteOnsetDate"
+                app:value="@={data.injectionSiteOnsetDate}"
+                style="@style/ControlSecondOfTwoColumnsStyle" />
+
+        </LinearLayout>
+
+        <de.symeda.sormas.app.component.controls.ControlTextEditField
+            android:id="@+id/symptoms_provisionalDiagnosis"
+            app:value="@={data.provisionalDiagnosis}"
+            app:inputType="textMultiLine"
+            style="@style/ControlSingleColumnStyle" />
+
+        <de.symeda.sormas.app.component.controls.ControlSwitchField
+            android:id="@+id/symptoms_trueAfp"
+            app:enumClass="@{yesNoClass}"
+            app:slim="true"
+            app:value="@={data.trueAfp}"
+            style="@style/ControlSingleColumnStyle" />
     </merge>
 </layout>

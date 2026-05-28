@@ -17,16 +17,23 @@ package de.symeda.sormas.app.backend.symptoms;
 
 import static de.symeda.sormas.api.utils.FieldConstraints.CHARACTER_LIMIT_DEFAULT;
 
+import java.util.Arrays;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.Transient;
 
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
+
+import org.apache.commons.lang3.StringUtils;
 
 import de.symeda.sormas.api.caze.CaseOutcome;
 import de.symeda.sormas.api.symptoms.ClinicalPresentationStatus;
@@ -36,6 +43,8 @@ import de.symeda.sormas.api.symptoms.InfectionSite;
 import de.symeda.sormas.api.symptoms.SymptomState;
 import de.symeda.sormas.api.symptoms.TemperatureSource;
 import de.symeda.sormas.api.utils.DependantOn;
+import de.symeda.sormas.api.utils.InjectionSite;
+import de.symeda.sormas.api.utils.YesNo;
 import de.symeda.sormas.api.utils.YesNoUnknown;
 import de.symeda.sormas.app.backend.common.EmbeddedAdo;
 import de.symeda.sormas.app.backend.common.PseudonymizableAdo;
@@ -585,6 +594,32 @@ public class Symptoms extends PseudonymizableAdo {
 	private String causeOfDeath;
 	@Enumerated(EnumType.STRING)
 	private SymptomState babydied;
+	@DatabaseField(dataType = DataType.ENUM_STRING)
+	private YesNoUnknown feverOnsetParalysis;
+	@DatabaseField(dataType = DataType.ENUM_STRING)
+	private YesNoUnknown progressiveParalysis;
+	@DatabaseField(dataType = DataType.ENUM_STRING)
+	private YesNoUnknown progressiveFlaccidAcute;
+	@DatabaseField(dataType = DataType.ENUM_STRING)
+	private YesNoUnknown assymetric;
+	@DatabaseField(dataType = DataType.DATE_LONG)
+	private Date dateOnsetParalysis;
+	@Transient
+	private Set<InjectionSite> siteOfParalysis;
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	private String requestedSiteOfParalysisString;
+	@DatabaseField(dataType = DataType.ENUM_STRING)
+	private YesNo paralysedLimbSensitiveToPain;
+	@DatabaseField(dataType = DataType.ENUM_STRING)
+	private YesNo injectionSiteBeforeOnsetParalysis;
+	@Transient
+	private Set<InjectionSite> injectionSite;
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	private String injectionSiteString;
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	private String provisionalDiagnosis;
+	@DatabaseField(dataType = DataType.ENUM_STRING)
+	private YesNo trueAfp;
 
 	@Column(length = CHARACTER_LIMIT_DEFAULT)
 	private String clinicianName;
@@ -2632,6 +2667,138 @@ public class Symptoms extends PseudonymizableAdo {
 
 	public void setBabyDied(SymptomState babydied) {
 		this.babydied = babydied;
+	}
+
+	public YesNoUnknown getFeverOnsetParalysis() {
+		return feverOnsetParalysis;
+	}
+
+	public void setFeverOnsetParalysis(YesNoUnknown feverOnsetParalysis) {
+		this.feverOnsetParalysis = feverOnsetParalysis;
+	}
+
+	public YesNoUnknown getProgressiveParalysis() {
+		return progressiveParalysis;
+	}
+
+	public void setProgressiveParalysis(YesNoUnknown progressiveParalysis) {
+		this.progressiveParalysis = progressiveParalysis;
+	}
+
+	public YesNoUnknown getProgressiveFlaccidAcute() {
+		return progressiveFlaccidAcute;
+	}
+
+	public void setProgressiveFlaccidAcute(YesNoUnknown progressiveFlaccidAcute) {
+		this.progressiveFlaccidAcute = progressiveFlaccidAcute;
+	}
+
+	public YesNoUnknown getAssymetric() {
+		return assymetric;
+	}
+
+	public void setAssymetric(YesNoUnknown assymetric) {
+		this.assymetric = assymetric;
+	}
+
+	public Date getDateOnsetParalysis() {
+		return dateOnsetParalysis;
+	}
+
+	public void setDateOnsetParalysis(Date dateOnsetParalysis) {
+		this.dateOnsetParalysis = dateOnsetParalysis;
+	}
+
+	@Transient
+	public Set<InjectionSite> getSiteOfParalysis() {
+		if (siteOfParalysis == null) {
+			siteOfParalysis = StringUtils.isEmpty(requestedSiteOfParalysisString)
+				? new HashSet<>()
+				: Arrays.stream(requestedSiteOfParalysisString.split(","))
+					.filter(StringUtils::isNotBlank)
+					.map(InjectionSite::valueOf)
+					.collect(Collectors.toSet());
+		}
+
+		return siteOfParalysis;
+	}
+
+	public void setSiteOfParalysis(Set<InjectionSite> siteOfParalysis) {
+		this.siteOfParalysis = siteOfParalysis;
+		requestedSiteOfParalysisString = toCommaSeparatedNames(siteOfParalysis);
+	}
+
+	public String getRequestedSiteOfParalysisString() {
+		return requestedSiteOfParalysisString;
+	}
+
+	public void setRequestedSiteOfParalysisString(String requestedSiteOfParalysisString) {
+		this.requestedSiteOfParalysisString = requestedSiteOfParalysisString;
+		siteOfParalysis = null;
+	}
+
+	public YesNo getParalysedLimbSensitiveToPain() {
+		return paralysedLimbSensitiveToPain;
+	}
+
+	public void setParalysedLimbSensitiveToPain(YesNo paralysedLimbSensitiveToPain) {
+		this.paralysedLimbSensitiveToPain = paralysedLimbSensitiveToPain;
+	}
+
+	public YesNo getInjectionSiteBeforeOnsetParalysis() {
+		return injectionSiteBeforeOnsetParalysis;
+	}
+
+	public void setInjectionSiteBeforeOnsetParalysis(YesNo injectionSiteBeforeOnsetParalysis) {
+		this.injectionSiteBeforeOnsetParalysis = injectionSiteBeforeOnsetParalysis;
+	}
+
+	@Transient
+	public Set<InjectionSite> getInjectionSite() {
+		if (injectionSite == null) {
+			injectionSite = StringUtils.isEmpty(injectionSiteString)
+				? new HashSet<>()
+				: Arrays.stream(injectionSiteString.split(","))
+					.filter(StringUtils::isNotBlank)
+					.map(InjectionSite::valueOf)
+					.collect(Collectors.toSet());
+		}
+
+		return injectionSite;
+	}
+
+	public void setInjectionSite(Set<InjectionSite> injectionSite) {
+		this.injectionSite = injectionSite;
+		injectionSiteString = toCommaSeparatedNames(injectionSite);
+	}
+
+	public String getInjectionSiteString() {
+		return injectionSiteString;
+	}
+
+	public void setInjectionSiteString(String injectionSiteString) {
+		this.injectionSiteString = injectionSiteString;
+		injectionSite = null;
+	}
+
+	public String getProvisionalDiagnosis() {
+		return provisionalDiagnosis;
+	}
+
+	public void setProvisionalDiagnosis(String provisionalDiagnosis) {
+		this.provisionalDiagnosis = provisionalDiagnosis;
+	}
+
+	public YesNo getTrueAfp() {
+		return trueAfp;
+	}
+
+	public void setTrueAfp(YesNo trueAfp) {
+		this.trueAfp = trueAfp;
+	}
+
+	private static String toCommaSeparatedNames(Set<? extends Enum<?>> values) {
+		return values == null || values.isEmpty() ? null : values.stream().map(Enum::name).collect(Collectors.joining(","));
 	}
 
 	public String getClinicianName() {

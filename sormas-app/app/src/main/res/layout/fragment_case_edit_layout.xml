@@ -586,6 +586,9 @@
                     android:id="@+id/caseData_department"
                     app:value="@={data.department}"
                     app:userEditRight="@{UserRight.CASE_EDIT}"
+                    app:dependencyParentField="@{facilityOrHome}"
+                    app:dependencyParentValue="@{TypeOfPlace.FACILITY}"
+                    app:dependencyParentClearOnHide="@{false}"
                     style="@style/ControlSingleColumnStyle" />
 
                 <LinearLayout

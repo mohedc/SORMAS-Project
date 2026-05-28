@@ -45,6 +45,7 @@ public enum FormType {
     INVESTIGATION_NOTES_EDIT,
     FOLLOW_UP_VISITS,
     CASE_CREATE_LOCATION,
+    AFP_IMMUNIZATION_EDIT,
     EPI_ACTIVITIES_AS_CASE_LOC;
 	@Override
 	public String toString() {

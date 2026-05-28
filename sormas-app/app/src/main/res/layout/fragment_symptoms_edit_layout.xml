@@ -33,6 +33,8 @@
 
         <variable name="data" type="de.symeda.sormas.app.backend.symptoms.Symptoms"/>
         <variable name="symptomStateClass" type="Class"/>
+        <variable name="yesNoClass" type="Class"/>
+        <variable name="injectionSiteClass" type="Class"/>
         <variable name="clearAllCallback" type="de.symeda.sormas.app.core.IEntryItemOnClickListener"/>
         <variable name="setClearedToNoCallback" type="de.symeda.sormas.app.core.IEntryItemOnClickListener"/>
         <variable name="setClearedToUnknownCallback" type="de.symeda.sormas.app.core.IEntryItemOnClickListener"/>
@@ -1706,7 +1708,9 @@
             <include
                 layout="@layout/fragment_symptoms_edit_additional_fields_layout"
                 app:data="@{data}"
-                app:symptomStateClass="@{symptomStateClass}" />
+                app:symptomStateClass="@{symptomStateClass}"
+                app:yesNoClass="@{yesNoClass}"
+                app:injectionSiteClass="@{injectionSiteClass}" />
 
             <de.symeda.sormas.app.component.controls.ControlDateField
                 android:id="@+id/symptoms_spasmsConvulsionOnsetDate"

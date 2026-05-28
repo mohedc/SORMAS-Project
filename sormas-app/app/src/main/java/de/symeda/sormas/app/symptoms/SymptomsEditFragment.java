@@ -20,7 +20,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import de.symeda.sormas.api.Disease;
 import de.symeda.sormas.api.FormType;
@@ -33,6 +37,8 @@ import de.symeda.sormas.api.symptoms.SymptomsDto;
 import de.symeda.sormas.api.symptoms.SymptomsHelper;
 import de.symeda.sormas.api.symptoms.TemperatureSource;
 import de.symeda.sormas.api.utils.DependantOn;
+import de.symeda.sormas.api.utils.InjectionSite;
+import de.symeda.sormas.api.utils.YesNo;
 import de.symeda.sormas.api.utils.fieldaccess.UiFieldAccessCheckers;
 import de.symeda.sormas.api.utils.fieldvisibility.FieldVisibilityCheckers;
 import de.symeda.sormas.api.utils.fieldvisibility.checkers.CountryFieldVisibilityChecker;
@@ -49,6 +55,7 @@ import de.symeda.sormas.app.backend.symptoms.Symptoms;
 import de.symeda.sormas.app.backend.visit.Visit;
 import de.symeda.sormas.app.clinicalcourse.edit.ClinicalVisitEditActivity;
 import de.symeda.sormas.app.component.Item;
+import de.symeda.sormas.app.component.controls.ControlCheckBoxGroupField;
 import de.symeda.sormas.app.component.controls.ControlDateField;
 import de.symeda.sormas.app.component.controls.ControlPropertyField;
 import de.symeda.sormas.app.component.controls.ControlSpinnerField;
@@ -160,6 +167,8 @@ public class SymptomsEditFragment extends BaseEditFragment<FragmentSymptomsEditL
 		contentBinding.setData(record);
 		contentBinding.setSymptomsContext(symptomsContext);
 		contentBinding.setSymptomStateClass(SymptomState.class);
+		contentBinding.setYesNoClass(YesNo.class);
+		contentBinding.setInjectionSiteClass(InjectionSite.class);
 		contentBinding.setClearAllCallback(clearAllCallback);
 		contentBinding.setSetClearedToNoCallback(setClearedToNoCallback);
 		contentBinding.setSetClearedToUnknownCallback(setClearedToUnknownCallback);
@@ -200,6 +209,7 @@ public class SymptomsEditFragment extends BaseEditFragment<FragmentSymptomsEditL
 		contentBinding.symptomsCongenitalHeartDiseaseType.initializeSpinner(congenitalHeartDiseaseList);
 		contentBinding.symptomsOutcome.initializeSpinner(caseOutcomeList);
 		initializeNntBabyDiedOutcomeHandling(contentBinding);
+		initializeAfpFields(contentBinding);
 		contentBinding.symptomsOnsetSymptom.initializeSpinner(DataUtils.toItems(null, true));
 
 		contentBinding.symptomsTemperature.setSelectionOnOpen(37.0f);
@@ -217,6 +227,55 @@ public class SymptomsEditFragment extends BaseEditFragment<FragmentSymptomsEditL
 				contentBinding.symptomsCongenitalHeartDiseaseDetails.setVisibility(GONE);
 			}
 		});
+	}
+
+	private void initializeAfpFields(FragmentSymptomsEditLayoutBinding contentBinding) {
+		if (disease != Disease.AFP) {
+			return;
+		}
+
+		ControlCheckBoxGroupField siteOfParalysisField =
+			(ControlCheckBoxGroupField) findFieldByPropertyId(SymptomsDto.SITE_OF_PARALYSIS, contentBinding.mainContent);
+		ControlDateField siteOfParalysisOnsetDateField =
+			(ControlDateField) findFieldByPropertyId(SymptomsDto.SITE_OF_PARALYSIS_ONSET_DATE, contentBinding.mainContent);
+		ControlCheckBoxGroupField injectionSiteField =
+			(ControlCheckBoxGroupField) findFieldByPropertyId(SymptomsDto.INJECTION_SITE, contentBinding.mainContent);
+		ControlDateField injectionSiteOnsetDateField =
+			(ControlDateField) findFieldByPropertyId(SymptomsDto.INJECTION_SITE_ONSET_DATE, contentBinding.mainContent);
+
+		List<InjectionSite> siteOfParalysisOptions = getVisibleInjectionSites(Arrays.asList(InjectionSite.ParalysisSite()));
+		siteOfParalysisField.setItems(siteOfParalysisOptions);
+		siteOfParalysisField.setValue(retainAvailableInjectionSites(record.getSiteOfParalysis(), siteOfParalysisOptions));
+		siteOfParalysisField.addValueChangedListener(field -> updateAfpMultiSelectOnsetDate(siteOfParalysisField, siteOfParalysisOnsetDateField));
+		updateAfpMultiSelectOnsetDate(siteOfParalysisField, siteOfParalysisOnsetDateField);
+
+		List<InjectionSite> injectionSiteOptions = getVisibleInjectionSites(
+			Arrays.stream(InjectionSite.values()).sorted(Comparator.comparing(InjectionSite::name)).collect(Collectors.toList()));
+		injectionSiteField.setItems(injectionSiteOptions);
+		injectionSiteField.setValue(retainAvailableInjectionSites(record.getInjectionSite(), injectionSiteOptions));
+		injectionSiteField.addValueChangedListener(field -> updateAfpMultiSelectOnsetDate(injectionSiteField, injectionSiteOnsetDateField));
+		updateAfpMultiSelectOnsetDate(injectionSiteField, injectionSiteOnsetDateField);
+	}
+
+	private List<InjectionSite> getVisibleInjectionSites(List<InjectionSite> sites) {
+		return sites.stream()
+			.filter(site -> getFieldVisibilityCheckers() == null || getFieldVisibilityCheckers().isVisible(InjectionSite.class, site.name()))
+			.collect(Collectors.toList());
+	}
+
+	private Set<InjectionSite> retainAvailableInjectionSites(Set<InjectionSite> selectedSites, List<InjectionSite> availableSites) {
+		return selectedSites == null ? null : selectedSites.stream().filter(availableSites::contains).collect(Collectors.toSet());
+	}
+
+	private void updateAfpMultiSelectOnsetDate(ControlCheckBoxGroupField sourceField, ControlDateField onsetDateField) {
+		Object value = sourceField.getValue();
+		boolean hasSelection = value instanceof Set && !((Set<?>) value).isEmpty();
+
+		if (sourceField.getVisibility() == VISIBLE && hasSelection) {
+			onsetDateField.setVisibility(VISIBLE);
+		} else {
+			onsetDateField.hideField(true);
+		}
 	}
 
 	private void initializeNntBabyDiedOutcomeHandling(FragmentSymptomsEditLayoutBinding contentBinding) {

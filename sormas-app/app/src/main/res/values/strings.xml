@@ -149,6 +149,7 @@
     <string name="caption_case_samples">Case Samples</string>
     <string name="caption_case_tasks">Case Tasks</string>
     <string name="caption_case_events">Case Events</string>
+    <string name="caption_case_afp_immunization">Immunization</string>
     <string name="caption_case_immunizations">Case Immunizations</string>
     <string name="caption_case_vaccinations">Case Vaccinations</string>
     <string name="caption_case_treatments">Treatments</string>
@@ -389,6 +390,10 @@
     <string name="heading_most_recent_additional_tests">Most Recent Additional Tests</string>
     <string name="heading_most_recent_hospitalization">Most Recent Hospitalization</string>
     <string name="heading_most_recent_test">Most Recent Pathogen Test</string>
+    <string name="heading_stool_specimen_collection">STOOL SPECIMEN COLLECTION:</string>
+    <string name="heading_elisa_igm">ELISA IGM</string>
+    <string name="heading_pcr">PCR</string>
+    <string name="heading_prnt">PRNT</string>
     <string name="heading_new_sormas_version">New SORMAS version</string>
     <string name="heading_notify_investigate">NOTIFICATION/INVESTIGATION</string>
     <string name="heading_outbreak_response">Outbreak Response</string>

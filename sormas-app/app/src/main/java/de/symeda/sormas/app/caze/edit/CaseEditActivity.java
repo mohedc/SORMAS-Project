@@ -47,6 +47,7 @@ import de.symeda.sormas.app.backend.event.Event;
 import de.symeda.sormas.app.backend.event.EventCriteria;
 import de.symeda.sormas.app.backend.event.EventParticipant;
 import de.symeda.sormas.app.backend.user.UserRole;
+import de.symeda.sormas.app.afpimmunization.CaseEditAfpImmunizationFragment;
 import de.symeda.sormas.app.caze.CaseSection;
 import de.symeda.sormas.app.clinicalcourse.edit.ClinicalVisitNewActivity;
 import de.symeda.sormas.app.component.dialog.ConfirmationDialog;
@@ -114,6 +115,9 @@ public class CaseEditActivity extends BaseEditActivity<Case> {
 //			DiseaseMenuCaptionHandler.updateMenuCaptionsForDisease(menuItems, disease, getContext());
 		}
 		// Sections must be removed in reverse order
+		if (disease != Disease.AFP) {
+			menuItems.set(CaseSection.AFP_IMMUNIZATION.ordinal(), null);
+		}
 		if (DatabaseHelper.getFeatureConfigurationDao().isFeatureDisabled(FeatureType.TASK_MANAGEMENT)) {
 			menuItems.set(CaseSection.TASKS.ordinal(), null);
 		}
@@ -196,6 +200,9 @@ public class CaseEditActivity extends BaseEditActivity<Case> {
 			break;
 		case HOSPITALIZATION:
 			fragment = CaseEditHospitalizationFragment.newInstance(activityRootData);
+			break;
+		case AFP_IMMUNIZATION:
+			fragment = CaseEditAfpImmunizationFragment.newInstance(activityRootData);
 			break;
 		case PORT_HEALTH_INFO:
 			fragment = CaseEditPortHealthInfoFragment.newInstance(activityRootData);

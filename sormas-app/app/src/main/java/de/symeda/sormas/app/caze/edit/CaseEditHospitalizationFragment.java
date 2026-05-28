@@ -215,6 +215,9 @@ public class CaseEditHospitalizationFragment extends BaseEditFragment<FragmentCa
 			contentBinding.caseHospitalizationDateFirstSeenAtHealthFacility.setCaption("Date seen at health facility");
 			contentBinding.hospitalizationDateHealthRegionNotified.setCaption("Date Health Region Notified");
 		}
+		if (caze.getDisease() != null && caze.getDisease() == Disease.AFP){
+			contentBinding.caseHospitalizationAdmissionDate.setCaption("Date of Admission to Hospital, If Applicable");
+			initializeAfpAdmissionDischargeVisibility(contentBinding);
 		if (caze.getDisease() != null && caze.getDisease() == Disease.CONGENITAL_RUBELLA) {
 			updateCongenitalRubellaDateFieldsVisibility(
 				contentBinding,
@@ -233,6 +236,22 @@ public class CaseEditHospitalizationFragment extends BaseEditFragment<FragmentCa
 	@Override
 	public int getEditLayout() {
 		return R.layout.fragment_case_edit_hospitalization_layout;
+	}
+
+	private void initializeAfpAdmissionDischargeVisibility(FragmentCaseEditHospitalizationLayoutBinding contentBinding) {
+		contentBinding.caseHospitalizationSelectInpatientOutpatient
+			.addValueChangedListener(field -> updateAfpAdmissionDischargeVisibility(contentBinding));
+
+		updateAfpAdmissionDischargeVisibility(contentBinding);
+	}
+
+	private void updateAfpAdmissionDischargeVisibility(FragmentCaseEditHospitalizationLayoutBinding contentBinding) {
+		boolean showAdmissionDischargeDates =
+			contentBinding.caseHospitalizationSelectInpatientOutpatient.getValue() == InpatOutpat.INPATIENT;
+
+		contentBinding.caseHospitalizationAdmissionDischargeDateLayout.setVisibility(showAdmissionDischargeDates ? View.VISIBLE : View.GONE);
+		contentBinding.caseHospitalizationAdmissionDate.setVisibility(showAdmissionDischargeDates ? View.VISIBLE : View.GONE);
+		contentBinding.caseHospitalizationDischargeDate.setVisibility(showAdmissionDischargeDates ? View.VISIBLE : View.GONE);
 	}
 
 	private void setFieldVisibilitiesAndAccesses(View view) {

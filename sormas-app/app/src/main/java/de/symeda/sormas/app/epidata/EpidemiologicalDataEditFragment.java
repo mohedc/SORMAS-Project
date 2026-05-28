@@ -274,6 +274,7 @@ public class EpidemiologicalDataEditFragment extends BaseEditFragment<FragmentEd
 		if (disease != null) {
 			super.hideFieldsForDisease(disease, contentBinding.mainContent, FormType.EPIDEMIOLOGICAL_EDIT);
 		}
+		initializeAfpSeekHelpLayout(contentBinding, disease);
 
 		if (!(getActivityRootData() instanceof Case)) {
 			contentBinding.epiDataContactWithSourceCaseKnown.setVisibility(GONE);
@@ -298,6 +299,17 @@ public class EpidemiologicalDataEditFragment extends BaseEditFragment<FragmentEd
 		}
 		if (contentBinding.epiDataMotherTraveledDuringPregnancyDate != null) {
 			contentBinding.epiDataMotherTraveledDuringPregnancyDate.initializeDateField(getFragmentManager());
+		}
+	}
+
+	private void initializeAfpSeekHelpLayout(FragmentEditEpidLayoutBinding contentBinding, Disease disease) {
+		boolean isAfp = disease == Disease.AFP;
+		contentBinding.epiDataAfpSeekHelpLayout.setVisibility(isAfp ? VISIBLE : GONE);
+
+		if (isAfp) {
+			contentBinding.epiDataExposureInvestigation.setVisibility(GONE);
+			contentBinding.epiDataFieldsHint.setVisibility(GONE);
+			contentBinding.exposureInvestigationInfo.setVisibility(GONE);
 		}
 	}
 

@@ -66,6 +66,7 @@ import de.symeda.sormas.api.utils.Diseases;
 import de.symeda.sormas.api.sample.FinalClassification;
 import de.symeda.sormas.api.utils.YesNo;
 import de.symeda.sormas.api.utils.YesNoUnknown;
+import de.symeda.sormas.app.backend.afpimmunization.AfpImmunization;
 import de.symeda.sormas.app.backend.caze.maternalhistory.MaternalHistory;
 import de.symeda.sormas.app.backend.caze.porthealthinfo.PortHealthInfo;
 import de.symeda.sormas.app.backend.clinicalcourse.ClinicalCourse;
@@ -102,6 +103,7 @@ public class Case extends PseudonymizableAdo {
 	public static final String REPORT_DATE = "reportDate";
 	public static final String SYMPTOMS = "symptoms";
 	public static final String EPI_DATA = "epiData";
+	public static final String AFP_IMMUNIZATION = "afpImmunization";
 	public static final String CLINICAL_COURSE = "clinicalCourse";
 	public static final String REPORTING_USER = "reportingUser_id";
 	public static final String HEALTH_FACILITY = "healthFacility_id";
@@ -291,6 +293,9 @@ public class Case extends PseudonymizableAdo {
 
 	@DatabaseField(foreign = true, foreignAutoRefresh = true)
 	private Hospitalization hospitalization;
+
+	@DatabaseField(foreign = true, foreignAutoRefresh = true)
+	private AfpImmunization afpImmunization;
 
 	@DatabaseField(foreign = true, foreignAutoRefresh = true)
 	private EpiData epiData;
@@ -1054,6 +1059,14 @@ public class Case extends PseudonymizableAdo {
 
 	public void setHospitalization(Hospitalization hospitalization) {
 		this.hospitalization = hospitalization;
+	}
+
+	public AfpImmunization getAfpImmunization() {
+		return afpImmunization;
+	}
+
+	public void setAfpImmunization(AfpImmunization afpImmunization) {
+		this.afpImmunization = afpImmunization;
 	}
 
 	public EpiData getEpiData() {
