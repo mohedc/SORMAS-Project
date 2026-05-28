@@ -1138,17 +1138,19 @@ public class CaseEditFragment extends BaseEditFragment<FragmentCaseEditLayoutBin
 		ControlTextEditField lpNotDoneReasonOtherField = contentBinding.caseDataLpNotDoneReasonOther;
 
 		Runnable updateLpNotDoneReasonOtherVisibility = () -> {
-			if (!YesNo.NO.equals(contentBinding.caseDataCsfSampleCollected.getValue())) {
-				hideControlField(lpNotDoneReasonOtherField, true);
+			YesNo csfSampleCollected = (YesNo) contentBinding.caseDataCsfSampleCollected.getValue();
+			if (csfSampleCollected == null) {
+				csfSampleCollected = record.getCsfSampleCollected();
+			}
+			if (!YesNo.NO.equals(csfSampleCollected)) {
+				hideControlField(lpNotDoneReasonOtherField, false);
 				return;
 			}
-			Object value = lpNotDoneReasonField.getValue();
-			boolean showOther = value instanceof Set && ((Set<?>) value).contains(LpNotDoneReason.OTHER);
-			if (showOther) {
+			if (isLpNotDoneOtherReasonSelected(lpNotDoneReasonField.getValue())) {
 				setFieldAndParentsVisible(lpNotDoneReasonOtherField, contentBinding.caseDataCsmExtendedSection);
 				lpNotDoneReasonOtherField.setVisibility(VISIBLE);
 			} else {
-				hideControlField(lpNotDoneReasonOtherField, true);
+				hideControlField(lpNotDoneReasonOtherField, false);
 			}
 		};
 
@@ -1160,8 +1162,27 @@ public class CaseEditFragment extends BaseEditFragment<FragmentCaseEditLayoutBin
 			updateLpNotDoneReasonOtherVisibility.run();
 		});
 
-		lpNotDoneReasonField.addValueChangedListener(field -> updateLpNotDoneReasonOtherVisibility.run());
-		updateLpNotDoneReasonOtherVisibility.run();
+		lpNotDoneReasonField.addValueChangedListener(field -> {
+			if (!YesNo.NO.equals(contentBinding.caseDataCsfSampleCollected.getValue())) {
+				return;
+			}
+			if (isLpNotDoneOtherReasonSelected(field.getValue())) {
+				setFieldAndParentsVisible(lpNotDoneReasonOtherField, contentBinding.caseDataCsmExtendedSection);
+				lpNotDoneReasonOtherField.setVisibility(VISIBLE);
+			} else {
+				hideControlField(lpNotDoneReasonOtherField, true);
+			}
+		});
+
+		contentBinding.getRoot().post(updateLpNotDoneReasonOtherVisibility);
+	}
+
+	private boolean isLpNotDoneOtherReasonSelected(Object fieldValue) {
+		if (fieldValue instanceof Set && ((Set<?>) fieldValue).contains(LpNotDoneReason.OTHER)) {
+			return true;
+		}
+		Set<LpNotDoneReason> savedReasons = record.getLpNotDoneReason();
+		return savedReasons != null && savedReasons.contains(LpNotDoneReason.OTHER);
 	}
 
 	@Override
