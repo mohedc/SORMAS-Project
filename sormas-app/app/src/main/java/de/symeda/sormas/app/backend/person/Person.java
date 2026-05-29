@@ -244,6 +244,8 @@ public class Person extends PseudonymizableAdo {
 	@Column
 	private Integer currentWeight;
 	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	private String caregiverName;
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
 	private String caregiverTelephoneNumber;
 	@Enumerated(EnumType.STRING)
 	private YesNo applicable;
@@ -862,6 +864,14 @@ public class Person extends PseudonymizableAdo {
 
 	public void setCurrentWeight(Integer currentWeight) {
 		this.currentWeight = currentWeight;
+	}
+
+	public String getCaregiverName() {
+		return caregiverName;
+	}
+
+	public void setCaregiverName(String caregiverName) {
+		this.caregiverName = caregiverName;
 	}
 
 	public String getCaregiverTelephoneNumber() {

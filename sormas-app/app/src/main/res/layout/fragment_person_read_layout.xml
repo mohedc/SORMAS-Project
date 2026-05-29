@@ -433,6 +433,11 @@
             </LinearLayout>
 
             <de.symeda.sormas.app.component.controls.ControlTextReadField
+                android:id="@+id/person_caregiverName"
+                app:value="@{data.caregiverName}"
+                style="@style/ControlSingleColumnStyle" />
+
+            <de.symeda.sormas.app.component.controls.ControlTextReadField
                 android:id="@+id/person_namesOfGuardians"
                 app:value="@{data.namesOfGuardians}"
                 style="@style/ControlSingleColumnStyle" />
