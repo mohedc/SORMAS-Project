@@ -3,9 +3,12 @@ package de.symeda.sormas.app.util;
 import android.content.Context;
 import android.content.res.Resources;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -46,15 +49,13 @@ public class DiseaseFieldHandler {
         // Get the relevant fields for the given disease
         List<FormField> relevantFields = getFieldsForDisease(diseaseName, formType);
         Log.d(TAG, "Relevant fields retrieved: " + relevantFields);
-        // Log each field's details for debugging
-        for (int i = 0; i < relevantFields.size(); i++) {
-            FormField field = relevantFields.get(i);
-            if (field != null) {
-                Log.d(TAG, "Field[" + i + "]: fieldName=" + field.getFieldName() + ", formType=" + field.getFormType() + ", active=" + field.getActive());
-            } else {
-                Log.w(TAG, "Field[" + i + "]: is NULL");
-            }
-        }
+
+        // #region agent log
+        Log.e("DEBUG_F31286", "[H-A] hideFieldsForDisease called: disease=" + diseaseName + " formType=" + formType + " relevantFieldsCount=" + relevantFields.size());
+        for (int dbg = 0; dbg < relevantFields.size(); dbg++) { Log.e("DEBUG_F31286", "[H-A] formField[" + dbg + "]=" + relevantFields.get(dbg).getFieldName()); }
+        Log.e("DEBUG_F31286", "[H-A] mainContent childCount=" + mainContent.getChildCount());
+        for (int dbg = 0; dbg < mainContent.getChildCount(); dbg++) { View c = mainContent.getChildAt(dbg); String rid = "NO_ID"; try { rid = context.getResources().getResourceEntryName(c.getId()); } catch (Exception e) { rid = "no_id(" + c.getId() + ")"; } Log.e("DEBUG_F31286", "[H-A] mainContent child[" + dbg + "] class=" + c.getClass().getSimpleName() + " id=" + rid + " vis=" + c.getVisibility()); }
+        // #endregion
 
         if (relevantFields.isEmpty()) {
             Log.d(TAG, "No relevant fields found, making all fields visible.");
@@ -73,9 +74,19 @@ public class DiseaseFieldHandler {
             handleChildView(child, fieldNames);
         }
 
+        // #region agent log
+        Log.e("DEBUG_F31286", "[H-B] After handleChildView loop, before reorder:");
+        for (int dbg = 0; dbg < mainContent.getChildCount(); dbg++) { View c = mainContent.getChildAt(dbg); String rid = "NO_ID"; try { rid = context.getResources().getResourceEntryName(c.getId()); } catch (Exception e) { rid = "no_id(" + c.getId() + ")"; } Log.e("DEBUG_F31286", "[H-B] mainContent child[" + dbg + "] vis=" + c.getVisibility() + " id=" + rid); }
+        // #endregion
+
         Log.d(TAG, "Starting hideFieldsForDisease with disease: " + diseaseName + " and formType: " + formType);
 
         reorderFieldsForDisease(relevantFields, mainContent);
+
+        // #region agent log
+        Log.e("DEBUG_F31286", "[H-C] After reorderFieldsForDisease:");
+        for (int dbg = 0; dbg < mainContent.getChildCount(); dbg++) { View c = mainContent.getChildAt(dbg); String rid = "NO_ID"; try { rid = context.getResources().getResourceEntryName(c.getId()); } catch (Exception e) { rid = "no_id(" + c.getId() + ")"; } Log.e("DEBUG_F31286", "[H-C] mainContent child[" + dbg + "] vis=" + c.getVisibility() + " id=" + rid); }
+        // #endregion
     }
 
     private void setAllFieldsVisibility(ViewGroup parent, int visibility) {
@@ -137,81 +148,44 @@ public class DiseaseFieldHandler {
             return false;
         }
 
-        boolean isVisible = relevantFields.isEmpty() || matchesAnyFormField(viewIdName, relevantFields);
+        boolean isVisible = relevantFields.isEmpty() || relevantFields.contains(viewIdName);
+        // #region agent log
+        Log.e("DEBUG_F31286", "[H-D] setViewVisibility viewId=" + viewIdName + " match=" + isVisible + " setting=" + (isVisible ? "VISIBLE" : "GONE"));
+        // #endregion
         view.setVisibility(isVisible ? View.VISIBLE : View.GONE);
         return isVisible;
     }
 
-    /** FormField.fieldName may be the DTO property (e.g. fever) or the Android resource id (e.g. symptoms_fever). */
-    static boolean formFieldMatchesViewResource(String resourceEntryName, String formFieldName) {
-        if (resourceEntryName == null || formFieldName == null) {
-            return false;
-        }
-        if (resourceEntryName.equals(formFieldName)) {
-            return true;
-        }
-        if (resourceEntryName.startsWith("symptoms_")) {
-            return resourceEntryName.substring("symptoms_".length()).equals(formFieldName);
-        }
-        String epiDataPropertyName = toEpiDataPropertyName(resourceEntryName);
-        if (epiDataPropertyName != null && epiDataPropertyName.equals(formFieldName)) {
-            return true;
-        }
-        if (resourceEntryName.equals("epiData_" + formFieldName)) {
-            return true;
-        }
-        return ("symptoms_" + formFieldName).equals(resourceEntryName);
-    }
-
-    /** Maps layout ids such as {@code epiData_highTransmissionRiskArea} to {@code EpiDataDto} property names. */
-    static String toEpiDataPropertyName(String resourceEntryName) {
-        if (resourceEntryName == null || !resourceEntryName.startsWith("epiData_")) {
-            return null;
-        }
-        String propertyName = resourceEntryName.substring("epiData_".length());
-        if (propertyName.endsWith("_layout")) {
-            propertyName = propertyName.substring(0, propertyName.length() - "_layout".length());
-        }
-        return propertyName;
-    }
-
-    private static boolean matchesAnyFormField(String resourceEntryName, List<String> relevantFields) {
-        for (String fn : relevantFields) {
-            if (formFieldMatchesViewResource(resourceEntryName, fn)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
 
     private void reorderFieldsForDisease(List<FormField> orderedFields, ViewGroup parent) {
-        // Create a lookup map for all views
         Map<String, View> viewsByFieldName = new HashMap<>();
 
-        // Hide all views initially
         for (int i = 0; i < parent.getChildCount(); i++) {
-            View view = parent.getChildAt(i);
-            view.setVisibility(View.GONE);
-
-            try {
-                String resourceName = context.getResources().getResourceEntryName(view.getId());
-                viewsByFieldName.put(resourceName, view);
-            } catch (Resources.NotFoundException e) {
-                Log.e(TAG, "Could not find resource name for ID: " + view.getId());
-            }
+            View directChild = parent.getChildAt(i);
+            directChild.setVisibility(View.GONE);
+            mapViewAndDescendants(directChild, directChild, viewsByFieldName);
         }
 
-        // Now show only the views in orderedFields, in the specified order
+        // #region agent log
+        Log.e("DEBUG_F31286", "[H-E] reorder viewsByFieldName keys=" + viewsByFieldName.keySet());
+        // #endregion
+
+        Set<View> alreadyOrderedViews = new HashSet<>();
+
         for (FormField field : orderedFields) {
             String fieldName = field.getFieldName();
             View view = viewsByFieldName.get(fieldName);
 
-            if (view != null) {
+            if (view != null && alreadyOrderedViews.add(view)) {
                 view.setVisibility(View.VISIBLE);
-                // Bring the view to front so it appears in the correct order visually
                 view.bringToFront();
-            } else {
+                // #region agent log
+                Log.e("DEBUG_F31286", "[H-E] reorder MATCHED fieldName=" + fieldName + " -> directChild=" + view.getClass().getSimpleName());
+                // #endregion
+            } else if (view == null) {
+                // #region agent log
+                Log.e("DEBUG_F31286", "[H-E] reorder NO MATCH for fieldName=" + fieldName);
+                // #endregion
                 Log.d(TAG, "No matching View found for FormField with name: " + fieldName);
             }
         }
@@ -220,23 +194,19 @@ public class DiseaseFieldHandler {
         parent.invalidate();
     }
 
-    private void mapViewAndDescendantsToDirectChild(View view, View directChild, Map<String, View> viewsByFieldName) {
+    private void mapViewAndDescendants(View view, View directChild, Map<String, View> viewsByFieldName) {
         if (view.getId() != View.NO_ID && view.getId() != 0) {
             try {
                 String resourceName = context.getResources().getResourceEntryName(view.getId());
                 viewsByFieldName.put(resourceName, directChild);
-                if (resourceName.startsWith("symptoms_")) {
-                    viewsByFieldName.put(resourceName.substring("symptoms_".length()), directChild);
-                }
             } catch (Resources.NotFoundException e) {
-                Log.e(TAG, "Could not find resource name for ID: " + view.getId());
+                // skip
             }
         }
-
         if (view instanceof ViewGroup) {
-            ViewGroup viewGroup = (ViewGroup) view;
-            for (int i = 0; i < viewGroup.getChildCount(); i++) {
-                mapViewAndDescendantsToDirectChild(viewGroup.getChildAt(i), directChild, viewsByFieldName);
+            ViewGroup vg = (ViewGroup) view;
+            for (int i = 0; i < vg.getChildCount(); i++) {
+                mapViewAndDescendants(vg.getChildAt(i), directChild, viewsByFieldName);
             }
         }
     }
@@ -295,15 +265,7 @@ public class DiseaseFieldHandler {
 
         if (formBuilder != null) {
             List<FormField> orderedFields = DatabaseHelper.getFormBuilderDao().getOrderedFormBuilderFormFields(formBuilder);
-            Log.d(TAG, "Ordered fields retrieved from database: count=" + orderedFields.size());
-            // Log details of each field
-            for (FormField field : orderedFields) {
-                if (field != null) {
-                    Log.d(TAG, "Field details - fieldName: " + field.getFieldName() + ", formType: " + field.getFormType() + ", active: " + field.getActive() + ", id: " + field.getId());
-                } else {
-                    Log.w(TAG, "Found null field in orderedFields list");
-                }
-            }
+            Log.d(TAG, "Ordered fields retrieved from database: " + orderedFields);
             return orderedFields;
         }
         Log.d(TAG, "No FormBuilder found for Disease=" + diseaseName + ", FormType=" + formType);
@@ -368,7 +330,6 @@ public class DiseaseFieldHandler {
         removeMenuItemIfFormAvailable(menuItems, FormType.VACCINATION_EDIT, ContactSection.VACCINATIONS);
         return menuItems;
     }
-
     /**
      * Remove a menu item if a form is available for a given disease and form type.
      *

@@ -220,14 +220,14 @@ public class CaseEditHospitalizationFragment extends BaseEditFragment<FragmentCa
 			initializeAfpAdmissionDischargeVisibility(contentBinding);
 		}
 
-		if (caze.getDisease() != null && caze.getDisease() == Disease.CONGENITAL_RUBELLA) {
-			updateCongenitalRubellaDateFieldsVisibility(
+		if (caze.getDisease() != null && caze.getDisease() == Disease.CONGENITAL_RUBELLA || caze.getDisease() == Disease.CSM) {
+			updateVisibityForAdminisionDischarge(
 				contentBinding,
 				(InpatOutpat) contentBinding.caseHospitalizationSelectInpatientOutpatient.getValue());
 			contentBinding.caseHospitalizationSelectInpatientOutpatient.addValueChangedListener(new ValueChangeListener() {
 				@Override
 				public void onChange(ControlPropertyField field) {
-					updateCongenitalRubellaDateFieldsVisibility(contentBinding, (InpatOutpat) field.getValue());
+					updateVisibityForAdminisionDischarge(contentBinding, (InpatOutpat) field.getValue());
 				}
 			});
 		}
@@ -265,7 +265,7 @@ public class CaseEditHospitalizationFragment extends BaseEditFragment<FragmentCa
 
 	}
 
-	private void updateCongenitalRubellaDateFieldsVisibility(
+	private void updateVisibityForAdminisionDischarge(
 		FragmentCaseEditHospitalizationLayoutBinding contentBinding,
 		InpatOutpat inpatOutpatValue) {
 
