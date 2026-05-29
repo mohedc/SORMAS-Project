@@ -199,6 +199,7 @@ public class CaseEditHospitalizationFragment extends BaseEditFragment<FragmentCa
 		// Initialize ControlDateFields
 		contentBinding.caseHospitalizationAdmissionDate.initializeDateField(getFragmentManager());
 		contentBinding.caseHospitalizationDischargeDate.initializeDateField(getFragmentManager());
+		contentBinding.caseHospitalizationDateOfDiseaseOnset.initializeDateField(getFragmentManager());
 		contentBinding.caseHospitalizationDateFirstSeenAtHealthFacility.initializeDateField(getFragmentManager());
 		contentBinding.caseHospitalizationDateHealthFacilityNotifiedDistrict.initializeDateField(getFragmentManager());
 		contentBinding.caseHospitalizationIntensiveCareUnitStart.initializeDateField(getFragmentManager());

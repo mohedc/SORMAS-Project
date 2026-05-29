@@ -82,6 +82,7 @@ public class HospitalizationDtoHelper extends AdoDtoHelper<Hospitalization, Hosp
 		a.setSerialNumberInConsultationRegister(b.getSerialNumberInConsultationRegister());
 		a.setDateOfConsultationAtHealthFacility(b.getDateOfConsultationAtHealthFacility());
 		a.setDateHealthRegionNotified(b.getDateHealthRegionNotified());
+		a.setDateOfDiseaseOnset(b.getDateOfDiseaseOnset());
 		a.setAddress(b.getAddress());
 
 		// It would be better to merge with the existing hospitalizations
@@ -120,6 +121,7 @@ public class HospitalizationDtoHelper extends AdoDtoHelper<Hospitalization, Hosp
 		a.setSerialNumberInConsultationRegister(b.getSerialNumberInConsultationRegister());
 		a.setDateOfConsultationAtHealthFacility(b.getDateOfConsultationAtHealthFacility());
 		a.setDateHealthRegionNotified(b.getDateHealthRegionNotified());
+		a.setDateOfDiseaseOnset(b.getDateOfDiseaseOnset());
 		a.setAddress(b.getAddress());
 
 		List<PreviousHospitalizationDto> previousHospitalizationDtos = new ArrayList<>();

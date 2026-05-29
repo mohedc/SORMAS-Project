@@ -101,6 +101,8 @@ public class Hospitalization extends AbstractDomainObject {
 	private Date dateOfConsultationAtHealthFacility;
 	@DatabaseField(dataType = DataType.DATE_LONG)
 	private Date dateHealthRegionNotified;
+	@DatabaseField(dataType = DataType.DATE_LONG)
+	private Date dateOfDiseaseOnset;
 	@Column(length = CHARACTER_LIMIT_BIG)
 	private String address;
 
@@ -301,6 +303,14 @@ public class Hospitalization extends AbstractDomainObject {
 
 	public void setDateHealthRegionNotified(Date dateHealthRegionNotified) {
 		this.dateHealthRegionNotified = dateHealthRegionNotified;
+	}
+
+	public Date getDateOfDiseaseOnset() {
+		return dateOfDiseaseOnset;
+	}
+
+	public void setDateOfDiseaseOnset(Date dateOfDiseaseOnset) {
+		this.dateOfDiseaseOnset = dateOfDiseaseOnset;
 	}
 
 	public String getAddress() {

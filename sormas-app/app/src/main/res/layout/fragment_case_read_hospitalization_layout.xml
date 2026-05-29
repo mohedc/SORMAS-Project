@@ -147,6 +147,11 @@
                 </LinearLayout>
 
                 <de.symeda.sormas.app.component.controls.ControlTextReadField
+                    android:id="@+id/caseHospitalization_dateOfDiseaseOnset"
+                    app:value="@{data.dateOfDiseaseOnset}"
+                    style="@style/ControlSingleColumnStyle" />
+
+                <de.symeda.sormas.app.component.controls.ControlTextReadField
                     android:id="@+id/caseHospitalization_intensiveCareUnit"
                     app:value="@{data.intensiveCareUnit}"
                     style="@style/ControlSingleColumnStyle" />
