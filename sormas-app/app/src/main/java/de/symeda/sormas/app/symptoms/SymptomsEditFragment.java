@@ -198,9 +198,9 @@ public class SymptomsEditFragment extends BaseEditFragment<FragmentSymptomsEditL
 
 		setFieldVisibilitiesAndAccesses(SymptomsDto.class, contentBinding.mainContent);
 
-		if (contentBinding.symptomsBulgingFontanelle.getVisibility() == VISIBLE && !isInfant) {
-			contentBinding.symptomsBulgingFontanelle.setVisibility(GONE);
-		}
+//		if (contentBinding.symptomsBulgingFontanelle.getVisibility() == VISIBLE && !isInfant) {
+//			contentBinding.symptomsBulgingFontanelle.setVisibility(GONE);
+//		}
 
 		initializeAllControlDateFields(contentBinding.mainContent);
 
