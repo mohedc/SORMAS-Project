@@ -612,27 +612,45 @@
                 app:enumClass="@{yesNoClass}"
                 style="@style/ControlSingleColumnStyle" />
 
-            <LinearLayout
-                android:id="@+id/person_mothers_and_father_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+<!--            <LinearLayout-->
+<!--                android:id="@+id/person_mothers_and_father_layout"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="horizontal">-->
 
                 <de.symeda.sormas.app.component.controls.ControlTextEditField
                     android:id="@+id/person_mothersName"
                     android:nextFocusForward="@+id/person_fathersName"
                     app:value="@={data.mothersName}"
                     app:imeOptions="actionNext"
-                    style="@style/ControlFirstOfTwoColumnsStyle" />
+                    style="@style/ControlSingleColumnStyle" />
 
                 <de.symeda.sormas.app.component.controls.ControlTextEditField
                     android:id="@+id/person_fathersName"
-                    android:nextFocusForward="@+id/person_namesOfGuardians"
+                    android:nextFocusForward="@+id/person_mothersPhoneNumber"
                     app:value="@={data.fathersName}"
                     app:imeOptions="actionNext"
-                    style="@style/ControlSecondOfTwoColumnsStyle" />
+                    style="@style/ControlSingleColumnStyle" />
 
-            </LinearLayout>
+<!--            </LinearLayout>-->
+
+
+                <de.symeda.sormas.app.component.controls.ControlTextEditField
+                    android:id="@+id/person_mothersPhoneNumber"
+                    android:nextFocusForward="@+id/person_fathersPhoneNumber"
+                    app:value="@={data.mothersPhoneNumber}"
+                    app:inputType="phone"
+                    app:imeOptions="actionNext"
+                    style="@style/ControlSingleColumnStyle" />
+
+                <de.symeda.sormas.app.component.controls.ControlTextEditField
+                    android:id="@+id/person_fathersPhoneNumber"
+                    android:nextFocusForward="@+id/person_namesOfGuardians"
+                    app:value="@={data.fathersPhoneNumber}"
+                    app:inputType="phone"
+                    app:imeOptions="actionNext"
+                    style="@style/ControlSingleColumnStyle" />
+
 
             <de.symeda.sormas.app.component.controls.ControlTextEditField
                 android:id="@+id/person_namesOfGuardians"

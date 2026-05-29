@@ -111,6 +111,8 @@ public class PersonDtoHelper extends AdoDtoHelper<Person, PersonDto> {
 		target.setCauseOfDeathDetails(source.getCauseOfDeathDetails());
 		target.setMothersName(source.getMothersName());
 		target.setFathersName(source.getFathersName());
+		target.setMothersPhoneNumber(source.getMothersPhoneNumber());
+		target.setFathersPhoneNumber(source.getFathersPhoneNumber());
 		target.setNamesOfGuardians(source.getNamesOfGuardians());
 		target.setPlaceOfBirthRegion(DatabaseHelper.getRegionDao().getByReferenceDto(source.getPlaceOfBirthRegion()));
 		target.setPlaceOfBirthDistrict(DatabaseHelper.getDistrictDao().getByReferenceDto(source.getPlaceOfBirthDistrict()));
@@ -220,6 +222,8 @@ public class PersonDtoHelper extends AdoDtoHelper<Person, PersonDto> {
 
 		target.setMothersName(source.getMothersName());
 		target.setFathersName(source.getFathersName());
+		target.setMothersPhoneNumber(source.getMothersPhoneNumber());
+		target.setFathersPhoneNumber(source.getFathersPhoneNumber());
 		target.setNamesOfGuardians(source.getNamesOfGuardians());
 
 		if (source.getPlaceOfBirthRegion() != null) {

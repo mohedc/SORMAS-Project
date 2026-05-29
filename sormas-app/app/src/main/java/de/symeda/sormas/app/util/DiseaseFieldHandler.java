@@ -153,7 +153,26 @@ public class DiseaseFieldHandler {
         if (resourceEntryName.startsWith("symptoms_")) {
             return resourceEntryName.substring("symptoms_".length()).equals(formFieldName);
         }
+        String epiDataPropertyName = toEpiDataPropertyName(resourceEntryName);
+        if (epiDataPropertyName != null && epiDataPropertyName.equals(formFieldName)) {
+            return true;
+        }
+        if (resourceEntryName.equals("epiData_" + formFieldName)) {
+            return true;
+        }
         return ("symptoms_" + formFieldName).equals(resourceEntryName);
+    }
+
+    /** Maps layout ids such as {@code epiData_highTransmissionRiskArea} to {@code EpiDataDto} property names. */
+    static String toEpiDataPropertyName(String resourceEntryName) {
+        if (resourceEntryName == null || !resourceEntryName.startsWith("epiData_")) {
+            return null;
+        }
+        String propertyName = resourceEntryName.substring("epiData_".length());
+        if (propertyName.endsWith("_layout")) {
+            propertyName = propertyName.substring(0, propertyName.length() - "_layout".length());
+        }
+        return propertyName;
     }
 
     private static boolean matchesAnyFormField(String resourceEntryName, List<String> relevantFields) {
@@ -166,30 +185,32 @@ public class DiseaseFieldHandler {
     }
 
 
-    void reorderFieldsForDisease(List<FormField> orderedFields, ViewGroup parent) {
-        // Create a lookup map from every selectable child id to its direct row in the main content.
+    private void reorderFieldsForDisease(List<FormField> orderedFields, ViewGroup parent) {
+        // Create a lookup map for all views
         Map<String, View> viewsByFieldName = new HashMap<>();
 
         // Hide all views initially
         for (int i = 0; i < parent.getChildCount(); i++) {
             View view = parent.getChildAt(i);
             view.setVisibility(View.GONE);
-            mapViewAndDescendantsToDirectChild(view, view, viewsByFieldName);
-        }
 
-        Set<View> alreadyOrderedViews = new HashSet<>();
+            try {
+                String resourceName = context.getResources().getResourceEntryName(view.getId());
+                viewsByFieldName.put(resourceName, view);
+            } catch (Resources.NotFoundException e) {
+                Log.e(TAG, "Could not find resource name for ID: " + view.getId());
+            }
+        }
 
         // Now show only the views in orderedFields, in the specified order
         for (FormField field : orderedFields) {
             String fieldName = field.getFieldName();
             View view = viewsByFieldName.get(fieldName);
 
-            if (view != null && alreadyOrderedViews.add(view)) {
+            if (view != null) {
                 view.setVisibility(View.VISIBLE);
                 // Bring the view to front so it appears in the correct order visually
                 view.bringToFront();
-            } else if (view != null) {
-                Log.d(TAG, "View already ordered for FormField with name: " + fieldName);
             } else {
                 Log.d(TAG, "No matching View found for FormField with name: " + fieldName);
             }

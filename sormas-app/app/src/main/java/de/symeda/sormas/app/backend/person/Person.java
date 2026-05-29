@@ -104,6 +104,10 @@ public class Person extends PseudonymizableAdo {
 	@Column(length = CHARACTER_LIMIT_DEFAULT)
 	private String fathersName;
 	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	private String mothersPhoneNumber;
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	private String fathersPhoneNumber;
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
 	private String namesOfGuardians;
 	@Column
 	private Integer birthdateDD;
@@ -570,6 +574,22 @@ public class Person extends PseudonymizableAdo {
 
 	public void setFathersName(String fathersName) {
 		this.fathersName = fathersName;
+	}
+
+	public String getMothersPhoneNumber() {
+		return mothersPhoneNumber;
+	}
+
+	public void setMothersPhoneNumber(String mothersPhoneNumber) {
+		this.mothersPhoneNumber = mothersPhoneNumber;
+	}
+
+	public String getFathersPhoneNumber() {
+		return fathersPhoneNumber;
+	}
+
+	public void setFathersPhoneNumber(String fathersPhoneNumber) {
+		this.fathersPhoneNumber = fathersPhoneNumber;
 	}
 
 	public String getNamesOfGuardians() {
