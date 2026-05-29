@@ -219,7 +219,7 @@ public class SymptomsEditFragment extends BaseEditFragment<FragmentSymptomsEditL
 
 		// Remove the Complications heading for CRS; should be done automatically later
 		if (disease == Disease.CONGENITAL_RUBELLA) {
-			contentBinding.complicationsHeading.setVisibility(GONE);
+			handleCongenitalRubellaOutcome(contentBinding);
 		}
 
 		contentBinding.symptomsCongenitalHeartDisease.addValueChangedListener(e -> {
@@ -459,9 +459,28 @@ public class SymptomsEditFragment extends BaseEditFragment<FragmentSymptomsEditL
 							CaseOutcome.DECEASED,
 							CaseOutcome.UNKNOWN)),
 					true);
+		} else if (disease == Disease.CONGENITAL_RUBELLA) {
+			return DataUtils.toItems(
+					new ArrayList<>(List.of(
+							CaseOutcome.ALIVE,
+							CaseOutcome.DECEASED)),
+					true);
 		}
 
 		return DataUtils.getEnumItems(CaseOutcome.class, true);
+	}
+
+	private void handleCongenitalRubellaOutcome(FragmentSymptomsEditLayoutBinding contentBinding) {
+		// symptoms_causeOfDeath, symptoms_autopsyConducted ()
+		contentBinding.symptomsCauseOfDeath.setVisibility(CaseOutcome.DECEASED.equals(record.getOutcome()) ? VISIBLE : GONE);
+		contentBinding.symptomsAutopsyConducted.setVisibility(CaseOutcome.DECEASED.equals(record.getOutcome()) ? VISIBLE : GONE);
+
+		// add listener to symptoms_outcome
+		contentBinding.symptomsOutcome.addValueChangedListener(field -> {
+			CaseOutcome outcome = (CaseOutcome) field.getValue();
+			contentBinding.symptomsCauseOfDeath.setVisibility(outcome == CaseOutcome.DECEASED ? VISIBLE : GONE);
+			contentBinding.symptomsAutopsyConducted.setVisibility(outcome == CaseOutcome.DECEASED ? VISIBLE : GONE);
+		});
 	}
 
 	private void initializeAllControlDateFields(View view) {

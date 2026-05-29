@@ -232,6 +232,13 @@ public class SampleEditFragment extends BaseEditFragment<FragmentSampleEditLayou
 					SampleMaterial.CSF,
 					SampleMaterial.OTHER));
 
+		} else if (associatedDisease == Disease.CONGENITAL_RUBELLA) {
+			sampleMaterialList = DataUtils.toItems(Arrays.asList(
+					SampleMaterial.SERUM,
+					SampleMaterial.THROAT_SWAB,
+					SampleMaterial.URINE,
+					SampleMaterial.CEREBROSPINAL_FLUID,
+					SampleMaterial.OTHER));
 		} else {
 			sampleMaterialList = DataUtils.getEnumItems(SampleMaterial.class, true, getFieldVisibilityCheckers());
 		}
@@ -327,6 +334,10 @@ public class SampleEditFragment extends BaseEditFragment<FragmentSampleEditLayou
 			handleMeasles(contentBinding);
 		} else if (disease == Disease.YELLOW_FEVER) {
 			handleYellowFever(contentBinding);
+		} else if (disease == Disease.CSM) {
+			handleMeningitis(contentBinding);
+		} else if (disease == Disease.CONGENITAL_RUBELLA) {
+			handleCongenitalRubella(contentBinding);
 		}
 
 		// Initialize ControlSpinnerFields
@@ -435,9 +446,7 @@ public class SampleEditFragment extends BaseEditFragment<FragmentSampleEditLayou
 		contentBinding.sampleCsfAppearanceAtCollection.initializeSpinner(DataUtils.getEnumItems(CsfAppearance.class, true));
 		contentBinding.sampleCsfAppearanceAtReception.initializeSpinner(DataUtils.getEnumItems(CsfAppearance.class, true));
 
-		if (disease == Disease.CSM) {
-			handleMeningitis(contentBinding);
-		}
+
 
 		// Initialize on clicks
 		contentBinding.buttonScanFieldSampleId.setOnClickListener((View v) -> {
@@ -543,6 +552,24 @@ public class SampleEditFragment extends BaseEditFragment<FragmentSampleEditLayou
 
 		updateLabCaption.run();
 		contentBinding.sampleLaboratoryType.addValueChangedListener(field -> updateLabCaption.run());
+
+		//dispached lisnter
+		contentBinding.sampleShipmentDate.setVisibility(Boolean.TRUE.equals(contentBinding.sampleShipped.getValue()) ? VISIBLE : GONE);
+		contentBinding.sampleShipmentDetails.setVisibility(Boolean.TRUE.equals(contentBinding.sampleShipped.getValue()) ? VISIBLE : GONE);
+		contentBinding.sampleShipped.addValueChangedListener(field -> {
+				contentBinding.sampleShipmentDate.setVisibility(Boolean.TRUE.equals(field.getValue()) ? VISIBLE : GONE);
+				contentBinding.sampleShipmentDetails.setVisibility(Boolean.TRUE.equals(field.getValue()) ? VISIBLE : GONE);
+			});
+
+	}
+
+	private void handleCongenitalRubella(FragmentSampleEditLayoutBinding contentBinding) {
+		contentBinding.sampleShipmentDate.setVisibility(Boolean.TRUE.equals(contentBinding.sampleShipped.getValue()) ? VISIBLE : GONE);
+		contentBinding.sampleShipmentDetails.setVisibility(Boolean.TRUE.equals(contentBinding.sampleShipped.getValue()) ? VISIBLE : GONE);
+		contentBinding.sampleShipped.addValueChangedListener(field -> {
+			contentBinding.sampleShipmentDate.setVisibility(Boolean.TRUE.equals(field.getValue()) ? VISIBLE : GONE);
+			contentBinding.sampleShipmentDetails.setVisibility(Boolean.TRUE.equals(field.getValue()) ? VISIBLE : GONE);
+		});
 	}
 
 	private void handleMeasles(FragmentSampleEditLayoutBinding contentBinding) {
