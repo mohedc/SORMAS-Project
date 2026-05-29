@@ -34,6 +34,7 @@ import androidx.annotation.Nullable;
 
 import de.symeda.sormas.api.Disease;
 import de.symeda.sormas.api.FormType;
+import de.symeda.sormas.api.i18n.I18nProperties;
 import de.symeda.sormas.api.feature.FeatureType;
 import de.symeda.sormas.api.infrastructure.facility.FacilityDto;
 import de.symeda.sormas.api.sample.AdditionalTestType;
@@ -41,6 +42,7 @@ import de.symeda.sormas.api.sample.PathogenTestResultType;
 import de.symeda.sormas.api.sample.PathogenTestType;
 import de.symeda.sormas.api.sample.SampleDto;
 import de.symeda.sormas.api.sample.CsfAppearance;
+import de.symeda.sormas.api.sample.LaboratoryType;
 import de.symeda.sormas.api.sample.LpNotDoneReason;
 import de.symeda.sormas.api.sample.MeningitisRdtResult;
 import de.symeda.sormas.api.sample.SampleContainerType;
@@ -218,7 +220,11 @@ public class SampleEditFragment extends BaseEditFragment<FragmentSampleEditLayou
 		if (associatedDisease == Disease.MEASLES) {
 			sampleMaterialList = DataUtils.toItems(Arrays.asList(SampleMaterial.BLOOD, SampleMaterial.THROAT_SWAB, SampleMaterial.OTHER));
 		} else if (associatedDisease == Disease.CSM) {
-			sampleMaterialList = DataUtils.toItems(Arrays.asList(SampleMaterial.CEREBROSPINAL_FLUID, SampleMaterial.OTHER));
+			sampleMaterialList = DataUtils.toItems(Arrays.asList(
+					SampleMaterial.CSF,
+					SampleMaterial.BLOOD,
+					SampleMaterial.THROAT_SWAB,
+					SampleMaterial.OTHER));
 		} else if (associatedDisease == Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS) {
 			sampleMaterialList = DataUtils.toItems(Arrays.asList(
 					SampleMaterial.STOOL,
@@ -429,6 +435,10 @@ public class SampleEditFragment extends BaseEditFragment<FragmentSampleEditLayou
 		contentBinding.sampleCsfAppearanceAtCollection.initializeSpinner(DataUtils.getEnumItems(CsfAppearance.class, true));
 		contentBinding.sampleCsfAppearanceAtReception.initializeSpinner(DataUtils.getEnumItems(CsfAppearance.class, true));
 
+		if (disease == Disease.CSM) {
+			handleMeningitis(contentBinding);
+		}
+
 		// Initialize on clicks
 		contentBinding.buttonScanFieldSampleId.setOnClickListener((View v) -> {
 			Intent intent = new Intent(getContext(), BarcodeActivity.class);
@@ -513,6 +523,26 @@ public class SampleEditFragment extends BaseEditFragment<FragmentSampleEditLayou
 		} else {
 			super.onActivityResult(requestCode, resultCode, data);
 		}
+	}
+
+	private void handleMeningitis(FragmentSampleEditLayoutBinding contentBinding) {
+		if (contentBinding.sampleLaboratoryType == null || contentBinding.sampleLab == null) {
+			return;
+		}
+
+		String defaultLabCaption = I18nProperties.getPrefixCaption(SampleDto.I18N_PREFIX, SampleDto.LAB);
+
+		Runnable updateLabCaption = () -> {
+			LaboratoryType selectedType = (LaboratoryType) contentBinding.sampleLaboratoryType.getValue();
+			if (selectedType != null) {
+				contentBinding.sampleLab.setCaption("Name of " + selectedType);
+			} else {
+				contentBinding.sampleLab.setCaption(defaultLabCaption);
+			}
+		};
+
+		updateLabCaption.run();
+		contentBinding.sampleLaboratoryType.addValueChangedListener(field -> updateLabCaption.run());
 	}
 
 	private void handleMeasles(FragmentSampleEditLayoutBinding contentBinding) {
