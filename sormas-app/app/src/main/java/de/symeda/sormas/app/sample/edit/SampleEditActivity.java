@@ -24,6 +24,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.view.Menu;
 
+import de.symeda.sormas.api.Disease;
 import de.symeda.sormas.api.sample.SamplePurpose;
 import de.symeda.sormas.api.utils.DataHelper;
 import de.symeda.sormas.api.utils.ValidationException;
@@ -69,10 +70,28 @@ public class SampleEditActivity extends BaseEditActivity<Sample> {
 	public List<PageMenuItem> getPageMenuData() {
 		List<PageMenuItem> menuItems = PageMenuItem.fromEnum(SampleSection.values(), getContext());
 		Sample sample = getStoredRootEntity();
-//        if(sample != null && sample.getSamplePurpose().equals(SamplePurpose.INTERNAL)){
-//            menuItems.remove(SampleSection.PATHOGEN_TESTS.ordinal());
-//        }
+		if (isIdsrSample(sample)) {
+			menuItems.removeIf(item -> SampleSection.fromOrdinal(item.getPosition()) == SampleSection.PATHOGEN_TESTS);
+		}
 		return menuItems;
+	}
+
+	private boolean isIdsrSample(Sample sample) {
+		return getDiseaseOfAssociatedEntity(sample) == Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS;
+	}
+
+	private Disease getDiseaseOfAssociatedEntity(Sample sample) {
+		if (sample == null) {
+			return null;
+		} else if (sample.getAssociatedCase() != null) {
+			return sample.getAssociatedCase().getDisease();
+		} else if (sample.getAssociatedContact() != null) {
+			return sample.getAssociatedContact().getDisease();
+		} else if (sample.getAssociatedEventParticipant() != null) {
+			return sample.getAssociatedEventParticipant().getEvent().getDisease();
+		} else {
+			return null;
+		}
 	}
 
 	@Override

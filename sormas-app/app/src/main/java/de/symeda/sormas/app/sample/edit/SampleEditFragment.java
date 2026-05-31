@@ -639,7 +639,7 @@ public class SampleEditFragment extends BaseEditFragment<FragmentSampleEditLayou
 		contentBinding.sampleDateSpecimenReceivedNationalLevel.setEnabled(false);
 		contentBinding.sampleDateSpecimenReceivedInter.setEnabled(false);
 
-		updateAfpShipmentVisibility(contentBinding, record.isShipped());
+		updateAfpShipmentVisibility(contentBinding, Boolean.TRUE.equals(contentBinding.sampleShipped.getValue()));
 		contentBinding.sampleShipped.addValueChangedListener(field -> {
 			updateAfpShipmentVisibility(contentBinding, Boolean.TRUE.equals(field.getValue()));
 		});
@@ -696,6 +696,7 @@ public class SampleEditFragment extends BaseEditFragment<FragmentSampleEditLayou
 		FragmentSampleEditLayoutBinding contentBinding, boolean shipped) {
 
 		int vis = shipped ? VISIBLE : GONE;
+		contentBinding.sampleAfpSentDatesLayout.setVisibility(vis);
 		contentBinding.sampleShipmentDate.setVisibility(vis);
 		contentBinding.sampleShipmentDetails.setVisibility(vis);
 		contentBinding.sampleDateSpecimenSentNationalLevel.setVisibility(vis);

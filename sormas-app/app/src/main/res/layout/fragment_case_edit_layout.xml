@@ -414,8 +414,6 @@
                     <de.symeda.sormas.app.component.controls.ControlTextEditField
                         android:id="@+id/caseData_notifiedByDetails"
                         app:value="@={data.notifiedByDetails}"
-                        app:dependencyParentField="@{caseDataNotifiedBy}"
-                        app:dependencyParentValue="@{NotifiedBy.OTHER}"
                         style="@style/ControlSecondOfTwoColumnsStyle" />
 
                 </LinearLayout>

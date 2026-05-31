@@ -125,19 +125,6 @@
 
                 </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/hospitalization_address_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <de.symeda.sormas.app.component.controls.ControlTextEditField
-                        android:id="@+id/hospitalization_address"
-                        app:value="@={data.address}"
-                        style="@style/ControlSingleColumnStyle" />
-
-                </LinearLayout>
-
                 <de.symeda.sormas.app.component.controls.ControlSwitchField
                     android:id="@+id/caseHospitalization_admittedToHealthFacility"
                     app:value="@={data.admittedToHealthFacility}"
@@ -166,6 +153,19 @@
                     android:id="@+id/caseHospitalization_dateOfDiseaseOnset"
                     app:value="@={data.dateOfDiseaseOnset}"
                     style="@style/ControlSingleColumnStyle" />
+
+                <LinearLayout
+                    android:id="@+id/hospitalization_address_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <de.symeda.sormas.app.component.controls.ControlTextEditField
+                        android:id="@+id/hospitalization_address"
+                        app:value="@={data.address}"
+                        style="@style/ControlSingleColumnStyle" />
+
+                </LinearLayout>
 
                 <de.symeda.sormas.app.component.controls.ControlSwitchField
                     android:id="@+id/caseHospitalization_seenAtHealthFacility"

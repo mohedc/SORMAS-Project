@@ -1066,6 +1066,7 @@ public class Sample extends PseudonymizableAdo {
 		this.csfAppearanceAtCollection = null;
 	}
 
+	@Transient
 	public Set<CsfAppearance> getCsfAppearanceAtCollection() {
 		if (csfAppearanceAtCollection == null) {
 			csfAppearanceAtCollection = new HashSet<>();
