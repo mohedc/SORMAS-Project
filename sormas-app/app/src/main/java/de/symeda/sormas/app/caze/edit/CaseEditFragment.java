@@ -857,14 +857,9 @@ public class CaseEditFragment extends BaseEditFragment<FragmentCaseEditLayoutBin
 		contentBinding.caseDataSurveillanceOfficer.setPseudonymized(record.isPseudonymized());
 
 		contentBinding.caseDataNotifiedBy.addValueChangedListener(field -> {
-			boolean isOther = NotifiedBy.OTHER.equals(contentBinding.caseDataNotifiedBy.getValue());
-			contentBinding.caseDataNotifiedBy.setVisibility(VISIBLE);
-			contentBinding.caseDataNotifiedByDetails.setVisibility(isOther ? VISIBLE : GONE);
+			updateNotifiedByDetailsVisibility(contentBinding);
 		});
-		contentBinding.caseDataNotifiedBy.setVisibility(VISIBLE);
-		contentBinding.caseDataNotifiedByDetails.setVisibility(
-				NotifiedBy.OTHER.equals(contentBinding.caseDataNotifiedBy.getValue()) ? VISIBLE : GONE
-		);
+		updateNotifiedByDetailsVisibility(contentBinding);
 
 		updateVaccinationRecordTypeForDisease(contentBinding);
 		Disease disease = record.getDisease();
@@ -921,35 +916,44 @@ public class CaseEditFragment extends BaseEditFragment<FragmentCaseEditLayoutBin
 
 	private void handleNNT() {
 		FragmentCaseEditLayoutBinding contentBinding = getContentBinding();
-		YesNoUnknown motherHaveCard = contentBinding.caseDataMotherHaveCard != null
-				? (YesNoUnknown) contentBinding.caseDataMotherHaveCard.getValue() : null;
-		contentBinding.caseDataMotherNumberOfDoses.setVisibility(
-				motherHaveCard == YesNoUnknown.YES ? VISIBLE : GONE
-		);
+		contentBinding.headingAdditionalMedicalInformation.setVisibility(GONE);
+		contentBinding.caseDataHeadingInvestigatingOfficer.setVisibility(VISIBLE);
 
-		String caseDataMotherNumberOfDoses = "0";
-		if (contentBinding.caseDataMotherNumberOfDoses != null &&
-				contentBinding.caseDataMotherNumberOfDoses.getValue() != null) {
-			caseDataMotherNumberOfDoses = contentBinding.caseDataMotherNumberOfDoses.getValue().toString();
+		contentBinding.caseDataMotherVaccinatedWithTT.addValueChangedListener(field -> updateNntMotherDoseDateVisibility(contentBinding));
+		contentBinding.caseDataMotherHaveCard.addValueChangedListener(field -> updateNntMotherDoseDateVisibility(contentBinding));
+		contentBinding.caseDataMotherNumberOfDoses.addValueChangedListener(field -> updateNntMotherDoseDateVisibility(contentBinding));
+
+		updateNntMotherDoseDateVisibility(contentBinding);
+	}
+
+	private void updateNotifiedByDetailsVisibility(FragmentCaseEditLayoutBinding contentBinding) {
+		Object notifiedBy = contentBinding.caseDataNotifiedBy.getValue();
+		boolean hasNotifiedBy = notifiedBy != null;
+
+		contentBinding.caseDataNotifiedBy.setVisibility(VISIBLE);
+		contentBinding.caseDataNotifiedByDetails.setVisibility(hasNotifiedBy ? VISIBLE : GONE);
+		if (!hasNotifiedBy && contentBinding.caseDataNotifiedByDetails.getValue() != null) {
+			contentBinding.caseDataNotifiedByDetails.setValue(null);
+		}
+	}
+
+	private void updateNntMotherDoseDateVisibility(FragmentCaseEditLayoutBinding contentBinding) {
+		YesNoUnknown motherHaveCard = (YesNoUnknown) contentBinding.caseDataMotherHaveCard.getValue();
+		boolean hasCard = motherHaveCard == YesNoUnknown.YES;
+		contentBinding.caseDataMotherNumberOfDoses.setVisibility(hasCard ? VISIBLE : GONE);
+
+		int numberOfDoses = 0;
+		String motherNumberOfDoses = null;
+		if (hasCard && contentBinding.caseDataMotherNumberOfDoses.getValue() != null) {
+			motherNumberOfDoses = contentBinding.caseDataMotherNumberOfDoses.getValue().toString();
 		}
 
-		if (caseDataMotherNumberOfDoses.isEmpty()) {
-			caseDataMotherNumberOfDoses = "0";
-		}
-
-		int numberOfDoses;
-		try {
-			numberOfDoses = Integer.parseInt(caseDataMotherNumberOfDoses);
-		} catch (NumberFormatException e) {
-			Log.e("NNT", "Invalid number format: " + caseDataMotherNumberOfDoses, e);
-			// Hide all fields on error
-			contentBinding.caseDataMotherTTDateOne.setVisibility(GONE);
-			contentBinding.caseDataMotherTTDateTwo.setVisibility(GONE);
-			contentBinding.caseDataMotherTTDateThree.setVisibility(GONE);
-			contentBinding.caseDataMotherTTDateFour.setVisibility(GONE);
-			contentBinding.caseDataMotherTTDateFive.setVisibility(GONE);
-			contentBinding.caseDataMotherLastDoseDate.setVisibility(GONE);
-			return;
+		if (motherNumberOfDoses != null && !motherNumberOfDoses.isEmpty()) {
+			try {
+				numberOfDoses = Integer.parseInt(motherNumberOfDoses);
+			} catch (NumberFormatException e) {
+				Log.e("NNT", "Invalid number format: " + motherNumberOfDoses, e);
+			}
 		}
 
 		contentBinding.caseDataMotherTTDateOne.setVisibility(numberOfDoses >= 1 ? VISIBLE : GONE);
@@ -958,6 +962,10 @@ public class CaseEditFragment extends BaseEditFragment<FragmentCaseEditLayoutBin
 		contentBinding.caseDataMotherTTDateFour.setVisibility(numberOfDoses >= 4 ? VISIBLE : GONE);
 		contentBinding.caseDataMotherTTDateFive.setVisibility(numberOfDoses >= 5 ? VISIBLE : GONE);
 		contentBinding.caseDataMotherLastDoseDate.setVisibility(numberOfDoses >= 6 ? VISIBLE : GONE);
+
+		contentBinding.caseDataVaccinationDateOneTwoLayout.setVisibility(numberOfDoses >= 1 ? VISIBLE : GONE);
+		contentBinding.caseDataVaccinationDateThreeFourLayout.setVisibility(numberOfDoses >= 3 ? VISIBLE : GONE);
+		contentBinding.caseDataVaccinationDateFiveLastDoseLayout.setVisibility(numberOfDoses >= 5 ? VISIBLE : GONE);
 	}
 
 	private void handleIDSR() {

@@ -61,7 +61,7 @@
                     app:value="@{data.totalNumberDoses}" />
 
                 <LinearLayout
-                    android:id="@+id/afpImmunization_opvDoseAtBirth_secondDose_layout"
+                    android:id="@+id/afpImmunization_opvDoseAtBirth_firstDose_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -72,14 +72,32 @@
                         app:value="@{data.opvDoseAtBirth}" />
 
                     <de.symeda.sormas.app.component.controls.ControlTextReadField
-                        android:id="@+id/afpImmunization_secondDose"
+                        android:id="@+id/afpImmunization_firstDose"
                         style="@style/ControlSecondOfTwoColumnsStyle"
-                        app:value="@{data.secondDose}" />
+                        app:value="@{data.firstDose}" />
 
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/afpImmunization_fourthDose_firstDose_layout"
+                    android:id="@+id/afpImmunization_secondDose_thirdDose_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <de.symeda.sormas.app.component.controls.ControlTextReadField
+                        android:id="@+id/afpImmunization_secondDose"
+                        style="@style/ControlFirstOfTwoColumnsStyle"
+                        app:value="@{data.secondDose}" />
+
+                    <de.symeda.sormas.app.component.controls.ControlTextReadField
+                        android:id="@+id/afpImmunization_thirdDose"
+                        style="@style/ControlSecondOfTwoColumnsStyle"
+                        app:value="@{data.thirdDose}" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/afpImmunization_fourthDose_lastDose_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -88,24 +106,6 @@
                         android:id="@+id/afpImmunization_fourthDose"
                         style="@style/ControlFirstOfTwoColumnsStyle"
                         app:value="@{data.fourthDose}" />
-
-                    <de.symeda.sormas.app.component.controls.ControlTextReadField
-                        android:id="@+id/afpImmunization_firstDose"
-                        style="@style/ControlSecondOfTwoColumnsStyle"
-                        app:value="@{data.firstDose}" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/afpImmunization_thirdDose_lastDose_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <de.symeda.sormas.app.component.controls.ControlTextReadField
-                        android:id="@+id/afpImmunization_thirdDose"
-                        style="@style/ControlFirstOfTwoColumnsStyle"
-                        app:value="@{data.thirdDose}" />
 
                     <de.symeda.sormas.app.component.controls.ControlTextReadField
                         android:id="@+id/afpImmunization_lastDose"

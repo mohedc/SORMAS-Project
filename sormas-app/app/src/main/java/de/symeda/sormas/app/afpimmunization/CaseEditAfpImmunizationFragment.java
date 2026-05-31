@@ -68,10 +68,10 @@ public class CaseEditAfpImmunizationFragment
 	@Override
 	protected void onAfterLayoutBinding(FragmentAfpImmunizationEditLayoutBinding contentBinding) {
 		contentBinding.afpImmunizationOpvDoseAtBirth.initializeDateField(getFragmentManager());
-		contentBinding.afpImmunizationSecondDose.initializeDateField(getFragmentManager());
-		contentBinding.afpImmunizationFourthDose.initializeDateField(getFragmentManager());
 		contentBinding.afpImmunizationFirstDose.initializeDateField(getFragmentManager());
+		contentBinding.afpImmunizationSecondDose.initializeDateField(getFragmentManager());
 		contentBinding.afpImmunizationThirdDose.initializeDateField(getFragmentManager());
+		contentBinding.afpImmunizationFourthDose.initializeDateField(getFragmentManager());
 		contentBinding.afpImmunizationLastDose.initializeDateField(getFragmentManager());
 		contentBinding.afpImmunizationDateLastOpvDosesReceivedThroughSia.initializeDateField(getFragmentManager());
 		contentBinding.afpImmunizationDateLastIpvDosesReceivedThroughSia.initializeDateField(getFragmentManager());
