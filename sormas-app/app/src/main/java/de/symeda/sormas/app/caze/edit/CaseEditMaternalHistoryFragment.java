@@ -131,7 +131,6 @@ public class CaseEditMaternalHistoryFragment extends BaseEditFragment<FragmentCa
 		contentBinding.maternalHistorySwollenLymphsOnset.setVisibility(contentBinding.maternalHistorySwollenLymphs.getValue() == YesNoUnknown.YES ? View.VISIBLE : View.GONE);
 		contentBinding.maternalHistoryArthralgiaArthritisOnset.setVisibility(contentBinding.maternalHistoryArthralgiaArthritis.getValue() == YesNoUnknown.YES ? View.VISIBLE : View.GONE);
 		contentBinding.maternalHistoryOtherComplicationsOnset.setVisibility(contentBinding.maternalHistoryOtherComplications.getValue() == YesNoUnknown.YES ? View.VISIBLE : View.GONE);
-		// 
 
 
 		contentBinding.maternalHistoryConjunctivitis.addValueChangedListener(new ValueChangeListener() {
@@ -166,6 +165,16 @@ public class CaseEditMaternalHistoryFragment extends BaseEditFragment<FragmentCa
 			}
 		});
 
+		// maternalHistory_motherRubellaLabConfirmed
+		contentBinding.maternalHistoryMotherRubellaLabConfirmedDate.setVisibility(contentBinding.maternalHistoryMotherRubellaLabConfirmed.getValue() == YesNoUnknown.YES ? View.VISIBLE : View.GONE);
+
+		contentBinding.maternalHistoryMotherRubellaLabConfirmed.addValueChangedListener(new ValueChangeListener() {
+			@Override
+			public void onChange(ControlPropertyField field) {
+				contentBinding.maternalHistoryMotherRubellaLabConfirmedDate.setVisibility(contentBinding.maternalHistoryMotherRubellaLabConfirmed.getValue() == YesNoUnknown.YES ? View.VISIBLE : View.GONE);
+			}
+		});
+
 		// motherTraveledDuringPregnancy
 		contentBinding.maternalHistoryMotherTraveledDuringPregnancyDate.setVisibility(contentBinding.maternalHistoryMotherTraveledDuringPregnancy.getValue() == YesNoUnknown.YES ? View.VISIBLE : View.GONE);
 		contentBinding.maternalHistoryGestationalAgeAtTravel.setVisibility(contentBinding.maternalHistoryMotherTraveledDuringPregnancy.getValue() == YesNoUnknown.YES ? View.VISIBLE : View.GONE);
@@ -177,6 +186,20 @@ public class CaseEditMaternalHistoryFragment extends BaseEditFragment<FragmentCa
 				contentBinding.maternalHistoryGestationalAgeAtTravel.setVisibility(contentBinding.maternalHistoryMotherTraveledDuringPregnancy.getValue() == YesNoUnknown.YES ? View.VISIBLE : View.GONE);
 				contentBinding.maternalHistoryTravelLocationDescription.setVisibility(contentBinding.maternalHistoryMotherTraveledDuringPregnancy.getValue() == YesNoUnknown.YES ? View.VISIBLE : View.GONE);
 				contentBinding.maternalHistoryMotherTraveledDuringPregnancyDate.setVisibility(contentBinding.maternalHistoryMotherTraveledDuringPregnancy.getValue() == YesNoUnknown.YES ? View.VISIBLE : View.GONE);
+			}
+		});
+
+		// rashExposure
+		contentBinding.maternalHistoryRashExposureDate.setVisibility(contentBinding.maternalHistoryRashExposure.getValue() == YesNoUnknown.YES ? View.VISIBLE : View.GONE);
+		contentBinding.maternalHistoryGestationalAgeAtExposure.setVisibility(contentBinding.maternalHistoryRashExposure.getValue() == YesNoUnknown.YES ? View.VISIBLE : View.GONE);
+		contentBinding.maternalHistoryExposureLocationDescription.setVisibility(contentBinding.maternalHistoryRashExposure.getValue() == YesNoUnknown.YES ? View.VISIBLE : View.GONE);
+
+		contentBinding.maternalHistoryRashExposure.addValueChangedListener(new ValueChangeListener() {
+			@Override
+			public void onChange(ControlPropertyField field) {
+				contentBinding.maternalHistoryRashExposureDate.setVisibility(contentBinding.maternalHistoryRashExposure.getValue() == YesNoUnknown.YES ? View.VISIBLE : View.GONE);
+				contentBinding.maternalHistoryGestationalAgeAtExposure.setVisibility(contentBinding.maternalHistoryRashExposure.getValue() == YesNoUnknown.YES ? View.VISIBLE : View.GONE);
+				contentBinding.maternalHistoryExposureLocationDescription.setVisibility(contentBinding.maternalHistoryRashExposure.getValue() == YesNoUnknown.YES ? View.VISIBLE : View.GONE);
 			}
 		});
 	}
