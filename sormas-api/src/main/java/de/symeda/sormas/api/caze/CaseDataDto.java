@@ -816,7 +816,8 @@ public class CaseDataDto extends SormasToSormasShareableDto implements IsCase {
 			Disease.MEASLES,
 			Disease.YELLOW_FEVER,
 			Disease.AFP,
-			Disease.CSM})
+			Disease.CSM,
+			Disease.CONGENITAL_RUBELLA})
 	private Date dateOfInvestigation;
 	@Diseases({
 			Disease.NEONATAL_TETANUS,
