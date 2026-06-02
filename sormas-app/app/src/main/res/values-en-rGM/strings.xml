@@ -333,6 +333,8 @@
     <string name="heading_clinical_visit">Clinical Assessment</string>
     <string name="heading_clinical_visit_new">New Clinical Assessment</string>
     <string name="heading_complications">Complications</string>
+    <string name="heading_group_a">Group A</string>
+    <string name="heading_group_b">Group B</string>
     <string name="heading_confirm_pin">Confirm PIN</string>
     <string name="heading_confirmation_dialog">Confirmation</string>
     <string name="heading_contact_edit">Edit Contact</string>

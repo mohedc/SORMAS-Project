@@ -480,6 +480,10 @@ public class SymptomsEditFragment extends BaseEditFragment<FragmentSymptomsEditL
 			CaseOutcome outcome = (CaseOutcome) field.getValue();
 			contentBinding.symptomsCauseOfDeath.setVisibility(outcome == CaseOutcome.DECEASED ? VISIBLE : GONE);
 			contentBinding.symptomsAutopsyConducted.setVisibility(outcome == CaseOutcome.DECEASED ? VISIBLE : GONE);
+			//clear symptomsAutopsyConducted if outcome is not DECEASED
+			if (outcome != CaseOutcome.DECEASED) {
+				contentBinding.symptomsAutopsyConducted.setValue(null);
+			}
 		});
 	}
 
