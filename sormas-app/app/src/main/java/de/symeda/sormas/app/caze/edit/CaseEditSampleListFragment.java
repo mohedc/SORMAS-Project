@@ -33,6 +33,7 @@ import de.symeda.sormas.app.BaseActivity;
 import de.symeda.sormas.app.BaseEditFragment;
 import de.symeda.sormas.app.R;
 import de.symeda.sormas.app.backend.caze.Case;
+import de.symeda.sormas.app.caze.CaseCsmSamplesMenuHelper;
 import de.symeda.sormas.app.backend.config.ConfigProvider;
 import de.symeda.sormas.app.backend.sample.Sample;
 import de.symeda.sormas.app.core.adapter.databinding.OnListItemClickListener;
@@ -118,6 +119,12 @@ public class CaseEditSampleListFragment extends BaseEditFragment<FragmentFormLis
 
 	@Override
 	public boolean isShowNewAction() {
-		return ConfigProvider.hasUserRight(UserRight.SAMPLE_EDIT);
+		if (!ConfigProvider.hasUserRight(UserRight.SAMPLE_EDIT)) {
+			return false;
+		}
+		if (getActivity() instanceof CaseEditActivity) {
+			return ((CaseEditActivity) getActivity()).isCaseSamplesMenuEnabledForSession();
+		}
+		return CaseCsmSamplesMenuHelper.isSamplesMenuEnabled(getActivityRootData());
 	}
 }

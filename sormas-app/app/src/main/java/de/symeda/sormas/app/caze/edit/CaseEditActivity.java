@@ -29,11 +29,13 @@ import de.symeda.sormas.api.caze.CaseOrigin;
 import de.symeda.sormas.api.caze.CaseReferenceDto;
 import de.symeda.sormas.api.feature.FeatureType;
 import de.symeda.sormas.api.feature.FeatureTypeProperty;
+import de.symeda.sormas.api.i18n.Captions;
 import de.symeda.sormas.api.i18n.I18nProperties;
 import de.symeda.sormas.api.i18n.Strings;
 import de.symeda.sormas.api.user.UserRight;
 import de.symeda.sormas.api.utils.DataHelper;
 import de.symeda.sormas.api.utils.ValidationException;
+import de.symeda.sormas.api.utils.YesNo;
 import de.symeda.sormas.app.BaseActivity;
 import de.symeda.sormas.app.BaseEditActivity;
 import de.symeda.sormas.app.BaseEditFragment;
@@ -48,6 +50,7 @@ import de.symeda.sormas.app.backend.event.EventCriteria;
 import de.symeda.sormas.app.backend.event.EventParticipant;
 import de.symeda.sormas.app.backend.user.UserRole;
 import de.symeda.sormas.app.afpimmunization.CaseEditAfpImmunizationFragment;
+import de.symeda.sormas.app.caze.CaseCsmSamplesMenuHelper;
 import de.symeda.sormas.app.caze.CaseSection;
 import de.symeda.sormas.app.clinicalcourse.edit.ClinicalVisitNewActivity;
 import de.symeda.sormas.app.component.dialog.ConfirmationDialog;
@@ -81,6 +84,7 @@ public class CaseEditActivity extends BaseEditActivity<Case> {
 	public static final String TAG = CaseEditActivity.class.getSimpleName();
 
 	private AsyncTask saveTask;
+	private boolean caseSamplesMenuEnabled = true;
 
 	public static void startActivity(Context context, String recordUuid, CaseSection section) {
 		BaseActivity.startActivity(context, CaseEditActivity.class, buildBundle(recordUuid, section));
@@ -175,7 +179,25 @@ public class CaseEditActivity extends BaseEditActivity<Case> {
 		}
 		menuItems.set(CaseSection.FINAL_CLASSIFICATION.ordinal(), null);
 
+		caseSamplesMenuEnabled = CaseCsmSamplesMenuHelper.isSamplesMenuEnabled(caze);
+		CaseCsmSamplesMenuHelper.configureSamplesMenuItem(menuItems, caseSamplesMenuEnabled);
+
 		return menuItems;
+	}
+
+	public boolean isCaseSamplesMenuEnabledForSession() {
+		return caseSamplesMenuEnabled;
+	}
+
+	@Override
+	protected boolean openPage(PageMenuItem menuItem) {
+		if (menuItem != null
+			&& menuItem.getPosition() == CaseSection.SAMPLES.ordinal()
+			&& !caseSamplesMenuEnabled) {
+			NotificationHelper.showNotification(this, WARNING, I18nProperties.getCaption(Captions.sampleSelectYesForCsfCollected));
+			return false;
+		}
+		return super.openPage(menuItem);
 	}
 
 	@Override
@@ -347,6 +369,10 @@ public class CaseEditActivity extends BaseEditActivity<Case> {
 		if (activeSection == CaseSection.CONTACTS) {
 			ContactNewActivity.startActivity(getContext(), getRootUuid());
 		} else if (activeSection == CaseSection.SAMPLES) {
+			if (!caseSamplesMenuEnabled) {
+				NotificationHelper.showNotification(this, WARNING, I18nProperties.getCaption(Captions.sampleSelectYesForCsfCollected));
+				return;
+			}
 			SampleNewActivity.startActivity(getContext(), getRootUuid());
 		} else if (activeSection == CaseSection.TASKS) {
 			TaskNewActivity.startActivityFromCase(getContext(), getRootUuid());

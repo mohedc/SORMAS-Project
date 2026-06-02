@@ -28,7 +28,10 @@ import de.symeda.sormas.api.caze.CaseClassification;
 import de.symeda.sormas.api.caze.CaseConfirmationBasis;
 import de.symeda.sormas.api.caze.CaseDataDto;
 import de.symeda.sormas.api.caze.CaseOrigin;
+import de.symeda.sormas.api.caze.VaccinationStatus;
 import de.symeda.sormas.api.event.TypeOfPlace;
+import de.symeda.sormas.api.i18n.I18nProperties;
+import de.symeda.sormas.api.sample.LpNotDoneReason;
 import de.symeda.sormas.api.infrastructure.facility.FacilityDto;
 import de.symeda.sormas.api.utils.YesNoUnknown;
 import de.symeda.sormas.api.utils.fieldaccess.UiFieldAccessCheckers;
@@ -42,12 +45,15 @@ import de.symeda.sormas.app.backend.classification.DiseaseClassificationCriteria
 import de.symeda.sormas.app.backend.common.DatabaseHelper;
 import de.symeda.sormas.app.backend.config.ConfigProvider;
 import de.symeda.sormas.app.backend.user.UserRole;
+import de.symeda.sormas.app.component.controls.ControlTextReadField;
 import de.symeda.sormas.app.component.dialog.InfoDialog;
 import de.symeda.sormas.app.databinding.DialogClassificationRulesLayoutBinding;
 import de.symeda.sormas.app.databinding.FragmentCaseReadLayoutBinding;
 import de.symeda.sormas.app.util.DiseaseConfigurationCache;
 import de.symeda.sormas.app.util.FieldVisibilityAndAccessHelper;
 import de.symeda.sormas.app.util.InfrastructureDaoHelper;
+
+import java.util.Set;
 
 public class CaseReadFragment extends BaseReadFragment<FragmentCaseReadLayoutBinding, Case, Case> {
 
@@ -225,6 +231,106 @@ public class CaseReadFragment extends BaseReadFragment<FragmentCaseReadLayoutBin
 
 		contentBinding.caseDataReportingUser.setPseudonymized(record.isPseudonymized());
 		contentBinding.caseDataSurveillanceOfficer.setPseudonymized(record.isPseudonymized());
+
+		if (record.getDisease() == Disease.CSM) {
+			handleMeningitis(contentBinding);
+		}
+	}
+
+	private void handleMeningitis(FragmentCaseReadLayoutBinding contentBinding) {
+		contentBinding.caseDataCsmExtendedSection.setVisibility(VISIBLE);
+
+		contentBinding.caseDataPcvi32.setCaption(
+			I18nProperties.getPrefixCaption(CaseDataDto.I18N_PREFIX, CaseDataDto.PCVI3_2));
+		contentBinding.caseDataPcvi32Date.setCaption(
+			I18nProperties.getPrefixCaption(CaseDataDto.I18N_PREFIX, CaseDataDto.PCVI3_2_DATE));
+		contentBinding.caseDataPcv133.setCaption(
+			I18nProperties.getPrefixCaption(CaseDataDto.I18N_PREFIX, CaseDataDto.PCV13_3));
+		contentBinding.caseDataPcv133Date.setCaption(
+			I18nProperties.getPrefixCaption(CaseDataDto.I18N_PREFIX, CaseDataDto.PCV13_3_DATE));
+
+		String sourceCaptionSuffix = " Source of Vaccination";
+		contentBinding.caseDataMenacSourceOfVaccination.setCaption(
+			I18nProperties.getPrefixCaption(CaseDataDto.I18N_PREFIX, CaseDataDto.MENAC) + sourceCaptionSuffix);
+		contentBinding.caseDataMenacwSourceOfVaccination.setCaption(
+			I18nProperties.getPrefixCaption(CaseDataDto.I18N_PREFIX, CaseDataDto.MENACW) + sourceCaptionSuffix);
+		contentBinding.caseDataMenacwySourceOfVaccination.setCaption(
+			I18nProperties.getPrefixCaption(CaseDataDto.I18N_PREFIX, CaseDataDto.MENACWY) + sourceCaptionSuffix);
+		contentBinding.caseDataMenaConjunateSourceOfVaccination.setCaption(
+			I18nProperties.getPrefixCaption(CaseDataDto.I18N_PREFIX, CaseDataDto.MENA_CONJUNATE) + sourceCaptionSuffix);
+		contentBinding.caseDataPcvi3ISourceOfVaccination.setCaption(
+			I18nProperties.getPrefixCaption(CaseDataDto.I18N_PREFIX, CaseDataDto.PCVI3_I) + sourceCaptionSuffix);
+		contentBinding.caseDataPcvi32SourceOfVaccination.setCaption(
+			I18nProperties.getPrefixCaption(CaseDataDto.I18N_PREFIX, CaseDataDto.PCVI3_2) + sourceCaptionSuffix);
+		contentBinding.caseDataPcv133SourceOfVaccination.setCaption(
+			I18nProperties.getPrefixCaption(CaseDataDto.I18N_PREFIX, CaseDataDto.PCV13_3) + sourceCaptionSuffix);
+		contentBinding.caseDataHibISourceOfVaccination.setCaption(
+			I18nProperties.getPrefixCaption(CaseDataDto.I18N_PREFIX, CaseDataDto.HIB_I) + sourceCaptionSuffix);
+		contentBinding.caseDataHib2SourceOfVaccination.setCaption(
+			I18nProperties.getPrefixCaption(CaseDataDto.I18N_PREFIX, CaseDataDto.HIB_2) + sourceCaptionSuffix);
+		contentBinding.caseDataHib3SourceOfVaccination.setCaption(
+			I18nProperties.getPrefixCaption(CaseDataDto.I18N_PREFIX, CaseDataDto.HIB_3) + sourceCaptionSuffix);
+
+		boolean showVaccines = isCsmCaseVaccinated();
+		int vaccineVisibility = showVaccines ? VISIBLE : GONE;
+		contentBinding.caseDataHeadingVaccinesReceived.setVisibility(vaccineVisibility);
+
+		ControlTextReadField[] vaccineFields = {
+			contentBinding.caseDataMenac,
+			contentBinding.caseDataMenacw,
+			contentBinding.caseDataMenacwy,
+			contentBinding.caseDataMenaConjunate,
+			contentBinding.caseDataPcvi3I,
+			contentBinding.caseDataPcvi32,
+			contentBinding.caseDataPcv133,
+			contentBinding.caseDataHibI,
+			contentBinding.caseDataHib2,
+			contentBinding.caseDataHib3
+		};
+		ControlTextReadField[] vaccineDateFields = {
+			contentBinding.caseDataMenacDate,
+			contentBinding.caseDataMenacwDate,
+			contentBinding.caseDataMenacwyDate,
+			contentBinding.caseDataMenaConjunateDate,
+			contentBinding.caseDataPcvi3IDate,
+			contentBinding.caseDataPcvi32Date,
+			contentBinding.caseDataPcv133Date,
+			contentBinding.caseDataHibIDate,
+			contentBinding.caseDataHib2Date,
+			contentBinding.caseDataHib3Date
+		};
+		ControlTextReadField[] vaccineSourceFields = {
+			contentBinding.caseDataMenacSourceOfVaccination,
+			contentBinding.caseDataMenacwSourceOfVaccination,
+			contentBinding.caseDataMenacwySourceOfVaccination,
+			contentBinding.caseDataMenaConjunateSourceOfVaccination,
+			contentBinding.caseDataPcvi3ISourceOfVaccination,
+			contentBinding.caseDataPcvi32SourceOfVaccination,
+			contentBinding.caseDataPcv133SourceOfVaccination,
+			contentBinding.caseDataHibISourceOfVaccination,
+			contentBinding.caseDataHib2SourceOfVaccination,
+			contentBinding.caseDataHib3SourceOfVaccination
+		};
+		for (ControlTextReadField field : vaccineFields) {
+			field.setVisibility(vaccineVisibility);
+		}
+		if (!showVaccines) {
+			for (ControlTextReadField dateField : vaccineDateFields) {
+				dateField.setVisibility(GONE);
+			}
+			for (ControlTextReadField sourceField : vaccineSourceFields) {
+				sourceField.setVisibility(GONE);
+			}
+		}
+
+		Set<LpNotDoneReason> lpNotDoneReasons = record.getLpNotDoneReason();
+		boolean showLpOther = lpNotDoneReasons != null && lpNotDoneReasons.contains(LpNotDoneReason.OTHER);
+		contentBinding.caseDataLpNotDoneReasonOther.setVisibility(showLpOther ? VISIBLE : GONE);
+	}
+
+	private boolean isCsmCaseVaccinated() {
+		return VaccinationStatus.VACCINATED.equals(record.getVaccinated())
+			|| VaccinationStatus.VACCINATED.equals(record.getVaccinationStatus());
 	}
 
 	@Override

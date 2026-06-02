@@ -114,10 +114,10 @@ public class PageMenuAdapter extends BaseAdapter {
 				Drawable icon = context.getDrawable(pageMenuItem.getIconResourceId());
 				if (pageMenuItem.isActive()) {
 					icon.setTint(context.getResources().getColor(this.iconActiveColor));
-					icon.setAlpha(255);
+					icon.setAlpha(pageMenuItem.isEnabled() ? 255 : 96);
 				} else {
 					icon.setTint(context.getResources().getColor(this.iconColor));
-					icon.setAlpha(128);
+					icon.setAlpha(pageMenuItem.isEnabled() ? 128 : 64);
 				}
 				iconView.setImageDrawable(icon);
 			}
@@ -127,6 +127,11 @@ public class PageMenuAdapter extends BaseAdapter {
 				titleView.setTextColor(context.getResources().getColor(this.titleActiveColor));
 			} else {
 				titleView.setTextColor(context.getResources().getColor(this.titleColor));
+			}
+			if (!pageMenuItem.isEnabled()) {
+				titleView.setAlpha(0.4f);
+			} else {
+				titleView.setAlpha(1f);
 			}
 		}
 

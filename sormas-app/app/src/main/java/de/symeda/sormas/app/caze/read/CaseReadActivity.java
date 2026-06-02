@@ -21,11 +21,15 @@ import android.view.MenuItem;
 
 import java.util.List;
 
+import static de.symeda.sormas.app.core.notification.NotificationType.WARNING;
+
 import de.symeda.sormas.api.Disease;
 import de.symeda.sormas.api.caze.CaseClassification;
 import de.symeda.sormas.api.caze.CaseOrigin;
 import de.symeda.sormas.api.feature.FeatureType;
 import de.symeda.sormas.api.feature.FeatureTypeProperty;
+import de.symeda.sormas.api.i18n.Captions;
+import de.symeda.sormas.api.i18n.I18nProperties;
 import de.symeda.sormas.api.user.UserRight;
 import de.symeda.sormas.api.utils.DataHelper;
 import de.symeda.sormas.app.BaseActivity;
@@ -38,9 +42,11 @@ import de.symeda.sormas.app.backend.common.DatabaseHelper;
 import de.symeda.sormas.app.backend.config.ConfigProvider;
 import de.symeda.sormas.app.backend.user.UserRole;
 import de.symeda.sormas.app.afpimmunization.CaseReadAfpImmunizationFragment;
+import de.symeda.sormas.app.caze.CaseCsmSamplesMenuHelper;
 import de.symeda.sormas.app.caze.CaseSection;
 import de.symeda.sormas.app.caze.edit.CaseEditActivity;
 import de.symeda.sormas.app.component.menu.PageMenuItem;
+import de.symeda.sormas.app.core.notification.NotificationHelper;
 import de.symeda.sormas.app.epidata.EpidemiologicalDataReadFragment;
 import de.symeda.sormas.app.person.read.PersonReadFragment;
 import de.symeda.sormas.app.symptoms.SymptomsReadFragment;
@@ -50,6 +56,8 @@ import de.symeda.sormas.app.util.DiseaseConfigurationCache;
 public class CaseReadActivity extends BaseReadActivity<Case> {
 
 	public static final String TAG = CaseReadActivity.class.getSimpleName();
+
+	private boolean caseSamplesMenuEnabled = true;
 
 	public static void startActivity(Context context, String rootUuid, boolean finishInsteadOfUpNav) {
 		BaseActivity.startActivity(context, CaseReadActivity.class, buildBundle(rootUuid, finishInsteadOfUpNav));
@@ -143,7 +151,25 @@ public class CaseReadActivity extends BaseReadActivity<Case> {
 			menuItems.set(CaseSection.FINAL_CLASSIFICATION.ordinal(), null);
 		}
 
+		caseSamplesMenuEnabled = CaseCsmSamplesMenuHelper.isSamplesMenuEnabled(caze);
+		CaseCsmSamplesMenuHelper.configureSamplesMenuItem(menuItems, caseSamplesMenuEnabled);
+
 		return menuItems;
+	}
+
+	public boolean isCaseSamplesMenuEnabledForSession() {
+		return caseSamplesMenuEnabled;
+	}
+
+	@Override
+	protected boolean openPage(PageMenuItem menuItem) {
+		if (menuItem != null
+			&& menuItem.getPosition() == CaseSection.SAMPLES.ordinal()
+			&& !caseSamplesMenuEnabled) {
+			NotificationHelper.showNotification(this, WARNING, I18nProperties.getCaption(Captions.sampleSelectYesForCsfCollected));
+			return false;
+		}
+		return super.openPage(menuItem);
 	}
 
 	@Override

@@ -32,6 +32,8 @@ public class PageMenuItem {
 	private String title;
 	private String description;
 	private boolean active;
+	private boolean enabled = true;
+	private String disabledReason;
 
 	public static List<PageMenuItem> fromEnum(Enum[] values, Context context) {
 		return fromEnum(context, values);
@@ -120,5 +122,21 @@ public class PageMenuItem {
 
 	public void setActive(boolean active) {
 		this.active = active;
+	}
+
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+
+	public String getDisabledReason() {
+		return disabledReason;
+	}
+
+	public void setDisabledReason(String disabledReason) {
+		this.disabledReason = disabledReason;
 	}
 }

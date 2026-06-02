@@ -43,6 +43,9 @@ import androidx.percentlayout.widget.PercentFrameLayout;
 
 import de.symeda.sormas.app.R;
 import de.symeda.sormas.app.core.OnSwipeTouchListener;
+import de.symeda.sormas.app.core.NotificationContext;
+import de.symeda.sormas.app.core.notification.NotificationHelper;
+import de.symeda.sormas.app.core.notification.NotificationType;
 import de.symeda.sormas.app.util.Consumer;
 
 public class PageMenuControl extends LinearLayout {
@@ -198,9 +201,19 @@ public class PageMenuControl extends LinearLayout {
 		GridView taskLandingMenuGridView = findViewById(R.id.sub_menu_grid);
 		taskLandingMenuGridView.setAdapter(adapter);
 		taskLandingMenuGridView.setOnItemClickListener((parent, view, position, id) -> {
+			PageMenuItem pageMenuItem = menuItems.get(position);
+			if (!pageMenuItem.isEnabled()) {
+				if (pageMenuItem.getDisabledReason() != null && getContext() instanceof NotificationContext) {
+					NotificationHelper.showNotification(
+						(NotificationContext) getContext(),
+						NotificationType.WARNING,
+						pageMenuItem.getDisabledReason());
+				}
+				return;
+			}
 			if (pageMenuItemClickCallback != null) {
-				pageMenuItemClickCallback.accept(menuItems.get(position));
-				markActiveMenuItem(menuItems.get(position));
+				pageMenuItemClickCallback.accept(pageMenuItem);
+				markActiveMenuItem(pageMenuItem);
 				hide();
 			}
 		});
