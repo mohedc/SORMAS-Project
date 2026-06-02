@@ -72,9 +72,9 @@ public class SampleReadActivity extends BaseReadActivity<Sample> {
 	public List<PageMenuItem> getPageMenuData() {
 		List<PageMenuItem> menuItems = PageMenuItem.fromEnum(SampleSection.values(), getContext());
 		Sample sample = getStoredRootEntity();
-		if (isIdsrSample(sample)) {
-			menuItems.removeIf(item -> SampleSection.fromOrdinal(item.getPosition()) == SampleSection.PATHOGEN_TESTS);
-		}
+//		if (isIdsrSample(sample)) {
+//			menuItems.removeIf(item -> SampleSection.fromOrdinal(item.getPosition()) == SampleSection.PATHOGEN_TESTS);
+//		}
 		return menuItems;
 	}
 
@@ -104,9 +104,9 @@ public class SampleReadActivity extends BaseReadActivity<Sample> {
 		case SAMPLE_INFO:
 			fragment = SampleReadFragment.newInstance(activityRootData);
 			break;
-		case PATHOGEN_TESTS:
-			fragment = SampleReadPathogenTestListFragment.newInstance(activityRootData);
-			break;
+//		case PATHOGEN_TESTS:
+//			fragment = SampleReadPathogenTestListFragment.newInstance(activityRootData);
+//			break;
 		default:
 			throw new IndexOutOfBoundsException(DataHelper.toStringNullable(section));
 		}

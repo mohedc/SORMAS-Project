@@ -70,9 +70,9 @@ public class SampleEditActivity extends BaseEditActivity<Sample> {
 	public List<PageMenuItem> getPageMenuData() {
 		List<PageMenuItem> menuItems = PageMenuItem.fromEnum(SampleSection.values(), getContext());
 		Sample sample = getStoredRootEntity();
-		if (isIdsrSample(sample)) {
-			menuItems.removeIf(item -> SampleSection.fromOrdinal(item.getPosition()) == SampleSection.PATHOGEN_TESTS);
-		}
+//		if (isIdsrSample(sample)) {
+//			menuItems.removeIf(item -> SampleSection.fromOrdinal(item.getPosition()) == SampleSection.PATHOGEN_TESTS);
+//		}
 		return menuItems;
 	}
 
@@ -105,9 +105,9 @@ public class SampleEditActivity extends BaseEditActivity<Sample> {
 		case SAMPLE_INFO:
 			fragment = SampleEditFragment.newInstance(activityRootData);
 			break;
-		case PATHOGEN_TESTS:
-			fragment = SampleEditPathogenTestListFragment.newInstance(activityRootData);
-			break;
+//		case PATHOGEN_TESTS:
+//			fragment = SampleEditPathogenTestListFragment.newInstance(activityRootData);
+//			break;
 		default:
 			throw new IndexOutOfBoundsException(DataHelper.toStringNullable(section));
 		}
@@ -188,9 +188,8 @@ public class SampleEditActivity extends BaseEditActivity<Sample> {
 	public void goToNewView() {
 		SampleSection activeSection = SampleSection.fromOrdinal(getActivePage().getPosition());
 
-		if (activeSection == SampleSection.PATHOGEN_TESTS) {
-			PathogenTestNewActivity.startActivity(getContext(), getRootUuid());
-		}
+//
+
 	}
 
 	@Override
