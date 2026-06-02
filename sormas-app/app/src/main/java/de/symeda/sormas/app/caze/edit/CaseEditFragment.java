@@ -52,6 +52,7 @@ import de.symeda.sormas.api.caze.HospitalWardType;
 import de.symeda.sormas.api.caze.IdsrType;
 import de.symeda.sormas.api.caze.InfectionSetting;
 import de.symeda.sormas.api.caze.PlagueType;
+import de.symeda.sormas.api.caze.MeningitisVaccinationSource;
 import de.symeda.sormas.api.caze.NotifiedBy;
 import de.symeda.sormas.api.caze.QuarantineReason;
 import de.symeda.sormas.api.caze.RabiesType;
@@ -92,6 +93,7 @@ import de.symeda.sormas.app.component.Item;
 import de.symeda.sormas.app.component.controls.ControlPropertyField;
 import de.symeda.sormas.app.component.controls.ControlCheckBoxGroupField;
 import de.symeda.sormas.app.component.controls.ControlDateField;
+import de.symeda.sormas.app.component.controls.ControlSpinnerField;
 import de.symeda.sormas.app.component.controls.ControlSwitchField;
 import de.symeda.sormas.app.component.controls.ControlTextEditField;
 import de.symeda.sormas.app.component.controls.ValueChangeListener;
@@ -145,6 +147,7 @@ public class CaseEditFragment extends BaseEditFragment<FragmentCaseEditLayoutBin
 	private List<Item> infectionSettingList;
 	private List<Item> caseConfirmationBasisList;
 	private List<Item> vaccineTypeList;
+	private List<Item> meningitisVaccinationSourceList;
 
 	private boolean differentPlaceOfStayJurisdiction;
 	private boolean meningitisHandlersRegistered;
@@ -428,6 +431,7 @@ public class CaseEditFragment extends BaseEditFragment<FragmentCaseEditLayoutBin
 
 		caseConfirmationBasisList = DataUtils.getEnumItems(CaseConfirmationBasis.class, true);
 		vaccineTypeList = DataUtils.getEnumItems(VaccineType.class, true);
+		meningitisVaccinationSourceList = DataUtils.getEnumItems(MeningitisVaccinationSource.class, true);
 	}
 
 	@Override
@@ -755,6 +759,16 @@ public class CaseEditFragment extends BaseEditFragment<FragmentCaseEditLayoutBin
 		contentBinding.caseDataQuarantine.initializeSpinner(quarantineList);
 		contentBinding.caseDataCaseConfirmationBasis.initializeSpinner(caseConfirmationBasisList);
 		contentBinding.caseDataVaccineType.initializeSpinner(vaccineTypeList);
+		contentBinding.caseDataMenacSourceOfVaccination.initializeSpinner(meningitisVaccinationSourceList);
+		contentBinding.caseDataMenacwSourceOfVaccination.initializeSpinner(meningitisVaccinationSourceList);
+		contentBinding.caseDataMenacwySourceOfVaccination.initializeSpinner(meningitisVaccinationSourceList);
+		contentBinding.caseDataMenaConjunateSourceOfVaccination.initializeSpinner(meningitisVaccinationSourceList);
+		contentBinding.caseDataPcvi3ISourceOfVaccination.initializeSpinner(meningitisVaccinationSourceList);
+		contentBinding.caseDataPcvi32SourceOfVaccination.initializeSpinner(meningitisVaccinationSourceList);
+		contentBinding.caseDataPcv133SourceOfVaccination.initializeSpinner(meningitisVaccinationSourceList);
+		contentBinding.caseDataHibISourceOfVaccination.initializeSpinner(meningitisVaccinationSourceList);
+		contentBinding.caseDataHib2SourceOfVaccination.initializeSpinner(meningitisVaccinationSourceList);
+		contentBinding.caseDataHib3SourceOfVaccination.initializeSpinner(meningitisVaccinationSourceList);
 
 		// Initialize ControlDateFields
 		contentBinding.caseDataReportDate.initializeDateField(getFragmentManager());
@@ -1035,6 +1049,28 @@ public class CaseEditFragment extends BaseEditFragment<FragmentCaseEditLayoutBin
 		contentBinding.caseDataPcv133Date.setCaption(
 			I18nProperties.getPrefixCaption(CaseDataDto.I18N_PREFIX, CaseDataDto.PCV13_3_DATE));
 
+		String sourceCaptionSuffix = " Source of Vaccination";
+		contentBinding.caseDataMenacSourceOfVaccination.setCaption(
+			I18nProperties.getPrefixCaption(CaseDataDto.I18N_PREFIX, CaseDataDto.MENAC) + sourceCaptionSuffix);
+		contentBinding.caseDataMenacwSourceOfVaccination.setCaption(
+			I18nProperties.getPrefixCaption(CaseDataDto.I18N_PREFIX, CaseDataDto.MENACW) + sourceCaptionSuffix);
+		contentBinding.caseDataMenacwySourceOfVaccination.setCaption(
+			I18nProperties.getPrefixCaption(CaseDataDto.I18N_PREFIX, CaseDataDto.MENACWY) + sourceCaptionSuffix);
+		contentBinding.caseDataMenaConjunateSourceOfVaccination.setCaption(
+			I18nProperties.getPrefixCaption(CaseDataDto.I18N_PREFIX, CaseDataDto.MENA_CONJUNATE) + sourceCaptionSuffix);
+		contentBinding.caseDataPcvi3ISourceOfVaccination.setCaption(
+			I18nProperties.getPrefixCaption(CaseDataDto.I18N_PREFIX, CaseDataDto.PCVI3_I) + sourceCaptionSuffix);
+		contentBinding.caseDataPcvi32SourceOfVaccination.setCaption(
+			I18nProperties.getPrefixCaption(CaseDataDto.I18N_PREFIX, CaseDataDto.PCVI3_2) + sourceCaptionSuffix);
+		contentBinding.caseDataPcv133SourceOfVaccination.setCaption(
+			I18nProperties.getPrefixCaption(CaseDataDto.I18N_PREFIX, CaseDataDto.PCV13_3) + sourceCaptionSuffix);
+		contentBinding.caseDataHibISourceOfVaccination.setCaption(
+			I18nProperties.getPrefixCaption(CaseDataDto.I18N_PREFIX, CaseDataDto.HIB_I) + sourceCaptionSuffix);
+		contentBinding.caseDataHib2SourceOfVaccination.setCaption(
+			I18nProperties.getPrefixCaption(CaseDataDto.I18N_PREFIX, CaseDataDto.HIB_2) + sourceCaptionSuffix);
+		contentBinding.caseDataHib3SourceOfVaccination.setCaption(
+			I18nProperties.getPrefixCaption(CaseDataDto.I18N_PREFIX, CaseDataDto.HIB_3) + sourceCaptionSuffix);
+
 		ControlSwitchField[] vaccineFields = {
 			contentBinding.caseDataMenac,
 			contentBinding.caseDataMenacw,
@@ -1058,6 +1094,18 @@ public class CaseEditFragment extends BaseEditFragment<FragmentCaseEditLayoutBin
 			contentBinding.caseDataHibIDate,
 			contentBinding.caseDataHib2Date,
 			contentBinding.caseDataHib3Date
+		};
+		ControlSpinnerField[] vaccineSourceFields = {
+			contentBinding.caseDataMenacSourceOfVaccination,
+			contentBinding.caseDataMenacwSourceOfVaccination,
+			contentBinding.caseDataMenacwySourceOfVaccination,
+			contentBinding.caseDataMenaConjunateSourceOfVaccination,
+			contentBinding.caseDataPcvi3ISourceOfVaccination,
+			contentBinding.caseDataPcvi32SourceOfVaccination,
+			contentBinding.caseDataPcv133SourceOfVaccination,
+			contentBinding.caseDataHibISourceOfVaccination,
+			contentBinding.caseDataHib2SourceOfVaccination,
+			contentBinding.caseDataHib3SourceOfVaccination
 		};
 
 		View vaccinationRecordTypeLayout = contentBinding.getRoot()
@@ -1101,11 +1149,16 @@ public class CaseEditFragment extends BaseEditFragment<FragmentCaseEditLayoutBin
 					for (ControlDateField dateField : vaccineDateFields) {
 						hideControlField(dateField, true);
 					}
+					for (ControlSpinnerField sourceField : vaccineSourceFields) {
+						hideControlField(sourceField, true);
+					}
 				} else {
 					for (int i = 0; i < vaccineFields.length; i++) {
 						if (YesNoUnknown.YES.equals(vaccineFields[i].getValue())) {
 							setFieldAndParentsVisible(vaccineDateFields[i], csmSection);
 							vaccineDateFields[i].setVisibility(VISIBLE);
+							setFieldAndParentsVisible(vaccineSourceFields[i], csmSection);
+							vaccineSourceFields[i].setVisibility(VISIBLE);
 						}
 					}
 				}
@@ -1133,6 +1186,17 @@ public class CaseEditFragment extends BaseEditFragment<FragmentCaseEditLayoutBin
 			setVisibleWhen(contentBinding.caseDataHibIDate, contentBinding.caseDataHibI, YesNoUnknown.YES);
 			setVisibleWhen(contentBinding.caseDataHib2Date, contentBinding.caseDataHib2, YesNoUnknown.YES);
 			setVisibleWhen(contentBinding.caseDataHib3Date, contentBinding.caseDataHib3, YesNoUnknown.YES);
+
+			setVisibleWhen(contentBinding.caseDataMenacSourceOfVaccination, contentBinding.caseDataMenac, YesNoUnknown.YES);
+			setVisibleWhen(contentBinding.caseDataMenacwSourceOfVaccination, contentBinding.caseDataMenacw, YesNoUnknown.YES);
+			setVisibleWhen(contentBinding.caseDataMenacwySourceOfVaccination, contentBinding.caseDataMenacwy, YesNoUnknown.YES);
+			setVisibleWhen(contentBinding.caseDataMenaConjunateSourceOfVaccination, contentBinding.caseDataMenaConjunate, YesNoUnknown.YES);
+			setVisibleWhen(contentBinding.caseDataPcvi3ISourceOfVaccination, contentBinding.caseDataPcvi3I, YesNoUnknown.YES);
+			setVisibleWhen(contentBinding.caseDataPcvi32SourceOfVaccination, contentBinding.caseDataPcvi32, YesNoUnknown.YES);
+			setVisibleWhen(contentBinding.caseDataPcv133SourceOfVaccination, contentBinding.caseDataPcv133, YesNoUnknown.YES);
+			setVisibleWhen(contentBinding.caseDataHibISourceOfVaccination, contentBinding.caseDataHibI, YesNoUnknown.YES);
+			setVisibleWhen(contentBinding.caseDataHib2SourceOfVaccination, contentBinding.caseDataHib2, YesNoUnknown.YES);
+			setVisibleWhen(contentBinding.caseDataHib3SourceOfVaccination, contentBinding.caseDataHib3, YesNoUnknown.YES);
 
 			registerSampleCollectionHandlers(contentBinding);
 
