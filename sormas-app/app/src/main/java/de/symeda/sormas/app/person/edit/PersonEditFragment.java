@@ -23,6 +23,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import android.view.View;
@@ -50,6 +51,7 @@ import de.symeda.sormas.api.person.DeathPlaceType;
 import de.symeda.sormas.api.person.EducationType;
 import de.symeda.sormas.api.person.LocationOfBirth;
 import de.symeda.sormas.api.person.MaritalStatus;
+import de.symeda.sormas.api.person.OccupationType;
 import de.symeda.sormas.api.person.PersonContactDetailDto;
 import de.symeda.sormas.api.person.PersonDto;
 import de.symeda.sormas.api.person.PresentCondition;
@@ -175,12 +177,22 @@ public class PersonEditFragment extends BaseEditFragment<FragmentPersonEditLayou
 				record.getPlaceOfBirthCommunity(),
 				record.getPlaceOfBirthFacilityType());
 
-		List<Item> occupationTypeList = DataUtils.toItems(
-			DatabaseHelper.getCustomizableEnumValueDao()
-				.getEnumValues(
-					CustomizableEnumType.OCCUPATION_TYPE,
-					Optional.ofNullable(record.getOccupationType()).map(CustomizableEnum::getValue).orElse(null),
-					null));
+		List<OccupationType> occupationTypes = DatabaseHelper.getCustomizableEnumValueDao()
+			.getEnumValues(
+				CustomizableEnumType.OCCUPATION_TYPE,
+				Optional.ofNullable(record.getOccupationType()).map(CustomizableEnum::getValue).orElse(null),
+				null);
+		if (occupationTypes == null || occupationTypes.isEmpty()) {
+			occupationTypes = new ArrayList<>();
+			for (Map.Entry<String, Map<String, Object>> entry : OccupationType.getDefaultValues().entrySet()) {
+				OccupationType occupationType = new OccupationType();
+				occupationType.setValue(entry.getKey());
+				occupationType.setCaption(I18nProperties.getPrefixCaption(OccupationType.I18N_PREFIX, entry.getKey()));
+				occupationType.setProperties(entry.getValue());
+				occupationTypes.add(occupationType);
+			}
+		}
+		List<Item> occupationTypeList = DataUtils.toItems(occupationTypes, true);
 		List<Item> placeOfBirthFacilityTypeList = DataUtils.toItems(FacilityType.getPlaceOfBirthTypes(), true);
 		List<Item> countryList = InfrastructureDaoHelper.loadCountries();
 

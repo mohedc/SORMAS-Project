@@ -317,6 +317,7 @@ public class SampleEditFragment extends BaseEditFragment<FragmentSampleEditLayou
 
 		contentBinding.setPathogenTestTypeClass(PathogenTestType.class);
 		contentBinding.setAdditionalTestTypeClass(AdditionalTestType.class);
+		contentBinding.setCsfAppearanceClass(CsfAppearance.class);
 	}
 
 	@Override
@@ -432,8 +433,9 @@ public class SampleEditFragment extends BaseEditFragment<FragmentSampleEditLayou
 		if (contentBinding.sampleLpPackaging != null) {
 			contentBinding.sampleLpPackaging.initializeSpinner(DataUtils.getEnumItems(de.symeda.sormas.api.sample.LpPackaging.class, true));
 		}
-		if (contentBinding.sampleLaboratoryType != null) {
-			contentBinding.sampleLaboratoryType.initializeSpinner(DataUtils.getEnumItems(de.symeda.sormas.api.sample.LaboratoryType.class, true));
+		if (contentBinding.sampleLaboratoryType != null && disease != Disease.CSM) {
+			contentBinding.sampleLaboratoryType.initializeSpinner(
+				DataUtils.getEnumItems(LaboratoryType.class, true, getFieldVisibilityCheckers()));
 		}
 		if (contentBinding.samplePackaging != null) {
 			contentBinding.samplePackaging.initializeSpinner(DataUtils.getEnumItems(de.symeda.sormas.api.sample.Packaging.class, true));
@@ -443,7 +445,6 @@ public class SampleEditFragment extends BaseEditFragment<FragmentSampleEditLayou
 		contentBinding.sampleMeningitisRdtResult.initializeSpinner(DataUtils.getEnumItems(MeningitisRdtResult.class, true));
 		contentBinding.sampleSampleContainerReceived.initializeSpinner(DataUtils.getEnumItems(SampleContainerType.class, true));
 		contentBinding.sampleSampleConditionAtReception.initializeSpinner(DataUtils.getEnumItems(SpecimenCondition.class, true));
-		contentBinding.sampleCsfAppearanceAtCollection.initializeSpinner(DataUtils.getEnumItems(CsfAppearance.class, true));
 		contentBinding.sampleCsfAppearanceAtReception.initializeSpinner(DataUtils.getEnumItems(CsfAppearance.class, true));
 
 
@@ -539,6 +540,10 @@ public class SampleEditFragment extends BaseEditFragment<FragmentSampleEditLayou
 			return;
 		}
 
+		contentBinding.sampleLaboratoryType.initializeSpinner(DataUtils.toItems(
+			Arrays.asList(LaboratoryType.REGIONAL_LABORATORY, LaboratoryType.REFERENCE_LABORATORY),
+			true));
+
 		String defaultLabCaption = I18nProperties.getPrefixCaption(SampleDto.I18N_PREFIX, SampleDto.LAB);
 
 		Runnable updateLabCaption = () -> {
@@ -555,10 +560,16 @@ public class SampleEditFragment extends BaseEditFragment<FragmentSampleEditLayou
 
 		//dispached lisnter
 		contentBinding.sampleShipmentDate.setVisibility(Boolean.TRUE.equals(contentBinding.sampleShipped.getValue()) ? VISIBLE : GONE);
+		contentBinding.sampleSampleContainerUsed.setVisibility(Boolean.TRUE.equals(contentBinding.sampleShipped.getValue()) ? VISIBLE : GONE);
+		contentBinding.sampleSampleContainerUsedOther.setVisibility(Boolean.TRUE.equals(contentBinding.sampleShipped.getValue()) ? VISIBLE : GONE);
 		contentBinding.sampleShipmentDetails.setVisibility(Boolean.TRUE.equals(contentBinding.sampleShipped.getValue()) ? VISIBLE : GONE);
 		contentBinding.sampleShipped.addValueChangedListener(field -> {
 				contentBinding.sampleShipmentDate.setVisibility(Boolean.TRUE.equals(field.getValue()) ? VISIBLE : GONE);
 				contentBinding.sampleShipmentDetails.setVisibility(Boolean.TRUE.equals(field.getValue()) ? VISIBLE : GONE);
+				contentBinding.sampleSampleContainerUsed.setVisibility(Boolean.TRUE.equals(field.getValue()) ? VISIBLE : GONE);
+				if (!Boolean.TRUE.equals(field.getValue())) {
+					contentBinding.sampleSampleContainerUsed.setValue(null);
+				}
 			});
 
 	}
