@@ -174,6 +174,19 @@ public class CaseEditMaternalHistoryFragment extends BaseEditFragment<FragmentCa
 				contentBinding.maternalHistoryMotherRubellaLabConfirmedDate.setVisibility(contentBinding.maternalHistoryMotherRubellaLabConfirmed.getValue() == YesNoUnknown.YES ? View.VISIBLE : View.GONE);
 			}
 		});
+		
+
+		// rubella
+		contentBinding.maternalHistoryRubellaOnset.setVisibility(contentBinding.maternalHistoryRubella.getValue() == YesNoUnknown.YES ? View.VISIBLE : View.GONE);
+		contentBinding.maternalHistoryRubellaMonth.setVisibility(contentBinding.maternalHistoryRubella.getValue() == YesNoUnknown.YES ? View.VISIBLE : View.GONE);
+
+		contentBinding.maternalHistoryRubella.addValueChangedListener(new ValueChangeListener() {
+			@Override
+			public void onChange(ControlPropertyField field) {
+				contentBinding.maternalHistoryRubellaOnset.setVisibility(contentBinding.maternalHistoryRubella.getValue() == YesNoUnknown.YES ? View.VISIBLE : View.GONE);
+				contentBinding.maternalHistoryRubellaMonth.setVisibility(contentBinding.maternalHistoryRubella.getValue() == YesNoUnknown.YES ? View.VISIBLE : View.GONE);
+			}
+		});
 
 		// motherTraveledDuringPregnancy
 		contentBinding.maternalHistoryMotherTraveledDuringPregnancyDate.setVisibility(contentBinding.maternalHistoryMotherTraveledDuringPregnancy.getValue() == YesNoUnknown.YES ? View.VISIBLE : View.GONE);

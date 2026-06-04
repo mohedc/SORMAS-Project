@@ -445,7 +445,7 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 					loc(EPID_NUMBER_WARNING_LOC) +
 					fluidRowLocs(CaseDataDto.CASE_REFERENCE_NUMBER, "") +
 //					fluidRowLocs(CaseDataDto.REGION_LEVEL_DATE, CaseDataDto.NATIONAL_LEVEL_DATE) +
-					fluidRowLocs(CaseDataDto.ARRIVAL_AT_REGIONAL_PUBLIC_HEALTH_OFFICE_DATE, CaseDataDto.ARRIVAL_AT_NATIONAL_LEVEL_DATE) +
+					// fluidRowLocs(CaseDataDto.ARRIVAL_AT_REGIONAL_PUBLIC_HEALTH_OFFICE_DATE, CaseDataDto.ARRIVAL_AT_NATIONAL_LEVEL_DATE) +
 					fluidRowLocs(CaseDataDto.CASE_ORIGIN) +
 					fluidRowLocs(RESPONSIBLE_JURISDICTION_HEADING_LOC) +
 					fluidRowLocs(CaseDataDto.RESPONSIBLE_REGION, CaseDataDto.RESPONSIBLE_DISTRICT, CaseDataDto.RESPONSIBLE_COMMUNITY) +

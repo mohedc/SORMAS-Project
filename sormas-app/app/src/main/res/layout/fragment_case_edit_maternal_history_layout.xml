@@ -226,6 +226,12 @@
 
             </LinearLayout>
 
+            <de.symeda.sormas.app.component.controls.ControlTextEditField
+                android:id="@+id/maternalHistory_rubellaMonth"
+                app:value="@={data.rubellaMonth}"
+                app:inputType="number"
+                style="@style/ControlSingleColumnStyle" />
+
             <LinearLayout
                 android:id="@+id/maternalHistory_rashExposureLayout"
                 android:layout_width="match_parent"
@@ -311,11 +317,7 @@
 
             </LinearLayout>
 
-            <de.symeda.sormas.app.component.controls.ControlTextEditField
-                android:id="@+id/maternalHistory_rubellaMonth"
-                app:value="@={data.rubellaMonth}"
-                app:inputType="number"
-                style="@style/ControlSingleColumnStyle" />
+
 
             <LinearLayout
                 android:id="@+id/maternalHistory_motherRubellaLabConfirmedLayout"

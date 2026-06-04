@@ -53,7 +53,7 @@ public class MaternalHistoryForm extends AbstractEditForm<MaternalHistoryDto> {
 			loc(MATERNAL_HISTORY_HEADING_LOC) +
 			fluidRowLocs(MaternalHistoryDto.CHILDREN_NUMBER, MaternalHistoryDto.AGE_AT_BIRTH, "") +
 			fluidRowLocs(MaternalHistoryDto.RUBELLA_VACCINATION, MaternalHistoryDto.RUBELLA_VACCINATION_DATE, "") +
-			fluidRowLocs(MaternalHistoryDto.RUBELLA, "", "") +
+			fluidRowLocs(MaternalHistoryDto.RUBELLA, MaternalHistoryDto.RUBELLA_MONTH) +
 			fluidRowLocs(MaternalHistoryDto.MACULOPAPULAR_RASH, MaternalHistoryDto.MACULOPAPULAR_RASH_ONSET, "") +
 			fluidRowLocs(MaternalHistoryDto.SWOLLEN_LYMPHS, MaternalHistoryDto.SWOLLEN_LYMPHS_ONSET, "") +
 			fluidRowLocs(MaternalHistoryDto.ARTHRALGIA_ARTHRITIS, MaternalHistoryDto.ARTHRALGIA_ARTHRITIS_ONSET, "") +
