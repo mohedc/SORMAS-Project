@@ -14,6 +14,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -148,50 +149,111 @@ public class DiseaseFieldHandler {
             return false;
         }
 
-        boolean isVisible = relevantFields.isEmpty() || relevantFields.contains(viewIdName);
-        // #region agent log
-        Log.e("DEBUG_F31286", "[H-D] setViewVisibility viewId=" + viewIdName + " match=" + isVisible + " setting=" + (isVisible ? "VISIBLE" : "GONE"));
-        // #endregion
+        boolean isVisible = relevantFields.isEmpty() || matchesAnyFormField(viewIdName, relevantFields);
         view.setVisibility(isVisible ? View.VISIBLE : View.GONE);
         return isVisible;
     }
 
+    /**
+     * FormField.fieldName may be the DTO property (e.g. fever) or the Android resource id (e.g. symptoms_fever).
+     * Does not strip {@code caseData_} or other form-type prefixes except {@code symptoms_}.
+     */
+    static boolean formFieldMatchesViewResource(String resourceEntryName, String formFieldName) {
+        if (resourceEntryName == null || formFieldName == null) {
+            return false;
+        }
+        if (resourceEntryName.equals(formFieldName)) {
+            return true;
+        }
+        if (resourceEntryName.startsWith("symptoms_")) {
+            return resourceEntryName.substring("symptoms_".length()).equals(formFieldName);
+        }
+        return ("symptoms_" + formFieldName).equals(resourceEntryName);
+    }
 
-    private void reorderFieldsForDisease(List<FormField> orderedFields, ViewGroup parent) {
+    private static boolean matchesAnyFormField(String resourceEntryName, List<String> relevantFields) {
+        for (String formFieldName : relevantFields) {
+            if (formFieldMatchesViewResource(resourceEntryName, formFieldName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Reorders all direct children of {@code parent} so web-configured fields appear in configured order,
+     * with unconfigured dependency fields (e.g. rubellaMonth) kept immediately after their anchor row.
+     */
+    void reorderFieldsForDisease(List<FormField> orderedFields, ViewGroup parent) {
         Map<String, View> viewsByFieldName = new HashMap<>();
+        List<View> originalChildren = new ArrayList<>();
 
         for (int i = 0; i < parent.getChildCount(); i++) {
             View directChild = parent.getChildAt(i);
+            originalChildren.add(directChild);
             directChild.setVisibility(View.GONE);
             mapViewAndDescendants(directChild, directChild, viewsByFieldName);
         }
 
-        // #region agent log
-        Log.e("DEBUG_F31286", "[H-E] reorder viewsByFieldName keys=" + viewsByFieldName.keySet());
-        // #endregion
-
+        List<View> configuredOrder = new ArrayList<>();
         Set<View> alreadyOrderedViews = new HashSet<>();
 
         for (FormField field : orderedFields) {
-            String fieldName = field.getFieldName();
-            View view = viewsByFieldName.get(fieldName);
-
-            if (view != null && alreadyOrderedViews.add(view)) {
-                view.setVisibility(View.VISIBLE);
-                view.bringToFront();
-                // #region agent log
-                Log.e("DEBUG_F31286", "[H-E] reorder MATCHED fieldName=" + fieldName + " -> directChild=" + view.getClass().getSimpleName());
-                // #endregion
-            } else if (view == null) {
-                // #region agent log
-                Log.e("DEBUG_F31286", "[H-E] reorder NO MATCH for fieldName=" + fieldName);
-                // #endregion
-                Log.d(TAG, "No matching View found for FormField with name: " + fieldName);
+            View directChild = resolveDirectChildForFormField(field.getFieldName(), viewsByFieldName);
+            if (directChild != null && alreadyOrderedViews.add(directChild)) {
+                configuredOrder.add(directChild);
+            } else if (directChild == null) {
+                Log.d(TAG, "No matching View found for FormField with name: " + field.getFieldName());
             }
+        }
+
+        Set<View> configuredSet = new HashSet<>(configuredOrder);
+        List<View> leading = new ArrayList<>();
+        Map<View, List<View>> attachedToAnchor = new LinkedHashMap<>();
+        for (View configured : configuredOrder) {
+            attachedToAnchor.put(configured, new ArrayList<>());
+        }
+
+        View lastConfiguredAnchor = null;
+        for (View child : originalChildren) {
+            if (configuredSet.contains(child)) {
+                lastConfiguredAnchor = child;
+            } else if (lastConfiguredAnchor == null) {
+                leading.add(child);
+            } else {
+                attachedToAnchor.get(lastConfiguredAnchor).add(child);
+            }
+        }
+
+        List<View> finalOrder = new ArrayList<>(leading);
+        for (View configured : configuredOrder) {
+            finalOrder.add(configured);
+            finalOrder.addAll(attachedToAnchor.get(configured));
+        }
+
+        for (View child : originalChildren) {
+            child.setVisibility(configuredSet.contains(child) ? View.VISIBLE : View.GONE);
+        }
+
+        for (View view : finalOrder) {
+            view.bringToFront();
         }
 
         parent.requestLayout();
         parent.invalidate();
+    }
+
+    private View resolveDirectChildForFormField(String fieldName, Map<String, View> viewsByFieldName) {
+        View view = viewsByFieldName.get(fieldName);
+        if (view != null) {
+            return view;
+        }
+        for (Map.Entry<String, View> entry : viewsByFieldName.entrySet()) {
+            if (formFieldMatchesViewResource(entry.getKey(), fieldName)) {
+                return entry.getValue();
+            }
+        }
+        return null;
     }
 
     private void mapViewAndDescendants(View view, View directChild, Map<String, View> viewsByFieldName) {
@@ -199,6 +261,9 @@ public class DiseaseFieldHandler {
             try {
                 String resourceName = context.getResources().getResourceEntryName(view.getId());
                 viewsByFieldName.put(resourceName, directChild);
+                if (resourceName.startsWith("symptoms_")) {
+                    viewsByFieldName.put(resourceName.substring("symptoms_".length()), directChild);
+                }
             } catch (Resources.NotFoundException e) {
                 // skip
             }

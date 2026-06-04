@@ -70,6 +70,48 @@ public class DiseaseFieldHandlerTest {
 		assertThat(nestedField.getVisibility(), is(View.VISIBLE));
 	}
 
+	@Test
+	public void testReorderFieldsForDiseaseKeepsUnconfiguredDependencyFieldAfterAnchor() {
+		Resources resources = mock(Resources.class);
+		when(resources.getResourceEntryName(1001)).thenReturn("maternalHistory_rubellaLayout");
+		when(resources.getResourceEntryName(1002)).thenReturn("maternalHistory_rubella");
+		when(resources.getResourceEntryName(1003)).thenReturn("maternalHistory_rubellaMonth");
+		when(resources.getResourceEntryName(1004)).thenReturn("maternalHistory_childrenNumber");
+
+		Context context = mock(Context.class);
+		when(context.getResources()).thenReturn(resources);
+
+		DiseaseFieldHandler handler = new DiseaseFieldHandler(context);
+		LinearLayout mainContent = new LinearLayout(RuntimeEnvironment.getApplication());
+
+		LinearLayout rubellaLayout = new LinearLayout(RuntimeEnvironment.getApplication());
+		rubellaLayout.setId(1001);
+		TextView rubellaField = new TextView(RuntimeEnvironment.getApplication());
+		rubellaField.setId(1002);
+		rubellaLayout.addView(rubellaField);
+
+		TextView rubellaMonth = new TextView(RuntimeEnvironment.getApplication());
+		rubellaMonth.setId(1003);
+
+		TextView childrenNumber = new TextView(RuntimeEnvironment.getApplication());
+		childrenNumber.setId(1004);
+
+		mainContent.addView(rubellaLayout);
+		mainContent.addView(rubellaMonth);
+		mainContent.addView(childrenNumber);
+
+		handler.reorderFieldsForDisease(
+			java.util.Arrays.asList(formField("maternalHistory_rubella"), formField("maternalHistory_childrenNumber")),
+			mainContent);
+
+		assertThat(mainContent.getChildAt(0), is(rubellaLayout));
+		assertThat(mainContent.getChildAt(1), is(rubellaMonth));
+		assertThat(mainContent.getChildAt(2), is(childrenNumber));
+		assertThat(rubellaLayout.getVisibility(), is(View.VISIBLE));
+		assertThat(rubellaMonth.getVisibility(), is(View.GONE));
+		assertThat(childrenNumber.getVisibility(), is(View.VISIBLE));
+	}
+
 	private static FormField formField(String fieldName) {
 		FormField formField = new FormField();
 		formField.setFieldName(fieldName);
