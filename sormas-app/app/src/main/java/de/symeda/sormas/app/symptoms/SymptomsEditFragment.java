@@ -471,22 +471,25 @@ public class SymptomsEditFragment extends BaseEditFragment<FragmentSymptomsEditL
 	}
 
 	private void handleCongenitalRubellaOutcome(FragmentSymptomsEditLayoutBinding contentBinding) {
-		updateCongenitalRubellaDeathSectionVisibility(contentBinding, record.getOutcome());
+		// symptoms_causeOfDeath, symptoms_autopsyConducted ()
+		contentBinding.symptomsCauseOfDeath.setVisibility(CaseOutcome.DECEASED.equals(record.getOutcome()) ? VISIBLE : GONE);
+		contentBinding.symptomsAutopsyConducted.setVisibility(CaseOutcome.DECEASED.equals(record.getOutcome()) ? VISIBLE : GONE);
+		contentBinding.symptomsDeathHeading.setVisibility(CaseOutcome.DECEASED.equals(record.getOutcome()) ? VISIBLE : GONE);
 
+
+
+		// add listener to symptoms_outcome
 		contentBinding.symptomsOutcome.addValueChangedListener(field -> {
 			CaseOutcome outcome = (CaseOutcome) field.getValue();
-			updateCongenitalRubellaDeathSectionVisibility(contentBinding, outcome);
+			contentBinding.symptomsDeathHeading.setVisibility(CaseOutcome.DECEASED.equals(record.getOutcome()) ? VISIBLE : GONE);
+			contentBinding.symptomsCauseOfDeath.setVisibility(outcome == CaseOutcome.DECEASED ? VISIBLE : GONE);
+			contentBinding.symptomsAutopsyConducted.setVisibility(outcome == CaseOutcome.DECEASED ? VISIBLE : GONE);
+
+			//clear symptomsAutopsyConducted if outcome is not DECEASED
 			if (outcome != CaseOutcome.DECEASED) {
 				contentBinding.symptomsAutopsyConducted.setValue(null);
 			}
 		});
-	}
-
-	private void updateCongenitalRubellaDeathSectionVisibility(FragmentSymptomsEditLayoutBinding contentBinding, CaseOutcome outcome) {
-		boolean deceased = CaseOutcome.DECEASED.equals(outcome);
-		contentBinding.symptomsCauseOfDeath.setVisibility(deceased ? VISIBLE : GONE);
-		contentBinding.symptomsDeathSectionHeading.setVisibility(deceased ? VISIBLE : GONE);
-		contentBinding.symptomsAutopsyConducted.setVisibility(deceased ? VISIBLE : GONE);
 	}
 
 	private void initializeAllControlDateFields(View view) {
