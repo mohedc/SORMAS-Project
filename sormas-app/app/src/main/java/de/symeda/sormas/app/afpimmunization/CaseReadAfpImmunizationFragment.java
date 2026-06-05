@@ -12,6 +12,7 @@ package de.symeda.sormas.app.afpimmunization;
 
 import android.os.Bundle;
 
+import de.symeda.sormas.api.FormType;
 import de.symeda.sormas.api.afpimmunization.AfpImmunizationDto;
 import de.symeda.sormas.api.utils.fieldaccess.UiFieldAccessCheckers;
 import de.symeda.sormas.api.utils.fieldvisibility.FieldVisibilityCheckers;
@@ -54,6 +55,9 @@ public class CaseReadAfpImmunizationFragment
 	@Override
 	public void onAfterLayoutBinding(FragmentAfpImmunizationReadLayoutBinding contentBinding) {
 		setFieldVisibilitiesAndAccesses(AfpImmunizationDto.class, contentBinding.mainContent);
+		if (getActivityRootData().getDisease() != null) {
+			super.hideFieldsForDisease(getActivityRootData().getDisease(), contentBinding.mainContent, FormType.AFP_IMMUNIZATION_EDIT);
+		}
 	}
 
 	@Override

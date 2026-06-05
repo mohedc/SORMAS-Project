@@ -26,6 +26,8 @@ import android.view.ViewGroup;
 import androidx.databinding.ObservableArrayList;
 
 import de.symeda.sormas.api.CountryHelper;
+import de.symeda.sormas.api.Disease;
+import de.symeda.sormas.api.FormType;
 import de.symeda.sormas.api.activityascase.ActivityAsCaseDto;
 import de.symeda.sormas.api.epidata.EpiDataDto;
 import de.symeda.sormas.api.event.MeansOfTransport;
@@ -186,6 +188,10 @@ public class EpidemiologicalDataReadFragment extends BaseReadFragment<FragmentRe
 	@Override
 	public void onAfterLayoutBinding(FragmentReadEpidLayoutBinding contentBinding) {
 		setFieldVisibilitiesAndAccesses(EpiDataDto.class, contentBinding.mainContent);
+		Disease disease = getDiseaseOfCaseOrContact(getActivityRootData());
+		if (disease != null) {
+			super.hideFieldsForDisease(disease, contentBinding.mainContent, FormType.EPIDEMIOLOGICAL_EDIT);
+		}
 		if (record.getExposureDetailsKnown() != YesNoUnknown.YES) {
 			contentBinding.exposuresLayout.setVisibility(View.GONE);
 		}

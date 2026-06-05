@@ -27,6 +27,7 @@ import android.content.res.Resources;
 import android.os.Bundle;
 
 import de.symeda.sormas.api.Disease;
+import de.symeda.sormas.api.FormType;
 import de.symeda.sormas.api.VisitOrigin;
 import de.symeda.sormas.api.i18n.I18nProperties;
 import de.symeda.sormas.api.symptoms.SymptomState;
@@ -140,6 +141,9 @@ public class SymptomsReadFragment extends BaseReadFragment<FragmentSymptomsReadL
 	@Override
 	public void onAfterLayoutBinding(FragmentSymptomsReadLayoutBinding contentBinding) {
 		setFieldVisibilitiesAndAccesses(SymptomsDto.class, contentBinding.mainContent);
+		if (disease != null) {
+			super.hideFieldsForDisease(disease, contentBinding.mainContent, FormType.SYMPTOMS_EDIT);
+		}
 	}
 
 	@Override

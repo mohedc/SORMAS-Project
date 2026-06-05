@@ -24,6 +24,7 @@ import android.webkit.WebView;
 
 import de.symeda.sormas.api.CountryHelper;
 import de.symeda.sormas.api.Disease;
+import de.symeda.sormas.api.FormType;
 import de.symeda.sormas.api.caze.CaseClassification;
 import de.symeda.sormas.api.caze.CaseConfirmationBasis;
 import de.symeda.sormas.api.caze.CaseDataDto;
@@ -74,6 +75,9 @@ public class CaseReadFragment extends BaseReadFragment<FragmentCaseReadLayoutBin
 
 	private void setUpFieldVisibilities(FragmentCaseReadLayoutBinding contentBinding) {
 		setFieldVisibilitiesAndAccesses(CaseDataDto.class, contentBinding.mainContent);
+		if (record.getDisease() != null) {
+			super.hideFieldsForDisease(record.getDisease(), contentBinding.mainContent, FormType.CASE_EDIT);
+		}
 		InfrastructureDaoHelper
 			.initializeHealthFacilityDetailsFieldVisibility(contentBinding.caseDataHealthFacility, contentBinding.caseDataHealthFacilityDetails);
 		InfrastructureDaoHelper
@@ -138,6 +142,43 @@ public class CaseReadFragment extends BaseReadFragment<FragmentCaseReadLayoutBin
 
 		if (isVisibleAllowed(CaseDataDto.class, contentBinding.caseDataDiseaseVariant)) {
 			contentBinding.caseDataDiseaseVariant.setVisibility(record.getDiseaseVariant() != null ? VISIBLE : GONE);
+		}
+
+		if (contentBinding.caseDataNotifiedByDetails != null && record.getNotifiedBy() == null) {
+			contentBinding.caseDataNotifiedByDetails.setVisibility(GONE);
+		}
+
+		if (record.getDisease() == Disease.NEONATAL_TETANUS) {
+			updateNntMotherDoseDateVisibility(contentBinding);
+		}
+	}
+
+	private void updateNntMotherDoseDateVisibility(FragmentCaseReadLayoutBinding contentBinding) {
+		int doses = parseMotherNumberOfDoses();
+
+		hideWhenNotApplicable(contentBinding.caseDataMotherTTDateOne, doses >= 1);
+		hideWhenNotApplicable(contentBinding.caseDataMotherTTDateTwo, doses >= 2);
+		hideWhenNotApplicable(contentBinding.caseDataMotherTTDateThree, doses >= 3);
+		hideWhenNotApplicable(contentBinding.caseDataMotherTTDateFour, doses >= 4);
+		hideWhenNotApplicable(contentBinding.caseDataMotherTTDateFive, doses >= 5);
+		hideWhenNotApplicable(contentBinding.caseDataMotherLastDoseDate, doses >= 6);
+
+		hideWhenNotApplicable(contentBinding.caseDataVaccinationDateOneTwoLayout, doses >= 1);
+		hideWhenNotApplicable(contentBinding.caseDataVaccinationDateThreeFourLayout, doses >= 3);
+		hideWhenNotApplicable(contentBinding.caseDataVaccinationDateFiveLastDoseLayout, doses >= 5);
+	}
+
+	private int parseMotherNumberOfDoses() {
+		try {
+			return record.getMotherNumberOfDoses() == null ? 0 : Integer.parseInt(record.getMotherNumberOfDoses());
+		} catch (NumberFormatException e) {
+			return 0;
+		}
+	}
+
+	private void hideWhenNotApplicable(View view, boolean applicable) {
+		if (!applicable) {
+			view.setVisibility(GONE);
 		}
 	}
 

@@ -26,6 +26,8 @@
 
     <data>
         <import type="de.symeda.sormas.api.symptoms.SymptomsContext" />
+        <import type="de.symeda.sormas.api.utils.YesNo" />
+        <import type="de.symeda.sormas.api.utils.YesNoUnknown" />
 
         <variable name="data" type="de.symeda.sormas.app.backend.symptoms.Symptoms" />
         <variable name="symptomsContext" type="de.symeda.sormas.api.symptoms.SymptomsContext" />
@@ -141,6 +143,177 @@
                     android:id="@+id/symptoms_causeOfDeath"
                     app:value="@{data.causeOfDeath}"
                     app:goneIfEmpty="@{data.causeOfDeath}"
+                    style="@style/ControlSingleColumnStyle" />
+
+                <LinearLayout
+                    android:id="@+id/symptoms_feverOnsetParalysis_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <de.symeda.sormas.app.component.controls.ControlTextReadField
+                        android:id="@+id/symptoms_feverOnsetParalysis"
+                        app:value="@{data.feverOnsetParalysis}"
+                        style="@style/ControlFirstOfTwoColumnsStyle" />
+
+                    <de.symeda.sormas.app.component.controls.ControlTextReadField
+                        android:id="@+id/symptoms_feverOnsetParalysisOnsetDate"
+                        app:value="@{data.feverOnsetParalysisOnsetDate}"
+                        app:dependencyParentField="@{symptomsFeverOnsetParalysis}"
+                        app:dependencyParentValue="@{YesNoUnknown.YES}"
+                        style="@style/ControlSecondOfTwoColumnsStyle" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/symptoms_progressiveParalysis_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <de.symeda.sormas.app.component.controls.ControlTextReadField
+                        android:id="@+id/symptoms_progressiveParalysis"
+                        app:value="@{data.progressiveParalysis}"
+                        style="@style/ControlFirstOfTwoColumnsStyle" />
+
+                    <de.symeda.sormas.app.component.controls.ControlTextReadField
+                        android:id="@+id/symptoms_progressiveParalysisOnsetDate"
+                        app:value="@{data.progressiveParalysisOnsetDate}"
+                        app:dependencyParentField="@{symptomsProgressiveParalysis}"
+                        app:dependencyParentValue="@{YesNoUnknown.YES}"
+                        style="@style/ControlSecondOfTwoColumnsStyle" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/symptoms_progressiveFlaccidAcute_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <de.symeda.sormas.app.component.controls.ControlTextReadField
+                        android:id="@+id/symptoms_progressiveFlaccidAcute"
+                        app:value="@{data.progressiveFlaccidAcute}"
+                        style="@style/ControlFirstOfTwoColumnsStyle" />
+
+                    <de.symeda.sormas.app.component.controls.ControlTextReadField
+                        android:id="@+id/symptoms_progressiveFlaccidAcuteOnsetDate"
+                        app:value="@{data.progressiveFlaccidAcuteOnsetDate}"
+                        app:dependencyParentField="@{symptomsProgressiveFlaccidAcute}"
+                        app:dependencyParentValue="@{YesNoUnknown.YES}"
+                        style="@style/ControlSecondOfTwoColumnsStyle" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/symptoms_assymetric_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <de.symeda.sormas.app.component.controls.ControlTextReadField
+                        android:id="@+id/symptoms_assymetric"
+                        app:value="@{data.assymetric}"
+                        style="@style/ControlFirstOfTwoColumnsStyle" />
+
+                    <de.symeda.sormas.app.component.controls.ControlTextReadField
+                        android:id="@+id/symptoms_assymetricOnsetDate"
+                        app:value="@{data.assymetricOnsetDate}"
+                        app:dependencyParentField="@{symptomsAssymetric}"
+                        app:dependencyParentValue="@{YesNoUnknown.YES}"
+                        style="@style/ControlSecondOfTwoColumnsStyle" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/symptoms_siteOfParalysis_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <de.symeda.sormas.app.component.controls.ControlTextReadField
+                        android:id="@+id/symptoms_siteOfParalysis"
+                        app:value="@{data.siteOfParalysis}"
+                        style="@style/ControlFirstOfTwoColumnsStyle" />
+
+                    <de.symeda.sormas.app.component.controls.ControlTextReadField
+                        android:id="@+id/symptoms_siteOfParalysisOnsetDate"
+                        app:value="@{data.siteOfParalysisOnsetDate}"
+                        style="@style/ControlSecondOfTwoColumnsStyle" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/symptoms_paralysedLimbSensitiveToPain_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <de.symeda.sormas.app.component.controls.ControlTextReadField
+                        android:id="@+id/symptoms_paralysedLimbSensitiveToPain"
+                        app:value="@{data.paralysedLimbSensitiveToPain}"
+                        style="@style/ControlFirstOfTwoColumnsStyle" />
+
+                    <de.symeda.sormas.app.component.controls.ControlTextReadField
+                        android:id="@+id/symptoms_paralysedLimbSensitiveToPainOnsetDate"
+                        app:value="@{data.paralysedLimbSensitiveToPainOnsetDate}"
+                        app:dependencyParentField="@{symptomsParalysedLimbSensitiveToPain}"
+                        app:dependencyParentValue="@{YesNo.YES}"
+                        style="@style/ControlSecondOfTwoColumnsStyle" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/symptoms_injectionSiteBeforeOnsetParalysis_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <de.symeda.sormas.app.component.controls.ControlTextReadField
+                        android:id="@+id/symptoms_injectionSiteBeforeOnsetParalysis"
+                        app:value="@{data.injectionSiteBeforeOnsetParalysis}"
+                        style="@style/ControlFirstOfTwoColumnsStyle" />
+
+                    <de.symeda.sormas.app.component.controls.ControlTextReadField
+                        android:id="@+id/symptoms_injectionSiteBeforeOnsetParalysisOnsetDate"
+                        app:value="@{data.injectionSiteBeforeOnsetParalysisOnsetDate}"
+                        app:dependencyParentField="@{symptomsInjectionSiteBeforeOnsetParalysis}"
+                        app:dependencyParentValue="@{YesNo.YES}"
+                        style="@style/ControlSecondOfTwoColumnsStyle" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/symptoms_injectionSite_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <de.symeda.sormas.app.component.controls.ControlTextReadField
+                        android:id="@+id/symptoms_injectionSite"
+                        app:value="@{data.injectionSite}"
+                        app:dependencyParentField="@{symptomsInjectionSiteBeforeOnsetParalysis}"
+                        app:dependencyParentValue="@{YesNo.YES}"
+                        style="@style/ControlFirstOfTwoColumnsStyle" />
+
+                    <de.symeda.sormas.app.component.controls.ControlTextReadField
+                        android:id="@+id/symptoms_injectionSiteOnsetDate"
+                        app:value="@{data.injectionSiteOnsetDate}"
+                        style="@style/ControlSecondOfTwoColumnsStyle" />
+
+                </LinearLayout>
+
+                <de.symeda.sormas.app.component.controls.ControlTextReadField
+                    android:id="@+id/symptoms_provisionalDiagnosis"
+                    app:value="@{data.provisionalDiagnosis}"
+                    app:singleLine="false"
+                    app:maxLines="4"
+                    app:textArea="true"
+                    style="@style/ControlSingleColumnStyle" />
+
+                <de.symeda.sormas.app.component.controls.ControlTextReadField
+                    android:id="@+id/symptoms_trueAfp"
+                    app:value="@{data.trueAfp}"
                     style="@style/ControlSingleColumnStyle" />
 
             </LinearLayout>
