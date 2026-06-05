@@ -21,10 +21,13 @@ import static android.view.View.VISIBLE;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import androidx.databinding.ObservableArrayList;
 
 import de.symeda.sormas.api.CountryHelper;
+import de.symeda.sormas.api.Disease;
+import de.symeda.sormas.api.FormType;
 import de.symeda.sormas.api.i18n.I18nProperties;
 import de.symeda.sormas.api.location.LocationDto;
 import de.symeda.sormas.api.person.PersonContactDetailDto;
@@ -107,7 +110,7 @@ public class PersonReadFragment extends BaseReadFragment<FragmentPersonReadLayou
 				getContext(),
 				R.layout.dialog_location_read_layout,
 				item,
-				bindedView -> setFieldAccesses(LocationDto.class, bindedView));
+				this::setLocationFieldAccesses);
 			infoDialog.show();
 		};
 		onPersonContactDetailItemClickListener = (v, item) -> {
@@ -125,6 +128,10 @@ public class PersonReadFragment extends BaseReadFragment<FragmentPersonReadLayou
 		FragmentPersonReadLayoutBinding contentBinding,
 		AbstractDomainObject rootData) {
 		fragment.setFieldVisibilitiesAndAccesses(PersonDto.class, contentBinding.mainContent);
+		Disease disease = getDisease(rootData);
+		if (disease != null) {
+			fragment.hideFieldsForDisease(disease, contentBinding.mainContent, FormType.PERSON_EDIT);
+		}
 
 		InfrastructureDaoHelper.initializeHealthFacilityDetailsFieldVisibility(
 			contentBinding.personPlaceOfBirthFacility,
@@ -186,7 +193,7 @@ public class PersonReadFragment extends BaseReadFragment<FragmentPersonReadLayou
 		contentBinding.setAddressList(addresses);
 		contentBinding.setAddressItemClickCallback(onAddressItemClickListener);
 		contentBinding.setAddressBindCallback(v -> {
-			setFieldAccesses(LocationDto.class, v);
+			setLocationFieldAccesses(v);
 		});
 		contentBinding.setPersonContactDetailList(personContactDetails);
 		contentBinding.setPersonContactDetailItemClickCallback(onPersonContactDetailItemClickListener);
@@ -231,6 +238,29 @@ public class PersonReadFragment extends BaseReadFragment<FragmentPersonReadLayou
 	private void setFieldAccesses(Class<?> dtoClass, View view) {
 		FieldVisibilityAndAccessHelper
 			.setFieldVisibilitiesAndAccesses(dtoClass, (ViewGroup) view, new FieldVisibilityCheckers(), getFieldAccessCheckers());
+	}
+
+	private void setLocationFieldAccesses(View view) {
+		setFieldAccesses(LocationDto.class, view);
+
+		Disease disease = getDisease(rootData);
+		View mainContent = view.findViewById(R.id.main_content);
+		if (disease != null && mainContent instanceof LinearLayout) {
+			hideFieldsForDisease(disease, (LinearLayout) mainContent, FormType.PERSON_LOCATION_EDIT);
+		}
+	}
+
+	private static Disease getDisease(AbstractDomainObject rootData) {
+		if (rootData instanceof Case) {
+			return ((Case) rootData).getDisease();
+		} else if (rootData instanceof Contact) {
+			return ((Contact) rootData).getDisease();
+		} else if (rootData instanceof EventParticipant) {
+			return ((EventParticipant) rootData).getEvent().getDisease();
+		} else if (rootData instanceof Immunization) {
+			return ((Immunization) rootData).getDisease();
+		}
+		return null;
 	}
 
 }

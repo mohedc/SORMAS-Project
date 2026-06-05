@@ -26,6 +26,8 @@
 
     <data>
         <import type="de.symeda.sormas.api.utils.YesNo" />
+        <import type="de.symeda.sormas.api.i18n.I18nProperties" />
+        <import type="de.symeda.sormas.api.i18n.Strings" />
 
         <variable name="data" type="de.symeda.sormas.app.backend.epidata.EpiData" />
 
@@ -54,6 +56,148 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="@dimen/fragment_padding">
+
+                <TextView
+                    android:id="@+id/epiData_exposureInvestigation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{I18nProperties.getString(Strings.headingExposureInvestigation)}"
+                    style="@style/SubHeadingCompactStyle" />
+
+                <TextView
+                    android:id="@+id/exposure_investigation_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:htmlValue="@{I18nProperties.getString(Strings.infoExposureInvestigation)}"
+                    style="@style/SubHeadingDescriptionStyle" />
+
+                <LinearLayout
+                    android:id="@+id/epiData_afpSeekHelpLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/epiData_locExposureInvestigationHeading"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{I18nProperties.getString(Strings.headingExposureInvestigation)}"
+                        style="@style/SubHeadingCompactStyle" />
+
+                    <TextView
+                        android:id="@+id/epiData_infoExposureInvestigation"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:htmlValue="@{I18nProperties.getString(Strings.infoExposureInvestigation)}"
+                        style="@style/SubHeadingDescriptionStyle" />
+
+                    <TextView
+                        android:id="@+id/epiData_fillSectionHeadingLoc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{I18nProperties.getString(Strings.headingfillSection)}"
+                        style="@style/SubHeadingCompactStyle" />
+
+                    <TextView
+                        android:id="@+id/epiData_seekHelpHeadingLoc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@{I18nProperties.getString(Strings.headingseekHelp)}"
+                        style="@style/SubHeadingCompactStyle" />
+
+                    <de.symeda.sormas.app.component.controls.ControlTextReadField
+                        android:id="@+id/epiData_place"
+                        app:value="@{data.place}"
+                        style="@style/ControlSingleColumnStyle" />
+
+                    <LinearLayout
+                        android:id="@+id/epiData_durationMonths_durationDays_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <de.symeda.sormas.app.component.controls.ControlTextReadField
+                            android:id="@+id/epiData_durationMonths"
+                            app:value="@{data.durationMonths}"
+                            style="@style/ControlFirstOfTwoColumnsStyle" />
+
+                        <de.symeda.sormas.app.component.controls.ControlTextReadField
+                            android:id="@+id/epiData_durationDays"
+                            app:value="@{data.durationDays}"
+                            style="@style/ControlSecondOfTwoColumnsStyle" />
+
+                    </LinearLayout>
+
+                    <de.symeda.sormas.app.component.controls.ControlTextReadField
+                        android:id="@+id/epiData_place2"
+                        app:value="@{data.place2}"
+                        style="@style/ControlSingleColumnStyle" />
+
+                    <LinearLayout
+                        android:id="@+id/epiData_durationMonths2_durationDays2_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <de.symeda.sormas.app.component.controls.ControlTextReadField
+                            android:id="@+id/epiData_durationMonths2"
+                            app:value="@{data.durationMonths2}"
+                            style="@style/ControlFirstOfTwoColumnsStyle" />
+
+                        <de.symeda.sormas.app.component.controls.ControlTextReadField
+                            android:id="@+id/epiData_durationDays2"
+                            app:value="@{data.durationDays2}"
+                            style="@style/ControlSecondOfTwoColumnsStyle" />
+
+                    </LinearLayout>
+
+                    <de.symeda.sormas.app.component.controls.ControlTextReadField
+                        android:id="@+id/epiData_place3"
+                        app:value="@{data.place3}"
+                        style="@style/ControlSingleColumnStyle" />
+
+                    <LinearLayout
+                        android:id="@+id/epiData_durationMonths3_durationDays3_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <de.symeda.sormas.app.component.controls.ControlTextReadField
+                            android:id="@+id/epiData_durationMonths3"
+                            app:value="@{data.durationMonths3}"
+                            style="@style/ControlFirstOfTwoColumnsStyle" />
+
+                        <de.symeda.sormas.app.component.controls.ControlTextReadField
+                            android:id="@+id/epiData_durationDays3"
+                            app:value="@{data.durationDays3}"
+                            style="@style/ControlSecondOfTwoColumnsStyle" />
+
+                    </LinearLayout>
+
+                    <de.symeda.sormas.app.component.controls.ControlTextReadField
+                        android:id="@+id/epiData_place4"
+                        app:value="@{data.place4}"
+                        style="@style/ControlSingleColumnStyle" />
+
+                    <LinearLayout
+                        android:id="@+id/epiData_durationMonths4_durationDays4_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <de.symeda.sormas.app.component.controls.ControlTextReadField
+                            android:id="@+id/epiData_durationMonths4"
+                            app:value="@{data.durationMonths4}"
+                            style="@style/ControlFirstOfTwoColumnsStyle" />
+
+                        <de.symeda.sormas.app.component.controls.ControlTextReadField
+                            android:id="@+id/epiData_durationDays4"
+                            app:value="@{data.durationDays4}"
+                            style="@style/ControlSecondOfTwoColumnsStyle" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
 
                 <de.symeda.sormas.app.component.controls.ControlTextReadField
                     android:id="@+id/epiData_highTransmissionRiskArea"

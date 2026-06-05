@@ -16,6 +16,7 @@
 package de.symeda.sormas.app.sample.read;
 
 import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 
 import android.os.Bundle;
 import android.view.View;
@@ -25,12 +26,15 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.symeda.sormas.api.Disease;
+import de.symeda.sormas.api.FormType;
 import de.symeda.sormas.api.feature.FeatureType;
 import de.symeda.sormas.api.sample.AdditionalTestType;
 import de.symeda.sormas.api.sample.PathogenTestType;
 import de.symeda.sormas.api.sample.SampleDto;
 import de.symeda.sormas.api.sample.SpecimenCondition;
 import de.symeda.sormas.api.user.UserRight;
+import de.symeda.sormas.api.utils.YesNo;
 import de.symeda.sormas.app.BaseReadFragment;
 import de.symeda.sormas.app.R;
 import de.symeda.sormas.app.backend.common.DatabaseHelper;
@@ -143,7 +147,14 @@ public class SampleReadFragment extends BaseReadFragment<FragmentSampleReadLayou
 	@Override
 	public void onAfterLayoutBinding(FragmentSampleReadLayoutBinding contentBinding) {
 		setFieldVisibilitiesAndAccesses(SampleDto.class, contentBinding.mainContent);
+		Disease disease = getDiseaseOfAssociatedEntity(record);
+		if (disease != null) {
+			super.hideFieldsForDisease(disease, contentBinding.mainContent, FormType.SAMPLE_EDIT);
+		}
 		setUpFieldVisibilities(contentBinding);
+		if (disease == Disease.AFP) {
+			handleAfp(contentBinding);
+		}
 
 		if (!requestedPathogenTests.isEmpty()) {
 			contentBinding.sampleRequestedPathogenTestsTags.setTags(requestedPathogenTests);
@@ -193,5 +204,58 @@ public class SampleReadFragment extends BaseReadFragment<FragmentSampleReadLayou
 	@Override
 	public boolean showEditAction() {
 		return ConfigProvider.hasUserRight(UserRight.SAMPLE_EDIT);
+	}
+
+	private void handleAfp(FragmentSampleReadLayoutBinding contentBinding) {
+		contentBinding.sampleHeadingStoolSpecimenCollection.setVisibility(VISIBLE);
+		contentBinding.sampleAfpSampleLayout.setVisibility(VISIBLE);
+
+		updateAfpShipmentVisibility(contentBinding, record.isShipped());
+		updateAfpReceivedVisibility(contentBinding, record.isReceived());
+		updateAfpIpDakarSectionVisibility(contentBinding, record.isReceived() ? record.getSentToIpDakar() : null);
+	}
+
+	private void updateAfpShipmentVisibility(FragmentSampleReadLayoutBinding contentBinding, boolean shipped) {
+		int visibility = shipped ? VISIBLE : GONE;
+		contentBinding.sampleShipmentDate.setVisibility(visibility);
+		contentBinding.sampleShipmentDetails.setVisibility(visibility);
+		contentBinding.sampleAfpSentDatesLayout.setVisibility(visibility);
+		contentBinding.sampleDateSpecimenSentNationalLevel.setVisibility(visibility);
+		contentBinding.sampleDateSpecimenSentInter.setVisibility(visibility);
+	}
+
+	private void updateAfpReceivedVisibility(FragmentSampleReadLayoutBinding contentBinding, boolean received) {
+		int visibility = received ? VISIBLE : GONE;
+		contentBinding.sampleReceivedDate.setVisibility(visibility);
+		contentBinding.sampleLabSampleID.setVisibility(visibility);
+		contentBinding.sampleDateSpecimenReceivedNationalLevel.setVisibility(visibility);
+		contentBinding.sampleDateSpecimenReceivedInter.setVisibility(visibility);
+		contentBinding.sampleSentToIpDakar.setVisibility(visibility);
+	}
+
+	private void updateAfpIpDakarSectionVisibility(FragmentSampleReadLayoutBinding contentBinding, YesNo sentToIpDakar) {
+		int visibility = sentToIpDakar == YesNo.YES ? VISIBLE : GONE;
+		contentBinding.sampleHeadingElisaIgm.setVisibility(visibility);
+		contentBinding.sampleElisaIgm.setVisibility(visibility);
+		contentBinding.sampleElisaIgmDate.setVisibility(visibility);
+		contentBinding.sampleHeadingPcr.setVisibility(visibility);
+		contentBinding.sampleIpDakarPcr.setVisibility(visibility);
+		contentBinding.samplePcrDate.setVisibility(visibility);
+		contentBinding.sampleHeadingPrnt.setVisibility(visibility);
+		contentBinding.samplePrnt.setVisibility(visibility);
+		contentBinding.samplePrntDate.setVisibility(visibility);
+		contentBinding.samplePrntInputValue.setVisibility(visibility);
+	}
+
+	private static Disease getDiseaseOfAssociatedEntity(Sample sample) {
+		if (sample.getAssociatedCase() != null) {
+			return sample.getAssociatedCase().getDisease();
+		} else if (sample.getAssociatedContact() != null) {
+			return sample.getAssociatedContact().getDisease();
+		} else if (sample.getAssociatedEventParticipant() != null) {
+			return sample.getAssociatedEventParticipant().getEvent().getDisease();
+		} else {
+			return null;
+		}
 	}
 }

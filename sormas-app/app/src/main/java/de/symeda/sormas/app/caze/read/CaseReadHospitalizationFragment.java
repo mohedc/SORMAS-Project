@@ -18,11 +18,16 @@ package de.symeda.sormas.app.caze.read;
 import static android.view.View.GONE;
 
 import android.os.Bundle;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.databinding.ObservableArrayList;
 
+import de.symeda.sormas.api.Disease;
+import de.symeda.sormas.api.FormType;
+import de.symeda.sormas.api.hospitalization.HospitalizationDto;
 import de.symeda.sormas.api.hospitalization.PreviousHospitalizationDto;
+import de.symeda.sormas.api.utils.InpatOutpat;
 import de.symeda.sormas.api.utils.fieldaccess.UiFieldAccessCheckers;
 import de.symeda.sormas.api.utils.fieldvisibility.FieldVisibilityCheckers;
 import de.symeda.sormas.app.BaseReadFragment;
@@ -48,7 +53,7 @@ public class CaseReadHospitalizationFragment extends BaseReadFragment<FragmentCa
 			CaseReadHospitalizationFragment.class,
 			null,
 			activityRootData,
-			new FieldVisibilityCheckers(),
+			FieldVisibilityCheckers.withDisease(activityRootData.getDisease()),
 			UiFieldAccessCheckers.forSensitiveData(activityRootData.isPseudonymized(), ConfigProvider.getServerCountryCode()));
 	}
 
@@ -75,12 +80,36 @@ public class CaseReadHospitalizationFragment extends BaseReadFragment<FragmentCa
 
 	@Override
 	public void onAfterLayoutBinding(FragmentCaseReadHospitalizationLayoutBinding contentBinding) {
+		setFieldVisibilitiesAndAccesses(HospitalizationDto.class, contentBinding.mainContent);
+		if (caze.getDisease() != null) {
+			super.hideFieldsForDisease(caze.getDisease(), contentBinding.mainContent, FormType.HOSPITALIZATION_EDIT);
+		}
+
 		InfrastructureDaoHelper
 			.initializeHealthFacilityDetailsFieldVisibility(contentBinding.caseDataHealthFacility, contentBinding.caseDataHealthFacilityDetails);
+
+		if (caze.getDisease() == Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS) {
+			contentBinding.caseHospitalizationDateFirstSeenAtHealthFacility.setCaption("Date seen at health facility");
+			contentBinding.hospitalizationDateHealthRegionNotified.setCaption("Date Health Region Notified");
+		}
+
+		if (caze.getDisease() == Disease.AFP) {
+			contentBinding.caseHospitalizationAdmissionDate.setCaption("Date of Admission to Hospital, If Applicable");
+			updateAfpAdmissionDischargeVisibility(contentBinding);
+		}
 
 		// Previous hospitalizations list
 		if (contentBinding.getData().getPreviousHospitalizations().isEmpty()) {
 			contentBinding.listPreviousHospitalizationsLayout.setVisibility(GONE);
+		}
+	}
+
+	private void updateAfpAdmissionDischargeVisibility(FragmentCaseReadHospitalizationLayoutBinding contentBinding) {
+		boolean showAdmissionDischargeDates = record.getSelectInpatientOutpatient() == InpatOutpat.INPATIENT;
+		if (!showAdmissionDischargeDates) {
+			contentBinding.caseHospitalizationAdmissionDischargeDateLayout.setVisibility(View.GONE);
+			contentBinding.caseHospitalizationAdmissionDate.setVisibility(View.GONE);
+			contentBinding.caseHospitalizationDischargeDate.setVisibility(View.GONE);
 		}
 	}
 
