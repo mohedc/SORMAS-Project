@@ -350,6 +350,7 @@
     <string name="heading_complications">Complications</string>
     <string name="heading_group_a">Group A</string>
     <string name="heading_group_b">Group B</string>
+    <string name="heading_death_section">Death information</string>
     <string name="heading_confirm_pin">Confirm PIN</string>
     <string name="heading_confirmation_dialog">Confirmation</string>
     <string name="heading_contact_edit">Edit Contact</string>

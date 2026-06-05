@@ -124,16 +124,15 @@ public class MaternalHistoryForm extends AbstractEditForm<MaternalHistoryDto> {
 		getField(MaternalHistoryDto.MOTHER_RUBELLA_LAB_CONFIRMED_DATE).setCaption(epiDataCaption(EpiDataDto.MOTHER_RUBELLA_LAB_CONFIRMED_DATE));
 
 		addField(MaternalHistoryDto.RASH_EXPOSURE, NullableOptionGroup.class);
-		getField(MaternalHistoryDto.RASH_EXPOSURE).setCaption(epiDataCaption(EpiDataDto.MOTHER_EXPOSED_DURING_PREGNANCY));
+		getField(MaternalHistoryDto.RASH_EXPOSURE);
 		addField(MaternalHistoryDto.RASH_EXPOSURE_DATE, DateField.class);
-		getField(MaternalHistoryDto.RASH_EXPOSURE_DATE).setCaption(epiDataCaption(EpiDataDto.MOTHER_EXPOSED_DURING_PREGNANCY_DATE));
+		getField(MaternalHistoryDto.RASH_EXPOSURE_DATE);
 
 		TextField tfGestationalAgeAtExposure = addField(MaternalHistoryDto.GESTATIONAL_AGE_AT_EXPOSURE, TextField.class);
 		tfGestationalAgeAtExposure.setCaption(epiDataCaption(EpiDataDto.GESTATIONAL_AGE_AT_EXPOSURE));
 		tfGestationalAgeAtExposure
 			.setConversionError(I18nProperties.getValidationError(Validations.onlyIntegerNumbersAllowed, tfGestationalAgeAtExposure.getCaption()));
-		TextField tfExposureLocation = addField(MaternalHistoryDto.EXPOSURE_LOCATION_DESCRIPTION, TextField.class);
-		tfExposureLocation.setCaption(epiDataCaption(EpiDataDto.EXPOSURE_LOCATION_DESCRIPTION));
+		addField(MaternalHistoryDto.EXPOSURE_LOCATION_DESCRIPTION, TextField.class);
 
 		addField(MaternalHistoryDto.MOTHER_TRAVELED_DURING_PREGNANCY, NullableOptionGroup.class);
 		getField(MaternalHistoryDto.MOTHER_TRAVELED_DURING_PREGNANCY).setCaption(epiDataCaption(EpiDataDto.MOTHER_TRAVELED_DURING_PREGNANCY));

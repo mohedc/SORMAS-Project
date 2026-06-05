@@ -1633,6 +1633,13 @@
 
             </LinearLayout>
 
+            <TextView
+                android:id="@+id/symptoms_death_heading"
+                style="@style/SubHeadingStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/heading_death_section" />
+
             <LinearLayout
                 android:id="@+id/symptoms_autopsyConducted_layout"
                 android:layout_width="match_parent"
