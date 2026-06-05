@@ -393,12 +393,7 @@
 
                 </LinearLayout>
 
-                <TextView
-                    android:id="@+id/caseData_headingNotifyInvestigate"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/heading_notify_investigate"
-                    style="@style/SubHeadingStyle" />
+              
 
                 <LinearLayout
                     android:id="@+id/caseData_notifiedBy_notifiedByDetails_layout"
@@ -1511,6 +1506,13 @@
                         android:id="@+id/caseData_hib3SourceOfVaccination"
                         app:value="@={data.hib3SourceOfVaccination}"
                         style="@style/ControlSingleColumnStyle" />
+
+                          <TextView
+                    android:id="@+id/caseData_headingNotifyInvestigate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/heading_notify_investigate"
+                    style="@style/SubHeadingStyle" />
 
                     <de.symeda.sormas.app.component.controls.ControlDateField
                         android:id="@+id/caseData_districtNotificationDate"
