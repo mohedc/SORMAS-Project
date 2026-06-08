@@ -148,13 +148,13 @@ public class CaseReadActivity extends BaseReadActivity<Case> {
 		if (DatabaseHelper.getFeatureConfigurationDao().isFeatureDisabled(FeatureType.VIEW_TAB_CASES_SYMPTOMS)) {
 			menuItems.set(CaseSection.SYMPTOMS.ordinal(), null);
 		}
-		if (caze == null
-			|| !(caze.getDisease() == Disease.MEASLES
-				|| caze.getDisease() == Disease.YELLOW_FEVER
-				|| caze.getDisease() == Disease.CONGENITAL_RUBELLA
-				|| caze.getDisease() == Disease.CSM)) {
-			menuItems.set(CaseSection.FINAL_CLASSIFICATION.ordinal(), null);
-		}
+//		if (caze == null
+//			|| !(caze.getDisease() == Disease.MEASLES
+//				|| caze.getDisease() == Disease.YELLOW_FEVER
+//				|| caze.getDisease() == Disease.CONGENITAL_RUBELLA
+//				|| caze.getDisease() == Disease.CSM)) {
+//			menuItems.set(CaseSection.FINAL_CLASSIFICATION.ordinal(), null);
+//		}
 
 		caseSamplesMenuEnabled = CaseCsmSamplesMenuHelper.isSamplesMenuEnabled(caze);
 		CaseCsmSamplesMenuHelper.configureSamplesMenuItem(menuItems, caseSamplesMenuEnabled);
@@ -236,9 +236,9 @@ public class CaseReadActivity extends BaseReadActivity<Case> {
 		case TASKS:
 			fragment = CaseReadTaskListFragment.newInstance(activityRootData);
 			break;
-		case FINAL_CLASSIFICATION:
-			fragment = CaseReadFinalClassificationFragment.newInstance(activityRootData);
-			break;
+//		case FINAL_CLASSIFICATION:
+//			fragment = CaseReadFinalClassificationFragment.newInstance(activityRootData);
+//			break;
 		default:
 			throw new IndexOutOfBoundsException(DataHelper.toStringNullable(section));
 		}

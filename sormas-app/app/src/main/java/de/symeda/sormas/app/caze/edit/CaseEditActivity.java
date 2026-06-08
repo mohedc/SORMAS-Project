@@ -177,7 +177,7 @@ public class CaseEditActivity extends BaseEditActivity<Case> {
 		if (DatabaseHelper.getFeatureConfigurationDao().isFeatureDisabled(FeatureType.VIEW_TAB_CASES_SYMPTOMS)) {
 			menuItems.set(CaseSection.SYMPTOMS.ordinal(), null);
 		}
-		menuItems.set(CaseSection.FINAL_CLASSIFICATION.ordinal(), null);
+//		menuItems.set(CaseSection.FINAL_CLASSIFICATION.ordinal(), null);
 
 		caseSamplesMenuEnabled = CaseCsmSamplesMenuHelper.isSamplesMenuEnabled(caze);
 		CaseCsmSamplesMenuHelper.configureSamplesMenuItem(menuItems, caseSamplesMenuEnabled);
@@ -265,9 +265,9 @@ public class CaseEditActivity extends BaseEditActivity<Case> {
 		case VACCINATIONS:
 			fragment = CaseEditVaccinationListFragment.newInstance(activityRootData);
 			break;
-		case FINAL_CLASSIFICATION:
-			fragment = CaseEditFinalClassificationFragment.newInstance(activityRootData);
-			break;
+//		case FINAL_CLASSIFICATION:
+//			fragment = CaseEditFinalClassificationFragment.newInstance(activityRootData);
+//			break;
 		default:
 			throw new IndexOutOfBoundsException(DataHelper.toStringNullable(section));
 		}
