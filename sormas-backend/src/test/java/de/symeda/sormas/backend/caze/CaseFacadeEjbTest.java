@@ -1631,6 +1631,45 @@ public class CaseFacadeEjbTest extends AbstractBeanTest {
 	}
 
 	@Test
+	public void testSymptomsOutcomeSyncToCaseAndPerson() {
+
+		final Date today = new Date();
+
+		PersonDto cazePerson = creator.createPerson("Measles", "Person");
+		CaseDataDto measlesCase = creator.createCase(
+			surveillanceSupervisor.toReference(),
+			cazePerson.toReference(),
+			Disease.MEASLES,
+			CaseClassification.PROBABLE,
+			InvestigationStatus.PENDING,
+			today,
+			rdcf);
+
+		measlesCase.setOutcome(CaseOutcome.NO_OUTCOME);
+		measlesCase.getSymptoms().setOutcome(CaseOutcome.DECEASED);
+		measlesCase = getCaseFacade().save(measlesCase);
+		cazePerson = getPersonFacade().getByUuid(cazePerson.getUuid());
+
+		assertEquals(CaseOutcome.DECEASED, measlesCase.getOutcome());
+		assertEquals(PresentCondition.DEAD, cazePerson.getPresentCondition());
+
+		measlesCase.getSymptoms().setOutcome(CaseOutcome.ALIVE);
+		measlesCase = getCaseFacade().save(measlesCase);
+		cazePerson = getPersonFacade().getByUuid(cazePerson.getUuid());
+
+		assertEquals(CaseOutcome.ALIVE, measlesCase.getOutcome());
+		assertEquals(PresentCondition.ALIVE, cazePerson.getPresentCondition());
+
+		measlesCase.setOutcome(CaseOutcome.ALIVE);
+		measlesCase.getSymptoms().setOutcome(CaseOutcome.DECEASED);
+		measlesCase = getCaseFacade().save(measlesCase);
+		cazePerson = getPersonFacade().getByUuid(cazePerson.getUuid());
+
+		assertEquals(CaseOutcome.DECEASED, measlesCase.getOutcome());
+		assertEquals(PresentCondition.DEAD, cazePerson.getPresentCondition());
+	}
+
+	@Test
 	public void testOutcomePersonConditionUpdateForAppSync() throws InterruptedException {
 
 		PersonDto cazePerson = creator.createPerson("Case", "Person");
