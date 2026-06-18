@@ -559,15 +559,22 @@ public class SampleEditFragment extends BaseEditFragment<FragmentSampleEditLayou
 		contentBinding.sampleLaboratoryType.addValueChangedListener(field -> updateLabCaption.run());
 
 		//dispached lisnter
-		contentBinding.sampleShipmentDate.setVisibility(Boolean.TRUE.equals(contentBinding.sampleShipped.getValue()) ? VISIBLE : GONE);
-		contentBinding.sampleSampleContainerUsed.setVisibility(Boolean.TRUE.equals(contentBinding.sampleShipped.getValue()) ? VISIBLE : GONE);
-		contentBinding.sampleSampleContainerUsedOther.setVisibility(Boolean.TRUE.equals(contentBinding.sampleShipped.getValue()) ? VISIBLE : GONE);
-		contentBinding.sampleShipmentDetails.setVisibility(Boolean.TRUE.equals(contentBinding.sampleShipped.getValue()) ? VISIBLE : GONE);
+		boolean shipped = Boolean.TRUE.equals(contentBinding.sampleShipped.getValue());
+		contentBinding.sampleShipmentDate.setVisibility(shipped ? VISIBLE : GONE);
+		contentBinding.sampleSampleContainerUsed.setVisibility(shipped ? VISIBLE : GONE);
+		contentBinding.sampleSampleContainerUsedOther.setVisibility(shipped ? VISIBLE : GONE);
+		contentBinding.sampleShipmentDetails.setVisibility(shipped ? VISIBLE : GONE);
+		contentBinding.sampleSamplesNotSentReason.setVisibility(shipped ? GONE : VISIBLE);
 		contentBinding.sampleShipped.addValueChangedListener(field -> {
-				contentBinding.sampleShipmentDate.setVisibility(Boolean.TRUE.equals(field.getValue()) ? VISIBLE : GONE);
-				contentBinding.sampleShipmentDetails.setVisibility(Boolean.TRUE.equals(field.getValue()) ? VISIBLE : GONE);
-				contentBinding.sampleSampleContainerUsed.setVisibility(Boolean.TRUE.equals(field.getValue()) ? VISIBLE : GONE);
-				if (!Boolean.TRUE.equals(field.getValue())) {
+				boolean isShipped = Boolean.TRUE.equals(field.getValue());
+				contentBinding.sampleShipmentDate.setVisibility(isShipped ? VISIBLE : GONE);
+				contentBinding.sampleShipmentDetails.setVisibility(isShipped ? VISIBLE : GONE);
+				contentBinding.sampleSampleContainerUsed.setVisibility(isShipped ? VISIBLE : GONE);
+				contentBinding.sampleSampleContainerUsedOther.setVisibility(isShipped ? VISIBLE : GONE);
+				contentBinding.sampleSamplesNotSentReason.setVisibility(isShipped ? GONE : VISIBLE);
+				if (isShipped) {
+					contentBinding.sampleSamplesNotSentReason.setValue(null);
+				} else {
 					contentBinding.sampleSampleContainerUsed.setValue(null);
 				}
 			});
