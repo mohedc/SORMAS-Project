@@ -166,6 +166,7 @@ import de.symeda.sormas.api.messaging.MessageType;
 import de.symeda.sormas.api.person.ApproximateAgeType;
 import de.symeda.sormas.api.person.CauseOfDeath;
 import de.symeda.sormas.api.person.PersonDto;
+import de.symeda.sormas.api.person.PersonHelper;
 import de.symeda.sormas.api.person.PersonReferenceDto;
 import de.symeda.sormas.api.person.PresentCondition;
 import de.symeda.sormas.api.person.Sex;
@@ -1499,6 +1500,7 @@ public class CaseFacadeEjb extends AbstractCoreFacadeEjb<Case, CaseDataDto, Case
 		CaseDataDto caseDto = coreAndPersonDto.getCoreData();
 		CoreAndPersonDto savedCoreAndPersonDto = new CoreAndPersonDto();
 		if (coreAndPersonDto.getPerson() != null) {
+			PersonHelper.validateRequiredFieldsForCaseCreation(coreAndPersonDto.getPerson());
 			PersonDto newlyCreatedPersonDto = personFacade.save(coreAndPersonDto.getPerson());
 			caseDto.setPerson(newlyCreatedPersonDto.toReference());
 			savedCoreAndPersonDto.setPerson(newlyCreatedPersonDto);
@@ -1735,6 +1737,9 @@ public class CaseFacadeEjb extends AbstractCoreFacadeEjb<Case, CaseDataDto, Case
 			validate(dto);
 		}
 
+		if (existingCaze == null && dto.getPerson() != null) {
+			PersonHelper.validateRequiredFieldsForCaseCreation(personFacade.getByUuid(dto.getPerson().getUuid()));
+		}
 
 		externalJournalService.handleExternalJournalPersonUpdateAsync(dto.getPerson());
 

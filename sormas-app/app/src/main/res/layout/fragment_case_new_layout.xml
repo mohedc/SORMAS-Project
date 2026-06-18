@@ -470,6 +470,7 @@
                     android:id="@+id/person_phone"
                     style="@style/ControlFirstOfTwoColumnsStyle"
                     app:inputType="phone"
+                    app:required="true"
                     app:value="@={data.person.phone}" />
 
                 <de.symeda.sormas.app.component.controls.ControlTextEditField

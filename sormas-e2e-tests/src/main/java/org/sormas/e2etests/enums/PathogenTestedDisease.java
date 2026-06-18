@@ -36,7 +36,7 @@ public enum PathogenTestedDisease {
   INFLUENZA("NEW_INFLUENZA", "Influenza (New subtype)", "Influenza (neuer Subtyp)"),
   LASSA("LASSA", "Lassa", "Lassa"),
   MEASLES("MEASLES", "Measles", "Masern"),
-  MENINGITIS("CSM", "Meningitis (CSM)", "Meningitis (CSM)"),
+  MENINGITIS("CSM", "Meningitis (CSF)", "Meningitis (CSF)"),
   MONKEYPOX("MONKEYPOX", "Monkeypox", "Affenpocken"),
   NOT_YET_DEFINED("UNDEFINED", "Not Yet Defined", "Noch nicht definiert"),
   OTHER_EPIDEMIC_DISEASE("OTHER", "Other Epidemic Disease", "Andere epidemische Krankheit"),

@@ -160,8 +160,7 @@ public class CaseNewFragment extends BaseEditFragment<FragmentCaseNewLayoutBindi
 		contentBinding.setData(record);
 		contentBinding.setCaseOriginClass(CaseOrigin.class);
 
-		PersonValidator
-			.initializeBirthDateValidation(contentBinding.personBirthdateYYYY, contentBinding.personBirthdateMM, contentBinding.personBirthdateDD);
+		PersonValidator.initializeCaseCreationValidation(contentBinding);
 
 		contentBinding.caseDataPlagueType.initializeSpinner(plagueTypeList);
 		contentBinding.caseDataDengueFeverType.initializeSpinner(dengueFeverTypeList);
@@ -299,6 +298,7 @@ public class CaseNewFragment extends BaseEditFragment<FragmentCaseNewLayoutBindi
 			Disease selectedDisease = (Disease) e.getValue();
 			if (selectedDisease != null) {
 				super.hideFieldsForDisease(selectedDisease, contentBinding.mainContent, FormType.CASE_CREATE);
+				ensureCaseCreationRequiredFieldsVisible(contentBinding);
 				CaseOrigin currentCaseOrigin = (CaseOrigin) contentBinding.caseDataCaseOrigin.getValue();
 				contentBinding.personPassportNumber.setVisibility(currentCaseOrigin == CaseOrigin.POINT_OF_ENTRY ? VISIBLE : GONE);
 				contentBinding.caseDataPointOfEntry.setVisibility(currentCaseOrigin == CaseOrigin.POINT_OF_ENTRY ? VISIBLE : GONE);
@@ -434,6 +434,20 @@ public class CaseNewFragment extends BaseEditFragment<FragmentCaseNewLayoutBindi
 		}
 
 		updatePlaceOfStayDependentFieldVisibility(contentBinding);
+		ensureCaseCreationRequiredFieldsVisible(contentBinding);
+	}
+
+	private static void ensureCaseCreationRequiredFieldsVisible(FragmentCaseNewLayoutBinding contentBinding) {
+		contentBinding.personPhoneEmailLayout.setVisibility(VISIBLE);
+		contentBinding.personPhone.setVisibility(VISIBLE);
+		contentBinding.personPhone.setRequired(true);
+		contentBinding.personBirthdateLabel.setVisibility(VISIBLE);
+		contentBinding.personBirthdateYYYY.setVisibility(VISIBLE);
+		contentBinding.personBirthdateMM.setVisibility(VISIBLE);
+		contentBinding.personBirthdateDD.setVisibility(VISIBLE);
+		contentBinding.personApproximateAge.setVisibility(VISIBLE);
+		contentBinding.personApproximateAgeType.setVisibility(VISIBLE);
+		contentBinding.personApproximateAgeReferenceDate.setVisibility(VISIBLE);
 	}
 
 	/**

@@ -31,6 +31,7 @@ import de.symeda.sormas.api.i18n.I18nProperties;
 import de.symeda.sormas.api.i18n.Validations;
 import de.symeda.sormas.api.location.LocationDto;
 import de.symeda.sormas.api.person.ApproximateAgeType.ApproximateAgeHelper;
+import de.symeda.sormas.api.utils.DataHelper;
 import de.symeda.sormas.api.utils.DateFormatHelper;
 import de.symeda.sormas.api.utils.DateHelper;
 import de.symeda.sormas.api.utils.ValidationRuntimeException;
@@ -153,6 +154,31 @@ public final class PersonHelper {
 			}
 		} catch (IllegalArgumentException e) {
 			throw new ValidationRuntimeException(I18nProperties.getValidationError(Validations.birthDateInvalid));
+		}
+	}
+
+	public static boolean hasBirthDateYear(PersonDto person) {
+		return person != null && person.getBirthdateYYYY() != null;
+	}
+
+	public static boolean hasApproximateAge(PersonDto person) {
+		return person != null && person.getApproximateAge() != null && person.getApproximateAgeType() != null;
+	}
+
+	public static void validateRequiredFieldsForCaseCreation(PersonDto person) throws ValidationRuntimeException {
+		if (person == null) {
+			throw new ValidationRuntimeException(I18nProperties.getValidationError(Validations.validPerson));
+		}
+		if (StringUtils.isBlank(person.getPhone())) {
+			throw new ValidationRuntimeException(I18nProperties.getValidationError(Validations.specifyPrimaryPhoneNumber));
+		}
+		if (!DataHelper.isValidPhoneNumber(person.getPhone())) {
+			throw new ValidationRuntimeException(
+				I18nProperties
+					.getValidationError(Validations.validPhoneNumber, I18nProperties.getPrefixCaption(PersonDto.I18N_PREFIX, PersonDto.PHONE)));
+		}
+		if (!hasBirthDateYear(person) && !hasApproximateAge(person)) {
+			throw new ValidationRuntimeException(I18nProperties.getValidationError(Validations.specifyAgeOrBirthDate));
 		}
 	}
 

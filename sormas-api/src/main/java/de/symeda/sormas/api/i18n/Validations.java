@@ -260,11 +260,13 @@ public interface Validations {
 	String sormasToSormasShareInfoMissing = "sormasToSormasShareInfoMissing";
 	String sormasToSormasSubcontinent = "sormasToSormasSubcontinent";
 	String sormasToSormasSurveillanceReportExists = "sormasToSormasSurveillanceReportExists";
+	String specifyAgeOrBirthDate = "specifyAgeOrBirthDate";
 	String specifyCaption = "specifyCaption";
 	String specifyEpiWeek = "specifyEpiWeek";
 	String specifyFirstName = "specifyFirstName";
 	String specifyJurisdictionLevel = "specifyJurisdictionLevel";
 	String specifyLastName = "specifyLastName";
+	String specifyPrimaryPhoneNumber = "specifyPrimaryPhoneNumber";
 	String specifyRegistrationNumber = "specifyRegistrationNumber";
 	String specifySex = "specifySex";
 	String specifyYear = "specifyYear";

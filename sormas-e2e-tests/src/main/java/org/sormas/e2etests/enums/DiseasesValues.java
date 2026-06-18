@@ -35,7 +35,7 @@ public enum DiseasesValues {
   NEW_INFLUENZA("NEW_INFLUENZA", "Influenza (New subtype)", "Influenza (neuer Subtyp)"),
   LASSA("LASSA", "Lassa", "Lassa"),
   MEASLES("MEASLES", "Measles", "Masern"),
-  CSM("CSM", "Meningitis (CSM)", "Meningitis (CSM)"),
+  CSM("CSM", "Meningitis (CSF)", "Meningitis (CSF)"),
   MONKEYPOX("MONKEYPOX", "Monkeypox", "Affenpocken"),
   UNSPECIFIED_VHF(
       "UNSPECIFIED_VHF",

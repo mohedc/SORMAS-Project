@@ -37,6 +37,7 @@ import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Window;
+import com.vaadin.v7.data.Validator;
 import com.vaadin.v7.data.validator.EmailValidator;
 import com.vaadin.v7.ui.AbstractSelect;
 import com.vaadin.v7.ui.AbstractSelect.ItemCaptionMode;
@@ -269,6 +270,50 @@ public class PersonCreateForm extends AbstractEditForm<PersonDto> {
 		initializeAccessAndAllowedAccesses();
 		hideValidationUntilNextCommit();
 		setRequired(true, PersonDto.FIRST_NAME, PersonDto.LAST_NAME, PersonDto.SEX);
+	}
+
+	public void applyCaseCreationRequirements() {
+		setRequired(true, PersonDto.PHONE);
+		addCaseCreationAgeValidation();
+	}
+
+	private void addCaseCreationAgeValidation() {
+		Validator ageOrBirthDateValidator = new Validator() {
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void validate(Object value) throws InvalidValueException {
+				if (!isAgeOrBirthDateProvided()) {
+					throw new InvalidValueException(I18nProperties.getValidationError(Validations.specifyAgeOrBirthDate));
+				}
+			}
+		};
+
+		getField(PersonDto.BIRTH_DATE_YYYY).addValidator(ageOrBirthDateValidator);
+		approximateAgeField.addValidator(ageOrBirthDateValidator);
+
+		approximateAgeField.addValueChangeListener(event -> updateApproximateAgeTypeRequirement());
+		updateApproximateAgeTypeRequirement();
+	}
+
+	private void updateApproximateAgeTypeRequirement() {
+		String ageValue = approximateAgeField.getValue();
+		boolean ageProvided = StringUtils.isNotBlank(ageValue);
+		setRequired(ageProvided, PersonDto.APPROXIMATE_AGE_TYPE);
+		if (ageProvided && approximateAgeTypeField.getValue() == null) {
+			approximateAgeTypeField.setValue(ApproximateAgeType.YEARS);
+		}
+		if (!ageProvided) {
+			approximateAgeTypeField.setValue(null);
+		}
+	}
+
+	private boolean isAgeOrBirthDateProvided() {
+		Integer birthYear = (Integer) getField(PersonDto.BIRTH_DATE_YYYY).getValue();
+		String ageValue = approximateAgeField.getValue();
+		ApproximateAgeType ageType = (ApproximateAgeType) approximateAgeTypeField.getValue();
+		return birthYear != null || (StringUtils.isNotBlank(ageValue) && ageType != null);
 	}
 
 	private void setItemCaptionsForMonths(AbstractSelect months) {

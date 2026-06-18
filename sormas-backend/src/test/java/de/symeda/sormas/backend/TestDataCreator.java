@@ -413,6 +413,15 @@ public class TestDataCreator {
 		return createPerson("FirstName", "LastName");
 	}
 
+	private void applyDefaultCaseCreationPersonFields(PersonDto person) {
+		if (person.getPhone() == null || person.getPhone().isBlank()) {
+			person.setPhone("+220123456");
+		}
+		if (person.getBirthdateYYYY() == null && person.getApproximateAge() == null) {
+			person.setBirthdateYYYY(1990);
+		}
+	}
+
 	public PersonDto createPerson(String firstName, String lastName) {
 		return createPerson(firstName, lastName, Sex.UNKNOWN, null);
 	}
@@ -432,6 +441,8 @@ public class TestDataCreator {
 			customConfig.accept(person);
 		}
 
+		applyDefaultCaseCreationPersonFields(person);
+
 		person = beanTest.getPersonFacade().save(person);
 
 		return person;
@@ -447,6 +458,8 @@ public class TestDataCreator {
 		if (customConfig != null) {
 			customConfig.accept(person);
 		}
+
+		applyDefaultCaseCreationPersonFields(person);
 
 		person = beanTest.getPersonFacade().save(person);
 
@@ -494,6 +507,8 @@ public class TestDataCreator {
 			person.setAddress(address);
 		}
 
+		applyDefaultCaseCreationPersonFields(person);
+
 		person = beanTest.getPersonFacade().save(person);
 
 		return person;
@@ -519,6 +534,8 @@ public class TestDataCreator {
 		if (customConfig != null) {
 			customConfig.accept(person);
 		}
+
+		applyDefaultCaseCreationPersonFields(person);
 
 		person = beanTest.getPersonFacade().save(person);
 

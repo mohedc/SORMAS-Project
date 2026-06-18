@@ -23,8 +23,14 @@ import org.apache.commons.lang3.StringUtils;
 import de.symeda.sormas.api.i18n.I18nProperties;
 import de.symeda.sormas.api.i18n.Validations;
 import de.symeda.sormas.api.person.ApproximateAgeType;
+import de.symeda.sormas.api.person.PersonDto;
+import de.symeda.sormas.api.utils.DataHelper;
 import de.symeda.sormas.api.utils.DateHelper;
+import de.symeda.sormas.api.utils.ValidationException;
+import de.symeda.sormas.app.backend.person.Person;
 import de.symeda.sormas.app.component.controls.ControlSpinnerField;
+import de.symeda.sormas.app.component.validation.ValidationHelper;
+import de.symeda.sormas.app.databinding.FragmentCaseNewLayoutBinding;
 import de.symeda.sormas.app.databinding.FragmentPersonEditLayoutBinding;
 import de.symeda.sormas.app.util.ResultCallback;
 
@@ -162,6 +168,112 @@ public final class PersonValidator {
 		personBirthdateYYYY.setValidationCallback(birthDateCallback);
 		personBirthdateMM.setValidationCallback(birthDateCallback);
 		personBirthdateDD.setValidationCallback(birthDateCallback);
+	}
+
+	public static void initializeCaseCreationValidation(final FragmentCaseNewLayoutBinding contentBinding) {
+		ValidationHelper.initPhoneNumberValidator(contentBinding.personPhone);
+
+		ResultCallback<Boolean> birthDateInFutureCallback = () -> isBirthDateInFuture(
+			contentBinding.personBirthdateYYYY,
+			contentBinding.personBirthdateMM,
+			contentBinding.personBirthdateDD);
+
+		ResultCallback<Boolean> ageOrBirthDateCallback = () -> validateAgeOrBirthDateCaseCreation(contentBinding);
+
+		ResultCallback<Boolean> birthDateCombinedCallback = () -> birthDateInFutureCallback.call() | ageOrBirthDateCallback.call();
+
+		contentBinding.personBirthdateYYYY.setValidationCallback(birthDateCombinedCallback);
+		contentBinding.personBirthdateMM.setValidationCallback(birthDateCombinedCallback);
+		contentBinding.personBirthdateDD.setValidationCallback(birthDateCombinedCallback);
+		contentBinding.personApproximateAge.setValidationCallback(ageOrBirthDateCallback);
+		contentBinding.personApproximateAgeType.setValidationCallback(ageOrBirthDateCallback);
+
+		contentBinding.personApproximateAge.addValueChangedListener(field -> updateApproximateAgeTypeRequirement(contentBinding));
+		updateApproximateAgeTypeRequirement(contentBinding);
+	}
+
+	private static boolean isBirthDateInFuture(
+		ControlSpinnerField personBirthdateYYYY,
+		ControlSpinnerField personBirthdateMM,
+		ControlSpinnerField personBirthdateDD) {
+
+		Calendar calendar = Calendar.getInstance();
+		calendar.setLenient(false);
+		if (personBirthdateYYYY.getValue() != null) {
+			calendar.set(Calendar.YEAR, (Integer) personBirthdateYYYY.getValue());
+		}
+		if (personBirthdateMM.getValue() != null) {
+			calendar.set(Calendar.MONTH, ((Integer) personBirthdateMM.getValue()) - 1);
+		}
+		if (personBirthdateDD.getValue() != null) {
+			calendar.set(Calendar.DAY_OF_MONTH, (Integer) personBirthdateDD.getValue());
+		}
+
+		if (personBirthdateYYYY.getValue() != null && DateHelper.isDateAfter(calendar.getTime(), new Date())) {
+			personBirthdateYYYY.enableErrorState(I18nProperties.getValidationError(Validations.birthDateInFuture));
+			personBirthdateMM.enableErrorState(I18nProperties.getValidationError(Validations.birthDateInFuture));
+			personBirthdateDD.enableErrorState(I18nProperties.getValidationError(Validations.birthDateInFuture));
+			return true;
+		}
+
+		return false;
+	}
+
+	private static boolean validateAgeOrBirthDateCaseCreation(FragmentCaseNewLayoutBinding contentBinding) {
+		if (isAgeOrBirthDateProvided(contentBinding)) {
+			contentBinding.personBirthdateYYYY.disableErrorState();
+			contentBinding.personBirthdateMM.disableErrorState();
+			contentBinding.personBirthdateDD.disableErrorState();
+			contentBinding.personApproximateAge.disableErrorState();
+			contentBinding.personApproximateAgeType.disableErrorState();
+			return false;
+		}
+
+		String errorMessage = I18nProperties.getValidationError(Validations.specifyAgeOrBirthDate);
+		contentBinding.personBirthdateYYYY.enableErrorState(errorMessage);
+		contentBinding.personBirthdateMM.enableErrorState(errorMessage);
+		contentBinding.personBirthdateDD.enableErrorState(errorMessage);
+		contentBinding.personApproximateAge.enableErrorState(errorMessage);
+		contentBinding.personApproximateAgeType.enableErrorState(errorMessage);
+		return true;
+	}
+
+	private static boolean isAgeOrBirthDateProvided(FragmentCaseNewLayoutBinding contentBinding) {
+		Integer birthYear = (Integer) contentBinding.personBirthdateYYYY.getValue();
+		String ageValue = contentBinding.personApproximateAge.getValue();
+		ApproximateAgeType ageType = (ApproximateAgeType) contentBinding.personApproximateAgeType.getValue();
+		return birthYear != null || (!StringUtils.isEmpty(ageValue) && ageType != null);
+	}
+
+	private static void updateApproximateAgeTypeRequirement(FragmentCaseNewLayoutBinding contentBinding) {
+		String ageValue = contentBinding.personApproximateAge.getValue();
+		if (StringUtils.isEmpty(ageValue)) {
+			contentBinding.personApproximateAgeType.setRequired(false);
+			contentBinding.personApproximateAgeType.setValue(null);
+		} else {
+			contentBinding.personApproximateAgeType.setRequired(true);
+			if (contentBinding.personApproximateAgeType.getValue() == null) {
+				contentBinding.personApproximateAgeType.setValue(ApproximateAgeType.YEARS);
+			}
+		}
+	}
+
+	public static void validateRequiredFieldsForCaseCreation(Person person) throws ValidationException {
+		if (person == null) {
+			throw new ValidationException(I18nProperties.getValidationError(Validations.validPerson));
+		}
+		if (StringUtils.isBlank(person.getPhone())) {
+			throw new ValidationException(I18nProperties.getValidationError(Validations.specifyPrimaryPhoneNumber));
+		}
+		if (!DataHelper.isValidPhoneNumber(person.getPhone())) {
+			throw new ValidationException(
+				I18nProperties.getValidationError(Validations.validPhoneNumber, I18nProperties.getPrefixCaption(PersonDto.I18N_PREFIX, PersonDto.PHONE)));
+		}
+		boolean hasBirthDateYear = person.getBirthdateYYYY() != null;
+		boolean hasApproximateAge = person.getApproximateAge() != null && person.getApproximateAgeType() != null;
+		if (!hasBirthDateYear && !hasApproximateAge) {
+			throw new ValidationException(I18nProperties.getValidationError(Validations.specifyAgeOrBirthDate));
+		}
 	}
 
 }

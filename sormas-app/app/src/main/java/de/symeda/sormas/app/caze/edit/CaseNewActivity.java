@@ -57,6 +57,7 @@ import de.symeda.sormas.app.core.async.TaskResultHolder;
 import de.symeda.sormas.app.core.notification.NotificationHelper;
 import de.symeda.sormas.app.core.notification.NotificationType;
 import de.symeda.sormas.app.person.SelectOrCreatePersonDialog;
+import de.symeda.sormas.app.person.edit.PersonValidator;
 import de.symeda.sormas.app.util.Bundler;
 import de.symeda.sormas.app.util.DateFormatHelper;
 
@@ -230,12 +231,28 @@ public class CaseNewActivity extends BaseEditActivity<Case> {
 		if (contactUuid == null && eventParticipantUuid == null) {
 			SelectOrCreatePersonDialog.selectOrCreatePerson(caze.getPerson(), caze, person -> {
 				if (person != null) {
+					if (!validatePersonForCaseCreation(person)) {
+						return;
+					}
 					caze.setPerson(person);
 					pickOrCreateCaseAndSave(caze, fragment);
 				}
 			});
 		} else {
+			if (!validatePersonForCaseCreation(caze.getPerson())) {
+				return;
+			}
 			pickOrCreateCaseAndSave(caze, fragment);
+		}
+	}
+
+	private boolean validatePersonForCaseCreation(de.symeda.sormas.app.backend.person.Person person) {
+		try {
+			PersonValidator.validateRequiredFieldsForCaseCreation(person);
+			return true;
+		} catch (ValidationException e) {
+			NotificationHelper.showNotification(this, ERROR, e.getMessage());
+			return false;
 		}
 	}
 

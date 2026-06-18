@@ -231,6 +231,7 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 		addField(CaseDataDto.RE_INFECTION, NullableOptionGroup.class);
 
 		personCreateForm = new PersonCreateForm(showHomeAddressForm, true, true, showPersonSearchButton, showHomeAddressForm);
+		personCreateForm.applyCaseCreationRequirements();
 		personCreateForm.setWidth(100, Unit.PERCENTAGE);
 		getContent().addComponent(personCreateForm, CaseDataDto.PERSON);
 
@@ -593,7 +594,6 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 				setVisible(true, ogCaseOrigin, epidField, diseaseField, responsibleRegionCombo, responsibleDistrictCombo, responsibleCommunityCombo,
 						facilityOrHome, healthFacilityDetailsField, facilityCombo, facilityType, reportDate);
 				personCreateForm.getField(PersonDto.NATIONAL_HEALTH_ID).setVisible(false);
-				personCreateForm.getField(PersonDto.PHONE).setVisible(false);
 				personCreateForm.getField(PersonDto.EMAIL_ADDRESS).setVisible(false);
 				personCreateForm.getField(PersonDto.PRESENT_CONDITION).setVisible(false);
 			} else if (selectedDisease == Disease.CONGENITAL_RUBELLA || selectedDisease == Disease.CSM) {
@@ -639,7 +639,6 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 				setVisible(true, ogCaseOrigin, epidField, diseaseField, responsibleRegionCombo, responsibleDistrictCombo, responsibleCommunityCombo,
 						facilityOrHome, healthFacilityDetailsField, facilityCombo, facilityType, reportDate);
 				personCreateForm.getField(PersonDto.NATIONAL_HEALTH_ID).setVisible(false);
-				personCreateForm.getField(PersonDto.PHONE).setVisible(false);
 				personCreateForm.getField(PersonDto.EMAIL_ADDRESS).setVisible(false);
 				personCreateForm.getField(PersonDto.PRESENT_CONDITION).setVisible(false);
 				personCreateForm.getField(PersonDto.NATIONALITY).setVisible(false);
@@ -655,7 +654,6 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 
 
 				personCreateForm.getField(PersonDto.NATIONAL_HEALTH_ID).setVisible(false);
-				personCreateForm.getField(PersonDto.PHONE).setVisible(false);
 				personCreateForm.getField(PersonDto.EMAIL_ADDRESS).setVisible(false);
 				personCreateForm.getField(PersonDto.PRESENT_CONDITION).setVisible(false);
 			}
@@ -754,7 +752,7 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 
 			// Phone and Present Condition
 			Field<?> phoneField = personCreateForm.getField(PersonDto.PHONE);
-			if (phoneField != null) phoneField.setVisible(false);
+			if (phoneField != null) phoneField.setVisible(true);
 			Field<?> presentConditionField = personCreateForm.getField(PersonDto.PRESENT_CONDITION);
 			if (presentConditionField != null) presentConditionField.setVisible(false);
 

@@ -78,6 +78,7 @@ import de.symeda.sormas.api.caze.CaseExportType;
 import de.symeda.sormas.api.caze.CaseIndexDetailedDto;
 import de.symeda.sormas.api.caze.CaseIndexDto;
 import de.symeda.sormas.api.caze.CaseLogic;
+import de.symeda.sormas.api.caze.CoreAndPersonDto;
 import de.symeda.sormas.api.caze.CaseMergeIndexDto;
 import de.symeda.sormas.api.caze.CaseOrigin;
 import de.symeda.sormas.api.caze.CaseOutcome;
@@ -136,6 +137,7 @@ import de.symeda.sormas.api.infrastructure.facility.FacilityTypeGroup;
 import de.symeda.sormas.api.infrastructure.pointofentry.PointOfEntryDto;
 import de.symeda.sormas.api.infrastructure.region.RegionReferenceDto;
 import de.symeda.sormas.api.messaging.MessageType;
+import de.symeda.sormas.api.person.ApproximateAgeType;
 import de.symeda.sormas.api.person.CauseOfDeath;
 import de.symeda.sormas.api.person.PersonContactDetailDto;
 import de.symeda.sormas.api.person.PersonContactDetailType;
@@ -3480,6 +3482,117 @@ public class CaseFacadeEjbTest extends AbstractBeanTest {
 		assertThat(caze.getDisease(), is(Disease.ANTHRAX));
 		assertThat(caze.getDiseaseVariant(), is(nullValue()));
 		assertThat(caze.getDiseaseVariantDetails(), is(nullValue()));
+	}
+
+	@Test
+	public void testValidateRequiredPersonFieldsForNewCaseWithoutPhone() {
+		PersonDto person = PersonDto.build();
+		person.setFirstName("Test");
+		person.setLastName("Person");
+		person.setSex(Sex.MALE);
+		person.setBirthdateYYYY(1990);
+		person = getPersonFacade().save(person);
+
+		CaseDataDto caze = buildMinimalCaseForValidation(person.toReference());
+
+		assertThrows(ValidationRuntimeException.class, () -> getCaseFacade().save(caze));
+	}
+
+	@Test
+	public void testValidateRequiredPersonFieldsForNewCaseWithoutAgeOrBirthDate() {
+		PersonDto person = PersonDto.build();
+		person.setFirstName("Test");
+		person.setLastName("Person");
+		person.setSex(Sex.MALE);
+		person.setPhone("+220123456");
+		person = getPersonFacade().save(person);
+
+		CaseDataDto caze = buildMinimalCaseForValidation(person.toReference());
+
+		assertThrows(ValidationRuntimeException.class, () -> getCaseFacade().save(caze));
+	}
+
+	@Test
+	public void testValidateRequiredPersonFieldsForNewCaseWithPhoneAndBirthDate() {
+		PersonDto person = PersonDto.build();
+		person.setFirstName("Test");
+		person.setLastName("Person");
+		person.setSex(Sex.MALE);
+		person.setPhone("+220123456");
+		person.setBirthdateYYYY(1990);
+		person = getPersonFacade().save(person);
+
+		CaseDataDto caze = buildMinimalCaseForValidation(person.toReference());
+
+		assertNotNull(getCaseFacade().save(caze));
+	}
+
+	@Test
+	public void testValidateRequiredPersonFieldsForNewCaseWithPhoneAndApproximateAge() {
+		PersonDto person = PersonDto.build();
+		person.setFirstName("Test");
+		person.setLastName("Person");
+		person.setSex(Sex.MALE);
+		person.setPhone("+220123456");
+		person.setApproximateAge(30);
+		person.setApproximateAgeType(ApproximateAgeType.YEARS);
+		person = getPersonFacade().save(person);
+
+		CaseDataDto caze = buildMinimalCaseForValidation(person.toReference());
+
+		assertNotNull(getCaseFacade().save(caze));
+	}
+
+	@Test
+	public void testValidateRequiredPersonFieldsNotEnforcedOnCaseUpdate() {
+		PersonDto person = PersonDto.build();
+		person.setFirstName("Test");
+		person.setLastName("Person");
+		person.setSex(Sex.MALE);
+		person.setPhone("+220123456");
+		person.setBirthdateYYYY(1990);
+		person = getPersonFacade().save(person);
+
+		CaseDataDto caze = getCaseFacade().save(buildMinimalCaseForValidation(person.toReference()));
+
+		person.setPhone(null);
+		person.setBirthdateYYYY(null);
+		person.setApproximateAge(null);
+		person.setApproximateAgeType(null);
+		getPersonFacade().save(person, true);
+
+		caze.setAdditionalDetails("Updated");
+		assertNotNull(getCaseFacade().save(caze));
+	}
+
+	@Test
+	public void testValidateRequiredPersonFieldsForCoreAndPersonSave() {
+		PersonDto person = PersonDto.build();
+		person.setFirstName("Test");
+		person.setLastName("Person");
+		person.setSex(Sex.MALE);
+		person.setBirthdateYYYY(1990);
+
+		CaseDataDto caze = buildMinimalCaseForValidation(null);
+		CoreAndPersonDto<CaseDataDto> coreAndPersonDto = new CoreAndPersonDto<>();
+		coreAndPersonDto.setCoreData(caze);
+		coreAndPersonDto.setPerson(person);
+
+		assertThrows(ValidationRuntimeException.class, () -> getCaseFacade().save(coreAndPersonDto));
+	}
+
+	private CaseDataDto buildMinimalCaseForValidation(PersonReferenceDto person) {
+		CaseDataDto caze = CaseDataDto.build(person, Disease.EVD);
+		caze.setReportDate(new Date());
+		caze.setReportingUser(surveillanceSupervisor.toReference());
+		caze.setCaseClassification(CaseClassification.SUSPECT);
+		caze.setInvestigationStatus(InvestigationStatus.PENDING);
+		caze.setResponsibleRegion(rdcf.region);
+		caze.setResponsibleDistrict(rdcf.district);
+		caze.setResponsibleCommunity(rdcf.community);
+		caze.setFacilityType(getFacilityFacade().getByUuid(rdcf.facility.getUuid()).getType());
+		caze.setHealthFacility(rdcf.facility);
+		return caze;
 	}
 
 	private static final String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz ";
