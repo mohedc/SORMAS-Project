@@ -51,6 +51,7 @@ import de.symeda.sormas.api.caze.EndOfIsolationReason;
 import de.symeda.sormas.api.caze.HospitalWardType;
 import de.symeda.sormas.api.caze.IdsrType;
 import de.symeda.sormas.api.caze.InfectionSetting;
+import de.symeda.sormas.api.caze.InvestigationStatus;
 import de.symeda.sormas.api.caze.PlagueType;
 import de.symeda.sormas.api.caze.MeningitisVaccinationSource;
 import de.symeda.sormas.api.caze.NotifiedBy;
@@ -258,7 +259,9 @@ public class CaseEditFragment extends BaseEditFragment<FragmentCaseEditLayoutBin
 			contentBinding.caseDataAtLeastOneYellowFeverDose.setVisibility(GONE);
 		}
 
-		// RUBELLA_LAYOUT - dateOfNotification already exists, visibility handled by field visibility checkers
+		if (disease == Disease.CONGENITAL_RUBELLA) {
+			handleCongenitalRubella(contentBinding);
+		}
 	}
 
 	private void updateCaseConfirmationBasis(FragmentCaseEditLayoutBinding contentBinding) {
@@ -724,6 +727,9 @@ public class CaseEditFragment extends BaseEditFragment<FragmentCaseEditLayoutBin
 		if (disease == Disease.CSM) {
 			handleMeningitis();
 		}
+		if (disease == Disease.CONGENITAL_RUBELLA) {
+			handleCongenitalRubella(getContentBinding());
+		}
 	}
 
 	private void fillConfirmedCaseClassificationCombo() {
@@ -926,6 +932,20 @@ public class CaseEditFragment extends BaseEditFragment<FragmentCaseEditLayoutBin
 		if (disease == Disease.CSM) {
 			handleMeningitis();
 		}
+		if (disease == Disease.CONGENITAL_RUBELLA) {
+			handleCongenitalRubella(contentBinding);
+		}
+	}
+
+	private void handleCongenitalRubella(FragmentCaseEditLayoutBinding contentBinding) {
+		boolean showInvestigationDate = InvestigationStatus.DONE.equals(record.getInvestigationStatus())
+			|| InvestigationStatus.DISCARDED.equals(record.getInvestigationStatus());
+
+		contentBinding.caseDataDateOfInvestigation.setCaption(
+			I18nProperties.getPrefixCaption(CaseDataDto.I18N_PREFIX, CaseDataDto.INVESTIGATED_DATE));
+		contentBinding.caseDataDateOfInvestigation.setValue(record.getInvestigatedDate());
+		contentBinding.caseDataDateOfInvestigation.setEnabled(false);
+		contentBinding.caseDataDateOfInvestigation.setVisibility(showInvestigationDate ? VISIBLE : GONE);
 	}
 
 	private void handleNNT() {

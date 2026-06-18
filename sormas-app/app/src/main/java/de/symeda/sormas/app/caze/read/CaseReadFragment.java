@@ -29,6 +29,7 @@ import de.symeda.sormas.api.caze.CaseClassification;
 import de.symeda.sormas.api.caze.CaseConfirmationBasis;
 import de.symeda.sormas.api.caze.CaseDataDto;
 import de.symeda.sormas.api.caze.CaseOrigin;
+import de.symeda.sormas.api.caze.InvestigationStatus;
 import de.symeda.sormas.api.caze.VaccinationStatus;
 import de.symeda.sormas.api.event.TypeOfPlace;
 import de.symeda.sormas.api.i18n.I18nProperties;
@@ -130,6 +131,10 @@ public class CaseReadFragment extends BaseReadFragment<FragmentCaseReadLayoutBin
 		}
 
 		updateCaseConfirmationFields(contentBinding);
+
+		if (record.getDisease() == Disease.CONGENITAL_RUBELLA) {
+			handleCongenitalRubella(contentBinding);
+		}
 
 		contentBinding.caseDataQuarantineExtended.setVisibility(record.isQuarantineExtended() ? VISIBLE : GONE);
 		contentBinding.caseDataQuarantineReduced.setVisibility(record.isQuarantineReduced() ? VISIBLE : GONE);
@@ -276,6 +281,19 @@ public class CaseReadFragment extends BaseReadFragment<FragmentCaseReadLayoutBin
 		if (record.getDisease() == Disease.CSM) {
 			handleMeningitis(contentBinding);
 		}
+		if (record.getDisease() == Disease.CONGENITAL_RUBELLA) {
+			handleCongenitalRubella(contentBinding);
+		}
+	}
+
+	private void handleCongenitalRubella(FragmentCaseReadLayoutBinding contentBinding) {
+		boolean showInvestigationDate = InvestigationStatus.DONE.equals(record.getInvestigationStatus())
+			|| InvestigationStatus.DISCARDED.equals(record.getInvestigationStatus());
+
+		contentBinding.caseDataDateOfInvestigation.setCaption(
+			I18nProperties.getPrefixCaption(CaseDataDto.I18N_PREFIX, CaseDataDto.INVESTIGATED_DATE));
+		contentBinding.caseDataDateOfInvestigation.setValue(record.getInvestigatedDate());
+		contentBinding.caseDataDateOfInvestigation.setVisibility(showInvestigationDate ? VISIBLE : GONE);
 	}
 
 	private void handleMeningitis(FragmentCaseReadLayoutBinding contentBinding) {

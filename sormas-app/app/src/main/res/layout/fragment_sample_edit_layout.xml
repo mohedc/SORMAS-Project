@@ -309,6 +309,11 @@
 
                     </LinearLayout>
 
+                     <de.symeda.sormas.app.component.controls.ControlTextEditField
+                            android:id="@+id/sample_samplesNotSentReason"
+                            app:value="@={data.samplesNotSentReason}"
+                            style="@style/ControlSingleColumnStyle" />
+
                      <LinearLayout
                                 android:id="@+id/sample_sampleContainerUsed_layout"
                                 android:layout_width="match_parent"
@@ -734,10 +739,7 @@
                             app:dependencyParentValue="@{YesNo.YES}"
                             style="@style/ControlSingleColumnStyle" />
 
-                        <de.symeda.sormas.app.component.controls.ControlTextEditField
-                            android:id="@+id/sample_samplesNotSentReason"
-                            app:value="@={data.samplesNotSentReason}"
-                            style="@style/ControlSingleColumnStyle" />
+                       
 
                         <de.symeda.sormas.app.component.controls.ControlDateTimeField
                             android:id="@+id/sample_dateTimeSampleSentToLab"
