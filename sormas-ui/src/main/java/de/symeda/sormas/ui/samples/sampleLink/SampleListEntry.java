@@ -79,7 +79,8 @@ public class SampleListEntry extends SideComponentField {
 				} else if (sampleListEntryDto.getPathogenTestResult() == PathogenTestResultType.INDETERMINATE) {
 					resultLabel.addStyleName(CssStyles.LABEL_WARNING);
 				}
-			} else if (sampleListEntryDto.getSpecimenCondition() == SpecimenCondition.NOT_ADEQUATE) {
+			} else if (sampleListEntryDto.getSpecimenCondition() == SpecimenCondition.NOT_ADEQUATE
+				|| sampleListEntryDto.getSpecimenCondition() == SpecimenCondition.BAD_SAMPLE_HAEMOLYSED) {
 				resultLabel.setValue(DataHelper.toStringNullable(sampleListEntryDto.getSpecimenCondition()));
 				resultLabel.addStyleName(CssStyles.LABEL_WARNING);
 			}

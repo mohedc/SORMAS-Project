@@ -77,7 +77,8 @@ public class HumanSampleGrid extends ReloadableGrid<SampleIndexDto, SampleCriter
 		Column<SampleIndexDto, String> pathogenTestResultColumn = addColumn(sample -> {
 			if (sample.getPathogenTestResult() != null) {
 				return sample.getPathogenTestResult().toString();
-			} else if (sample.getSpecimenCondition() == SpecimenCondition.NOT_ADEQUATE) {
+			} else if (sample.getSpecimenCondition() == SpecimenCondition.NOT_ADEQUATE
+				|| sample.getSpecimenCondition() == SpecimenCondition.BAD_SAMPLE_HAEMOLYSED) {
 				return I18nProperties.getCaption(Captions.sampleSpecimenNotAdequate);
 			} else {
 				return "";

@@ -20,6 +20,7 @@ import static de.symeda.sormas.app.core.notification.NotificationType.WARNING;
 
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -28,8 +29,10 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import androidx.annotation.NonNull;
+import de.symeda.sormas.api.CountryHelper;
 import de.symeda.sormas.api.Disease;
 import de.symeda.sormas.api.caze.CaseClassification;
+import de.symeda.sormas.api.caze.CaseLogic;
 import de.symeda.sormas.api.contact.ContactClassification;
 import de.symeda.sormas.api.contact.ContactStatus;
 import de.symeda.sormas.api.i18n.I18nProperties;
@@ -311,16 +314,13 @@ public class CaseNewActivity extends BaseEditActivity<Case> {
 			protected void doInBackground(TaskResultHolder resultHolder) throws Exception {
 				DatabaseHelper.getPersonDao().saveAndSnapshot(caseToSave.getPerson());
 
-				// epid number
-				if (StringUtils.isBlank(caseToSave.getEpidNumber())) {
-					Calendar calendar = Calendar.getInstance();
-					String year = String.valueOf(calendar.get(Calendar.YEAR)).substring(2);
-					caseToSave.setEpidNumber(
-						caseToSave.getResponsibleRegion().getEpidCode() != null
-							? caseToSave.getResponsibleRegion().getEpidCode()
-							: "" + "-" + caseToSave.getResponsibleDistrict().getEpidCode() != null
-								? caseToSave.getResponsibleDistrict().getEpidCode()
-								: "" + "-" + year + "-");
+				if (!CaseLogic.isCompleteEpidNumber(caseToSave.getEpidNumber())) {
+					String epidNumber = generateEpidNumber(caseToSave);
+					if (CaseLogic.isCompleteEpidNumber(epidNumber)) {
+						caseToSave.setEpidNumber(epidNumber);
+					} else {
+						caseToSave.setEpidNumber(null);
+					}
 				}
 
 				DatabaseHelper.getCaseDao().saveAndSnapshot(caseToSave);
@@ -376,6 +376,72 @@ public class CaseNewActivity extends BaseEditActivity<Case> {
 
 	public List<Disease> getLineListingDiseases() {
 		return lineListingDiseases;
+	}
+
+	private String generateEpidNumber(Case caze) {
+		if (caze.getResponsibleRegion() == null || caze.getResponsibleDistrict() == null) {
+			return caze.getEpidNumber();
+		}
+
+		String countryCode = getCountryEpidCode();
+		String regionCode = getEpidCodePart(caze.getResponsibleRegion().getEpidCode(), caze.getResponsibleRegion().getName());
+		String districtCode = getEpidCodePart(caze.getResponsibleDistrict().getEpidCode(), caze.getResponsibleDistrict().getName());
+		if (StringUtils.isAnyBlank(countryCode, regionCode, districtCode)) {
+			return caze.getEpidNumber();
+		}
+
+		Calendar calendar = Calendar.getInstance();
+		if (caze.getReportDate() != null) {
+			calendar.setTime(caze.getReportDate());
+		}
+		String year = String.valueOf(calendar.get(Calendar.YEAR)).substring(2);
+		String searchPrefix = String.format(Locale.ENGLISH, "%s-%s-%s-%s-", countryCode, regionCode, districtCode, year);
+		String highestEpidNumber = DatabaseHelper.getCaseDao().getHighestEpidNumber(searchPrefix, caze.getUuid(), caze.getDisease());
+
+		int nextNumber = 1;
+		if (highestEpidNumber != null && highestEpidNumber.startsWith(searchPrefix)) {
+			Integer suffixNumber = DataHelper.tryParseInt(highestEpidNumber.substring(searchPrefix.length()).replaceAll("\\D", ""));
+			if (suffixNumber != null) {
+				nextNumber = suffixNumber + 1;
+			}
+		}
+
+		return searchPrefix + String.format(Locale.ENGLISH, "%03d", nextNumber);
+	}
+
+	private String getCountryEpidCode() {
+		if (ConfigProvider.isConfiguredServer(CountryHelper.COUNTRY_CODE_GAMBIA)) {
+			return "GAM";
+		}
+
+		String countryCode = ConfigProvider.getServerCountryCode();
+		if (StringUtils.length(countryCode) == 2) {
+			try {
+				return new Locale("", countryCode.toUpperCase(Locale.ENGLISH)).getISO3Country().toUpperCase(Locale.ENGLISH);
+			} catch (RuntimeException ignored) {
+				// Fall back to the sanitized country name below.
+			}
+		}
+
+		return getEpidCodePart(countryCode, ConfigProvider.getServerCountryName());
+	}
+
+	private String getEpidCodePart(String epidCode, String fallbackName) {
+		String normalizedEpidCode = normalizeEpidCode(epidCode);
+		if (StringUtils.length(normalizedEpidCode) >= 3) {
+			return normalizedEpidCode.substring(0, 3);
+		}
+
+		String normalizedFallback = normalizeEpidCode(fallbackName);
+		if (StringUtils.length(normalizedFallback) >= 3) {
+			return normalizedFallback.substring(0, 3);
+		}
+
+		return null;
+	}
+
+	private String normalizeEpidCode(String value) {
+		return value != null ? value.replaceAll("[^A-Za-z0-9]", "").toUpperCase(Locale.ENGLISH) : "";
 	}
 
 	@Override

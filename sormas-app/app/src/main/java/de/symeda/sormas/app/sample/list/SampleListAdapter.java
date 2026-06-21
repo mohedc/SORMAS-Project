@@ -74,7 +74,8 @@ public class SampleListAdapter extends BindingPagedListAdapter<Sample, RowSample
 	private String getSampleTestResultMessage(Context context, Sample record) {
 		if (record.getPathogenTestResult() != null) {
 			return record.getPathogenTestResult().toString();
-		} else if (record.getSpecimenCondition() == SpecimenCondition.NOT_ADEQUATE) {
+		} else if (record.getSpecimenCondition() == SpecimenCondition.NOT_ADEQUATE
+			|| record.getSpecimenCondition() == SpecimenCondition.BAD_SAMPLE_HAEMOLYSED) {
 			return context.getResources().getString(R.string.value_inadequate_specimen_condition);
 		} else {
 			return "";

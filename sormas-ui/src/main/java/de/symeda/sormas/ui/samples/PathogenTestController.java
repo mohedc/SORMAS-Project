@@ -155,6 +155,7 @@ public class PathogenTestController {
 		} else {
 			pathogenTest.setTestedDisease(associatedEventOrCaseOrContactDisease);
 		}
+		DefaultLaboratoryHelper.setDefaultLaboratory(pathogenTest);
 
 		createForm.setValue(pathogenTest);
 		final CommitDiscardWrapperComponent<PathogenTestForm> editView =
@@ -178,15 +179,17 @@ public class PathogenTestController {
 	public CommitDiscardWrapperComponent<PathogenTestForm> getPathogenTestCreateComponent(EnvironmentSampleDto sampleDto) {
 
 		PathogenTestForm createForm = new PathogenTestForm(sampleDto, true, false, true, null); // Valid because jurisdiction doesn't matter for entities that are about to be created
-		createForm.setValue(PathogenTestDto.build(sampleDto, UiUtil.getUser()));
+		PathogenTestDto pathogenTest = PathogenTestDto.build(sampleDto, UiUtil.getUser());
+		DefaultLaboratoryHelper.setDefaultLaboratory(pathogenTest);
+		createForm.setValue(pathogenTest);
 
 		final CommitDiscardWrapperComponent<PathogenTestForm> editView =
 			new CommitDiscardWrapperComponent<>(createForm, UiUtil.permitted(UserRight.ENVIRONMENT_PATHOGEN_TEST_CREATE), createForm.getFieldGroup());
 
 		editView.addCommitListener(() -> {
 			if (!createForm.getFieldGroup().isModified()) {
-				PathogenTestDto pathogenTest = createForm.getValue();
-				savePathogenTestForEnvironmentSample(pathogenTest);
+				PathogenTestDto editedPathogenTest = createForm.getValue();
+				savePathogenTestForEnvironmentSample(editedPathogenTest);
 
 				SormasUI.refreshView();
 			}

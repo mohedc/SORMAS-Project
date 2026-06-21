@@ -80,6 +80,7 @@ import de.symeda.sormas.ui.contact.ContactDataView;
 import de.symeda.sormas.ui.events.EventParticipantDataView;
 import de.symeda.sormas.ui.samples.AbstractSampleForm;
 import de.symeda.sormas.ui.samples.CollapsiblePathogenTestForm;
+import de.symeda.sormas.ui.samples.DefaultLaboratoryHelper;
 import de.symeda.sormas.ui.samples.PathogenTestForm;
 import de.symeda.sormas.ui.samples.SampleViewType;
 import de.symeda.sormas.ui.samples.SamplesView;
@@ -223,7 +224,9 @@ public class SampleController {
 				pathogenTestForm.getField(PathogenTestDto.TYPING_ID).setVisible(true);
 			}
 		} else {
-			pathogenTestForm.setValue(PathogenTestDto.build(sampleComponent.getWrappedComponent().getValue(), UiUtil.getUser()));
+			PathogenTestDto newPathogenTest = PathogenTestDto.build(sampleComponent.getWrappedComponent().getValue(), UiUtil.getUser());
+			DefaultLaboratoryHelper.setDefaultLaboratory(newPathogenTest);
+			pathogenTestForm.setValue(newPathogenTest);
 			// remove value invalid for newly created pathogen tests
 			ComboBox pathogenTestResultField = pathogenTestForm.getField(PathogenTestDto.TEST_RESULT);
 			pathogenTestResultField.removeItem(PathogenTestResultType.NOT_DONE);
@@ -300,6 +303,7 @@ public class SampleController {
 		Runnable callback) {
 
 		final SampleCreateForm createForm = new SampleCreateForm(disease);
+		DefaultLaboratoryHelper.setDefaultLaboratory(sampleDto);
 		createForm.setValue(sampleDto);
 		final CommitDiscardWrapperComponent<SampleCreateForm> editView =
 			new CommitDiscardWrapperComponent<>(createForm, UiUtil.permitted(userRight), createForm.getFieldGroup());
@@ -410,7 +414,8 @@ public class SampleController {
 				updateAssociationsForSample(changedDto);
 
 				if (changedDto.getSpecimenCondition() != originalDto.getSpecimenCondition()
-					&& changedDto.getSpecimenCondition() == SpecimenCondition.NOT_ADEQUATE
+					&& (changedDto.getSpecimenCondition() == SpecimenCondition.NOT_ADEQUATE
+						|| changedDto.getSpecimenCondition() == SpecimenCondition.BAD_SAMPLE_HAEMOLYSED)
 					&& UiUtil.permitted(UserRight.TASK_CREATE)) {
 					requestSampleCollectionTaskCreation(changedDto, form);
 				} else {

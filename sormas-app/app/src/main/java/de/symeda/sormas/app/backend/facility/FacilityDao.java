@@ -18,6 +18,7 @@ package de.symeda.sormas.app.backend.facility;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.GenericRawResults;
@@ -174,6 +175,26 @@ public class FacilityDao extends AbstractInfrastructureAdoDao<Facility> {
 			Log.e(getTableName(), "Could not perform queryForEq");
 			throw new RuntimeException(e);
 		}
+	}
+
+	public Facility getDefaultLaboratory() {
+		for (Facility laboratory : getActiveLaboratories(false)) {
+			if (isDefaultLaboratory(laboratory)) {
+				return laboratory;
+			}
+		}
+
+		return null;
+	}
+
+	private boolean isDefaultLaboratory(Facility laboratory) {
+		String name = laboratory.getName();
+		if (name == null) {
+			return false;
+		}
+
+		String normalizedName = name.toLowerCase(Locale.ENGLISH);
+		return normalizedName.contains("national public health laboratory") || normalizedName.contains("nphl");
 	}
 
 	@Override

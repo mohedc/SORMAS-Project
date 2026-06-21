@@ -143,7 +143,8 @@ public class EnvironmentSampleListComponent extends SideComponent {
 			materialLabel.setWidth(50, Unit.PERCENTAGE);
 			topLeftLayout.addComponent(materialLabel);
 
-			if (sampleIndex.getSpecimenCondition() == SpecimenCondition.NOT_ADEQUATE) {
+			if (sampleIndex.getSpecimenCondition() == SpecimenCondition.NOT_ADEQUATE
+				|| sampleIndex.getSpecimenCondition() == SpecimenCondition.BAD_SAMPLE_HAEMOLYSED) {
 				Label resultLabel = new Label();
 				CssStyles.style(resultLabel, CssStyles.LABEL_BOLD, CssStyles.LABEL_UPPERCASE);
 

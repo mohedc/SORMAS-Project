@@ -999,7 +999,7 @@ public class TextViewBindingAdapters {
 				return;
 			}
 
-			if (condition == SpecimenCondition.NOT_ADEQUATE) {
+			if (condition == SpecimenCondition.NOT_ADEQUATE || condition == SpecimenCondition.BAD_SAMPLE_HAEMOLYSED) {
 				result = resources.getString(R.string.value_inadequate_specimen_condition);
 			} else if (mostRecentTest != null) {
 				result = mostRecentTest.getTestResult().toString();

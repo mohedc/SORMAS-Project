@@ -65,6 +65,7 @@ public interface Validations {
 	String diseaseConfigurationInvalidStartAge = "diseaseConfigurationInvalidStartAge";
 	String duplicateEpidNumber = "duplicateEpidNumber";
 	String duplicateExternalToken = "duplicateExternalToken";
+	String incompleteEpidNumber = "incompleteEpidNumber";
 	String emailTemplateSubjectInvalid = "emailTemplateSubjectInvalid";
 	String emptyOverwrittenFollowUpUntilDate = "emptyOverwrittenFollowUpUntilDate";
 	String environmentMedia = "environmentMedia";

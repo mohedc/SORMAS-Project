@@ -22,7 +22,8 @@ import de.symeda.sormas.api.i18n.I18nProperties;
 public enum SpecimenCondition {
 
 	ADEQUATE,
-	NOT_ADEQUATE;
+	NOT_ADEQUATE,
+	BAD_SAMPLE_HAEMOLYSED;
 
 	@Override
 	public String toString() {

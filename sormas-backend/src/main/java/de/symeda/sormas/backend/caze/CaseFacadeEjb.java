@@ -2167,12 +2167,17 @@ public class CaseFacadeEjb extends AbstractCoreFacadeEjb<Case, CaseDataDto, Case
 		FieldVisibilityCheckers fieldVisibilityCheckers = FieldVisibilityCheckers.withCountry(configFacade.getCountryLocale());
 		if (fieldVisibilityCheckers.isVisible(CaseDataDto.class, CaseDataDto.EPID_NUMBER)
 			&& !CaseLogic.isCompleteEpidNumber(newCase.getEpidNumber())) {
-			newCase.setEpidNumber(
-				generateEpidNumber(
-					newCase.getUuid(),
-					newCase.getDisease(),
-					newCase.getReportDate(),
-					newCase.getResponsibleDistrict().getUuid()));
+			String generatedEpidNumber = generateEpidNumber(
+				newCase.getUuid(),
+				newCase.getDisease(),
+				newCase.getReportDate(),
+				newCase.getResponsibleDistrict() != null ? newCase.getResponsibleDistrict().getUuid() : null);
+			if (CaseLogic.isCompleteEpidNumber(generatedEpidNumber)) {
+				newCase.setEpidNumber(generatedEpidNumber);
+			} else {
+				logger.warn("Could not generate a complete EPID number for case {}.", newCase.getUuid());
+				newCase.setEpidNumber(null);
+			}
 		}
 
 		// update the plague type based on symptoms
@@ -2584,6 +2589,11 @@ public class CaseFacadeEjb extends AbstractCoreFacadeEjb<Case, CaseDataDto, Case
 
 	@Override
 	public String getGenerateEpidNumber(CaseDataDto caze) {
+		if (caze.getResponsibleDistrict() == null) {
+			logger.warn("Could not generate a complete EPID number for case {} because the responsible district is missing.", caze.getUuid());
+			return caze.getEpidNumber();
+		}
+
 		return generateEpidNumber(
 			caze.getUuid(),
 			caze.getDisease(),
@@ -2592,23 +2602,29 @@ public class CaseFacadeEjb extends AbstractCoreFacadeEjb<Case, CaseDataDto, Case
 	}
 
 	private String generateEpidNumber(String caseUuid, Disease disease, Date reportDate, String districtUuid) {
+		if (StringUtils.isBlank(districtUuid)) {
+			return null;
+		}
 
 		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(reportDate);
+		calendar.setTime(reportDate != null ? reportDate : new Date());
 		String year = String.valueOf(calendar.get(Calendar.YEAR)).substring(2);
 
 		District district = districtService.getByUuid(districtUuid);
+		if (district == null || district.getRegion() == null) {
+			return null;
+		}
 		Region region = district.getRegion();
 
-		String geoPrefix =
-			"GAM-"
-				+ region.getName().substring(0, 3).toUpperCase()
-				+ "-"
-				+ district.getName().substring(0, 3).toUpperCase()
-				+ "-";
+		String countryCode = getCountryEpidCode();
+		String regionCode = getEpidCodePart(region.getEpidCode(), region.getName());
+		String districtCode = getEpidCodePart(district.getEpidCode(), district.getName());
+		if (StringUtils.isAnyBlank(countryCode, regionCode, districtCode)) {
+			return null;
+		}
 
 		// Country–region–district–year–case number (matches CaseLogic EPID patterns)
-		String searchPrefix = geoPrefix + year + "-";
+		String searchPrefix = String.join("-", countryCode, regionCode, districtCode, year) + "-";
 
 		String highestEpidNumber = service.getHighestEpidNumber(searchPrefix, caseUuid, disease);
 
@@ -2616,15 +2632,53 @@ public class CaseFacadeEjb extends AbstractCoreFacadeEjb<Case, CaseDataDto, Case
 
 		if (highestEpidNumber != null && highestEpidNumber.startsWith(searchPrefix)) {
 			String suffix = highestEpidNumber.substring(searchPrefix.length()).replaceAll("\\D", "");
-			if (!suffix.isEmpty()) {
-				try {
-					nextNumber = Integer.parseInt(suffix) + 1;
-				} catch (NumberFormatException ignored) {
-				}
+			Integer suffixNumber = DataHelper.tryParseInt(suffix);
+			if (suffixNumber != null) {
+				nextNumber = suffixNumber + 1;
 			}
 		}
 
-		return searchPrefix + String.format("%03d", nextNumber);
+		return searchPrefix + String.format(Locale.ENGLISH, "%03d", nextNumber);
+	}
+
+	private String getCountryEpidCode() {
+		String configuredPrefix = getEpidCodePart(configFacade.getEpidPrefix(), null);
+		if (StringUtils.isNotBlank(configuredPrefix)) {
+			return configuredPrefix;
+		}
+
+		if (configFacade.isConfiguredCountry(CountryHelper.COUNTRY_CODE_GAMBIA)) {
+			return "GAM";
+		}
+
+		String countryCode = configFacade.getCountryCode();
+		if (StringUtils.length(countryCode) == 2) {
+			try {
+				return new Locale("", countryCode.toUpperCase(Locale.ENGLISH)).getISO3Country().toUpperCase(Locale.ENGLISH);
+			} catch (MissingResourceException ignored) {
+				// Fall back to the sanitized country name below.
+			}
+		}
+
+		return getEpidCodePart(countryCode, configFacade.getCountryName());
+	}
+
+	private String getEpidCodePart(String epidCode, String fallbackName) {
+		String normalizedEpidCode = normalizeEpidCode(epidCode);
+		if (StringUtils.length(normalizedEpidCode) >= 3) {
+			return normalizedEpidCode.substring(0, 3);
+		}
+
+		String normalizedFallback = normalizeEpidCode(fallbackName);
+		if (StringUtils.length(normalizedFallback) >= 3) {
+			return normalizedFallback.substring(0, 3);
+		}
+
+		return null;
+	}
+
+	private String normalizeEpidCode(String value) {
+		return value != null ? value.replaceAll("[^A-Za-z0-9]", "").toUpperCase(Locale.ENGLISH) : "";
 	}
 
 

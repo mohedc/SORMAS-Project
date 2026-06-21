@@ -62,6 +62,7 @@ public class SampleDao extends AbstractAdoDao<Sample> {
 		sample.setReportDateTime(new Date());
 		sample.setReportingUser(ConfigProvider.getUser());
 		sample.setPathogenTestResult(PathogenTestResultType.PENDING);
+		sample.setLab(DatabaseHelper.getFacilityDao().getDefaultLaboratory());
 		return sample;
 	}
 

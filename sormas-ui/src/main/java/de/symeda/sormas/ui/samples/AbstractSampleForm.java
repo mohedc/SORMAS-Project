@@ -688,7 +688,7 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 			getFieldGroup(),
 			SampleDto.NO_TEST_POSSIBLE_REASON,
 			SampleDto.SPECIMEN_CONDITION,
-			Arrays.asList(SpecimenCondition.NOT_ADEQUATE),
+			Arrays.asList(SpecimenCondition.NOT_ADEQUATE, SpecimenCondition.BAD_SAMPLE_HAEMOLYSED),
 			true);
 		FieldHelper.setRequiredWhen(
 			getFieldGroup(),
@@ -699,7 +699,7 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 			getFieldGroup(),
 			SampleDto.SPECIMEN_CONDITION,
 			Arrays.asList(SampleDto.NO_TEST_POSSIBLE_REASON),
-			Arrays.asList(SpecimenCondition.NOT_ADEQUATE));
+			Arrays.asList(SpecimenCondition.NOT_ADEQUATE, SpecimenCondition.BAD_SAMPLE_HAEMOLYSED));
 //		FieldHelper.setVisibleWhen(
 //			getFieldGroup(),
 //			Arrays.asList(SampleDto.LAB, SampleDto.SHIPPED, SampleDto.RECEIVED),

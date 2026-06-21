@@ -2567,6 +2567,13 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 
 		if (epidField.isVisible()
 			&& StringUtils.isNotEmpty(fieldValue)
+			&& !CaseLogic.isEpidNumberPrefix(fieldValue)
+			&& !CaseLogic.isCompleteEpidNumber(fieldValue)) {
+			epidField.setComponentError(new UserError(I18nProperties.getValidationError(Validations.incompleteEpidNumber)));
+			getContent().removeComponent(epidNumberWarningLabel);
+			assignNewEpidNumberButton.setVisible(true);
+		} else if (epidField.isVisible()
+			&& StringUtils.isNotEmpty(fieldValue)
 			&& FacadeProvider.getCaseFacade().doesEpidNumberExist(fieldValue, getValue().getUuid(), getValue().getDisease())) {
 			epidField.setComponentError(new UserError(I18nProperties.getValidationError(Validations.duplicateEpidNumber)));
 			assignNewEpidNumberButton.setVisible(true);

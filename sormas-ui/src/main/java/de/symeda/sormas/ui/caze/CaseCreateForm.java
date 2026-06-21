@@ -151,7 +151,7 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
         + fluidRowLocs(CaseDataDto.REGION, CaseDataDto.DISTRICT, CaseDataDto.COMMUNITY)
 //        + fluidRowLocs(FACILITY_TYPE_GROUP_LOC, CaseDataDto.FACILITY_TYPE)
         + fluidRowLocs(CaseDataDto.HEALTH_FACILITY, CaseDataDto.HEALTH_FACILITY_DETAILS, CaseDataDto.DEPARTMENT)
-        + fluidRowLocs(DIFFERENT_POINT_OF_ENTRY_JURISDICTION)
+//        + fluidRowLocs(DIFFERENT_POINT_OF_ENTRY_JURISDICTION)
         + fluidRowLocs(POINT_OF_ENTRY_REGION, POINT_OF_ENTRY_DISTRICT)
         + fluidRowLocs(CaseDataDto.POINT_OF_ENTRY, CaseDataDto.POINT_OF_ENTRY_DETAILS)
 		+ fluidRowLocs(PERSON_INFORMATION_HEADING_LOC)
@@ -270,6 +270,7 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 
 		differentPointOfEntryJurisdiction = addCustomField(DIFFERENT_POINT_OF_ENTRY_JURISDICTION, Boolean.class, CheckBox.class);
 		differentPointOfEntryJurisdiction.addStyleName(VSPACE_3);
+		differentPointOfEntryJurisdiction.setVisible(false);
 
 		ComboBox pointOfEntryRegionCombo = addCustomField(POINT_OF_ENTRY_REGION, RegionReferenceDto.class, ComboBox.class);
 		pointOfEntryDistrictCombo = addCustomField(POINT_OF_ENTRY_DISTRICT, DistrictReferenceDto.class, ComboBox.class);
@@ -474,7 +475,7 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 					passportField.setVisible(false);
 				} else {
 					setVisible(true, CaseDataDto.POINT_OF_ENTRY);
-					differentPointOfEntryJurisdiction.setVisible(true);
+					differentPointOfEntryJurisdiction.setVisible(false);
 					setRequired(true, CaseDataDto.POINT_OF_ENTRY);
 					if (userJurisdictionLevel != JurisdictionLevel.HEALTH_FACILITY) {
 						facilityOrHome.clear();

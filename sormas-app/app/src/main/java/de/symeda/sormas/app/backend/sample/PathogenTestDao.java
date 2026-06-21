@@ -30,8 +30,10 @@ import de.symeda.sormas.api.sample.PathogenTestResultType;
 import de.symeda.sormas.api.sample.SamplePurpose;
 import de.symeda.sormas.app.backend.common.AbstractAdoDao;
 import de.symeda.sormas.app.backend.common.AbstractDomainObject;
+import de.symeda.sormas.app.backend.common.DatabaseHelper;
 import de.symeda.sormas.app.backend.config.ConfigProvider;
 import de.symeda.sormas.app.backend.environment.environmentsample.EnvironmentSample;
+import de.symeda.sormas.app.backend.facility.Facility;
 import de.symeda.sormas.app.util.DiseaseConfigurationCache;
 
 public class PathogenTestDao extends AbstractAdoDao<PathogenTest> {
@@ -54,8 +56,14 @@ public class PathogenTestDao extends AbstractAdoDao<PathogenTest> {
 		PathogenTest pathogenTest = super.build();
 		pathogenTest.setSample(associatedSample);
 		pathogenTest.setTestDateTime(new Date());
-		pathogenTest.setLab(associatedSample.getLab());
-		pathogenTest.setLabDetails(associatedSample.getLabDetails());
+		Facility defaultLaboratory = DatabaseHelper.getFacilityDao().getDefaultLaboratory();
+		if (defaultLaboratory != null) {
+			pathogenTest.setLab(defaultLaboratory);
+			pathogenTest.setLabDetails(null);
+		} else if (associatedSample.getLab() != null) {
+			pathogenTest.setLab(associatedSample.getLab());
+			pathogenTest.setLabDetails(associatedSample.getLabDetails());
+		}
 		pathogenTest.setLabUser(ConfigProvider.getUser());
 		if (associatedSample.getSamplePurpose() == SamplePurpose.INTERNAL) {
 			pathogenTest.setTestResultVerified(true);
@@ -71,6 +79,7 @@ public class PathogenTestDao extends AbstractAdoDao<PathogenTest> {
 		PathogenTest pathogenTest = super.build();
 		pathogenTest.setEnvironmentSample(environmentSample);
 		pathogenTest.setTestDateTime(new Date());
+		pathogenTest.setLab(DatabaseHelper.getFacilityDao().getDefaultLaboratory());
 		pathogenTest.setLabUser(ConfigProvider.getUser());
 
 		return pathogenTest;

@@ -380,6 +380,42 @@ public class CaseDao extends AbstractAdoDao<Case> {
 		}
 	}
 
+	public String getHighestEpidNumber(String epidNumberPrefix, String caseUuid, Disease disease) {
+		try {
+			QueryBuilder builder = queryBuilder();
+			Where where = builder.where();
+			where.eq(AbstractDomainObject.SNAPSHOT, false);
+			where.and().like(Case.EPID_NUMBER, epidNumberPrefix + "%");
+
+			if (!DataHelper.isNullOrEmpty(caseUuid)) {
+				where.and().ne(Case.UUID, caseUuid);
+			}
+			if (disease != null) {
+				where.and().eq(Case.DISEASE, disease);
+			}
+
+			List<Case> cases = builder.query();
+			String highestEpidNumber = null;
+			int highestSuffix = -1;
+			for (Case caze : cases) {
+				String epidNumber = caze.getEpidNumber();
+				if (!StringUtils.startsWith(epidNumber, epidNumberPrefix)) {
+					continue;
+				}
+
+				Integer suffixNumber = DataHelper.tryParseInt(epidNumber.substring(epidNumberPrefix.length()).replaceAll("\\D", ""));
+				if (suffixNumber != null && suffixNumber > highestSuffix) {
+					highestSuffix = suffixNumber;
+					highestEpidNumber = epidNumber;
+				}
+			}
+			return highestEpidNumber;
+		} catch (SQLException | IllegalArgumentException e) {
+			Log.e(getTableName(), "Could not perform getHighestEpidNumber");
+			throw new RuntimeException(e);
+		}
+	}
+
 	// TODO #704
 //    @Override
 //    /**
