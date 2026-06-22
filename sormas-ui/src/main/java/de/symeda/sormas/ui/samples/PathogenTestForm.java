@@ -237,7 +237,6 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 					fluidRowLocs(PathogenTestDto.LAB, PathogenTestDto.LAB_DETAILS) +
 					loc(STOOL_SPECIMEN_RESULTS_HEADLINE_LOC) +
 					fluidRowLocs(6,PathogenTestDto.DATE_COMBINED_CELL_CULTURE_RESULTS) +
-					fluidRowLocs(6, PathogenTestDto.DATE_DIFFERENTIATION_SENT_EPI) +
 					loc(FINAL_LAB_RESULTS_HEADLINE_LOC) +
 					fluidRowLocs(PathogenTestDto.W1, PathogenTestDto.W2, PathogenTestDto.W3) +
 					fluidRowLocs(PathogenTestDto.SL1, PathogenTestDto.SL2, PathogenTestDto.SL3) +
@@ -246,7 +245,7 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 					fluidRowLocs(6,PathogenTestDto.FINAL_CELL_CULTURE_RESULTS) +
 					fluidRowLocs(PathogenTestDto.TEST_RESULT, PathogenTestDto.TEST_RESULT_VERIFIED) +
 					fluidRowLocs(PathogenTestDto.DATE_RESULTS_SENT_TO_NATIONAL_EPI, PathogenTestDto.DATE_SENT_FROM_IC_NATIONAL_REG_LAB)+
-					fluidRowLocs(6, PathogenTestDto.DATE_ISOLATE_SENT_SEQUENCING) +
+					fluidRowLocs(PathogenTestDto.DATE_ISOLATE_SENT_SEQUENCING, PathogenTestDto.DATE_DIFFERENTIATION_SENT_EPI) +
 					fluidRowLocs(6, PathogenTestDto.DATE_SEQ_RESULTS_SENT_PROGRAM) +
 					fluidRowLocs(6, PathogenTestDto.TESTED_PATHOGEN_DETAILS);
 

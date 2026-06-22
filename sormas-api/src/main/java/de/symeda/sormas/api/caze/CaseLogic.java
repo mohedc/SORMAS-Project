@@ -49,8 +49,9 @@ public final class CaseLogic {
 		// Hide Utility Class Constructor
 	}
 
-	private static final String EPID_PATTERN_COMPLETE = "([A-Z]{3}-){3}[0-9]{2}-[0-9]+";
-	private static final String EPID_PATTERN_PREFIX = "([A-Z]{3}-){3}[0-9]{2}-";
+	// Each code segment (country, region, district) is 3 alphanumerics, e.g. GMB-WR1-KC2; year is 2 digits, count is the trailing number.
+	private static final String EPID_PATTERN_COMPLETE = "([A-Z0-9]{3}-){3}[0-9]{2}-[0-9]+";
+	private static final String EPID_PATTERN_PREFIX = "([A-Z0-9]{3}-){3}[0-9]{2}-";
 
 	public static void validateInvestigationDoneAllowed(CaseDataDto caze) throws ValidationException {
 

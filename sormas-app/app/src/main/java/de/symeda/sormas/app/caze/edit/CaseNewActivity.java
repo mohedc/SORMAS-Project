@@ -383,8 +383,12 @@ public class CaseNewActivity extends BaseEditActivity<Case> {
 			return caze.getEpidNumber();
 		}
 
-		String countryCode = getCountryEpidCode();
-		String regionCode = getEpidCodePart(caze.getResponsibleRegion().getEpidCode(), caze.getResponsibleRegion().getName());
+		// The region epid code is stored as "<country>-<region>", e.g. "GMB-CRR".
+		// Country code = part before the dash (GMB); region code = part after the dash (CRR).
+		String regionEpidCode = caze.getResponsibleRegion().getEpidCode();
+		String[] regionParts = splitRegionEpidCode(regionEpidCode);
+		String countryCode = regionParts != null ? regionParts[0] : getCountryEpidCode();
+		String regionCode = regionParts != null ? regionParts[1] : getEpidCodePart(regionEpidCode, caze.getResponsibleRegion().getName());
 		String districtCode = getEpidCodePart(caze.getResponsibleDistrict().getEpidCode(), caze.getResponsibleDistrict().getName());
 		if (StringUtils.isAnyBlank(countryCode, regionCode, districtCode)) {
 			return caze.getEpidNumber();
@@ -442,6 +446,32 @@ public class CaseNewActivity extends BaseEditActivity<Case> {
 
 	private String normalizeEpidCode(String value) {
 		return value != null ? value.replaceAll("[^A-Za-z0-9]", "").toUpperCase(Locale.ENGLISH) : "";
+	}
+
+	/**
+	 * Splits a region epid code stored as "<country>-<region>" (e.g. "GMB-CRR") into its country and region parts.
+	 * Returns null when the code does not contain a usable dash-separated country/region pair.
+	 */
+	private String[] splitRegionEpidCode(String regionEpidCode) {
+		if (StringUtils.isBlank(regionEpidCode)) {
+			return null;
+		}
+
+		String value = regionEpidCode.trim().toUpperCase(Locale.ENGLISH);
+		int dash = value.indexOf('-');
+		if (dash <= 0 || dash >= value.length() - 1) {
+			return null;
+		}
+
+		String countryPart = value.substring(0, dash).replaceAll("[^A-Z0-9]", "");
+		String regionPart = value.substring(dash + 1).replaceAll("[^A-Z0-9]", "");
+		if (StringUtils.isAnyBlank(countryPart, regionPart)) {
+			return null;
+		}
+
+		return new String[] {
+			countryPart,
+			regionPart };
 	}
 
 	@Override
