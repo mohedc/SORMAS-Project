@@ -222,8 +222,10 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 		addField(CaseDataDto.DISEASE_DETAILS, TextField.class);
 		idsrDiagnosisField = addField(CaseDataDto.IDSR_DIAGNOSIS, ComboBox.class);
 		idsrDiagnosisField.setNullSelectionAllowed(true);
+		idsrDiagnosisField.setVisible(false);
 		idsrDiagnosisDetailsField = addField(CaseDataDto.IDSR_DIAGNOSIS_DETAILS, TextField.class);
 		idsrDiagnosisDetailsField.setVisible(false);
+		idsrDiagnosisField.addValueChangeListener(e -> updateIdsrDiagnosisFields((Disease) diseaseField.getValue()));
 		NullableOptionGroup plagueType = addField(CaseDataDto.PLAGUE_TYPE, NullableOptionGroup.class);
 		addField(CaseDataDto.DENGUE_FEVER_TYPE, NullableOptionGroup.class);
 		addField(CaseDataDto.RABIES_TYPE, NullableOptionGroup.class);
@@ -581,6 +583,7 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 						field.setVisible(true);
 					}
 				}
+				updateIdsrDiagnosisFields(selectedDisease);
 				return;
 			}
 
@@ -648,16 +651,12 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 				setVisible(true, ogCaseOrigin, epidField, diseaseField, responsibleRegionCombo, responsibleDistrictCombo, responsibleCommunityCombo,
 						facilityOrHome, healthFacilityDetailsField, facilityCombo, facilityType, reportDate, idsrDiagnosisField);
 
-				idsrDiagnosisField.addValueChangeListener(event -> {
-					IdsrType value = (IdsrType) event.getProperty().getValue();
-					idsrDiagnosisDetailsField.setVisible(value == IdsrType.OTHER);
-				});
-
-
 				personCreateForm.getField(PersonDto.NATIONAL_HEALTH_ID).setVisible(false);
 				personCreateForm.getField(PersonDto.EMAIL_ADDRESS).setVisible(false);
 				personCreateForm.getField(PersonDto.PRESENT_CONDITION).setVisible(false);
 			}
+
+			updateIdsrDiagnosisFields(selectedDisease);
 
 		});
 
@@ -685,6 +684,26 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 		responsibleDistrictCombo.setValue(FacadeProvider.getDistrictFacade().getDefaultInfrastructureReference());
 		responsibleCommunityCombo.setVisible(false);
 		responsibleCommunityCombo.setValue(FacadeProvider.getCommunityFacade().getDefaultInfrastructureReference());
+	}
+
+	private void updateIdsrDiagnosisFields(Disease selectedDisease) {
+		boolean isIdsrDisease = Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS.equals(selectedDisease);
+		idsrDiagnosisField.setVisible(isIdsrDisease);
+
+		if (!isIdsrDisease) {
+			idsrDiagnosisField.clear();
+			idsrDiagnosisDetailsField.clear();
+			idsrDiagnosisDetailsField.setVisible(false);
+			idsrDiagnosisDetailsField.setRequired(false);
+			return;
+		}
+
+		boolean showDetails = IdsrType.OTHER.equals(idsrDiagnosisField.getValue());
+		idsrDiagnosisDetailsField.setVisible(showDetails);
+		idsrDiagnosisDetailsField.setRequired(showDetails);
+		if (!showDetails) {
+			idsrDiagnosisDetailsField.clear();
+		}
 	}
 
 	private void handleDiseaseChanged(Disease newDisease) {
@@ -984,6 +1003,8 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 		if (UiUtil.enabled(FeatureType.HIDE_JURISDICTION_FIELDS)) {
 			hideAndFillJurisdictionFields();
 		}
+
+		updateIdsrDiagnosisFields(caseDataDto.getDisease());
 	}
 
 	public void setSearchedPerson(PersonDto searchedPerson) {
