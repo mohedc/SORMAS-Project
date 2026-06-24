@@ -314,7 +314,7 @@ public class CaseNewActivity extends BaseEditActivity<Case> {
 			protected void doInBackground(TaskResultHolder resultHolder) throws Exception {
 				DatabaseHelper.getPersonDao().saveAndSnapshot(caseToSave.getPerson());
 
-				if (!CaseLogic.isCompleteEpidNumber(caseToSave.getEpidNumber())) {
+				if (StringUtils.isEmpty(caseToSave.getEpidNumber())) {
 					String epidNumber = generateEpidNumber(caseToSave);
 					if (CaseLogic.isCompleteEpidNumber(epidNumber)) {
 						caseToSave.setEpidNumber(epidNumber);
