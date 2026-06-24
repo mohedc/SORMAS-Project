@@ -6,6 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import android.view.View;
 
+import de.symeda.sormas.api.caze.CaseLogic;
 import de.symeda.sormas.api.i18n.I18nProperties;
 import de.symeda.sormas.api.i18n.Validations;
 import de.symeda.sormas.api.utils.DataHelper;
@@ -93,6 +94,18 @@ public class ValidationHelper {
 			if (!DataHelper.isValidPhoneNumber(phoneNumber)) {
 				textEditField.enableErrorState(I18nProperties.getValidationError(Validations.validPhoneNumber, textEditField.getCaption()));
 
+				return true;
+			}
+
+			return false;
+		});
+	}
+
+	public static void initEpidNumberValidator(ControlTextEditField textEditField) {
+		textEditField.setValidationCallback(() -> {
+			String epidNumber = textEditField.getValue();
+			if (!StringUtils.isEmpty(epidNumber) && !CaseLogic.isCompleteEpidNumber(epidNumber)) {
+				textEditField.enableErrorState(I18nProperties.getValidationError(Validations.incompleteEpidNumber));
 				return true;
 			}
 

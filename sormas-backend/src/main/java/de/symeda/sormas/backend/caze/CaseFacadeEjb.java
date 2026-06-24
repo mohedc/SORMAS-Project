@@ -1906,6 +1906,9 @@ public class CaseFacadeEjb extends AbstractCoreFacadeEjb<Case, CaseDataDto, Case
 		if (caze.getDisease() == null) {
 			throw new ValidationRuntimeException(I18nProperties.getValidationError(Validations.validDisease));
 		}
+		if (StringUtils.isNotEmpty(caze.getEpidNumber()) && !CaseLogic.isCompleteEpidNumber(caze.getEpidNumber())) {
+			throw new ValidationRuntimeException(I18nProperties.getValidationError(Validations.incompleteEpidNumber));
+		}
 		// Check whether there are any infrastructure errors
 		if (!districtFacade.getByUuid(caze.getResponsibleDistrict().getUuid()).getRegion().equals(caze.getResponsibleRegion())) {
 			throw new ValidationRuntimeException(I18nProperties.getValidationError(Validations.noResponsibleDistrictInResponsibleRegion));

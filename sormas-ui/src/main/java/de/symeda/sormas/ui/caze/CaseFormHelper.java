@@ -19,12 +19,18 @@ import static de.symeda.sormas.ui.utils.CssStyles.VSPACE_3;
 
 import java.util.function.Supplier;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.vaadin.ui.CustomLayout;
+import com.vaadin.v7.data.Validator;
 import com.vaadin.v7.ui.CheckBox;
+import com.vaadin.v7.ui.TextField;
 
 import de.symeda.sormas.api.FacadeProvider;
+import de.symeda.sormas.api.caze.CaseLogic;
 import de.symeda.sormas.api.i18n.I18nProperties;
 import de.symeda.sormas.api.i18n.Strings;
+import de.symeda.sormas.api.i18n.Validations;
 import de.symeda.sormas.ui.utils.VaadinUiUtil;
 
 public class CaseFormHelper {
@@ -53,5 +59,14 @@ public class CaseFormHelper {
 				}
 			});
 		}
+	}
+
+	public static void addEpidNumberFormatValidator(TextField epidField) {
+		epidField.addValidator(value -> {
+			String epidNumber = (String) value;
+			if (StringUtils.isNotEmpty(epidNumber) && !CaseLogic.isCompleteEpidNumber(epidNumber)) {
+				throw new Validator.InvalidValueException(I18nProperties.getValidationError(Validations.incompleteEpidNumber));
+			}
+		});
 	}
 }

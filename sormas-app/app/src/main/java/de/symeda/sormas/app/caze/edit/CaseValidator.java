@@ -32,6 +32,7 @@ import de.symeda.sormas.app.backend.caze.Case;
 import de.symeda.sormas.app.backend.caze.CaseDtoHelper;
 import de.symeda.sormas.app.backend.common.DatabaseHelper;
 import de.symeda.sormas.app.backend.config.ConfigProvider;
+import de.symeda.sormas.app.component.controls.ControlTextEditField;
 import de.symeda.sormas.app.component.validation.ValidationHelper;
 import de.symeda.sormas.app.databinding.DialogPreviousHospitalizationLayoutBinding;
 import de.symeda.sormas.app.databinding.FragmentCaseEditHospitalizationLayoutBinding;
@@ -40,6 +41,10 @@ import de.symeda.sormas.app.databinding.FragmentCaseEditPortHealthInfoLayoutBind
 import de.symeda.sormas.app.util.ResultCallback;
 
 final class CaseValidator {
+
+    static void initializeEpidNumberValidation(ControlTextEditField epidNumberField) {
+        ValidationHelper.initEpidNumberValidator(epidNumberField);
+    }
 
     static void initializeGermanCaseClassificationValidation(
             Case caze,

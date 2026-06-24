@@ -195,6 +195,7 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 
 		TextField epidField = addField(CaseDataDto.EPID_NUMBER, TextField.class);
 		epidField.setInvalidCommitted(true);
+		CaseFormHelper.addEpidNumberFormatValidator(epidField);
 		style(epidField, ERROR_COLOR_PRIMARY);
 
 		if (!FacadeProvider.getExternalSurveillanceToolFacade().isFeatureEnabled()) {

@@ -681,6 +681,7 @@ public class CaseEditFragment extends BaseEditFragment<FragmentCaseEditLayoutBin
 		contentBinding.caseDataQuarantineReduced
 			.addValueChangedListener(e -> contentBinding.caseDataQuarantineReduced.setVisibility(record.isQuarantineReduced() ? VISIBLE : GONE));
 
+		CaseValidator.initializeEpidNumberValidation(contentBinding.caseDataEpidNumber);
 		CaseValidator.initializeProhibitionToWorkIntervalValidator(contentBinding);
 
 		contentBinding.caseDataPickGpsCoordinates.setOnClickListener(v -> {

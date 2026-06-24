@@ -161,6 +161,7 @@ public class CaseNewFragment extends BaseEditFragment<FragmentCaseNewLayoutBindi
 		contentBinding.setCaseOriginClass(CaseOrigin.class);
 
 		PersonValidator.initializeCaseCreationValidation(contentBinding);
+		CaseValidator.initializeEpidNumberValidation(contentBinding.caseDataEpidNumber);
 
 		contentBinding.caseDataPlagueType.initializeSpinner(plagueTypeList);
 		contentBinding.caseDataDengueFeverType.initializeSpinner(dengueFeverTypeList);

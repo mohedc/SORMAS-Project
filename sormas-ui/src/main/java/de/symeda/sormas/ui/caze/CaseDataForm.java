@@ -741,6 +741,7 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 		TextField epidField = addField(CaseDataDto.EPID_NUMBER, TextField.class);
 		epidField.setInvalidCommitted(true);
 		epidField.setMaxLength(24);
+		CaseFormHelper.addEpidNumberFormatValidator(epidField);
 		style(epidField, ERROR_COLOR_PRIMARY);
 
 		// Button to automatically assign a new epid number
@@ -2567,7 +2568,6 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 
 		if (epidField.isVisible()
 			&& StringUtils.isNotEmpty(fieldValue)
-			&& !CaseLogic.isEpidNumberPrefix(fieldValue)
 			&& !CaseLogic.isCompleteEpidNumber(fieldValue)) {
 			epidField.setComponentError(new UserError(I18nProperties.getValidationError(Validations.incompleteEpidNumber)));
 			getContent().removeComponent(epidNumberWarningLabel);
@@ -2584,7 +2584,6 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 			assignNewEpidNumberButton.setVisible(
 				!isConfiguredServer(CountryHelper.COUNTRY_CODE_GERMANY)
 					&& !isConfiguredServer(CountryHelper.COUNTRY_CODE_SWITZERLAND)
-					&& !CaseLogic.isEpidNumberPrefix(fieldValue)
 					&& !CaseLogic.isCompleteEpidNumber(fieldValue));
 		}
 	}
