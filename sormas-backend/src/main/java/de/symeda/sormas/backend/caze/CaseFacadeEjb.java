@@ -1906,9 +1906,7 @@ public class CaseFacadeEjb extends AbstractCoreFacadeEjb<Case, CaseDataDto, Case
 		if (caze.getDisease() == null) {
 			throw new ValidationRuntimeException(I18nProperties.getValidationError(Validations.validDisease));
 		}
-		if (StringUtils.isNotEmpty(caze.getEpidNumber()) && !CaseLogic.isCompleteEpidNumber(caze.getEpidNumber())) {
-			throw new ValidationRuntimeException(I18nProperties.getValidationError(Validations.incompleteEpidNumber));
-		}
+		validateManualEpidNumber(caze.getEpidNumber());
 		// Check whether there are any infrastructure errors
 		if (!districtFacade.getByUuid(caze.getResponsibleDistrict().getUuid()).getRegion().equals(caze.getResponsibleRegion())) {
 			throw new ValidationRuntimeException(I18nProperties.getValidationError(Validations.noResponsibleDistrictInResponsibleRegion));
@@ -1966,6 +1964,12 @@ public class CaseFacadeEjb extends AbstractCoreFacadeEjb<Case, CaseDataDto, Case
 					throw new ValidationRuntimeException(I18nProperties.getValidationError(Validations.noFacilityInRegion));
 				}
 			}
+		}
+	}
+
+	private void validateManualEpidNumber(String epidNumber) {
+		if (StringUtils.isNotEmpty(epidNumber) && !CaseLogic.isCompleteEpidNumber(epidNumber)) {
+			throw new ValidationRuntimeException(I18nProperties.getValidationError(Validations.incompleteEpidNumber));
 		}
 	}
 
@@ -2166,10 +2170,12 @@ public class CaseFacadeEjb extends AbstractCoreFacadeEjb<Case, CaseDataDto, Case
 			newCase.setFacilityType(null);
 		}
 
-		// Generate epid number if missing or incomplete
+		validateManualEpidNumber(newCase.getEpidNumber());
+
+		// Generate epid number if missing
 		FieldVisibilityCheckers fieldVisibilityCheckers = FieldVisibilityCheckers.withCountry(configFacade.getCountryLocale());
 		if (fieldVisibilityCheckers.isVisible(CaseDataDto.class, CaseDataDto.EPID_NUMBER)
-			&& !CaseLogic.isCompleteEpidNumber(newCase.getEpidNumber())) {
+			&& StringUtils.isEmpty(newCase.getEpidNumber())) {
 			String generatedEpidNumber = generateEpidNumber(
 				newCase.getUuid(),
 				newCase.getDisease(),

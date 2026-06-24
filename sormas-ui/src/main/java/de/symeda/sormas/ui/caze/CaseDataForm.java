@@ -739,7 +739,7 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 		reportingUser.setParentPseudonymizedSupplier(() -> getValue().isPseudonymized());
 
 		TextField epidField = addField(CaseDataDto.EPID_NUMBER, TextField.class);
-		epidField.setInvalidCommitted(true);
+		epidField.setInvalidCommitted(false);
 		epidField.setMaxLength(24);
 		CaseFormHelper.addEpidNumberFormatValidator(epidField);
 		style(epidField, ERROR_COLOR_PRIMARY);

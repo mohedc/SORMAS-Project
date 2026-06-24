@@ -194,7 +194,7 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 		ogCaseOrigin.setRequired(true);
 
 		TextField epidField = addField(CaseDataDto.EPID_NUMBER, TextField.class);
-		epidField.setInvalidCommitted(true);
+		epidField.setInvalidCommitted(false);
 		CaseFormHelper.addEpidNumberFormatValidator(epidField);
 		style(epidField, ERROR_COLOR_PRIMARY);
 
