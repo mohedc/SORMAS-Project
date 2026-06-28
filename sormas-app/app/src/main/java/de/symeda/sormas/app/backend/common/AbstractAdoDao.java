@@ -280,7 +280,17 @@ public abstract class AbstractAdoDao<ADO extends AbstractDomainObject> {
 	 * to the server yet. Those entities have their change date set to 0.
 	 */
 	public List<ADO> queryForNew() {
-		return queryForEq(ADO.CHANGE_DATE, new Date(0));
+		try {
+			QueryBuilder<ADO, Long> builder = queryBuilder();
+			Where<ADO, Long> where = builder.where();
+			where.eq(ADO.CHANGE_DATE, new Date(0));
+			where.and().eq(ADO.MODIFIED, true);
+			where.and().eq(AbstractDomainObject.SNAPSHOT, false).query();
+			return builder.query();
+		} catch (SQLException e) {
+			Log.e(getTableName(), "Could not perform queryForNew", e);
+			throw new RuntimeException(e);
+		}
 	}
 
 	/**

@@ -20,6 +20,8 @@ import java.util.Date;
 
 import org.apache.commons.lang3.StringUtils;
 
+import android.widget.TextView;
+
 import de.symeda.sormas.api.i18n.I18nProperties;
 import de.symeda.sormas.api.i18n.Validations;
 import de.symeda.sormas.api.person.ApproximateAgeType;
@@ -27,6 +29,7 @@ import de.symeda.sormas.api.person.PersonDto;
 import de.symeda.sormas.api.utils.DataHelper;
 import de.symeda.sormas.api.utils.DateHelper;
 import de.symeda.sormas.api.utils.ValidationException;
+import de.symeda.sormas.app.R;
 import de.symeda.sormas.app.backend.person.Person;
 import de.symeda.sormas.app.component.controls.ControlSpinnerField;
 import de.symeda.sormas.app.component.validation.ValidationHelper;
@@ -189,7 +192,11 @@ public final class PersonValidator {
 		contentBinding.personApproximateAgeType.setValidationCallback(ageOrBirthDateCallback);
 
 		contentBinding.personApproximateAge.addValueChangedListener(field -> updateApproximateAgeTypeRequirement(contentBinding));
+		contentBinding.personBirthdateYYYY.addValueChangedListener(field -> updateAgeOrBirthDateRequirementIndicator(contentBinding));
+		contentBinding.personApproximateAge.addValueChangedListener(field -> updateAgeOrBirthDateRequirementIndicator(contentBinding));
+		contentBinding.personApproximateAgeType.addValueChangedListener(field -> updateAgeOrBirthDateRequirementIndicator(contentBinding));
 		updateApproximateAgeTypeRequirement(contentBinding);
+		updateAgeOrBirthDateRequirementIndicator(contentBinding);
 	}
 
 	private static boolean isBirthDateInFuture(
@@ -256,6 +263,22 @@ public final class PersonValidator {
 				contentBinding.personApproximateAgeType.setValue(ApproximateAgeType.YEARS);
 			}
 		}
+	}
+
+	private static void updateAgeOrBirthDateRequirementIndicator(FragmentCaseNewLayoutBinding contentBinding) {
+		boolean ageOrBirthDateProvided = isAgeOrBirthDateProvided(contentBinding);
+		boolean required = !ageOrBirthDateProvided;
+
+		contentBinding.personApproximateAge.setRequired(required);
+		updateBirthDateLabel(contentBinding.personBirthdateLabel, required);
+	}
+
+	private static void updateBirthDateLabel(TextView birthDateLabel, boolean required) {
+		String caption = birthDateLabel.getResources().getString(R.string.caption_date_of_birth);
+		if (required) {
+			caption += " " + birthDateLabel.getResources().getString(R.string.indicator_required);
+		}
+		birthDateLabel.setText(caption);
 	}
 
 	public static void validateRequiredFieldsForCaseCreation(Person person) throws ValidationException {

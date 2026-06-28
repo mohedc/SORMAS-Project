@@ -192,6 +192,9 @@ public class NotificationHelper {
 	}
 
 	public static void showNotification(NotificationContext communicator, NotificationPosition position, NotificationType type, int messageResId) {
+		if (messageResId <= 0)
+			return;
+
 		showNotification(communicator.getRootView(), position, type, communicator.getRootView().getResources().getString(messageResId));
 	}
 
@@ -200,6 +203,9 @@ public class NotificationHelper {
 	}
 
 	public static void showNotification(ViewDataBinding binding, NotificationPosition position, NotificationType type, int messageResId) {
+		if (messageResId <= 0)
+			return;
+
 		showNotification(binding.getRoot(), position, type, binding.getRoot().getResources().getString(messageResId));
 	}
 
@@ -308,6 +314,9 @@ public class NotificationHelper {
 		NotificationPosition position,
 		NotificationType type,
 		int messageResId) {
+		if (messageResId <= 0)
+			return;
+
 		View rootView = communicator.getRootView();
 
 		if (rootView == null)
