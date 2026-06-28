@@ -169,9 +169,6 @@ public final class PersonHelper {
 		if (person == null) {
 			throw new ValidationRuntimeException(I18nProperties.getValidationError(Validations.validPerson));
 		}
-		if (StringUtils.isBlank(person.getPhone())) {
-			throw new ValidationRuntimeException(I18nProperties.getValidationError(Validations.specifyPrimaryPhoneNumber));
-		}
 		if (!DataHelper.isValidPhoneNumber(person.getPhone())) {
 			throw new ValidationRuntimeException(
 				I18nProperties
