@@ -2697,6 +2697,7 @@ public interface Captions {
 	String Sample_requestedPathogenTestsTags = "Sample.requestedPathogenTestsTags";
 	String Sample_sampleCode = "Sample.sampleCode";
 	String Sample_sampleDateTime = "Sample.sampleDateTime";
+	String Sample_sampleDateTimeTime = "Sample.sampleDateTimeTime";
 	String Sample_sampleMaterial = "Sample.sampleMaterial";
 	String Sample_sampleMaterialText = "Sample.sampleMaterialText";
 	String Sample_samplePurpose = "Sample.samplePurpose";

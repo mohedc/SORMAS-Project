@@ -40,6 +40,8 @@ public class DateTimeField extends CustomField<Date> {
 	private PopupDateField dateField;
 	private ComboBox timeField;
 	private String inputPrompt;
+	private String dateCaption;
+	private String timeCaption;
 
 	private Converter<Date, ?> converter;
 	boolean converterSet;
@@ -111,6 +113,12 @@ public class DateTimeField extends CustomField<Date> {
 		};
 		dateField.addValueChangeListener(validationValueChangeListener);
 		timeField.addValueChangeListener(validationValueChangeListener);
+
+		applySubFieldCaptions();
+		if (usesSplitCaptions()) {
+			super.setCaption(null);
+			dateField.setRequired(isRequired());
+		}
 
 		return layout;
 	}
@@ -209,5 +217,51 @@ public class DateTimeField extends CustomField<Date> {
 		if (dateField != null) {
 			dateField.setInputPrompt(inputPrompt);
 		}
+	}
+
+	public void setDateCaption(String dateCaption) {
+		this.dateCaption = dateCaption;
+		applySubFieldCaptions();
+		if (usesSplitCaptions()) {
+			super.setCaption(null);
+		}
+	}
+
+	public void setTimeCaption(String timeCaption) {
+		this.timeCaption = timeCaption;
+		applySubFieldCaptions();
+		if (usesSplitCaptions()) {
+			super.setCaption(null);
+		}
+	}
+
+	@Override
+	public void setCaption(String caption) {
+		if (usesSplitCaptions()) {
+			super.setCaption(null);
+			return;
+		}
+		super.setCaption(caption);
+	}
+
+	@Override
+	public void setRequired(boolean required) {
+		super.setRequired(required);
+		if (dateField != null && usesSplitCaptions()) {
+			dateField.setRequired(required);
+		}
+	}
+
+	private void applySubFieldCaptions() {
+		if (dateField != null && dateCaption != null) {
+			dateField.setCaption(dateCaption);
+		}
+		if (timeField != null && timeCaption != null) {
+			timeField.setCaption(timeCaption);
+		}
+	}
+
+	private boolean usesSplitCaptions() {
+		return dateCaption != null || timeCaption != null;
 	}
 }

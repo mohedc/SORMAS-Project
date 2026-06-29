@@ -37,6 +37,7 @@ import de.symeda.sormas.api.caze.CaseReferenceDto;
 import de.symeda.sormas.api.caze.IdsrType;
 import de.symeda.sormas.api.contact.ContactReferenceDto;
 import de.symeda.sormas.api.feature.FeatureType;
+import de.symeda.sormas.api.i18n.Captions;
 import de.symeda.sormas.api.i18n.Descriptions;
 import de.symeda.sormas.api.i18n.I18nProperties;
 import de.symeda.sormas.api.i18n.Strings;
@@ -276,6 +277,9 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 		 samplePurpose.addValueChangeListener(e -> updateRequestedTestFields());
 		addField(SampleDto.LAB_SAMPLE_ID, TextField.class);
 		final DateTimeField sampleDateField = addField(SampleDto.SAMPLE_DATE_TIME, DateTimeField.class);
+		sampleDateField.setDateCaption(I18nProperties.getPrefixCaption(SampleDto.I18N_PREFIX, SampleDto.SAMPLE_DATE_TIME));
+		sampleDateField.setTimeCaption(I18nProperties.getCaption(Captions.Sample_sampleDateTimeTime));
+		sampleDateField.setCaption(null);
 		sampleDateField.setInvalidCommitted(false);
 		sampleMaterialComboBox = addField(SampleDto.SAMPLE_MATERIAL, ComboBox.class);
 		addField(SampleDto.SAMPLE_MATERIAL_TEXT, TextField.class);
