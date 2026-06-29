@@ -18,12 +18,9 @@ package de.symeda.sormas.app.backend.person;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
-
 import de.symeda.sormas.api.PostResponse;
 import de.symeda.sormas.api.location.LocationDto;
 import de.symeda.sormas.api.person.PersonContactDetailDto;
-import de.symeda.sormas.api.person.PersonContactDetailType;
 import de.symeda.sormas.api.person.PersonDto;
 import de.symeda.sormas.api.person.PersonReferenceDto;
 import de.symeda.sormas.app.backend.common.AdoDtoHelper;
@@ -273,21 +270,9 @@ public class PersonDtoHelper extends AdoDtoHelper<Person, PersonDto> {
 		}
 		target.setAddresses(locationDtos);
 
-		List<PersonContactDetailDto> personContactDetailDtos = new ArrayList<>();
-		// Necessary because the person is synchronized independently
 		DatabaseHelper.getPersonDao().initPersonContactDetails(source);
-		for (PersonContactDetail personContactDetail : source.getPersonContactDetails()) {
-			PersonContactDetailDto personContactDetailDto = personContactDetailDtoHelper.adoToDto(personContactDetail);
-			personContactDetailDtos.add(personContactDetailDto);
-		}
-		PersonReferenceDto personReference = toReferenceDto(source);
-		String phone = source.getPhone() != null ? source.getPhone() : "";
-		String emailAddress = source.getEmailAddress() != null ? source.getEmailAddress() : "";
-		addPrimaryContactDetailIfMissing(personContactDetailDtos, personReference, phone, PersonContactDetailType.PHONE);
-		addPrimaryContactDetailIfMissing(personContactDetailDtos, personReference, emailAddress, PersonContactDetailType.EMAIL);
-		target.setPersonContactDetails(personContactDetailDtos);
-		target.setPhone(phone);
-		target.setEmailAddress(emailAddress);
+		target.setPersonContactDetails(
+			PersonPrimaryContactSync.buildContactDetailDtosForPush(source, toReferenceDto(source), personContactDetailDtoHelper));
 
 		target.setExternalId(source.getExternalId());
 		target.setExternalToken(source.getExternalToken());
@@ -311,23 +296,6 @@ public class PersonDtoHelper extends AdoDtoHelper<Person, PersonDto> {
 		target.setCaregiverTelephoneNumber(source.getCaregiverTelephoneNumber());
 		target.setApplicable(source.getApplicable());
 		target.setLocatingInfo(source.getLocatingInfo());
-	}
-
-	private static void addPrimaryContactDetailIfMissing(
-		List<PersonContactDetailDto> personContactDetailDtos,
-		PersonReferenceDto personReference,
-		String contactInformation,
-		PersonContactDetailType type) {
-
-		if (StringUtils.isBlank(contactInformation)) {
-			return;
-		}
-		boolean hasPrimary = personContactDetailDtos.stream()
-			.anyMatch(detail -> detail.isPrimaryContact() && detail.getPersonContactDetailType() == type);
-		if (!hasPrimary) {
-			personContactDetailDtos.add(
-				PersonContactDetailDto.build(personReference, true, type, null, null, contactInformation, null, false, null, null));
-		}
 	}
 
     @Override

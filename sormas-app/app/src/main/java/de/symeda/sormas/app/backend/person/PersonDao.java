@@ -16,7 +16,6 @@
 package de.symeda.sormas.app.backend.person;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,7 +28,6 @@ import com.j256.ormlite.stmt.Where;
 
 import android.util.Log;
 
-import de.symeda.sormas.api.person.PersonContactDetailType;
 import de.symeda.sormas.api.person.PersonNameDto;
 import de.symeda.sormas.api.person.PersonSimilarityCriteria;
 import de.symeda.sormas.api.utils.DataHelper;
@@ -143,7 +141,7 @@ public class PersonDao extends AbstractAdoDao<Person> {
 	public Person saveAndSnapshot(final Person person) throws DaoException {
 
 		final Person existingPerson = queryUuid(person.getUuid());
-		syncPrimaryContactDetailsWithFlatFields(person);
+		PersonPrimaryContactSync.syncFlatFieldsWithPrimaryContactDetails(person);
 		onPersonChanged(existingPerson, person);
 
 		Person snapshot = super.saveAndSnapshot(person);
@@ -180,8 +178,7 @@ public class PersonDao extends AbstractAdoDao<Person> {
 	}
 
 	/**
-	 * Ensures persons linked to locally new cases are marked modified and have primary phone contact details
-	 * before case push. Needed when a person was already accepted by the server without contact details.
+	 * Re-pushes persons linked to unsynced cases when their phone was stored locally but never reached the server.
 	 */
 	public void preparePersonsLinkedToNewCasesForPush() throws DaoException {
 		for (Case caze : DatabaseHelper.getCaseDao().queryForNew()) {
@@ -189,75 +186,11 @@ public class PersonDao extends AbstractAdoDao<Person> {
 				continue;
 			}
 			Person person = queryUuid(caze.getPerson().getUuid());
-			if (person == null) {
-				continue;
-			}
-			initPersonContactDetails(person);
-			syncPrimaryContactDetailsWithFlatFields(person);
-			if (StringUtils.isBlank(person.getPhone())) {
+			if (person == null || StringUtils.isBlank(person.getPhone())) {
 				continue;
 			}
 			person.setModified(true);
-			update(person);
-			DatabaseHelper.getPersonContactDetailDao()
-				.saveCollectionWithSnapshot(
-					DatabaseHelper.getPersonContactDetailDao().getByPerson(person),
-					person.getPersonContactDetails(),
-					person);
+			saveAndSnapshot(person);
 		}
-	}
-
-	/**
-	 * Keeps flat phone/email fields and primary {@link PersonContactDetail} entries in sync,
-	 * mirroring {@link de.symeda.sormas.api.person.PersonDto#setPhone(String)} on the web UI.
-	 */
-	private void syncPrimaryContactDetailsWithFlatFields(Person person) {
-		String primaryPhone = getPrimaryContactInformation(person, PersonContactDetailType.PHONE);
-		if (StringUtils.isNotBlank(primaryPhone)) {
-			person.setPhone(primaryPhone);
-		} else if (StringUtils.isNotBlank(person.getPhone())) {
-			syncPrimaryContactDetailFromField(person, person.getPhone(), PersonContactDetailType.PHONE);
-		}
-
-		String primaryEmail = getPrimaryContactInformation(person, PersonContactDetailType.EMAIL);
-		if (StringUtils.isNotBlank(primaryEmail)) {
-			person.setEmailAddress(primaryEmail);
-		} else if (StringUtils.isNotBlank(person.getEmailAddress())) {
-			syncPrimaryContactDetailFromField(person, person.getEmailAddress(), PersonContactDetailType.EMAIL);
-		}
-	}
-
-	private static String getPrimaryContactInformation(Person person, PersonContactDetailType type) {
-		if (person.getPersonContactDetails() == null) {
-			return null;
-		}
-		for (PersonContactDetail personContactDetail : person.getPersonContactDetails()) {
-			if (personContactDetail.getPersonContactDetailType() == type && personContactDetail.isPrimaryContact()) {
-				return personContactDetail.getContactInformation();
-			}
-		}
-		return null;
-	}
-
-	private void syncPrimaryContactDetailFromField(Person person, String contactInfo, PersonContactDetailType type) {
-		if (person.getPersonContactDetails() == null) {
-			person.setPersonContactDetails(new ArrayList<>());
-		}
-
-		for (PersonContactDetail personContactDetail : person.getPersonContactDetails()) {
-			if (personContactDetail.getPersonContactDetailType() == type && personContactDetail.isPrimaryContact()) {
-				if (StringUtils.equals(contactInfo, personContactDetail.getContactInformation())) {
-					return;
-				}
-				personContactDetail.setPrimaryContact(false);
-			}
-		}
-
-		PersonContactDetail primaryContactDetail = DatabaseHelper.getPersonContactDetailDao().build();
-		primaryContactDetail.setPerson(person);
-		primaryContactDetail.setPrimaryContact(true);
-		primaryContactDetail.setPersonContactDetailType(type);
-		primaryContactDetail.setContactInformation(contactInfo);
-		person.getPersonContactDetails().add(primaryContactDetail);
 	}
 }
