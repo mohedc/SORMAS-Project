@@ -635,7 +635,13 @@ public class PersonEditFragment extends BaseEditFragment<FragmentPersonEditLayou
 
 		if (disease != null) {
 			super.hideFieldsForDisease(disease, contentBinding.mainContent, FormType.PERSON_EDIT);
+			ensurePersonContactDetailsVisible(contentBinding.personContactDetailsLayout, contentBinding.personContactDetailsHeadline);
 		}
+	}
+
+	public static void ensurePersonContactDetailsVisible(View contactDetailsLayout, View contactDetailsHeadline) {
+		contactDetailsLayout.setVisibility(VISIBLE);
+		contactDetailsHeadline.setVisibility(VISIBLE);
 	}
 
 	public static void updatePassportNumberVisibility(View passportNumberField, AbstractDomainObject rootData) {

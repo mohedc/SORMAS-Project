@@ -601,6 +601,7 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 				personCreateForm.getField(PersonDto.NATIONAL_HEALTH_ID).setVisible(false);
 				personCreateForm.getField(PersonDto.EMAIL_ADDRESS).setVisible(false);
 				personCreateForm.getField(PersonDto.PRESENT_CONDITION).setVisible(false);
+				showRequiredPhoneField();
 			} else if (selectedDisease == Disease.CONGENITAL_RUBELLA || selectedDisease == Disease.CSM) {
 				// Show only Congenital Rubella/Meningitis CIF fields for New Case
 				handleCongenitalRubellaFields();
@@ -633,8 +634,7 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 					// Hide fields not in Measles/Yellow Fever CIF
 					Field<?> nationalHealthIdField = personCreateForm.getField(PersonDto.NATIONAL_HEALTH_ID);
 					if (nationalHealthIdField != null) nationalHealthIdField.setVisible(false);
-					Field<?> phoneField = personCreateForm.getField(PersonDto.PHONE);
-					if (phoneField != null) phoneField.setVisible(true);
+					showRequiredPhoneField();
 					Field<?> emailField = personCreateForm.getField(PersonDto.EMAIL_ADDRESS);
 					if (emailField != null) emailField.setVisible(false);
 					Field<?> presentConditionField = personCreateForm.getField(PersonDto.PRESENT_CONDITION);
@@ -647,6 +647,7 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 				personCreateForm.getField(PersonDto.EMAIL_ADDRESS).setVisible(false);
 				personCreateForm.getField(PersonDto.PRESENT_CONDITION).setVisible(false);
 				personCreateForm.getField(PersonDto.NATIONALITY).setVisible(false);
+				showRequiredPhoneField();
 			} else if(selectedDisease == Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS){
 
 				setVisible(true, ogCaseOrigin, epidField, diseaseField, responsibleRegionCombo, responsibleDistrictCombo, responsibleCommunityCombo,
@@ -655,6 +656,7 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 				personCreateForm.getField(PersonDto.NATIONAL_HEALTH_ID).setVisible(false);
 				personCreateForm.getField(PersonDto.EMAIL_ADDRESS).setVisible(false);
 				personCreateForm.getField(PersonDto.PRESENT_CONDITION).setVisible(false);
+				showRequiredPhoneField();
 			}
 
 			updateIdsrDiagnosisFields(selectedDisease);
@@ -772,8 +774,7 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 			if (nationalityField != null) nationalityField.setVisible(true);
 
 			// Phone and Present Condition
-			Field<?> phoneField = personCreateForm.getField(PersonDto.PHONE);
-			if (phoneField != null) phoneField.setVisible(true);
+			showRequiredPhoneField();
 			Field<?> presentConditionField = personCreateForm.getField(PersonDto.PRESENT_CONDITION);
 			if (presentConditionField != null) presentConditionField.setVisible(false);
 
@@ -1014,6 +1015,15 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 
 	public Window getWarningSimilarPersons() {
 		return warningSimilarPersons;
+	}
+
+	private void showRequiredPhoneField() {
+		if (personCreateForm != null) {
+			Field<?> phoneField = personCreateForm.getField(PersonDto.PHONE);
+			if (phoneField != null) {
+				phoneField.setVisible(true);
+			}
+		}
 	}
 
 	private final Set<Disease> mappedDiseases = EnumSet.of(

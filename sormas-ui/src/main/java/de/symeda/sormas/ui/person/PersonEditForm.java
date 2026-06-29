@@ -181,6 +181,9 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 					fluidRowLocs(PersonDto.PERSON_CONTACT_DETAILS)) +
 					loc(GENERAL_COMMENT_LOC) + fluidRowLocs(CaseDataDto.ADDITIONAL_DETAILS);
 
+	private static final String CONTACT_DETAILS_SECTION =
+		loc(CONTACT_INFORMATION_HEADER) + divsCss(VSPACE_3, fluidRowLocs(PersonDto.PERSON_CONTACT_DETAILS));
+
 	// Disease-specific layouts
 	private static final String MEASLES_LAYOUT =
 			loc(PERSON_INFORMATION_HEADING_LOC) +
@@ -196,7 +199,8 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 					fluidRowLocs(PersonDto.PASSPORT_NUMBER, "") +
 					fluidRowLocs(PersonDto.MOTHERS_NAME, PersonDto.FATHERS_NAME)+
 					  loc(ADDRESS_HEADER) +
-                    divsCss(VSPACE_3, fluidRowLocs(PersonDto.ADDRESS));
+                    divsCss(VSPACE_3, fluidRowLocs(PersonDto.ADDRESS)) +
+					CONTACT_DETAILS_SECTION;
 
 	private static final String YELLOW_FEVER_LAYOUT =
 			loc(PERSON_INFORMATION_HEADING_LOC) +
@@ -211,7 +215,8 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 					fluidRowLocs(PersonDto.NATIONALITY, PersonDto.PASSPORT_NUMBER) +
 					fluidRowLocs(PersonDto.MOTHERS_NAME, PersonDto.FATHERS_NAME) +
 					  loc(ADDRESS_HEADER) +
-                    divsCss(VSPACE_3, fluidRowLocs(PersonDto.ADDRESS));
+                    divsCss(VSPACE_3, fluidRowLocs(PersonDto.ADDRESS)) +
+					CONTACT_DETAILS_SECTION;
 
 	private static final String RUBELLA_LAYOUT =
 			loc(PERSON_INFORMATION_HEADING_LOC) +
@@ -230,7 +235,8 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 					divsCss(VSPACE_3, fluidRowLocs(PersonDto.ADDRESS)) +
 					fluidRowLocs(PersonDto.LOCATION_OF_BIRTH, PersonDto.CURRENT_WEIGHT) +
 					fluidRowLocs(PersonDto.GESTATION_AGE_AT_BIRTH, PersonDto.BIRTH_WEIGHT) +
-					fluidRowLocs(PersonDto.MOTHERS_NAME, PersonDto.CAREGIVER_TELEPHONE_NUMBER);
+					fluidRowLocs(PersonDto.MOTHERS_NAME, PersonDto.CAREGIVER_TELEPHONE_NUMBER) +
+					CONTACT_DETAILS_SECTION;
 
 	private static final String MENINGITIS_LAYOUT =
 			loc(PERSON_INFORMATION_HEADING_LOC) +
@@ -249,7 +255,8 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 					divsCss(VSPACE_3, fluidRowLocs(PersonDto.ADDRESS)) +
 					fluidRowLocs(PersonDto.MOTHERS_NAME, PersonDto.MOTHERS_PHONE_NUMBER) +
 					fluidRowLocs(PersonDto.FATHERS_NAME, PersonDto.FATHERS_PHONE_NUMBER) +
-					fluidRowLocs(PersonDto.CAREGIVER_NAME, PersonDto.CAREGIVER_TELEPHONE_NUMBER);
+					fluidRowLocs(PersonDto.CAREGIVER_NAME, PersonDto.CAREGIVER_TELEPHONE_NUMBER) +
+					CONTACT_DETAILS_SECTION;
 
 	private static final String AFP_LAYOUT =
 			loc(PERSON_INFORMATION_HEADING_LOC) +
@@ -264,7 +271,8 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 					fluidRowLocs(PersonDto.PASSPORT_NUMBER, "") +
 					fluidRowLocs(PersonDto.MOTHERS_NAME, PersonDto.FATHERS_NAME) +
 					loc(ADDRESS_HEADER) +
-					divsCss(VSPACE_3, fluidRowLocs(PersonDto.ADDRESS));
+					divsCss(VSPACE_3, fluidRowLocs(PersonDto.ADDRESS)) +
+					CONTACT_DETAILS_SECTION;
 
 	private static final String NNT_LAYOUT =
 			loc(PERSON_INFORMATION_HEADING_LOC) +
@@ -291,7 +299,8 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 					fluidRowLocs(PersonDto.PLACE_OF_BIRTH_REGION, PersonDto.PLACE_OF_BIRTH_DISTRICT, PersonDto.PLACE_OF_BIRTH_COMMUNITY) +
 					fluidRowLocs(PersonDto.PLACE_OF_BIRTH_FACILITY_TYPE, PersonDto.PLACE_OF_BIRTH_FACILITY, PersonDto.PLACE_OF_BIRTH_FACILITY_DETAILS) +
 					fluidRowLocs(PersonDto.PRENATAL_TOTAL_VISITS, PersonDto.ATTENDED_BY_TRAINED_TBA)+
-					fluidRowLocs(PersonDto.ATTENDED_BY_TRAINED_TBA_MIDWIFE_NAME, PersonDto.ATTENDED_BY_DOCTOR_NURSE));
+					fluidRowLocs(PersonDto.ATTENDED_BY_TRAINED_TBA_MIDWIFE_NAME, PersonDto.ATTENDED_BY_DOCTOR_NURSE)) +
+					CONTACT_DETAILS_SECTION;
 
 
 	private static final String IDSR_LAYOUT =
@@ -310,7 +319,8 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 					divsCss(VSPACE_3, fluidRowLocs(PersonDto.ADDRESS)) +
 					fluidRowLocs(PersonDto.LOCATING_INFO) +
 					fluidRowLocs(6,PersonDto.APPLICABLE) +
-					fluidRowLocs(PersonDto.MOTHERS_NAME, PersonDto.FATHERS_NAME);
+					fluidRowLocs(PersonDto.MOTHERS_NAME, PersonDto.FATHERS_NAME) +
+					CONTACT_DETAILS_SECTION;
 
 	private final Label occupationHeader = new Label(I18nProperties.getString(Strings.headingPersonOccupation));
 	private final Label addressHeader = new Label(I18nProperties.getPrefixCaption(PersonDto.I18N_PREFIX, PersonDto.ADDRESS));

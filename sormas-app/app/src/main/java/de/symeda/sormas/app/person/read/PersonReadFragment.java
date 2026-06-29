@@ -131,6 +131,9 @@ public class PersonReadFragment extends BaseReadFragment<FragmentPersonReadLayou
 		Disease disease = getDisease(rootData);
 		if (disease != null) {
 			fragment.hideFieldsForDisease(disease, contentBinding.mainContent, FormType.PERSON_EDIT);
+			PersonEditFragment.ensurePersonContactDetailsVisible(
+				contentBinding.personContactDetailsLayout,
+				contentBinding.personContactDetailsHeadline);
 		}
 
 		InfrastructureDaoHelper.initializeHealthFacilityDetailsFieldVisibility(

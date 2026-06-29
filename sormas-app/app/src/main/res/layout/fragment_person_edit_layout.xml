@@ -793,6 +793,7 @@
                 android:layout_marginBottom="@dimen/parentLayoutVerticalPadding">
 
                 <RelativeLayout
+                    android:id="@+id/personContactDetails_headline_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:alternateBottomMarginIfEmpty="@{personContactDetailList}"
