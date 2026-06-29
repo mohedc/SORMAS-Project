@@ -327,7 +327,9 @@ public class SynchronizeDataAsync extends AsyncTask<Void, Void, Void> {
 	@AddTrace(name = "pushNewDataTrace")
 	private void pushNewData() throws ServerCommunicationException, ServerConnectionException, DaoException, NoConnectionException {
 
+		DatabaseHelper.getPersonDao().preparePersonsLinkedToNewCasesForPush();
 		new PersonDtoHelper().pushEntities(true, syncCallbacks);
+		new PersonDtoHelper().pushEntities(false, syncCallbacks);
 		new CaseDtoHelper().pushEntities(true, syncCallbacks);
 		new ImmunizationDtoHelper().pushEntities(true, syncCallbacks);
 		new EventDtoHelper().pushEntities(true, syncCallbacks);

@@ -33,6 +33,7 @@ import de.symeda.sormas.api.person.PersonContactDetailType;
 import de.symeda.sormas.api.person.PersonNameDto;
 import de.symeda.sormas.api.person.PersonSimilarityCriteria;
 import de.symeda.sormas.api.utils.DataHelper;
+import de.symeda.sormas.app.backend.caze.Case;
 import de.symeda.sormas.app.backend.common.AbstractAdoDao;
 import de.symeda.sormas.app.backend.common.AbstractDomainObject;
 import de.symeda.sormas.app.backend.common.DaoException;
@@ -176,6 +177,34 @@ public class PersonDao extends AbstractAdoDao<Person> {
 	public Person initPersonContactDetails(Person person) {
 		person.setPersonContactDetails(DatabaseHelper.getPersonContactDetailDao().getByPerson(person));
 		return person;
+	}
+
+	/**
+	 * Ensures persons linked to locally new cases are marked modified and have primary phone contact details
+	 * before case push. Needed when a person was already accepted by the server without contact details.
+	 */
+	public void preparePersonsLinkedToNewCasesForPush() throws DaoException {
+		for (Case caze : DatabaseHelper.getCaseDao().queryForNew()) {
+			if (caze.getPerson() == null) {
+				continue;
+			}
+			Person person = queryUuid(caze.getPerson().getUuid());
+			if (person == null) {
+				continue;
+			}
+			initPersonContactDetails(person);
+			syncPrimaryContactDetailsWithFlatFields(person);
+			if (StringUtils.isBlank(person.getPhone())) {
+				continue;
+			}
+			person.setModified(true);
+			update(person);
+			DatabaseHelper.getPersonContactDetailDao()
+				.saveCollectionWithSnapshot(
+					DatabaseHelper.getPersonContactDetailDao().getByPerson(person),
+					person.getPersonContactDetails(),
+					person);
+		}
 	}
 
 	/**

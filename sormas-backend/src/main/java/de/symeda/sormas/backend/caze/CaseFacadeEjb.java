@@ -169,6 +169,7 @@ import de.symeda.sormas.api.person.PersonDto;
 import de.symeda.sormas.api.person.PersonHelper;
 import de.symeda.sormas.api.person.PersonReferenceDto;
 import de.symeda.sormas.api.person.PresentCondition;
+import de.symeda.sormas.api.RequestContextHolder;
 import de.symeda.sormas.api.person.Sex;
 import de.symeda.sormas.api.sample.AdditionalTestDto;
 import de.symeda.sormas.api.sample.PathogenTestDto;
@@ -1500,7 +1501,9 @@ public class CaseFacadeEjb extends AbstractCoreFacadeEjb<Case, CaseDataDto, Case
 		CaseDataDto caseDto = coreAndPersonDto.getCoreData();
 		CoreAndPersonDto savedCoreAndPersonDto = new CoreAndPersonDto();
 		if (coreAndPersonDto.getPerson() != null) {
-			PersonHelper.validateRequiredFieldsForCaseCreation(coreAndPersonDto.getPerson());
+			if (!RequestContextHolder.isMobileSync()) {
+				PersonHelper.validateRequiredFieldsForCaseCreation(coreAndPersonDto.getPerson());
+			}
 			PersonDto newlyCreatedPersonDto = personFacade.save(coreAndPersonDto.getPerson());
 			caseDto.setPerson(newlyCreatedPersonDto.toReference());
 			savedCoreAndPersonDto.setPerson(newlyCreatedPersonDto);
@@ -1737,7 +1740,7 @@ public class CaseFacadeEjb extends AbstractCoreFacadeEjb<Case, CaseDataDto, Case
 			validate(dto);
 		}
 
-		if (existingCaze == null && dto.getPerson() != null) {
+		if (existingCaze == null && dto.getPerson() != null && !RequestContextHolder.isMobileSync()) {
 			PersonHelper.validateRequiredFieldsForCaseCreation(personFacade.getByUuid(dto.getPerson().getUuid()));
 		}
 

@@ -18,6 +18,8 @@ package de.symeda.sormas.app.backend.person;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
 import de.symeda.sormas.api.PostResponse;
 import de.symeda.sormas.api.location.LocationDto;
 import de.symeda.sormas.api.person.PersonContactDetailDto;
@@ -275,17 +277,17 @@ public class PersonDtoHelper extends AdoDtoHelper<Person, PersonDto> {
 		// Necessary because the person is synchronized independently
 		DatabaseHelper.getPersonDao().initPersonContactDetails(source);
 		for (PersonContactDetail personContactDetail : source.getPersonContactDetails()) {
-			if (personContactDetail.isPrimaryContact()
-				&& (personContactDetail.getPersonContactDetailType() == PersonContactDetailType.PHONE
-					|| personContactDetail.getPersonContactDetailType() == PersonContactDetailType.EMAIL)) {
-				continue;
-			}
 			PersonContactDetailDto personContactDetailDto = personContactDetailDtoHelper.adoToDto(personContactDetail);
 			personContactDetailDtos.add(personContactDetailDto);
 		}
+		PersonReferenceDto personReference = toReferenceDto(source);
+		String phone = source.getPhone() != null ? source.getPhone() : "";
+		String emailAddress = source.getEmailAddress() != null ? source.getEmailAddress() : "";
+		addPrimaryContactDetailIfMissing(personContactDetailDtos, personReference, phone, PersonContactDetailType.PHONE);
+		addPrimaryContactDetailIfMissing(personContactDetailDtos, personReference, emailAddress, PersonContactDetailType.EMAIL);
 		target.setPersonContactDetails(personContactDetailDtos);
-		target.setPhone(source.getPhone() != null ? source.getPhone() : "");
-		target.setEmailAddress(source.getEmailAddress() != null ? source.getEmailAddress() : "");
+		target.setPhone(phone);
+		target.setEmailAddress(emailAddress);
 
 		target.setExternalId(source.getExternalId());
 		target.setExternalToken(source.getExternalToken());
@@ -309,6 +311,23 @@ public class PersonDtoHelper extends AdoDtoHelper<Person, PersonDto> {
 		target.setCaregiverTelephoneNumber(source.getCaregiverTelephoneNumber());
 		target.setApplicable(source.getApplicable());
 		target.setLocatingInfo(source.getLocatingInfo());
+	}
+
+	private static void addPrimaryContactDetailIfMissing(
+		List<PersonContactDetailDto> personContactDetailDtos,
+		PersonReferenceDto personReference,
+		String contactInformation,
+		PersonContactDetailType type) {
+
+		if (StringUtils.isBlank(contactInformation)) {
+			return;
+		}
+		boolean hasPrimary = personContactDetailDtos.stream()
+			.anyMatch(detail -> detail.isPrimaryContact() && detail.getPersonContactDetailType() == type);
+		if (!hasPrimary) {
+			personContactDetailDtos.add(
+				PersonContactDetailDto.build(personReference, true, type, null, null, contactInformation, null, false, null, null));
+		}
 	}
 
     @Override
