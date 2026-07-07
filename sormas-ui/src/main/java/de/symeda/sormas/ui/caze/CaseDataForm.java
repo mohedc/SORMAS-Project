@@ -630,6 +630,14 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 		return disease;
 	}
 
+	private boolean hideCaseConfirmationBasisField() {
+		return disease == Disease.MEASLES;
+	}
+
+	private boolean hideCaseConfirmationDetailFields() {
+		return disease == Disease.CORONAVIRUS;
+	}
+
 	public static void updateFacilityDetails(ComboBox cbFacility, TextField tfFacilityDetails) {
 		updateFacilityDetails(cbFacility, tfFacilityDetails, null);
 	}
@@ -903,35 +911,46 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 			ComboBox caseConfirmationBasisCombo = addCustomField(CASE_CONFIRMATION_BASIS, CaseConfirmationBasis.class, ComboBox.class);
 
 			boolean extendedClassificationMulti = FacadeProvider.getDiseaseConfigurationFacade().usesExtendedClassificationMulti(disease);
+			boolean hideCaseConfirmationBasisField = hideCaseConfirmationBasisField();
+			boolean hideCaseConfirmationDetailFields = hideCaseConfirmationDetailFields();
 
 			if (extendedClassificationMulti) {
 				caseConfirmationBasisCombo.setVisible(false);
+				if (hideCaseConfirmationDetailFields) {
+					clinicalConfirmationCombo.setVisible(false);
+					epidemiologicalConfirmationCombo.setVisible(false);
+					laboratoryConfirmationCombo.setVisible(false);
+				}
 			} else {
-				caseConfirmationBasisCombo.addValueChangeListener(field -> {
-					clinicalConfirmationCombo.setValue(null);
-					epidemiologicalConfirmationCombo.setValue(null);
-					laboratoryConfirmationCombo.setValue(null);
+				if (hideCaseConfirmationBasisField) {
+					caseConfirmationBasisCombo.setVisible(false);
+				} else {
+					caseConfirmationBasisCombo.addValueChangeListener(field -> {
+						clinicalConfirmationCombo.setValue(null);
+						epidemiologicalConfirmationCombo.setValue(null);
+						laboratoryConfirmationCombo.setValue(null);
 
-					if (caseConfirmationBasisCombo.getValue() != null) {
-						switch ((CaseConfirmationBasis) caseConfirmationBasisCombo.getValue()) {
-						case CLINICAL_CONFIRMATION:
-							clinicalConfirmationCombo.setValue(YesNoUnknown.YES);
-							break;
-						case EPIDEMIOLOGICAL_CONFIRMATION:
-							epidemiologicalConfirmationCombo.setValue(YesNoUnknown.YES);
-							break;
-						case LABORATORY_DIAGNOSTIC_CONFIRMATION:
-							laboratoryConfirmationCombo.setValue(YesNoUnknown.YES);
-							break;
+						if (caseConfirmationBasisCombo.getValue() != null) {
+							switch ((CaseConfirmationBasis) caseConfirmationBasisCombo.getValue()) {
+							case CLINICAL_CONFIRMATION:
+								clinicalConfirmationCombo.setValue(YesNoUnknown.YES);
+								break;
+							case EPIDEMIOLOGICAL_CONFIRMATION:
+								epidemiologicalConfirmationCombo.setValue(YesNoUnknown.YES);
+								break;
+							case LABORATORY_DIAGNOSTIC_CONFIRMATION:
+								laboratoryConfirmationCombo.setValue(YesNoUnknown.YES);
+								break;
+							}
 						}
-					}
-				});
+					});
 
-				FieldHelper.setVisibleWhen(
-					getField(CaseDataDto.CASE_CLASSIFICATION),
-					Collections.singletonList(caseConfirmationBasisCombo),
-					Collections.singletonList(CaseClassification.CONFIRMED),
-					true);
+					FieldHelper.setVisibleWhen(
+						getField(CaseDataDto.CASE_CLASSIFICATION),
+						Collections.singletonList(caseConfirmationBasisCombo),
+						Collections.singletonList(CaseClassification.CONFIRMED),
+						true);
+				}
 				clinicalConfirmationCombo.setVisible(false);
 				epidemiologicalConfirmationCombo.setVisible(false);
 				laboratoryConfirmationCombo.setVisible(false);

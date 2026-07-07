@@ -265,9 +265,13 @@ public class CaseEditFragment extends BaseEditFragment<FragmentCaseEditLayoutBin
 	}
 
 	private void updateCaseConfirmationBasis(FragmentCaseEditLayoutBinding contentBinding) {
+		Disease disease = record.getDisease();
+		if (hideCaseConfirmationBasisField(disease) || hideCaseConfirmationDetailFields(disease)) {
+			return;
+		}
 
-		boolean extendedClassification = DiseaseConfigurationCache.getInstance().usesExtendedClassification(record.getDisease());
-		boolean extendedClassificationMulti = DiseaseConfigurationCache.getInstance().usesExtendedClassificationMulti(record.getDisease());
+		boolean extendedClassification = DiseaseConfigurationCache.getInstance().usesExtendedClassification(disease);
+		boolean extendedClassificationMulti = DiseaseConfigurationCache.getInstance().usesExtendedClassificationMulti(disease);
 
 		if (extendedClassification) {
 			if (extendedClassificationMulti) {
@@ -323,20 +327,23 @@ public class CaseEditFragment extends BaseEditFragment<FragmentCaseEditLayoutBin
 	private void updateCaseConfirmationVisibility(FragmentCaseEditLayoutBinding contentBinding) {
 
 		Disease disease = record.getDisease();
+		boolean hideCaseConfirmationBasisField = hideCaseConfirmationBasisField(disease);
+		boolean hideCaseConfirmationDetailFields = hideCaseConfirmationDetailFields(disease);
 		boolean extendedClassification = DiseaseConfigurationCache.getInstance().usesExtendedClassification(disease);
 		if (extendedClassification) {
 			boolean extendedClassificationMulti = DiseaseConfigurationCache.getInstance().usesExtendedClassificationMulti(disease);
 			if (extendedClassificationMulti) {
-				contentBinding.caseDataClinicalConfirmation.setVisibility(VISIBLE);
-				contentBinding.caseDataEpidemiologicalConfirmation.setVisibility(VISIBLE);
-				contentBinding.caseDataLaboratoryDiagnosticConfirmation.setVisibility(VISIBLE);
+				contentBinding.caseDataClinicalConfirmation.setVisibility(hideCaseConfirmationDetailFields ? GONE : VISIBLE);
+				contentBinding.caseDataEpidemiologicalConfirmation.setVisibility(hideCaseConfirmationDetailFields ? GONE : VISIBLE);
+				contentBinding.caseDataLaboratoryDiagnosticConfirmation.setVisibility(hideCaseConfirmationDetailFields ? GONE : VISIBLE);
 				contentBinding.caseDataCaseConfirmationBasis.setVisibility(GONE);
 			} else {
 				contentBinding.caseDataClinicalConfirmation.setVisibility(GONE);
 				contentBinding.caseDataEpidemiologicalConfirmation.setVisibility(GONE);
 				contentBinding.caseDataLaboratoryDiagnosticConfirmation.setVisibility(GONE);
 				contentBinding.caseDataCaseConfirmationBasis
-					.setVisibility(record.getCaseClassification() == CaseClassification.CONFIRMED ? VISIBLE : GONE);
+					.setVisibility(
+						!hideCaseConfirmationBasisField && record.getCaseClassification() == CaseClassification.CONFIRMED ? VISIBLE : GONE);
 			}
 		} else {
 			contentBinding.caseDataClinicalConfirmation.setVisibility(GONE);
@@ -344,6 +351,14 @@ public class CaseEditFragment extends BaseEditFragment<FragmentCaseEditLayoutBin
 			contentBinding.caseDataLaboratoryDiagnosticConfirmation.setVisibility(GONE);
 			contentBinding.caseDataCaseConfirmationBasis.setVisibility(GONE);
 		}
+	}
+
+	private boolean hideCaseConfirmationBasisField(Disease disease) {
+		return disease == Disease.MEASLES;
+	}
+
+	private boolean hideCaseConfirmationDetailFields(Disease disease) {
+		return disease == Disease.CORONAVIRUS;
 	}
 
 	private void setUpButtonListeners(FragmentCaseEditLayoutBinding contentBinding) {
@@ -464,12 +479,14 @@ public class CaseEditFragment extends BaseEditFragment<FragmentCaseEditLayoutBin
 
 			if (extendedClassification) {
 				if (extendedClassificationMulti) {
-					contentBinding.caseDataClinicalConfirmation.addValueChangedListener(field -> updateCaseConfirmationBasis(getContentBinding()));
-					contentBinding.caseDataEpidemiologicalConfirmation
-						.addValueChangedListener(field -> updateCaseConfirmationBasis(getContentBinding()));
-					contentBinding.caseDataLaboratoryDiagnosticConfirmation
-						.addValueChangedListener(field -> updateCaseConfirmationBasis(getContentBinding()));
-				} else {
+					if (!hideCaseConfirmationDetailFields(record.getDisease())) {
+						contentBinding.caseDataClinicalConfirmation.addValueChangedListener(field -> updateCaseConfirmationBasis(getContentBinding()));
+						contentBinding.caseDataEpidemiologicalConfirmation
+							.addValueChangedListener(field -> updateCaseConfirmationBasis(getContentBinding()));
+						contentBinding.caseDataLaboratoryDiagnosticConfirmation
+							.addValueChangedListener(field -> updateCaseConfirmationBasis(getContentBinding()));
+					}
+				} else if (!hideCaseConfirmationBasisField(record.getDisease())) {
 					contentBinding.caseDataCaseConfirmationBasis.addValueChangedListener(field -> updateCaseConfirmationBasis(getContentBinding()));
 				}
 			}
