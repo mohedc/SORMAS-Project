@@ -268,8 +268,10 @@ public final class PersonValidator {
 	private static void updateAgeOrBirthDateRequirementIndicator(FragmentCaseNewLayoutBinding contentBinding) {
 		boolean ageOrBirthDateProvided = isAgeOrBirthDateProvided(contentBinding);
 		boolean required = !ageOrBirthDateProvided;
+		boolean ageValueProvided = !StringUtils.isEmpty(contentBinding.personApproximateAge.getValue());
 
 		contentBinding.personApproximateAge.setRequired(required);
+		contentBinding.personApproximateAgeType.setRequired(ageValueProvided || required);
 		updateBirthDateLabel(contentBinding.personBirthdateLabel, required);
 	}
 

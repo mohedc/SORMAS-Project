@@ -274,6 +274,9 @@ public class PersonCreateForm extends AbstractEditForm<PersonDto> {
 
 	public void applyCaseCreationRequirements() {
 		setRequired(true, PersonDto.PHONE);
+		if (!getField(PersonDto.PHONE).isRequired()) {
+			getField(PersonDto.PHONE).setRequired(true);
+		}
 		addCaseCreationAgeValidation();
 	}
 
@@ -293,20 +296,35 @@ public class PersonCreateForm extends AbstractEditForm<PersonDto> {
 		getField(PersonDto.BIRTH_DATE_YYYY).addValidator(ageOrBirthDateValidator);
 		approximateAgeField.addValidator(ageOrBirthDateValidator);
 
-		approximateAgeField.addValueChangeListener(event -> updateApproximateAgeTypeRequirement());
+		approximateAgeField.addValueChangeListener(event -> {
+			updateApproximateAgeTypeRequirement();
+			updateAgeOrBirthDateRequirementIndicator();
+		});
+		getField(PersonDto.BIRTH_DATE_YYYY).addValueChangeListener(event -> {
+			updateApproximateAgeTypeRequirement();
+			updateAgeOrBirthDateRequirementIndicator();
+		});
+		approximateAgeTypeField.addValueChangeListener(event -> updateAgeOrBirthDateRequirementIndicator());
 		updateApproximateAgeTypeRequirement();
+		updateAgeOrBirthDateRequirementIndicator();
 	}
 
 	private void updateApproximateAgeTypeRequirement() {
 		String ageValue = approximateAgeField.getValue();
 		boolean ageProvided = StringUtils.isNotBlank(ageValue);
-		setRequired(ageProvided, PersonDto.APPROXIMATE_AGE_TYPE);
+		boolean requireAgeTypeForMissingAgeOrBirthDate = !isAgeOrBirthDateProvided() && !ageProvided;
+		setRequired(ageProvided || requireAgeTypeForMissingAgeOrBirthDate, PersonDto.APPROXIMATE_AGE_TYPE);
 		if (ageProvided && approximateAgeTypeField.getValue() == null) {
 			approximateAgeTypeField.setValue(ApproximateAgeType.YEARS);
 		}
-		if (!ageProvided) {
+		if (!ageProvided && !requireAgeTypeForMissingAgeOrBirthDate) {
 			approximateAgeTypeField.setValue(null);
 		}
+	}
+
+	private void updateAgeOrBirthDateRequirementIndicator() {
+		boolean required = !isAgeOrBirthDateProvided();
+		setRequired(required, PersonDto.APPROXIMATE_AGE, PersonDto.BIRTH_DATE_YYYY);
 	}
 
 	private boolean isAgeOrBirthDateProvided() {
