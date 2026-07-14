@@ -318,7 +318,7 @@ public class LoginScreen extends CssLayout {
 //
 //		loginSidebarLayout.addComponent(poweredByLayout);
 
-        Image gambiaHealthImg = new Image(null, new ThemeResource("img/sponsors-logo.png"));
+        Image gambiaHealthImg = new Image(null, new ThemeResource("img/sponsors-logos.png"));
         gambiaHealthImg.setWidth(isCustomBranding ? CUSTOM_BRANDING_LOGO_WIDTH : SPONSOR_WIDTHS, Unit.PIXELS);
         poweredByLayout.addComponent(gambiaHealthImg);
 
