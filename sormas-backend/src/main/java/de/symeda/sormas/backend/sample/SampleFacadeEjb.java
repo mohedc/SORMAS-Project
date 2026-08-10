@@ -374,6 +374,8 @@ public class SampleFacadeEjb implements SampleFacade {
 
 		restorePseudonymizedDto(dto, existingSample, existingSampleDto);
 
+		validateReceivalRight(dto, existingSampleDto, internal && handleChanges);
+
 		Sample sample = fillOrBuildEntity(dto, existingSample, checkChangeDate);
 
 		// Set defaults for testing requests
@@ -433,6 +435,72 @@ public class SampleFacadeEjb implements SampleFacade {
 			.values();
 
 		return toPseudonymizedDtos(new ArrayList<>(entities));
+	}
+
+	/**
+	 * Reading of {@link SampleDto#RECEIVAL_PROPERTIES}, kept in the same order, so that a newly restricted property only has to be added
+	 * to that list and here.
+	 */
+	private static final List<Function<SampleDto, Object>> RECEIVAL_PROPERTY_READERS = Collections.unmodifiableList(
+		Arrays.asList(
+			SampleDto::isReceived,
+			SampleDto::getReceivedDate,
+			SampleDto::getLabSampleID,
+			SampleDto::getSpecimenCondition,
+			SampleDto::getNoTestPossibleReason,
+			SampleFacadeEjb::readPathogenTestResult,
+			SampleDto::getSampleContainerReceived,
+			SampleDto::getSampleContainerReceivedOther,
+			SampleDto::getCsfAppearanceAtReception,
+			SampleDto::getSampleConditionAtReception,
+			SampleDto::getDateSpecimenReceivedAtRegionalReferenceLab,
+			SampleDto::getDateSpecimenReceivedAtNationalLab,
+			SampleDto::getDateSpecimenReceivedNationalLevel,
+			SampleDto::getDateSpecimenReceivedInter,
+			SampleDto::getStatusSpecimenReceptionAtLab,
+			SampleDto::getElisaIgm,
+			SampleDto::getElisaIgmDate,
+			SampleDto::getPcr,
+			SampleDto::getPcrDate,
+			SampleDto::getPrnt,
+			SampleDto::getPrntInputValue,
+			SampleDto::getPrntDate));
+
+	/**
+	 * Receiving a sample and recording what the laboratory finds on arrival is reserved for laboratory personnel; see
+	 * {@link UserRight#SAMPLE_EDIT_RECEIVAL}. Enforced here so that neither the mobile app nor a hand-crafted request can bypass the
+	 * restriction the sample form applies.
+	 *
+	 * @param userInitiated
+	 *            {@code false} identifies system-internal saves - case/sample cloning and SORMAS to SORMAS synchronization - which must
+	 *            not be rejected because they don't represent a user entering laboratory data.
+	 */
+	private void validateReceivalRight(SampleDto sample, SampleDto existingSample, boolean userInitiated) throws AccessDeniedException {
+
+		if (!userInitiated || userService.hasRight(UserRight.SAMPLE_EDIT_RECEIVAL)) {
+			return;
+		}
+
+		boolean receivalChanged = existingSample == null
+			// A newly created sample must not carry any laboratory data yet, no matter who reports it
+			? RECEIVAL_PROPERTY_READERS.stream().anyMatch(reader -> isSet(reader.apply(sample)))
+			: RECEIVAL_PROPERTY_READERS.stream().anyMatch(reader -> !DataHelper.equal(reader.apply(sample), reader.apply(existingSample)));
+
+		if (receivalChanged) {
+			throw new AccessDeniedException(I18nProperties.getString(Strings.errorSampleNoReceivalRight));
+		}
+	}
+
+	/**
+	 * {@code null} and {@link PathogenTestResultType#PENDING} both mean "the laboratory hasn't reported a result yet". Samples are built
+	 * with PENDING while older ones can still have no result at all, so the two must not count as a change.
+	 */
+	private static Object readPathogenTestResult(SampleDto sample) {
+		return sample.getPathogenTestResult() == PathogenTestResultType.PENDING ? null : sample.getPathogenTestResult();
+	}
+
+	private static boolean isSet(Object value) {
+		return value != null && !Boolean.FALSE.equals(value);
 	}
 
 	@Override

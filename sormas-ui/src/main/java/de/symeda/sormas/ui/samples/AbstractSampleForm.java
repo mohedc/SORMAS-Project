@@ -199,7 +199,8 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 					locCss(VSPACE_TOP_3, SampleDto.RECEIVED) +
 					fluidRowLocs(SampleDto.RECEIVED_DATE, SampleDto.LAB_SAMPLE_ID) +
 					fluidRowLocs(SampleDto.SAMPLE_CONTAINER_RECEIVED, SampleDto.SAMPLE_CONTAINER_RECEIVED_OTHER) +
-					fluidRowLocs(SampleDto.CSF_APPEARANCE_AT_RECEPTION, SampleDto.SPECIMEN_CONDITION);
+					fluidRowLocs(SampleDto.CSF_APPEARANCE_AT_RECEPTION, SampleDto.SPECIMEN_CONDITION) +
+					fluidRowLocs(SampleDto.PATHOGEN_TEST_RESULT);
 
 	protected static final String AFP_HTML_LAYOUT =
 			loc(STOOL_SPECIMEN_COLLECTION_HEADLINE_LOC) +
@@ -227,7 +228,8 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 					fluidRowLocs(SampleDto.PRNT, SampleDto.PRNT_INPUT_VALUE) +
 					fluidRowLocs(6, SampleDto.PRNT_DATE) +
 					fluidRowLocs(6, SampleDto.DATE_SPECIMEN_RECEIVED_NATIONAL_LEVEL) +
-					fluidRowLocs(SampleDto.DATE_SPECIMEN_RECEIVED_INTERCOUNTY_NATLAB, SampleDto.STATUS_SPECIMEN_RECEPTION_AT_LAB);
+					fluidRowLocs(SampleDto.DATE_SPECIMEN_RECEIVED_INTERCOUNTY_NATLAB, SampleDto.STATUS_SPECIMEN_RECEPTION_AT_LAB) +
+					fluidRowLocs(SampleDto.PATHOGEN_TEST_RESULT);
 
 	protected static final String CONGENITAL_RUBELLA_HTML_LAYOUT =
 			fluidRowLocs(4, SampleDto.UUID, 4, REPORT_INFO_LABEL_LOC, 3, SampleDto.REPORTING_USER, 1, "") +
@@ -254,7 +256,8 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 					fluidRowLocs(SampleDto.SHIPMENT_DATE, SampleDto.SHIPMENT_DETAILS) +
 					locCss(VSPACE_TOP_3, SampleDto.RECEIVED) +
 					fluidRowLocs(SampleDto.RECEIVED_DATE, SampleDto.LAB_SAMPLE_ID) +
-					fluidRowLocs(6, SampleDto.SPECIMEN_CONDITION);
+					fluidRowLocs(6, SampleDto.SPECIMEN_CONDITION) +
+					fluidRowLocs(SampleDto.PATHOGEN_TEST_RESULT);
 
 	//@formatter:on
 
@@ -613,6 +616,28 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 		if (disease == Disease.CONGENITAL_RUBELLA) {
 			configureCongenitalRubellaFields();
 		}
+
+		// Has to run last so that it cannot be overruled by any disease-specific field configuration
+		applyReceivalRightRestrictions();
+	}
+
+	/**
+	 * Receiving a sample and recording what the laboratory finds on arrival is reserved for laboratory personnel; see
+	 * {@link UserRight#SAMPLE_EDIT_RECEIVAL}. Mirrors the restriction {@code EnvironmentSampleEditForm} applies for environment samples:
+	 * the fields are disabled rather than hidden, so that everybody can still read what the laboratory entered.
+	 */
+	protected void applyReceivalRightRestrictions() {
+
+		if (UiUtil.permitted(UserRight.SAMPLE_EDIT_RECEIVAL)) {
+			return;
+		}
+
+		for (String propertyId : SampleDto.RECEIVAL_PROPERTIES) {
+			Field<?> field = getField(propertyId);
+			if (field != null) {
+				field.setEnabled(false);
+			}
+		}
 	}
 
 	protected void updateLabDetailsVisibility(TextField labDetails, Property.ValueChangeEvent event) {
@@ -767,9 +792,11 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 	 * If sample is not shipped, received must be disabled and cleared.
 	 */
 	private void updateReceivedFieldBasedOnShipped(Field<?> shippedField, Field<?> receivedField) {
+		boolean canEditReceival = UiUtil.permitted(UserRight.SAMPLE_EDIT_RECEIVAL);
 		boolean isShipped = Boolean.TRUE.equals(shippedField.getValue());
-		receivedField.setEnabled(isShipped);
-		if (!isShipped) {
+		receivedField.setEnabled(isShipped && canEditReceival);
+		// Users without the receival right must not implicitly reset an already recorded receival, the server would reject the save
+		if (!isShipped && canEditReceival) {
 			receivedField.clear();
 		}
 	}

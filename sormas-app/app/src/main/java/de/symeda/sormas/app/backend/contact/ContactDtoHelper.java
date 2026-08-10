@@ -15,6 +15,7 @@
 
 package de.symeda.sormas.app.backend.contact;
 
+import java.util.HashSet;
 import java.util.List;
 
 import de.symeda.sormas.api.PostResponse;
@@ -99,6 +100,7 @@ public class ContactDtoHelper extends PersonDependentDtoHelper<Contact, ContactD
 		target.setTracingAppDetails(source.getTracingAppDetails());
 		target.setContactCategory(source.getContactCategory());
 		target.setContactProximity(source.getContactProximity());
+		target.setContactProximities(source.getContactProximities() == null ? null : new HashSet<>(source.getContactProximities()));
 		target.setContactProximityDetails(source.getContactProximityDetails());
 		target.setContactClassification(source.getContactClassification());
 		target.setContactStatus(source.getContactStatus());
@@ -234,6 +236,7 @@ public class ContactDtoHelper extends PersonDependentDtoHelper<Contact, ContactD
 		target.setTracingAppDetails(source.getTracingAppDetails());
 		target.setContactCategory(source.getContactCategory());
 		target.setContactProximity(source.getContactProximity());
+		target.setContactProximities(source.getContactProximities() == null ? null : new HashSet<>(source.getContactProximities()));
 		target.setContactProximityDetails(source.getContactProximityDetails());
 		target.setContactClassification(source.getContactClassification());
 		target.setContactStatus(source.getContactStatus());

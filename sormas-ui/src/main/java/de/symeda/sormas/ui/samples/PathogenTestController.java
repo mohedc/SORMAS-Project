@@ -389,12 +389,16 @@ public class PathogenTestController {
 			}
 			facade.savePathogenTest(p);
 		});
+		// For IDSR the tested disease is the sample's suspected disease rather than the (generic) disease of the associated
+		// case / contact / event, so the suspected disease is what the test results have to be matched against.
+		final Disease suspectedDisease = sample.getSuspectedDisease();
+
 		if (associatedContact != null) {
-			handleAssociatedContact(pathogenTests, associatedContact);
+			handleAssociatedContact(pathogenTests, associatedContact, suspectedDisease);
 		} else if (associatedEventParticipant != null) {
-			handleAssociatedEventParticipant(pathogenTests, associatedEventParticipant);
+			handleAssociatedEventParticipant(pathogenTests, associatedEventParticipant, suspectedDisease);
 		} else if (associatedCase != null) {
-			handleAssociatedCase(pathogenTests, associatedCase, suppressNavigateToCase);
+			handleAssociatedCase(pathogenTests, associatedCase, suspectedDisease, suppressNavigateToCase);
 		}
 
 		Notification.show(
@@ -402,7 +406,11 @@ public class PathogenTestController {
 			TRAY_NOTIFICATION);
 	}
 
-	private void handleAssociatedCase(List<PathogenTestDto> pathogenTests, CaseReferenceDto associatedCase, boolean suppressNavigateToCase) {
+	private void handleAssociatedCase(
+		List<PathogenTestDto> pathogenTests,
+		CaseReferenceDto associatedCase,
+		Disease sampleSuspectedDisease,
+		boolean suppressNavigateToCase) {
 
 		if (!UiUtil.permitted(UserRight.CASE_EDIT)) {
 			return;
@@ -419,14 +427,15 @@ public class PathogenTestController {
 		// b) Tested disease != case disease: Ask user to create a new case for the tested disease
 
 		CaseDataDto caze = FacadeProvider.getCaseFacade().getCaseDataByUuid(associatedCase.getUuid());
+		Disease referenceDisease = sampleSuspectedDisease != null ? sampleSuspectedDisease : caze.getDisease();
 
 		Map<Disease, List<PathogenTestDto>> testsByDisease = pathogenTests.stream().collect(Collectors.groupingBy(PathogenTestDto::getTestedDisease));
-		Optional<PathogenTestDto> positiveWithSameDisease = testsByDisease.getOrDefault(caze.getDisease(), Collections.emptyList())
+		Optional<PathogenTestDto> positiveWithSameDisease = testsByDisease.getOrDefault(referenceDisease, Collections.emptyList())
 			.stream()
 			.filter(t -> t.getTestResult() == PathogenTestResultType.POSITIVE && t.getTestResultVerified())
 			.findFirst();
 
-		Optional<PathogenTestDto> negativeWithSameDisease = testsByDisease.getOrDefault(caze.getDisease(), Collections.emptyList())
+		Optional<PathogenTestDto> negativeWithSameDisease = testsByDisease.getOrDefault(referenceDisease, Collections.emptyList())
 			.stream()
 			.filter(t -> t.getTestResult() == PathogenTestResultType.NEGATIVE && t.getTestResultVerified())
 			.findFirst();
@@ -441,7 +450,7 @@ public class PathogenTestController {
 			showChangeAssociatedSampleResultDialog(negativeWithSameDisease.get(), null);
 		}
 
-		testsByDisease.keySet().stream().filter(disease -> disease != caze.getDisease()).forEach((disease) -> {
+		testsByDisease.keySet().stream().filter(disease -> disease != referenceDisease).forEach((disease) -> {
 			List<PathogenTestDto> tests = testsByDisease.get(disease);
 
 			Optional<PathogenTestDto> positiveWithOtherDisease =
@@ -464,7 +473,10 @@ public class PathogenTestController {
 		});
 	}
 
-	private void handleAssociatedContact(List<PathogenTestDto> pathogenTests, ContactReferenceDto associatedContact) {
+	private void handleAssociatedContact(
+		List<PathogenTestDto> pathogenTests,
+		ContactReferenceDto associatedContact,
+		Disease sampleSuspectedDisease) {
 
 		if (!UiUtil.permitted(UserRight.CONTACT_EDIT)) {
 			return;
@@ -481,14 +493,15 @@ public class PathogenTestController {
 		// b) Tested disease != contact disease: Ask user to create a new case for the tested disease
 
 		final ContactDto contact = FacadeProvider.getContactFacade().getByUuid(associatedContact.getUuid());
+		Disease referenceDisease = sampleSuspectedDisease != null ? sampleSuspectedDisease : contact.getDisease();
 
 		Map<Disease, List<PathogenTestDto>> testsByDisease = pathogenTests.stream().collect(Collectors.groupingBy(PathogenTestDto::getTestedDisease));
-		Optional<PathogenTestDto> positiveWithSameDisease = testsByDisease.getOrDefault(contact.getDisease(), Collections.emptyList())
+		Optional<PathogenTestDto> positiveWithSameDisease = testsByDisease.getOrDefault(referenceDisease, Collections.emptyList())
 			.stream()
 			.filter(t -> t.getTestResult() == PathogenTestResultType.POSITIVE && t.getTestResultVerified())
 			.findFirst();
 
-		Optional<PathogenTestDto> negativeWithSameDisease = testsByDisease.getOrDefault(contact.getDisease(), Collections.emptyList())
+		Optional<PathogenTestDto> negativeWithSameDisease = testsByDisease.getOrDefault(referenceDisease, Collections.emptyList())
 			.stream()
 			.filter(t -> t.getTestResult() == PathogenTestResultType.NEGATIVE && t.getTestResultVerified())
 			.findFirst();
@@ -507,7 +520,7 @@ public class PathogenTestController {
 		}
 
 		if (caseCreationPossible) {
-			testsByDisease.keySet().stream().filter(disease -> disease != contact.getDisease()).forEach((disease) -> {
+			testsByDisease.keySet().stream().filter(disease -> disease != referenceDisease).forEach((disease) -> {
 				List<PathogenTestDto> tests = testsByDisease.get(disease);
 
 				Optional<PathogenTestDto> positiveWithOtherDisease =
@@ -523,7 +536,10 @@ public class PathogenTestController {
 		}
 	}
 
-	private void handleAssociatedEventParticipant(List<PathogenTestDto> pathogenTests, EventParticipantReferenceDto associatedEventParticipant) {
+	private void handleAssociatedEventParticipant(
+		List<PathogenTestDto> pathogenTests,
+		EventParticipantReferenceDto associatedEventParticipant,
+		Disease sampleSuspectedDisease) {
 
 		if (!UiUtil.permitted(UserRight.EVENTPARTICIPANT_EDIT)) {
 			return;
@@ -544,14 +560,15 @@ public class PathogenTestController {
 		final EventParticipantDto eventParticipant =
 			FacadeProvider.getEventParticipantFacade().getEventParticipantByUuid(associatedEventParticipant.getUuid());
 		final Disease eventDisease = FacadeProvider.getEventFacade().getEventByUuid(eventParticipant.getEvent().getUuid(), false).getDisease();
+		final Disease referenceDisease = sampleSuspectedDisease != null ? sampleSuspectedDisease : eventDisease;
 
 		Map<Disease, List<PathogenTestDto>> testsByDisease = pathogenTests.stream().collect(Collectors.groupingBy(PathogenTestDto::getTestedDisease));
-		Optional<PathogenTestDto> positiveWithSameDisease = testsByDisease.getOrDefault(eventDisease, Collections.emptyList())
+		Optional<PathogenTestDto> positiveWithSameDisease = testsByDisease.getOrDefault(referenceDisease, Collections.emptyList())
 			.stream()
 			.filter(t -> t.getTestResult() == PathogenTestResultType.POSITIVE && t.getTestResultVerified())
 			.findFirst();
 
-		Optional<PathogenTestDto> negativeWithSameDisease = testsByDisease.getOrDefault(eventDisease, Collections.emptyList())
+		Optional<PathogenTestDto> negativeWithSameDisease = testsByDisease.getOrDefault(referenceDisease, Collections.emptyList())
 			.stream()
 			.filter(t -> t.getTestResult() == PathogenTestResultType.NEGATIVE && t.getTestResultVerified())
 			.findFirst();
@@ -571,7 +588,7 @@ public class PathogenTestController {
 		}
 
 		if (caseCreationPossible) {
-			testsByDisease.keySet().stream().filter(disease -> disease != eventDisease).forEach((disease) -> {
+			testsByDisease.keySet().stream().filter(disease -> disease != referenceDisease).forEach((disease) -> {
 				List<PathogenTestDto> tests = testsByDisease.get(disease);
 
 				Optional<PathogenTestDto> positiveWithOtherDisease =

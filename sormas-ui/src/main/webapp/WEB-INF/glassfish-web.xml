@@ -201,6 +201,11 @@
     </security-role-mapping>
 
     <security-role-mapping>
+        <role-name>SAMPLE_EDIT_RECEIVAL</role-name>
+        <group-name>SAMPLE_EDIT_RECEIVAL</group-name>
+    </security-role-mapping>
+
+    <security-role-mapping>
         <role-name>SAMPLE_DELETE</role-name>
         <group-name>SAMPLE_DELETE</group-name>
     </security-role-mapping>

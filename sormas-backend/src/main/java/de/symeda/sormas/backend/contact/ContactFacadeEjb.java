@@ -31,6 +31,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -96,6 +97,7 @@ import de.symeda.sormas.api.contact.ContactIndexDto;
 import de.symeda.sormas.api.contact.ContactJurisdictionFlagsDto;
 import de.symeda.sormas.api.contact.ContactListEntryDto;
 import de.symeda.sormas.api.contact.ContactLogic;
+import de.symeda.sormas.api.contact.ContactProximitySelectionHelper;
 import de.symeda.sormas.api.contact.ContactReferenceDto;
 import de.symeda.sormas.api.contact.ContactSimilarityCriteria;
 import de.symeda.sormas.api.contact.ContactStatus;
@@ -1544,6 +1546,7 @@ public class ContactFacadeEjb
 		target.setTracingApp(source.getTracingApp());
 		target.setTracingAppDetails(source.getTracingAppDetails());
 		target.setContactProximity(source.getContactProximity());
+		target.setContactProximities(source.getContactProximities() == null ? null : new HashSet<>(source.getContactProximities()));
 		if (source.getContactClassification() != null) {
 			target.setContactClassification(source.getContactClassification());
 		}
@@ -1894,6 +1897,7 @@ public class ContactFacadeEjb
 		target.setTracingApp(source.getTracingApp());
 		target.setTracingAppDetails(source.getTracingAppDetails());
 		target.setContactProximity(source.getContactProximity());
+		target.setContactProximities(source.getContactProximities() == null ? null : new HashSet<>(source.getContactProximities()));
 		target.setContactClassification(source.getContactClassification());
 		target.setContactStatus(source.getContactStatus());
 		target.setFollowUpStatus(source.getFollowUpStatus());
@@ -2072,6 +2076,9 @@ public class ContactFacadeEjb
 
 	@Override
 	public void validate(@Valid ContactDto contact) throws ValidationRuntimeException {
+
+		// Keep the multi-selected types of contact and the derived single value aligned, no matter which of them the client sent
+		ContactProximitySelectionHelper.synchronize(contact);
 
 		// Check whether any required field that does not have a not null constraint in the database is empty
 		if (contact.getReportingUser() == null && !contact.isPseudonymized()) {

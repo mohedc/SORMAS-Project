@@ -32,7 +32,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import de.symeda.sormas.api.Disease;
-import de.symeda.sormas.api.contact.ContactProximity;
+import de.symeda.sormas.api.contact.ContactProximitySelectionHelper;
 import de.symeda.sormas.api.contact.FollowUpStatus;
 import de.symeda.sormas.api.user.JurisdictionLevel;
 import de.symeda.sormas.api.utils.DateHelper;
@@ -167,8 +167,9 @@ public class ContactDao extends AbstractAdoDao<Contact> {
 		Disease disease = contact.getDisease();
 		boolean changeStatus = contact.getFollowUpStatus() != FollowUpStatus.CANCELED && contact.getFollowUpStatus() != FollowUpStatus.LOST;
 
-		ContactProximity contactProximity = contact.getContactProximity();
-		if (!DiseaseConfigurationCache.getInstance().hasFollowUp(disease) || (contactProximity != null && !contactProximity.hasFollowUp())) {
+		// Follow-up is required as soon as any of the selected types of contact requires it
+		if (!DiseaseConfigurationCache.getInstance().hasFollowUp(disease)
+			|| !ContactProximitySelectionHelper.hasFollowUp(contact.getContactProximities(), contact.getContactProximity())) {
 			contact.setFollowUpUntil(null);
 			if (changeStatus) {
 				contact.setFollowUpStatus(FollowUpStatus.NO_FOLLOW_UP);

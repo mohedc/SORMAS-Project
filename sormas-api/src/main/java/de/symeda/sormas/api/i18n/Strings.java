@@ -375,6 +375,7 @@ public interface Strings {
 	String errorQuarantineOnlySupportedEntities = "errorQuarantineOnlySupportedEntities";
 	String errorReadingDocument = "errorReadingDocument";
 	String errorReadingTemplate = "errorReadingTemplate";
+	String errorSampleNoReceivalRight = "errorSampleNoReceivalRight";
 	String errorSampleNotEditable = "errorSampleNotEditable";
 	String errorSendingExternalEmail = "errorSendingExternalEmail";
 	String errorSormasToSormasAccept = "errorSormasToSormasAccept";

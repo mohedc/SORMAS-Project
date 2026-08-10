@@ -14,7 +14,10 @@
  */
 package de.symeda.sormas.api.sample;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 import javax.validation.constraints.Max;
@@ -136,6 +139,36 @@ public class SampleDto extends SormasToSormasShareableDto implements IsSample {
 	public static final String PRNT_DATE = "prntDate";
 	public static final String DATE_RESULTS_SENT_TO_REFERRING_CLINICIAN = "dateResultsSentToReferringClinician";
 	public static final String SUSPECTED_DISEASE = "suspectedDisease";
+
+	/**
+	 * Everything that is only known once the physical sample has arrived in the laboratory: the receival itself, the condition and
+	 * identification of the specimen on arrival, and the results the laboratory determines for it. Filling these in is reserved for
+	 * laboratory personnel, see {@link de.symeda.sormas.api.user.UserRight#SAMPLE_EDIT_RECEIVAL}.
+	 */
+	public static final List<String> RECEIVAL_PROPERTIES = Collections.unmodifiableList(
+		Arrays.asList(
+			RECEIVED,
+			RECEIVED_DATE,
+			LAB_SAMPLE_ID,
+			SPECIMEN_CONDITION,
+			NO_TEST_POSSIBLE_REASON,
+			PATHOGEN_TEST_RESULT,
+			SAMPLE_CONTAINER_RECEIVED,
+			SAMPLE_CONTAINER_RECEIVED_OTHER,
+			CSF_APPEARANCE_AT_RECEPTION,
+			SAMPLE_CONDITION_AT_RECEPTION,
+			DATE_SPECIMEN_RECEIVED_AT_REGIONAL_REFERENCE_LAB,
+			DATE_SPECIMEN_RECEIVED_AT_NATIONAL_LAB,
+			DATE_SPECIMEN_RECEIVED_NATIONAL_LEVEL,
+			DATE_SPECIMEN_RECEIVED_INTERCOUNTY_NATLAB,
+			STATUS_SPECIMEN_RECEPTION_AT_LAB,
+			ELISA_IGM,
+			ELISA_IGM_DATE,
+			PCR,
+			PCR_DATE,
+			PRNT,
+			PRNT_INPUT_VALUE,
+			PRNT_DATE));
 
 	private CaseReferenceDto associatedCase;
 	private ContactReferenceDto associatedContact;

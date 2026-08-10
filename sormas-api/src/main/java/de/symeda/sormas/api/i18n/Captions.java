@@ -1107,6 +1107,8 @@ public interface Captions {
 	String Contact_contactIdentificationSourceDetails = "Contact.contactIdentificationSourceDetails";
 	String Contact_contactOfficer = "Contact.contactOfficer";
 	String Contact_contactOfficerUuid = "Contact.contactOfficerUuid";
+	String Contact_contactProximities = "Contact.contactProximities";
+	String Contact_contactProximitiesLongForm = "Contact.contactProximitiesLongForm";
 	String Contact_contactProximity = "Contact.contactProximity";
 	String Contact_contactProximityDetails = "Contact.contactProximityDetails";
 	String Contact_contactProximityLongForm = "Contact.contactProximityLongForm";

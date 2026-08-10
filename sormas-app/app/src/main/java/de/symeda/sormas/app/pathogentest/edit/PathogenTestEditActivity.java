@@ -24,6 +24,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.view.Menu;
 
+import de.symeda.sormas.api.Disease;
 import de.symeda.sormas.api.disease.DiseaseVariant;
 import de.symeda.sormas.api.i18n.I18nProperties;
 import de.symeda.sormas.api.i18n.Strings;
@@ -154,9 +155,14 @@ public class PathogenTestEditActivity extends BaseEditActivity<PathogenTest> {
 
 				if (taskResult.getResultStatus().isSuccess()) {
 					Sample sampleOfPathogenTestToSave = pathogenTestToSave.getSample();
+					// For IDSR the tested disease is the sample's suspected disease rather than the (generic) case disease
+					Disease referenceDisease = sampleOfPathogenTestToSave != null && sampleOfPathogenTestToSave.getSuspectedDisease() != null
+						? sampleOfPathogenTestToSave.getSuspectedDisease()
+						: associatedCase != null ? associatedCase.getDisease() : null;
 					if (sampleOfPathogenTestToSave != null
 						&& Boolean.TRUE == pathogenTestToSave.getTestResultVerified()
-						&& pathogenTestToSave.getTestedDisease() == associatedCase.getDisease()
+						&& referenceDisease != null
+						&& pathogenTestToSave.getTestedDisease() == referenceDisease
 						&& pathogenTestToSave.getTestResult() != sampleOfPathogenTestToSave.getPathogenTestResult()) {
 						final ConfirmationDialog confirmationDialog = new ConfirmationDialog(
 							getActiveActivity(),
