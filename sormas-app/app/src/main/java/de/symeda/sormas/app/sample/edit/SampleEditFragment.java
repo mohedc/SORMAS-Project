@@ -531,7 +531,13 @@ public class SampleEditFragment extends BaseEditFragment<FragmentSampleEditLayou
 		disableFields(
 			contentBinding.sampleReceived,
 			contentBinding.sampleReceivedDate,
+			contentBinding.sampleLabSampleID,
+			contentBinding.sampleLabNumber,
+			contentBinding.sampleSpecimenCondition,
+			contentBinding.sampleNoTestPossibleReason,
 			contentBinding.samplePathogenTestResult,
+			contentBinding.sampleComment,
+			contentBinding.sampleSentToIpDakar,
 			contentBinding.sampleSampleContainerReceived,
 			contentBinding.sampleSampleContainerReceivedOther,
 			contentBinding.sampleCsfAppearanceAtReception,

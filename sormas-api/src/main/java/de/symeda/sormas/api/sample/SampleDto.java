@@ -142,17 +142,21 @@ public class SampleDto extends SormasToSormasShareableDto implements IsSample {
 
 	/**
 	 * Everything that is only known once the physical sample has arrived in the laboratory: the receival itself, the condition and
-	 * identification of the specimen on arrival, and the results the laboratory determines for it. Filling these in is reserved for
-	 * laboratory personnel, see {@link de.symeda.sormas.api.user.UserRight#SAMPLE_EDIT_RECEIVAL}.
+	 * identification of the specimen on arrival, the laboratory's remarks on it, whether it was forwarded to the IP Dakar reference
+	 * laboratory, and the results determined for it. Filling these in is reserved for laboratory personnel, see
+	 * {@link de.symeda.sormas.api.user.UserRight#SAMPLE_EDIT_RECEIVAL}.
 	 */
 	public static final List<String> RECEIVAL_PROPERTIES = Collections.unmodifiableList(
 		Arrays.asList(
 			RECEIVED,
 			RECEIVED_DATE,
 			LAB_SAMPLE_ID,
+			LAB_NUMBER,
 			SPECIMEN_CONDITION,
 			NO_TEST_POSSIBLE_REASON,
 			PATHOGEN_TEST_RESULT,
+			COMMENT,
+			SENT_TO_IP_DAKAR,
 			SAMPLE_CONTAINER_RECEIVED,
 			SAMPLE_CONTAINER_RECEIVED_OTHER,
 			CSF_APPEARANCE_AT_RECEPTION,

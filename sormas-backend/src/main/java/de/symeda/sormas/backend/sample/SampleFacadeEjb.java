@@ -15,6 +15,7 @@
 package de.symeda.sormas.backend.sample;
 
 import java.util.*;
+import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -374,7 +375,7 @@ public class SampleFacadeEjb implements SampleFacade {
 
 		restorePseudonymizedDto(dto, existingSample, existingSampleDto);
 
-		validateReceivalRight(dto, existingSampleDto, internal && handleChanges);
+		enforceReceivalRight(dto, existingSampleDto, internal && handleChanges);
 
 		Sample sample = fillOrBuildEntity(dto, existingSample, checkChangeDate);
 
@@ -438,69 +439,79 @@ public class SampleFacadeEjb implements SampleFacade {
 	}
 
 	/**
-	 * Reading of {@link SampleDto#RECEIVAL_PROPERTIES}, kept in the same order, so that a newly restricted property only has to be added
+	 * Copying of {@link SampleDto#RECEIVAL_PROPERTIES}, kept in the same order, so that a newly restricted property only has to be added
 	 * to that list and here.
 	 */
-	private static final List<Function<SampleDto, Object>> RECEIVAL_PROPERTY_READERS = Collections.unmodifiableList(
+	private static final List<BiConsumer<SampleDto, SampleDto>> RECEIVAL_PROPERTY_COPIERS = Collections.unmodifiableList(
 		Arrays.asList(
-			SampleDto::isReceived,
-			SampleDto::getReceivedDate,
-			SampleDto::getLabSampleID,
-			SampleDto::getSpecimenCondition,
-			SampleDto::getNoTestPossibleReason,
-			SampleFacadeEjb::readPathogenTestResult,
-			SampleDto::getSampleContainerReceived,
-			SampleDto::getSampleContainerReceivedOther,
-			SampleDto::getCsfAppearanceAtReception,
-			SampleDto::getSampleConditionAtReception,
-			SampleDto::getDateSpecimenReceivedAtRegionalReferenceLab,
-			SampleDto::getDateSpecimenReceivedAtNationalLab,
-			SampleDto::getDateSpecimenReceivedNationalLevel,
-			SampleDto::getDateSpecimenReceivedInter,
-			SampleDto::getStatusSpecimenReceptionAtLab,
-			SampleDto::getElisaIgm,
-			SampleDto::getElisaIgmDate,
-			SampleDto::getPcr,
-			SampleDto::getPcrDate,
-			SampleDto::getPrnt,
-			SampleDto::getPrntInputValue,
-			SampleDto::getPrntDate));
+			(source, target) -> target.setReceived(source.isReceived()),
+			(source, target) -> target.setReceivedDate(source.getReceivedDate()),
+			(source, target) -> target.setLabSampleID(source.getLabSampleID()),
+			(source, target) -> target.setLabNumber(source.getLabNumber()),
+			(source, target) -> target.setSpecimenCondition(source.getSpecimenCondition()),
+			(source, target) -> target.setNoTestPossibleReason(source.getNoTestPossibleReason()),
+			(source, target) -> target.setPathogenTestResult(source.getPathogenTestResult()),
+			(source, target) -> target.setComment(source.getComment()),
+			(source, target) -> target.setSentToIpDakar(source.getSentToIpDakar()),
+			(source, target) -> target.setSampleContainerReceived(source.getSampleContainerReceived()),
+			(source, target) -> target.setSampleContainerReceivedOther(source.getSampleContainerReceivedOther()),
+			(source, target) -> target.setCsfAppearanceAtReception(source.getCsfAppearanceAtReception()),
+			(source, target) -> target.setSampleConditionAtReception(source.getSampleConditionAtReception()),
+			(source, target) -> target.setDateSpecimenReceivedAtRegionalReferenceLab(source.getDateSpecimenReceivedAtRegionalReferenceLab()),
+			(source, target) -> target.setDateSpecimenReceivedAtNationalLab(source.getDateSpecimenReceivedAtNationalLab()),
+			(source, target) -> target.setDateSpecimenReceivedNationalLevel(source.getDateSpecimenReceivedNationalLevel()),
+			(source, target) -> target.setDateSpecimenReceivedInter(source.getDateSpecimenReceivedInter()),
+			(source, target) -> target.setStatusSpecimenReceptionAtLab(source.getStatusSpecimenReceptionAtLab()),
+			(source, target) -> target.setElisaIgm(source.getElisaIgm()),
+			(source, target) -> target.setElisaIgmDate(source.getElisaIgmDate()),
+			(source, target) -> target.setPcr(source.getPcr()),
+			(source, target) -> target.setPcrDate(source.getPcrDate()),
+			(source, target) -> target.setPrnt(source.getPrnt()),
+			(source, target) -> target.setPrntInputValue(source.getPrntInputValue()),
+			(source, target) -> target.setPrntDate(source.getPrntDate())));
+
+	static {
+		if (RECEIVAL_PROPERTY_COPIERS.size() != SampleDto.RECEIVAL_PROPERTIES.size()) {
+			throw new IllegalStateException(
+				"Every entry of SampleDto.RECEIVAL_PROPERTIES needs its counterpart in RECEIVAL_PROPERTY_COPIERS, otherwise a restricted "
+					+ "property would not be protected against users without the " + UserRight.SAMPLE_EDIT_RECEIVAL.name() + " right");
+		}
+	}
 
 	/**
 	 * Receiving a sample and recording what the laboratory finds on arrival is reserved for laboratory personnel; see
 	 * {@link UserRight#SAMPLE_EDIT_RECEIVAL}. Enforced here so that neither the mobile app nor a hand-crafted request can bypass the
 	 * restriction the sample form applies.
 	 *
+	 * Everybody else keeps the sample exactly as the laboratory left it - a new sample starts out unreceived, an existing one keeps its
+	 * stored laboratory data. Silently restoring instead of rejecting the save is what lets surveillance staff go on creating and editing
+	 * samples: the laboratory fields are disabled for them anyway, so the only changes discarded here are ones they could not have made
+	 * on purpose, for example an offline mobile copy that predates the receival.
+	 *
 	 * @param userInitiated
 	 *            {@code false} identifies system-internal saves - case/sample cloning and SORMAS to SORMAS synchronization - which must
-	 *            not be rejected because they don't represent a user entering laboratory data.
+	 *            keep the laboratory data they carry because they don't represent a user entering it.
 	 */
-	private void validateReceivalRight(SampleDto sample, SampleDto existingSample, boolean userInitiated) throws AccessDeniedException {
+	private void enforceReceivalRight(SampleDto sample, SampleDto existingSample, boolean userInitiated) {
 
 		if (!userInitiated || userService.hasRight(UserRight.SAMPLE_EDIT_RECEIVAL)) {
 			return;
 		}
 
-		boolean receivalChanged = existingSample == null
-			// A newly created sample must not carry any laboratory data yet, no matter who reports it
-			? RECEIVAL_PROPERTY_READERS.stream().anyMatch(reader -> isSet(reader.apply(sample)))
-			: RECEIVAL_PROPERTY_READERS.stream().anyMatch(reader -> !DataHelper.equal(reader.apply(sample), reader.apply(existingSample)));
-
-		if (receivalChanged) {
-			throw new AccessDeniedException(I18nProperties.getString(Strings.errorSampleNoReceivalRight));
-		}
+		SampleDto unmodifiable = existingSample != null ? existingSample : buildUnreceivedSample();
+		RECEIVAL_PROPERTY_COPIERS.forEach(copier -> copier.accept(unmodifiable, sample));
 	}
 
 	/**
-	 * {@code null} and {@link PathogenTestResultType#PENDING} both mean "the laboratory hasn't reported a result yet". Samples are built
-	 * with PENDING while older ones can still have no result at all, so the two must not count as a change.
+	 * The laboratory state a sample that has just been reported is expected to be in. {@link PathogenTestResultType#PENDING} is what
+	 * {@link SampleDto#build} starts a sample with and means "the laboratory hasn't reported a result yet".
 	 */
-	private static Object readPathogenTestResult(SampleDto sample) {
-		return sample.getPathogenTestResult() == PathogenTestResultType.PENDING ? null : sample.getPathogenTestResult();
-	}
+	private static SampleDto buildUnreceivedSample() {
 
-	private static boolean isSet(Object value) {
-		return value != null && !Boolean.FALSE.equals(value);
+		SampleDto unreceivedSample = new SampleDto();
+		unreceivedSample.setPathogenTestResult(PathogenTestResultType.PENDING);
+
+		return unreceivedSample;
 	}
 
 	@Override
