@@ -19,11 +19,13 @@ import static de.symeda.sormas.api.utils.FieldConstraints.CHARACTER_LIMIT_BIG;
 import static de.symeda.sormas.api.utils.FieldConstraints.CHARACTER_LIMIT_DEFAULT;
 
 import java.util.Date;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.Transient;
 
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
@@ -36,6 +38,7 @@ import de.symeda.sormas.api.contact.ContactCategory;
 import de.symeda.sormas.api.contact.ContactClassification;
 import de.symeda.sormas.api.contact.ContactIdentificationSource;
 import de.symeda.sormas.api.contact.ContactProximity;
+import de.symeda.sormas.api.contact.ContactProximitySelectionHelper;
 import de.symeda.sormas.api.contact.ContactRelation;
 import de.symeda.sormas.api.contact.ContactStatus;
 import de.symeda.sormas.api.contact.EndOfQuarantineReason;
@@ -80,6 +83,7 @@ public class Contact extends PseudonymizableAdo {
 	public static final String TRACING_APP = "tracingApp";
 	public static final String TRACING_APP_DETAILS = "tracingAppDetails";
 	public static final String CONTACT_PROXIMITY = "contactProximity";
+	public static final String CONTACT_PROXIMITIES = "contactProximities";
 	public static final String CONTACT_CLASSIFICATION = "contactClassification";
 	public static final String FOLLOW_UP_STATUS = "followUpStatus";
 	public static final String FOLLOW_UP_COMMENT = "followUpComment";
@@ -146,6 +150,13 @@ public class Contact extends PseudonymizableAdo {
 	private String tracingAppDetails;
 	@Enumerated(EnumType.STRING)
 	private ContactProximity contactProximity;
+
+	@Column(name = "contactProximities", length = CHARACTER_LIMIT_DEFAULT)
+	private String contactProximitiesString;
+
+	@Transient
+	private Set<ContactProximity> contactProximities;
+
 	@Enumerated(EnumType.STRING)
 	private ContactClassification contactClassification;
 	@Enumerated(EnumType.STRING)
@@ -359,6 +370,28 @@ public class Contact extends PseudonymizableAdo {
 
 	public void setContactProximity(ContactProximity contactProximity) {
 		this.contactProximity = contactProximity;
+	}
+
+	public String getContactProximitiesString() {
+		return contactProximitiesString;
+	}
+
+	public void setContactProximitiesString(String contactProximitiesString) {
+		this.contactProximitiesString = contactProximitiesString;
+		this.contactProximities = null;
+	}
+
+	@Transient
+	public Set<ContactProximity> getContactProximities() {
+		if (contactProximities == null) {
+			contactProximities = ContactProximitySelectionHelper.deserialize(contactProximitiesString);
+		}
+		return contactProximities;
+	}
+
+	public void setContactProximities(Set<ContactProximity> contactProximities) {
+		this.contactProximities = contactProximities;
+		this.contactProximitiesString = ContactProximitySelectionHelper.serialize(contactProximities);
 	}
 
 	public FollowUpStatus getFollowUpStatus() {

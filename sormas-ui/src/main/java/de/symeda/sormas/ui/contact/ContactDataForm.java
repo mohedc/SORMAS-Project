@@ -26,9 +26,14 @@ import static de.symeda.sormas.ui.utils.LayoutUtil.fluidRowLocs;
 import static de.symeda.sormas.ui.utils.LayoutUtil.loc;
 import static de.symeda.sormas.ui.utils.LayoutUtil.locCss;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import com.google.common.collect.Sets;
 import com.vaadin.server.ErrorMessage;
@@ -45,6 +50,7 @@ import com.vaadin.v7.ui.CheckBox;
 import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.DateField;
 import com.vaadin.v7.ui.Field;
+import com.vaadin.v7.ui.OptionGroup;
 import com.vaadin.v7.ui.TextArea;
 import com.vaadin.v7.ui.TextField;
 
@@ -60,6 +66,7 @@ import de.symeda.sormas.api.contact.ContactDto;
 import de.symeda.sormas.api.contact.ContactIdentificationSource;
 import de.symeda.sormas.api.contact.ContactLogic;
 import de.symeda.sormas.api.contact.ContactProximity;
+import de.symeda.sormas.api.contact.ContactProximitySelectionHelper;
 import de.symeda.sormas.api.contact.ContactReferenceDto;
 import de.symeda.sormas.api.contact.ContactRelation;
 import de.symeda.sormas.api.contact.EndOfQuarantineReason;
@@ -138,7 +145,7 @@ public class ContactDataForm extends AbstractEditForm<ContactDto> {
                     loc(ContactDto.CASE_OR_EVENT_INFORMATION) +
 					fluidRowLocs(6, ContactDto.CONTACT_IDENTIFICATION_SOURCE, 6, ContactDto.TRACING_APP) +
 					fluidRowLocs(6, ContactDto.CONTACT_IDENTIFICATION_SOURCE_DETAILS, 6, ContactDto.TRACING_APP_DETAILS) +
-					fluidRowLocs(ContactDto.CONTACT_PROXIMITY) +
+					fluidRowLocs(ContactDto.CONTACT_PROXIMITIES) +
                     fluidRowLocs(ContactDto.CONTACT_PROXIMITY_DETAILS) +
                     fluidRowLocs(ContactDto.CONTACT_CATEGORY) +
                     fluidRowLocs(ContactDto.RELATION_TO_CASE) +
@@ -178,7 +185,7 @@ public class ContactDataForm extends AbstractEditForm<ContactDto> {
 	private final ViewMode viewMode;
 	private final Disease disease;
 	private final boolean diseaseHasFollowUp;
-	private NullableOptionGroup contactProximity;
+	private OptionGroup contactProximities;
 	private ComboBox region;
 	private ComboBox district;
 	private ComboBox community;
@@ -300,16 +307,19 @@ public class ContactDataForm extends AbstractEditForm<ContactDto> {
 			FieldHelper
 				.setVisibleWhen(getFieldGroup(), ContactDto.TRACING_APP_DETAILS, ContactDto.TRACING_APP, Arrays.asList(TracingApp.OTHER), true);
 		}
-		contactProximity = addField(ContactDto.CONTACT_PROXIMITY, NullableOptionGroup.class);
-		contactProximity.setCaption(I18nProperties.getCaption(Captions.Contact_contactProximityLongForm));
-		contactProximity.removeStyleName(ValoTheme.OPTIONGROUP_HORIZONTAL);
+		contactProximities = addField(ContactDto.CONTACT_PROXIMITIES, OptionGroup.class);
+		contactProximities.setMultiSelect(true);
+		contactProximities.addItems(Arrays.asList(ContactProximity.values()));
+		contactProximities.setCaption(I18nProperties.getCaption(Captions.Contact_contactProximitiesLongForm));
+		contactProximities.removeStyleName(ValoTheme.OPTIONGROUP_HORIZONTAL);
 		addField(ContactDto.CONTACT_PROXIMITY_DETAILS, TextField.class);
 		contactCategory = addField(ContactDto.CONTACT_CATEGORY, NullableOptionGroup.class);
 
 		if (isConfiguredServer(CountryHelper.COUNTRY_CODE_GERMANY)) {
-			contactProximity.addValueChangeListener(e -> {
-				if (getInternalValue().getContactProximity() != e.getProperty().getValue() || contactCategory.isModified()) {
-					updateContactCategory((ContactProximity) contactProximity.getNullableValue());
+			contactProximities.addValueChangeListener(e -> {
+				ContactProximity primaryContactProximity = getSelectedPrimaryContactProximity();
+				if (getInternalValue().getContactProximity() != primaryContactProximity || contactCategory.isModified()) {
+					updateContactCategory(primaryContactProximity);
 				}
 			});
 		}
@@ -722,7 +732,7 @@ public class ContactDataForm extends AbstractEditForm<ContactDto> {
 		});
 
 		setRequired(true, ContactDto.CONTACT_CLASSIFICATION, ContactDto.CONTACT_STATUS, ContactDto.REPORT_DATE_TIME);
-		FieldHelper.addSoftRequiredStyle(firstContactDate, lastContactDate, contactProximity, relationToCase);
+		FieldHelper.addSoftRequiredStyle(firstContactDate, lastContactDate, contactProximities, relationToCase);
 		// Prophylaxis details for IMI
 		CheckBox prophylaxisPrescribed = addField(ContactDto.PROPHYLAXIS_PRESCRIBED, CheckBox.class);
 		prophylaxisPrescribed.setCaption(I18nProperties.getCaption(Captions.Contact_prophylaxisPrescribed));
@@ -889,9 +899,30 @@ public class ContactDataForm extends AbstractEditForm<ContactDto> {
 			field -> diseaseHasFollowUp,
 			field -> false);
 
-		FieldHelper.updateEnumData(
-			contactProximity,
-			Arrays.asList(ContactProximity.getValues(disease, FacadeProvider.getConfigFacade().getCountryLocale())));
+		updateContactProximityItems(disease);
+	}
+
+	/**
+	 * Keeps already selected values that are not offered for the disease, so that editing a contact never silently drops a selection.
+	 */
+	private void updateContactProximityItems(Disease disease) {
+
+		List<ContactProximity> items =
+			new ArrayList<>(Arrays.asList(ContactProximity.getValues(disease, FacadeProvider.getConfigFacade().getCountryLocale())));
+		getSelectedContactProximities().stream().filter(p -> !items.contains(p)).forEach(items::add);
+
+		FieldHelper.updateEnumData(contactProximities, items);
+	}
+
+	@SuppressWarnings("unchecked")
+	private Set<ContactProximity> getSelectedContactProximities() {
+
+		Object value = contactProximities.getValue();
+		return value instanceof Collection ? new HashSet<>((Collection<ContactProximity>) value) : new HashSet<>();
+	}
+
+	private ContactProximity getSelectedPrimaryContactProximity() {
+		return ContactProximitySelectionHelper.derivePrimaryContactProximity(getSelectedContactProximities());
 	}
 
 	public Disease getSelectedDisease() {

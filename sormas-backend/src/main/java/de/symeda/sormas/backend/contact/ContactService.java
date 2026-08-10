@@ -70,7 +70,7 @@ import de.symeda.sormas.api.contact.ContactDto;
 import de.symeda.sormas.api.contact.ContactJurisdictionFlagsDto;
 import de.symeda.sormas.api.contact.ContactListEntryDto;
 import de.symeda.sormas.api.contact.ContactLogic;
-import de.symeda.sormas.api.contact.ContactProximity;
+import de.symeda.sormas.api.contact.ContactProximitySelectionHelper;
 import de.symeda.sormas.api.contact.ContactReferenceDto;
 import de.symeda.sormas.api.contact.ContactStatus;
 import de.symeda.sormas.api.contact.FollowUpStatus;
@@ -939,8 +939,9 @@ public class ContactService extends AbstractCoreAdoService<Contact, ContactJoins
 		boolean changeStatus = contact.getFollowUpStatus() != FollowUpStatus.CANCELED && contact.getFollowUpStatus() != FollowUpStatus.LOST;
 		boolean statusChangedBySystem = false;
 
-		ContactProximity contactProximity = contact.getContactProximity();
-		if (!diseaseConfigurationFacade.hasFollowUp(disease) || (contactProximity != null && !contactProximity.hasFollowUp())) {
+		// Follow-up is required as soon as any of the selected types of contact requires it
+		if (!diseaseConfigurationFacade.hasFollowUp(disease)
+			|| !ContactProximitySelectionHelper.hasFollowUp(contact.getContactProximities(), contact.getContactProximity())) {
 			contact.setFollowUpUntil(null);
 			contact.setOverwriteFollowUpUntil(false);
 			if (changeStatus) {

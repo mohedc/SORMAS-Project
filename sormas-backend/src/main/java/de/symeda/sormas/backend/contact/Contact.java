@@ -48,6 +48,7 @@ import de.symeda.sormas.api.contact.ContactCategory;
 import de.symeda.sormas.api.contact.ContactClassification;
 import de.symeda.sormas.api.contact.ContactIdentificationSource;
 import de.symeda.sormas.api.contact.ContactProximity;
+import de.symeda.sormas.api.contact.ContactProximitySelectionHelper;
 import de.symeda.sormas.api.contact.ContactReferenceDto;
 import de.symeda.sormas.api.contact.ContactRelation;
 import de.symeda.sormas.api.contact.ContactStatus;
@@ -98,6 +99,7 @@ public class Contact extends CoreAdo implements IsContact, SormasToSormasShareab
 	public static final String CONTACT_IDENTIFICATION_SOURCE_DETAILS = "contactIdentificationSourceDetails";
 	public static final String CONTACT_OFFICER = "contactOfficer";
 	public static final String CONTACT_PROXIMITY = "contactProximity";
+	public static final String CONTACT_PROXIMITIES_STRING = "contactProximitiesString";
 	public static final String CONTACT_PROXIMITY_DETAILS = "contactProximityDetails";
 	public static final String CONTACT_STATUS = "contactStatus";
 	public static final String DESCRIPTION = "description";
@@ -200,6 +202,8 @@ public class Contact extends CoreAdo implements IsContact, SormasToSormasShareab
 	private TracingApp tracingApp;
 	private String tracingAppDetails;
 	private ContactProximity contactProximity;
+	private Set<ContactProximity> contactProximities;
+	private String contactProximitiesString;
 	private ContactClassification contactClassification;
 	private ContactStatus contactStatus;
 	private FollowUpStatus followUpStatus;
@@ -451,6 +455,29 @@ public class Contact extends CoreAdo implements IsContact, SormasToSormasShareab
 
 	public void setContactProximity(ContactProximity contactProximity) {
 		this.contactProximity = contactProximity;
+	}
+
+	@Transient
+	public Set<ContactProximity> getContactProximities() {
+		if (contactProximities == null) {
+			contactProximities = ContactProximitySelectionHelper.deserialize(contactProximitiesString);
+		}
+		return contactProximities;
+	}
+
+	public void setContactProximities(Set<ContactProximity> contactProximities) {
+		this.contactProximities = contactProximities;
+		this.contactProximitiesString = ContactProximitySelectionHelper.serialize(contactProximities);
+	}
+
+	@Column(length = CHARACTER_LIMIT_DEFAULT, name = "contactproximities")
+	public String getContactProximitiesString() {
+		return contactProximitiesString;
+	}
+
+	public void setContactProximitiesString(String contactProximitiesString) {
+		this.contactProximitiesString = contactProximitiesString;
+		this.contactProximities = null;
 	}
 
 	@Column(length = CHARACTER_LIMIT_DEFAULT)

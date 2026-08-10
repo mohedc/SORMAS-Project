@@ -18,10 +18,14 @@ package de.symeda.sormas.app.contact.read;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import android.os.Bundle;
 
 import de.symeda.sormas.api.CountryHelper;
 import de.symeda.sormas.api.contact.ContactDto;
+import de.symeda.sormas.api.contact.ContactProximity;
 import de.symeda.sormas.api.utils.fieldvisibility.FieldVisibilityCheckers;
 import de.symeda.sormas.api.utils.fieldvisibility.checkers.CountryFieldVisibilityChecker;
 import de.symeda.sormas.app.BaseReadFragment;
@@ -110,6 +114,14 @@ public class ContactReadFragment extends BaseReadFragment<FragmentContactReadLay
 	public void onAfterLayoutBinding(FragmentContactReadLayoutBinding contentBinding) {
 		setUpFieldVisibilities(contentBinding);
 		contentBinding.contactReportingUser.setPseudonymized(record.isPseudonymized());
+
+		Set<ContactProximity> contactProximities = record.getContactProximities();
+		if (contactProximities.isEmpty()) {
+			contentBinding.contactContactProximities.setVisibility(GONE);
+		} else {
+			contentBinding.contactContactProximities
+				.setTags(contactProximities.stream().map(ContactProximity::toString).collect(Collectors.toList()));
+		}
 	}
 
 	@Override

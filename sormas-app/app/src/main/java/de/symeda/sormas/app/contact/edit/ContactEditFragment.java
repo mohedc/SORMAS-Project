@@ -18,9 +18,12 @@ package de.symeda.sormas.app.contact.edit;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import de.symeda.sormas.api.CountryHelper;
 import de.symeda.sormas.api.Disease;
@@ -31,6 +34,7 @@ import de.symeda.sormas.api.contact.ContactClassification;
 import de.symeda.sormas.api.contact.ContactDto;
 import de.symeda.sormas.api.contact.ContactIdentificationSource;
 import de.symeda.sormas.api.contact.ContactProximity;
+import de.symeda.sormas.api.contact.ContactProximitySelectionHelper;
 import de.symeda.sormas.api.contact.ContactRelation;
 import de.symeda.sormas.api.contact.EndOfQuarantineReason;
 import de.symeda.sormas.api.contact.QuarantineType;
@@ -210,16 +214,13 @@ public class ContactEditFragment extends BaseEditFragment<FragmentContactEditLay
 			record.getCommunity());
 		contentBinding.contactDisease.initializeSpinner(diseaseList);
 		contentBinding.contactDisease.addValueChangedListener(e -> {
-			contentBinding.contactContactProximity.setVisibility(e.getValue() == null ? GONE : VISIBLE);
-			contentBinding.contactContactProximity.clear(true);
-			contentBinding.contactContactProximity
-				.setItems(DataUtils.toItems(Arrays.asList(ContactProximity.getValues((Disease) e.getValue(), ConfigProvider.getServerLocale()))));
+			contentBinding.contactContactProximities.setVisibility(e.getValue() == null ? GONE : VISIBLE);
+			updateContactProximityItems(contentBinding, (Disease) e.getValue(), false);
 		});
 
 		contentBinding.contactFirstContactDate.addValueChangedListener(e -> contentBinding.contactLastContactDate.setRequired(e.getValue() != null));
 
-		contentBinding.contactContactProximity
-			.setItems(DataUtils.toItems(Arrays.asList(ContactProximity.getValues(record.getDisease(), ConfigProvider.getServerLocale()))));
+		updateContactProximityItems(contentBinding, record.getDisease(), true);
 
 		contentBinding.contactQuarantine.addValueChangedListener(e -> {
 			boolean visible = QuarantineType.HOME.equals(contentBinding.contactQuarantine.getValue())
@@ -341,8 +342,10 @@ public class ContactEditFragment extends BaseEditFragment<FragmentContactEditLay
 			}
 		});
 		if (ConfigProvider.isConfiguredServer(CountryHelper.COUNTRY_CODE_GERMANY)) {
-			contentBinding.contactContactProximity.addValueChangedListener(
-				e -> updateContactCategory(contentBinding, (ContactProximity) contentBinding.contactContactProximity.getValue()));
+			contentBinding.contactContactProximities.addValueChangedListener(
+				e -> updateContactCategory(
+					contentBinding,
+					ContactProximitySelectionHelper.derivePrimaryContactProximity(record.getContactProximities())));
 		} else {
 			contentBinding.contactContactIdentificationSource.setVisibility(GONE);
 			contentBinding.contactContactProximityDetails.setVisibility(GONE);
@@ -362,12 +365,29 @@ public class ContactEditFragment extends BaseEditFragment<FragmentContactEditLay
 		ContactValidator.initializeLastContactDateValidation(record, contentBinding);
 		ContactValidator.initializeProhibitionToWorkIntervalValidator(contentBinding);
 
-		//contentBinding.setContactProximityClass(ContactProximity.class);
-
 		contentBinding.contactQuarantineExtended
 			.addValueChangedListener(e -> contentBinding.contactQuarantineExtended.setVisibility(record.isQuarantineExtended() ? VISIBLE : GONE));
 		contentBinding.contactQuarantineReduced
 			.addValueChangedListener(e -> contentBinding.contactQuarantineReduced.setVisibility(record.isQuarantineReduced() ? VISIBLE : GONE));
+	}
+
+	/**
+	 * Keeps already selected values that are not offered for the disease, so that editing a contact never silently drops a selection.
+	 */
+	private void updateContactProximityItems(FragmentContactEditLayoutBinding contentBinding, Disease disease, boolean retainSelection) {
+
+		Set<ContactProximity> selection = retainSelection ? new HashSet<>(record.getContactProximities()) : new HashSet<>();
+
+		List<ContactProximity> items = new ArrayList<>(Arrays.asList(ContactProximity.getValues(disease, ConfigProvider.getServerLocale())));
+		for (ContactProximity selected : selection) {
+			if (!items.contains(selected)) {
+				items.add(selected);
+			}
+		}
+
+		contentBinding.contactContactProximities.setItems(items);
+		// setItems rebuilds the check boxes, so the selection has to be applied afterwards
+		contentBinding.contactContactProximities.setValue(selection);
 	}
 
 	/*

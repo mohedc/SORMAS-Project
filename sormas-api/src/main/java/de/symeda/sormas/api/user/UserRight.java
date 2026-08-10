@@ -84,6 +84,7 @@ public enum UserRight {
 	SAMPLE_EXPORT(UserRightGroup.SAMPLE, UserRight._SAMPLE_VIEW),
 	SAMPLE_TRANSFER(UserRightGroup.SAMPLE, UserRight._SAMPLE_EDIT),
 	SAMPLE_EDIT_NOT_OWNED(UserRightGroup.SAMPLE, UserRight._SAMPLE_EDIT),
+	SAMPLE_EDIT_RECEIVAL(UserRightGroup.SAMPLE, UserRight._SAMPLE_EDIT),
 	PATHOGEN_TEST_CREATE(UserRightGroup.SAMPLE, UserRight._SAMPLE_VIEW),
 	PATHOGEN_TEST_EDIT(UserRightGroup.SAMPLE, UserRight._SAMPLE_EDIT),
 	PATHOGEN_TEST_DELETE(UserRightGroup.SAMPLE, UserRight._SAMPLE_VIEW),
@@ -370,6 +371,7 @@ public enum UserRight {
 	public static final String _SAMPLE_VIEW = "SAMPLE_VIEW";
 	public static final String _SAMPLE_EDIT = "SAMPLE_EDIT";
 	public static final String _SAMPLE_EDIT_NOT_OWNED = "SAMPLE_EDIT_NOT_OWNED";
+	public static final String _SAMPLE_EDIT_RECEIVAL = "SAMPLE_EDIT_RECEIVAL";
 	public static final String _SAMPLE_DELETE = "SAMPLE_DELETE";
 	public static final String _SAMPLE_TRANSFER = "SAMPLE_TRANSFER";
 	public static final String _SAMPLE_EXPORT = "SAMPLE_EXPORT";

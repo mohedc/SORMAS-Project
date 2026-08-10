@@ -15658,6 +15658,30 @@ ALTER TABLE cases_history ADD COLUMN IF NOT EXISTS hib2sourceofvaccination varch
 ALTER TABLE cases_history ADD COLUMN IF NOT EXISTS hib3sourceofvaccination varchar(255);
 
 INSERT INTO schema_version (version_number, comment) VALUES (671, 'Add CSM meningitis vaccine source-of-vaccination fields to cases');
+
+-- Migration 672: Types of contact as multiple selection, backfilled from the single valued contactproximity
+ALTER TABLE contact ADD COLUMN IF NOT EXISTS contactproximities varchar(512);
+ALTER TABLE contact_history ADD COLUMN IF NOT EXISTS contactproximities varchar(512);
+
+UPDATE contact SET contactproximities = contactproximity WHERE contactproximity IS NOT NULL AND contactproximities IS NULL;
+
+INSERT INTO schema_version (version_number, comment) VALUES (672, 'Add multi-select types of contact to contact');
+
+-- Migration 673: Restrict marking laboratory samples as received to laboratory personnel
+INSERT INTO userroles_userrights (userrole_id, userright)
+    SELECT id, 'SAMPLE_EDIT_RECEIVAL' FROM public.userroles
+    WHERE userroles.linkeddefaultuserrole in ('ADMIN', 'ADMIN_SUPERVISOR', 'NATIONAL_USER', 'LAB_USER', 'EXTERNAL_LAB_USER')
+    AND NOT EXISTS (SELECT 1 FROM userroles_userrights uur WHERE uur.userrole_id = userroles.id AND uur.userright = 'SAMPLE_EDIT_RECEIVAL');
+
+INSERT INTO schema_version (version_number, comment) VALUES (673, 'Add SAMPLE_EDIT_RECEIVAL user right for laboratory personnel');
+
+-- Migration 674: Entering pathogen test results is reserved for laboratory personnel, so surveillance staff loses these rights
+DELETE FROM userroles_userrights
+    WHERE userright IN ('PATHOGEN_TEST_CREATE', 'PATHOGEN_TEST_EDIT', 'PATHOGEN_TEST_DELETE')
+    AND userrole_id IN (SELECT id FROM public.userroles WHERE linkeddefaultuserrole IN ('SURVEILLANCE_OFFICER', 'SURVEILLANCE_SUPERVISOR'));
+
+INSERT INTO schema_version (version_number, comment) VALUES (674, 'Remove pathogen test user rights from surveillance user roles');
+
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***
 
 

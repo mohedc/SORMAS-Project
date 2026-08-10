@@ -512,6 +512,49 @@ public class SampleEditFragment extends BaseEditFragment<FragmentSampleEditLayou
 			&& !DatabaseHelper.getFeatureConfigurationDao().isFeatureDisabled(FeatureType.ADDITIONAL_TESTS)) {
 			contentBinding.additionalTestingLayout.setVisibility(GONE);
 		}
+
+		// Has to run last so that it cannot be overruled by any of the configuration above
+		applyReceivalRightRestrictions(contentBinding);
+	}
+
+	/**
+	 * Receiving a sample and recording what the laboratory finds on arrival is reserved for laboratory personnel; see
+	 * {@link UserRight#SAMPLE_EDIT_RECEIVAL}. The server rejects such changes as well, so disabling the fields keeps users without the
+	 * right from producing edits that would only fail on the next synchronization.
+	 */
+	private void applyReceivalRightRestrictions(FragmentSampleEditLayoutBinding contentBinding) {
+
+		if (ConfigProvider.hasUserRight(UserRight.SAMPLE_EDIT_RECEIVAL)) {
+			return;
+		}
+
+		disableFields(
+			contentBinding.sampleReceived,
+			contentBinding.sampleReceivedDate,
+			contentBinding.samplePathogenTestResult,
+			contentBinding.sampleSampleContainerReceived,
+			contentBinding.sampleSampleContainerReceivedOther,
+			contentBinding.sampleCsfAppearanceAtReception,
+			contentBinding.sampleSampleConditionAtReception,
+			contentBinding.sampleDateSpecimenReceivedAtNationalLab,
+			contentBinding.sampleDateSpecimenReceivedAtRegionalReferenceLab,
+			contentBinding.sampleDateSpecimenReceivedNationalLevel,
+			contentBinding.sampleDateSpecimenReceivedInter,
+			contentBinding.sampleElisaIgm,
+			contentBinding.sampleElisaIgmDate,
+			contentBinding.sampleIpDakarPcr,
+			contentBinding.samplePcrDate,
+			contentBinding.samplePrnt,
+			contentBinding.samplePrntInputValue,
+			contentBinding.samplePrntDate);
+	}
+
+	private static void disableFields(ControlPropertyField<?>... fields) {
+		for (ControlPropertyField<?> field : fields) {
+			if (field != null) {
+				field.setEnabled(false);
+			}
+		}
 	}
 
 	@Override
