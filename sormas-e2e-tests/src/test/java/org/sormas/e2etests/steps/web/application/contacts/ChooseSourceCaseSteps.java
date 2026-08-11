@@ -123,7 +123,7 @@ public class ChooseSourceCaseSteps implements En {
               (webDriverHelpers
                       .getTextFromWebElement(CASE_CLASSIFICATION_LABEL)
                       .equals("Not yet classified"))
-                  ? "NOT_CLASSIFIED"
+                  ? "SUSPECT"
                   : "Not expected string!";
           String caseId = webDriverHelpers.getTextFromWebElement(CASE_ID_LABEL);
 

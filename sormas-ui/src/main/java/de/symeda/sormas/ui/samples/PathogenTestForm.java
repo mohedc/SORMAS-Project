@@ -1190,7 +1190,7 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 
 		PathogenTestType previous = (PathogenTestType) testTypeField.getValue();
 
-		if (testedDisease == Disease.MEASLES) {
+		if (testedDisease == Disease.MEASLES || testedDisease == Disease.RUBELLA) {
 			List<PathogenTestType> items =
 					Arrays.asList(PathogenTestType.INDIRECT_IGM_SEROLOGY, PathogenTestType.CAPTURED_IGM_SEROLOGY);
 			testTypeField.removeAllItems();
@@ -1203,7 +1203,7 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 			return;
 		}
 
-		if (testedDisease == Disease.RUBELLA || testedDisease == Disease.DENGUE) {
+		if (testedDisease == Disease.DENGUE) {
 			testTypeField.removeAllItems();
 			testTypeField.addItem(PathogenTestType.IGM_SERUM_ANTIBODY);
 			testTypeField.setItemCaption(PathogenTestType.IGM_SERUM_ANTIBODY, "IgM");

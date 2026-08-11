@@ -218,7 +218,7 @@ public class SampleEditFragment extends BaseEditFragment<FragmentSampleEditLayou
 
 		Disease associatedDisease = getDiseaseOfAssociatedEntity(record);
 		if (associatedDisease == Disease.MEASLES) {
-			sampleMaterialList = DataUtils.toItems(Arrays.asList(SampleMaterial.BLOOD, SampleMaterial.THROAT_SWAB, SampleMaterial.OTHER));
+			sampleMaterialList = DataUtils.toItems(Arrays.asList(SampleMaterial.BLOOD));
 		} else if (associatedDisease == Disease.CSM) {
 			sampleMaterialList = DataUtils.toItems(Arrays.asList(
 					SampleMaterial.CSF,
@@ -233,12 +233,7 @@ public class SampleEditFragment extends BaseEditFragment<FragmentSampleEditLayou
 					SampleMaterial.OTHER));
 
 		} else if (associatedDisease == Disease.CONGENITAL_RUBELLA) {
-			sampleMaterialList = DataUtils.toItems(Arrays.asList(
-					SampleMaterial.SERUM,
-					SampleMaterial.THROAT_SWAB,
-					SampleMaterial.URINE,
-					SampleMaterial.CEREBROSPINAL_FLUID,
-					SampleMaterial.OTHER));
+			sampleMaterialList = DataUtils.toItems(Arrays.asList(SampleMaterial.BLOOD));
 		} else {
 			sampleMaterialList = DataUtils.getEnumItems(SampleMaterial.class, true, getFieldVisibilityCheckers());
 		}

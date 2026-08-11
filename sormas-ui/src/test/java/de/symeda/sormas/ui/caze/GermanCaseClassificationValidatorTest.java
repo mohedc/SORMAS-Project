@@ -70,7 +70,6 @@ public class GermanCaseClassificationValidatorTest extends AbstractUiBeanTest {
 		final GermanCaseClassificationValidator validator = new GermanCaseClassificationValidator(caze.getUuid(), INVALID_CASE_CLASSIFICATION);
 
 		// assert classifications when no symptoms & no lab result
-		valid(CaseClassification.NOT_CLASSIFIED, validator);
 		invalid(CaseClassification.SUSPECT, validator);
 		valid(CaseClassification.PROBABLE, validator);
 		invalid(CaseClassification.CONFIRMED, validator);
@@ -82,7 +81,6 @@ public class GermanCaseClassificationValidatorTest extends AbstractUiBeanTest {
 		final SampleDto sample =
 			creator.createSample(caze.toReference(), new Date(), new Date(), user.toReference(), SampleMaterial.BLOOD, rdcf.facility);
 
-		valid(CaseClassification.NOT_CLASSIFIED, validator);
 		invalid(CaseClassification.SUSPECT, validator);
 		valid(CaseClassification.PROBABLE, validator);
 		invalid(CaseClassification.CONFIRMED, validator);
@@ -94,7 +92,6 @@ public class GermanCaseClassificationValidatorTest extends AbstractUiBeanTest {
 		sample.setPathogenTestResult(PathogenTestResultType.POSITIVE);
 		getSampleFacade().saveSample(sample);
 
-		valid(CaseClassification.NOT_CLASSIFIED, validator);
 		invalid(CaseClassification.SUSPECT, validator);
 		valid(CaseClassification.PROBABLE, validator);
 		invalid(CaseClassification.CONFIRMED, validator);
@@ -106,7 +103,6 @@ public class GermanCaseClassificationValidatorTest extends AbstractUiBeanTest {
 		sample.setPathogenTestResult(PathogenTestResultType.POSITIVE);
 		getSampleFacade().saveSample(sample);
 
-		valid(CaseClassification.NOT_CLASSIFIED, validator);
 		invalid(CaseClassification.SUSPECT, validator);
 		valid(CaseClassification.PROBABLE, validator);
 		invalid(CaseClassification.CONFIRMED, validator);
@@ -118,7 +114,6 @@ public class GermanCaseClassificationValidatorTest extends AbstractUiBeanTest {
 		caze.getSymptoms().setFever(SymptomState.YES);
 		CaseDataDto savedCase1 = getCaseFacade().save(caze);
 
-		valid(CaseClassification.NOT_CLASSIFIED, validator);
 		invalid(CaseClassification.SUSPECT, validator);
 		valid(CaseClassification.PROBABLE, validator);
 		invalid(CaseClassification.CONFIRMED, validator);
@@ -130,7 +125,6 @@ public class GermanCaseClassificationValidatorTest extends AbstractUiBeanTest {
 		savedCase1.getSymptoms().setPneumoniaClinicalOrRadiologic(SymptomState.YES);
 		CaseDataDto savedCase2 = getCaseFacade().save(savedCase1);
 
-		valid(CaseClassification.NOT_CLASSIFIED, validator);
 		valid(CaseClassification.SUSPECT, validator);
 		valid(CaseClassification.PROBABLE, validator);
 		valid(CaseClassification.CONFIRMED, validator);
@@ -142,7 +136,6 @@ public class GermanCaseClassificationValidatorTest extends AbstractUiBeanTest {
 		sample.setPathogenTestResult(PathogenTestResultType.NEGATIVE);
 		getSampleFacade().saveSample(sample);
 
-		valid(CaseClassification.NOT_CLASSIFIED, validator);
 		valid(CaseClassification.SUSPECT, validator);
 		valid(CaseClassification.PROBABLE, validator);
 		invalid(CaseClassification.CONFIRMED, validator);

@@ -24,7 +24,7 @@ import lombok.SneakyThrows;
 
 @Getter
 public enum CaseClassification {
-  NOT_CLASSIFIED("Not yet classified", "NOT_CLASSIFIED", "0. Nicht klassifiziert"),
+  // NOT_CLASSIFIED("Not yet classified", "NOT_CLASSIFIED", "0. Nicht klassifiziert"),
   SUSPECT("Suspect case", "SUSPECT", "A. Klinisch diagnostiziert"),
   PROBABLE("Probable case", "PROBABLE", "B. Klinisch-epidemiologisch best\u00E4tigt"),
   CONFIRMED("Confirmed case", "CONFIRMED", "C. Klinisch-labordiagnostisch best\u00E4tigt"),

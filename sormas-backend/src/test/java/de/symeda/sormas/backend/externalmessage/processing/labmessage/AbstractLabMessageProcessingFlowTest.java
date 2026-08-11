@@ -3001,7 +3001,7 @@ public class AbstractLabMessageProcessingFlowTest extends AbstractBeanTest {
 		verify(handleCreateCase).handle(argThat(c -> {
 			assertThat(c.getPerson(), is(personCaptor.getValue().toReference()));
 			assertThat(c.getDisease(), is(Disease.PERTUSSIS));
-			assertThat(c.getCaseClassification(), is(CaseClassification.NOT_CLASSIFIED));
+			assertThat(c.getCaseClassification(), is(CaseClassification.SUSPECT));
 			assertThat(c.getInvestigationStatus(), is(InvestigationStatus.PENDING));
 			assertThat(c.getOutcome(), is(CaseOutcome.NO_OUTCOME));
 			assertThat(c.getReportingUser(), is(user.toReference()));

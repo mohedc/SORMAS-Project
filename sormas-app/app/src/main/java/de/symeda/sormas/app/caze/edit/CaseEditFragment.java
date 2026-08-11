@@ -463,11 +463,7 @@ public class CaseEditFragment extends BaseEditFragment<FragmentCaseEditLayoutBin
 			contentBinding.caseDataCaseClassification.addValueChangedListener(field -> {
 
 				final CaseClassification caseClassification = (CaseClassification) field.getValue();
-				if (caseClassification == CaseClassification.NOT_CLASSIFIED) {
-					getContentBinding().caseDataCaseClassification.enableWarningState(R.string.validation_soft_case_classification);
-				} else {
-					getContentBinding().caseDataCaseClassification.disableWarningState();
-				}
+				getContentBinding().caseDataCaseClassification.disableWarningState();
 
 				updateCaseConfirmationVisibility(getContentBinding());
 

@@ -276,10 +276,10 @@ public enum PathogenTestType {
 	PCR,
 	
 	@Diseases(value = {
-	Disease.MEASLES })
+	Disease.MEASLES, Disease.RUBELLA })
 	INDIRECT_IGM_SEROLOGY,
 	@Diseases(value = {
-		Disease.MEASLES })
+		Disease.MEASLES, Disease.RUBELLA })
 	CAPTURED_IGM_SEROLOGY,
 
 	@Diseases(value = {

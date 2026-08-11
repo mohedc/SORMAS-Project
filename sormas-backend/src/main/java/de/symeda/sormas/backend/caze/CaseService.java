@@ -2351,7 +2351,7 @@ public class CaseService extends AbstractCoreAdoService<Case, CaseJoins> {
 		if (InvestigationStatus.DONE.equals(caze.getInvestigationStatus())) {
 			completeness += 0.2f;
 		}
-		if (!CaseClassification.NOT_CLASSIFIED.equals(caze.getCaseClassification())) {
+		if (caze.getCaseClassification() != null) {
 			completeness += 0.2f;
 		}
 		if (sampleService

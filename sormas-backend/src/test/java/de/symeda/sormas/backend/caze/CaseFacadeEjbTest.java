@@ -2297,7 +2297,7 @@ public class CaseFacadeEjbTest extends AbstractBeanTest {
 			surveillanceSupervisor.toReference(),
 			cazePerson,
 			Disease.CHOLERA,
-			CaseClassification.NOT_CLASSIFIED,
+			CaseClassification.SUSPECT,
 			InvestigationStatus.PENDING,
 			new Date(),
 			rdcf);
@@ -2326,7 +2326,7 @@ public class CaseFacadeEjbTest extends AbstractBeanTest {
 			surveillanceSupervisor.toReference(),
 			cazePerson,
 			Disease.CORONAVIRUS,
-			CaseClassification.NOT_CLASSIFIED,
+			CaseClassification.SUSPECT,
 			InvestigationStatus.PENDING,
 			new Date(),
 			rdcf);
@@ -2937,7 +2937,7 @@ public class CaseFacadeEjbTest extends AbstractBeanTest {
 			nationalUser.toReference(),
 			cazePerson.toReference(),
 			Disease.EVD,
-			CaseClassification.NOT_CLASSIFIED,
+			CaseClassification.SUSPECT,
 			InvestigationStatus.PENDING,
 			new Date(),
 			rdcf);
@@ -2947,7 +2947,7 @@ public class CaseFacadeEjbTest extends AbstractBeanTest {
 			nationalUser.toReference(),
 			cazePerson2.toReference(),
 			Disease.EVD,
-			CaseClassification.NOT_CLASSIFIED,
+			CaseClassification.SUSPECT,
 			InvestigationStatus.PENDING,
 			DateUtils.addMinutes(new Date(), -3),
 			rdcf);

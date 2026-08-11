@@ -143,14 +143,14 @@ public class CaseClassificationLogicTest extends AbstractBeanTest {
 		fillSymptoms(caze.getSymptoms());
 		caze.getSymptoms().setFever(SymptomState.NO);
 		caze = getCaseFacade().save(caze);
-		assertEquals(CaseClassification.NOT_CLASSIFIED, caze.getCaseClassification());
+		assertEquals(CaseClassification.SUSPECT, caze.getCaseClassification());
 		caze.getSymptoms().setFever(SymptomState.YES);
 		caze.getSymptoms().setDiarrhea(SymptomState.NO);
 		caze.getSymptoms().setGumsBleeding(SymptomState.NO);
 		caze.getSymptoms().setSkinBruising(SymptomState.NO);
 		caze.getSymptoms().setEyesBleeding(SymptomState.NO);
 		caze = getCaseFacade().save(caze);
-		assertEquals(CaseClassification.NOT_CLASSIFIED, caze.getCaseClassification());
+		assertEquals(CaseClassification.SUSPECT, caze.getCaseClassification());
 
 		// Probable
 		caze = buildSuspectCase(Disease.EVD);
@@ -234,14 +234,14 @@ public class CaseClassificationLogicTest extends AbstractBeanTest {
 		fillSymptoms(caze.getSymptoms());
 		caze.getSymptoms().setFever(SymptomState.NO);
 		caze = getCaseFacade().save(caze);
-		assertEquals(CaseClassification.NOT_CLASSIFIED, caze.getCaseClassification());
+		assertEquals(CaseClassification.SUSPECT, caze.getCaseClassification());
 		caze.getSymptoms().setFever(SymptomState.YES);
 		caze.getSymptoms().setNeckStiffness(SymptomState.NO);
 		caze.getSymptoms().setAlteredConsciousness(SymptomState.NO);
 		caze.getSymptoms().setMeningealSigns(SymptomState.NO);
 		caze.getSymptoms().setBulgingFontanelle(SymptomState.NO);
 		caze = getCaseFacade().save(caze);
-		assertEquals(CaseClassification.NOT_CLASSIFIED, caze.getCaseClassification());
+		assertEquals(CaseClassification.SUSPECT, caze.getCaseClassification());
 
 		// Probable
 		caze = buildSuspectCase(Disease.CSM);
@@ -380,16 +380,16 @@ public class CaseClassificationLogicTest extends AbstractBeanTest {
 		caze.getEpiData().getExposures().add(exposure);
 		caze.getEpiData().setContactWithSourceCaseKnown(YesNoUnknown.NO);
 		caze = getCaseFacade().save(caze);
-		assertEquals(CaseClassification.NOT_CLASSIFIED, caze.getCaseClassification());
+		assertEquals(CaseClassification.SUSPECT, caze.getCaseClassification());
 		caze.getSymptoms().setFever(SymptomState.YES);
 		caze = getCaseFacade().save(caze);
-		assertEquals(CaseClassification.NOT_CLASSIFIED, caze.getCaseClassification());
+		assertEquals(CaseClassification.SUSPECT, caze.getCaseClassification());
 		caze.getSymptoms().setFever(SymptomState.NO);
 		ExposureDto exposure2 = creator.buildAnimalContactExposure(TypeOfAnimal.RODENT);
 		caze.getEpiData().getExposures().add(exposure2);
 		caze.getEpiData().setContactWithSourceCaseKnown(YesNoUnknown.YES);
 		caze = getCaseFacade().save(caze);
-		assertEquals(CaseClassification.NOT_CLASSIFIED, caze.getCaseClassification());
+		assertEquals(CaseClassification.SUSPECT, caze.getCaseClassification());
 
 		// Probable doesn't need to be tested
 
@@ -485,11 +485,11 @@ public class CaseClassificationLogicTest extends AbstractBeanTest {
 		fillSymptoms(caze.getSymptoms());
 		caze.getSymptoms().setFever(SymptomState.NO);
 		caze = getCaseFacade().save(caze);
-		assertEquals(CaseClassification.NOT_CLASSIFIED, caze.getCaseClassification());
+		assertEquals(CaseClassification.SUSPECT, caze.getCaseClassification());
 		caze.getSymptoms().setFever(SymptomState.YES);
 		caze.getSymptoms().setJaundice(SymptomState.NO);
 		caze = getCaseFacade().save(caze);
-		assertEquals(CaseClassification.NOT_CLASSIFIED, caze.getCaseClassification());
+		assertEquals(CaseClassification.SUSPECT, caze.getCaseClassification());
 
 		// Probable
 		caze = buildSuspectCase(Disease.YELLOW_FEVER);
@@ -611,7 +611,7 @@ public class CaseClassificationLogicTest extends AbstractBeanTest {
 		fillSymptoms(caze.getSymptoms());
 		caze.getSymptoms().setFever(SymptomState.NO);
 		caze = getCaseFacade().save(caze);
-		assertEquals(CaseClassification.NOT_CLASSIFIED, caze.getCaseClassification());
+		assertEquals(CaseClassification.SUSPECT, caze.getCaseClassification());
 		caze.getSymptoms().setFever(SymptomState.YES);
 		caze.getSymptoms().setHeadache(SymptomState.NO);
 		caze.getSymptoms().setEyePainLightSensitive(SymptomState.NO);
@@ -621,7 +621,7 @@ public class CaseClassificationLogicTest extends AbstractBeanTest {
 		caze.getSymptoms().setJointPain(SymptomState.NO);
 		caze.getSymptoms().setSkinRash(SymptomState.NO);
 		caze = getCaseFacade().save(caze);
-		assertEquals(CaseClassification.NOT_CLASSIFIED, caze.getCaseClassification());
+		assertEquals(CaseClassification.SUSPECT, caze.getCaseClassification());
 
 		// Probable
 		caze = buildSuspectCase(Disease.DENGUE);
@@ -720,12 +720,12 @@ public class CaseClassificationLogicTest extends AbstractBeanTest {
 		fillEpiData(caze.getEpiData());
 		caze.getSymptoms().setFever(SymptomState.NO);
 		caze = getCaseFacade().save(caze);
-		assertEquals(CaseClassification.NOT_CLASSIFIED, caze.getCaseClassification());
+		assertEquals(CaseClassification.SUSPECT, caze.getCaseClassification());
 		caze.getSymptoms().setFever(SymptomState.YES);
 		caze.getSymptoms().setCough(SymptomState.NO);
 		caze.getSymptoms().setDifficultyBreathing(SymptomState.NO);
 		caze = getCaseFacade().save(caze);
-		assertEquals(CaseClassification.NOT_CLASSIFIED, caze.getCaseClassification());
+		assertEquals(CaseClassification.SUSPECT, caze.getCaseClassification());
 		caze.getSymptoms().setCough(SymptomState.YES);
 		caze.getEpiData().setContactWithSourceCaseKnown(YesNoUnknown.NO);
 		caze.getEpiData().setAreaInfectedAnimals(YesNoUnknown.NO);
@@ -733,7 +733,7 @@ public class CaseClassificationLogicTest extends AbstractBeanTest {
 		exposure.setHandlingSamples(YesNoUnknown.NO);
 		caze.getEpiData().getExposures().add(exposure);
 		caze = getCaseFacade().save(caze);
-		assertEquals(CaseClassification.NOT_CLASSIFIED, caze.getCaseClassification());
+		assertEquals(CaseClassification.SUSPECT, caze.getCaseClassification());
 
 		// Probable
 		caze = buildSuspectCase(Disease.NEW_INFLUENZA);
@@ -802,15 +802,15 @@ public class CaseClassificationLogicTest extends AbstractBeanTest {
 		caze.getSymptoms().setRunnyNose(SymptomState.NO);
 		caze.getSymptoms().setConjunctivitis(SymptomState.NO);
 		caze = getCaseFacade().save(caze);
-		assertEquals(CaseClassification.NOT_CLASSIFIED, caze.getCaseClassification());
+		assertEquals(CaseClassification.SUSPECT, caze.getCaseClassification());
 		caze.getSymptoms().setCough(SymptomState.YES);
 		caze.getSymptoms().setFever(SymptomState.NO);
 		caze = getCaseFacade().save(caze);
-		assertEquals(CaseClassification.NOT_CLASSIFIED, caze.getCaseClassification());
+		assertEquals(CaseClassification.SUSPECT, caze.getCaseClassification());
 		caze.getSymptoms().setFever(SymptomState.YES);
 		caze.getSymptoms().setSkinRash(SymptomState.NO);
 		caze = getCaseFacade().save(caze);
-		assertEquals(CaseClassification.NOT_CLASSIFIED, caze.getCaseClassification());
+		assertEquals(CaseClassification.SUSPECT, caze.getCaseClassification());
 
 		// Probable
 		caze = buildSuspectCase(Disease.MEASLES);
@@ -874,17 +874,17 @@ public class CaseClassificationLogicTest extends AbstractBeanTest {
 		casePerson.setApproximateAgeType(ApproximateAgeType.YEARS);
 		getPersonFacade().save(casePerson);
 		caze = getCaseFacade().save(caze);
-		assertEquals(CaseClassification.NOT_CLASSIFIED, caze.getCaseClassification());
+		assertEquals(CaseClassification.SUSPECT, caze.getCaseClassification());
 		casePerson.setApproximateAge(0);
 		getPersonFacade().save(casePerson);
 		caze.setOutcome(CaseOutcome.DECEASED);
 		caze.getEpiData().getExposures().get(0).setRiskArea(YesNoUnknown.YES);
 		caze = getCaseFacade().save(caze);
-		assertEquals(CaseClassification.NOT_CLASSIFIED, caze.getCaseClassification());
+		assertEquals(CaseClassification.SUSPECT, caze.getCaseClassification());
 		caze.getSymptoms().setDiarrhea(SymptomState.YES);
 		caze.getSymptoms().setDehydration(SymptomState.YES);
 		caze = getCaseFacade().save(caze);
-		assertEquals(CaseClassification.NOT_CLASSIFIED, caze.getCaseClassification());
+		assertEquals(CaseClassification.SUSPECT, caze.getCaseClassification());
 
 		// Confirmed
 		caze = getCaseFacade().save(buildSuspectCase(Disease.CHOLERA));
@@ -927,11 +927,11 @@ public class CaseClassificationLogicTest extends AbstractBeanTest {
 		fillSymptoms(caze.getSymptoms());
 		caze.getSymptoms().setFever(SymptomState.NO);
 		caze = getCaseFacade().save(caze);
-		assertEquals(CaseClassification.NOT_CLASSIFIED, caze.getCaseClassification());
+		assertEquals(CaseClassification.SUSPECT, caze.getCaseClassification());
 		caze.getSymptoms().setFever(SymptomState.YES);
 		caze.getSymptoms().setSkinRash(SymptomState.NO);
 		caze = getCaseFacade().save(caze);
-		assertEquals(CaseClassification.NOT_CLASSIFIED, caze.getCaseClassification());
+		assertEquals(CaseClassification.SUSPECT, caze.getCaseClassification());
 
 		// Confirmed
 		caze = buildSuspectCase(Disease.MONKEYPOX);
@@ -1015,13 +1015,13 @@ public class CaseClassificationLogicTest extends AbstractBeanTest {
 		caze.getSymptoms().setFever(SymptomState.NO);
 		caze.setPlagueType(PlagueType.BUBONIC);
 		caze = getCaseFacade().save(caze);
-		assertEquals(CaseClassification.NOT_CLASSIFIED, caze.getCaseClassification());
+		assertEquals(CaseClassification.SUSPECT, caze.getCaseClassification());
 		caze.setPlagueType(PlagueType.PNEUMONIC);
 		caze = getCaseFacade().save(caze);
-		assertEquals(CaseClassification.NOT_CLASSIFIED, caze.getCaseClassification());
+		assertEquals(CaseClassification.SUSPECT, caze.getCaseClassification());
 		caze.setPlagueType(PlagueType.SEPTICAEMIC);
 		caze = getCaseFacade().save(caze);
-		assertEquals(CaseClassification.NOT_CLASSIFIED, caze.getCaseClassification());
+		assertEquals(CaseClassification.SUSPECT, caze.getCaseClassification());
 		caze.getSymptoms().setFever(SymptomState.YES);
 		caze.getSymptoms().setPainfulLymphadenitis(SymptomState.NO);
 		caze.getSymptoms().setCough(SymptomState.NO);
@@ -1030,7 +1030,7 @@ public class CaseClassificationLogicTest extends AbstractBeanTest {
 		caze.getSymptoms().setChillsSweats(SymptomState.NO);
 		caze.setPlagueType(PlagueType.BUBONIC);
 		caze = getCaseFacade().save(caze);
-		assertEquals(CaseClassification.NOT_CLASSIFIED, caze.getCaseClassification());
+		assertEquals(CaseClassification.SUSPECT, caze.getCaseClassification());
 
 		// Probable & Confirmed
 		caze = buildSuspectCase(Disease.PLAGUE);
@@ -1109,10 +1109,10 @@ public class CaseClassificationLogicTest extends AbstractBeanTest {
 		caze.getSymptoms().setShock(SymptomState.NO);
 		caze.getSymptoms().setArthritis(SymptomState.NO);
 		caze = getCaseFacade().save(caze);
-		assertEquals(CaseClassification.NOT_CLASSIFIED, caze.getCaseClassification());
+		assertEquals(CaseClassification.SUSPECT, caze.getCaseClassification());
 		caze.getSymptoms().setFever(SymptomState.NO);
 		caze = getCaseFacade().save(caze);
-		assertEquals(CaseClassification.NOT_CLASSIFIED, caze.getCaseClassification());
+		assertEquals(CaseClassification.SUSPECT, caze.getCaseClassification());
 
 		// Suspect
 		caze = buildSuspectCase(Disease.INVASIVE_MENINGOCOCCAL_INFECTION);
@@ -1199,19 +1199,19 @@ public class CaseClassificationLogicTest extends AbstractBeanTest {
 		caze.getSymptoms().setPneumoniaClinicalOrRadiologic(SymptomState.YES);
 		caze.getSymptoms().setAsymptomatic(SymptomState.YES);
 		caze = getCaseFacade().save(caze);
-		assertEquals(CaseClassification.NOT_CLASSIFIED, caze.getCaseClassification());
+		assertEquals(CaseClassification.SUSPECT, caze.getCaseClassification());
 		caze.getSymptoms().setMeningitis(SymptomState.YES);
 		caze = getCaseFacade().save(caze);
-		assertEquals(CaseClassification.NOT_CLASSIFIED, caze.getCaseClassification());
+		assertEquals(CaseClassification.SUSPECT, caze.getCaseClassification());
 		caze.getSymptoms().setPneumoniaClinicalOrRadiologic(SymptomState.YES);
 		caze = getCaseFacade().save(caze);
-		assertEquals(CaseClassification.NOT_CLASSIFIED, caze.getCaseClassification());
+		assertEquals(CaseClassification.SUSPECT, caze.getCaseClassification());
 		caze.getSymptoms().setAsymptomatic(SymptomState.YES);
 		caze = getCaseFacade().save(caze);
-		assertEquals(CaseClassification.NOT_CLASSIFIED, caze.getCaseClassification());
+		assertEquals(CaseClassification.SUSPECT, caze.getCaseClassification());
 		caze.getSymptoms().setFever(SymptomState.NO);
 		caze = getCaseFacade().save(caze);
-		assertEquals(CaseClassification.NOT_CLASSIFIED, caze.getCaseClassification());
+		assertEquals(CaseClassification.SUSPECT, caze.getCaseClassification());
 
 		caze = buildSuspectCase(Disease.INVASIVE_PNEUMOCOCCAL_INFECTION);
 		caze = getCaseFacade().save(caze);
@@ -1222,7 +1222,7 @@ public class CaseClassificationLogicTest extends AbstractBeanTest {
 				PathogenTestType.CULTURE,
 				PathogenTestType.SEQUENCING, PathogenTestType.ANTIBIOTIC_SUSCEPTIBILITY);
 		caze = getCaseFacade().getCaseDataByUuid(caze.getUuid());
-		assertEquals(CaseClassification.NOT_CLASSIFIED, caze.getCaseClassification());
+		assertEquals(CaseClassification.SUSPECT, caze.getCaseClassification());
 	}
 
 	@Test
@@ -1362,7 +1362,7 @@ public class CaseClassificationLogicTest extends AbstractBeanTest {
 		CaseDataDto caze = buildSuspectCase(Disease.CORONAVIRUS);
 		caze = getCaseFacade().save(caze);
 		caze = getCaseFacade().getCaseDataByUuid(caze.getUuid());
-		assertEquals(CaseClassification.NOT_CLASSIFIED, caze.getCaseClassification());
+		assertEquals(CaseClassification.SUSPECT, caze.getCaseClassification());
 
 		MockProducer.getProperties()
 			.setProperty(
@@ -1383,7 +1383,7 @@ public class CaseClassificationLogicTest extends AbstractBeanTest {
 				ConfigFacadeEjb.CASE_CLASSIFICATION_CALCULATION_PREFIX + Disease.CORONAVIRUS.getName(),
 				CaseClassificationCalculationMode.DISABLED.name());
 		caze = getCaseFacade().save(buildSuspectCase(Disease.CORONAVIRUS));
-		assertEquals(CaseClassification.NOT_CLASSIFIED, caze.getCaseClassification());
+		assertEquals(CaseClassification.SUSPECT, caze.getCaseClassification());
 
 		MockProducer.getProperties()
 			.setProperty(ConfigFacadeEjb.CASE_CLASSIFICATION_CALCULATION_ALL, CaseClassificationCalculationMode.AUTOMATIC.name());
@@ -1392,7 +1392,7 @@ public class CaseClassificationLogicTest extends AbstractBeanTest {
 				ConfigFacadeEjb.CASE_CLASSIFICATION_CALCULATION_PREFIX + Disease.CORONAVIRUS.getName(),
 				CaseClassificationCalculationMode.DISABLED.name());
 		caze = getCaseFacade().save(buildSuspectCase(Disease.CORONAVIRUS));
-		assertEquals(CaseClassification.NOT_CLASSIFIED, caze.getCaseClassification());
+		assertEquals(CaseClassification.SUSPECT, caze.getCaseClassification());
 	}
 
 	/**

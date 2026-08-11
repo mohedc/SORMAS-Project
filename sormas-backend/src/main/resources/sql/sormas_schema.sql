@@ -15682,6 +15682,18 @@ DELETE FROM userroles_userrights
 
 INSERT INTO schema_version (version_number, comment) VALUES (674, 'Remove pathogen test user rights from surveillance user roles');
 
+-- Migration 675: Replace Not yet classified with Suspect case
+UPDATE cases SET caseclassification = 'SUSPECT' WHERE caseclassification = 'NOT_CLASSIFIED';
+UPDATE cases_history SET caseclassification = 'SUSPECT' WHERE caseclassification = 'NOT_CLASSIFIED';
+
+INSERT INTO schema_version (version_number, comment) VALUES (675, 'Update NOT_CLASSIFIED case classification to SUSPECT');
+
+-- Migration 676: Also migrate system case classification away from NOT_CLASSIFIED
+UPDATE cases SET systemcaseclassification = 'SUSPECT' WHERE systemcaseclassification = 'NOT_CLASSIFIED';
+UPDATE cases_history SET systemcaseclassification = 'SUSPECT' WHERE systemcaseclassification = 'NOT_CLASSIFIED';
+
+INSERT INTO schema_version (version_number, comment) VALUES (676, 'Update NOT_CLASSIFIED system case classification to SUSPECT');
+
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***
 
 

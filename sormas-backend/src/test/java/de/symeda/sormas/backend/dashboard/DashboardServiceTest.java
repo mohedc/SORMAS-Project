@@ -104,14 +104,14 @@ public class DashboardServiceTest extends AbstractBeanTest {
 		assertThat(result.get(CaseClassification.CONFIRMED), equalTo(1));
 		assertThat(result.get(CaseClassification.CONFIRMED_NO_SYMPTOMS), equalTo(2));
 		assertThat(result.get(CaseClassification.CONFIRMED_UNKNOWN_SYMPTOMS), equalTo(4));
-		assertThat(result.get(CaseClassification.NOT_CLASSIFIED), is(nullValue()));
+		assertThat(result.get(CaseClassification.SUSPECT), is(nullValue()));
 
 		aggregateConfirmed = true;
 		result = DashboardService.getCasesCountByClassification(data, aggregateConfirmed);
 		assertThat(result.entrySet(), hasSize(2));
 		assertThat(result.get(CaseClassification.NO_CASE), equalTo(8));
 		assertThat(result.get(CaseClassification.CONFIRMED), equalTo(7));
-		assertThat(result.get(CaseClassification.NOT_CLASSIFIED), is(nullValue()));
+		assertThat(result.get(CaseClassification.SUSPECT), is(nullValue()));
 
 		// Also aggregate if CONFIRMED is missing
 		data.remove(1);

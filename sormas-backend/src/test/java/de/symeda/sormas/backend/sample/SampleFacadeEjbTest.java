@@ -494,7 +494,7 @@ public class SampleFacadeEjbTest extends AbstractBeanTest {
 			user.toReference(),
 			secondCazePerson.toReference(),
 			Disease.ACUTE_VIRAL_HEPATITIS,
-			CaseClassification.NOT_CLASSIFIED,
+			CaseClassification.SUSPECT,
 			InvestigationStatus.PENDING,
 			new Date(),
 			rdcf);

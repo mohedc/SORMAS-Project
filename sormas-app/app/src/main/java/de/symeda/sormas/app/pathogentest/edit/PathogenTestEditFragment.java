@@ -70,6 +70,7 @@ public class PathogenTestEditFragment extends BaseEditFragment<FragmentPathogenT
 	private List<Item> diseaseVariantList;
 	private List<Item> pathogenList;
 	private List<Item> testResultList;
+	private Disease caseDisease;
 
 	// Instance methods
 
@@ -80,6 +81,27 @@ public class PathogenTestEditFragment extends BaseEditFragment<FragmentPathogenT
 			activityRootData,
 			FieldVisibilityCheckers.withDisease(activityRootData.getTestedDisease()).andWithCountry(ConfigProvider.getServerCountryCode()),
 			UiFieldAccessCheckers.forSensitiveData(activityRootData.isPseudonymized(), ConfigProvider.getServerCountryCode()));
+	}
+
+	private List<Item> buildTestTypeList(Disease testedDisease) {
+		if (Disease.MEASLES.equals(caseDisease) && testedDisease != null) {
+			if (testedDisease == Disease.MEASLES || testedDisease == Disease.RUBELLA) {
+				return DataUtils.toItems(
+					Arrays.asList(PathogenTestType.INDIRECT_IGM_SEROLOGY, PathogenTestType.CAPTURED_IGM_SEROLOGY),
+					true);
+			}
+			if (testedDisease == Disease.DENGUE) {
+				return DataUtils.toItems(Arrays.asList(PathogenTestType.IGM_SERUM_ANTIBODY), true);
+			}
+		}
+		if (testedDisease != null) {
+			return DataUtils.toItems(
+				Arrays.asList(PathogenTestType.values()),
+				true,
+				FieldVisibilityCheckers.withDisease(testedDisease),
+				PathogenTestType.class);
+		}
+		return DataUtils.getEnumItems(PathogenTestType.class, true);
 	}
 
 	// Overrides
@@ -98,7 +120,10 @@ public class PathogenTestEditFragment extends BaseEditFragment<FragmentPathogenT
 	protected void prepareFragmentData() {
 		record = getActivityRootData();
 		sample = record.getSample();
-		testTypeList = DataUtils.getEnumItems(PathogenTestType.class, true, getFieldVisibilityCheckers());
+		if (sample != null && sample.getAssociatedCase() != null) {
+			caseDisease = sample.getAssociatedCase().getDisease();
+		}
+		testTypeList = buildTestTypeList(record.getTestedDisease());
 		pcrTestSpecificationList = DataUtils.getEnumItems(PCRTestSpecification.class, true);
 
 		List<Disease> diseases = DiseaseConfigurationCache.getInstance().getAllDiseases(true, true, true);
@@ -183,11 +208,7 @@ public class PathogenTestEditFragment extends BaseEditFragment<FragmentPathogenT
 
 				updateDiseaseVariantsField(contentBinding);
 
-				testTypeList = DataUtils.toItems(
-					Arrays.asList(PathogenTestType.values()),
-					true,
-					FieldVisibilityCheckers.withDisease((Disease) field.getValue()),
-					PathogenTestType.class);
+				testTypeList = buildTestTypeList((Disease) field.getValue());
 				contentBinding.pathogenTestTestType.setSpinnerData(testTypeList);
 			}
 		});

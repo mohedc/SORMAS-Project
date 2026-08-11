@@ -70,6 +70,6 @@ public class CaseStatisticsComponent extends DiseaseSectionStatisticsComponent {
 		caseClassificationProbable.updateCountLabel(cases.getOrDefault(CaseClassification.PROBABLE, 0));
 		caseClassificationSuspect.updateCountLabel(cases.getOrDefault(CaseClassification.SUSPECT, 0));
 		caseClassificationNotACase.updateCountLabel(cases.getOrDefault(CaseClassification.NO_CASE, 0));
-		caseClassificationNotYetClassified.updateCountLabel(cases.getOrDefault(CaseClassification.NOT_CLASSIFIED, 0));
+		caseClassificationNotYetClassified.updateCountLabel(0);
 	}
 }

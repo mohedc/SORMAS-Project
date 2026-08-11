@@ -236,7 +236,7 @@ public class CaseDao extends AbstractAdoDao<Case> {
 		}
 
 		caze.setInvestigationStatus(InvestigationStatus.PENDING);
-		caze.setCaseClassification(CaseClassification.NOT_CLASSIFIED);
+		caze.setCaseClassification(CaseClassification.SUSPECT);
 		caze.setOutcome(CaseOutcome.NO_OUTCOME);
 
 		// Symptoms
@@ -639,7 +639,7 @@ public class CaseDao extends AbstractAdoDao<Case> {
 		if (InvestigationStatus.DONE.equals(caze.getInvestigationStatus())) {
 			points += 20;
 		}
-		if (!CaseClassification.NOT_CLASSIFIED.equals(caze.getCaseClassification())) {
+		if (caze.getCaseClassification() != null) {
 			points += 20;
 		}
 		if (caze.getId() != null

@@ -543,9 +543,9 @@ public class Case extends CoreAdo implements IsCase, SormasToSormasShareable, Ha
 
     public static Case build() {
 		Case caze = new Case();
-		caze.setSystemCaseClassification(CaseClassification.NOT_CLASSIFIED);
+		caze.setSystemCaseClassification(CaseClassification.SUSPECT);
 		caze.setInvestigationStatus(InvestigationStatus.PENDING);
-		caze.setCaseClassification(CaseClassification.NOT_CLASSIFIED);
+		caze.setCaseClassification(CaseClassification.SUSPECT);
 		caze.setOutcome(CaseOutcome.NO_OUTCOME);
 		caze.setCaseOrigin(CaseOrigin.IN_COUNTRY);
 		caze.setFollowUpStatus(FollowUpStatus.NO_FOLLOW_UP);

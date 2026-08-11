@@ -303,7 +303,7 @@ public class DashboardFacadeEjbTest extends AbstractBeanTest {
 				userReferenceDto,
 				personDto.toReference(),
 				Disease.CORONAVIRUS,
-				CaseClassification.NOT_CLASSIFIED,
+				CaseClassification.SUSPECT,
 				InvestigationStatus.PENDING,
 				new Date(),
 				rdcf);

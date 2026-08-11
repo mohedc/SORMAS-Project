@@ -150,7 +150,7 @@ public class CaseClassificationFacadeEjb implements CaseClassificationFacade {
 				}
 			}
 		}
-		return CaseClassification.NOT_CLASSIFIED;
+		return CaseClassification.SUSPECT;
 	}
 
 	@Override
