@@ -565,7 +565,7 @@ public class TestDataCreator {
 			user.toReference(),
 			cazePerson.toReference(),
 			disease,
-			CaseClassification.NOT_CLASSIFIED,
+			CaseClassification.SUSPECT,
 			InvestigationStatus.PENDING,
 			new Date(),
 			rdcf);

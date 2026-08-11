@@ -54,10 +54,7 @@ public final class CaseLogic {
 	private static final String EPID_PATTERN_PREFIX = "([A-Z0-9]{3}-){3}[0-9]{2}-";
 
 	public static void validateInvestigationDoneAllowed(CaseDataDto caze) throws ValidationException {
-
-		if (caze.getCaseClassification() == CaseClassification.NOT_CLASSIFIED) {
-			throw new ValidationException("Not allowed to set investigation status to done for an unclassified case.");
-		}
+		// No-op: unclassified cases are no longer supported.
 	}
 
 	public static Date getStartDate(CaseDataDto caseDto) {

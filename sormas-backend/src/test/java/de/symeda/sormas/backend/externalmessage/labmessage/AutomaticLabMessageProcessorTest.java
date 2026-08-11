@@ -610,7 +610,7 @@ public class AutomaticLabMessageProcessorTest extends AbstractBeanTest {
 		CaseDataDto negativeCase = getCaseData();
 		assertThat(negativeCase, is(notNullValue()));
 		assertThat(negativeCase.getDisease(), is(negativeMessage.getDisease()));
-		assertThat(negativeCase.getCaseClassification(), is(CaseClassification.NOT_CLASSIFIED));
+		assertThat(negativeCase.getCaseClassification(), is(CaseClassification.SUSPECT));
 		assertThat(negativeCase.getInvestigationStatus(), is(InvestigationStatus.PENDING));
 		assertThat(negativeCase.getOutcome(), is(CaseOutcome.NO_OUTCOME));
 	}
@@ -627,7 +627,7 @@ public class AutomaticLabMessageProcessorTest extends AbstractBeanTest {
 		CaseDataDto rapidTestcase = getCaseData();
 		assertThat(rapidTestcase, is(notNullValue()));
 		assertThat(rapidTestcase.getDisease(), is(rapidTestMessage.getDisease()));
-		assertThat(rapidTestcase.getCaseClassification(), is(CaseClassification.NOT_CLASSIFIED));
+		assertThat(rapidTestcase.getCaseClassification(), is(CaseClassification.SUSPECT));
 		assertThat(rapidTestcase.getInvestigationStatus(), is(InvestigationStatus.PENDING));
 		assertThat(rapidTestcase.getOutcome(), is(CaseOutcome.NO_OUTCOME));
 	}

@@ -734,7 +734,7 @@ public class PathogenTestController {
 			800,
 			confirmed -> {
 				if (confirmed) {
-					existingCaseDto.setCaseClassification(CaseClassification.NOT_CLASSIFIED);
+					existingCaseDto.setCaseClassification(CaseClassification.SUSPECT);
 					existingCaseDto.setClassificationUser(null);
 					existingCaseDto.setDisease(disease);
 					existingCaseDto.setDiseaseDetails(diseaseDetails);

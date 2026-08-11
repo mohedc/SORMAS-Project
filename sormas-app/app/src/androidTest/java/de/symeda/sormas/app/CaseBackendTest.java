@@ -355,7 +355,7 @@ public class CaseBackendTest {
 		CaseDataDto serverCaseDto = new CaseDataDto();
 		// TODO find a better way to fill DTO with default embedded objects
 		TestDtoCreator.fillNewDto(serverCaseDto);
-		serverCaseDto.setCaseClassification(CaseClassification.NOT_CLASSIFIED);
+		serverCaseDto.setCaseClassification(CaseClassification.SUSPECT);
 		serverCaseDto.setInvestigationStatus(InvestigationStatus.PENDING);
 		serverCaseDto.setPerson(personDto);
 

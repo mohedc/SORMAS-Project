@@ -21,7 +21,6 @@ import java.util.List;
 
 import android.view.View;
 
-import de.symeda.sormas.api.caze.CaseClassification;
 import de.symeda.sormas.api.task.TaskContext;
 import de.symeda.sormas.api.task.TaskPriority;
 import de.symeda.sormas.api.task.TaskStatus;
@@ -146,8 +145,7 @@ public class TaskEditFragment extends BaseEditFragment<FragmentTaskEditLayoutBin
 		contentBinding.taskSuggestedStart.initializeDateTimeField(getFragmentManager());
 		contentBinding.taskDueDate.initializeDateTimeField(getFragmentManager());
 
-		contentBinding.setDone
-			.setEnabled(!(record.getCaze() != null && record.getCaze().getCaseClassification() == CaseClassification.NOT_CLASSIFIED));
+		contentBinding.setDone.setEnabled(true);
 
 		//creatorComment should be required when task type is OTHER
 		contentBinding.taskTaskType.addValueChangedListener(new ValueChangeListener() {

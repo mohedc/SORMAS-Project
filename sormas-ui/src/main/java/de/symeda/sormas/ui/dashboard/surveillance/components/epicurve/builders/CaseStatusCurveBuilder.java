@@ -38,7 +38,7 @@ public class CaseStatusCurveBuilder extends SurveillanceEpiCurveBuilder {
 			confirmedNumbers[i] = caseCounts.getOrDefault(CaseClassification.CONFIRMED, 0).intValue();
 			probableNumbers[i] = caseCounts.getOrDefault(CaseClassification.PROBABLE, 0).intValue();
 			suspectNumbers[i] = caseCounts.getOrDefault(CaseClassification.SUSPECT, 0).intValue();
-			notYetClassifiedNumbers[i] = caseCounts.getOrDefault(CaseClassification.NOT_CLASSIFIED, 0).intValue();
+			notYetClassifiedNumbers[i] = 0;
 
 			if (FacadeProvider.getConfigFacade().isConfiguredCountry(CountryHelper.COUNTRY_CODE_GERMANY)) {
 				confirmedNoSymptomsNumbers[i] = caseCounts.getOrDefault(CaseClassification.CONFIRMED_NO_SYMPTOMS, 0).intValue();

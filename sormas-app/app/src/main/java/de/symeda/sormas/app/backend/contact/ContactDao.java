@@ -212,6 +212,7 @@ public class ContactDao extends AbstractAdoDao<Contact> {
 		QueryBuilder<Contact, Long> queryBuilder = queryBuilder();
 
 		QueryBuilder<Case, Long> caseQueryBuilder = DatabaseHelper.getCaseDao().queryBuilder();
+		caseQueryBuilder.where().eq(AbstractDomainObject.SNAPSHOT, false);
 		queryBuilder.join(Contact.CASE_UUID, Case.UUID, caseQueryBuilder, QueryBuilder.JoinType.LEFT, QueryBuilder.JoinWhereOperation.AND);
 
 		List<Where<Contact, Long>> whereStatements = new ArrayList<>();

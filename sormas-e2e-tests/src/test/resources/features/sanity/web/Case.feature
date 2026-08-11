@@ -632,7 +632,7 @@ Feature: Case end to end tests
     And I click on Case tab from Symptoms tab directory
     And I check that Case Classification has "Confirmed case" value
     Then I click on save case button
-    And I change the Case Classification field for "NOT_CLASSIFIED" value
+    And I change the Case Classification field for "SUSPECT" value
     And I click on save case button
     And From Case page I click on Calculate Case Classification button
     And I click on save case button

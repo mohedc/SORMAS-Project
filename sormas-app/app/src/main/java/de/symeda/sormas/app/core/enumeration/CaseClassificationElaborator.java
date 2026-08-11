@@ -39,9 +39,7 @@ public class CaseClassificationElaborator implements StatusElaborator {
 
 	@Override
 	public int getColorIndicatorResource() {
-		if (status == CaseClassification.NOT_CLASSIFIED) {
-			return R.color.indicatorCaseNotYetClassified;
-		} else if (status == CaseClassification.SUSPECT) {
+		if (status == CaseClassification.SUSPECT) {
 			return R.color.indicatorCaseSuspect;
 		} else if (status == CaseClassification.PROBABLE) {
 			return R.color.indicatorCaseProbable;

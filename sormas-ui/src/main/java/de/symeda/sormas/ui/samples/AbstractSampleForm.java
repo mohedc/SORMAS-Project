@@ -866,7 +866,9 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 	 * Configures fields specifically for measles samples
 	 */
 	protected void configureMeaslesFields() {
-		// Filter sample material options for measles: Blood, throat swab, urine, other
+		// Filter sample material options for measles: Blood only
+		FieldHelper.updateEnumData(sampleMaterialComboBox, Arrays.asList(SampleMaterial.BLOOD));
+
 		// Note: "gingival fluid" is not available in SampleMaterial enum, using available options
 		// Instead of removing all items, check each item and remove only those that don't match
 
@@ -996,8 +998,8 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 	 * Configures fields specifically for congenital rubella samples
 	 */
 	protected void configureCongenitalRubellaFields() {
-		// Filter sample material options for congenital rubella: Serum, Throat swab, Urine, CSF, Other
-		FieldHelper.updateEnumData(sampleMaterialComboBox, Arrays.asList(SampleMaterial.SERUM, SampleMaterial.THROAT_SWAB, SampleMaterial.URINE, SampleMaterial.CSF, SampleMaterial.OTHER));
+		// Filter sample material options for congenital rubella: Blood only
+		FieldHelper.updateEnumData(sampleMaterialComboBox, Arrays.asList(SampleMaterial.BLOOD));
 
 		// Set PATHOGEN_TEST_RESULT as read-only
 		getField(SampleDto.PATHOGEN_TEST_RESULT).setReadOnly(true);

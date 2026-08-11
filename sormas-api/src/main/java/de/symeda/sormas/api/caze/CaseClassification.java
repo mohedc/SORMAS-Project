@@ -30,8 +30,9 @@ public enum CaseClassification
 	implements
 	StatisticsGroupingKey {
 
-	@Diseases(value = { Disease.MEASLES, Disease.YELLOW_FEVER, Disease.CSM, Disease.CONGENITAL_RUBELLA, Disease.NEONATAL_TETANUS, Disease.AFP, Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS }, hide = true)
-	NOT_CLASSIFIED(1),
+	// Hidden for all diseases — no longer offered as a selectable classification
+	//	@Diseases(value = { Disease.MEASLES, Disease.YELLOW_FEVER, Disease.CSM, Disease.CONGENITAL_RUBELLA, Disease.NEONATAL_TETANUS, Disease.AFP, Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS }, hide = true)
+	//	NOT_CLASSIFIED(1),
 	SUSPECT(2),
 	PROBABLE(3),
 	CONFIRMED(6),

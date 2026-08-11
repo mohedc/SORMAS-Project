@@ -31,7 +31,7 @@ public enum SampleMaterial {
 			Disease.RESPIRATORY_SYNCYTIAL_VIRUS, Disease.INVASIVE_PNEUMOCOCCAL_INFECTION, Disease.YELLOW_FEVER, Disease.MEASLES }, hide = true)
 	SERA,
 	@Diseases(value = {
-			Disease.YELLOW_FEVER, Disease.MEASLES }, hide = true)
+			Disease.YELLOW_FEVER, Disease.MEASLES, Disease.CONGENITAL_RUBELLA }, hide = true)
 	SERUM,
 	@Diseases(value = {
 		Disease.CORONAVIRUS, Disease.RESPIRATORY_SYNCYTIAL_VIRUS, Disease.INVASIVE_MENINGOCOCCAL_INFECTION, Disease.INVASIVE_PNEUMOCOCCAL_INFECTION, Disease.YELLOW_FEVER, Disease.MEASLES }, hide = true)
@@ -40,7 +40,7 @@ public enum SampleMaterial {
 		Disease.INVASIVE_MENINGOCOCCAL_INFECTION, Disease.INVASIVE_PNEUMOCOCCAL_INFECTION, Disease.YELLOW_FEVER, Disease.MEASLES }, hide = true)
 	NASAL_SWAB,
 	@Diseases(value = {
-			Disease.INVASIVE_MENINGOCOCCAL_INFECTION, Disease.INVASIVE_PNEUMOCOCCAL_INFECTION, Disease.YELLOW_FEVER }, hide = true)
+			Disease.INVASIVE_MENINGOCOCCAL_INFECTION, Disease.INVASIVE_PNEUMOCOCCAL_INFECTION, Disease.YELLOW_FEVER, Disease.MEASLES, Disease.CONGENITAL_RUBELLA }, hide = true)
 	THROAT_SWAB,
 	@Diseases(value = {
 			Disease.RESPIRATORY_SYNCYTIAL_VIRUS, Disease.INVASIVE_MENINGOCOCCAL_INFECTION, Disease.INVASIVE_PNEUMOCOCCAL_INFECTION, Disease.YELLOW_FEVER, Disease.MEASLES }, hide = true)
@@ -49,7 +49,7 @@ public enum SampleMaterial {
 		Disease.CORONAVIRUS, Disease.RESPIRATORY_SYNCYTIAL_VIRUS, Disease.INVASIVE_MENINGOCOCCAL_INFECTION, Disease.INVASIVE_PNEUMOCOCCAL_INFECTION, Disease.YELLOW_FEVER, Disease.MEASLES }, hide = true)
 	RECTAL_SWAB,
 	@Diseases(value = {
-		Disease.RESPIRATORY_SYNCYTIAL_VIRUS, Disease.YELLOW_FEVER, Disease.MEASLES }, hide = true)
+		Disease.RESPIRATORY_SYNCYTIAL_VIRUS, Disease.YELLOW_FEVER, Disease.MEASLES, Disease.CONGENITAL_RUBELLA }, hide = true)
 	CEREBROSPINAL_FLUID,
 	@Diseases(value = {
 		Disease.CORONAVIRUS, Disease.RESPIRATORY_SYNCYTIAL_VIRUS, Disease.INVASIVE_MENINGOCOCCAL_INFECTION, Disease.INVASIVE_PNEUMOCOCCAL_INFECTION, Disease.YELLOW_FEVER, Disease.MEASLES }, hide = true)
@@ -58,7 +58,7 @@ public enum SampleMaterial {
 			Disease.RESPIRATORY_SYNCYTIAL_VIRUS,Disease.INVASIVE_MENINGOCOCCAL_INFECTION, Disease.INVASIVE_PNEUMOCOCCAL_INFECTION, Disease.MEASLES }, hide = true)
 	TISSUE,
 	@Diseases(value = {
-		Disease.CORONAVIRUS, Disease.RESPIRATORY_SYNCYTIAL_VIRUS, Disease.INVASIVE_MENINGOCOCCAL_INFECTION, Disease.MEASLES, Disease.YELLOW_FEVER}, hide = true)
+		Disease.CORONAVIRUS, Disease.RESPIRATORY_SYNCYTIAL_VIRUS, Disease.INVASIVE_MENINGOCOCCAL_INFECTION, Disease.MEASLES, Disease.YELLOW_FEVER, Disease.CONGENITAL_RUBELLA}, hide = true)
 	URINE,
 	@Diseases(value = {
 		Disease.CORONAVIRUS, Disease.RESPIRATORY_SYNCYTIAL_VIRUS, Disease.INVASIVE_MENINGOCOCCAL_INFECTION, Disease.INVASIVE_PNEUMOCOCCAL_INFECTION, Disease.YELLOW_FEVER, Disease.MEASLES }, hide = true)
@@ -109,7 +109,7 @@ public enum SampleMaterial {
 			Disease.YELLOW_FEVER, Disease.MEASLES}, hide = true)
 	SYNOVIAL_FLUID,
 	@Diseases(value = {
-			Disease.YELLOW_FEVER}, hide = true)
+			Disease.YELLOW_FEVER, Disease.MEASLES, Disease.CONGENITAL_RUBELLA}, hide = true)
 	OTHER,
 	@Diseases(value = {
 			Disease.CSM }, hide = false)
