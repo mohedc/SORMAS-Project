@@ -268,11 +268,19 @@ public class CaseReadFragment extends BaseReadFragment<FragmentCaseReadLayoutBin
 			contentBinding.caseDataHealthFacility.setVisibility(GONE);
 			contentBinding.caseDataHealthFacilityDetails.setVisibility(GONE);
 		} else if (FacilityDto.NONE_FACILITY_UUID.equals(record.getHealthFacility().getUuid())) {
-			contentBinding.facilityOrHome.setValue(TypeOfPlace.HOME);
+			// The none facility covers both Home and Other; only Other carries a place description
+			String healthFacilityDetails = record.getHealthFacilityDetails();
+			if (healthFacilityDetails != null && !healthFacilityDetails.trim().isEmpty()) {
+				contentBinding.facilityOrHome.setValue(TypeOfPlace.OTHER);
+			} else {
+				contentBinding.facilityOrHome.setValue(TypeOfPlace.HOME);
+			}
 			contentBinding.facilityTypeFieldsLayout.setVisibility(GONE);
 		} else {
 			contentBinding.facilityOrHome.setValue(TypeOfPlace.FACILITY);
-			contentBinding.facilityTypeGroup.setValue(record.getFacilityType().getFacilityTypeGroup());
+			if (record.getFacilityType() != null) {
+				contentBinding.facilityTypeGroup.setValue(record.getFacilityType().getFacilityTypeGroup());
+			}
 		}
 
 		contentBinding.caseDataReportingUser.setPseudonymized(record.isPseudonymized());
