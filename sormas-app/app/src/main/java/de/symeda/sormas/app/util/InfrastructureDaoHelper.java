@@ -22,6 +22,7 @@ import static de.symeda.sormas.app.util.DataUtils.toItems;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import androidx.annotation.Nullable;
@@ -273,14 +274,17 @@ public final class InfrastructureDaoHelper {
 		final ControlPropertyField healthFacilityDetailsField,
 		@Nullable final ControlSpinnerField facilityOrHomeField) {
 
-		Runnable refresh = () -> {
+		// Same rule as ControlPropertyField#setVisibilityBasedOnParentField: the value may only be erased when hiding is
+		// triggered by a value change. The initial pass runs while the facility and place of stay fields are still being
+		// populated, so erasing there would drop an already stored place description.
+		Consumer<Boolean> refresh = clearValue -> {
 			TypeOfPlace place = facilityOrHomeField != null ? (TypeOfPlace) facilityOrHomeField.getValue() : null;
-			setHealthFacilityDetailsFieldVisibility(healthFacilityField, healthFacilityDetailsField, place);
+			setHealthFacilityDetailsFieldVisibility(healthFacilityField, healthFacilityDetailsField, place, clearValue);
 		};
-		refresh.run();
-		healthFacilityField.addValueChangedListener(field -> refresh.run());
+		refresh.accept(false);
+		healthFacilityField.addValueChangedListener(field -> refresh.accept(true));
 		if (facilityOrHomeField != null) {
-			facilityOrHomeField.addValueChangedListener(field -> refresh.run());
+			facilityOrHomeField.addValueChangedListener(field -> refresh.accept(true));
 		}
 	}
 
@@ -294,17 +298,35 @@ public final class InfrastructureDaoHelper {
 		ControlPropertyField healthFacilityField,
 		ControlPropertyField healthFacilityDetailsField,
 		@Nullable TypeOfPlace placeOfStay) {
+		setHealthFacilityDetailsFieldVisibility(healthFacilityField, healthFacilityDetailsField, placeOfStay, true);
+	}
+
+	/**
+	 * @param clearValue
+	 *            whether hiding the field may also erase its value. Pass {@code false} while the form is still being set
+	 *            up, because the facility and place of stay fields are not populated yet at that point and erasing would
+	 *            drop a place description that was entered elsewhere.
+	 */
+	public static void setHealthFacilityDetailsFieldVisibility(
+		ControlPropertyField healthFacilityField,
+		ControlPropertyField healthFacilityDetailsField,
+		@Nullable TypeOfPlace placeOfStay,
+		boolean clearValue) {
 
 		Facility selectedFacility = (Facility) healthFacilityField.getValue();
 
 		if (placeOfStay != null && TypeOfPlace.HOME.equals(placeOfStay)) {
-			hideHealthFacilityDetails(healthFacilityDetailsField, true, true);
+			hideHealthFacilityDetails(healthFacilityDetailsField, clearValue, true);
 			return;
 		}
 
 		if (selectedFacility == null) {
-			if (placeOfStay != null) {
-				hideHealthFacilityDetails(healthFacilityDetailsField, true, true);
+			if (TypeOfPlace.OTHER.equals(placeOfStay)) {
+				// "Other" is stored as the none facility, which loadFacilities() leaves out of the facility spinner, so the
+				// facility field can read null while the place description still applies. Show it and keep the stored value.
+				showPlaceDescriptionForNoneFacility(healthFacilityDetailsField);
+			} else if (placeOfStay != null) {
+				hideHealthFacilityDetails(healthFacilityDetailsField, clearValue, true);
 			} else {
 				hideHealthFacilityDetails(healthFacilityDetailsField, false, false);
 			}
@@ -330,7 +352,7 @@ public final class InfrastructureDaoHelper {
 						I18nProperties.getCaption(Captions.CaseData_noneHealthFacilityDetails));
 				}
 			} else {
-				hideHealthFacilityDetails(healthFacilityDetailsField, true, true);
+				hideHealthFacilityDetails(healthFacilityDetailsField, clearValue, true);
 			}
 			return;
 		}
@@ -346,6 +368,12 @@ public final class InfrastructureDaoHelper {
 		} else {
 			hideHealthFacilityDetails(healthFacilityDetailsField, false, false);
 		}
+	}
+
+	private static void showPlaceDescriptionForNoneFacility(ControlPropertyField healthFacilityDetailsField) {
+		healthFacilityDetailsField.setVisibility(VISIBLE);
+		setHealthFacilityDetailsRequired(healthFacilityDetailsField, true);
+		applyHealthFacilityDetailsCaption(healthFacilityDetailsField, I18nProperties.getCaption(Captions.CaseData_noneHealthFacilityDetails));
 	}
 
 	private static void setHealthFacilityDetailsRequired(ControlPropertyField field, boolean required) {
