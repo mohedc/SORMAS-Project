@@ -762,6 +762,10 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 		getContent().addComponent(assignNewEpidNumberButton, ASSIGN_NEW_EPID_NUMBER_LOC);
 		assignNewEpidNumberButton.setVisible(false);
 
+		if (!UiUtil.permitted(UserRight.CASE_CHANGE_EPID_NUMBER)) {
+			assignNewEpidNumberButton.setEnabled(false);
+		}
+
 		Label epidNumberWarningLabel = new Label(I18nProperties.getString(Strings.messageEpidNumberWarning));
 		epidNumberWarningLabel.addStyleName(VSPACE_3);
 		addField(CaseDataDto.EXTERNAL_ID, TextField.class);
@@ -1719,6 +1723,7 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 			CaseDataDto.CASE_ORIGIN);
 
 		setReadOnly(!UiUtil.permitted(UserRight.CASE_CHANGE_DISEASE), CaseDataDto.DISEASE);
+		setReadOnly(!UiUtil.permitted(UserRight.CASE_CHANGE_EPID_NUMBER), CaseDataDto.EPID_NUMBER);
 		setReadOnly(!UiUtil.permitted(UserRight.CASE_INVESTIGATE), CaseDataDto.INVESTIGATION_STATUS, CaseDataDto.INVESTIGATED_DATE);
 		setReadOnly(!UiUtil.permitted(UserRight.CASE_CLASSIFY), CaseDataDto.CASE_CLASSIFICATION, CaseDataDto.OUTCOME, CaseDataDto.OUTCOME_DATE);
 		setReadOnly(
