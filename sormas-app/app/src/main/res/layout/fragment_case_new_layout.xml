@@ -289,7 +289,7 @@
             <de.symeda.sormas.app.component.controls.ControlTextEditField
                 android:id="@+id/caseData_epidNumber"
                 app:value="@={data.epidNumber}"
-                app:userViewRight="@{UserRight.CASE_CHANGE_EPID_NUMBER}"
+                app:userEditRight="@{UserRight.CASE_CHANGE_EPID_NUMBER}"
                 style="@style/ControlSingleColumnStyle" />
 
             <LinearLayout

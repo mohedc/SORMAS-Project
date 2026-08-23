@@ -65,6 +65,7 @@ import de.symeda.sormas.api.person.PersonReferenceDto;
 import de.symeda.sormas.api.symptoms.SymptomsDto;
 import de.symeda.sormas.api.travelentry.TravelEntryDto;
 import de.symeda.sormas.api.user.JurisdictionLevel;
+import de.symeda.sormas.api.user.UserRight;
 import de.symeda.sormas.api.utils.fieldaccess.UiFieldAccessCheckers;
 import de.symeda.sormas.api.utils.fieldvisibility.FieldVisibilityCheckers;
 import de.symeda.sormas.ui.UiUtil;
@@ -197,6 +198,7 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 		epidField.setInvalidCommitted(false);
 		CaseFormHelper.addEpidNumberFormatValidator(epidField);
 		style(epidField, ERROR_COLOR_PRIMARY);
+		setReadOnly(!UiUtil.permitted(UserRight.CASE_CHANGE_EPID_NUMBER), CaseDataDto.EPID_NUMBER);
 
 		if (!FacadeProvider.getExternalSurveillanceToolFacade().isFeatureEnabled()) {
 			TextField externalIdField = addField(CaseDataDto.EXTERNAL_ID, TextField.class);
