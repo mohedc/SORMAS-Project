@@ -26,28 +26,29 @@ public enum PathogenTestResultType {
 	// hide for yellow_fever
 	@Diseases(value = { Disease.CONGENITAL_RUBELLA }, hide = true)
 	INDETERMINATE,
+	@Diseases(value = { Disease.MEASLES, Disease.RUBELLA, Disease.DENGUE }, hide = true)
 	UNKNOWN,
-	@Diseases(value = { Disease.YELLOW_FEVER }, hide = true)
+	@Diseases(value = { Disease.MEASLES, Disease.RUBELLA, Disease.DENGUE, Disease.YELLOW_FEVER }, hide = true)
 	PENDING,
 	NEGATIVE,
 	POSITIVE,
-	@Diseases(value = { Disease.CONGENITAL_RUBELLA, Disease.YELLOW_FEVER }, hide = true)
+	@Diseases(value = { Disease.CONGENITAL_RUBELLA, Disease.YELLOW_FEVER, Disease.MEASLES, Disease.RUBELLA, Disease.DENGUE }, hide = true)
 	CONTAMINATED,
-	@Diseases(value = { Disease.CONGENITAL_RUBELLA, Disease.YELLOW_FEVER }, hide = true)
+	@Diseases(value = { Disease.CONGENITAL_RUBELLA, Disease.YELLOW_FEVER, Disease.MEASLES, Disease.RUBELLA, Disease.DENGUE }, hide = true)
 	NOT_DONE,
-	@Diseases(value = { Disease.CONGENITAL_RUBELLA, Disease.YELLOW_FEVER }, hide = true)
+	@Diseases(value = { Disease.CONGENITAL_RUBELLA, Disease.YELLOW_FEVER, Disease.MEASLES, Disease.RUBELLA, Disease.DENGUE }, hide = true)
 	NOT_APPLICABLE,
-	@Diseases(value = { Disease.CONGENITAL_RUBELLA, Disease.YELLOW_FEVER }, hide = true)
+	@Diseases(value = { Disease.CONGENITAL_RUBELLA, Disease.YELLOW_FEVER, Disease.MEASLES, Disease.RUBELLA, Disease.DENGUE }, hide = true)
 	SUSPECTED_POLIOVIRUS,
-	@Diseases(value = { Disease.CONGENITAL_RUBELLA, Disease.YELLOW_FEVER }, hide = true)
+	@Diseases(value = { Disease.CONGENITAL_RUBELLA, Disease.YELLOW_FEVER, Disease.MEASLES, Disease.RUBELLA, Disease.DENGUE }, hide = true)
 	NPENT,
-	@Diseases(value = { Disease.CONGENITAL_RUBELLA, Disease.YELLOW_FEVER }, hide = true)
+	@Diseases(value = { Disease.CONGENITAL_RUBELLA, Disease.YELLOW_FEVER, Disease.MEASLES, Disease.RUBELLA, Disease.DENGUE }, hide = true)
 	SUSPECT_POLIOVIRUS_NPENT,
-	@Diseases(value = { Disease.YELLOW_FEVER }, hide = true)
+	@Diseases(value = { Disease.YELLOW_FEVER, Disease.MEASLES, Disease.RUBELLA, Disease.DENGUE }, hide = true)
 	INCONCLUSIVE,
-	@Diseases(value = { Disease.YELLOW_FEVER, Disease.AFP }, hide = true)
+	@Diseases(value = { Disease.YELLOW_FEVER, Disease.AFP, Disease.MEASLES, Disease.RUBELLA, Disease.DENGUE }, hide = true)
 	NOT_TESTED,
-	@Diseases(value = { Disease.YELLOW_FEVER, Disease.CSM }, hide = true)
+	@Diseases(value = { Disease.YELLOW_FEVER, Disease.CSM, Disease.MEASLES, Disease.RUBELLA, Disease.DENGUE }, hide = true)
 	IN_PROCESS,
 	@Diseases(value = { Disease.CSM }, hide = false)
 	IN_PROGRESS;
