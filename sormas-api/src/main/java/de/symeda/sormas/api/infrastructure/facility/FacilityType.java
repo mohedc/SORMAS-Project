@@ -86,7 +86,13 @@ public enum FacilityType {
 	DISABLED_PERSON_HABITATION(FacilityTypeGroup.CARE_FACILITY, true, false),
 	CARE_RECIPIENT_HABITATION(FacilityTypeGroup.CARE_FACILITY, true, false),
 	VISITING_AMBULATORY_AID(FacilityTypeGroup.CARE_FACILITY, false, false),
-	AFTER_SCHOOL(FacilityTypeGroup.EDUCATIONAL_FACILITY, false, false);
+	AFTER_SCHOOL(FacilityTypeGroup.EDUCATIONAL_FACILITY, false, false),
+	/**
+	 * The birth institution is not part of the infrastructure data and is written into the facility name and description instead.
+	 * It belongs to no facility type group on purpose, so that it is only offered by {@link #getPlaceOfBirthTypes()} and never by
+	 * {@link #getTypes(FacilityTypeGroup)} or {@link #getAccommodationTypes(FacilityTypeGroup)}.
+	 */
+	OTHER(null, false, true);
 
 	private static final Map<FacilityTypeGroup, List<FacilityType>> typesByGroup = new HashMap<FacilityTypeGroup, List<FacilityType>>();
 	private static final Map<FacilityTypeGroup, List<FacilityType>> accomodationTypesByGroup = new HashMap<FacilityTypeGroup, List<FacilityType>>();

@@ -80,6 +80,10 @@ public class Person extends AbstractDomainObject implements IsPerson, HasExterna
 	public static final String APPROXIMATE_AGE = "approximateAge";
 	public static final String APPROXIMATE_AGE_TYPE = "approximateAgeType";
 	public static final String APPROXIMATE_AGE_REFERENCE_DATE = "approximateAgeReferenceDate";
+	public static final String APPROXIMATE_MONTH = "approximateMonth";
+	public static final String APPROXIMATE_AGE_TYPE1 = "approximateAgeType1";
+	public static final String APPROXIMATE_DAY = "approximateDay";
+	public static final String APPROXIMATE_AGE_TYPE2 = "approximateAgeType2";
 	public static final String BIRTHDATE_DD = "birthdateDD";
 	public static final String BIRTHDATE_MM = "birthdateMM";
 	public static final String BIRTHDATE_YYYY = "birthdateYYYY";
@@ -158,6 +162,10 @@ public class Person extends AbstractDomainObject implements IsPerson, HasExterna
 	private Integer approximateAge;
 	private ApproximateAgeType approximateAgeType;
 	private Date approximateAgeReferenceDate;
+	private Integer approximateMonth;
+	private ApproximateAgeType approximateAgeType1;
+	private Integer approximateDay;
+	private ApproximateAgeType approximateAgeType2;
 
 	private CauseOfDeath causeOfDeath;
 	private String causeOfDeathDetails;
@@ -366,6 +374,40 @@ public class Person extends AbstractDomainObject implements IsPerson, HasExterna
 
 	public void setApproximateAgeReferenceDate(Date approximateAgeReferenceDate) {
 		this.approximateAgeReferenceDate = approximateAgeReferenceDate;
+	}
+
+	public Integer getApproximateMonth() {
+		return approximateMonth;
+	}
+
+	public void setApproximateMonth(Integer approximateMonth) {
+		this.approximateMonth = approximateMonth;
+	}
+
+	@Enumerated(EnumType.STRING)
+	public ApproximateAgeType getApproximateAgeType1() {
+		return approximateAgeType1;
+	}
+
+	public void setApproximateAgeType1(ApproximateAgeType approximateAgeType1) {
+		this.approximateAgeType1 = approximateAgeType1;
+	}
+
+	public Integer getApproximateDay() {
+		return approximateDay;
+	}
+
+	public void setApproximateDay(Integer approximateDay) {
+		this.approximateDay = approximateDay;
+	}
+
+	@Enumerated(EnumType.STRING)
+	public ApproximateAgeType getApproximateAgeType2() {
+		return approximateAgeType2;
+	}
+
+	public void setApproximateAgeType2(ApproximateAgeType approximateAgeType2) {
+		this.approximateAgeType2 = approximateAgeType2;
 	}
 
 	@Enumerated(EnumType.STRING)

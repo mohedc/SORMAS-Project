@@ -1667,6 +1667,10 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 	private void handleIDSR() {
 		applyIDSRDiseaseFilter();
 
+		// A tested disease that is not on the IDSR list is written into the IDSR diagnosis details
+		getField(PathogenTestDto.TESTED_DISEASE_DETAILS)
+			.setCaption(I18nProperties.getPrefixCaption(CaseDataDto.I18N_PREFIX, CaseDataDto.IDSR_DIAGNOSIS_DETAILS));
+
 		List<PathogenTestType> idsrTestTypes = Arrays.asList(
 				PathogenTestType.P_FALICIPARUM,
 				PathogenTestType.P_VIVAX,

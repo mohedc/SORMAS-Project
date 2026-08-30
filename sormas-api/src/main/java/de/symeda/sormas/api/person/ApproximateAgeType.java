@@ -81,6 +81,33 @@ public enum ApproximateAgeType {
 			return getApproximateAge(birthDate, null);
 		}
 
+		/**
+		 * The completed years, the remaining completed months and the remaining completed days between the birth date and the
+		 * death date, or the current date while the person is still alive. Complements {@link #getApproximateAge(Date, Date)},
+		 * which collapses the same period into a single number with a single unit.
+		 */
+		public static Period getApproximateAgePeriod(Date birthDate, Date deathDate) {
+
+			if (birthDate == null) {
+				return null;
+			}
+
+			LocalDate startDate = UtilDate.toLocalDate(birthDate);
+			LocalDate toDate = Optional.ofNullable(UtilDate.toLocalDate(deathDate)).orElse(LocalDate.now());
+			return Period.between(startDate, toDate);
+		}
+
+		public static Period getApproximateAgePeriod(Integer birthdateYYYY, Integer birthdateMM, Integer birthdateDD, Date deathDate) {
+
+			if (birthdateYYYY == null) {
+				return null;
+			}
+
+			Date birthdate =
+				UtilDate.of(birthdateYYYY, birthdateMM != null ? Month.of(birthdateMM) : Month.JANUARY, birthdateDD != null ? birthdateDD : 1);
+			return getApproximateAgePeriod(birthdate, deathDate);
+		}
+
 		public static Pair<Integer, ApproximateAgeType> getApproximateAge(
 			Integer birthdateYYYY,
 			Integer birthdateMM,
