@@ -243,7 +243,8 @@ public enum Disease
 			Disease.MONKEYPOX,
 			Disease.HUMAN_AFRICAN_TRYPANOSOMIASIS,
 			Disease.SCABIES,
-			Disease.SOIL_TRANSMITTED_HELMINTHIASIS
+			Disease.SOIL_TRANSMITTED_HELMINTHIASIS,
+			Disease.OTHER
 	);
 
 }
