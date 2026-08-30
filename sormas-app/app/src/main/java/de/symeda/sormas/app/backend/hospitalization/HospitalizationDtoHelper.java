@@ -22,6 +22,9 @@ import de.symeda.sormas.api.PostResponse;
 import de.symeda.sormas.api.hospitalization.HospitalizationDto;
 import de.symeda.sormas.api.hospitalization.PreviousHospitalizationDto;
 import de.symeda.sormas.app.backend.common.AdoDtoHelper;
+import de.symeda.sormas.app.backend.common.DatabaseHelper;
+import de.symeda.sormas.app.backend.facility.Facility;
+import de.symeda.sormas.app.backend.facility.FacilityDtoHelper;
 import de.symeda.sormas.app.rest.NoConnectionException;
 import retrofit2.Call;
 
@@ -84,6 +87,13 @@ public class HospitalizationDtoHelper extends AdoDtoHelper<Hospitalization, Hosp
 		a.setDateHealthRegionNotified(b.getDateHealthRegionNotified());
 		a.setDateOfDiseaseOnset(b.getDateOfDiseaseOnset());
 		a.setAddress(b.getAddress());
+		a.setAdmittedToDifferentHealthFacility(b.getAdmittedToDifferentHealthFacility());
+		if (b.getAdmissionHealthFacility() != null) {
+			a.setAdmissionHealthFacility(DatabaseHelper.getFacilityDao().queryUuid(b.getAdmissionHealthFacility().getUuid()));
+		} else {
+			a.setAdmissionHealthFacility(null);
+		}
+		a.setAdmissionHealthFacilityDetails(b.getAdmissionHealthFacilityDetails());
 
 		// It would be better to merge with the existing hospitalizations
 		List<PreviousHospitalization> previousHospitalizations = new ArrayList<>();
@@ -123,6 +133,14 @@ public class HospitalizationDtoHelper extends AdoDtoHelper<Hospitalization, Hosp
 		a.setDateHealthRegionNotified(b.getDateHealthRegionNotified());
 		a.setDateOfDiseaseOnset(b.getDateOfDiseaseOnset());
 		a.setAddress(b.getAddress());
+		a.setAdmittedToDifferentHealthFacility(b.getAdmittedToDifferentHealthFacility());
+		if (b.getAdmissionHealthFacility() != null) {
+			Facility facility = DatabaseHelper.getFacilityDao().queryForId(b.getAdmissionHealthFacility().getId());
+			a.setAdmissionHealthFacility(FacilityDtoHelper.toReferenceDto(facility));
+		} else {
+			a.setAdmissionHealthFacility(null);
+		}
+		a.setAdmissionHealthFacilityDetails(b.getAdmissionHealthFacilityDetails());
 
 		List<PreviousHospitalizationDto> previousHospitalizationDtos = new ArrayList<>();
 		for (PreviousHospitalization prevHosp : b.getPreviousHospitalizations()) {

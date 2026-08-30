@@ -31,6 +31,7 @@ import javax.validation.constraints.Size;
 import de.symeda.sormas.api.EntityDto;
 import de.symeda.sormas.api.ImportIgnore;
 import de.symeda.sormas.api.i18n.Validations;
+import de.symeda.sormas.api.infrastructure.facility.FacilityReferenceDto;
 
 @DependingOnFeatureType(featureType = FeatureType.CASE_SURVEILANCE)
 public class HospitalizationDto extends EntityDto {
@@ -63,6 +64,9 @@ public class HospitalizationDto extends EntityDto {
 	public static final String SERIAL_NUMBER_IN_CONSULTATION_REGISTER = "serialNumberInConsultationRegister";
 	public static final String DATE_OF_CONSULTATION_AT_HEALTH_FACILITY = "dateOfConsultationAtHealthFacility";
 	public static final String DATE_HEALTH_REGION_NOTIFIED = "dateHealthRegionNotified";
+	public static final String ADMITTED_TO_DIFFERENT_HEALTH_FACILITY = "admittedToDifferentHealthFacility";
+	public static final String ADMISSION_HEALTH_FACILITY = "admissionHealthFacility";
+	public static final String ADMISSION_HEALTH_FACILITY_DETAILS = "admissionHealthFacilityDetails";
 
 	// Fields are declared in the order they should appear in the import template
 
@@ -118,6 +122,10 @@ public class HospitalizationDto extends EntityDto {
 	@Diseases({
 		Disease.CSM })
 	private Date dateHealthRegionNotified;
+	private YesNo admittedToDifferentHealthFacility;
+	private FacilityReferenceDto admissionHealthFacility;
+	@Size(max = FieldConstraints.CHARACTER_LIMIT_DEFAULT, message = Validations.textTooLong)
+	private String admissionHealthFacilityDetails;
 
 	public static HospitalizationDto build() {
 		HospitalizationDto hospitalization = new HospitalizationDto();
@@ -317,5 +325,29 @@ public class HospitalizationDto extends EntityDto {
 
 	public void setDateHealthRegionNotified(Date dateHealthRegionNotified) {
 		this.dateHealthRegionNotified = dateHealthRegionNotified;
+	}
+
+	public YesNo getAdmittedToDifferentHealthFacility() {
+		return admittedToDifferentHealthFacility;
+	}
+
+	public void setAdmittedToDifferentHealthFacility(YesNo admittedToDifferentHealthFacility) {
+		this.admittedToDifferentHealthFacility = admittedToDifferentHealthFacility;
+	}
+
+	public FacilityReferenceDto getAdmissionHealthFacility() {
+		return admissionHealthFacility;
+	}
+
+	public void setAdmissionHealthFacility(FacilityReferenceDto admissionHealthFacility) {
+		this.admissionHealthFacility = admissionHealthFacility;
+	}
+
+	public String getAdmissionHealthFacilityDetails() {
+		return admissionHealthFacilityDetails;
+	}
+
+	public void setAdmissionHealthFacilityDetails(String admissionHealthFacilityDetails) {
+		this.admissionHealthFacilityDetails = admissionHealthFacilityDetails;
 	}
 }

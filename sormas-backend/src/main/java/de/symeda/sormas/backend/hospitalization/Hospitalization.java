@@ -18,6 +18,7 @@
 package de.symeda.sormas.backend.hospitalization;
 
 import static de.symeda.sormas.api.utils.FieldConstraints.CHARACTER_LIMIT_BIG;
+import static de.symeda.sormas.api.utils.FieldConstraints.CHARACTER_LIMIT_DEFAULT;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -28,14 +29,19 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import de.symeda.sormas.api.hospitalization.HospitalizationReasonType;
 import de.symeda.sormas.api.utils.InpatOutpat;
+import de.symeda.sormas.api.utils.YesNo;
 import de.symeda.sormas.api.utils.YesNoUnknown;
 import de.symeda.sormas.backend.common.AbstractDomainObject;
+import de.symeda.sormas.backend.infrastructure.facility.Facility;
 
 @Entity
 public class Hospitalization extends AbstractDomainObject {
@@ -63,6 +69,9 @@ public class Hospitalization extends AbstractDomainObject {
 	public static final String SERIAL_NUMBER_IN_CONSULTATION_REGISTER = "serialNumberInConsultationRegister";
 	public static final String DATE_OF_CONSULTATION_AT_HEALTH_FACILITY = "dateOfConsultationAtHealthFacility";
 	public static final String DATE_HEALTH_REGION_NOTIFIED = "dateHealthRegionNotified";
+	public static final String ADMITTED_TO_DIFFERENT_HEALTH_FACILITY = "admittedToDifferentHealthFacility";
+	public static final String ADMISSION_HEALTH_FACILITY = "admissionHealthFacility";
+	public static final String ADMISSION_HEALTH_FACILITY_DETAILS = "admissionHealthFacilityDetails";
 
 	private YesNoUnknown admittedToHealthFacility;
 	private Date admissionDate;
@@ -90,6 +99,9 @@ public class Hospitalization extends AbstractDomainObject {
 	private String serialNumberInConsultationRegister;
 	private Date dateOfConsultationAtHealthFacility;
 	private Date dateHealthRegionNotified;
+	private YesNo admittedToDifferentHealthFacility;
+	private Facility admissionHealthFacility;
+	private String admissionHealthFacilityDetails;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	public Date getAdmissionDate() {
@@ -314,5 +326,33 @@ public class Hospitalization extends AbstractDomainObject {
 
 	public void setDateHealthRegionNotified(Date dateHealthRegionNotified) {
 		this.dateHealthRegionNotified = dateHealthRegionNotified;
+	}
+
+	@Enumerated(EnumType.STRING)
+	public YesNo getAdmittedToDifferentHealthFacility() {
+		return admittedToDifferentHealthFacility;
+	}
+
+	public void setAdmittedToDifferentHealthFacility(YesNo admittedToDifferentHealthFacility) {
+		this.admittedToDifferentHealthFacility = admittedToDifferentHealthFacility;
+	}
+
+	@ManyToOne(cascade = {}, fetch = FetchType.LAZY)
+	@JoinColumn(name = "admissionhealthfacility_id")
+	public Facility getAdmissionHealthFacility() {
+		return admissionHealthFacility;
+	}
+
+	public void setAdmissionHealthFacility(Facility admissionHealthFacility) {
+		this.admissionHealthFacility = admissionHealthFacility;
+	}
+
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	public String getAdmissionHealthFacilityDetails() {
+		return admissionHealthFacilityDetails;
+	}
+
+	public void setAdmissionHealthFacilityDetails(String admissionHealthFacilityDetails) {
+		this.admissionHealthFacilityDetails = admissionHealthFacilityDetails;
 	}
 }

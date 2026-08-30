@@ -3667,6 +3667,12 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
 			case 404:
 				currentVersion = 404;
+				getDao(Hospitalization.class)
+					.executeRaw("ALTER TABLE hospitalizations ADD COLUMN admittedToDifferentHealthFacility varchar(255);");
+				getDao(Hospitalization.class)
+					.executeRaw("ALTER TABLE hospitalizations ADD COLUMN admissionHealthFacility_id bigint REFERENCES facility (id);");
+				getDao(Hospitalization.class)
+					.executeRaw("ALTER TABLE hospitalizations ADD COLUMN admissionHealthFacilityDetails varchar(512);");
 				getDao(Person.class).executeRaw("ALTER TABLE person ADD COLUMN approximateMonth INTEGER;");
 				getDao(Person.class).executeRaw("ALTER TABLE person ADD COLUMN approximateAgeType1 VARCHAR;");
 				getDao(Person.class).executeRaw("ALTER TABLE person ADD COLUMN approximateDay INTEGER;");

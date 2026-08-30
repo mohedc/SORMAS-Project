@@ -981,6 +981,9 @@ public interface Captions {
 	String CaseHospitalization = "CaseHospitalization";
 	String CaseHospitalization_admissionDate = "CaseHospitalization.admissionDate";
 	String CaseHospitalization_admittedToHealthFacility = "CaseHospitalization.admittedToHealthFacility";
+	String CaseHospitalization_admittedToDifferentHealthFacility = "CaseHospitalization.admittedToDifferentHealthFacility";
+	String CaseHospitalization_admissionHealthFacility = "CaseHospitalization.admissionHealthFacility";
+	String CaseHospitalization_admissionHealthFacilityDetails = "CaseHospitalization.admissionHealthFacilityDetails";
 	String CaseHospitalization_dischargeDate = "CaseHospitalization.dischargeDate";
 	String CaseHospitalization_seenAtHealthFacility = "CaseHospitalization.seenAtHealthFacility";
 	String CaseHospitalization_dateFirstSeenAtHealthFacility = "CaseHospitalization.dateFirstSeenAtHealthFacility";
