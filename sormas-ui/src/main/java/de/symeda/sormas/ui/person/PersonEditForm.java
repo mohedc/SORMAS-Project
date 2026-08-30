@@ -1118,15 +1118,31 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 		});
 
 		communityField.addValueChangeListener(e -> updateFacilities(facilityField, typeField, communityField, districtField, allowNoneFacility));
-		typeField.addValueChangeListener(e -> updateFacilities(facilityField, typeField, communityField, districtField, allowNoneFacility));
+		typeField.addValueChangeListener(e -> {
+			updateFacilities(facilityField, typeField, communityField, districtField, allowNoneFacility);
+			updateFacilityDetailsVisibility(detailsField, typeField, facilityField);
+		});
 		FieldHelper.updateItems(
 			facilityField,
 			Collections.singletonList(FacadeProvider.getFacilityFacade().getReferenceByUuid(FacilityDto.NONE_FACILITY_UUID)));
 
 		facilityField.addValueChangeListener(e -> {
-			updateFacilityDetailsVisibility(detailsField, (FacilityReferenceDto) e.getProperty().getValue());
+			updateFacilityDetailsVisibility(detailsField, typeField, facilityField);
 		});
 		// Set initial visibility
+		updateFacilityDetailsVisibility(detailsField, typeField, facilityField);
+	}
+
+	/**
+	 * "Other" as the facility type means the institution is not part of the infrastructure data, so its name and description are
+	 * typed in. For every other type the details field keeps following the selected facility.
+	 */
+	private void updateFacilityDetailsVisibility(TextField detailsField, ComboBox typeField, ComboBox facilityField) {
+		if (FacilityType.OTHER.equals(typeField.getValue())) {
+			detailsField.setCaption(I18nProperties.getPrefixCaption(PersonDto.I18N_PREFIX, PersonDto.PLACE_OF_BIRTH_FACILITY_DETAILS));
+			detailsField.setVisible(true);
+			return;
+		}
 		updateFacilityDetailsVisibility(detailsField, (FacilityReferenceDto) facilityField.getValue());
 	}
 

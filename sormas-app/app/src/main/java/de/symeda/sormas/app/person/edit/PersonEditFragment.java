@@ -228,6 +228,21 @@ public class PersonEditFragment extends BaseEditFragment<FragmentPersonEditLayou
 			contentBinding.personPlaceOfBirthFacilityDetails,
 			false);
 
+		// "Other" as the facility type means the institution is not part of the infrastructure data, so its name and description
+		// are typed in; for every other type the details field keeps following the selected facility
+		contentBinding.personPlaceOfBirthFacilityType.addValueChangedListener(field -> {
+			if (FacilityType.OTHER.equals(field.getValue())) {
+				contentBinding.personPlaceOfBirthFacilityDetails.setVisibility(VISIBLE);
+			} else {
+				InfrastructureDaoHelper.setHealthFacilityDetailsFieldVisibility(
+					contentBinding.personPlaceOfBirthFacility,
+					contentBinding.personPlaceOfBirthFacilityDetails);
+			}
+		});
+		if (FacilityType.OTHER.equals(record.getPlaceOfBirthFacilityType())) {
+			contentBinding.personPlaceOfBirthFacilityDetails.setVisibility(VISIBLE);
+		}
+
 		// Initialize ControlSpinnerFields
 		contentBinding.personSalutation.initializeSpinner(salutationList);
 		contentBinding.personBirthdateDD.initializeSpinner(new ArrayList<>(), field -> updateApproximateAgeField(contentBinding));
