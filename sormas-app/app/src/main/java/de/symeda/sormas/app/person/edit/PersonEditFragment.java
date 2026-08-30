@@ -18,6 +18,7 @@ package de.symeda.sormas.app.person.edit;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -248,6 +249,8 @@ public class PersonEditFragment extends BaseEditFragment<FragmentPersonEditLayou
 		FieldVisibilityCheckers countryVisibilityChecker = FieldVisibilityCheckers.withCountry(ConfigProvider.getServerCountryCode());
 		contentBinding.personBirthdateYYYY.setSelectionOnOpen(year - 35);
 		contentBinding.personApproximateAgeType.initializeSpinner(approximateAgeTypeList);
+		contentBinding.personApproximateAgeType1.initializeSpinner(DataUtils.getEnumItems(ApproximateAgeType.class, true));
+		contentBinding.personApproximateAgeType2.initializeSpinner(DataUtils.getEnumItems(ApproximateAgeType.class, true));
 		contentBinding.personSex.initializeSpinner(sexList);
 		contentBinding.personMaritalStatus.initializeSpinner(maritalStatusList);
 		contentBinding.personCauseOfDeath.initializeSpinner(causeOfDeathList);
@@ -307,8 +310,7 @@ public class PersonEditFragment extends BaseEditFragment<FragmentPersonEditLayou
 		Integer birthYear = (Integer) contentBinding.personBirthdateYYYY.getValue();
 
 		if (birthYear != null) {
-			contentBinding.personApproximateAge.setEnabled(false);
-			contentBinding.personApproximateAgeType.setEnabled(false);
+			setCalculatedAgeFieldsEnabled(contentBinding, false);
 
 			Integer birthDay = (Integer) contentBinding.personBirthdateDD.getValue();
 			Integer birthMonth = (Integer) contentBinding.personBirthdateMM.getValue();
@@ -324,26 +326,44 @@ public class PersonEditFragment extends BaseEditFragment<FragmentPersonEditLayou
 
 		Date birthDate = calculateBirthDateValue(contentBinding);
 		if (birthDate != null) {
-			contentBinding.personApproximateAge.setEnabled(false);
-			contentBinding.personApproximateAgeType.setEnabled(false);
+			setCalculatedAgeFieldsEnabled(contentBinding, false);
 
 			Date to = new Date();
 			if (contentBinding.personDeathDate != null) {
 				to = contentBinding.personDeathDate.getValue();
 			}
 
-			DataHelper.Pair<Integer, ApproximateAgeType> approximateAge = ApproximateAgeType.ApproximateAgeHelper.getApproximateAge(birthDate, to);
-			ApproximateAgeType ageType = approximateAge.getElement1();
-			contentBinding.personApproximateAge.setValue(String.valueOf(approximateAge.getElement0()));
-			contentBinding.personApproximateAgeType.setValue(ageType);
+			Period period = ApproximateAgeType.ApproximateAgeHelper.getApproximateAgePeriod(birthDate, to);
+			contentBinding.personApproximateAge.setValue(String.valueOf(period.getYears()));
+			contentBinding.personApproximateAgeType.setValue(ApproximateAgeType.YEARS);
+			contentBinding.personApproximateMonth.setValue(String.valueOf(period.getMonths()));
+			contentBinding.personApproximateAgeType1.setValue(ApproximateAgeType.MONTHS);
+			contentBinding.personApproximateDay.setValue(String.valueOf(period.getDays()));
+			contentBinding.personApproximateAgeType2.setValue(ApproximateAgeType.DAYS);
 		} else {
 			if (contentBinding.personApproximateAge.isEnabled() == false && contentBinding.personApproximateAgeType.isEnabled() == false) {
 				contentBinding.personApproximateAge.setValue(null);
 				contentBinding.personApproximateAgeType.setValue(null);
+				contentBinding.personApproximateMonth.setValue(null);
+				contentBinding.personApproximateAgeType1.setValue(null);
+				contentBinding.personApproximateDay.setValue(null);
+				contentBinding.personApproximateAgeType2.setValue(null);
 			}
-			contentBinding.personApproximateAge.setEnabled(true);
-			contentBinding.personApproximateAgeType.setEnabled(true);
+			setCalculatedAgeFieldsEnabled(contentBinding, true);
 		}
+	}
+
+	/**
+	 * The age in years, months and days is calculated from the date of birth, so the fields may only be filled in by hand while no
+	 * date of birth is entered.
+	 */
+	private static void setCalculatedAgeFieldsEnabled(FragmentPersonEditLayoutBinding contentBinding, boolean enabled) {
+		contentBinding.personApproximateAge.setEnabled(enabled);
+		contentBinding.personApproximateAgeType.setEnabled(enabled);
+		contentBinding.personApproximateMonth.setEnabled(enabled);
+		contentBinding.personApproximateAgeType1.setEnabled(enabled);
+		contentBinding.personApproximateDay.setEnabled(enabled);
+		contentBinding.personApproximateAgeType2.setEnabled(enabled);
 	}
 
 	private static void openAddressPopup(final Person record, final BaseEditFragment fragment, final FragmentPersonEditLayoutBinding contentBinding, Disease caseDisease) {

@@ -15694,6 +15694,19 @@ UPDATE cases_history SET systemcaseclassification = 'SUSPECT' WHERE systemcasecl
 
 INSERT INTO schema_version (version_number, comment) VALUES (676, 'Update NOT_CLASSIFIED system case classification to SUSPECT');
 
+-- Migration 677: Age in years, months and days, all calculated from the date of birth
+ALTER TABLE person ADD COLUMN IF NOT EXISTS approximatemonth integer;
+ALTER TABLE person ADD COLUMN IF NOT EXISTS approximateagetype1 varchar(255);
+ALTER TABLE person ADD COLUMN IF NOT EXISTS approximateday integer;
+ALTER TABLE person ADD COLUMN IF NOT EXISTS approximateagetype2 varchar(255);
+
+ALTER TABLE person_history ADD COLUMN IF NOT EXISTS approximatemonth integer;
+ALTER TABLE person_history ADD COLUMN IF NOT EXISTS approximateagetype1 varchar(255);
+ALTER TABLE person_history ADD COLUMN IF NOT EXISTS approximateday integer;
+ALTER TABLE person_history ADD COLUMN IF NOT EXISTS approximateagetype2 varchar(255);
+
+INSERT INTO schema_version (version_number, comment) VALUES (677, 'Add calculated age in months and days to person');
+
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***
 
 

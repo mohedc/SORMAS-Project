@@ -28,6 +28,7 @@ import static de.symeda.sormas.ui.utils.LayoutUtil.oneOfFourCol;
 import static de.symeda.sormas.ui.utils.LayoutUtil.oneOfTwoCol;
 
 import java.time.Month;
+import java.time.Period;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
@@ -115,7 +116,7 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 					fluidRowLocs(PersonDto.SALUTATION, PersonDto.OTHER_SALUTATION) +
                     fluidRow(
                             fluidRowLocs(PersonDto.BIRTH_DATE_YYYY, PersonDto.BIRTH_DATE_MM, PersonDto.BIRTH_DATE_DD),
-                            fluidRowLocs(PersonDto.APPROXIMATE_AGE, PersonDto.APPROXIMATE_AGE_TYPE, PersonDto.APPROXIMATE_AGE_REFERENCE_DATE)
+                            fluidRowLocs(PersonDto.APPROXIMATE_AGE, PersonDto.APPROXIMATE_AGE_TYPE, PersonDto.APPROXIMATE_AGE_REFERENCE_DATE) + fluidRowLocs(PersonDto.APPROXIMATE_MONTH, PersonDto.APPROXIMATE_AGE_TYPE1, "") + fluidRowLocs(PersonDto.APPROXIMATE_DAY, PersonDto.APPROXIMATE_AGE_TYPE2, "")
                     ) +
                     fluidRowLocs(PersonDto.PLACE_OF_BIRTH_REGION, PersonDto.PLACE_OF_BIRTH_DISTRICT, PersonDto.PLACE_OF_BIRTH_COMMUNITY) +
                     fluidRowLocs(PersonDto.PLACE_OF_BIRTH_FACILITY_TYPE, PersonDto.PLACE_OF_BIRTH_FACILITY, PersonDto.PLACE_OF_BIRTH_FACILITY_DETAILS) +
@@ -192,7 +193,7 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 					fluidRowLocs(PersonDto.OTHER_NAMES) +
 					fluidRow(
 							fluidRowLocs(PersonDto.BIRTH_DATE_YYYY, PersonDto.BIRTH_DATE_MM, PersonDto.BIRTH_DATE_DD),
-							fluidRowLocs(PersonDto.APPROXIMATE_AGE, PersonDto.APPROXIMATE_AGE_TYPE, PersonDto.APPROXIMATE_AGE_REFERENCE_DATE)
+							fluidRowLocs(PersonDto.APPROXIMATE_AGE, PersonDto.APPROXIMATE_AGE_TYPE, PersonDto.APPROXIMATE_AGE_REFERENCE_DATE) + fluidRowLocs(PersonDto.APPROXIMATE_MONTH, PersonDto.APPROXIMATE_AGE_TYPE1, "") + fluidRowLocs(PersonDto.APPROXIMATE_DAY, PersonDto.APPROXIMATE_AGE_TYPE2, "")
 					) +
 					fluidRowLocs(PersonDto.SEX, PersonDto.MARITAL_STATUS) +
 					fluidRowLocs(PersonDto.NATIONALITY, "") +
@@ -209,7 +210,7 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 					fluidRowLocs(PersonDto.OTHER_NAMES) +
 					fluidRow(
 							fluidRowLocs(PersonDto.BIRTH_DATE_YYYY, PersonDto.BIRTH_DATE_MM, PersonDto.BIRTH_DATE_DD),
-							fluidRowLocs(PersonDto.APPROXIMATE_AGE, PersonDto.APPROXIMATE_AGE_TYPE, PersonDto.APPROXIMATE_AGE_REFERENCE_DATE)
+							fluidRowLocs(PersonDto.APPROXIMATE_AGE, PersonDto.APPROXIMATE_AGE_TYPE, PersonDto.APPROXIMATE_AGE_REFERENCE_DATE) + fluidRowLocs(PersonDto.APPROXIMATE_MONTH, PersonDto.APPROXIMATE_AGE_TYPE1, "") + fluidRowLocs(PersonDto.APPROXIMATE_DAY, PersonDto.APPROXIMATE_AGE_TYPE2, "")
 					) +
 					fluidRowLocs(PersonDto.SEX, PersonDto.MARITAL_STATUS) +
 					fluidRowLocs(PersonDto.NATIONALITY, PersonDto.PASSPORT_NUMBER) +
@@ -226,7 +227,7 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 					loc(DATE_OF_BIRTH_HEADING_LOC) +
 					fluidRow(
 							fluidRowLocs(PersonDto.BIRTH_DATE_YYYY, PersonDto.BIRTH_DATE_MM, PersonDto.BIRTH_DATE_DD),
-							fluidRowLocs(PersonDto.APPROXIMATE_AGE, PersonDto.APPROXIMATE_AGE_TYPE, PersonDto.APPROXIMATE_AGE_REFERENCE_DATE)
+							fluidRowLocs(PersonDto.APPROXIMATE_AGE, PersonDto.APPROXIMATE_AGE_TYPE, PersonDto.APPROXIMATE_AGE_REFERENCE_DATE) + fluidRowLocs(PersonDto.APPROXIMATE_MONTH, PersonDto.APPROXIMATE_AGE_TYPE1, "") + fluidRowLocs(PersonDto.APPROXIMATE_DAY, PersonDto.APPROXIMATE_AGE_TYPE2, "")
 					) +
 					fluidRowLocs(EntityDto.CHANGE_DATE, "") +
 					fluidRowLocs(PersonDto.SEX, PersonDto.PRESENT_CONDITION) +
@@ -245,7 +246,7 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 					fluidRowLocs(PersonDto.OTHER_NAMES) +
 					fluidRow(
 							fluidRowLocs(PersonDto.BIRTH_DATE_YYYY, PersonDto.BIRTH_DATE_MM, PersonDto.BIRTH_DATE_DD),
-							fluidRowLocs(PersonDto.APPROXIMATE_AGE, PersonDto.APPROXIMATE_AGE_TYPE, PersonDto.APPROXIMATE_AGE_REFERENCE_DATE)
+							fluidRowLocs(PersonDto.APPROXIMATE_AGE, PersonDto.APPROXIMATE_AGE_TYPE, PersonDto.APPROXIMATE_AGE_REFERENCE_DATE) + fluidRowLocs(PersonDto.APPROXIMATE_MONTH, PersonDto.APPROXIMATE_AGE_TYPE1, "") + fluidRowLocs(PersonDto.APPROXIMATE_DAY, PersonDto.APPROXIMATE_AGE_TYPE2, "")
 					) +
 					fluidRowLocs(EntityDto.CHANGE_DATE, "") +
 					fluidRowLocs(PersonDto.SEX, PersonDto.PASSPORT_NUMBER) +
@@ -265,7 +266,7 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 					fluidRowLocs(6, PersonDto.OTHER_NAMES) +
 					fluidRow(
 							fluidRowLocs(PersonDto.BIRTH_DATE_YYYY, PersonDto.BIRTH_DATE_MM, PersonDto.BIRTH_DATE_DD),
-							fluidRowLocs(PersonDto.APPROXIMATE_AGE, PersonDto.APPROXIMATE_AGE_TYPE, PersonDto.APPROXIMATE_AGE_REFERENCE_DATE)
+							fluidRowLocs(PersonDto.APPROXIMATE_AGE, PersonDto.APPROXIMATE_AGE_TYPE, PersonDto.APPROXIMATE_AGE_REFERENCE_DATE) + fluidRowLocs(PersonDto.APPROXIMATE_MONTH, PersonDto.APPROXIMATE_AGE_TYPE1, "") + fluidRowLocs(PersonDto.APPROXIMATE_DAY, PersonDto.APPROXIMATE_AGE_TYPE2, "")
 					) +
 					fluidRowLocs(PersonDto.SEX, PersonDto.MARITAL_STATUS) +
 					fluidRowLocs(PersonDto.PASSPORT_NUMBER, "") +
@@ -289,7 +290,7 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 					loc(DATE_OF_BIRTH_HEADING_LOC) +
 							fluidRow(
 									fluidRowLocs(PersonDto.BIRTH_DATE_YYYY, PersonDto.BIRTH_DATE_MM, PersonDto.BIRTH_DATE_DD),
-									fluidRowLocs(PersonDto.APPROXIMATE_AGE, PersonDto.APPROXIMATE_AGE_TYPE, PersonDto.APPROXIMATE_AGE_REFERENCE_DATE)
+									fluidRowLocs(PersonDto.APPROXIMATE_AGE, PersonDto.APPROXIMATE_AGE_TYPE, PersonDto.APPROXIMATE_AGE_REFERENCE_DATE) + fluidRowLocs(PersonDto.APPROXIMATE_MONTH, PersonDto.APPROXIMATE_AGE_TYPE1, "") + fluidRowLocs(PersonDto.APPROXIMATE_DAY, PersonDto.APPROXIMATE_AGE_TYPE2, "")
 							) +
 					fluidRowLocs(6, PersonDto.LOCATION_OF_BIRTH) +
 					fluidRowLocs(PersonDto.CUT_CORD_WITH_STERILE_BLADE, PersonDto.CORD_TREATED_WITH_ANYTHING) +
@@ -310,7 +311,7 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 					fluidRowLocs(PersonDto.OTHER_NAMES) +
 					fluidRow(
 							fluidRowLocs(PersonDto.BIRTH_DATE_YYYY, PersonDto.BIRTH_DATE_MM, PersonDto.BIRTH_DATE_DD),
-							fluidRowLocs(PersonDto.APPROXIMATE_AGE, PersonDto.APPROXIMATE_AGE_TYPE, PersonDto.APPROXIMATE_AGE_REFERENCE_DATE)
+							fluidRowLocs(PersonDto.APPROXIMATE_AGE, PersonDto.APPROXIMATE_AGE_TYPE, PersonDto.APPROXIMATE_AGE_REFERENCE_DATE) + fluidRowLocs(PersonDto.APPROXIMATE_MONTH, PersonDto.APPROXIMATE_AGE_TYPE1, "") + fluidRowLocs(PersonDto.APPROXIMATE_DAY, PersonDto.APPROXIMATE_AGE_TYPE2, "")
 					) +
 					fluidRowLocs(EntityDto.CHANGE_DATE, "") +
 					fluidRowLocs(PersonDto.SEX, PersonDto.NATIONALITY) +
@@ -530,6 +531,15 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 			.setConversionError(I18nProperties.getValidationError(Validations.onlyIntegerNumbersAllowed, approximateAgeField.getCaption()));
 		approximateAgeTypeField = addField(PersonDto.APPROXIMATE_AGE_TYPE, ComboBox.class);
 		addField(PersonDto.APPROXIMATE_AGE_REFERENCE_DATE, DateField.class);
+
+		TextField approximateMonthField = addField(PersonDto.APPROXIMATE_MONTH, TextField.class);
+		approximateMonthField
+			.setConversionError(I18nProperties.getValidationError(Validations.onlyIntegerNumbersAllowed, approximateMonthField.getCaption()));
+		addField(PersonDto.APPROXIMATE_AGE_TYPE1, ComboBox.class);
+		TextField approximateDayField = addField(PersonDto.APPROXIMATE_DAY, TextField.class);
+		approximateDayField
+			.setConversionError(I18nProperties.getValidationError(Validations.onlyIntegerNumbersAllowed, approximateDayField.getCaption()));
+		addField(PersonDto.APPROXIMATE_AGE_TYPE2, ComboBox.class);
 
 		approximateAgeField.addValidator(
 			new ApproximateAgeValidator(
@@ -1231,6 +1241,10 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 
 		getFieldGroup().getField(PersonDto.APPROXIMATE_AGE).setReadOnly(readonly);
 		getFieldGroup().getField(PersonDto.APPROXIMATE_AGE_TYPE).setReadOnly(readonly);
+		getFieldGroup().getField(PersonDto.APPROXIMATE_MONTH).setReadOnly(readonly);
+		getFieldGroup().getField(PersonDto.APPROXIMATE_AGE_TYPE1).setReadOnly(readonly);
+		getFieldGroup().getField(PersonDto.APPROXIMATE_DAY).setReadOnly(readonly);
+		getFieldGroup().getField(PersonDto.APPROXIMATE_AGE_TYPE2).setReadOnly(readonly);
 	}
 
 	private Date calcBirthDateValue() {
@@ -1252,26 +1266,41 @@ public class PersonEditForm extends AbstractEditForm<PersonDto> {
 	private void updateApproximateAge() {
 		String approximateAge = null;
 		ApproximateAgeType approximateAgeType = null;
+		String approximateMonth = null;
+		ApproximateAgeType approximateAgeType1 = null;
+		String approximateDay = null;
+		ApproximateAgeType approximateAgeType2 = null;
 
 		Date birthDate = calcBirthDateValue();
 		if (birthDate != null) {
-			Pair<Integer, ApproximateAgeType> pair =
-				ApproximateAgeHelper.getApproximateAge(birthDate, (Date) getFieldGroup().getField(PersonDto.DEATH_DATE).getValue());
-			if (pair.getElement0() != null) {
-				approximateAge = String.valueOf(pair.getElement0());
-			}
-			approximateAgeType = pair.getElement1();
+			Period period = ApproximateAgeHelper
+				.getApproximateAgePeriod(birthDate, (Date) getFieldGroup().getField(PersonDto.DEATH_DATE).getValue());
+			approximateAge = String.valueOf(period.getYears());
+			approximateAgeType = ApproximateAgeType.YEARS;
+			approximateMonth = String.valueOf(period.getMonths());
+			approximateAgeType1 = ApproximateAgeType.MONTHS;
+			approximateDay = String.valueOf(period.getDays());
+			approximateAgeType2 = ApproximateAgeType.DAYS;
 		}
 
-		TextField approximateAgeField = (TextField) getFieldGroup().getField(PersonDto.APPROXIMATE_AGE);
-		approximateAgeField.setReadOnly(false);
-		approximateAgeField.setValue(approximateAge);
-		approximateAgeField.setReadOnly(true);
+		setCalculatedAgeValue(PersonDto.APPROXIMATE_AGE, approximateAge);
+		setCalculatedAgeValue(PersonDto.APPROXIMATE_AGE_TYPE, approximateAgeType);
+		setCalculatedAgeValue(PersonDto.APPROXIMATE_MONTH, approximateMonth);
+		setCalculatedAgeValue(PersonDto.APPROXIMATE_AGE_TYPE1, approximateAgeType1);
+		setCalculatedAgeValue(PersonDto.APPROXIMATE_DAY, approximateDay);
+		setCalculatedAgeValue(PersonDto.APPROXIMATE_AGE_TYPE2, approximateAgeType2);
+	}
 
-		AbstractSelect approximateAgeTypeSelect = (AbstractSelect) getFieldGroup().getField(PersonDto.APPROXIMATE_AGE_TYPE);
-		approximateAgeTypeSelect.setReadOnly(false);
-		approximateAgeTypeSelect.setValue(approximateAgeType);
-		approximateAgeTypeSelect.setReadOnly(true);
+	/**
+	 * The age fields are calculated from the date of birth, so they have to be written while they are read only. Whether they stay
+	 * read only afterwards is decided by {@link #updateReadyOnlyApproximateAge()}, which runs right after every calculation.
+	 */
+	@SuppressWarnings("unchecked")
+	private void setCalculatedAgeValue(String propertyId, Object value) {
+		Field<Object> field = (Field<Object>) getFieldGroup().getField(propertyId);
+		field.setReadOnly(false);
+		field.setValue(value);
+		field.setReadOnly(true);
 	}
 
 	private void updateFacilityDetailsVisibility(TextField detailsField, FacilityReferenceDto facility) {

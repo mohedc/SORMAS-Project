@@ -121,6 +121,14 @@ public class Person extends PseudonymizableAdo {
 	private ApproximateAgeType approximateAgeType;
 	@DatabaseField(dataType = DataType.DATE_LONG)
 	private Date approximateAgeReferenceDate;
+	@Column
+	private Integer approximateMonth;
+	@Enumerated(EnumType.STRING)
+	private ApproximateAgeType approximateAgeType1;
+	@Column
+	private Integer approximateDay;
+	@Enumerated(EnumType.STRING)
+	private ApproximateAgeType approximateAgeType2;
 	@Enumerated(EnumType.STRING)
 	private YesNoUnknown birthInInstitution;
 	@DatabaseField(foreign = true, foreignAutoRefresh = true, maxForeignAutoRefreshLevel = 3)
@@ -361,6 +369,40 @@ public class Person extends PseudonymizableAdo {
 
 	public void setApproximateAgeType(ApproximateAgeType approximateAgeType) {
 		this.approximateAgeType = approximateAgeType;
+	}
+
+	@Bindable
+	public Integer getApproximateMonth() {
+		return approximateMonth;
+	}
+
+	public void setApproximateMonth(Integer approximateMonth) {
+		this.approximateMonth = approximateMonth;
+	}
+
+	public ApproximateAgeType getApproximateAgeType1() {
+		return approximateAgeType1;
+	}
+
+	public void setApproximateAgeType1(ApproximateAgeType approximateAgeType1) {
+		this.approximateAgeType1 = approximateAgeType1;
+	}
+
+	@Bindable
+	public Integer getApproximateDay() {
+		return approximateDay;
+	}
+
+	public void setApproximateDay(Integer approximateDay) {
+		this.approximateDay = approximateDay;
+	}
+
+	public ApproximateAgeType getApproximateAgeType2() {
+		return approximateAgeType2;
+	}
+
+	public void setApproximateAgeType2(ApproximateAgeType approximateAgeType2) {
+		this.approximateAgeType2 = approximateAgeType2;
 	}
 
 	public Location getAddress() {
