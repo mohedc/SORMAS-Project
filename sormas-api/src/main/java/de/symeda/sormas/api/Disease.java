@@ -25,7 +25,7 @@ public enum Disease
 	implements
 	StatisticsGroupingKey {
 
-	AFP(true, true, true, false, false, 0, true, false, false),
+	AFP(true, true, true, false, true, 0, true, false, false),
 	CHOLERA(true, false, true, false, true, 5, true, false, false),
 	CONGENITAL_RUBELLA(true, true, true, false, true, 6, true, false, false),
 	CSM(true, true, true, false, false, 10, true, false, false),

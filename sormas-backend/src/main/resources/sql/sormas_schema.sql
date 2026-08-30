@@ -15707,6 +15707,11 @@ ALTER TABLE person_history ADD COLUMN IF NOT EXISTS approximateagetype2 varchar(
 
 INSERT INTO schema_version (version_number, comment) VALUES (677, 'Add calculated age in months and days to person');
 
+-- Migration 678: The contact entity for AFP, enabled through the follow-up flag of the disease configuration
+UPDATE diseaseconfiguration SET followupenabled = true WHERE disease = 'AFP' AND followupenabled IS DISTINCT FROM true;
+
+INSERT INTO schema_version (version_number, comment) VALUES (678, 'Enable the contact entity for AFP');
+
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***
 
 
