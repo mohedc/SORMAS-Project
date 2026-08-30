@@ -673,9 +673,9 @@ public class SampleEditFragment extends BaseEditFragment<FragmentSampleEditLayou
 		contentBinding.sampleSampleMaterial.setEnabled(false);
 		contentBinding.sampleSampleMaterialText.setVisibility(GONE);
 
-		// ── Sample purpose: role-filtered options, not required ───
+		// ── Sample purpose: role-filtered options, mandatory ──────
 		contentBinding.sampleSampleMaterial.setRequired(false);
-		contentBinding.samplePurpose.setRequired(false);
+		contentBinding.samplePurpose.setRequired(true);
 		contentBinding.samplePurpose.initializeSpinner(afpSamplePurposeList, field -> {
 			SamplePurpose purpose = (SamplePurpose) field.getValue();
 			updateAfpOutsideCountryVisibility(contentBinding, purpose);
@@ -691,8 +691,11 @@ public class SampleEditFragment extends BaseEditFragment<FragmentSampleEditLayou
 		// Init visibility immediately for current purpose value
 		updateAfpOutsideCountryVisibility(contentBinding, record.getSamplePurpose());
 
+		// ── The date the sample was collected is the date of the first specimen, so the separate field is not asked for ──
+		contentBinding.sampleSampleDateTime.setCaption(I18nProperties.getPrefixCaption(SampleDto.I18N_PREFIX, SampleDto.DATE_FIRST_SPECIMEN));
+		contentBinding.sampleDateFirstSpecimen.setVisibility(GONE);
+
 		// ── Initialize AFP date fields ────────────────────────────
-		contentBinding.sampleDateFirstSpecimen.initializeDateField(getFragmentManager());
 		contentBinding.sampleDateSecondSpecimen.initializeDateField(getFragmentManager());
 		contentBinding.sampleDateSpecimenSentNationalLevel.initializeDateField(getFragmentManager());
 		contentBinding.sampleDateSpecimenSentInter.initializeDateField(getFragmentManager());
