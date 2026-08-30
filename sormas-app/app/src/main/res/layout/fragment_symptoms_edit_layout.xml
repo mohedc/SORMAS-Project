@@ -1566,7 +1566,7 @@
                 app:value="@={data.babyDied}"
                 style="@style/ControlSingleColumnStyle" />
 
-            <!-- ageAtDeathDays, ageAtOnsetDays-->
+            <!-- ageAtDeathDays-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -1580,14 +1580,6 @@
                     app:dependencyParentValue="@{SymptomState.YES}"
                     app:inputType="number"
                     style="@style/ControlFirstOfTwoColumnsStyle" />
-
-                <de.symeda.sormas.app.component.controls.ControlTextEditField
-                    android:id="@+id/symptoms_ageAtOnsetDays"
-                    app:value="@={data.ageAtOnsetDays}"
-                    app:dependencyParentField="@{symptomsBabyDied}"
-                    app:dependencyParentValue="@{SymptomState.NO}"
-                    app:inputType="number"
-                    style="@style/ControlSecondOfTwoColumnsStyle" />
 
             </LinearLayout>
 
