@@ -74,10 +74,17 @@ public enum PathogenTestType {
 		Disease.RESPIRATORY_SYNCYTIAL_VIRUS,
 		Disease.INVASIVE_MENINGOCOCCAL_INFECTION,
 		Disease.INVASIVE_PNEUMOCOCCAL_INFECTION,
-		Disease.CSM }, hide = true)
+		Disease.CSM,
+		Disease.MEASLES,
+		Disease.DENGUE,
+		Disease.CONGENITAL_RUBELLA
+		}, hide = true)
 	IGM_SERUM_ANTIBODY,
 	@Diseases(value = {
-		Disease.CONGENITAL_RUBELLA }, hide = true)
+		Disease.CONGENITAL_RUBELLA,
+			Disease.MEASLES,
+			Disease.DENGUE
+		}, hide = true)
 	SUSTAINED_IGG_LEVEL,
 	@Diseases(value = {
 		Disease.RESPIRATORY_SYNCYTIAL_VIRUS,
@@ -272,15 +279,25 @@ public enum PathogenTestType {
 	AGGLUTINATION_TEST,
 
 	@Diseases(value = {
-			Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS })
+			Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS,
+			Disease.MEASLES,
+			Disease.RUBELLA,
+			Disease.DENGUE
+	})
 	PCR,
 	
 	@Diseases(value = {
-	Disease.MEASLES, Disease.RUBELLA })
+	 })
 	INDIRECT_IGM_SEROLOGY,
 	@Diseases(value = {
-		Disease.MEASLES, Disease.RUBELLA })
+		 })
 	CAPTURED_IGM_SEROLOGY,
+	@Diseases(value = {
+			Disease.MEASLES,
+			Disease.RUBELLA,
+			Disease.DENGUE
+	})
+	IGM_SEREOLOGY,
 
 	@Diseases(value = {
 		Disease.YELLOW_FEVER,
