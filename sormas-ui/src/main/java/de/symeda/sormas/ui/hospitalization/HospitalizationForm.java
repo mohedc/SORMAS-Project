@@ -25,6 +25,7 @@ import java.util.Collections;
 import java.util.Objects;
 
 import de.symeda.sormas.api.Disease;
+import de.symeda.sormas.api.utils.YesNo;
 import org.apache.commons.lang3.StringUtils;
 
 import com.vaadin.server.ErrorMessage;
@@ -214,11 +215,11 @@ public class HospitalizationForm extends AbstractEditForm<HospitalizationDto> {
 		FieldHelper.setVisibleWhen(
 			admittedToDifferentHealthFacilityField,
 			Arrays.asList(admissionHealthFacilityCombo),
-			Arrays.asList(YesNoUnknown.YES),
+			Arrays.asList(YesNo.YES),
 			true);
 
 		admittedToDifferentHealthFacilityField.addValueChangeListener(e -> {
-			if (e.getProperty().getValue() == YesNoUnknown.YES) {
+			if (e.getProperty().getValue() == YesNo.YES) {
 				updateAdmissionHealthFacilityItems(admissionHealthFacilityCombo);
 			} else {
 				admissionHealthFacilityDetails.setVisible(false);
