@@ -142,7 +142,7 @@ public class SampleController {
 		// add option to create additional pathogen tests
 			SampleEditPathogenTestListHandler pathogenTestHandler = new SampleEditPathogenTestListHandler();
 		if(!Disease.HIDE_PATHOGEN_BUTTON_LIST.contains(disease)) {
-			addPathogenTestButton(editView, false, null, null, pathogenTestHandler::addPathogenTest);
+//			addPathogenTestButton(editView, false, null, null, pathogenTestHandler::addPathogenTest);
 		}
 
 		editView.setPostCommitListener(() -> {

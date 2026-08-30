@@ -396,7 +396,6 @@ public class HospitalizationForm extends AbstractEditForm<HospitalizationDto> {
 			admissionDateField.setCaption("Date of admission to hospital, if applicable:");
 		}
 		if (disease == Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS){
-			selectInpatientOutpatient.setCaption("In/Out Patient");
 			dateFirstSeenAtHealthFacility.setCaption("Date seen at health facility");
 		}
 	}
