@@ -34,6 +34,7 @@ import de.symeda.sormas.api.utils.YesNoUnknown;
 import de.symeda.sormas.api.utils.InpatOutpat;
 import de.symeda.sormas.app.backend.common.AbstractDomainObject;
 import de.symeda.sormas.app.backend.common.EmbeddedAdo;
+import de.symeda.sormas.app.backend.facility.Facility;
 
 import static de.symeda.sormas.api.utils.FieldConstraints.CHARACTER_LIMIT_BIG;
 import static de.symeda.sormas.api.utils.FieldConstraints.CHARACTER_LIMIT_DEFAULT;
@@ -105,6 +106,15 @@ public class Hospitalization extends AbstractDomainObject {
 	private Date dateOfDiseaseOnset;
 	@Column(length = CHARACTER_LIMIT_BIG)
 	private String address;
+
+	@Enumerated(EnumType.STRING)
+	private YesNoUnknown admittedToDifferentHealthFacility;
+
+	@DatabaseField(foreign = true, foreignAutoRefresh = true, maxForeignAutoRefreshLevel = 3)
+	private Facility admissionHealthFacility;
+
+	@Column(length = CHARACTER_LIMIT_DEFAULT)
+	private String admissionHealthFacilityDetails;
 
 	// just for reference, not persisted in DB
 	private List<PreviousHospitalization> previousHospitalizations = new ArrayList<>();
@@ -319,5 +329,29 @@ public class Hospitalization extends AbstractDomainObject {
 
 	public void setAddress(String address) {
 		this.address = address;
+	}
+
+	public YesNoUnknown getAdmittedToDifferentHealthFacility() {
+		return admittedToDifferentHealthFacility;
+	}
+
+	public void setAdmittedToDifferentHealthFacility(YesNoUnknown admittedToDifferentHealthFacility) {
+		this.admittedToDifferentHealthFacility = admittedToDifferentHealthFacility;
+	}
+
+	public Facility getAdmissionHealthFacility() {
+		return admissionHealthFacility;
+	}
+
+	public void setAdmissionHealthFacility(Facility admissionHealthFacility) {
+		this.admissionHealthFacility = admissionHealthFacility;
+	}
+
+	public String getAdmissionHealthFacilityDetails() {
+		return admissionHealthFacilityDetails;
+	}
+
+	public void setAdmissionHealthFacilityDetails(String admissionHealthFacilityDetails) {
+		this.admissionHealthFacilityDetails = admissionHealthFacilityDetails;
 	}
 }

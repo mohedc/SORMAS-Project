@@ -3665,6 +3665,15 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 				getDao(Case.class).executeRaw(
 					"UPDATE cases SET caseClassification = 'SUSPECT' WHERE caseClassification = 'NOT_CLASSIFIED';");
 
+			case 404:
+				currentVersion = 404;
+				getDao(Hospitalization.class)
+					.executeRaw("ALTER TABLE hospitalizations ADD COLUMN admittedToDifferentHealthFacility varchar(255);");
+				getDao(Hospitalization.class)
+					.executeRaw("ALTER TABLE hospitalizations ADD COLUMN admissionHealthFacility_id bigint REFERENCES facility (id);");
+				getDao(Hospitalization.class)
+					.executeRaw("ALTER TABLE hospitalizations ADD COLUMN admissionHealthFacilityDetails varchar(512);");
+
 				// ATTENTION: break should only be done after last version
 				break;
 

@@ -15694,6 +15694,19 @@ UPDATE cases_history SET systemcaseclassification = 'SUSPECT' WHERE systemcasecl
 
 INSERT INTO schema_version (version_number, comment) VALUES (676, 'Update NOT_CLASSIFIED system case classification to SUSPECT');
 
+-- Migration 677: Add different admission health facility fields to hospitalization
+ALTER TABLE hospitalization ADD COLUMN IF NOT EXISTS admittedtodifferenthealthfacility varchar(255);
+ALTER TABLE hospitalization ADD COLUMN IF NOT EXISTS admissionhealthfacility_id bigint;
+ALTER TABLE hospitalization ADD COLUMN IF NOT EXISTS admissionhealthfacilitydetails varchar(512);
+ALTER TABLE hospitalization ADD CONSTRAINT fk_hospitalization_admissionhealthfacility_id
+    FOREIGN KEY (admissionhealthfacility_id) REFERENCES facility (id);
+
+ALTER TABLE hospitalization_history ADD COLUMN IF NOT EXISTS admittedtodifferenthealthfacility varchar(255);
+ALTER TABLE hospitalization_history ADD COLUMN IF NOT EXISTS admissionhealthfacility_id bigint;
+ALTER TABLE hospitalization_history ADD COLUMN IF NOT EXISTS admissionhealthfacilitydetails varchar(512);
+
+INSERT INTO schema_version (version_number, comment) VALUES (677, 'Add different admission health facility fields to hospitalization');
+
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***
 
 
