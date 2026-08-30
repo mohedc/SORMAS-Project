@@ -198,7 +198,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	public static final String DATABASE_NAME = "sormas.db";
 	// any time you make changes to your database objects, you may have to increase the database version
 
-	public static final int DATABASE_VERSION = 404;
+	public static final int DATABASE_VERSION = 405;
 
 	private static DatabaseHelper instance = null;
 
@@ -3664,6 +3664,13 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 				// Idempotent re-apply for installs that already reached DB version 403
 				getDao(Case.class).executeRaw(
 					"UPDATE cases SET caseClassification = 'SUSPECT' WHERE caseClassification = 'NOT_CLASSIFIED';");
+
+			case 404:
+				currentVersion = 404;
+				getDao(Person.class).executeRaw("ALTER TABLE person ADD COLUMN approximateMonth INTEGER;");
+				getDao(Person.class).executeRaw("ALTER TABLE person ADD COLUMN approximateAgeType1 VARCHAR;");
+				getDao(Person.class).executeRaw("ALTER TABLE person ADD COLUMN approximateDay INTEGER;");
+				getDao(Person.class).executeRaw("ALTER TABLE person ADD COLUMN approximateAgeType2 VARCHAR;");
 
 				// ATTENTION: break should only be done after last version
 				break;

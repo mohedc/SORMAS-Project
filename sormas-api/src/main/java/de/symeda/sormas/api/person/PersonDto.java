@@ -73,6 +73,10 @@ public class PersonDto extends PseudonymizableDto implements IsPerson {
 	public static final String APPROXIMATE_AGE_GROUP = "approximateAgeGroup";
 	public static final String APPROXIMATE_AGE_TYPE = "approximateAgeType";
 	public static final String APPROXIMATE_AGE_REFERENCE_DATE = "approximateAgeReferenceDate";
+	public static final String APPROXIMATE_MONTH = "approximateMonth";
+	public static final String APPROXIMATE_AGE_TYPE1 = "approximateAgeType1";
+	public static final String APPROXIMATE_DAY = "approximateDay";
+	public static final String APPROXIMATE_AGE_TYPE2 = "approximateAgeType2";
 	public static final String CAUSE_OF_DEATH = "causeOfDeath";
 	public static final String CAUSE_OF_DEATH_DISEASE = "causeOfDeathDisease";
 	public static final String CAUSE_OF_DEATH_DETAILS = "causeOfDeathDetails";
@@ -254,6 +258,14 @@ public class PersonDto extends PseudonymizableDto implements IsPerson {
 	private ApproximateAgeType approximateAgeType;
 	@Outbreaks
 	private Date approximateAgeReferenceDate;
+	@Outbreaks
+	private Integer approximateMonth;
+	@Outbreaks
+	private ApproximateAgeType approximateAgeType1;
+	@Outbreaks
+	private Integer approximateDay;
+	@Outbreaks
+	private ApproximateAgeType approximateAgeType2;
 	@Diseases({
 		Disease.CONGENITAL_RUBELLA })
 	@HideForCountries
@@ -558,6 +570,38 @@ public class PersonDto extends PseudonymizableDto implements IsPerson {
 
 	public void setApproximateAgeReferenceDate(Date approximateAgeReferenceDate) {
 		this.approximateAgeReferenceDate = approximateAgeReferenceDate;
+	}
+
+	public Integer getApproximateMonth() {
+		return approximateMonth;
+	}
+
+	public void setApproximateMonth(Integer approximateMonth) {
+		this.approximateMonth = approximateMonth;
+	}
+
+	public ApproximateAgeType getApproximateAgeType1() {
+		return approximateAgeType1;
+	}
+
+	public void setApproximateAgeType1(ApproximateAgeType approximateAgeType1) {
+		this.approximateAgeType1 = approximateAgeType1;
+	}
+
+	public Integer getApproximateDay() {
+		return approximateDay;
+	}
+
+	public void setApproximateDay(Integer approximateDay) {
+		this.approximateDay = approximateDay;
+	}
+
+	public ApproximateAgeType getApproximateAgeType2() {
+		return approximateAgeType2;
+	}
+
+	public void setApproximateAgeType2(ApproximateAgeType approximateAgeType2) {
+		this.approximateAgeType2 = approximateAgeType2;
 	}
 
 	public DeathPlaceType getDeathPlaceType() {

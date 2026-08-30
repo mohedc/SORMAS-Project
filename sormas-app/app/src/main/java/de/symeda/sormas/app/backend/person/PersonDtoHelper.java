@@ -88,6 +88,10 @@ public class PersonDtoHelper extends AdoDtoHelper<Person, PersonDto> {
 		target.setApproximateAge(source.getApproximateAge());
 		target.setApproximateAgeType(source.getApproximateAgeType());
 		target.setApproximateAgeReferenceDate(source.getApproximateAgeReferenceDate());
+		target.setApproximateMonth(source.getApproximateMonth());
+		target.setApproximateAgeType1(source.getApproximateAgeType1());
+		target.setApproximateDay(source.getApproximateDay());
+		target.setApproximateAgeType2(source.getApproximateAgeType2());
 
 		target.setPresentCondition(source.getPresentCondition());
 		target.setDeathDate(source.getDeathDate());
@@ -205,6 +209,10 @@ public class PersonDtoHelper extends AdoDtoHelper<Person, PersonDto> {
 		target.setApproximateAge(source.getApproximateAge());
 		target.setApproximateAgeType(source.getApproximateAgeType());
 		target.setApproximateAgeReferenceDate(source.getApproximateAgeReferenceDate());
+		target.setApproximateMonth(source.getApproximateMonth());
+		target.setApproximateAgeType1(source.getApproximateAgeType1());
+		target.setApproximateDay(source.getApproximateDay());
+		target.setApproximateAgeType2(source.getApproximateAgeType2());
 
 		target.setCauseOfDeath(source.getCauseOfDeath());
 		target.setCauseOfDeathDisease(source.getCauseOfDeathDisease());

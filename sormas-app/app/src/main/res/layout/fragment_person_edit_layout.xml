@@ -177,6 +177,38 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/person_approximateMonthDay_Layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <de.symeda.sormas.app.component.controls.ControlTextEditField
+                    android:id="@+id/person_approximateMonth"
+                    app:value="@={data.approximateMonth}"
+                    app:inputType="number"
+                    app:maxLength="2"
+                    style="@style/ControlFirstOfTwoColumnsStyle" />
+
+                <de.symeda.sormas.app.component.controls.ControlSpinnerField
+                    android:id="@+id/person_approximateAgeType1"
+                    app:value="@={data.approximateAgeType1}"
+                    style="@style/ControlSecondOfTwoColumnsStyle" />
+
+                <de.symeda.sormas.app.component.controls.ControlTextEditField
+                    android:id="@+id/person_approximateDay"
+                    app:value="@={data.approximateDay}"
+                    app:inputType="number"
+                    app:maxLength="2"
+                    style="@style/ControlSecondOfTwoColumnsStyle" />
+
+                <de.symeda.sormas.app.component.controls.ControlSpinnerField
+                    android:id="@+id/person_approximateAgeType2"
+                    app:value="@={data.approximateAgeType2}"
+                    style="@style/ControlSecondOfTwoColumnsStyle" />
+
+            </LinearLayout>
+
             <de.symeda.sormas.app.component.controls.ControlSwitchField
                 android:id="@+id/person_birthInInstitution"
                 app:value="@={data.birthInInstitution}"

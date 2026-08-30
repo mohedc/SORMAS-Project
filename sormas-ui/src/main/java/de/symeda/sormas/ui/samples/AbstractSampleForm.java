@@ -210,7 +210,7 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 					fluidRowLocs(SampleDto.SAMPLE_DATE_TIME, "") +
 					fluidRowLocs(SampleDto.LAB, SampleDto.LAB_DETAILS) +
 					fluidRowLocs(SampleDto.LAB_SAMPLE_ID) +
-					fluidRowLocs(SampleDto.DATE_FIRST_SPECIMEN, SampleDto.DATE_SECOND_SPECIMEN) +
+					fluidRowLocs(6, SampleDto.DATE_SECOND_SPECIMEN) +
 
 					locCss(VSPACE_TOP_3, SampleDto.SHIPPED) +
 					fluidRowLocs(SampleDto.SHIPMENT_DATE, SampleDto.SHIPMENT_DETAILS) +
@@ -219,7 +219,7 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 
 					locCss(VSPACE_TOP_3, SampleDto.RECEIVED) +
 					fluidRowLocs(SampleDto.RECEIVED_DATE, SampleDto.LAB_SAMPLE_ID) +
-					fluidRowLocs(SampleDto.SENT_TO_IP_DAKAR) +
+					fluidRowLocs(6, SampleDto.STATUS_SPECIMEN_RECEPTION_AT_LAB) +
 					loc(ELISA_IGM_HEADLINE_LOC) +
 					fluidRowLocs(SampleDto.ELISA_IGM, SampleDto.ELISA_IGM_DATE) +
 					loc(PCR_HEADLINE_LOC) +
@@ -228,7 +228,6 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 					fluidRowLocs(SampleDto.PRNT, SampleDto.PRNT_INPUT_VALUE) +
 					fluidRowLocs(6, SampleDto.PRNT_DATE) +
 					fluidRowLocs(6, SampleDto.DATE_SPECIMEN_RECEIVED_NATIONAL_LEVEL) +
-					fluidRowLocs(SampleDto.DATE_SPECIMEN_RECEIVED_INTERCOUNTY_NATLAB, SampleDto.STATUS_SPECIMEN_RECEPTION_AT_LAB) +
 					fluidRowLocs(SampleDto.PATHOGEN_TEST_RESULT);
 
 	protected static final String CONGENITAL_RUBELLA_HTML_LAYOUT =
@@ -547,16 +546,19 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 		if (disease == Disease.MEASLES) {
 			configureMeaslesFields();
 		}
-		// IP Dakar test result fields visibility - show when SENT_TO_IP_DAKAR is Yes
-		FieldHelper.setVisibleWhen(
-			getFieldGroup(),
-			Arrays.asList(
-				SampleDto.ELISA_IGM, SampleDto.ELISA_IGM_DATE,
-				SampleDto.PCR, SampleDto.PCR_DATE,
-				SampleDto.PRNT, SampleDto.PRNT_DATE),
-			SampleDto.SENT_TO_IP_DAKAR,
-			Arrays.asList(YesNo.YES),
-			true);
+		// IP Dakar test result fields visibility - show when SENT_TO_IP_DAKAR is Yes; AFP does not ask the IP Dakar question
+		// any more and lets handleAFP() decide instead, so this rule must not clear the results it stores
+		if (disease != Disease.AFP) {
+			FieldHelper.setVisibleWhen(
+				getFieldGroup(),
+				Arrays.asList(
+					SampleDto.ELISA_IGM, SampleDto.ELISA_IGM_DATE,
+					SampleDto.PCR, SampleDto.PCR_DATE,
+					SampleDto.PRNT, SampleDto.PRNT_DATE),
+				SampleDto.SENT_TO_IP_DAKAR,
+				Arrays.asList(YesNo.YES),
+				true);
+		}
 		
 		// PRNT Input Value visibility - show only when PRNT is POSITIVE
 		FieldHelper.setVisibleWhen(
@@ -567,7 +569,7 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 			true);
 		
 		// Show subtitle labels when SENT_TO_IP_DAKAR is Yes
-		Field<?> sentToIpDakarField = getField(SampleDto.SENT_TO_IP_DAKAR);
+		Field<?> sentToIpDakarField = disease != Disease.AFP ? getField(SampleDto.SENT_TO_IP_DAKAR) : null;
 		if (sentToIpDakarField != null) {
 			sentToIpDakarField.addValueChangeListener(e -> {
 				boolean isVisible = YesNo.YES.equals(e.getProperty().getValue());
@@ -1229,7 +1231,7 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 		CssStyles.style(stoolSpecimenCollection, CssStyles.LABEL_BOLD, CssStyles.LABEL_SECONDARY, VSPACE_4);
 		getContent().addComponent(stoolSpecimenCollection, STOOL_SPECIMEN_COLLECTION_HEADLINE_LOC);
 
-		setRequired(false, SampleDto.SAMPLE_PURPOSE, SampleDto.SAMPLE_MATERIAL);
+		setRequired(false, SampleDto.SAMPLE_MATERIAL);
 		FieldHelper.updateEnumData(sampleMaterialComboBox, Arrays.asList(SampleMaterial.STOOL));
 		sampleMaterialComboBox.setValue(SampleMaterial.STOOL);
 		sampleMaterialComboBox.setEnabled(false);
@@ -1285,39 +1287,36 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 				isNationalUser
 		);
 
-		FieldHelper.setVisibleWhen(
-				getFieldGroup(),
-				SampleDto.SENT_TO_IP_DAKAR,
-				SampleDto.RECEIVED,
-				Arrays.asList(true),
-				true);
+		// The date the sample was collected is the date of the first specimen, so the separate first specimen date is not asked for
+		DateTimeField sampleDateField = (DateTimeField) getField(SampleDto.SAMPLE_DATE_TIME);
+		sampleDateField.setDateCaption(I18nProperties.getPrefixCaption(SampleDto.I18N_PREFIX, SampleDto.DATE_FIRST_SPECIMEN));
 
+		// The sample is received at the inter country/national laboratory, so the receival date is that date
+		getField(SampleDto.RECEIVED_DATE)
+			.setCaption(I18nProperties.getPrefixCaption(SampleDto.I18N_PREFIX, SampleDto.DATE_SPECIMEN_RECEIVED_INTERCOUNTY_NATLAB));
+
+		// The IP Dakar question is gone, so its test results follow the receival of the sample instead
 		FieldHelper.setVisibleWhen(
 				getFieldGroup(),
 				Arrays.asList(
 						SampleDto.ELISA_IGM, SampleDto.ELISA_IGM_DATE,
 						SampleDto.PCR, SampleDto.PCR_DATE,
 						SampleDto.PRNT, SampleDto.PRNT_DATE),
-				SampleDto.SENT_TO_IP_DAKAR,
-				Arrays.asList(YesNo.YES),
+				SampleDto.RECEIVED,
+				Arrays.asList(true),
 				true);
 
-		// Show subtitle labels when SENT_TO_IP_DAKAR is Yes
-		Field<?> sentToIpDakarField = getField(SampleDto.SENT_TO_IP_DAKAR);
-		if (sentToIpDakarField != null) {
-			sentToIpDakarField.addValueChangeListener(e -> {
-				boolean isVisible = YesNo.YES.equals(e.getProperty().getValue());
-				getContent().getComponent(ELISA_IGM_HEADLINE_LOC).setVisible(isVisible);
-				getContent().getComponent(PCR_HEADLINE_LOC).setVisible(isVisible);
-				getContent().getComponent(PRNT_HEADLINE_LOC).setVisible(isVisible);
-			});
-			// Initialize visibility
-			boolean isVisible = YesNo.YES.equals(sentToIpDakarField.getValue());
-			getContent().getComponent(ELISA_IGM_HEADLINE_LOC).setVisible(isVisible);
-			getContent().getComponent(PCR_HEADLINE_LOC).setVisible(isVisible);
-			getContent().getComponent(PRNT_HEADLINE_LOC).setVisible(isVisible);
-		}
+		// Show subtitle labels together with the test results they belong to
+		Field<?> receivedField = getField(SampleDto.RECEIVED);
+		receivedField.addValueChangeListener(e -> updateAFPTestResultHeadlineVisibility(Boolean.TRUE.equals(e.getProperty().getValue())));
+		updateAFPTestResultHeadlineVisibility(Boolean.TRUE.equals(receivedField.getValue()));
 
+	}
+
+	private void updateAFPTestResultHeadlineVisibility(boolean visible) {
+		getContent().getComponent(ELISA_IGM_HEADLINE_LOC).setVisible(visible);
+		getContent().getComponent(PCR_HEADLINE_LOC).setVisible(visible);
+		getContent().getComponent(PRNT_HEADLINE_LOC).setVisible(visible);
 	}
 
 	private boolean canSeeOutsideCountryLabTesting() {

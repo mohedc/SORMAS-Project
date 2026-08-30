@@ -424,6 +424,38 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/approximate_month_day_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <de.symeda.sormas.app.component.controls.ControlTextEditField
+                    android:id="@+id/person_approximateMonth"
+                    app:value="@={data.person.approximateMonth}"
+                    app:inputType="number"
+                    app:maxLength="2"
+                    style="@style/ControlFirstOfTwoColumnsStyle" />
+
+                <de.symeda.sormas.app.component.controls.ControlSpinnerField
+                    android:id="@+id/person_approximateAgeType1"
+                    app:value="@={data.person.approximateAgeType1}"
+                    style="@style/ControlSecondOfTwoColumnsStyle" />
+
+                <de.symeda.sormas.app.component.controls.ControlTextEditField
+                    android:id="@+id/person_approximateDay"
+                    app:value="@={data.person.approximateDay}"
+                    app:inputType="number"
+                    app:maxLength="2"
+                    style="@style/ControlSecondOfTwoColumnsStyle" />
+
+                <de.symeda.sormas.app.component.controls.ControlSpinnerField
+                    android:id="@+id/person_approximateAgeType2"
+                    app:value="@={data.person.approximateAgeType2}"
+                    style="@style/ControlSecondOfTwoColumnsStyle" />
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/sex_and_citizenship_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

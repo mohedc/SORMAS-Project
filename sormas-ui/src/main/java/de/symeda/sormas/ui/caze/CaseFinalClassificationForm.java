@@ -76,7 +76,7 @@ public class CaseFinalClassificationForm extends AbstractEditForm<CaseDataDto> {
 			loc(FINAL_CLASSIFICATION_HEADING_LOC) +
 					fluidRowLocs(6,CaseDataDto.IMMUNOCOMPROMISED_STATUS_SUSPECTED) +
 					fluidRowLocs(CaseDataDto.DATE_CAPTURED_RESULTS_RECEIVED_AT_NATIONAL_EPI_OFFICE, CaseDataDto.DATE_DIFFERENTIATION_RECEIVED_EPI) +
-					fluidRowLocs(CaseDataDto.FINAL_CLASSIFICATION, CaseDataDto.VDPV_CLASSIFICATION, CaseDataDto.SERO_CLASSIFICATION);
+					fluidRowLocs(CaseDataDto.FINAL_CLASSIFICATION, CaseDataDto.SERO_CLASSIFICATION);
 
 	private static final String IDSR_HTML_LAYOUT =
 			loc(FINAL_CLASSIFICATION_HEADING_LOC) +
@@ -103,6 +103,12 @@ public class CaseFinalClassificationForm extends AbstractEditForm<CaseDataDto> {
 		Disease.CONGENITAL_RUBELLA,
 			Disease.AFP
 	);
+
+	/**
+	 * The vaccine-derived poliovirus classifications; the sero-type is only asked for when one of them is the final classification.
+	 */
+	private static final List<FinalClassification> VDPV_FINAL_CLASSIFICATIONS =
+		Arrays.asList(FinalClassification.cVDPV, FinalClassification.aVDPV, FinalClassification.iVDPV);
 
 	private ComboBox finalClassificationField;
 	private ComboBox classificationByOriginField;
@@ -168,7 +174,6 @@ public class CaseFinalClassificationForm extends AbstractEditForm<CaseDataDto> {
 		addField(CaseDataDto.INVESTIGATOR_NAME, TextField.class);
 		addField(CaseDataDto.INVESTIGATOR_TEL, TextField.class);
 		finalClassificationField = addField(CaseDataDto.FINAL_CLASSIFICATION, ComboBox.class);
-		addField(CaseDataDto.VDPV_CLASSIFICATION, ComboBox.class);
 		addField(CaseDataDto.SERO_CLASSIFICATION, ComboBox.class);
 		dateCaptured = addDateField(CaseDataDto.DATE_CAPTURED_RESULTS_RECEIVED_AT_NATIONAL_EPI_OFFICE, DateField.class, 7);
 		addField(CaseDataDto.DATE_DIFFERENTIATION_RECEIVED_EPI, DateField.class);
@@ -197,6 +202,12 @@ public class CaseFinalClassificationForm extends AbstractEditForm<CaseDataDto> {
 			CaseDataDto.FINAL_CLASSIFICATION_DISCARDED,
 			CaseDataDto.FINAL_CLASSIFICATION,
 			Collections.singletonList(FinalClassification.DISCARDED),
+			true);
+		FieldHelper.setVisibleWhen(
+			getFieldGroup(),
+			CaseDataDto.SERO_CLASSIFICATION,
+			CaseDataDto.FINAL_CLASSIFICATION,
+			VDPV_FINAL_CLASSIFICATIONS,
 			true);
 
 		List<FinalClassification> values = getFinalClassifications();
@@ -287,7 +298,10 @@ public class CaseFinalClassificationForm extends AbstractEditForm<CaseDataDto> {
 					FinalClassification.CONFIRMED_POLIO,
 					FinalClassification.COMPATIBLE,
 					FinalClassification.DISCARDED,
-					FinalClassification.NOT_AN_AFP_CASE
+					FinalClassification.NOT_AN_AFP_CASE,
+					FinalClassification.cVDPV,
+					FinalClassification.aVDPV,
+					FinalClassification.iVDPV
 			);
 		}
 		if (Disease.CSM.equals(disease)) {

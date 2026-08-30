@@ -2440,6 +2440,10 @@ public interface Captions {
 	String Person_approximateAge = "Person.approximateAge";
 	String Person_approximateAgeReferenceDate = "Person.approximateAgeReferenceDate";
 	String Person_approximateAgeType = "Person.approximateAgeType";
+	String Person_approximateAgeType1 = "Person.approximateAgeType1";
+	String Person_approximateAgeType2 = "Person.approximateAgeType2";
+	String Person_approximateDay = "Person.approximateDay";
+	String Person_approximateMonth = "Person.approximateMonth";
 	String Person_armedForcesRelationType = "Person.armedForcesRelationType";
 	String Person_birthCountry = "Person.birthCountry";
 	String Person_birthdate = "Person.birthdate";

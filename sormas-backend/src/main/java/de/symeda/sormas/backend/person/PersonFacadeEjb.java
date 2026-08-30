@@ -19,6 +19,7 @@ import static java.util.Objects.isNull;
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.maxBy;
 
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -948,15 +949,23 @@ public class PersonFacadeEjb extends AbstractBaseEjb<Person, PersonDto, PersonIn
 			// calculate the approximate age based on the birth date
 			// still not sure whether this is a good solution
 
-			Pair<Integer, ApproximateAgeType> pair = ApproximateAgeHelper
-				.getApproximateAge(source.getBirthdateYYYY(), source.getBirthdateMM(), source.getBirthdateDD(), source.getDeathDate());
-			target.setApproximateAge(pair.getElement0());
-			target.setApproximateAgeType(pair.getElement1());
+			Period period = ApproximateAgeHelper
+				.getApproximateAgePeriod(source.getBirthdateYYYY(), source.getBirthdateMM(), source.getBirthdateDD(), source.getDeathDate());
+			target.setApproximateAge(period.getYears());
+			target.setApproximateAgeType(ApproximateAgeType.YEARS);
+			target.setApproximateMonth(period.getMonths());
+			target.setApproximateAgeType1(ApproximateAgeType.MONTHS);
+			target.setApproximateDay(period.getDays());
+			target.setApproximateAgeType2(ApproximateAgeType.DAYS);
 			target.setApproximateAgeReferenceDate(source.getDeathDate() != null ? source.getDeathDate() : new Date());
 
 		} else {
 			target.setApproximateAge(source.getApproximateAge());
 			target.setApproximateAgeType(source.getApproximateAgeType());
+			target.setApproximateMonth(source.getApproximateMonth());
+			target.setApproximateAgeType1(source.getApproximateAgeType1());
+			target.setApproximateDay(source.getApproximateDay());
+			target.setApproximateAgeType2(source.getApproximateAgeType2());
 			target.setApproximateAgeReferenceDate(source.getApproximateAgeReferenceDate());
 		}
 
@@ -1303,10 +1312,14 @@ public class PersonFacadeEjb extends AbstractBaseEjb<Person, PersonDto, PersonIn
 
 		// Set approximate age if it hasn't been set before
 		if (newPerson.getApproximateAge() == null && newPerson.getBirthdateYYYY() != null) {
-			Pair<Integer, ApproximateAgeType> pair = ApproximateAgeHelper
-				.getApproximateAge(newPerson.getBirthdateYYYY(), newPerson.getBirthdateMM(), newPerson.getBirthdateDD(), newPerson.getDeathDate());
-			newPerson.setApproximateAge(pair.getElement0());
-			newPerson.setApproximateAgeType(pair.getElement1());
+			Period period = ApproximateAgeHelper
+				.getApproximateAgePeriod(newPerson.getBirthdateYYYY(), newPerson.getBirthdateMM(), newPerson.getBirthdateDD(), newPerson.getDeathDate());
+			newPerson.setApproximateAge(period.getYears());
+			newPerson.setApproximateAgeType(ApproximateAgeType.YEARS);
+			newPerson.setApproximateMonth(period.getMonths());
+			newPerson.setApproximateAgeType1(ApproximateAgeType.MONTHS);
+			newPerson.setApproximateDay(period.getDays());
+			newPerson.setApproximateAgeType2(ApproximateAgeType.DAYS);
 			newPerson.setApproximateAgeReferenceDate(newPerson.getDeathDate() != null ? newPerson.getDeathDate() : new Date());
 		}
 
@@ -1742,6 +1755,10 @@ public class PersonFacadeEjb extends AbstractBaseEjb<Person, PersonDto, PersonIn
 		target.setBirthdateYYYY(source.getBirthdateYYYY());
 		target.setApproximateAge(source.getApproximateAge());
 		target.setApproximateAgeType(source.getApproximateAgeType());
+		target.setApproximateMonth(source.getApproximateMonth());
+		target.setApproximateAgeType1(source.getApproximateAgeType1());
+		target.setApproximateDay(source.getApproximateDay());
+		target.setApproximateAgeType2(source.getApproximateAgeType2());
 		target.setApproximateAgeReferenceDate(source.getApproximateAgeReferenceDate());
 		target.setCauseOfDeath(source.getCauseOfDeath());
 		target.setCauseOfDeathDetails(source.getCauseOfDeathDetails());

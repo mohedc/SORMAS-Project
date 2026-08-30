@@ -28,6 +28,7 @@ import java.util.List;
 
 import de.symeda.sormas.api.Disease;
 import de.symeda.sormas.api.FormType;
+import de.symeda.sormas.api.i18n.I18nProperties;
 import de.symeda.sormas.api.feature.FeatureType;
 import de.symeda.sormas.api.sample.AdditionalTestType;
 import de.symeda.sormas.api.sample.PathogenTestType;
@@ -209,6 +210,10 @@ public class SampleReadFragment extends BaseReadFragment<FragmentSampleReadLayou
 	private void handleAfp(FragmentSampleReadLayoutBinding contentBinding) {
 		contentBinding.sampleHeadingStoolSpecimenCollection.setVisibility(VISIBLE);
 		contentBinding.sampleAfpSampleLayout.setVisibility(VISIBLE);
+
+		// The date the sample was collected is the date of the first specimen, so the separate field is not shown
+		contentBinding.sampleSampleDateTime.setCaption(I18nProperties.getPrefixCaption(SampleDto.I18N_PREFIX, SampleDto.DATE_FIRST_SPECIMEN));
+		contentBinding.sampleDateFirstSpecimen.setVisibility(GONE);
 
 		updateAfpShipmentVisibility(contentBinding, record.isShipped());
 		updateAfpReceivedVisibility(contentBinding, record.isReceived());

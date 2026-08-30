@@ -175,7 +175,7 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 			fluidRowLocs(OTHER_COMPLICATIONS, OTHER_COMPLICATIONS_TEXT) +
 			fluidRowLocs(6, SIGNS_OF_ONSET_DAYS) +
 			fluidRowLocs(6, BABY_DIED) +
-			fluidRowLocs(AGE_AT_DEATH_DAYS, AGE_AT_ONSET_DAYS) +
+			fluidRowLocs(6, AGE_AT_DEATH_DAYS) +
 			fluidRowLocs(6, OUTCOME) +
 			fluidRowLocs(SYMPTOMS_COMMENTS);
 
@@ -635,9 +635,7 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 		signOnsetDay.setNullRepresentation("");
 		signOnsetDay.addValidator(new IntegerRangeValidator("Enter a valid number of days", 0, null));
 		addField(AGE_AT_DEATH_DAYS, TextField.class);
-		addField(AGE_AT_ONSET_DAYS, TextField.class);
 		FieldHelper.setVisibleWhen(getFieldGroup(), Arrays.asList(AGE_AT_DEATH_DAYS), BABY_DIED, Arrays.asList(SymptomState.YES), true);
-		FieldHelper.setVisibleWhen(getFieldGroup(), Arrays.asList(AGE_AT_ONSET_DAYS), BABY_DIED, Arrays.asList(SymptomState.NO), true);
 
 		addField(LESIONS_ONSET_DATE, DateField.class);
 		for (String onsetDatePropertyId : Arrays.asList(
