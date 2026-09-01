@@ -2455,6 +2455,7 @@ public interface Captions {
 	String Person_birthdateYYYY = "Person.birthdateYYYY";
 	String Person_birthName = "Person.birthName";
 	String Person_birthWeight = "Person.birthWeight";
+	String Person_currentWeight = "Person.currentWeight";
 	String Person_burialConductor = "Person.burialConductor";
 	String Person_burialDate = "Person.burialDate";
 	String Person_burialPlaceDescription = "Person.burialPlaceDescription";
