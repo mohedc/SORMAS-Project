@@ -66,7 +66,6 @@ import de.symeda.sormas.api.i18n.Validations;
 import de.symeda.sormas.api.person.ApproximateAgeType;
 import de.symeda.sormas.api.person.PersonDto;
 import de.symeda.sormas.api.symptoms.ClinicalPresentationStatus;
-import de.symeda.sormas.api.symptoms.CongenitalHeartDiseaseType;
 import de.symeda.sormas.api.symptoms.InfectionSite;
 import de.symeda.sormas.api.symptoms.SymptomState;
 import de.symeda.sormas.api.symptoms.SymptomsContext;
@@ -231,7 +230,7 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 					fluidRow(fluidColumn(8,4, locCss(CssStyles.ALIGN_RIGHT,BUTTONS_LOC)))+
 					loc(GROUP_A_HEADING_LOC) +
 					fluidRowLocs(6, CONGENITAL_HEART_DISEASE, 6, CONGENITAL_HEART_DISEASE_ONSET_DATE) +
-					fluidRowLocs(CONGENITAL_HEART_DISEASE_TYPE, CONGENITAL_HEART_DISEASE_DETAILS) +
+					fluidRowLocs(CONGENITAL_HEART_DISEASE_DETAILS) +
 					fluidRowLocs(6, CATARACTS, 6, CATARACTS_ONSET_DATE) +
 					fluidRowLocs(6, CONGENITAL_GLAUCOMA, 6, CONGENITAL_GLAUCOMA_ONSET_DATE) +
 					fluidRowLocs(6, PIGMENTARY_RETINOPATHY, 6, PIGMENTARY_RETINOPATHY_ONSET_DATE) +
@@ -558,7 +557,6 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 			MENINGOENCEPHALITIS,
 			PURPURIC_RASH,
 			DEVELOPMENTAL_DELAY,
-			CONGENITAL_HEART_DISEASE_TYPE,
 			CONGENITAL_HEART_DISEASE_DETAILS,
 			JAUNDICE_WITHIN_24_HOURS_OF_BIRTH,
 			PATIENT_ILL_LOCATION,
@@ -1066,12 +1064,12 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 			FieldHelper.setVisibleWhen(getFieldGroup(), LESIONS_ONSET_DATE, LESIONS, Arrays.asList(SymptomState.YES), true);
 		}
 
-		FieldHelper.setVisibleWhen(getFieldGroup(), CONGENITAL_HEART_DISEASE_TYPE, CONGENITAL_HEART_DISEASE, Arrays.asList(SymptomState.YES), true);
+		// CRS: specify congenital heart defect as free text
 		FieldHelper.setVisibleWhen(
 			getFieldGroup(),
 			CONGENITAL_HEART_DISEASE_DETAILS,
-			CONGENITAL_HEART_DISEASE_TYPE,
-			Arrays.asList(CongenitalHeartDiseaseType.OTHER),
+			CONGENITAL_HEART_DISEASE,
+			Arrays.asList(SymptomState.YES),
 			true);
 
 		if (disease != Disease.TUBERCULOSIS) {

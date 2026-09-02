@@ -130,7 +130,7 @@ public class SymptomsReadFragment extends BaseReadFragment<FragmentSymptomsReadL
 
 		if (!Diseases.DiseasesConfiguration.isDefined(SymptomsDto.class, SymptomsDto.CONGENITAL_HEART_DISEASE, disease)
 			|| contentBinding.getData().getCongenitalHeartDisease() != SymptomState.YES) {
-			contentBinding.symptomsCongenitalHeartDiseaseType.setVisibility(GONE);
+			contentBinding.symptomsCongenitalHeartDiseaseDetails.setVisibility(GONE);
 		}
 
 		if (symptomsContext == SymptomsContext.CLINICAL_VISIT) {

@@ -100,10 +100,9 @@
                     style="@style/ControlSingleColumnStyle" />
 
                 <de.symeda.sormas.app.component.controls.ControlTextReadField
-                    android:id="@+id/symptoms_congenitalHeartDiseaseType"
-                    app:value="@{data.congenitalHeartDiseaseType}"
-                    app:appendValue="@{data.congenitalHeartDiseaseDetails}"
-                    app:valueFormat="@string/two_strings_with_hyphen_format"
+                    android:id="@+id/symptoms_congenitalHeartDiseaseDetails"
+                    app:value="@{data.congenitalHeartDiseaseDetails}"
+                    app:goneIfEmpty="@{data.congenitalHeartDiseaseDetails}"
                     style="@style/ControlSingleColumnStyle" />
 
                 <de.symeda.sormas.app.component.controls.ControlTextReadField

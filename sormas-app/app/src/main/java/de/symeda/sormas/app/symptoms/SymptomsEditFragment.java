@@ -30,7 +30,6 @@ import de.symeda.sormas.api.Disease;
 import de.symeda.sormas.api.FormType;
 import de.symeda.sormas.api.caze.CaseOutcome;
 import de.symeda.sormas.api.person.ApproximateAgeType;
-import de.symeda.sormas.api.symptoms.CongenitalHeartDiseaseType;
 import de.symeda.sormas.api.symptoms.SymptomState;
 import de.symeda.sormas.api.symptoms.SymptomsContext;
 import de.symeda.sormas.api.symptoms.SymptomsDto;
@@ -79,7 +78,6 @@ public class SymptomsEditFragment extends BaseEditFragment<FragmentSymptomsEditL
 
 	private List<Item> bodyTempList;
 	private List<Item> tempSourceList;
-	private List<Item> congenitalHeartDiseaseList;
 	private List<Item> caseOutcomeList;
 
 	private IEntryItemOnClickListener clearAllCallback;
@@ -156,7 +154,6 @@ public class SymptomsEditFragment extends BaseEditFragment<FragmentSymptomsEditL
 			&& ((person.getApproximateAge() <= 12 && person.getApproximateAgeType() == ApproximateAgeType.MONTHS) || person.getApproximateAge() <= 1);
 		bodyTempList = getTemperatures(true);
 		tempSourceList = DataUtils.getEnumItems(TemperatureSource.class, true);
-		congenitalHeartDiseaseList = DataUtils.getEnumItems(CongenitalHeartDiseaseType.class, true);
 		caseOutcomeList = getCaseOutcomeListByDisease(disease);
 	}
 
@@ -206,7 +203,6 @@ public class SymptomsEditFragment extends BaseEditFragment<FragmentSymptomsEditL
 
 		contentBinding.symptomsTemperature.initializeSpinner(DataUtils.addEmptyItem(bodyTempList));
 		contentBinding.symptomsTemperatureSource.initializeSpinner(DataUtils.addEmptyItem(tempSourceList));
-		contentBinding.symptomsCongenitalHeartDiseaseType.initializeSpinner(congenitalHeartDiseaseList);
 		contentBinding.symptomsOutcome.initializeSpinner(caseOutcomeList);
 		initializeNntBabyDiedOutcomeHandling(contentBinding);
 		initializeAfpFields(contentBinding);
@@ -221,12 +217,6 @@ public class SymptomsEditFragment extends BaseEditFragment<FragmentSymptomsEditL
 		if (disease == Disease.CONGENITAL_RUBELLA) {
 			handleCongenitalRubellaOutcome(contentBinding);
 		}
-
-		contentBinding.symptomsCongenitalHeartDisease.addValueChangedListener(e -> {
-			if (e.getValue() != SymptomState.YES) {
-				contentBinding.symptomsCongenitalHeartDiseaseDetails.setVisibility(GONE);
-			}
-		});
 	}
 
 	private void initializeAfpFields(FragmentSymptomsEditLayoutBinding contentBinding) {

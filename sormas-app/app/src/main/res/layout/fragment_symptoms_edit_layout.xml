@@ -27,7 +27,6 @@
     <data>
         <import type="de.symeda.sormas.app.component.controls.ControlButtonType"/>
         <import type="de.symeda.sormas.api.symptoms.SymptomsContext" />
-        <import type="de.symeda.sormas.api.symptoms.CongenitalHeartDiseaseType" />
         <import type="de.symeda.sormas.api.symptoms.SymptomState" />
         <import type="de.symeda.sormas.api.utils.YesNoUnknown" />
 
@@ -325,16 +324,15 @@
 
             <de.symeda.sormas.app.component.controls.ControlSpinnerField
                 android:id="@+id/symptoms_congenitalHeartDiseaseType"
+                android:visibility="gone"
                 app:value="@={data.congenitalHeartDiseaseType}"
-                app:dependencyParentField="@{symptomsCongenitalHeartDisease}"
-                app:dependencyParentValue="@{SymptomState.YES}"
                 style="@style/ControlSingleColumnStyle" />
 
             <de.symeda.sormas.app.component.controls.ControlTextEditField
                 android:id="@+id/symptoms_congenitalHeartDiseaseDetails"
                 app:value="@={data.congenitalHeartDiseaseDetails}"
-                app:dependencyParentField="@{symptomsCongenitalHeartDiseaseType}"
-                app:dependencyParentValue="@{CongenitalHeartDiseaseType.OTHER}"
+                app:dependencyParentField="@{symptomsCongenitalHeartDisease}"
+                app:dependencyParentValue="@{SymptomState.YES}"
                 style="@style/ControlSingleColumnStyle" />
 
             <de.symeda.sormas.app.component.controls.ControlDateField
