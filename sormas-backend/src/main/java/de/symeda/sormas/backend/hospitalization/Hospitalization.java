@@ -41,7 +41,9 @@ import de.symeda.sormas.api.utils.InpatOutpat;
 import de.symeda.sormas.api.utils.YesNo;
 import de.symeda.sormas.api.utils.YesNoUnknown;
 import de.symeda.sormas.backend.common.AbstractDomainObject;
+import de.symeda.sormas.backend.infrastructure.district.District;
 import de.symeda.sormas.backend.infrastructure.facility.Facility;
+import de.symeda.sormas.backend.infrastructure.region.Region;
 
 @Entity
 public class Hospitalization extends AbstractDomainObject {
@@ -70,6 +72,8 @@ public class Hospitalization extends AbstractDomainObject {
 	public static final String DATE_OF_CONSULTATION_AT_HEALTH_FACILITY = "dateOfConsultationAtHealthFacility";
 	public static final String DATE_HEALTH_REGION_NOTIFIED = "dateHealthRegionNotified";
 	public static final String ADMITTED_TO_DIFFERENT_HEALTH_FACILITY = "admittedToDifferentHealthFacility";
+	public static final String ADMISSION_REGION = "admissionRegion";
+	public static final String ADMISSION_DISTRICT = "admissionDistrict";
 	public static final String ADMISSION_HEALTH_FACILITY = "admissionHealthFacility";
 	public static final String ADMISSION_HEALTH_FACILITY_DETAILS = "admissionHealthFacilityDetails";
 
@@ -100,6 +104,8 @@ public class Hospitalization extends AbstractDomainObject {
 	private Date dateOfConsultationAtHealthFacility;
 	private Date dateHealthRegionNotified;
 	private YesNo admittedToDifferentHealthFacility;
+	private Region admissionRegion;
+	private District admissionDistrict;
 	private Facility admissionHealthFacility;
 	private String admissionHealthFacilityDetails;
 
@@ -335,6 +341,26 @@ public class Hospitalization extends AbstractDomainObject {
 
 	public void setAdmittedToDifferentHealthFacility(YesNo admittedToDifferentHealthFacility) {
 		this.admittedToDifferentHealthFacility = admittedToDifferentHealthFacility;
+	}
+
+	@ManyToOne(cascade = {}, fetch = FetchType.LAZY)
+	@JoinColumn(name = "admissionregion_id")
+	public Region getAdmissionRegion() {
+		return admissionRegion;
+	}
+
+	public void setAdmissionRegion(Region admissionRegion) {
+		this.admissionRegion = admissionRegion;
+	}
+
+	@ManyToOne(cascade = {}, fetch = FetchType.LAZY)
+	@JoinColumn(name = "admissiondistrict_id")
+	public District getAdmissionDistrict() {
+		return admissionDistrict;
+	}
+
+	public void setAdmissionDistrict(District admissionDistrict) {
+		this.admissionDistrict = admissionDistrict;
 	}
 
 	@ManyToOne(cascade = {}, fetch = FetchType.LAZY)

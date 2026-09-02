@@ -35,6 +35,8 @@ import de.symeda.sormas.api.utils.InpatOutpat;
 import de.symeda.sormas.app.backend.common.AbstractDomainObject;
 import de.symeda.sormas.app.backend.common.EmbeddedAdo;
 import de.symeda.sormas.app.backend.facility.Facility;
+import de.symeda.sormas.app.backend.region.District;
+import de.symeda.sormas.app.backend.region.Region;
 
 import static de.symeda.sormas.api.utils.FieldConstraints.CHARACTER_LIMIT_BIG;
 import static de.symeda.sormas.api.utils.FieldConstraints.CHARACTER_LIMIT_DEFAULT;
@@ -109,6 +111,12 @@ public class Hospitalization extends AbstractDomainObject {
 
 	@Enumerated(EnumType.STRING)
 	private YesNoUnknown admittedToDifferentHealthFacility;
+
+	@DatabaseField(foreign = true, foreignAutoRefresh = true, maxForeignAutoRefreshLevel = 3)
+	private Region admissionRegion;
+
+	@DatabaseField(foreign = true, foreignAutoRefresh = true, maxForeignAutoRefreshLevel = 3)
+	private District admissionDistrict;
 
 	@DatabaseField(foreign = true, foreignAutoRefresh = true, maxForeignAutoRefreshLevel = 3)
 	private Facility admissionHealthFacility;
@@ -337,6 +345,22 @@ public class Hospitalization extends AbstractDomainObject {
 
 	public void setAdmittedToDifferentHealthFacility(YesNoUnknown admittedToDifferentHealthFacility) {
 		this.admittedToDifferentHealthFacility = admittedToDifferentHealthFacility;
+	}
+
+	public Region getAdmissionRegion() {
+		return admissionRegion;
+	}
+
+	public void setAdmissionRegion(Region admissionRegion) {
+		this.admissionRegion = admissionRegion;
+	}
+
+	public District getAdmissionDistrict() {
+		return admissionDistrict;
+	}
+
+	public void setAdmissionDistrict(District admissionDistrict) {
+		this.admissionDistrict = admissionDistrict;
 	}
 
 	public Facility getAdmissionHealthFacility() {

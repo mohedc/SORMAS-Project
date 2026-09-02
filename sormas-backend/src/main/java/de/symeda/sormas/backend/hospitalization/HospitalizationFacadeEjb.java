@@ -100,6 +100,8 @@ public class HospitalizationFacadeEjb implements HospitalizationFacade {
 		target.setDateOfConsultationAtHealthFacility(source.getDateOfConsultationAtHealthFacility());
 		target.setDateHealthRegionNotified(source.getDateHealthRegionNotified());
 		target.setAdmittedToDifferentHealthFacility(source.getAdmittedToDifferentHealthFacility());
+		target.setAdmissionRegion(regionService.getByReferenceDto(source.getAdmissionRegion()));
+		target.setAdmissionDistrict(districtService.getByReferenceDto(source.getAdmissionDistrict()));
 		target.setAdmissionHealthFacility(facilityService.getByReferenceDto(source.getAdmissionHealthFacility()));
 		target.setAdmissionHealthFacilityDetails(source.getAdmissionHealthFacilityDetails());
 
@@ -181,6 +183,8 @@ public class HospitalizationFacadeEjb implements HospitalizationFacade {
 		target.setDateOfConsultationAtHealthFacility(source.getDateOfConsultationAtHealthFacility());
 		target.setDateHealthRegionNotified(source.getDateHealthRegionNotified());
 		target.setAdmittedToDifferentHealthFacility(source.getAdmittedToDifferentHealthFacility());
+		target.setAdmissionRegion(RegionFacadeEjb.toReferenceDto(source.getAdmissionRegion()));
+		target.setAdmissionDistrict(DistrictFacadeEjb.toReferenceDto(source.getAdmissionDistrict()));
 		target.setAdmissionHealthFacility(FacilityFacadeEjb.toReferenceDto(source.getAdmissionHealthFacility()));
 		target.setAdmissionHealthFacilityDetails(source.getAdmissionHealthFacilityDetails());
 

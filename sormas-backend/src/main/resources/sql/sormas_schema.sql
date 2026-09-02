@@ -15723,7 +15723,21 @@ ALTER TABLE hospitalization_history ADD COLUMN IF NOT EXISTS admittedtodifferent
 ALTER TABLE hospitalization_history ADD COLUMN IF NOT EXISTS admissionhealthfacility_id bigint;
 ALTER TABLE hospitalization_history ADD COLUMN IF NOT EXISTS admissionhealthfacilitydetails varchar(512);
 
-INSERT INTO schema_version (version_number, comment) VALUES (678, 'Add different admission health facility fields to hospitalization');
+INSERT INTO schema_version (version_number, comment) VALUES (679, 'Add different admission health facility fields to hospitalization');
+
+
+-- Migration 679: Add admission region and district to hospitalization
+ALTER TABLE hospitalization ADD COLUMN IF NOT EXISTS admissionregion_id bigint;
+ALTER TABLE hospitalization ADD COLUMN IF NOT EXISTS admissiondistrict_id bigint;
+ALTER TABLE hospitalization ADD CONSTRAINT fk_hospitalization_admissionregion_id
+    FOREIGN KEY (admissionregion_id) REFERENCES region (id);
+ALTER TABLE hospitalization ADD CONSTRAINT fk_hospitalization_admissiondistrict_id
+    FOREIGN KEY (admissiondistrict_id) REFERENCES district (id);
+
+ALTER TABLE hospitalization_history ADD COLUMN IF NOT EXISTS admissionregion_id bigint;
+ALTER TABLE hospitalization_history ADD COLUMN IF NOT EXISTS admissiondistrict_id bigint;
+
+INSERT INTO schema_version (version_number, comment) VALUES (680, 'Add admission region and district to hospitalization');
 
 
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***

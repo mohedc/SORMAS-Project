@@ -31,7 +31,9 @@ import javax.validation.constraints.Size;
 import de.symeda.sormas.api.EntityDto;
 import de.symeda.sormas.api.ImportIgnore;
 import de.symeda.sormas.api.i18n.Validations;
+import de.symeda.sormas.api.infrastructure.district.DistrictReferenceDto;
 import de.symeda.sormas.api.infrastructure.facility.FacilityReferenceDto;
+import de.symeda.sormas.api.infrastructure.region.RegionReferenceDto;
 
 @DependingOnFeatureType(featureType = FeatureType.CASE_SURVEILANCE)
 public class HospitalizationDto extends EntityDto {
@@ -65,6 +67,8 @@ public class HospitalizationDto extends EntityDto {
 	public static final String DATE_OF_CONSULTATION_AT_HEALTH_FACILITY = "dateOfConsultationAtHealthFacility";
 	public static final String DATE_HEALTH_REGION_NOTIFIED = "dateHealthRegionNotified";
 	public static final String ADMITTED_TO_DIFFERENT_HEALTH_FACILITY = "admittedToDifferentHealthFacility";
+	public static final String ADMISSION_REGION = "admissionRegion";
+	public static final String ADMISSION_DISTRICT = "admissionDistrict";
 	public static final String ADMISSION_HEALTH_FACILITY = "admissionHealthFacility";
 	public static final String ADMISSION_HEALTH_FACILITY_DETAILS = "admissionHealthFacilityDetails";
 
@@ -123,6 +127,8 @@ public class HospitalizationDto extends EntityDto {
 		Disease.CSM })
 	private Date dateHealthRegionNotified;
 	private YesNo admittedToDifferentHealthFacility;
+	private RegionReferenceDto admissionRegion;
+	private DistrictReferenceDto admissionDistrict;
 	private FacilityReferenceDto admissionHealthFacility;
 	@Size(max = FieldConstraints.CHARACTER_LIMIT_DEFAULT, message = Validations.textTooLong)
 	private String admissionHealthFacilityDetails;
@@ -333,6 +339,22 @@ public class HospitalizationDto extends EntityDto {
 
 	public void setAdmittedToDifferentHealthFacility(YesNo admittedToDifferentHealthFacility) {
 		this.admittedToDifferentHealthFacility = admittedToDifferentHealthFacility;
+	}
+
+	public RegionReferenceDto getAdmissionRegion() {
+		return admissionRegion;
+	}
+
+	public void setAdmissionRegion(RegionReferenceDto admissionRegion) {
+		this.admissionRegion = admissionRegion;
+	}
+
+	public DistrictReferenceDto getAdmissionDistrict() {
+		return admissionDistrict;
+	}
+
+	public void setAdmissionDistrict(DistrictReferenceDto admissionDistrict) {
+		this.admissionDistrict = admissionDistrict;
 	}
 
 	public FacilityReferenceDto getAdmissionHealthFacility() {

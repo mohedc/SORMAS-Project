@@ -19,9 +19,11 @@ import static de.symeda.sormas.ui.utils.CssStyles.H3;
 import static de.symeda.sormas.ui.utils.LayoutUtil.fluidRowLocs;
 import static de.symeda.sormas.ui.utils.LayoutUtil.loc;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 
 import de.symeda.sormas.api.Disease;
@@ -51,6 +53,7 @@ import de.symeda.sormas.api.infrastructure.district.DistrictReferenceDto;
 import de.symeda.sormas.api.infrastructure.facility.FacilityDto;
 import de.symeda.sormas.api.infrastructure.facility.FacilityReferenceDto;
 import de.symeda.sormas.api.infrastructure.facility.FacilityType;
+import de.symeda.sormas.api.infrastructure.region.RegionReferenceDto;
 import de.symeda.sormas.api.symptoms.SymptomsDto;
 import de.symeda.sormas.api.user.UserDto;
 import de.symeda.sormas.api.user.UserRight;
@@ -80,8 +83,9 @@ public class HospitalizationForm extends AbstractEditForm<HospitalizationDto> {
 	private static final String HOSPITAL_NAME_DETAIL = " ( %s )";
 	private static final String DIFFERENT_ADMISSION_FACILITY_LAYOUT =
 			fluidRowLocs(HospitalizationDto.ADMITTED_TO_DIFFERENT_HEALTH_FACILITY) +
-			fluidRowLocs(HospitalizationDto.ADMISSION_HEALTH_FACILITY) +
-			fluidRowLocs("", HospitalizationDto.ADMISSION_HEALTH_FACILITY_DETAILS);
+			fluidRowLocs(HospitalizationDto.ADMISSION_REGION, HospitalizationDto.ADMISSION_DISTRICT) +
+			fluidRowLocs(HospitalizationDto.ADMISSION_HEALTH_FACILITY, HospitalizationDto.ADMISSION_HEALTH_FACILITY_DETAILS);
+	
 	//@formatter:off
 	private static final String HTML_LAYOUT =
 			loc(HOSPITALIZATION_HEADING_LOC) +
@@ -207,21 +211,45 @@ public class HospitalizationForm extends AbstractEditForm<HospitalizationDto> {
 
 		final NullableOptionGroup admittedToDifferentHealthFacilityField =
 			addField(HospitalizationDto.ADMITTED_TO_DIFFERENT_HEALTH_FACILITY, NullableOptionGroup.class);
+		final ComboBox admissionRegionCombo = addInfrastructureField(HospitalizationDto.ADMISSION_REGION);
+		final ComboBox admissionDistrictCombo = addInfrastructureField(HospitalizationDto.ADMISSION_DISTRICT);
 		final ComboBox admissionHealthFacilityCombo = addInfrastructureField(HospitalizationDto.ADMISSION_HEALTH_FACILITY);
 		final TextField admissionHealthFacilityDetails = addField(HospitalizationDto.ADMISSION_HEALTH_FACILITY_DETAILS, TextField.class);
+		admissionRegionCombo.setVisible(false);
+		admissionDistrictCombo.setVisible(false);
 		admissionHealthFacilityCombo.setVisible(false);
 		admissionHealthFacilityDetails.setVisible(false);
 
 		FieldHelper.setVisibleWhen(
 			admittedToDifferentHealthFacilityField,
-			Arrays.asList(admissionHealthFacilityCombo),
+			Arrays.asList(admissionRegionCombo, admissionDistrictCombo, admissionHealthFacilityCombo),
 			Arrays.asList(YesNo.YES),
 			true);
 
+		admissionRegionCombo.addItems(FacadeProvider.getRegionFacade().getAllActiveByServerCountry());
+
+		admissionRegionCombo.addValueChangeListener(e -> {
+			RegionReferenceDto regionDto = (RegionReferenceDto) e.getProperty().getValue();
+			FieldHelper.updateItems(
+				admissionDistrictCombo,
+				regionDto != null ? FacadeProvider.getDistrictFacade().getAllActiveByRegion(regionDto.getUuid()) : null);
+		});
+
+		admissionDistrictCombo.addValueChangeListener(e -> {
+			DistrictReferenceDto districtDto = (DistrictReferenceDto) e.getProperty().getValue();
+			updateAdmissionHealthFacilityItems(admissionHealthFacilityCombo, districtDto);
+		});
+
 		admittedToDifferentHealthFacilityField.addValueChangeListener(e -> {
-			if (e.getProperty().getValue() == YesNo.YES) {
-				updateAdmissionHealthFacilityItems(admissionHealthFacilityCombo);
+			if (admittedToDifferentHealthFacilityField.getNullableValue() == YesNo.YES) {
+				ensureDefaultAdmissionJurisdiction(admissionRegionCombo, admissionDistrictCombo);
+				updateAdmissionHealthFacilityItems(
+					admissionHealthFacilityCombo,
+					(DistrictReferenceDto) admissionDistrictCombo.getValue());
 			} else {
+				admissionRegionCombo.clear();
+				admissionDistrictCombo.clear();
+				admissionHealthFacilityCombo.clear();
 				admissionHealthFacilityDetails.setVisible(false);
 				admissionHealthFacilityDetails.setRequired(false);
 				admissionHealthFacilityDetails.clear();
@@ -244,8 +272,11 @@ public class HospitalizationForm extends AbstractEditForm<HospitalizationDto> {
 			}
 		});
 
-		if (admittedToDifferentHealthFacilityField.getNullableValue() == YesNoUnknown.YES) {
-			updateAdmissionHealthFacilityItems(admissionHealthFacilityCombo);
+		if (admittedToDifferentHealthFacilityField.getNullableValue() == YesNo.YES) {
+			ensureDefaultAdmissionJurisdiction(admissionRegionCombo, admissionDistrictCombo);
+			updateAdmissionHealthFacilityItems(
+				admissionHealthFacilityCombo,
+				(DistrictReferenceDto) admissionDistrictCombo.getValue());
 			if (admissionHealthFacilityCombo.getValue() != null
 				&& ((FacilityReferenceDto) admissionHealthFacilityCombo.getValue()).getUuid().equals(FacilityDto.OTHER_FACILITY_UUID)) {
 				admissionHealthFacilityDetails.setVisible(true);
@@ -519,7 +550,17 @@ public class HospitalizationForm extends AbstractEditForm<HospitalizationDto> {
 		return hospitalName.toString();
 	}
 
-	private DistrictReferenceDto resolveDistrictForFacilityFilter() {
+	private RegionReferenceDto resolveDefaultAdmissionRegion() {
+		if (UserProvider.getCurrent() != null && UserProvider.getCurrent().getUser() != null) {
+			UserDto user = UserProvider.getCurrent().getUser();
+			if (user.getRegion() != null) {
+				return user.getRegion();
+			}
+		}
+		return caze != null ? caze.getResponsibleRegion() : null;
+	}
+
+	private DistrictReferenceDto resolveDefaultAdmissionDistrict() {
 		if (UserProvider.getCurrent() != null && UserProvider.getCurrent().getUser() != null) {
 			UserDto user = UserProvider.getCurrent().getUser();
 			if (user.getDistrict() != null) {
@@ -529,16 +570,43 @@ public class HospitalizationForm extends AbstractEditForm<HospitalizationDto> {
 		return caze != null ? caze.getResponsibleDistrict() : null;
 	}
 
-	private void updateAdmissionHealthFacilityItems(ComboBox admissionHealthFacilityCombo) {
-		DistrictReferenceDto district = resolveDistrictForFacilityFilter();
-		if (district != null) {
-			FieldHelper.updateItems(
-				admissionHealthFacilityCombo,
-				FacadeProvider.getFacilityFacade().getActiveHospitalsByDistrict(district, true));
-			admissionHealthFacilityCombo.setEnabled(true);
-		} else {
-			FieldHelper.removeItems(admissionHealthFacilityCombo);
-			admissionHealthFacilityCombo.setEnabled(false);
+	private void ensureDefaultAdmissionJurisdiction(ComboBox admissionRegionCombo, ComboBox admissionDistrictCombo) {
+		if (admissionRegionCombo.getValue() == null) {
+			RegionReferenceDto defaultRegion = resolveDefaultAdmissionRegion();
+			if (defaultRegion != null) {
+				admissionRegionCombo.setValue(defaultRegion);
+			}
 		}
+		if (admissionDistrictCombo.getValue() == null) {
+			DistrictReferenceDto defaultDistrict = resolveDefaultAdmissionDistrict();
+			if (defaultDistrict != null) {
+				admissionDistrictCombo.setValue(defaultDistrict);
+			}
+		}
+	}
+
+	private void updateAdmissionHealthFacilityItems(ComboBox admissionHealthFacilityCombo, DistrictReferenceDto district) {
+		List<FacilityReferenceDto> facilities = new ArrayList<>();
+		if (district != null) {
+			List<FacilityReferenceDto> districtHospitals =
+				FacadeProvider.getFacilityFacade().getActiveHospitalsByDistrict(district, true);
+			if (districtHospitals != null) {
+				facilities.addAll(districtHospitals);
+			}
+		}
+
+		// Always keep "Other" selectable so users can enter a free-text facility name
+		boolean hasOther = facilities.stream()
+			.anyMatch(f -> f != null && FacilityDto.OTHER_FACILITY_UUID.equals(f.getUuid()));
+		if (!hasOther) {
+			FacilityReferenceDto otherFacility =
+				FacadeProvider.getFacilityFacade().getReferenceByUuid(FacilityDto.OTHER_FACILITY_UUID);
+			if (otherFacility != null) {
+				facilities.add(otherFacility);
+			}
+		}
+
+		FieldHelper.updateItems(admissionHealthFacilityCombo, facilities);
+		admissionHealthFacilityCombo.setEnabled(!facilities.isEmpty());
 	}
 }

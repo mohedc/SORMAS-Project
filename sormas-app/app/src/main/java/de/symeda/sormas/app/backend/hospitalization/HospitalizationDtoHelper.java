@@ -25,6 +25,10 @@ import de.symeda.sormas.app.backend.common.AdoDtoHelper;
 import de.symeda.sormas.app.backend.common.DatabaseHelper;
 import de.symeda.sormas.app.backend.facility.Facility;
 import de.symeda.sormas.app.backend.facility.FacilityDtoHelper;
+import de.symeda.sormas.app.backend.region.District;
+import de.symeda.sormas.app.backend.region.DistrictDtoHelper;
+import de.symeda.sormas.app.backend.region.Region;
+import de.symeda.sormas.app.backend.region.RegionDtoHelper;
 import de.symeda.sormas.app.rest.NoConnectionException;
 import retrofit2.Call;
 
@@ -88,6 +92,16 @@ public class HospitalizationDtoHelper extends AdoDtoHelper<Hospitalization, Hosp
 		a.setDateOfDiseaseOnset(b.getDateOfDiseaseOnset());
 		a.setAddress(b.getAddress());
 		a.setAdmittedToDifferentHealthFacility(b.getAdmittedToDifferentHealthFacility());
+		if (b.getAdmissionRegion() != null) {
+			a.setAdmissionRegion(DatabaseHelper.getRegionDao().queryUuid(b.getAdmissionRegion().getUuid()));
+		} else {
+			a.setAdmissionRegion(null);
+		}
+		if (b.getAdmissionDistrict() != null) {
+			a.setAdmissionDistrict(DatabaseHelper.getDistrictDao().queryUuid(b.getAdmissionDistrict().getUuid()));
+		} else {
+			a.setAdmissionDistrict(null);
+		}
 		if (b.getAdmissionHealthFacility() != null) {
 			a.setAdmissionHealthFacility(DatabaseHelper.getFacilityDao().queryUuid(b.getAdmissionHealthFacility().getUuid()));
 		} else {
@@ -134,6 +148,18 @@ public class HospitalizationDtoHelper extends AdoDtoHelper<Hospitalization, Hosp
 		a.setDateOfDiseaseOnset(b.getDateOfDiseaseOnset());
 		a.setAddress(b.getAddress());
 		a.setAdmittedToDifferentHealthFacility(b.getAdmittedToDifferentHealthFacility());
+		if (b.getAdmissionRegion() != null) {
+			Region region = DatabaseHelper.getRegionDao().queryForId(b.getAdmissionRegion().getId());
+			a.setAdmissionRegion(RegionDtoHelper.toReferenceDto(region));
+		} else {
+			a.setAdmissionRegion(null);
+		}
+		if (b.getAdmissionDistrict() != null) {
+			District district = DatabaseHelper.getDistrictDao().queryForId(b.getAdmissionDistrict().getId());
+			a.setAdmissionDistrict(DistrictDtoHelper.toReferenceDto(district));
+		} else {
+			a.setAdmissionDistrict(null);
+		}
 		if (b.getAdmissionHealthFacility() != null) {
 			Facility facility = DatabaseHelper.getFacilityDao().queryForId(b.getAdmissionHealthFacility().getId());
 			a.setAdmissionHealthFacility(FacilityDtoHelper.toReferenceDto(facility));
