@@ -15693,19 +15693,6 @@ UPDATE cases SET systemcaseclassification = 'SUSPECT' WHERE systemcaseclassifica
 UPDATE cases_history SET systemcaseclassification = 'SUSPECT' WHERE systemcaseclassification = 'NOT_CLASSIFIED';
 
 INSERT INTO schema_version (version_number, comment) VALUES (676, 'Update NOT_CLASSIFIED system case classification to SUSPECT');
--- Migration 677: Add different admission health facility fields to hospitalization
-ALTER TABLE hospitalization ADD COLUMN IF NOT EXISTS admittedtodifferenthealthfacility varchar(255);
-ALTER TABLE hospitalization ADD COLUMN IF NOT EXISTS admissionhealthfacility_id bigint;
-ALTER TABLE hospitalization ADD COLUMN IF NOT EXISTS admissionhealthfacilitydetails varchar(512);
-ALTER TABLE hospitalization ADD CONSTRAINT fk_hospitalization_admissionhealthfacility_id
-    FOREIGN KEY (admissionhealthfacility_id) REFERENCES facility (id);
-
-ALTER TABLE hospitalization_history ADD COLUMN IF NOT EXISTS admittedtodifferenthealthfacility varchar(255);
-ALTER TABLE hospitalization_history ADD COLUMN IF NOT EXISTS admissionhealthfacility_id bigint;
-ALTER TABLE hospitalization_history ADD COLUMN IF NOT EXISTS admissionhealthfacilitydetails varchar(512);
-
-INSERT INTO schema_version (version_number, comment) VALUES (677, 'Add different admission health facility fields to hospitalization');
-
 -- Migration 678: Age in years, months and days, all calculated from the date of birth
 ALTER TABLE person ADD COLUMN IF NOT EXISTS approximatemonth integer;
 ALTER TABLE person ADD COLUMN IF NOT EXISTS approximateagetype1 varchar(255);
@@ -15717,12 +15704,27 @@ ALTER TABLE person_history ADD COLUMN IF NOT EXISTS approximateagetype1 varchar(
 ALTER TABLE person_history ADD COLUMN IF NOT EXISTS approximateday integer;
 ALTER TABLE person_history ADD COLUMN IF NOT EXISTS approximateagetype2 varchar(255);
 
-INSERT INTO schema_version (version_number, comment) VALUES (678, 'Add calculated age in months and days to person');
+INSERT INTO schema_version (version_number, comment) VALUES (677, 'Add calculated age in months and days to person');
 
 -- Migration 679: The contact entity for AFP, enabled through the follow-up flag of the disease configuration
 UPDATE diseaseconfiguration SET followupenabled = true WHERE disease = 'AFP' AND followupenabled IS DISTINCT FROM true;
 
-INSERT INTO schema_version (version_number, comment) VALUES (679, 'Enable the contact entity for AFP');
+INSERT INTO schema_version (version_number, comment) VALUES (678, 'Enable the contact entity for AFP');
+
+
+-- Migration 677: Add different admission health facility fields to hospitalization
+ALTER TABLE hospitalization ADD COLUMN IF NOT EXISTS admittedtodifferenthealthfacility varchar(255);
+ALTER TABLE hospitalization ADD COLUMN IF NOT EXISTS admissionhealthfacility_id bigint;
+ALTER TABLE hospitalization ADD COLUMN IF NOT EXISTS admissionhealthfacilitydetails varchar(512);
+ALTER TABLE hospitalization ADD CONSTRAINT fk_hospitalization_admissionhealthfacility_id
+    FOREIGN KEY (admissionhealthfacility_id) REFERENCES facility (id);
+
+ALTER TABLE hospitalization_history ADD COLUMN IF NOT EXISTS admittedtodifferenthealthfacility varchar(255);
+ALTER TABLE hospitalization_history ADD COLUMN IF NOT EXISTS admissionhealthfacility_id bigint;
+ALTER TABLE hospitalization_history ADD COLUMN IF NOT EXISTS admissionhealthfacilitydetails varchar(512);
+
+INSERT INTO schema_version (version_number, comment) VALUES (678, 'Add different admission health facility fields to hospitalization');
+
 
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***
 
