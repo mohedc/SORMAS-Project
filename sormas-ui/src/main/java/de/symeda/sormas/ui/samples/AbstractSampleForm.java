@@ -279,9 +279,9 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 		 samplePurpose.addValueChangeListener(e -> updateRequestedTestFields());
 		addField(SampleDto.LAB_SAMPLE_ID, TextField.class);
 		final DateTimeField sampleDateField = addField(SampleDto.SAMPLE_DATE_TIME, DateTimeField.class);
-		sampleDateField.setDateCaption(I18nProperties.getPrefixCaption(SampleDto.I18N_PREFIX, SampleDto.SAMPLE_DATE_TIME));
-		sampleDateField.setTimeCaption(I18nProperties.getCaption(Captions.Sample_sampleDateTimeTime));
-		sampleDateField.setCaption(null);
+//		sampleDateField.setDateCaption(I18nProperties.getPrefixCaption(SampleDto.I18N_PREFIX, SampleDto.SAMPLE_DATE_TIME));
+//		sampleDateField.setTimeCaption(I18nProperties.getCaption(Captions.Sample_sampleDateTimeTime));
+//		sampleDateField.setCaption(null);
 		sampleDateField.setInvalidCommitted(false);
 		sampleMaterialComboBox = addField(SampleDto.SAMPLE_MATERIAL, ComboBox.class);
 		addField(SampleDto.SAMPLE_MATERIAL_TEXT, TextField.class);
