@@ -998,6 +998,8 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 
 			if (disease == Disease.CSM) {
 				applyMeningitisPathogenTestTypeWhitelist();
+			} else if (disease == Disease.CONGENITAL_RUBELLA) {
+				applyCongenitalRubellaPathogenTestTypeWhitelist();
 			} else {
 				FieldHelper.updateItems(
 						testTypeField,
@@ -1124,10 +1126,6 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 		testTypeField.addValueChangeListener(e -> {
 			PathogenTestType testType = (PathogenTestType) e.getProperty().getValue();
 			setCqValueVisibility(cqValueField, testType, (PathogenTestResultType) testResultField.getValue());
-			// Reconfigure congenital rubella fields when test type changes
-			if (disease == Disease.CONGENITAL_RUBELLA) {
-				configureCongenitalRubellaFields();
-			}
 			if (disease == Disease.CSM) {
 				updateMeningitisSectionVisibility();
 			}
@@ -1136,10 +1134,6 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 		testResultField.addValueChangeListener(e -> {
 			PathogenTestResultType testResult = (PathogenTestResultType) e.getProperty().getValue();
 			setCqValueVisibility(cqValueField, (PathogenTestType) testTypeField.getValue(), testResult);
-			// Reconfigure congenital rubella fields when test result changes
-			if (disease == Disease.CONGENITAL_RUBELLA) {
-				configureCongenitalRubellaFields();
-			}
 		});
 
 		if (SamplePurpose.INTERNAL.equals(getSamplePurpose())) { // this only works for already saved samples
@@ -1625,26 +1619,26 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 		setVisible(other, PathogenTestDto.OTHER_TEST_TYPE_SPECIFY, PathogenTestDto.OTHER_TEST_RESULTS);
 	}
 
+	private void applyCongenitalRubellaPathogenTestTypeWhitelist() {
+		PathogenTestType previous = (PathogenTestType) testTypeField.getValue();
+		List<PathogenTestType> congenitalRubellaTestTypes = Arrays.asList(
+			PathogenTestType.RUBELLA_VIRUS_ISOLATION,
+			PathogenTestType.RUBELLA_IGM,
+			PathogenTestType.SUSTAINED_IGG_LEVEL,
+			PathogenTestType.RUBELLA_PCR);
+		FieldHelper.updateEnumData(testTypeField, congenitalRubellaTestTypes);
+		if (previous != null && congenitalRubellaTestTypes.contains(previous)) {
+			testTypeField.setValue(previous);
+		} else {
+			testTypeField.setValue(null);
+		}
+	}
+
 	/**
 	 * Configures fields specifically for congenital rubella pathogen tests
 	 */
 	protected void configureCongenitalRubellaFields() {
-//		PathogenTestType previous = (PathogenTestType) testTypeField.getValue();
-//		List<PathogenTestType> congenitalRubellaTestTypes = Arrays.asList(
-//			PathogenTestType.IGM_SERUM_ANTIBODY,
-//			PathogenTestType.SUSTAINED_IGG_LEVEL,
-//			PathogenTestType.ISOLATION,
-//			PathogenTestType.PCR_RT_PCR);
-//		testTypeField.removeAllItems();
-//		testTypeField.addItems(congenitalRubellaTestTypes);
-//		testTypeField.setItemCaption(PathogenTestType.IGM_SERUM_ANTIBODY, "IgM");
-//		testTypeField.setItemCaption(PathogenTestType.ISOLATION, "Virus isolation");
-//		testTypeField.setItemCaption(PathogenTestType.PCR_RT_PCR, "PCR");
-//		if (previous != null && congenitalRubellaTestTypes.contains(previous)) {
-//			testTypeField.setValue(previous);
-//		} else {
-//			testTypeField.setValue(null);
-//		}
+		applyCongenitalRubellaPathogenTestTypeWhitelist();
 
 		// Hide tested disease details if not OTHER
 		FieldHelper.setVisibleWhen(
@@ -1654,11 +1648,10 @@ public class PathogenTestForm extends AbstractEditForm<PathogenTestDto> {
 				Arrays.asList(Disease.OTHER),
 				true);
 
-		// Show genotype field only when PCR test type is selected and result is positive
+		// Show genotype field only when Rubella PCR test type is selected
 		Map<Object, List<Object>> genotypeVisibilityDependencies = new HashMap<>() {
 			{
-				put(PathogenTestDto.TEST_TYPE, Arrays.asList(PathogenTestType.PCR_RT_PCR));
-//				put(PathogenTestDto.TEST_RESULT, Arrays.asList(PathogenTestResultType.POSITIVE));
+				put(PathogenTestDto.TEST_TYPE, Arrays.asList(PathogenTestType.RUBELLA_PCR));
 			}
 		};
 		FieldHelper.setVisibleWhen(getFieldGroup(), PathogenTestDto.VIRUS_DETECTION_GENOTYPE, genotypeVisibilityDependencies, true);

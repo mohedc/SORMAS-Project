@@ -68,7 +68,8 @@ public enum PathogenTestType {
 		Disease.INVASIVE_PNEUMOCOCCAL_INFECTION,
 		Disease.YELLOW_FEVER,
 		Disease.MEASLES,
-		Disease.CSM }, hide = true)
+		Disease.CSM,
+		Disease.CONGENITAL_RUBELLA }, hide = true)
 	ISOLATION,
 	@Diseases(value = {
 		Disease.RESPIRATORY_SYNCYTIAL_VIRUS,
@@ -81,7 +82,6 @@ public enum PathogenTestType {
 		}, hide = true)
 	IGM_SERUM_ANTIBODY,
 	@Diseases(value = {
-		Disease.CONGENITAL_RUBELLA,
 			Disease.MEASLES,
 			Disease.DENGUE
 		}, hide = true)
@@ -92,7 +92,8 @@ public enum PathogenTestType {
 		Disease.INVASIVE_PNEUMOCOCCAL_INFECTION,
 		Disease.YELLOW_FEVER,
 		Disease.MEASLES,
-		Disease.CSM }, hide = true)
+		Disease.CSM,
+		Disease.CONGENITAL_RUBELLA }, hide = true)
 	IGG_SERUM_ANTIBODY,
 	@Diseases(value = {
 		Disease.RESPIRATORY_SYNCYTIAL_VIRUS,
@@ -152,7 +153,8 @@ public enum PathogenTestType {
 	@Diseases(value = {
 		Disease.YELLOW_FEVER,
 		Disease.MEASLES,
-		Disease.CSM }, hide = true)
+		Disease.CSM,
+		Disease.CONGENITAL_RUBELLA }, hide = true)
 	PCR_RT_PCR,
 	@Diseases(value = {
 		Disease.CORONAVIRUS,
@@ -285,7 +287,17 @@ public enum PathogenTestType {
 			Disease.DENGUE
 	})
 	PCR,
-	
+
+	@Diseases(value = {
+		Disease.CONGENITAL_RUBELLA })
+	RUBELLA_VIRUS_ISOLATION,
+	@Diseases(value = {
+		Disease.CONGENITAL_RUBELLA })
+	RUBELLA_IGM,
+	@Diseases(value = {
+		Disease.CONGENITAL_RUBELLA })
+	RUBELLA_PCR,
+
 	@Diseases(value = {
 	 })
 	INDIRECT_IGM_SEROLOGY,

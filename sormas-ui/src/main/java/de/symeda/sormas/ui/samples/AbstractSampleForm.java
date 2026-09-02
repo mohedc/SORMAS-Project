@@ -1000,8 +1000,15 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 	 * Configures fields specifically for congenital rubella samples
 	 */
 	protected void configureCongenitalRubellaFields() {
-		// Filter sample material options for congenital rubella: Blood only
-		FieldHelper.updateEnumData(sampleMaterialComboBox, Arrays.asList(SampleMaterial.BLOOD));
+		FieldHelper.updateEnumData(
+			sampleMaterialComboBox,
+			Arrays.asList(
+				SampleMaterial.SERUM,
+				SampleMaterial.THROAT_SWAB,
+				SampleMaterial.URINE,
+				SampleMaterial.CEREBROSPINAL_FLUID,
+				SampleMaterial.OTHER));
+		getField(SampleDto.SAMPLE_MATERIAL_TEXT).setCaption("Specify Other");
 
 		// Set PATHOGEN_TEST_RESULT as read-only
 		getField(SampleDto.PATHOGEN_TEST_RESULT).setReadOnly(true);
