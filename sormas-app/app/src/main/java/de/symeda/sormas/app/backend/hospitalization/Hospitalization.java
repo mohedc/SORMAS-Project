@@ -30,6 +30,7 @@ import com.j256.ormlite.table.DatabaseTable;
 
 import de.symeda.sormas.api.hospitalization.AccommodationType;
 import de.symeda.sormas.api.hospitalization.HospitalizationReasonType;
+import de.symeda.sormas.api.utils.YesNo;
 import de.symeda.sormas.api.utils.YesNoUnknown;
 import de.symeda.sormas.api.utils.InpatOutpat;
 import de.symeda.sormas.app.backend.common.AbstractDomainObject;
@@ -110,7 +111,7 @@ public class Hospitalization extends AbstractDomainObject {
 	private String address;
 
 	@Enumerated(EnumType.STRING)
-	private YesNoUnknown admittedToDifferentHealthFacility;
+	private YesNo admittedToDifferentHealthFacility;
 
 	@DatabaseField(foreign = true, foreignAutoRefresh = true, maxForeignAutoRefreshLevel = 3)
 	private Region admissionRegion;
@@ -339,11 +340,11 @@ public class Hospitalization extends AbstractDomainObject {
 		this.address = address;
 	}
 
-	public YesNoUnknown getAdmittedToDifferentHealthFacility() {
+	public YesNo getAdmittedToDifferentHealthFacility() {
 		return admittedToDifferentHealthFacility;
 	}
 
-	public void setAdmittedToDifferentHealthFacility(YesNoUnknown admittedToDifferentHealthFacility) {
+	public void setAdmittedToDifferentHealthFacility(YesNo admittedToDifferentHealthFacility) {
 		this.admittedToDifferentHealthFacility = admittedToDifferentHealthFacility;
 	}
 
