@@ -52,6 +52,7 @@ import de.symeda.sormas.api.sample.SampleSource;
 import de.symeda.sormas.api.sample.SamplingReason;
 import de.symeda.sormas.api.sample.SimpleTestResultType;
 import de.symeda.sormas.api.sample.SpecimenCondition;
+import de.symeda.sormas.api.user.DefaultUserRole;
 import de.symeda.sormas.api.user.UserRight;
 import de.symeda.sormas.api.utils.YesNo;
 import de.symeda.sormas.api.utils.fieldaccess.UiFieldAccessCheckers;
@@ -60,6 +61,7 @@ import de.symeda.sormas.app.BaseEditFragment;
 import de.symeda.sormas.app.R;
 import de.symeda.sormas.app.backend.common.DatabaseHelper;
 import de.symeda.sormas.app.backend.config.ConfigProvider;
+import de.symeda.sormas.app.backend.user.User;
 import de.symeda.sormas.app.backend.facility.Facility;
 import de.symeda.sormas.app.backend.sample.AdditionalTest;
 import de.symeda.sormas.app.backend.sample.PathogenTest;
@@ -72,7 +74,6 @@ import de.symeda.sormas.app.databinding.FragmentSampleEditLayoutBinding;
 import de.symeda.sormas.app.sample.read.SampleReadActivity;
 import de.symeda.sormas.app.util.DataUtils;
 
-import de.symeda.sormas.api.user.JurisdictionLevel;
 
 public class SampleEditFragment extends BaseEditFragment<FragmentSampleEditLayoutBinding, Sample, Sample> {
 
@@ -285,7 +286,7 @@ public class SampleEditFragment extends BaseEditFragment<FragmentSampleEditLayou
 				Arrays.asList(PathogenTestResultType.POSITIVE, PathogenTestResultType.NEGATIVE, PathogenTestResultType.NOT_TESTED),
 				true);
 			afpElisaIgmList = DataUtils.getEnumItems(SimpleTestResultType.class, true);
-			boolean isNationalUser = ConfigProvider.getUser().hasJurisdictionLevel(JurisdictionLevel.NATION);
+			boolean isNationalUser = canSeeOutsideCountryLabTesting();
 			if (isNationalUser) {
 				afpSamplePurposeList = DataUtils.toItems(
 					Arrays.asList(SamplePurpose.EXTERNAL, SamplePurpose.INTERNAL, SamplePurpose.OUTSIDE_COUNTRY_LAB_TESTING),
@@ -340,6 +341,7 @@ public class SampleEditFragment extends BaseEditFragment<FragmentSampleEditLayou
 		contentBinding.sampleSampleMaterial.initializeSpinner(sampleMaterialList);
 		contentBinding.sampleSampleSource.initializeSpinner(sampleSourceList);
 		contentBinding.sampleSuspectedDisease.initializeSpinner(sampleSuspectedList);
+		contentBinding.samplePurpose.setCaption(I18nProperties.getPrefixCaption(SampleDto.I18N_PREFIX, SampleDto.SAMPLE_PURPOSE));
 		contentBinding.samplePurpose.setEnabled(referredSample == null || record.getSamplePurpose() != SamplePurpose.EXTERNAL);
 		contentBinding.sampleLab.initializeSpinner(DataUtils.toItems(labList), field -> {
 			Facility laboratory = (Facility) field.getValue();
@@ -660,6 +662,13 @@ public class SampleEditFragment extends BaseEditFragment<FragmentSampleEditLayou
 
 	}
 
+	private boolean canSeeOutsideCountryLabTesting() {
+		User user = ConfigProvider.getUser();
+		return user != null
+			&& user.getUserRoles() != null
+			&& user.getUserRoles().stream().anyMatch(r -> r.getLinkedDefaultUserRole() == DefaultUserRole.NATIONAL_USER);
+	}
+
 	private void handleAfp(final FragmentSampleEditLayoutBinding contentBinding) {
 		// Show AFP-specific heading and container
 		contentBinding.sampleHeadingStoolSpecimenCollection.setVisibility(VISIBLE);
@@ -682,7 +691,7 @@ public class SampleEditFragment extends BaseEditFragment<FragmentSampleEditLayou
 		});
 
 		// If non-national user somehow has OUTSIDE_COUNTRY_LAB_TESTING, clear it
-		boolean isNationalUser = ConfigProvider.getUser().hasJurisdictionLevel(JurisdictionLevel.NATION);
+		boolean isNationalUser = canSeeOutsideCountryLabTesting();
 		if (!isNationalUser && record.getSamplePurpose() == SamplePurpose.OUTSIDE_COUNTRY_LAB_TESTING) {
 			record.setSamplePurpose(null);
 			contentBinding.samplePurpose.setValue(null);
@@ -693,7 +702,7 @@ public class SampleEditFragment extends BaseEditFragment<FragmentSampleEditLayou
 
 		// ── The date the sample was collected is the date of the first specimen, so the separate field is not asked for ──
 		contentBinding.sampleSampleDateTime.setCaption(I18nProperties.getPrefixCaption(SampleDto.I18N_PREFIX, SampleDto.DATE_FIRST_SPECIMEN));
-		contentBinding.sampleDateFirstSpecimen.setVisibility(GONE);
+		contentBinding.sampleDateSecondSpecimen.setVisibility(VISIBLE);
 
 		// ── Initialize AFP date fields ────────────────────────────
 		contentBinding.sampleDateSecondSpecimen.initializeDateField(getFragmentManager());
@@ -733,7 +742,7 @@ public class SampleEditFragment extends BaseEditFragment<FragmentSampleEditLayou
 	private void updateAfpOutsideCountryVisibility(
 		FragmentSampleEditLayoutBinding contentBinding, SamplePurpose purpose) {
 
-		boolean isNationalUser = ConfigProvider.getUser().hasJurisdictionLevel(JurisdictionLevel.NATION);
+		boolean isNationalUser = canSeeOutsideCountryLabTesting();
 		boolean isOutside = isNationalUser && SamplePurpose.OUTSIDE_COUNTRY_LAB_TESTING == purpose;
 
 		if (isOutside) {

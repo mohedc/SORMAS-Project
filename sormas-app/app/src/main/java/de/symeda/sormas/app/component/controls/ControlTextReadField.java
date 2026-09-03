@@ -514,10 +514,18 @@ public class ControlTextReadField extends ControlPropertyField<String> {
 
 			StringBuilder ageWithDateBuilder = new StringBuilder().append(age)
 				.append(" ")
-				.append(ageType != null ? ageType.toString() : "")
-				.append(" (")
-				.append(dateOfBirth)
-				.append(")");
+				.append(ageType != null ? ageType.toString() : "");
+
+			// The age is kept as completed years plus the remaining completed months, so both are shown
+			if (person.getApproximateMonth() != null) {
+				ApproximateAgeType monthType = person.getApproximateAgeType1();
+				ageWithDateBuilder.append(" ")
+					.append(person.getApproximateMonth().toString())
+					.append(" ")
+					.append(monthType != null ? monthType.toString() : ApproximateAgeType.MONTHS.toString());
+			}
+
+			ageWithDateBuilder.append(" (").append(dateOfBirth).append(")");
 
 			textField.setValue(ageWithDateBuilder.toString());
 		}

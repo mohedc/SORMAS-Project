@@ -144,9 +144,7 @@ public final class PersonHelper {
 			month -= 1;
 			calendar.set(Calendar.MONTH, month);
 		}
-		if (day != null) {
-			calendar.set(Calendar.DAY_OF_MONTH, day);
-		}
+		calendar.set(Calendar.DAY_OF_MONTH, day != null ? day : 1);
 
 		try {
 			if (DateHelper.getEndOfDay(calendar.getTime()).after(DateHelper.getEndOfDay(new Date()))) {

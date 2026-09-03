@@ -311,6 +311,7 @@ public class PersonEditFragment extends BaseEditFragment<FragmentPersonEditLayou
 
 		// Initialize ControlDateFields
 		contentBinding.personDeathDate.initializeDateField(fragment.getFragmentManager());
+		contentBinding.personDeathDate.addValueChangedListener(field -> updateApproximateAgeField(contentBinding));
 		contentBinding.personBurialDate.initializeDateField(fragment.getFragmentManager());
 	}
 

@@ -452,6 +452,11 @@ public class CaseNewFragment extends BaseEditFragment<FragmentCaseNewLayoutBindi
 		contentBinding.personApproximateAge.setVisibility(VISIBLE);
 		contentBinding.personApproximateAgeType.setVisibility(VISIBLE);
 		contentBinding.personApproximateAgeReferenceDate.setVisibility(VISIBLE);
+		contentBinding.approximateMonthDayLayout.setVisibility(VISIBLE);
+		contentBinding.personApproximateMonth.setVisibility(VISIBLE);
+		contentBinding.personApproximateAgeType1.setVisibility(VISIBLE);
+		contentBinding.personApproximateDay.setVisibility(VISIBLE);
+		contentBinding.personApproximateAgeType2.setVisibility(VISIBLE);
 	}
 
 	/**

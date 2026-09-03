@@ -153,6 +153,7 @@ public class SampleReadFragment extends BaseReadFragment<FragmentSampleReadLayou
 			super.hideFieldsForDisease(disease, contentBinding.mainContent, FormType.SAMPLE_EDIT);
 		}
 		setUpFieldVisibilities(contentBinding);
+		contentBinding.samplePurpose.setCaption(I18nProperties.getPrefixCaption(SampleDto.I18N_PREFIX, SampleDto.SAMPLE_PURPOSE));
 		if (disease == Disease.AFP) {
 			handleAfp(contentBinding);
 		}
@@ -209,11 +210,10 @@ public class SampleReadFragment extends BaseReadFragment<FragmentSampleReadLayou
 
 	private void handleAfp(FragmentSampleReadLayoutBinding contentBinding) {
 		contentBinding.sampleHeadingStoolSpecimenCollection.setVisibility(VISIBLE);
-		contentBinding.sampleAfpSampleLayout.setVisibility(VISIBLE);
 
 		// The date the sample was collected is the date of the first specimen, so the separate field is not shown
 		contentBinding.sampleSampleDateTime.setCaption(I18nProperties.getPrefixCaption(SampleDto.I18N_PREFIX, SampleDto.DATE_FIRST_SPECIMEN));
-		contentBinding.sampleDateFirstSpecimen.setVisibility(GONE);
+		contentBinding.sampleDateSecondSpecimen.setVisibility(VISIBLE);
 
 		updateAfpShipmentVisibility(contentBinding, record.isShipped());
 		updateAfpReceivedVisibility(contentBinding, record.isReceived());
