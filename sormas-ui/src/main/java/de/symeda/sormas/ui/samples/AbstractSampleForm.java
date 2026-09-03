@@ -220,13 +220,6 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 					locCss(VSPACE_TOP_3, SampleDto.RECEIVED) +
 					fluidRowLocs(SampleDto.RECEIVED_DATE, SampleDto.LAB_SAMPLE_ID) +
 					fluidRowLocs(6, SampleDto.STATUS_SPECIMEN_RECEPTION_AT_LAB) +
-					loc(ELISA_IGM_HEADLINE_LOC) +
-					fluidRowLocs(SampleDto.ELISA_IGM, SampleDto.ELISA_IGM_DATE) +
-					loc(PCR_HEADLINE_LOC) +
-					fluidRowLocs(SampleDto.PCR, SampleDto.PCR_DATE) +
-					loc(PRNT_HEADLINE_LOC) +
-					fluidRowLocs(SampleDto.PRNT, SampleDto.PRNT_INPUT_VALUE) +
-					fluidRowLocs(6, SampleDto.PRNT_DATE) +
 					fluidRowLocs(6, SampleDto.DATE_SPECIMEN_RECEIVED_NATIONAL_LEVEL) +
 					fluidRowLocs(SampleDto.PATHOGEN_TEST_RESULT);
 
@@ -1243,27 +1236,6 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 		sampleMaterialComboBox.setValue(SampleMaterial.STOOL);
 		sampleMaterialComboBox.setEnabled(false);
 
-		NullableOptionGroup pcrField = (NullableOptionGroup) getField(SampleDto.PCR);
-		NullableOptionGroup prntField = (NullableOptionGroup) getField(SampleDto.PRNT);
-
-		FieldHelper.updateEnumData(
-				pcrField,
-				Arrays.asList(
-						PathogenTestResultType.POSITIVE,
-						PathogenTestResultType.NEGATIVE,
-						PathogenTestResultType.NOT_TESTED
-				)
-		);
-
-		FieldHelper.updateEnumData(
-				prntField,
-				Arrays.asList(
-						PathogenTestResultType.POSITIVE,
-						PathogenTestResultType.NEGATIVE,
-						PathogenTestResultType.NOT_TESTED
-				)
-		);
-
 		NullableOptionGroup samplePurposeField = (NullableOptionGroup) getField(SampleDto.SAMPLE_PURPOSE);
 		boolean isNationalUser = canSeeOutsideCountryLabTesting();
 
@@ -1302,28 +1274,6 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 		getField(SampleDto.RECEIVED_DATE)
 			.setCaption(I18nProperties.getPrefixCaption(SampleDto.I18N_PREFIX, SampleDto.DATE_SPECIMEN_RECEIVED_INTERCOUNTY_NATLAB));
 
-		// The IP Dakar question is gone, so its test results follow the receival of the sample instead
-		FieldHelper.setVisibleWhen(
-				getFieldGroup(),
-				Arrays.asList(
-						SampleDto.ELISA_IGM, SampleDto.ELISA_IGM_DATE,
-						SampleDto.PCR, SampleDto.PCR_DATE,
-						SampleDto.PRNT, SampleDto.PRNT_DATE),
-				SampleDto.RECEIVED,
-				Arrays.asList(true),
-				true);
-
-		// Show subtitle labels together with the test results they belong to
-		Field<?> receivedField = getField(SampleDto.RECEIVED);
-		receivedField.addValueChangeListener(e -> updateAFPTestResultHeadlineVisibility(Boolean.TRUE.equals(e.getProperty().getValue())));
-		updateAFPTestResultHeadlineVisibility(Boolean.TRUE.equals(receivedField.getValue()));
-
-	}
-
-	private void updateAFPTestResultHeadlineVisibility(boolean visible) {
-		getContent().getComponent(ELISA_IGM_HEADLINE_LOC).setVisible(visible);
-		getContent().getComponent(PCR_HEADLINE_LOC).setVisible(visible);
-		getContent().getComponent(PRNT_HEADLINE_LOC).setVisible(visible);
 	}
 
 	private boolean canSeeOutsideCountryLabTesting() {

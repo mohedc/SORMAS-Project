@@ -145,39 +145,18 @@
                     app:value="@{data.fieldSampleID}"
                     style="@style/ControlSingleColumnStyle" />
 
-                <LinearLayout
-                    android:id="@+id/sample_afp_sample_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:visibility="gone">
-
-                    <LinearLayout
-                        android:id="@+id/sample_afp_first_second_specimen_row"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <de.symeda.sormas.app.component.controls.ControlTextReadField
-                            android:id="@+id/sample_dateFirstSpecimen"
-                            app:value="@{data.dateFirstSpecimen}"
-                            style="@style/ControlFirstOfTwoColumnsStyle" />
-
-                        <de.symeda.sormas.app.component.controls.ControlTextReadField
-                            android:id="@+id/sample_dateSecondSpecimen"
-                            app:value="@{data.dateSecondSpecimen}"
-                            style="@style/ControlSecondOfTwoColumnsStyle" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
                 <de.symeda.sormas.app.component.controls.ControlTextReadField
                     android:id="@+id/sample_lab"
                     app:value="@{data.lab}"
                     app:appendValue="@{data.labDetails}"
                     android:visibility="@{data.samplePurpose == SamplePurpose.EXTERNAL ? View.VISIBLE : View.GONE}"
                     app:valueFormat="@string/two_strings_with_hyphen_format"
+                    style="@style/ControlSingleColumnStyle" />
+
+                <de.symeda.sormas.app.component.controls.ControlTextReadField
+                    android:id="@+id/sample_dateSecondSpecimen"
+                    android:visibility="gone"
+                    app:value="@{data.dateSecondSpecimen}"
                     style="@style/ControlSingleColumnStyle" />
 
                 <de.symeda.sormas.app.component.controls.ControlTextReadField

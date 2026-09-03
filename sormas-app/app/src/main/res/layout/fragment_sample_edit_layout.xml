@@ -201,6 +201,12 @@
                     app:value="@={data.labDetails}"
                     style="@style/ControlSingleColumnStyle" />
 
+                <de.symeda.sormas.app.component.controls.ControlDateField
+                    android:id="@+id/sample_dateSecondSpecimen"
+                    android:visibility="gone"
+                    app:value="@={data.dateSecondSpecimen}"
+                    style="@style/ControlSingleColumnStyle" />
+
                 <de.symeda.sormas.app.component.controls.ControlSpinnerField
                     android:id="@+id/sample_suspectedDisease"
                     app:required="true"
@@ -377,24 +383,6 @@
                             android:id="@+id/sample_outsideCountryName"
                             app:value="@={data.outsideCountryName}"
                             style="@style/ControlSingleColumnStyle" />
-
-                        <LinearLayout
-                            android:id="@+id/sample_afp_first_second_specimen_row"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <de.symeda.sormas.app.component.controls.ControlDateField
-                                android:id="@+id/sample_dateFirstSpecimen"
-                                app:value="@={data.dateFirstSpecimen}"
-                                style="@style/ControlFirstOfTwoColumnsStyle" />
-
-                            <de.symeda.sormas.app.component.controls.ControlDateField
-                                android:id="@+id/sample_dateSecondSpecimen"
-                                app:value="@={data.dateSecondSpecimen}"
-                                style="@style/ControlSecondOfTwoColumnsStyle" />
-
-                        </LinearLayout>
 
                         <de.symeda.sormas.app.component.controls.ControlDateField
                             android:id="@+id/sample_dateSpecimenReceivedNationalLevel"
