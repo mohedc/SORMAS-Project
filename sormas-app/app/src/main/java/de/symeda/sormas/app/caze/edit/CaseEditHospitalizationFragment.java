@@ -28,7 +28,9 @@ import de.symeda.sormas.api.FormType;
 import de.symeda.sormas.api.hospitalization.HospitalizationDto;
 import de.symeda.sormas.api.hospitalization.HospitalizationReasonType;
 import de.symeda.sormas.api.hospitalization.PreviousHospitalizationDto;
+import de.symeda.sormas.api.infrastructure.facility.FacilityType;
 import de.symeda.sormas.api.utils.InpatOutpat;
+import de.symeda.sormas.api.utils.YesNo;
 import de.symeda.sormas.api.utils.YesNoUnknown;
 import de.symeda.sormas.api.utils.fieldaccess.UiFieldAccessCheckers;
 import de.symeda.sormas.api.utils.fieldvisibility.FieldVisibilityCheckers;
@@ -37,8 +39,12 @@ import de.symeda.sormas.app.R;
 import de.symeda.sormas.app.backend.caze.Case;
 import de.symeda.sormas.app.backend.common.DatabaseHelper;
 import de.symeda.sormas.app.backend.config.ConfigProvider;
+import de.symeda.sormas.app.backend.facility.Facility;
 import de.symeda.sormas.app.backend.hospitalization.Hospitalization;
 import de.symeda.sormas.app.backend.hospitalization.PreviousHospitalization;
+import de.symeda.sormas.app.backend.region.District;
+import de.symeda.sormas.app.backend.region.Region;
+import de.symeda.sormas.app.backend.user.User;
 import de.symeda.sormas.app.component.Item;
 import de.symeda.sormas.app.component.controls.ControlPropertyField;
 import de.symeda.sormas.app.component.controls.ValueChangeListener;
@@ -47,6 +53,7 @@ import de.symeda.sormas.app.databinding.FragmentCaseEditHospitalizationLayoutBin
 import de.symeda.sormas.app.util.DataUtils;
 import de.symeda.sormas.app.util.FieldVisibilityAndAccessHelper;
 import de.symeda.sormas.app.util.InfrastructureDaoHelper;
+import de.symeda.sormas.app.util.InfrastructureFieldsDependencyHandler;
 
 public class CaseEditHospitalizationFragment extends BaseEditFragment<FragmentCaseEditHospitalizationLayoutBinding, Hospitalization, Case> {
 
@@ -167,6 +174,7 @@ public class CaseEditHospitalizationFragment extends BaseEditFragment<FragmentCa
 		contentBinding.setData(record);
 		contentBinding.setCaze(caze);
 		contentBinding.setInpatOutpatClass(InpatOutpat.class);
+		contentBinding.setYesNoClass(YesNo.class);
 		contentBinding.setPreviousHospitalizationList(getPreviousHospitalizations());
 		contentBinding.setPrevHosItemClickCallback(onPrevHosItemClickListener);
 		getContentBinding().setPreviousHospitalizationBindCallback(this::setFieldVisibilitiesAndAccesses);
@@ -195,6 +203,11 @@ public class CaseEditHospitalizationFragment extends BaseEditFragment<FragmentCa
 
 		InfrastructureDaoHelper
 			.initializeHealthFacilityDetailsFieldVisibility(contentBinding.caseDataHealthFacility, contentBinding.caseDataHealthFacilityDetails);
+		InfrastructureDaoHelper.initializeHealthFacilityDetailsFieldVisibility(
+			contentBinding.caseHospitalizationAdmissionHealthFacility,
+			contentBinding.caseHospitalizationAdmissionHealthFacilityDetails);
+
+		initializeAdmissionFacilityFields(contentBinding);
 
 		// Initialize ControlDateFields
 		contentBinding.caseHospitalizationAdmissionDate.initializeDateField(getFragmentManager());
@@ -234,6 +247,87 @@ public class CaseEditHospitalizationFragment extends BaseEditFragment<FragmentCa
 		}
 
 		verifyPrevHospitalizationStatus();
+	}
+
+	private void initializeAdmissionFacilityFields(FragmentCaseEditHospitalizationLayoutBinding contentBinding) {
+		List<Item> initialRegions = InfrastructureDaoHelper.loadRegionsByServerCountry();
+		List<Item> initialDistricts = InfrastructureDaoHelper.loadDistricts(record.getAdmissionRegion());
+		List<Item> initialFacilities =
+			InfrastructureDaoHelper.loadFacilities(record.getAdmissionDistrict(), null, FacilityType.HOSPITAL);
+		if (record.getAdmissionHealthFacility() != null) {
+			Item facilityItem = DataUtils.toItem(record.getAdmissionHealthFacility());
+			if (facilityItem != null && !initialFacilities.contains(facilityItem)) {
+				initialFacilities.add(facilityItem);
+			}
+		}
+
+		InfrastructureFieldsDependencyHandler.instance.initializeRegionFields(
+			contentBinding.caseHospitalizationAdmissionRegion,
+			initialRegions,
+			record.getAdmissionRegion(),
+			contentBinding.caseHospitalizationAdmissionDistrict,
+			initialDistricts,
+			record.getAdmissionDistrict(),
+			null,
+			null,
+			null);
+
+		contentBinding.caseHospitalizationAdmissionHealthFacility
+			.initializeSpinner(initialFacilities, record.getAdmissionHealthFacility());
+		contentBinding.caseHospitalizationAdmissionDistrict.addValueChangedListener(field -> {
+			District selectedDistrict = (District) field.getValue();
+			List<Item> facilities = InfrastructureDaoHelper.loadFacilities(selectedDistrict, null, FacilityType.HOSPITAL);
+			Facility selectedFacility = (Facility) contentBinding.caseHospitalizationAdmissionHealthFacility.getValue();
+			if (selectedFacility != null) {
+				Item facilityItem = DataUtils.toItem(selectedFacility);
+				if (facilityItem != null && !facilities.contains(facilityItem)) {
+					facilities.add(facilityItem);
+				}
+			}
+			contentBinding.caseHospitalizationAdmissionHealthFacility.setSpinnerData(facilities, selectedFacility);
+		});
+
+		contentBinding.caseHospitalizationAdmittedToDifferentHealthFacility.addValueChangedListener(field -> {
+			if (field.getValue() == YesNo.YES) {
+				ensureDefaultAdmissionJurisdiction(contentBinding);
+			} else {
+				clearAdmissionJurisdiction(contentBinding);
+			}
+		});
+
+		if (record.getAdmittedToDifferentHealthFacility() == YesNo.YES) {
+			ensureDefaultAdmissionJurisdiction(contentBinding);
+		}
+	}
+
+	private void ensureDefaultAdmissionJurisdiction(FragmentCaseEditHospitalizationLayoutBinding contentBinding) {
+		User user = ConfigProvider.getUser();
+
+		if (contentBinding.caseHospitalizationAdmissionRegion.getValue() == null) {
+			Region defaultRegion = user != null && user.getRegion() != null ? user.getRegion() : caze.getResponsibleRegion();
+			if (defaultRegion != null) {
+				contentBinding.caseHospitalizationAdmissionRegion.setValue(defaultRegion);
+			}
+		}
+
+		if (contentBinding.caseHospitalizationAdmissionDistrict.getValue() == null) {
+			District defaultDistrict = user != null && user.getDistrict() != null ? user.getDistrict() : caze.getResponsibleDistrict();
+			if (defaultDistrict != null) {
+				contentBinding.caseHospitalizationAdmissionDistrict.setValue(defaultDistrict);
+			}
+		}
+	}
+
+	private void clearAdmissionJurisdiction(FragmentCaseEditHospitalizationLayoutBinding contentBinding) {
+		contentBinding.caseHospitalizationAdmissionRegion.setValue(null);
+		contentBinding.caseHospitalizationAdmissionDistrict.setValue(null);
+		contentBinding.caseHospitalizationAdmissionHealthFacility.setValue(null);
+		contentBinding.caseHospitalizationAdmissionHealthFacilityDetails.setValue(null);
+
+		record.setAdmissionRegion(null);
+		record.setAdmissionDistrict(null);
+		record.setAdmissionHealthFacility(null);
+		record.setAdmissionHealthFacilityDetails(null);
 	}
 
 	@Override

@@ -23,6 +23,7 @@
     android:id="@+id/base_layout">
 
     <data>
+        <import type="de.symeda.sormas.api.utils.YesNo" />
         <import type="de.symeda.sormas.api.utils.YesNoUnknown" />
         <import type="de.symeda.sormas.api.hospitalization.HospitalizationReasonType" />
         <import type="de.symeda.sormas.api.infrastructure.facility.FacilityType" />
@@ -74,6 +75,55 @@
                     <de.symeda.sormas.app.component.controls.ControlTextReadField
                         android:id="@+id/caseData_healthFacilityDetails"
                         app:value="@{caze.healthFacilityDetails}"
+                        style="@style/ControlSecondOfTwoColumnsStyle" />
+
+                </LinearLayout>
+
+                <de.symeda.sormas.app.component.controls.ControlTextReadField
+                    android:id="@+id/caseHospitalization_admittedToDifferentHealthFacility"
+                    app:value="@{data.admittedToDifferentHealthFacility}"
+                    style="@style/ControlSingleColumnStyle" />
+
+                <LinearLayout
+                    android:id="@+id/caseHospitalization_admission_region_district_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <de.symeda.sormas.app.component.controls.ControlTextReadField
+                        android:id="@+id/caseHospitalization_admissionRegion"
+                        app:dependencyParentField="@{caseHospitalizationAdmittedToDifferentHealthFacility}"
+                        app:dependencyParentValue="@{YesNo.YES}"
+                        app:value="@{data.admissionRegion}"
+                        style="@style/ControlFirstOfTwoColumnsStyle" />
+
+                    <de.symeda.sormas.app.component.controls.ControlTextReadField
+                        android:id="@+id/caseHospitalization_admissionDistrict"
+                        app:dependencyParentField="@{caseHospitalizationAdmittedToDifferentHealthFacility}"
+                        app:dependencyParentValue="@{YesNo.YES}"
+                        app:value="@{data.admissionDistrict}"
+                        style="@style/ControlSecondOfTwoColumnsStyle" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/caseHospitalization_admission_facility_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <de.symeda.sormas.app.component.controls.ControlTextReadField
+                        android:id="@+id/caseHospitalization_admissionHealthFacility"
+                        app:dependencyParentField="@{caseHospitalizationAdmittedToDifferentHealthFacility}"
+                        app:dependencyParentValue="@{YesNo.YES}"
+                        app:value="@{data.admissionHealthFacility}"
+                        style="@style/ControlFirstOfTwoColumnsStyle" />
+
+                    <de.symeda.sormas.app.component.controls.ControlTextReadField
+                        android:id="@+id/caseHospitalization_admissionHealthFacilityDetails"
+                        app:dependencyParentField="@{caseHospitalizationAdmittedToDifferentHealthFacility}"
+                        app:dependencyParentValue="@{YesNo.YES}"
+                        app:value="@{data.admissionHealthFacilityDetails}"
                         style="@style/ControlSecondOfTwoColumnsStyle" />
 
                 </LinearLayout>

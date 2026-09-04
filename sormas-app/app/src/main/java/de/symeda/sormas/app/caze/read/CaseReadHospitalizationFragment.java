@@ -87,6 +87,9 @@ public class CaseReadHospitalizationFragment extends BaseReadFragment<FragmentCa
 
 		InfrastructureDaoHelper
 			.initializeHealthFacilityDetailsFieldVisibility(contentBinding.caseDataHealthFacility, contentBinding.caseDataHealthFacilityDetails);
+		InfrastructureDaoHelper.initializeHealthFacilityDetailsFieldVisibility(
+			contentBinding.caseHospitalizationAdmissionHealthFacility,
+			contentBinding.caseHospitalizationAdmissionHealthFacilityDetails);
 
 		if (caze.getDisease() == Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS) {
 			contentBinding.caseHospitalizationDateFirstSeenAtHealthFacility.setCaption("Date seen at health facility");

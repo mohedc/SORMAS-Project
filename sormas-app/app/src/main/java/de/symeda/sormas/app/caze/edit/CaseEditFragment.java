@@ -1160,16 +1160,17 @@ public class CaseEditFragment extends BaseEditFragment<FragmentCaseEditLayoutBin
 				}
 				boolean show = isCsmCaseVaccinated(contentBinding);
 				ControlSwitchField vaccinationRecordType = contentBinding.caseDataVaccinationRecordType;
+				vaccinationRecordType.setVisibility(GONE);
 
 				if (vaccinationRecordTypeLayout != null) {
 					vaccinationRecordTypeLayout.setVisibility(show ? VISIBLE : GONE);
 				}
-				if (show) {
-					vaccinationRecordType.setVisibility(VISIBLE);
-				} else {
-					hideControlField(vaccinationRecordType, true);
-				}
-				vaccinationRecordType.setRequired(show);
+//				if (show) {
+//					vaccinationRecordType.setVisibility(VISIBLE);
+//				} else {
+//					hideControlField(vaccinationRecordType, true);
+//				}
+//				vaccinationRecordType.setRequired(show);
 
 				for (ControlSwitchField vaccineField : vaccineFields) {
 					if (show) {
