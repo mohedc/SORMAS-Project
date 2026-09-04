@@ -234,7 +234,11 @@ public class SampleEditFragment extends BaseEditFragment<FragmentSampleEditLayou
 					SampleMaterial.OTHER));
 
 		} else if (associatedDisease == Disease.CONGENITAL_RUBELLA) {
-			sampleMaterialList = DataUtils.toItems(Arrays.asList(SampleMaterial.BLOOD));
+			sampleMaterialList = DataUtils.toItems(Arrays.asList(SampleMaterial.SERUM,
+					SampleMaterial.THROAT_SWAB,
+					SampleMaterial.URINE,
+					SampleMaterial.CEREBROSPINAL_FLUID,
+					SampleMaterial.OTHER));
 		} else {
 			sampleMaterialList = DataUtils.getEnumItems(SampleMaterial.class, true, getFieldVisibilityCheckers());
 		}
