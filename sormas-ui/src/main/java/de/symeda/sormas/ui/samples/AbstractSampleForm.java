@@ -1268,7 +1268,7 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 
 		// The date the sample was collected is the date of the first specimen, so the separate first specimen date is not asked for
 		DateTimeField sampleDateField = (DateTimeField) getField(SampleDto.SAMPLE_DATE_TIME);
-		sampleDateField.setDateCaption(I18nProperties.getPrefixCaption(SampleDto.I18N_PREFIX, SampleDto.DATE_FIRST_SPECIMEN));
+		sampleDateField.setCaption(I18nProperties.getPrefixCaption(SampleDto.I18N_PREFIX, SampleDto.DATE_FIRST_SPECIMEN));
 
 		// The sample is received at the inter country/national laboratory, so the receival date is that date
 		getField(SampleDto.RECEIVED_DATE)
