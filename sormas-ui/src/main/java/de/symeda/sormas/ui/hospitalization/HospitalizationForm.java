@@ -145,7 +145,7 @@ public class HospitalizationForm extends AbstractEditForm<HospitalizationDto> {
 			loc(HOSPITALIZATION_HEADING_LOC) +
 					fluidRowLocs(HEALTH_FACILITY, HospitalizationDto.HOSPITAL_RECORD_NUMBER) +
 					DIFFERENT_ADMISSION_FACILITY_LAYOUT +
-					fluidRowLocs(HospitalizationDto.SELECT_INPATIENT_OUTPATIENT, HospitalizationDto.ADMITTED_TO_HEALTH_FACILITY) +
+					fluidRowLocs(HospitalizationDto.SELECT_INPATIENT_OUTPATIENT, "") +
 					fluidRowLocs(HospitalizationDto.ADMISSION_DATE, HospitalizationDto.ADDRESS);
 
 	private static final String IDSR_LAYOUT =

@@ -1420,7 +1420,6 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 			FieldHelper.setVisibleWhen(
 					getFieldGroup(),
 					Arrays.asList(
-						CaseDataDto.VACCINATION_RECORD_TYPE,
 						CaseDataDto.MENAC,CaseDataDto.MENACW,
 						CaseDataDto.MENACWY,
 						CaseDataDto.MENA_CONJUNATE,
@@ -1481,13 +1480,6 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 			boolean showLpOther = lpNotDoneReason.getValue() != null
 				&& ((java.util.Set<LpNotDoneReason>) lpNotDoneReason.getValue()).contains(LpNotDoneReason.OTHER);
 			lpNotDoneReasonOther.setVisible(showLpOther);
-
-			// Set required status for vaccination fields when visible (for Meningitis)
-			FieldHelper.setRequiredWhen(
-					getFieldGroup(),
-					CaseDataDto.VACCINATED,
-					Arrays.asList(CaseDataDto.VACCINATION_RECORD_TYPE),
-					Arrays.asList(VaccinationStatus.VACCINATED));
 		}
 		if(disease == Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS){
 			numberOfVaccinationDosesField.setCaption("Number of vaccine doses received:");
