@@ -98,7 +98,11 @@ public class CaseReadHospitalizationFragment extends BaseReadFragment<FragmentCa
 
 		if (caze.getDisease() == Disease.AFP) {
 			contentBinding.caseHospitalizationAdmissionDate.setCaption("Date of Admission to Hospital, If Applicable");
-			updateAfpAdmissionDischargeVisibility(contentBinding);
+			updateInpatientAdmissionDischargeVisibility(contentBinding);
+		}
+
+		if (caze.getDisease() == Disease.YELLOW_FEVER) {
+			updateInpatientAdmissionDischargeVisibility(contentBinding);
 		}
 
 		// Previous hospitalizations list
@@ -107,7 +111,7 @@ public class CaseReadHospitalizationFragment extends BaseReadFragment<FragmentCa
 		}
 	}
 
-	private void updateAfpAdmissionDischargeVisibility(FragmentCaseReadHospitalizationLayoutBinding contentBinding) {
+	private void updateInpatientAdmissionDischargeVisibility(FragmentCaseReadHospitalizationLayoutBinding contentBinding) {
 		boolean showAdmissionDischargeDates = record.getSelectInpatientOutpatient() == InpatOutpat.INPATIENT;
 		if (!showAdmissionDischargeDates) {
 			contentBinding.caseHospitalizationAdmissionDischargeDateLayout.setVisibility(View.GONE);

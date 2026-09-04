@@ -231,7 +231,11 @@ public class CaseEditHospitalizationFragment extends BaseEditFragment<FragmentCa
 		}
 		if (caze.getDisease() != null && caze.getDisease() == Disease.AFP){
 			contentBinding.caseHospitalizationAdmissionDate.setCaption("Date of Admission to Hospital, If Applicable");
-			initializeAfpAdmissionDischargeVisibility(contentBinding);
+			initializeInpatientAdmissionDischargeVisibility(contentBinding);
+		}
+
+		if (caze.getDisease() != null && caze.getDisease() == Disease.YELLOW_FEVER) {
+			initializeInpatientAdmissionDischargeVisibility(contentBinding);
 		}
 
 		if (caze.getDisease() != null && caze.getDisease() == Disease.CONGENITAL_RUBELLA || caze.getDisease() == Disease.CSM) {
@@ -310,12 +314,24 @@ public class CaseEditHospitalizationFragment extends BaseEditFragment<FragmentCa
 			}
 		}
 
-		if (contentBinding.caseHospitalizationAdmissionDistrict.getValue() == null) {
+		// Mirror web: always reload districts for the selected region before applying the default district.
+		// Setting region alone is not enough — the district spinner must contain the default item or setValue is ignored.
+		Region selectedRegion = (Region) contentBinding.caseHospitalizationAdmissionRegion.getValue();
+		List<Item> districts = InfrastructureDaoHelper.loadDistricts(selectedRegion);
+
+		District selectedDistrict = (District) contentBinding.caseHospitalizationAdmissionDistrict.getValue();
+		if (selectedDistrict == null) {
 			District defaultDistrict = user != null && user.getDistrict() != null ? user.getDistrict() : caze.getResponsibleDistrict();
 			if (defaultDistrict != null) {
-				contentBinding.caseHospitalizationAdmissionDistrict.setValue(defaultDistrict);
+				Item districtItem = DataUtils.toItem(defaultDistrict);
+				if (districtItem != null && !districts.contains(districtItem)) {
+					districts.add(districtItem);
+				}
+				selectedDistrict = defaultDistrict;
 			}
 		}
+
+		contentBinding.caseHospitalizationAdmissionDistrict.setSpinnerData(districts, selectedDistrict);
 	}
 
 	private void clearAdmissionJurisdiction(FragmentCaseEditHospitalizationLayoutBinding contentBinding) {
@@ -335,14 +351,14 @@ public class CaseEditHospitalizationFragment extends BaseEditFragment<FragmentCa
 		return R.layout.fragment_case_edit_hospitalization_layout;
 	}
 
-	private void initializeAfpAdmissionDischargeVisibility(FragmentCaseEditHospitalizationLayoutBinding contentBinding) {
+	private void initializeInpatientAdmissionDischargeVisibility(FragmentCaseEditHospitalizationLayoutBinding contentBinding) {
 		contentBinding.caseHospitalizationSelectInpatientOutpatient
-			.addValueChangedListener(field -> updateAfpAdmissionDischargeVisibility(contentBinding));
+			.addValueChangedListener(field -> updateInpatientAdmissionDischargeVisibility(contentBinding));
 
-		updateAfpAdmissionDischargeVisibility(contentBinding);
+		updateInpatientAdmissionDischargeVisibility(contentBinding);
 	}
 
-	private void updateAfpAdmissionDischargeVisibility(FragmentCaseEditHospitalizationLayoutBinding contentBinding) {
+	private void updateInpatientAdmissionDischargeVisibility(FragmentCaseEditHospitalizationLayoutBinding contentBinding) {
 		boolean showAdmissionDischargeDates =
 			contentBinding.caseHospitalizationSelectInpatientOutpatient.getValue() == InpatOutpat.INPATIENT;
 
