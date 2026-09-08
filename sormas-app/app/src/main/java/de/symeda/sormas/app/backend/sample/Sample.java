@@ -73,6 +73,8 @@ public class Sample extends PseudonymizableAdo {
 
 	public static final String SAMPLE_DATE_TIME = "sampleDateTime";
 	public static final String ASSOCIATED_CASE = "associatedCase";
+	public static final String ASSOCIATED_CONTACT = "associatedContact";
+	public static final String ASSOCIATED_EVENT_PARTICIPANT = "associatedEventParticipant";
 	public static final String REFERRED_TO_UUID = "referredToUuid";
 	public static final String SHIPPED = "shipped";
 	public static final String RECEIVED = "received";

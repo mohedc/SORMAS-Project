@@ -91,6 +91,7 @@ public class SampleDto extends SormasToSormasShareableDto implements IsSample {
 	public static final String DISPATCHED_TO_NATIONAL_LAB_BY_REGION_DISTRICT_DATE = "dispatchedToNationalLabByRegionDistrictDate";
 	public static final String DATE_FIRST_SPECIMEN = "dateFirstSpecimen";
 	public static final String DATE_SECOND_SPECIMEN = "dateSecondSpecimen";
+	public static final String DATE_OF_NTH_SAMPLING = "dateOfNthSampling";
 	public static final String DATE_SPECIMEN_SENT_NATIONAL_LEVEL = "dateSpecimenSentNationalLevel";
 	public static final String DATE_SPECIMEN_RECEIVED_NATIONAL_LEVEL = "dateSpecimenReceivedNationalLevel";
 	public static final String DATE_SPECIMEN_SENT_INTERCOUNTY_NATLAB = "dateSpecimenSentInter";

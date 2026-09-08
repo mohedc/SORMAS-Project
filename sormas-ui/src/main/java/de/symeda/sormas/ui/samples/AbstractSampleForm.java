@@ -210,7 +210,6 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 					fluidRowLocs(SampleDto.SAMPLE_DATE_TIME, "") +
 					fluidRowLocs(SampleDto.LAB, SampleDto.LAB_DETAILS) +
 					fluidRowLocs(SampleDto.LAB_SAMPLE_ID) +
-					fluidRowLocs(6, SampleDto.DATE_SECOND_SPECIMEN) +
 
 					locCss(VSPACE_TOP_3, SampleDto.SHIPPED) +
 					fluidRowLocs(SampleDto.SHIPMENT_DATE, SampleDto.SHIPMENT_DETAILS) +
@@ -1266,14 +1265,37 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 				isNationalUser
 		);
 
-		// The date the sample was collected is the date of the first specimen, so the separate first specimen date is not asked for
+		getField(SampleDto.DATE_FIRST_SPECIMEN).setVisible(false);
+		getField(SampleDto.DATE_SECOND_SPECIMEN).setVisible(false);
+
 		DateTimeField sampleDateField = (DateTimeField) getField(SampleDto.SAMPLE_DATE_TIME);
-		sampleDateField.setCaption(I18nProperties.getPrefixCaption(SampleDto.I18N_PREFIX, SampleDto.DATE_FIRST_SPECIMEN));
+		sampleDateField.setCaption(getAfpSamplingDateCaption());
 
 		// The sample is received at the inter country/national laboratory, so the receival date is that date
 		getField(SampleDto.RECEIVED_DATE)
 			.setCaption(I18nProperties.getPrefixCaption(SampleDto.I18N_PREFIX, SampleDto.DATE_SPECIMEN_RECEIVED_INTERCOUNTY_NATLAB));
 
+	}
+
+	private String getAfpSamplingDateCaption() {
+		SampleDto sample = getValue();
+		if (sample == null) {
+			return AfpSampleHelper.getSamplingDateCaption(1);
+		}
+		return AfpSampleHelper.getSamplingDateCaption(sample.getUuid(), getSiblingSamples(sample), SampleDto::getUuid, SampleDto::getCreationDate);
+	}
+
+	private List<SampleDto> getSiblingSamples(SampleDto sample) {
+		if (sample.getAssociatedCase() != null) {
+			return FacadeProvider.getSampleFacade().getByCaseUuids(Collections.singletonList(sample.getAssociatedCase().getUuid()));
+		}
+		if (sample.getAssociatedContact() != null) {
+			return FacadeProvider.getSampleFacade().getByContactUuids(Collections.singletonList(sample.getAssociatedContact().getUuid()));
+		}
+		if (sample.getAssociatedEventParticipant() != null) {
+			return FacadeProvider.getSampleFacade().getByEventParticipantUuids(Collections.singletonList(sample.getAssociatedEventParticipant().getUuid()));
+		}
+		return Collections.emptyList();
 	}
 
 	private boolean canSeeOutsideCountryLabTesting() {

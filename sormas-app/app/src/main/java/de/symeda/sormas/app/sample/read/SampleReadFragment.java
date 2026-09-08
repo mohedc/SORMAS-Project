@@ -38,6 +38,7 @@ import de.symeda.sormas.api.user.UserRight;
 import de.symeda.sormas.api.utils.YesNo;
 import de.symeda.sormas.app.BaseReadFragment;
 import de.symeda.sormas.app.R;
+import de.symeda.sormas.app.sample.AfpSampleHelper;
 import de.symeda.sormas.app.backend.common.DatabaseHelper;
 import de.symeda.sormas.app.backend.config.ConfigProvider;
 import de.symeda.sormas.app.backend.sample.AdditionalTest;
@@ -211,9 +212,13 @@ public class SampleReadFragment extends BaseReadFragment<FragmentSampleReadLayou
 	private void handleAfp(FragmentSampleReadLayoutBinding contentBinding) {
 		contentBinding.sampleHeadingStoolSpecimenCollection.setVisibility(VISIBLE);
 
-		// The date the sample was collected is the date of the first specimen, so the separate field is not shown
-		contentBinding.sampleSampleDateTime.setCaption(I18nProperties.getPrefixCaption(SampleDto.I18N_PREFIX, SampleDto.DATE_FIRST_SPECIMEN));
-		contentBinding.sampleDateSecondSpecimen.setVisibility(VISIBLE);
+		contentBinding.sampleSampleDateTime.setCaption(
+			AfpSampleHelper.getSamplingDateCaption(
+				record.getUuid(),
+				DatabaseHelper.getSampleDao().querySiblings(record),
+				Sample::getUuid,
+				Sample::getCreationDate));
+		contentBinding.sampleDateSecondSpecimen.setVisibility(GONE);
 
 		updateAfpShipmentVisibility(contentBinding, record.isShipped());
 		updateAfpReceivedVisibility(contentBinding, record.isReceived());

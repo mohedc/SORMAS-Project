@@ -59,6 +59,7 @@ import de.symeda.sormas.api.utils.fieldaccess.UiFieldAccessCheckers;
 import de.symeda.sormas.api.utils.fieldvisibility.FieldVisibilityCheckers;
 import de.symeda.sormas.app.BaseEditFragment;
 import de.symeda.sormas.app.R;
+import de.symeda.sormas.app.sample.AfpSampleHelper;
 import de.symeda.sormas.app.backend.common.DatabaseHelper;
 import de.symeda.sormas.app.backend.config.ConfigProvider;
 import de.symeda.sormas.app.backend.user.User;
@@ -704,12 +705,15 @@ public class SampleEditFragment extends BaseEditFragment<FragmentSampleEditLayou
 		// Init visibility immediately for current purpose value
 		updateAfpOutsideCountryVisibility(contentBinding, record.getSamplePurpose());
 
-		// ── The date the sample was collected is the date of the first specimen, so the separate field is not asked for ──
-		contentBinding.sampleSampleDateTime.setCaption(I18nProperties.getPrefixCaption(SampleDto.I18N_PREFIX, SampleDto.DATE_FIRST_SPECIMEN));
-		contentBinding.sampleDateSecondSpecimen.setVisibility(VISIBLE);
+		contentBinding.sampleSampleDateTime.setCaption(
+			AfpSampleHelper.getSamplingDateCaption(
+				record.getUuid(),
+				DatabaseHelper.getSampleDao().querySiblings(record),
+				Sample::getUuid,
+				Sample::getCreationDate));
+		contentBinding.sampleDateSecondSpecimen.setVisibility(GONE);
 
 		// ── Initialize AFP date fields ────────────────────────────
-		contentBinding.sampleDateSecondSpecimen.initializeDateField(getFragmentManager());
 		contentBinding.sampleDateSpecimenSentNationalLevel.initializeDateField(getFragmentManager());
 		contentBinding.sampleDateSpecimenSentInter.initializeDateField(getFragmentManager());
 		contentBinding.sampleDateSpecimenReceivedNationalLevel.initializeDateField(getFragmentManager());

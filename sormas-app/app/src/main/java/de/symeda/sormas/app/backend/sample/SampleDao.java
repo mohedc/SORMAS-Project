@@ -16,6 +16,7 @@
 package de.symeda.sormas.app.backend.sample;
 
 import java.sql.SQLException;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -35,6 +36,8 @@ import de.symeda.sormas.app.backend.common.AbstractDomainObject;
 import de.symeda.sormas.app.backend.common.DaoException;
 import de.symeda.sormas.app.backend.common.DatabaseHelper;
 import de.symeda.sormas.app.backend.config.ConfigProvider;
+import de.symeda.sormas.app.backend.contact.Contact;
+import de.symeda.sormas.app.backend.event.EventParticipant;
 
 /**
  * Created by Mate Strysewske on 06.02.2017.
@@ -82,6 +85,55 @@ public class SampleDao extends AbstractAdoDao<Sample> {
 			android.util.Log.e(getTableName(), "Could not perform queryByCase on Sample");
 			throw new RuntimeException(e);
 		}
+	}
+
+	public List<Sample> queryByContact(Contact contact) {
+		if (contact.isSnapshot()) {
+			throw new IllegalArgumentException("Does not support snapshot entities");
+		}
+
+		try {
+			return queryBuilder().orderBy(Sample.SAMPLE_DATE_TIME, true)
+				.where()
+				.eq(Sample.ASSOCIATED_CONTACT + "_id", contact)
+				.and()
+				.eq(AbstractDomainObject.SNAPSHOT, false)
+				.query();
+		} catch (SQLException e) {
+			android.util.Log.e(getTableName(), "Could not perform queryByContact on Sample");
+			throw new RuntimeException(e);
+		}
+	}
+
+	public List<Sample> queryByEventParticipant(EventParticipant eventParticipant) {
+		if (eventParticipant.isSnapshot()) {
+			throw new IllegalArgumentException("Does not support snapshot entities");
+		}
+
+		try {
+			return queryBuilder().orderBy(Sample.SAMPLE_DATE_TIME, true)
+				.where()
+				.eq(Sample.ASSOCIATED_EVENT_PARTICIPANT + "_id", eventParticipant)
+				.and()
+				.eq(AbstractDomainObject.SNAPSHOT, false)
+				.query();
+		} catch (SQLException e) {
+			android.util.Log.e(getTableName(), "Could not perform queryByEventParticipant on Sample");
+			throw new RuntimeException(e);
+		}
+	}
+
+	public List<Sample> querySiblings(Sample sample) {
+		if (sample.getAssociatedCase() != null) {
+			return queryByCase(sample.getAssociatedCase());
+		}
+		if (sample.getAssociatedContact() != null) {
+			return queryByContact(sample.getAssociatedContact());
+		}
+		if (sample.getAssociatedEventParticipant() != null) {
+			return queryByEventParticipant(sample.getAssociatedEventParticipant());
+		}
+		return Collections.emptyList();
 	}
 
 	@Override

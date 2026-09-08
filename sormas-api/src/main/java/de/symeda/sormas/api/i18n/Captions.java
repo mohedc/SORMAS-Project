@@ -2733,6 +2733,7 @@ public interface Captions {
 	String Sample_uuid = "Sample.uuid";
 	String Sample_dateFirstSpecimen = "Sample.dateFirstSpecimen";
 	String Sample_dateSecondSpecimen = "Sample.dateSecondSpecimen";
+	String Sample_dateOfNthSampling = "Sample.dateOfNthSampling";
 	String Sample_dateSpecimenSentNationalLevel = "Sample.dateSpecimenSentNationalLevel";
 	String Sample_dateSpecimenReceivedNationalLevel = "Sample.dateSpecimenReceivedNationalLevel";
 	String Sample_dateSpecimenSentInter = "Sample.dateSpecimenSentInter";
