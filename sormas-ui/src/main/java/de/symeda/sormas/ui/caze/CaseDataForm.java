@@ -752,7 +752,7 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 
 		TextField epidField = addField(CaseDataDto.EPID_NUMBER, TextField.class);
 		epidField.setInvalidCommitted(false);
-		epidField.setMaxLength(24);
+		epidField.setMaxLength(32);
 		CaseFormHelper.addEpidNumberFormatValidator(epidField);
 		style(epidField, ERROR_COLOR_PRIMARY);
 

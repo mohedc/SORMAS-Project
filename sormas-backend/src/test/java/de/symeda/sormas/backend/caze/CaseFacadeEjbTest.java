@@ -135,6 +135,7 @@ import de.symeda.sormas.api.infrastructure.facility.FacilityReferenceDto;
 import de.symeda.sormas.api.infrastructure.facility.FacilityType;
 import de.symeda.sormas.api.infrastructure.facility.FacilityTypeGroup;
 import de.symeda.sormas.api.infrastructure.pointofentry.PointOfEntryDto;
+import de.symeda.sormas.api.infrastructure.region.RegionDto;
 import de.symeda.sormas.api.infrastructure.region.RegionReferenceDto;
 import de.symeda.sormas.api.messaging.MessageType;
 import de.symeda.sormas.api.person.ApproximateAgeType;
@@ -1781,45 +1782,92 @@ public class CaseFacadeEjbTest extends AbstractBeanTest {
 	@Test
 	public void testGenerateEpidNumber() throws ExternalSurveillanceToolRuntimeException {
 
-		PersonDto cazePerson = creator.createPerson("Case", "Person");
-		CaseDataDto caze = creator.createCase(surveillanceSupervisor.toReference(), cazePerson.toReference(), rdcf);
+		String originalLocale = MockProducer.getProperties().getProperty(ConfigFacadeEjb.COUNTRY_LOCALE);
+		MockProducer.getProperties().setProperty(ConfigFacadeEjb.COUNTRY_LOCALE, CountryHelper.COUNTRY_CODE_GAMBIA);
+		try {
+			PersonDto cazePerson = creator.createPerson("Case", "Person");
+			Calendar calendar = Calendar.getInstance();
+			String year = String.valueOf(calendar.get(Calendar.YEAR)).substring(2);
 
+			CaseDataDto caze = createGambiaEpidCase(cazePerson, Disease.AFP, rdcf);
+			assertEquals("GAM-REG-DIS-AFP-" + year + "-0001", caze.getEpidNumber());
+
+			DistrictDto secondDistrict = getDistrictFacade().getByUuid(rdcf1.district.getUuid());
+			secondDistrict.setEpidCode("JAN");
+			getDistrictFacade().save(secondDistrict);
+
+			CaseDataDto secondCaze = createGambiaEpidCase(cazePerson, Disease.AFP, rdcf1);
+			assertEquals("GAM-REG-JAN-AFP-" + year + "-0002", secondCaze.getEpidNumber());
+
+			CaseDataDto nntCaze = createGambiaEpidCase(cazePerson, Disease.NEONATAL_TETANUS, rdcf);
+			assertEquals("GAM-REG-DIS-NNT-" + year + "-0001", nntCaze.getEpidNumber());
+
+			CaseDataDto evdCaze = creator.createCase(surveillanceSupervisor.toReference(), cazePerson.toReference(), rdcf);
+			assertNull(evdCaze.getEpidNumber());
+
+			secondCaze.setEpidNumber("GAM-REG-JAN-AFP-" + year + "-0004");
+			getCaseFacade().save(secondCaze);
+
+			CaseDataDto thirdCaze = createGambiaEpidCase(cazePerson, Disease.AFP, rdcf);
+			assertEquals("GAM-REG-DIS-AFP-" + year + "-0005", thirdCaze.getEpidNumber());
+
+			thirdCaze.setEpidNumber("GAM-REG-DIS-AFP-" + year + "-3");
+			getCaseFacade().save(thirdCaze);
+
+			CaseDataDto fourthCaze = createGambiaEpidCase(cazePerson, Disease.AFP, rdcf);
+			assertEquals("GAM-REG-DIS-AFP-" + year + "-0005", fourthCaze.getEpidNumber());
+
+			// Make sure that deleted cases are ignored when searching for the highest existing epid number
+			getCaseFacade().delete(fourthCaze.getUuid(), new DeletionDetails(DeletionReason.OTHER_REASON, "test reason"));
+
+			CaseDataDto fifthCaze = createGambiaEpidCase(cazePerson, Disease.AFP, rdcf);
+			assertEquals("GAM-REG-DIS-AFP-" + year + "-0005", fifthCaze.getEpidNumber());
+		} finally {
+			if (originalLocale == null) {
+				MockProducer.getProperties().remove(ConfigFacadeEjb.COUNTRY_LOCALE);
+			} else {
+				MockProducer.getProperties().setProperty(ConfigFacadeEjb.COUNTRY_LOCALE, originalLocale);
+			}
+		}
+	}
+
+	private CaseDataDto createGambiaEpidCase(PersonDto cazePerson, Disease disease, RDCF caseRdcf) {
+		return creator.createCase(
+			surveillanceSupervisor.toReference(),
+			cazePerson.toReference(),
+			disease,
+			CaseClassification.SUSPECT,
+			InvestigationStatus.PENDING,
+			new Date(),
+			caseRdcf);
+	}
+
+	@Test
+	public void testGenerateGambiaEpidNumberFromGmbRegionCode() {
+
+		RegionDto region = getRegionFacade().getByUuid(rdcf.region.getUuid());
+		region.setEpidCode("GMB-NBW");
+		getRegionFacade().save(region);
+
+		DistrictDto district = getDistrictFacade().getByUuid(rdcf.district.getUuid());
+		district.setEpidCode("JOK");
+		getDistrictFacade().save(district);
+
+		PersonDto cazePerson = creator.createPerson("Case", "Person");
 		Calendar calendar = Calendar.getInstance();
 		String year = String.valueOf(calendar.get(Calendar.YEAR)).substring(2);
 
-		assertEquals("GAM-REG-DIS-" + year + "-001", caze.getEpidNumber());
+		CaseDataDto caze = createGambiaEpidCase(cazePerson, Disease.AFP, rdcf);
+		assertEquals("GAM-NBW-JOK-AFP-" + year + "-0001", caze.getEpidNumber());
 
-		CaseDataDto secondCaze = creator.createCase(surveillanceSupervisor.toReference(), cazePerson.toReference(), rdcf);
+		CaseDataDto measlesCaze = createGambiaEpidCase(cazePerson, Disease.MEASLES, rdcf);
+		assertEquals("GAM-NBW-JOK-MSL-" + year + "-0001", measlesCaze.getEpidNumber());
 
-		assertEquals("GAM-REG-DIS-" + year + "-002", secondCaze.getEpidNumber());
+		CaseDataDto secondAfp = createGambiaEpidCase(cazePerson, Disease.AFP, rdcf);
+		assertEquals("GAM-NBW-JOK-AFP-" + year + "-0002", secondAfp.getEpidNumber());
 
-		secondCaze.setEpidNumber("GAM-REG-DIS-" + year + "-0004");
-		getCaseFacade().save(secondCaze);
-
-		CaseDataDto thirdCaze = creator.createCase(surveillanceSupervisor.toReference(), cazePerson.toReference(), rdcf);
-
-		assertEquals("GAM-REG-DIS-" + year + "-005", thirdCaze.getEpidNumber());
-
-		thirdCaze.setEpidNumber("GAM-REG-DIS-" + year + "-3");
-		getCaseFacade().save(thirdCaze);
-
-		CaseDataDto fourthCaze = creator.createCase(surveillanceSupervisor.toReference(), cazePerson.toReference(), rdcf);
-
-		assertEquals("GAM-REG-DIS-" + year + "-005", fourthCaze.getEpidNumber());
-
-		fourthCaze.setEpidNumber("GAM-REG-DIS-" + year + "-AAA");
-		getCaseFacade().save(fourthCaze);
-		fourthCaze = getCaseFacade().getCaseDataByUuid(fourthCaze.getUuid());
-
-		assertEquals("GAM-REG-DIS-" + year + "-005", fourthCaze.getEpidNumber());
-
-		// Make sure that deleted cases are ignored when searching for the highest existing epid nummber
-		getCaseFacade().delete(fourthCaze.getUuid(), new DeletionDetails(DeletionReason.OTHER_REASON, "test reason"));
-
-		CaseDataDto fifthCaze = creator.createCase(surveillanceSupervisor.toReference(), cazePerson.toReference(), rdcf);
-
-		assertEquals("GAM-REG-DIS-" + year + "-005", fifthCaze.getEpidNumber());
-
+		CaseDataDto evdCaze = creator.createCase(surveillanceSupervisor.toReference(), cazePerson.toReference(), rdcf);
+		assertNull(evdCaze.getEpidNumber());
 	}
 
 	@Test

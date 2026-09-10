@@ -26,6 +26,7 @@ import de.symeda.sormas.api.CountryHelper;
 import de.symeda.sormas.api.Disease;
 import de.symeda.sormas.api.FacadeProvider;
 import de.symeda.sormas.api.caze.CaseDataDto;
+import de.symeda.sormas.api.caze.CaseLogic;
 import de.symeda.sormas.api.feature.FeatureType;
 import de.symeda.sormas.api.i18n.Captions;
 import de.symeda.sormas.api.i18n.I18nProperties;
@@ -93,7 +94,10 @@ public class LineListingLayout extends VerticalLayout {
 		diseaseDetails.setId("lineListingDiseaseDetails");
 		diseaseDetails.setVisible(false);
 		sharedInformationBar.addComponent(diseaseDetails);
-		disease.addValueChangeListener(event -> diseaseDetails.setVisible(Disease.OTHER.equals(disease.getValue())));
+		disease.addValueChangeListener(event -> {
+			diseaseDetails.setVisible(Disease.OTHER.equals(disease.getValue()));
+			setEpidNumberPrefixes();
+		});
 
 		region = new ComboBox<>(I18nProperties.getPrefixCaption(CaseDataDto.I18N_PREFIX, CaseDataDto.RESPONSIBLE_REGION));
 		region.setItemCaptionGenerator(item -> item.buildCaption());
@@ -231,6 +235,24 @@ public class LineListingLayout extends VerticalLayout {
 	private String getEpidNumberPrefix(String year) {
 
 		String fullEpidCode = FacadeProvider.getDistrictFacade().getFullEpidCodeForDistrict(district.getValue().getUuid());
+		boolean gambiaFormat = CaseLogic.usesGambiaEpidFormat(
+			FacadeProvider.getConfigFacade().isConfiguredCountry(CountryHelper.COUNTRY_CODE_GAMBIA),
+			fullEpidCode,
+			FacadeProvider.getConfigFacade().getEpidPrefix());
+		if (gambiaFormat) {
+			String diseaseCode = CaseLogic.getGambiaDiseaseEpidCode(disease.getValue());
+			if (diseaseCode == null) {
+				return "";
+			}
+
+			String[] geoCodes = CaseLogic.extractRegionAndDistrictEpidCodes(fullEpidCode);
+			if (geoCodes == null) {
+				return "";
+			}
+
+			return CaseLogic.buildGambiaEpidNumberPrefix(geoCodes[0], geoCodes[1], diseaseCode, year);
+		}
+
 		if (year == null) {
 			return fullEpidCode + "-";
 		} else {

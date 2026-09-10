@@ -16,12 +16,16 @@
 package de.symeda.sormas.api.caze;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.EnumMap;
 import java.util.Map;
 
 import org.junit.jupiter.api.Test;
+
+import de.symeda.sormas.api.Disease;
 
 public class CaseLogicTest {
 
@@ -79,5 +83,45 @@ public class CaseLogicTest {
 		reinfectionDetails.put(ReinfectionDetail.LAST_PCR_DETECTION_NOT_RECENT, true);
 		reinfectionDetails.remove(ReinfectionDetail.GENOME_COPY_NUMBER_BELOW_THRESHOLD);
 		assertNull(CaseLogic.calculateReinfectionStatus(reinfectionDetails));
+	}
+
+	@Test
+	public void testGambiaEpidNumberHelpers() {
+		assertEquals("AFP", CaseLogic.getGambiaDiseaseEpidCode(Disease.AFP));
+		assertEquals("CVD", CaseLogic.getGambiaDiseaseEpidCode(Disease.CORONAVIRUS));
+		assertEquals("CRS", CaseLogic.getGambiaDiseaseEpidCode(Disease.CONGENITAL_RUBELLA));
+		assertEquals("IDS", CaseLogic.getGambiaDiseaseEpidCode(Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS));
+		assertEquals("MSL", CaseLogic.getGambiaDiseaseEpidCode(Disease.MEASLES));
+		assertEquals("CSF", CaseLogic.getGambiaDiseaseEpidCode(Disease.CSM));
+		assertEquals("NNT", CaseLogic.getGambiaDiseaseEpidCode(Disease.NEONATAL_TETANUS));
+		assertEquals("YFA", CaseLogic.getGambiaDiseaseEpidCode(Disease.YELLOW_FEVER));
+		assertNull(CaseLogic.getGambiaDiseaseEpidCode(Disease.EVD));
+		assertFalse(CaseLogic.hasGambiaDiseaseEpidCode(Disease.CHOLERA));
+		assertTrue(CaseLogic.usesGambiaEpidFormat(true, "COU-REG", null));
+		assertTrue(CaseLogic.usesGambiaEpidFormat(false, "GMB-NBW", null));
+		assertTrue(CaseLogic.usesGambiaEpidFormat(false, "GAM-WR1", null));
+		assertTrue(CaseLogic.usesGambiaEpidFormat(false, null, "GAM"));
+		assertFalse(CaseLogic.usesGambiaEpidFormat(false, "COU-REG", null));
+		assertFalse(CaseLogic.usesGambiaEpidFormat(false, "NIE-LAG", "NIE"));
+
+		assertEquals("GAM-WR1-KNH-AFP-26-0001", CaseLogic.buildGambiaEpidNumber("WR1", "KNH", "AFP", "26", 1));
+		assertEquals("GAM-WR1-KNH-AFP-26-10000", CaseLogic.buildGambiaEpidNumber("WR1", "KNH", "AFP", "26", 10000));
+		assertEquals("___-___-___-AFP-26-%", CaseLogic.buildGambiaEpidLikePattern("AFP", "26"));
+		assertEquals(1, CaseLogic.parseEpidSerial("GAM-WR1-KNH-AFP-26-0001"));
+		assertEquals(10000, CaseLogic.parseEpidSerial("GAM-WR1-KNH-AFP-26-10000"));
+		assertEquals(-1, CaseLogic.parseEpidSerial("GAM-WR1-KNH-AFP-26-AAA"));
+
+		assertTrue(CaseLogic.isCompleteEpidNumber("GMB-CEN-JAN-26-013"));
+		assertTrue(CaseLogic.isCompleteEpidNumber("GAM-WR1-KNH-AFP-26-0001"));
+		assertTrue(CaseLogic.isEpidNumberPrefix("GAM-WR1-KNH-AFP-26-"));
+		assertFalse(CaseLogic.isCompleteEpidNumber("GAM-WR1-KNH-AFP-26"));
+
+		String[] geoCodes = CaseLogic.extractRegionAndDistrictEpidCodes("GMB-CRR-JAN");
+		assertEquals("CRR", geoCodes[0]);
+		assertEquals("JAN", geoCodes[1]);
+		geoCodes = CaseLogic.extractRegionAndDistrictEpidCodes("GMB-NBW-JOK");
+		assertEquals("NBW", geoCodes[0]);
+		assertEquals("JOK", geoCodes[1]);
+		assertEquals("GAM-NBW-JOK-AFP-26-0001", CaseLogic.buildGambiaEpidNumber(geoCodes[0], geoCodes[1], "AFP", "26", 1));
 	}
 }

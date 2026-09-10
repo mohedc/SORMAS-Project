@@ -507,6 +507,33 @@ public class CaseService extends AbstractCoreAdoService<Case, CaseJoins> {
 		return QueryHelper.getFirstResult(query);
 	}
 
+	public String getHighestGambiaEpidNumber(String diseaseCode, String year, String caseUuid, Disease caseDisease) {
+
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		CriteriaQuery<String> cq = cb.createQuery(String.class);
+		Root<Case> caze = cq.from(Case.class);
+
+		Predicate filter = cb.and(cb.equal(caze.get(Case.DELETED), false), cb.equal(caze.get(Case.DISEASE), caseDisease));
+		if (!DataHelper.isNullOrEmpty(caseUuid)) {
+			filter = cb.and(filter, cb.notEqual(caze.get(Case.UUID), caseUuid));
+		}
+		filter = cb.and(filter, cb.like(caze.get(Case.EPID_NUMBER), CaseLogic.buildGambiaEpidLikePattern(diseaseCode, year)));
+		cq.where(filter);
+		cq.select(caze.get(Case.EPID_NUMBER));
+
+		String highestEpidNumber = null;
+		int highestSerial = -1;
+		for (String epidNumber : em.createQuery(cq).getResultList()) {
+			int serial = CaseLogic.parseEpidSerial(epidNumber);
+			if (serial > highestSerial) {
+				highestSerial = serial;
+				highestEpidNumber = epidNumber;
+			}
+		}
+
+		return highestEpidNumber;
+	}
+
 	public String getUuidByUuidEpidNumberOrExternalId(String searchTerm, CaseCriteria caseCriteria) {
 
 		if (StringUtils.isEmpty(searchTerm)) {

@@ -383,6 +383,16 @@ public class CaseNewActivity extends BaseEditActivity<Case> {
 			return caze.getEpidNumber();
 		}
 
+		Calendar calendar = Calendar.getInstance();
+		if (caze.getReportDate() != null) {
+			calendar.setTime(caze.getReportDate());
+		}
+		String year = String.valueOf(calendar.get(Calendar.YEAR)).substring(2);
+
+		if (usesGambiaEpidFormat(caze)) {
+			return generateGambiaEpidNumber(caze, year);
+		}
+
 		// The region epid code is stored as "<country>-<region>", e.g. "GMB-CRR".
 		// Country code = part before the dash (GMB); region code = part after the dash (CRR).
 		String regionEpidCode = caze.getResponsibleRegion().getEpidCode();
@@ -394,11 +404,6 @@ public class CaseNewActivity extends BaseEditActivity<Case> {
 			return caze.getEpidNumber();
 		}
 
-		Calendar calendar = Calendar.getInstance();
-		if (caze.getReportDate() != null) {
-			calendar.setTime(caze.getReportDate());
-		}
-		String year = String.valueOf(calendar.get(Calendar.YEAR)).substring(2);
 		String searchPrefix = String.format(Locale.ENGLISH, "%s-%s-%s-%s-", countryCode, regionCode, districtCode, year);
 		String highestEpidNumber = DatabaseHelper.getCaseDao().getHighestEpidNumber(searchPrefix, caze.getUuid(), caze.getDisease());
 
@@ -411,6 +416,40 @@ public class CaseNewActivity extends BaseEditActivity<Case> {
 		}
 
 		return searchPrefix + String.format(Locale.ENGLISH, "%03d", nextNumber);
+	}
+
+	private String generateGambiaEpidNumber(Case caze, String year) {
+		String diseaseCode = CaseLogic.getGambiaDiseaseEpidCode(caze.getDisease());
+		if (diseaseCode == null) {
+			return null;
+		}
+
+		String regionEpidCode = caze.getResponsibleRegion().getEpidCode();
+		String[] regionParts = splitRegionEpidCode(regionEpidCode);
+		String regionCode = regionParts != null
+			? getEpidCodePart(regionParts[1], null)
+			: getEpidCodePart(regionEpidCode, caze.getResponsibleRegion().getName());
+		String districtCode = getEpidCodePart(caze.getResponsibleDistrict().getEpidCode(), caze.getResponsibleDistrict().getName());
+		if (StringUtils.isAnyBlank(regionCode, districtCode)) {
+			return caze.getEpidNumber();
+		}
+
+		String highestEpidNumber =
+			DatabaseHelper.getCaseDao().getHighestGambiaEpidNumber(diseaseCode, year, caze.getUuid(), caze.getDisease());
+		int nextNumber = 1;
+		int highestSerial = CaseLogic.parseEpidSerial(highestEpidNumber);
+		if (highestSerial >= 0) {
+			nextNumber = highestSerial + 1;
+		}
+
+		return CaseLogic.buildGambiaEpidNumber(regionCode, districtCode, diseaseCode, year, nextNumber);
+	}
+
+	private boolean usesGambiaEpidFormat(Case caze) {
+		return CaseLogic.usesGambiaEpidFormat(
+			ConfigProvider.isConfiguredServer(CountryHelper.COUNTRY_CODE_GAMBIA),
+			caze.getResponsibleRegion() != null ? caze.getResponsibleRegion().getEpidCode() : null,
+			null);
 	}
 
 	private String getCountryEpidCode() {

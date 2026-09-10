@@ -21,13 +21,17 @@ import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Collections;
 import java.util.Date;
+import java.util.EnumMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 
+import de.symeda.sormas.api.Disease;
 import de.symeda.sormas.api.EntityDto;
 import de.symeda.sormas.api.followup.FollowUpLogic;
 import de.symeda.sormas.api.followup.FollowUpPeriodDto;
@@ -39,19 +43,39 @@ import de.symeda.sormas.api.infrastructure.district.DistrictReferenceDto;
 import de.symeda.sormas.api.infrastructure.facility.FacilityType;
 import de.symeda.sormas.api.infrastructure.region.RegionReferenceDto;
 import de.symeda.sormas.api.sample.SampleDto;
+import de.symeda.sormas.api.utils.DataHelper;
 import de.symeda.sormas.api.utils.ValidationException;
 import de.symeda.sormas.api.utils.YesNoUnknown;
 import de.symeda.sormas.api.visit.VisitDto;
 
 public final class CaseLogic {
 
+	public static final String GAMBIA_COUNTRY_EPID_CODE = "GAM";
+	public static final int GAMBIA_EPID_SERIAL_MIN_DIGITS = 4;
+
+	private static final Map<Disease, String> GAMBIA_DISEASE_EPID_CODES;
+
+	static {
+		Map<Disease, String> codes = new EnumMap<>(Disease.class);
+		codes.put(Disease.AFP, "AFP");
+		codes.put(Disease.CORONAVIRUS, "CVD");
+		codes.put(Disease.CONGENITAL_RUBELLA, "CRS");
+		codes.put(Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS, "IDS");
+		codes.put(Disease.MEASLES, "MSL");
+		codes.put(Disease.CSM, "CSF");
+		codes.put(Disease.NEONATAL_TETANUS, "NNT");
+		codes.put(Disease.YELLOW_FEVER, "YFA");
+		GAMBIA_DISEASE_EPID_CODES = Collections.unmodifiableMap(codes);
+	}
+
 	private CaseLogic() {
 		// Hide Utility Class Constructor
 	}
 
-	// Each code segment (country, region, district) is 3 alphanumerics, e.g. GMB-WR1-KC2; year is 2 digits, count is the trailing number.
-	private static final String EPID_PATTERN_COMPLETE = "([A-Z0-9]{3}-){3}[0-9]{2}-[0-9]+";
-	private static final String EPID_PATTERN_PREFIX = "([A-Z0-9]{3}-){3}[0-9]{2}-";
+	// Country, region, district, and optional disease code are 3 alphanumerics; year is 2 digits; count is the trailing number.
+	// Accepts both the legacy format (GMB-CEN-JAN-26-013) and the Gambia format (GAM-WR1-KNH-AFP-26-0001).
+	private static final String EPID_PATTERN_COMPLETE = "([A-Z0-9]{3}-){3,4}[0-9]{2}-[0-9]+";
+	private static final String EPID_PATTERN_PREFIX = "([A-Z0-9]{3}-){3,4}[0-9]{2}-";
 
 	public static void validateInvestigationDoneAllowed(CaseDataDto caze) throws ValidationException {
 		// No-op: unclassified cases are no longer supported.
@@ -109,6 +133,131 @@ public final class CaseLogic {
 		}
 
 		return Pattern.matches(EPID_PATTERN_COMPLETE, s);
+	}
+
+	public static String getGambiaDiseaseEpidCode(Disease disease) {
+		return disease == null ? null : GAMBIA_DISEASE_EPID_CODES.get(disease);
+	}
+
+	public static boolean isGambiaCountryEpidCode(String code) {
+		if (StringUtils.isBlank(code)) {
+			return false;
+		}
+
+		String normalized = code.replaceAll("[^A-Za-z0-9]", "").toUpperCase(Locale.ENGLISH);
+		return GAMBIA_COUNTRY_EPID_CODE.equals(normalized) || "GMB".equals(normalized);
+	}
+
+	/**
+	 * Gambia EPID format applies when the server locale is Gambia, or when infrastructure epid codes already
+	 * use GAM/GMB (e.g. region epid {@code GMB-NBW}).
+	 */
+	public static boolean usesGambiaEpidFormat(boolean configuredGambia, String regionEpidCode, String countryEpidPrefix) {
+		if (configuredGambia || isGambiaCountryEpidCode(countryEpidPrefix)) {
+			return true;
+		}
+
+		if (StringUtils.isBlank(regionEpidCode)) {
+			return false;
+		}
+
+		String value = regionEpidCode.trim().toUpperCase(Locale.ENGLISH);
+		int dash = value.indexOf('-');
+		String countryPart = dash > 0 ? value.substring(0, dash) : value;
+		return isGambiaCountryEpidCode(countryPart);
+	}
+
+	public static boolean hasGambiaDiseaseEpidCode(Disease disease) {
+		return getGambiaDiseaseEpidCode(disease) != null;
+	}
+
+	public static String formatEpidSerial(int serial, int minDigits) {
+		return String.format(Locale.ENGLISH, "%0" + minDigits + "d", serial);
+	}
+
+	public static String buildGambiaEpidNumberPrefix(String regionCode, String districtCode, String diseaseCode, String year) {
+		StringBuilder prefix = new StringBuilder();
+		prefix.append(GAMBIA_COUNTRY_EPID_CODE)
+			.append('-')
+			.append(regionCode)
+			.append('-')
+			.append(districtCode)
+			.append('-')
+			.append(diseaseCode)
+			.append('-');
+		if (year != null) {
+			prefix.append(year).append('-');
+		}
+		return prefix.toString();
+	}
+
+	public static String buildGambiaEpidNumber(String regionCode, String districtCode, String diseaseCode, String year, int serial) {
+		return buildGambiaEpidNumberPrefix(regionCode, districtCode, diseaseCode, year)
+			+ formatEpidSerial(serial, GAMBIA_EPID_SERIAL_MIN_DIGITS);
+	}
+
+	public static String buildGambiaEpidLikePattern(String diseaseCode, String year) {
+		return "___-___-___-" + diseaseCode + "-" + year + "-%";
+	}
+
+	public static int parseEpidSerial(String epidNumber) {
+		if (StringUtils.isBlank(epidNumber)) {
+			return -1;
+		}
+
+		int lastDash = epidNumber.lastIndexOf('-');
+		if (lastDash < 0 || lastDash == epidNumber.length() - 1) {
+			return -1;
+		}
+
+		Integer serial = DataHelper.tryParseInt(epidNumber.substring(lastDash + 1).replaceAll("\\D", ""));
+		return serial != null ? serial : -1;
+	}
+
+	/**
+	 * Extracts 3-character region and district codes from a concatenated district epid code such as
+	 * {@code GMB-CRR-JAN} or {@code CRR-JAN}.
+	 */
+	public static String[] extractRegionAndDistrictEpidCodes(String fullEpidCode) {
+		if (StringUtils.isBlank(fullEpidCode)) {
+			return null;
+		}
+
+		String[] parts = fullEpidCode.toUpperCase(Locale.ENGLISH).split("-");
+		String regionPart;
+		String districtPart;
+		if (parts.length >= 3) {
+			regionPart = parts[parts.length - 2];
+			districtPart = parts[parts.length - 1];
+		} else if (parts.length == 2) {
+			regionPart = parts[0];
+			districtPart = parts[1];
+		} else {
+			return null;
+		}
+
+		String regionCode = toEpidCodePart(regionPart);
+		String districtCode = toEpidCodePart(districtPart);
+		if (StringUtils.isAnyBlank(regionCode, districtCode) || regionCode.length() != 3 || districtCode.length() != 3) {
+			return null;
+		}
+
+		return new String[] {
+			regionCode,
+			districtCode };
+	}
+
+	public static String toEpidCodePart(String value) {
+		if (value == null) {
+			return null;
+		}
+
+		String normalized = value.replaceAll("[^A-Za-z0-9]", "").toUpperCase(Locale.ENGLISH);
+		if (normalized.length() >= 3) {
+			return normalized.substring(0, 3);
+		}
+
+		return StringUtils.isBlank(normalized) ? null : normalized;
 	}
 
 	/**

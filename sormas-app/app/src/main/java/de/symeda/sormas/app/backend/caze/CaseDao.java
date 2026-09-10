@@ -42,6 +42,7 @@ import android.util.Log;
 import androidx.core.app.NotificationCompat;
 import de.symeda.sormas.api.Disease;
 import de.symeda.sormas.api.caze.CaseClassification;
+import de.symeda.sormas.api.caze.CaseLogic;
 import de.symeda.sormas.api.caze.CaseOrigin;
 import de.symeda.sormas.api.caze.CaseOutcome;
 import de.symeda.sormas.api.caze.InvestigationStatus;
@@ -412,6 +413,37 @@ public class CaseDao extends AbstractAdoDao<Case> {
 			return highestEpidNumber;
 		} catch (SQLException | IllegalArgumentException e) {
 			Log.e(getTableName(), "Could not perform getHighestEpidNumber");
+			throw new RuntimeException(e);
+		}
+	}
+
+	public String getHighestGambiaEpidNumber(String diseaseCode, String year, String caseUuid, Disease disease) {
+		try {
+			QueryBuilder builder = queryBuilder();
+			Where where = builder.where();
+			where.eq(AbstractDomainObject.SNAPSHOT, false);
+			where.and().like(Case.EPID_NUMBER, CaseLogic.buildGambiaEpidLikePattern(diseaseCode, year));
+
+			if (!DataHelper.isNullOrEmpty(caseUuid)) {
+				where.and().ne(Case.UUID, caseUuid);
+			}
+			if (disease != null) {
+				where.and().eq(Case.DISEASE, disease);
+			}
+
+			List<Case> cases = builder.query();
+			String highestEpidNumber = null;
+			int highestSerial = -1;
+			for (Case caze : cases) {
+				int serial = CaseLogic.parseEpidSerial(caze.getEpidNumber());
+				if (serial > highestSerial) {
+					highestSerial = serial;
+					highestEpidNumber = caze.getEpidNumber();
+				}
+			}
+			return highestEpidNumber;
+		} catch (SQLException | IllegalArgumentException e) {
+			Log.e(getTableName(), "Could not perform getHighestGambiaEpidNumber");
 			throw new RuntimeException(e);
 		}
 	}

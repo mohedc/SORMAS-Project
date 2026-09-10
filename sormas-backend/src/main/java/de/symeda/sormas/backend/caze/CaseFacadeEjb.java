@@ -2187,7 +2187,9 @@ public class CaseFacadeEjb extends AbstractCoreFacadeEjb<Case, CaseDataDto, Case
 			if (CaseLogic.isCompleteEpidNumber(generatedEpidNumber)) {
 				newCase.setEpidNumber(generatedEpidNumber);
 			} else {
-				logger.warn("Could not generate a complete EPID number for case {}.", newCase.getUuid());
+				if (StringUtils.isNotEmpty(generatedEpidNumber)) {
+					logger.warn("Could not generate a complete EPID number for case {}.", newCase.getUuid());
+				}
 				newCase.setEpidNumber(null);
 			}
 		}
@@ -2627,6 +2629,10 @@ public class CaseFacadeEjb extends AbstractCoreFacadeEjb<Case, CaseDataDto, Case
 		}
 		Region region = district.getRegion();
 
+		if (usesGambiaEpidFormat(region)) {
+			return generateGambiaEpidNumber(caseUuid, disease, year, region, district);
+		}
+
 		// The region epid code is stored as "<country>-<region>", e.g. "GMB-CRR".
 		// Country code = part before the dash (GMB); region code = part after the dash (CRR).
 		String[] regionParts = splitRegionEpidCode(region.getEpidCode());
@@ -2653,6 +2659,38 @@ public class CaseFacadeEjb extends AbstractCoreFacadeEjb<Case, CaseDataDto, Case
 		}
 
 		return searchPrefix + String.format(Locale.ENGLISH, "%03d", nextNumber);
+	}
+
+	private String generateGambiaEpidNumber(String caseUuid, Disease disease, String year, Region region, District district) {
+		String diseaseCode = CaseLogic.getGambiaDiseaseEpidCode(disease);
+		if (diseaseCode == null) {
+			return null;
+		}
+
+		String[] regionParts = splitRegionEpidCode(region.getEpidCode());
+		String regionCode = regionParts != null
+			? getEpidCodePart(regionParts[1], null)
+			: getEpidCodePart(region.getEpidCode(), region.getName());
+		String districtCode = getEpidCodePart(district.getEpidCode(), district.getName());
+		if (StringUtils.isAnyBlank(regionCode, districtCode)) {
+			return null;
+		}
+
+		String highestEpidNumber = service.getHighestGambiaEpidNumber(diseaseCode, year, caseUuid, disease);
+		int nextNumber = 1;
+		int highestSerial = CaseLogic.parseEpidSerial(highestEpidNumber);
+		if (highestSerial >= 0) {
+			nextNumber = highestSerial + 1;
+		}
+
+		return CaseLogic.buildGambiaEpidNumber(regionCode, districtCode, diseaseCode, year, nextNumber);
+	}
+
+	private boolean usesGambiaEpidFormat(Region region) {
+		return CaseLogic.usesGambiaEpidFormat(
+			configFacade.isConfiguredCountry(CountryHelper.COUNTRY_CODE_GAMBIA),
+			region != null ? region.getEpidCode() : null,
+			configFacade.getEpidPrefix());
 	}
 
 	private String getCountryEpidCode() {
