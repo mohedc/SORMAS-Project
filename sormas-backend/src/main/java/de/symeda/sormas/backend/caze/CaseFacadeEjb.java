@@ -2173,6 +2173,12 @@ public class CaseFacadeEjb extends AbstractCoreFacadeEjb<Case, CaseDataDto, Case
 			newCase.setFacilityType(null);
 		}
 
+		// Mobile clients may still send a locally generated EPID on first create; ignore it so the
+		// server assigns a unique serial and avoids collisions with web-created cases.
+		if (existingCase == null && RequestContextHolder.isMobileSync()) {
+			newCase.setEpidNumber(null);
+		}
+
 		validateManualEpidNumber(newCase.getEpidNumber());
 
 		// Generate epid number if missing

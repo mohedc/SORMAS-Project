@@ -1871,6 +1871,82 @@ public class CaseFacadeEjbTest extends AbstractBeanTest {
 	}
 
 	@Test
+	public void testMobileSyncCreateIgnoresClientEpidNumber() {
+
+		String originalLocale = MockProducer.getProperties().getProperty(ConfigFacadeEjb.COUNTRY_LOCALE);
+		MockProducer.getProperties().setProperty(ConfigFacadeEjb.COUNTRY_LOCALE, CountryHelper.COUNTRY_CODE_GAMBIA);
+		try {
+			PersonDto cazePerson = creator.createPerson("Mobile", "Epid");
+			Calendar calendar = Calendar.getInstance();
+			String year = String.valueOf(calendar.get(Calendar.YEAR)).substring(2);
+
+			CaseDataDto webCaze = createGambiaEpidCase(cazePerson, Disease.AFP, rdcf);
+			assertEquals("GAM-REG-DIS-AFP-" + year + "-0001", webCaze.getEpidNumber());
+
+			String clientEpid = "GAM-REG-DIS-AFP-" + year + "-0001";
+			MockProducer.setMobileSync(true);
+			try {
+				CaseDataDto mobileCaze = creator.createCase(
+					surveillanceSupervisor.toReference(),
+					cazePerson.toReference(),
+					Disease.AFP,
+					CaseClassification.SUSPECT,
+					InvestigationStatus.PENDING,
+					new Date(),
+					rdcf,
+					c -> c.setEpidNumber(clientEpid));
+
+				assertNotEquals(clientEpid, mobileCaze.getEpidNumber());
+				assertEquals("GAM-REG-DIS-AFP-" + year + "-0002", mobileCaze.getEpidNumber());
+			} finally {
+				MockProducer.setMobileSync(false);
+			}
+
+			CaseDataDto reloaded = getCaseFacade().getCaseDataByUuid(webCaze.getUuid());
+			assertEquals("GAM-REG-DIS-AFP-" + year + "-0001", reloaded.getEpidNumber());
+		} finally {
+			MockProducer.setMobileSync(false);
+			if (originalLocale == null) {
+				MockProducer.getProperties().remove(ConfigFacadeEjb.COUNTRY_LOCALE);
+			} else {
+				MockProducer.getProperties().setProperty(ConfigFacadeEjb.COUNTRY_LOCALE, originalLocale);
+			}
+		}
+	}
+
+	@Test
+	public void testMobileSyncUpdateKeepsExistingEpidNumber() {
+
+		String originalLocale = MockProducer.getProperties().getProperty(ConfigFacadeEjb.COUNTRY_LOCALE);
+		MockProducer.getProperties().setProperty(ConfigFacadeEjb.COUNTRY_LOCALE, CountryHelper.COUNTRY_CODE_GAMBIA);
+		try {
+			PersonDto cazePerson = creator.createPerson("Mobile", "Update");
+			Calendar calendar = Calendar.getInstance();
+			String year = String.valueOf(calendar.get(Calendar.YEAR)).substring(2);
+
+			CaseDataDto caze = createGambiaEpidCase(cazePerson, Disease.AFP, rdcf);
+			assertEquals("GAM-REG-DIS-AFP-" + year + "-0001", caze.getEpidNumber());
+
+			String updatedEpid = "GAM-REG-DIS-AFP-" + year + "-0099";
+			caze.setEpidNumber(updatedEpid);
+			MockProducer.setMobileSync(true);
+			try {
+				CaseDataDto saved = getCaseFacade().save(caze);
+				assertEquals(updatedEpid, saved.getEpidNumber());
+			} finally {
+				MockProducer.setMobileSync(false);
+			}
+		} finally {
+			MockProducer.setMobileSync(false);
+			if (originalLocale == null) {
+				MockProducer.getProperties().remove(ConfigFacadeEjb.COUNTRY_LOCALE);
+			} else {
+				MockProducer.getProperties().setProperty(ConfigFacadeEjb.COUNTRY_LOCALE, originalLocale);
+			}
+		}
+	}
+
+	@Test
 	public void testMergeCase() throws IOException {
 
 		// 1. Create

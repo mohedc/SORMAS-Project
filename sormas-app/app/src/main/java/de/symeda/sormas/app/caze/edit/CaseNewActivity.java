@@ -18,21 +18,15 @@ package de.symeda.sormas.app.caze.edit;
 import static de.symeda.sormas.app.core.notification.NotificationType.ERROR;
 import static de.symeda.sormas.app.core.notification.NotificationType.WARNING;
 
-import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
-
-import org.apache.commons.lang3.StringUtils;
 
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import androidx.annotation.NonNull;
-import de.symeda.sormas.api.CountryHelper;
 import de.symeda.sormas.api.Disease;
 import de.symeda.sormas.api.caze.CaseClassification;
-import de.symeda.sormas.api.caze.CaseLogic;
 import de.symeda.sormas.api.contact.ContactClassification;
 import de.symeda.sormas.api.contact.ContactStatus;
 import de.symeda.sormas.api.i18n.I18nProperties;
@@ -314,15 +308,7 @@ public class CaseNewActivity extends BaseEditActivity<Case> {
 			protected void doInBackground(TaskResultHolder resultHolder) throws Exception {
 				DatabaseHelper.getPersonDao().saveAndSnapshot(caseToSave.getPerson());
 
-				if (StringUtils.isEmpty(caseToSave.getEpidNumber())) {
-					String epidNumber = generateEpidNumber(caseToSave);
-					if (CaseLogic.isCompleteEpidNumber(epidNumber)) {
-						caseToSave.setEpidNumber(epidNumber);
-					} else {
-						caseToSave.setEpidNumber(null);
-					}
-				}
-
+				// EPID numbers are assigned by the server on sync to avoid collisions with web-created cases
 				DatabaseHelper.getCaseDao().saveAndSnapshot(caseToSave);
 
 				if (!DataHelper.isNullOrEmpty(contactUuid)) {
@@ -376,141 +362,6 @@ public class CaseNewActivity extends BaseEditActivity<Case> {
 
 	public List<Disease> getLineListingDiseases() {
 		return lineListingDiseases;
-	}
-
-	private String generateEpidNumber(Case caze) {
-		if (caze.getResponsibleRegion() == null || caze.getResponsibleDistrict() == null) {
-			return caze.getEpidNumber();
-		}
-
-		Calendar calendar = Calendar.getInstance();
-		if (caze.getReportDate() != null) {
-			calendar.setTime(caze.getReportDate());
-		}
-		String year = String.valueOf(calendar.get(Calendar.YEAR)).substring(2);
-
-		if (usesGambiaEpidFormat(caze)) {
-			return generateGambiaEpidNumber(caze, year);
-		}
-
-		// The region epid code is stored as "<country>-<region>", e.g. "GMB-CRR".
-		// Country code = part before the dash (GMB); region code = part after the dash (CRR).
-		String regionEpidCode = caze.getResponsibleRegion().getEpidCode();
-		String[] regionParts = splitRegionEpidCode(regionEpidCode);
-		String countryCode = regionParts != null ? regionParts[0] : getCountryEpidCode();
-		String regionCode = regionParts != null ? regionParts[1] : getEpidCodePart(regionEpidCode, caze.getResponsibleRegion().getName());
-		String districtCode = getEpidCodePart(caze.getResponsibleDistrict().getEpidCode(), caze.getResponsibleDistrict().getName());
-		if (StringUtils.isAnyBlank(countryCode, regionCode, districtCode)) {
-			return caze.getEpidNumber();
-		}
-
-		String searchPrefix = String.format(Locale.ENGLISH, "%s-%s-%s-%s-", countryCode, regionCode, districtCode, year);
-		String highestEpidNumber = DatabaseHelper.getCaseDao().getHighestEpidNumber(searchPrefix, caze.getUuid(), caze.getDisease());
-
-		int nextNumber = 1;
-		if (highestEpidNumber != null && highestEpidNumber.startsWith(searchPrefix)) {
-			Integer suffixNumber = DataHelper.tryParseInt(highestEpidNumber.substring(searchPrefix.length()).replaceAll("\\D", ""));
-			if (suffixNumber != null) {
-				nextNumber = suffixNumber + 1;
-			}
-		}
-
-		return searchPrefix + String.format(Locale.ENGLISH, "%03d", nextNumber);
-	}
-
-	private String generateGambiaEpidNumber(Case caze, String year) {
-		String diseaseCode = CaseLogic.getGambiaDiseaseEpidCode(caze.getDisease());
-		if (diseaseCode == null) {
-			return null;
-		}
-
-		String regionEpidCode = caze.getResponsibleRegion().getEpidCode();
-		String[] regionParts = splitRegionEpidCode(regionEpidCode);
-		String regionCode = regionParts != null
-			? getEpidCodePart(regionParts[1], null)
-			: getEpidCodePart(regionEpidCode, caze.getResponsibleRegion().getName());
-		String districtCode = getEpidCodePart(caze.getResponsibleDistrict().getEpidCode(), caze.getResponsibleDistrict().getName());
-		if (StringUtils.isAnyBlank(regionCode, districtCode)) {
-			return caze.getEpidNumber();
-		}
-
-		String highestEpidNumber =
-			DatabaseHelper.getCaseDao().getHighestGambiaEpidNumber(diseaseCode, year, caze.getUuid(), caze.getDisease());
-		int nextNumber = 1;
-		int highestSerial = CaseLogic.parseEpidSerial(highestEpidNumber);
-		if (highestSerial >= 0) {
-			nextNumber = highestSerial + 1;
-		}
-
-		return CaseLogic.buildGambiaEpidNumber(regionCode, districtCode, diseaseCode, year, nextNumber);
-	}
-
-	private boolean usesGambiaEpidFormat(Case caze) {
-		return CaseLogic.usesGambiaEpidFormat(
-			ConfigProvider.isConfiguredServer(CountryHelper.COUNTRY_CODE_GAMBIA),
-			caze.getResponsibleRegion() != null ? caze.getResponsibleRegion().getEpidCode() : null,
-			null);
-	}
-
-	private String getCountryEpidCode() {
-		if (ConfigProvider.isConfiguredServer(CountryHelper.COUNTRY_CODE_GAMBIA)) {
-			return "GAM";
-		}
-
-		String countryCode = ConfigProvider.getServerCountryCode();
-		if (StringUtils.length(countryCode) == 2) {
-			try {
-				return new Locale("", countryCode.toUpperCase(Locale.ENGLISH)).getISO3Country().toUpperCase(Locale.ENGLISH);
-			} catch (RuntimeException ignored) {
-				// Fall back to the sanitized country name below.
-			}
-		}
-
-		return getEpidCodePart(countryCode, ConfigProvider.getServerCountryName());
-	}
-
-	private String getEpidCodePart(String epidCode, String fallbackName) {
-		String normalizedEpidCode = normalizeEpidCode(epidCode);
-		if (StringUtils.length(normalizedEpidCode) >= 3) {
-			return normalizedEpidCode.substring(0, 3);
-		}
-
-		String normalizedFallback = normalizeEpidCode(fallbackName);
-		if (StringUtils.length(normalizedFallback) >= 3) {
-			return normalizedFallback.substring(0, 3);
-		}
-
-		return null;
-	}
-
-	private String normalizeEpidCode(String value) {
-		return value != null ? value.replaceAll("[^A-Za-z0-9]", "").toUpperCase(Locale.ENGLISH) : "";
-	}
-
-	/**
-	 * Splits a region epid code stored as "<country>-<region>" (e.g. "GMB-CRR") into its country and region parts.
-	 * Returns null when the code does not contain a usable dash-separated country/region pair.
-	 */
-	private String[] splitRegionEpidCode(String regionEpidCode) {
-		if (StringUtils.isBlank(regionEpidCode)) {
-			return null;
-		}
-
-		String value = regionEpidCode.trim().toUpperCase(Locale.ENGLISH);
-		int dash = value.indexOf('-');
-		if (dash <= 0 || dash >= value.length() - 1) {
-			return null;
-		}
-
-		String countryPart = value.substring(0, dash).replaceAll("[^A-Z0-9]", "");
-		String regionPart = value.substring(dash + 1).replaceAll("[^A-Z0-9]", "");
-		if (StringUtils.isAnyBlank(countryPart, regionPart)) {
-			return null;
-		}
-
-		return new String[] {
-			countryPart,
-			regionPart };
 	}
 
 	@Override
