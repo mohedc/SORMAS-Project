@@ -29,10 +29,16 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import android.Manifest;
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.pm.PackageManager;
 import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import de.symeda.sormas.api.CountryHelper;
@@ -113,6 +119,9 @@ import de.symeda.sormas.app.util.InfrastructureFieldsDependencyHandler;
 import de.symeda.sormas.app.util.LocationService;
 
 public class CaseEditFragment extends BaseEditFragment<FragmentCaseEditLayoutBinding, Case, Case> {
+
+	private static final int LOCATION_PERMISSION_REQUEST_CODE = 9001;
+	private static final long GPS_FIX_TIMEOUT_MS = 45000;
 
 	public static final String TAG = CaseEditFragment.class.getSimpleName();
 
@@ -698,6 +707,14 @@ public class CaseEditFragment extends BaseEditFragment<FragmentCaseEditLayoutBin
 		CaseValidator.initializeProhibitionToWorkIntervalValidator(contentBinding);
 
 		contentBinding.caseDataPickGpsCoordinates.setOnClickListener(v -> {
+			if (!requestLocationPermissionIfNeeded()) {
+				return;
+			}
+			if (!LocationService.instance().hasGpsEnabled()) {
+				LocationService.instance().buildEnableGpsDialog(getActivity()).show();
+				return;
+			}
+
 			final ConfirmationDialog confirmationDialog = new ConfirmationDialog(
 				getActivity(),
 				R.string.heading_confirmation_dialog,
@@ -705,16 +722,7 @@ public class CaseEditFragment extends BaseEditFragment<FragmentCaseEditLayoutBin
 				R.string.yes,
 				R.string.no);
 
-			confirmationDialog.setPositiveCallback(() -> {
-				android.location.Location phoneLocation = LocationService.instance().getLocation(getActivity());
-				if (phoneLocation != null) {
-					contentBinding.caseDataReportLat.setDoubleValue(phoneLocation.getLatitude());
-					contentBinding.caseDataReportLon.setDoubleValue(phoneLocation.getLongitude());
-					contentBinding.caseDataReportLatLonAccuracy.setFloatValue(phoneLocation.getAccuracy());
-				} else {
-					NotificationHelper.showNotification(getContentBinding(), NotificationType.WARNING, R.string.message_gps_problem);
-				}
-			});
+			confirmationDialog.setPositiveCallback(this::pickAndApplyCurrentGpsCoordinates);
 			confirmationDialog.show();
 		});
 
@@ -744,6 +752,62 @@ public class CaseEditFragment extends BaseEditFragment<FragmentCaseEditLayoutBin
 		if (disease == Disease.CONGENITAL_RUBELLA) {
 			handleCongenitalRubella(getContentBinding());
 		}
+	}
+
+	/**
+	 * Requests location permission when it has not been granted yet (same as LocationDialog).
+	 *
+	 * @return true if permission is already granted
+	 */
+	private boolean requestLocationPermissionIfNeeded() {
+		Activity activity = getActivity();
+		if (activity == null) {
+			return false;
+		}
+
+		if (ContextCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+			return true;
+		}
+
+		ActivityCompat.requestPermissions(
+			activity,
+			new String[] {
+				Manifest.permission.ACCESS_FINE_LOCATION },
+			LOCATION_PERMISSION_REQUEST_CODE);
+		return false;
+	}
+
+	private void pickAndApplyCurrentGpsCoordinates() {
+		if (!requestLocationPermissionIfNeeded()) {
+			return;
+		}
+		if (!LocationService.instance().hasGpsEnabled()) {
+			LocationService.instance().buildEnableGpsDialog(getActivity()).show();
+			return;
+		}
+
+		final ProgressDialog progressDialog = new ProgressDialog(getActivity());
+		progressDialog.setMessage(getString(R.string.message_gps_getting));
+		progressDialog.setCancelable(false);
+		progressDialog.show();
+
+		LocationService.instance().requestAccurateCurrentLocation(getActivity(), GPS_FIX_TIMEOUT_MS, location -> {
+			if (progressDialog.isShowing()) {
+				progressDialog.dismiss();
+			}
+			if (location != null && LocationService.isGpsAccuracyAcceptable(location.getAccuracy())) {
+				applyGpsCoordinates(location);
+			} else {
+				NotificationHelper.showNotification(getContentBinding(), NotificationType.WARNING, R.string.message_gps_accuracy_problem);
+			}
+		});
+	}
+
+	private void applyGpsCoordinates(android.location.Location phoneLocation) {
+		FragmentCaseEditLayoutBinding binding = getContentBinding();
+		binding.caseDataReportLat.setDoubleValue(phoneLocation.getLatitude());
+		binding.caseDataReportLon.setDoubleValue(phoneLocation.getLongitude());
+		binding.caseDataReportLatLonAccuracy.setFloatValue(phoneLocation.getAccuracy());
 	}
 
 	private void fillConfirmedCaseClassificationCombo() {

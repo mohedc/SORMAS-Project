@@ -576,6 +576,8 @@
     <string name="message_gps_activation">SORMAS needs access to your GPS location for all of its features to work as intended. Please click on \"Turn On GPS\" to enable the required functionality on your device.</string>
     <string name="message_gps_permission">SORMAS needs access to your GPS location for all of its features to work as intended. Please click on \"Allow GPS Access\" to allow SORMAS to access the required functionality on your device.</string>
     <string name="message_gps_problem">No GPS coordinates could be found.</string>
+    <string name="message_gps_getting">Getting accurate GPS coordinates…</string>
+    <string name="message_gps_accuracy_problem">Could not get accurate GPS coordinates. Accuracy must be between 1 and 5 meters. Please try again outdoors with a clear view of the sky.</string>
     <string name="message_http_401">Could not authenticate. Please check your username and password.</string>
     <string name="message_http_403">You do not have the needed permissions. Please contact the support.</string>
     <string name="message_http_404">Could not find a SORMAS server at \'%s\'</string>

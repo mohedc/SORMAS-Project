@@ -19,10 +19,16 @@ import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 import static de.symeda.sormas.app.core.notification.NotificationType.ERROR;
 
+import android.Manifest;
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.util.Log;
 import android.view.View;
 
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.ViewDataBinding;
 import androidx.databinding.library.baseAdapters.BR;
 import androidx.fragment.app.FragmentActivity;
@@ -37,7 +43,6 @@ import de.symeda.sormas.api.Disease;
 import de.symeda.sormas.api.FormType;
 import de.symeda.sormas.api.i18n.I18nProperties;
 import de.symeda.sormas.api.i18n.Strings;
-import de.symeda.sormas.api.i18n.Validations;
 import de.symeda.sormas.api.infrastructure.area.AreaType;
 import de.symeda.sormas.api.infrastructure.facility.FacilityType;
 import de.symeda.sormas.api.infrastructure.facility.FacilityTypeGroup;
@@ -68,6 +73,9 @@ import de.symeda.sormas.app.util.LocationService;
 public class LocationDialog extends FormDialog {
 
 	public static final String TAG = LocationDialog.class.getSimpleName();
+
+	private static final int LOCATION_PERMISSION_REQUEST_CODE = 9001;
+	private static final long GPS_FIX_TIMEOUT_MS = 45000;
 
 	private Location data;
 	private Facility previousFacility;
@@ -181,8 +189,16 @@ public class LocationDialog extends FormDialog {
 
 		contentBinding.locationAreaType.initializeSpinner(DataUtils.getEnumItems(AreaType.class));
 
-		// "Pick GPS Coordinates" confirmation dialog
+		// "Pick GPS Coordinates" — request permission here in the Location dialog when missing
 		this.contentBinding.pickGpsCoordinates.setOnClickListener(v -> {
+			if (!requestLocationPermissionIfNeeded()) {
+				return;
+			}
+			if (!LocationService.instance().hasGpsEnabled()) {
+				LocationService.instance().buildEnableGpsDialog(getActivity()).show();
+				return;
+			}
+
 			final ConfirmationDialog confirmationDialog = new ConfirmationDialog(
 				getActivity(),
 				R.string.heading_confirmation_dialog,
@@ -190,16 +206,7 @@ public class LocationDialog extends FormDialog {
 				R.string.yes,
 				R.string.no);
 
-			confirmationDialog.setPositiveCallback(() -> {
-				android.location.Location phoneLocation = LocationService.instance().getLocation(getActivity());
-				if (phoneLocation != null) {
-					contentBinding.locationLatitude.setDoubleValue(phoneLocation.getLatitude());
-					contentBinding.locationLongitude.setDoubleValue(phoneLocation.getLongitude());
-					contentBinding.locationLatLonAccuracy.setFloatValue(phoneLocation.getAccuracy());
-				} else {
-					NotificationHelper.showDialogNotification(LocationDialog.this, NotificationType.WARNING, R.string.message_gps_problem);
-				}
-			});
+			confirmationDialog.setPositiveCallback(this::pickAndApplyCurrentGpsCoordinates);
 			confirmationDialog.show();
 		});
 
@@ -295,6 +302,63 @@ public class LocationDialog extends FormDialog {
 
 		ValidationHelper.initEmailValidator(contentBinding.locationContactPersonEmail);
 		ValidationHelper.initPhoneNumberValidator(contentBinding.locationContactPersonPhone);
+	}
+
+	/**
+	 * Requests location permission from this Location dialog when it has not been granted yet.
+	 *
+	 * @return true if permission is already granted
+	 */
+	private boolean requestLocationPermissionIfNeeded() {
+		Activity activity = getActivity();
+		if (activity == null) {
+			return false;
+		}
+
+		if (ContextCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+			return true;
+		}
+
+		// System location permission dialog — pressed from Location dialog itself
+		ActivityCompat.requestPermissions(
+			activity,
+			new String[] {
+				Manifest.permission.ACCESS_FINE_LOCATION },
+			LOCATION_PERMISSION_REQUEST_CODE);
+		return false;
+	}
+
+	private void pickAndApplyCurrentGpsCoordinates() {
+		if (!requestLocationPermissionIfNeeded()) {
+			return;
+		}
+		if (!LocationService.instance().hasGpsEnabled()) {
+			LocationService.instance().buildEnableGpsDialog(getActivity()).show();
+			return;
+		}
+
+		final ProgressDialog progressDialog = new ProgressDialog(getActivity());
+		progressDialog.setMessage(getActivity().getString(R.string.message_gps_getting));
+		progressDialog.setCancelable(false);
+		progressDialog.show();
+
+		LocationService.instance().requestAccurateCurrentLocation(getActivity(), GPS_FIX_TIMEOUT_MS, location -> {
+			if (progressDialog.isShowing()) {
+				progressDialog.dismiss();
+			}
+			if (location != null && LocationService.isGpsAccuracyAcceptable(location.getAccuracy())) {
+				applyGpsCoordinates(location);
+			} else {
+				NotificationHelper
+					.showDialogNotification(LocationDialog.this, NotificationType.WARNING, R.string.message_gps_accuracy_problem);
+			}
+		});
+	}
+
+	private void applyGpsCoordinates(android.location.Location phoneLocation) {
+		contentBinding.locationLatitude.setDoubleValue(phoneLocation.getLatitude());
+		contentBinding.locationLongitude.setDoubleValue(phoneLocation.getLongitude());
+		contentBinding.locationLatLonAccuracy.setFloatValue(phoneLocation.getAccuracy());
 	}
 
 	private void overrideLocationDetailsWithFacilityOnes(Facility facility) {

@@ -22,6 +22,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
+import android.location.Criteria;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
@@ -172,6 +173,226 @@ public final class LocationService {
 		locationManager.requestSingleUpdate(LocationManager.NETWORK_PROVIDER, new BestKnownLocationListener(), Looper.getMainLooper());
 	}
 
+	/**
+	 * Last known GPS/network location without country filtering.
+	 * Use when the user explicitly picks their current position for an address.
+	 */
+	public Location getLastKnownLocationRaw() {
+		if (!hasGpsAccess()) {
+			return null;
+		}
+
+		LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+		Location gpsLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+		Location networkLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+
+		if (gpsLocation == null) {
+			return networkLocation;
+		}
+		if (networkLocation == null) {
+			return gpsLocation;
+		}
+
+		// Prefer the more recent reading; if equally recent, prefer the more accurate one
+		long timeDelta = gpsLocation.getTime() - networkLocation.getTime();
+		if (timeDelta > SIGNIFICANTLY_NEWER_DELTA) {
+			return gpsLocation;
+		}
+		if (timeDelta < -SIGNIFICANTLY_NEWER_DELTA) {
+			return networkLocation;
+		}
+		return gpsLocation.getAccuracy() <= networkLocation.getAccuracy() ? gpsLocation : networkLocation;
+	}
+
+	public static final float MIN_GPS_ACCURACY_METERS = 1f;
+	public static final float MAX_GPS_ACCURACY_METERS = 5f;
+
+	/**
+	 * GPS accuracy (m) must be between 1 and 5 inclusive.
+	 */
+	public static boolean isGpsAccuracyAcceptable(float accuracyMeters) {
+		return accuracyMeters >= MIN_GPS_ACCURACY_METERS && accuracyMeters <= MAX_GPS_ACCURACY_METERS;
+	}
+
+	/**
+	 * Requests continuous high-accuracy GPS updates until a fix with accuracy between 1 and 5 meters
+	 * is available, or the timeout elapses. Prefers the GPS provider (not network) to improve accuracy.
+	 * Invokes the callback with the acceptable location, or null if none could be obtained in time.
+	 */
+	public void requestAccurateCurrentLocation(Activity callingActivity, long timeoutMillis, java.util.function.Consumer<Location> callback) {
+		if (!hasGpsAccess() || !hasGpsEnabled()) {
+			callback.accept(null);
+			return;
+		}
+
+		LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+		final boolean[] delivered = {
+			false };
+		final Location[] bestLocation = {
+			null };
+
+		// Accept a recent cached GPS fix only if it already meets the accuracy requirement
+		Location cachedGps = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+		if (cachedGps != null && isGpsAccuracyAcceptable(cachedGps.getAccuracy())) {
+			bestKnownLocation = cachedGps;
+			callback.accept(cachedGps);
+			return;
+		}
+		if (cachedGps != null) {
+			bestLocation[0] = cachedGps;
+		}
+
+		LocationListener listener = new LocationListener() {
+
+			@Override
+			public void onLocationChanged(Location location) {
+				if (delivered[0] || location == null || !location.hasAccuracy()) {
+					return;
+				}
+
+				if (bestLocation[0] == null || location.getAccuracy() < bestLocation[0].getAccuracy()) {
+					bestLocation[0] = location;
+				}
+
+				if (!isGpsAccuracyAcceptable(location.getAccuracy())) {
+					return;
+				}
+
+				delivered[0] = true;
+				bestKnownLocation = location;
+				try {
+					locationManager.removeUpdates(this);
+				} catch (Exception ignored) {
+				}
+				callback.accept(location);
+			}
+
+			@Override
+			public void onStatusChanged(String provider, int status, Bundle extras) {
+			}
+
+			@Override
+			public void onProviderEnabled(String provider) {
+			}
+
+			@Override
+			public void onProviderDisabled(String provider) {
+			}
+		};
+
+		try {
+			// Continuous fine GPS updates so accuracy can improve over a few seconds
+			if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+				locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 500, 0, listener, Looper.getMainLooper());
+			}
+
+			Criteria criteria = new Criteria();
+			criteria.setAccuracy(Criteria.ACCURACY_FINE);
+			criteria.setPowerRequirement(Criteria.POWER_HIGH);
+			criteria.setAltitudeRequired(false);
+			criteria.setBearingRequired(false);
+			criteria.setSpeedRequired(false);
+			String bestProvider = locationManager.getBestProvider(criteria, true);
+			if (bestProvider != null
+				&& !LocationManager.GPS_PROVIDER.equals(bestProvider)
+				&& !LocationManager.NETWORK_PROVIDER.equals(bestProvider)) {
+				locationManager.requestLocationUpdates(bestProvider, 500, 0, listener, Looper.getMainLooper());
+			}
+		} catch (SecurityException | IllegalArgumentException e) {
+			Log.e(LocationService.class.getName(), "Error while requesting accurate location", e);
+			callback.accept(null);
+			return;
+		}
+
+		new android.os.Handler(Looper.getMainLooper()).postDelayed(() -> {
+			if (delivered[0]) {
+				return;
+			}
+			delivered[0] = true;
+			try {
+				locationManager.removeUpdates(listener);
+			} catch (Exception ignored) {
+			}
+
+			Location best = bestLocation[0];
+			if (best != null && isGpsAccuracyAcceptable(best.getAccuracy())) {
+				bestKnownLocation = best;
+				callback.accept(best);
+			} else {
+				callback.accept(null);
+			}
+		}, timeoutMillis);
+	}
+
+	/**
+	 * Requests a single fresh location update and delivers it to the callback (without country filtering).
+	 * Invokes the callback with null if no fix arrives within the timeout.
+	 */
+	public void requestSingleCurrentLocation(Activity callingActivity, long timeoutMillis, java.util.function.Consumer<Location> callback) {
+		if (!hasGpsAccess()) {
+			callback.accept(null);
+			return;
+		}
+
+		LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+		final boolean[] delivered = {
+			false };
+
+		LocationListener listener = new LocationListener() {
+
+			@Override
+			public void onLocationChanged(Location location) {
+				if (delivered[0] || location == null) {
+					return;
+				}
+				delivered[0] = true;
+				bestKnownLocation = location;
+				try {
+					locationManager.removeUpdates(this);
+				} catch (Exception ignored) {
+				}
+				callback.accept(location);
+			}
+
+			@Override
+			public void onStatusChanged(String provider, int status, Bundle extras) {
+			}
+
+			@Override
+			public void onProviderEnabled(String provider) {
+			}
+
+			@Override
+			public void onProviderDisabled(String provider) {
+			}
+		};
+
+		try {
+			if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+				locationManager.requestSingleUpdate(LocationManager.GPS_PROVIDER, listener, Looper.getMainLooper());
+			}
+			if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+				locationManager.requestSingleUpdate(LocationManager.NETWORK_PROVIDER, listener, Looper.getMainLooper());
+			}
+		} catch (SecurityException | IllegalArgumentException e) {
+			Log.e(LocationService.class.getName(), "Error while requesting current location", e);
+			callback.accept(null);
+			return;
+		}
+
+		new android.os.Handler(Looper.getMainLooper()).postDelayed(() -> {
+			if (delivered[0]) {
+				return;
+			}
+			delivered[0] = true;
+			try {
+				locationManager.removeUpdates(listener);
+			} catch (Exception ignored) {
+			}
+			callback.accept(getLastKnownLocationRaw());
+		}, timeoutMillis);
+	}
+
 	public static final class BestKnownLocationListener implements LocationListener {
 
 		@Override
@@ -199,7 +420,7 @@ public final class LocationService {
 
 	public Location getLocation(Activity callingActivity) {
 
-		if (ConfigProvider.getUser() == null || !validateGpsAccessAndEnabled(callingActivity)) {
+		if (ConfigProvider.getUser() == null || !ensureGpsAccessAndEnabled(callingActivity)) {
 			return null;
 		}
 
@@ -325,16 +546,29 @@ public final class LocationService {
 	public boolean validateGpsAccessAndEnabled(final Activity callingActivity) {
 
 		if (DatabaseHelper.getFeatureConfigurationDao().isAnySurveillanceEnabled()) {
-			if (!LocationService.instance().hasGpsAccess()) {
-				buildAndShowRequestGpsAccessDialog(callingActivity);
-				return false;
-			}
+			return ensureGpsAccessAndEnabled(callingActivity);
+		}
 
-			if (!LocationService.instance().hasGpsEnabled()) {
-				AlertDialog turnOnGPSDialog = buildEnableGpsDialog(callingActivity);
-				turnOnGPSDialog.show();
-				return false;
-			}
+		return true;
+	}
+
+	/**
+	 * Ensures the app has location permission and that GPS is turned on.
+	 * Shows the permission or GPS-enable dialog when needed.
+	 * Always runs when the user explicitly picks GPS (not gated by feature flags).
+	 *
+	 * @return true if GPS can be used right now
+	 */
+	public boolean ensureGpsAccessAndEnabled(final Activity callingActivity) {
+		if (!hasGpsAccess()) {
+			buildAndShowRequestGpsAccessDialog(callingActivity);
+			return false;
+		}
+
+		if (!hasGpsEnabled()) {
+			AlertDialog turnOnGPSDialog = buildEnableGpsDialog(callingActivity);
+			turnOnGPSDialog.show();
+			return false;
 		}
 
 		return true;
@@ -347,7 +581,10 @@ public final class LocationService {
 	 * @param callingActivity
 	 */
 	private void buildAndShowRequestGpsAccessDialog(final Activity callingActivity) {
-		if (requestGpsAccessDialog != null && LocationService.instance().hasGpsAccess()) {
+		if (hasGpsAccess()) {
+			return;
+		}
+		if (requestGpsAccessDialog != null && requestGpsAccessDialog.isShowing()) {
 			return;
 		}
 
