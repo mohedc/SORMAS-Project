@@ -217,7 +217,8 @@ public final class LocationService {
 	/**
 	 * Requests continuous high-accuracy GPS updates until a fix with accuracy between 1 and 5 meters
 	 * is available, or the timeout elapses. Prefers the GPS provider (not network) to improve accuracy.
-	 * Invokes the callback with the acceptable location, or null if none could be obtained in time.
+	 * On timeout, returns the best location obtained so far (even if accuracy is outside 1–5 m),
+	 * or null if no fix was received.
 	 */
 	public void requestAccurateCurrentLocation(Activity callingActivity, long timeoutMillis, java.util.function.Consumer<Location> callback) {
 		if (!hasGpsAccess() || !hasGpsEnabled()) {
@@ -315,7 +316,7 @@ public final class LocationService {
 			}
 
 			Location best = bestLocation[0];
-			if (best != null && isGpsAccuracyAcceptable(best.getAccuracy())) {
+			if (best != null) {
 				bestKnownLocation = best;
 				callback.accept(best);
 			} else {

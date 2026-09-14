@@ -346,9 +346,13 @@ public class LocationDialog extends FormDialog {
 			if (progressDialog.isShowing()) {
 				progressDialog.dismiss();
 			}
-			if (location != null && LocationService.isGpsAccuracyAcceptable(location.getAccuracy())) {
-				applyGpsCoordinates(location);
-			} else {
+			if (location == null) {
+				NotificationHelper.showDialogNotification(LocationDialog.this, NotificationType.WARNING, R.string.message_gps_problem);
+				return;
+			}
+
+			applyGpsCoordinates(location);
+			if (!LocationService.isGpsAccuracyAcceptable(location.getAccuracy())) {
 				NotificationHelper
 					.showDialogNotification(LocationDialog.this, NotificationType.WARNING, R.string.message_gps_accuracy_problem);
 			}

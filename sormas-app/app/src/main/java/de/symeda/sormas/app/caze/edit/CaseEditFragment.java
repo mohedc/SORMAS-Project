@@ -795,9 +795,13 @@ public class CaseEditFragment extends BaseEditFragment<FragmentCaseEditLayoutBin
 			if (progressDialog.isShowing()) {
 				progressDialog.dismiss();
 			}
-			if (location != null && LocationService.isGpsAccuracyAcceptable(location.getAccuracy())) {
-				applyGpsCoordinates(location);
-			} else {
+			if (location == null) {
+				NotificationHelper.showNotification(getContentBinding(), NotificationType.WARNING, R.string.message_gps_problem);
+				return;
+			}
+
+			applyGpsCoordinates(location);
+			if (!LocationService.isGpsAccuracyAcceptable(location.getAccuracy())) {
 				NotificationHelper.showNotification(getContentBinding(), NotificationType.WARNING, R.string.message_gps_accuracy_problem);
 			}
 		});
