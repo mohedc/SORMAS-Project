@@ -119,7 +119,7 @@ public class PreviousHospitalizationEditForm extends AbstractEditForm<PreviousHo
 
 		facilityTypeCombo = addField(PreviousHospitalizationDto.FACILITY_TYPE, ComboBox.class);
 		FieldHelper.updateEnumData(facilityTypeCombo, MedicalFacilityHelper.getMedicalFacilityTypes());
-		facilityTypeCombo.setReadOnly(true);
+		facilityTypeCombo.setEnabled(false);
 		regionCombo = addInfrastructureField(PreviousHospitalizationDto.REGION);
 		districtCombo = addInfrastructureField(PreviousHospitalizationDto.DISTRICT);
 		ComboBox facilityCommunity = addInfrastructureField(PreviousHospitalizationDto.COMMUNITY);

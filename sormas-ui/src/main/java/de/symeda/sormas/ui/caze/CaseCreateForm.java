@@ -329,7 +329,7 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 		getContent().addComponent(facilityTypeGroup, FACILITY_TYPE_GROUP_LOC);
 		facilityType = addField(CaseDataDto.FACILITY_TYPE, ComboBox.class);
 		facilityType.setWidth(100, Unit.PERCENTAGE);
-		facilityType.setReadOnly(true);
+		facilityType.setEnabled(false);
 		facilityCombo = addInfrastructureField(CaseDataDto.HEALTH_FACILITY);
 		facilityCombo.setImmediate(true);
 

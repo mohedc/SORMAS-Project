@@ -252,7 +252,7 @@ public class HospitalizationForm extends AbstractEditForm<HospitalizationDto> {
 		admissionDistrictCombo = addInfrastructureField(HospitalizationDto.ADMISSION_DISTRICT);
 		admissionFacilityTypeCombo = addField(HospitalizationDto.ADMISSION_FACILITY_TYPE, ComboBox.class);
 		FieldHelper.updateEnumData(admissionFacilityTypeCombo, MedicalFacilityHelper.getMedicalFacilityTypes());
-		admissionFacilityTypeCombo.setReadOnly(true);
+		admissionFacilityTypeCombo.setEnabled(false);
 		admissionHealthFacilityCombo = addInfrastructureField(HospitalizationDto.ADMISSION_HEALTH_FACILITY);
 		final TextField admissionHealthFacilityDetails = addField(HospitalizationDto.ADMISSION_HEALTH_FACILITY_DETAILS, TextField.class);
 		admissionRegionCombo.setVisible(false);

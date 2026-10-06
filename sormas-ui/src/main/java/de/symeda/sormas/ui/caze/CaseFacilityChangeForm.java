@@ -108,7 +108,7 @@ public class CaseFacilityChangeForm extends AbstractEditForm<CaseDataDto> {
 		type.setCaption(I18nProperties.getPrefixCaption(FacilityDto.I18N_PREFIX, FacilityDto.TYPE));
 		type.setWidth(100, Unit.PERCENTAGE);
 		type.setVisible(false);
-		type.setReadOnly(true);
+		type.setEnabled(false);
 		getContent().addComponent(type, TYPE_LOC);
 		ComboBox facility = addInfrastructureField(CaseDataDto.HEALTH_FACILITY);
 		facility.setVisible(false);
