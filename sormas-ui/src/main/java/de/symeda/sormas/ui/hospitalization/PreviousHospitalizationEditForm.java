@@ -43,8 +43,6 @@ import de.symeda.sormas.api.infrastructure.community.CommunityReferenceDto;
 import de.symeda.sormas.api.infrastructure.district.DistrictReferenceDto;
 import de.symeda.sormas.api.infrastructure.facility.FacilityDto;
 import de.symeda.sormas.api.infrastructure.facility.FacilityReferenceDto;
-import de.symeda.sormas.api.infrastructure.facility.FacilityType;
-import de.symeda.sormas.api.infrastructure.facility.FacilityTypeGroup;
 import de.symeda.sormas.api.infrastructure.region.RegionReferenceDto;
 import de.symeda.sormas.api.utils.YesNoUnknown;
 import de.symeda.sormas.api.utils.fieldaccess.UiFieldAccessCheckers;
@@ -52,6 +50,7 @@ import de.symeda.sormas.api.utils.fieldvisibility.FieldVisibilityCheckers;
 import de.symeda.sormas.ui.utils.AbstractEditForm;
 import de.symeda.sormas.ui.utils.DateComparisonValidator;
 import de.symeda.sormas.ui.utils.FieldHelper;
+import de.symeda.sormas.ui.utils.MedicalFacilityHelper;
 import de.symeda.sormas.ui.utils.NullableOptionGroup;
 
 public class PreviousHospitalizationEditForm extends AbstractEditForm<PreviousHospitalizationDto> {
@@ -119,7 +118,8 @@ public class PreviousHospitalizationEditForm extends AbstractEditForm<PreviousHo
 		addField(PreviousHospitalizationDto.DESCRIPTION, TextArea.class).setRows(4);
 
 		facilityTypeCombo = addField(PreviousHospitalizationDto.FACILITY_TYPE, ComboBox.class);
-		FieldHelper.updateEnumData(facilityTypeCombo, FacilityType.getAccommodationTypes(FacilityTypeGroup.MEDICAL_FACILITY));
+		FieldHelper.updateEnumData(facilityTypeCombo, MedicalFacilityHelper.getMedicalFacilityTypes());
+		facilityTypeCombo.setReadOnly(true);
 		regionCombo = addInfrastructureField(PreviousHospitalizationDto.REGION);
 		districtCombo = addInfrastructureField(PreviousHospitalizationDto.DISTRICT);
 		ComboBox facilityCommunity = addInfrastructureField(PreviousHospitalizationDto.COMMUNITY);
@@ -184,10 +184,11 @@ public class PreviousHospitalizationEditForm extends AbstractEditForm<PreviousHo
 
 			updateHealthFacilityItems((CommunityReferenceDto) e.getProperty().getValue());
 		});
-		facilityTypeCombo.addValueChangeListener(e -> updateHealthFacilityItems((CommunityReferenceDto) facilityCommunity.getValue()));
 		regionCombo.addItems(addUnknown(FacadeProvider.getRegionFacade().getAllActiveByServerCountry(), unknownRegion));
 
 		healthFacilityCombo.addValueChangeListener(e -> {
+			MedicalFacilityHelper
+				.setReadOnlyValue(facilityTypeCombo, MedicalFacilityHelper.resolveFacilityType((FacilityReferenceDto) e.getProperty().getValue()));
 			if (e.getProperty().getValue() != null) {
 				boolean otherHealthFacility = ((FacilityReferenceDto) e.getProperty().getValue()).getUuid().equals(FacilityDto.OTHER_FACILITY_UUID);
 				boolean noneHealthFacility = ((FacilityReferenceDto) e.getProperty().getValue()).getUuid().equals(FacilityDto.NONE_FACILITY_UUID);
@@ -270,7 +271,6 @@ public class PreviousHospitalizationEditForm extends AbstractEditForm<PreviousHo
 				true,
 				PreviousHospitalizationDto.REGION,
 				PreviousHospitalizationDto.DISTRICT,
-				PreviousHospitalizationDto.FACILITY_TYPE,
 				PreviousHospitalizationDto.HEALTH_FACILITY);
 		} else {
 			setReadOnly(true, PreviousHospitalizationDto.REGION, PreviousHospitalizationDto.DISTRICT, PreviousHospitalizationDto.FACILITY_TYPE);
@@ -285,16 +285,7 @@ public class PreviousHospitalizationEditForm extends AbstractEditForm<PreviousHo
 	private void updateHealthFacilityItems(CommunityReferenceDto community) {
 		DistrictReferenceDto district = (DistrictReferenceDto) districtCombo.getValue();
 		boolean isDistrictEmpty = district == null || district.equals(unknownDistrict);
-		FacilityType facilityType = (FacilityType) facilityTypeCombo.getValue();
-
-		List<FacilityReferenceDto> facilities = null;
-		if (facilityType != null) {
-			if (community != null) {
-				facilities = FacadeProvider.getFacilityFacade().getActiveFacilitiesByCommunityAndType(community, facilityType, true, false);
-			} else if (!isDistrictEmpty) {
-				facilities = FacadeProvider.getFacilityFacade().getActiveFacilitiesByDistrictAndType(district, facilityType, true, false);
-			}
-		}
+		List<FacilityReferenceDto> facilities = MedicalFacilityHelper.getMedicalFacilities(isDistrictEmpty ? null : district, community);
 
 		FieldHelper.updateItems(healthFacilityCombo, addUnknown(facilities, unknownFacility));
 	}
@@ -332,8 +323,8 @@ public class PreviousHospitalizationEditForm extends AbstractEditForm<PreviousHo
 
 	@Override
 	public void setValue(PreviousHospitalizationDto newFieldValue) throws ReadOnlyException, Converter.ConversionException {
-		if (newFieldValue != null && newFieldValue.getFacilityType() == null) {
-			newFieldValue.setFacilityType(FacilityType.HOSPITAL);
+		if (newFieldValue != null && newFieldValue.getFacilityType() == null && newFieldValue.getHealthFacility() != null) {
+			newFieldValue.setFacilityType(MedicalFacilityHelper.resolveFacilityType(newFieldValue.getHealthFacility()));
 		}
 		super.setValue(newFieldValue);
 

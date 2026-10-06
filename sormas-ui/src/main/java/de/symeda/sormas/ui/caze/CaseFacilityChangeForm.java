@@ -46,6 +46,7 @@ import de.symeda.sormas.ui.utils.AbstractEditForm;
 import de.symeda.sormas.ui.utils.ComboBoxHelper;
 import de.symeda.sormas.ui.utils.CssStyles;
 import de.symeda.sormas.ui.utils.FieldHelper;
+import de.symeda.sormas.ui.utils.MedicalFacilityHelper;
 import de.symeda.sormas.ui.utils.NullableOptionGroup;
 
 public class CaseFacilityChangeForm extends AbstractEditForm<CaseDataDto> {
@@ -107,6 +108,7 @@ public class CaseFacilityChangeForm extends AbstractEditForm<CaseDataDto> {
 		type.setCaption(I18nProperties.getPrefixCaption(FacilityDto.I18N_PREFIX, FacilityDto.TYPE));
 		type.setWidth(100, Unit.PERCENTAGE);
 		type.setVisible(false);
+		type.setReadOnly(true);
 		getContent().addComponent(type, TYPE_LOC);
 		ComboBox facility = addInfrastructureField(CaseDataDto.HEALTH_FACILITY);
 		facility.setVisible(false);
@@ -126,12 +128,7 @@ public class CaseFacilityChangeForm extends AbstractEditForm<CaseDataDto> {
 			FieldHelper.updateItems(
 				community,
 				districtDto != null ? FacadeProvider.getCommunityFacade().getAllActiveByDistrict(districtDto.getUuid()) : null);
-			if (districtDto != null && type.getValue() != null) {
-				FieldHelper.updateItems(
-					facility,
-					FacadeProvider.getFacilityFacade()
-						.getActiveFacilitiesByDistrictAndType(districtDto, (FacilityType) type.getValue(), true, false));
-			}
+			updateFacility(districtDto, (CommunityReferenceDto) community.getValue(), facility);
 			Disease caseDisease = getValue().getDisease();
 			List<UserReferenceDto> assignableCaseResponsibles =
 				FacadeProvider.getUserFacade().getUserRefsByDistrict(districtDto, caseDisease, UserRight.CASE_RESPONSIBLE);
@@ -142,25 +139,8 @@ public class CaseFacilityChangeForm extends AbstractEditForm<CaseDataDto> {
 				officer.setValue(null);
 			}
 		});
-		community.addValueChangeListener(e -> {
-			FieldHelper.removeItems(facility);
-			CommunityReferenceDto communityDto = (CommunityReferenceDto) e.getProperty().getValue();
-			if (type.getValue() != null) {
-				FieldHelper.updateItems(
-					facility,
-					communityDto != null
-						? FacadeProvider.getFacilityFacade()
-							.getActiveFacilitiesByCommunityAndType(communityDto, (FacilityType) type.getValue(), true, false)
-						: district.getValue() != null
-							? FacadeProvider.getFacilityFacade()
-								.getActiveFacilitiesByDistrictAndType(
-									(DistrictReferenceDto) district.getValue(),
-									(FacilityType) type.getValue(),
-									true,
-									false)
-							: null);
-			}
-		});
+		community.addValueChangeListener(
+			e -> updateFacility((DistrictReferenceDto) district.getValue(), (CommunityReferenceDto) e.getProperty().getValue(), facility));
 		facilityOrHome.addValueChangeListener(e -> {
 			FieldHelper.removeItems(facility);
 			if (TypeOfPlace.HOME.equals(facilityOrHome.getValue())) {
@@ -172,14 +152,10 @@ public class CaseFacilityChangeForm extends AbstractEditForm<CaseDataDto> {
 				if (typeGroup.getValue() == null) {
 					typeGroup.setValue(FacilityTypeGroup.MEDICAL_FACILITY);
 				}
-				if (type.getValue() == null && FacilityTypeGroup.MEDICAL_FACILITY.equals(typeGroup.getValue())) {
-					type.setValue(FacilityType.HOSPITAL);
-				}
 				type.setVisible(true);
 				facility.setVisible(true);
 				facility.setRequired(true);
-				if (type.getValue() != null)
-					updateFacility((DistrictReferenceDto) district.getValue(), (CommunityReferenceDto) community.getValue(), facility);
+				updateFacility((DistrictReferenceDto) district.getValue(), (CommunityReferenceDto) community.getValue(), facility);
 			} else {
 				typeGroup.setVisible(false);
 				type.setVisible(false);
@@ -192,34 +168,12 @@ public class CaseFacilityChangeForm extends AbstractEditForm<CaseDataDto> {
 			FieldHelper.removeItems(facility);
 			FieldHelper.updateEnumData(type, FacilityType.getAccommodationTypes((FacilityTypeGroup) typeGroup.getValue()));
 		});
-		type.addValueChangeListener(e -> {
-			FieldHelper.removeItems(facility);
-			if (type.getValue() != null && district.getValue() != null) {
-				if (community.getValue() != null) {
-					FieldHelper.updateItems(
-						facility,
-						FacadeProvider.getFacilityFacade()
-							.getActiveFacilitiesByCommunityAndType(
-								(CommunityReferenceDto) community.getValue(),
-								(FacilityType) type.getValue(),
-								true,
-								false));
-				} else {
-					FieldHelper.updateItems(
-						facility,
-						FacadeProvider.getFacilityFacade()
-							.getActiveFacilitiesByDistrictAndType(
-								(DistrictReferenceDto) district.getValue(),
-								(FacilityType) type.getValue(),
-								true,
-								false));
-				}
-			}
-		});
 		facility.addValueChangeListener(e -> {
 			updateFacilityFields(facility, facilityDetails);
 			if (TypeOfPlace.FACILITY.equals(facilityOrHome.getValue())) {
-				this.getValue().setFacilityType((FacilityType) type.getValue());
+				FacilityType facilityType = MedicalFacilityHelper.resolveFacilityType((FacilityReferenceDto) facility.getValue());
+				MedicalFacilityHelper.setReadOnlyValue(type, facilityType);
+				this.getValue().setFacilityType(facilityType);
 			}
 		});
 		region.addItems(FacadeProvider.getRegionFacade().getAllActiveByServerCountry());
@@ -253,17 +207,12 @@ public class CaseFacilityChangeForm extends AbstractEditForm<CaseDataDto> {
 	}
 
 	private void updateFacility(DistrictReferenceDto district, CommunityReferenceDto community, ComboBox facility) {
+		if (!TypeOfPlace.FACILITY.equals(facilityOrHome.getValue())) {
+			return;
+		}
 		FieldHelper.removeItems(facility);
-		if (type.getValue() != null && district != null) {
-			if (community != null) {
-				FieldHelper.updateItems(
-					facility,
-					FacadeProvider.getFacilityFacade().getActiveFacilitiesByCommunityAndType(community, (FacilityType) type.getValue(), true, false));
-			} else {
-				FieldHelper.updateItems(
-					facility,
-					FacadeProvider.getFacilityFacade().getActiveFacilitiesByDistrictAndType(district, (FacilityType) type.getValue(), true, false));
-			}
+		if (district != null) {
+			FieldHelper.updateItems(facility, MedicalFacilityHelper.getMedicalFacilities(district, community));
 		}
 	}
 

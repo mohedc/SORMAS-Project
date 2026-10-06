@@ -15,6 +15,8 @@
 
 package de.symeda.sormas.backend.infrastructure.facility;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.BiFunction;
@@ -88,6 +90,56 @@ public class FacilityService extends AbstractInfrastructureAdoService<Facility, 
 		cq.orderBy(cb.asc(from.get(Facility.NAME)));
 
 		List<Facility> facilities = em.createQuery(cq).getResultList();
+
+		if (includeOtherFacility) {
+			facilities.add(getByUuid(FacilityDto.OTHER_FACILITY_UUID));
+		}
+		if (includeNoneFacility) {
+			facilities.add(getByUuid(FacilityDto.NONE_FACILITY_UUID));
+		}
+
+		return facilities;
+	}
+
+	public List<Facility> getActiveFacilitiesByCommunityAndTypes(
+		Community community,
+		Collection<FacilityType> types,
+		boolean includeOtherFacility,
+		boolean includeNoneFacility) {
+		return getActiveFacilitiesByJurisdictionAndTypes(Facility.COMMUNITY, community, types, includeOtherFacility, includeNoneFacility);
+	}
+
+	public List<Facility> getActiveFacilitiesByDistrictAndTypes(
+		District district,
+		Collection<FacilityType> types,
+		boolean includeOtherFacility,
+		boolean includeNoneFacility) {
+		return getActiveFacilitiesByJurisdictionAndTypes(Facility.DISTRICT, district, types, includeOtherFacility, includeNoneFacility);
+	}
+
+	private List<Facility> getActiveFacilitiesByJurisdictionAndTypes(
+		String jurisdictionAttribute,
+		Object jurisdiction,
+		Collection<FacilityType> types,
+		boolean includeOtherFacility,
+		boolean includeNoneFacility) {
+
+		List<Facility> facilities = new ArrayList<>();
+		if (types != null && !types.isEmpty()) {
+			CriteriaBuilder cb = em.getCriteriaBuilder();
+			CriteriaQuery<Facility> cq = cb.createQuery(getElementClass());
+			Root<Facility> from = cq.from(getElementClass());
+
+			Predicate filter = cb.and(
+				createBasicFilter(cb, from),
+				from.get(Facility.TYPE).in(types),
+				cb.equal(from.get(jurisdictionAttribute), jurisdiction));
+			cq.where(filter);
+			cq.distinct(true);
+			cq.orderBy(cb.asc(from.get(Facility.NAME)));
+
+			facilities.addAll(em.createQuery(cq).getResultList());
+		}
 
 		if (includeOtherFacility) {
 			facilities.add(getByUuid(FacilityDto.OTHER_FACILITY_UUID));

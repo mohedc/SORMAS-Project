@@ -45,6 +45,18 @@ public interface FacilityFacade extends InfrastructureFacade<FacilityDto, Facili
 		boolean includeOtherFacility,
 		boolean includeNoneFacility);
 
+	List<FacilityReferenceDto> getActiveFacilitiesByCommunityAndTypes(
+		CommunityReferenceDto community,
+		Collection<FacilityType> types,
+		boolean includeOtherFacility,
+		boolean includeNoneFacility);
+
+	List<FacilityReferenceDto> getActiveFacilitiesByDistrictAndTypes(
+		DistrictReferenceDto district,
+		Collection<FacilityType> types,
+		boolean includeOtherFacility,
+		boolean includeNoneFacility);
+
 	List<FacilityReferenceDto> getActiveHospitalsByCommunity(CommunityReferenceDto community, boolean includeOtherFacility);
 
 	List<FacilityReferenceDto> getActiveHospitalsByDistrict(DistrictReferenceDto district, boolean includeOtherFacility);

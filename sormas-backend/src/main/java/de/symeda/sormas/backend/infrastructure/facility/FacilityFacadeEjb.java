@@ -130,6 +130,32 @@ public class FacilityFacadeEjb
 
 	@Override
 	@PermitAll
+	public List<FacilityReferenceDto> getActiveFacilitiesByCommunityAndTypes(
+		CommunityReferenceDto communityRef,
+		Collection<FacilityType> types,
+		boolean includeOtherFacility,
+		boolean includeNoneFacility) {
+
+		Community community = communityService.getByUuid(communityRef.getUuid());
+		List<Facility> facilities = service.getActiveFacilitiesByCommunityAndTypes(community, types, includeOtherFacility, includeNoneFacility);
+		return facilities.stream().map(FacilityFacadeEjb::toReferenceDto).collect(Collectors.toList());
+	}
+
+	@Override
+	@PermitAll
+	public List<FacilityReferenceDto> getActiveFacilitiesByDistrictAndTypes(
+		DistrictReferenceDto districtRef,
+		Collection<FacilityType> types,
+		boolean includeOtherFacility,
+		boolean includeNoneFacility) {
+
+		District district = districtService.getByUuid(districtRef.getUuid());
+		List<Facility> facilities = service.getActiveFacilitiesByDistrictAndTypes(district, types, includeOtherFacility, includeNoneFacility);
+		return facilities.stream().map(FacilityFacadeEjb::toReferenceDto).collect(Collectors.toList());
+	}
+
+	@Override
+	@PermitAll
 	public List<FacilityReferenceDto> getActiveHospitalsByCommunity(CommunityReferenceDto communityRef, boolean includeOtherFacility) {
 		Community community = communityService.getByUuid(communityRef.getUuid());
 		List<Facility> facilities = service.getActiveFacilitiesByCommunityAndType(community, FacilityType.HOSPITAL, includeOtherFacility, false);
