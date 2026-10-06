@@ -37,7 +37,6 @@ import de.symeda.sormas.api.customizableenum.CustomizableEnumType;
 import de.symeda.sormas.api.disease.DiseaseVariant;
 import de.symeda.sormas.api.event.TypeOfPlace;
 import de.symeda.sormas.api.infrastructure.facility.FacilityDto;
-import de.symeda.sormas.api.infrastructure.facility.FacilityType;
 import de.symeda.sormas.api.infrastructure.facility.FacilityTypeGroup;
 import de.symeda.sormas.api.person.ApproximateAgeType;
 import de.symeda.sormas.api.person.PresentCondition;
@@ -148,7 +147,7 @@ public class CaseNewFragment extends BaseEditFragment<FragmentCaseNewLayoutBindi
 		initialDistricts = InfrastructureDaoHelper.loadDistricts(record.getRegion());
 		initialCommunities = InfrastructureDaoHelper.loadCommunities(record.getDistrict());
 		initialFacilities =
-			InfrastructureDaoHelper.loadFacilities(record.getResponsibleDistrict(), record.getResponsibleCommunity(), record.getFacilityType());
+			InfrastructureDaoHelper.loadMedicalFacilities(record.getResponsibleDistrict(), record.getResponsibleCommunity());
 		initialPointsOfEntry = InfrastructureDaoHelper.loadPointsOfEntry(record.getResponsibleDistrict());
 
 		facilityOrHomeList = DataUtils.toItems(TypeOfPlace.FOR_CASES, true);
@@ -180,7 +179,7 @@ public class CaseNewFragment extends BaseEditFragment<FragmentCaseNewLayoutBindi
 			initialResponsibleCommunities,
 			record.getResponsibleCommunity());
 
-		InfrastructureFieldsDependencyHandler.instance.initializeRegionFieldListeners(
+		InfrastructureFieldsDependencyHandler.medicalFacilities.initializeRegionFieldListeners(
 			contentBinding.caseDataResponsibleRegion,
 			contentBinding.caseDataResponsibleDistrict,
 			record.getResponsibleDistrict(),
@@ -193,7 +192,7 @@ public class CaseNewFragment extends BaseEditFragment<FragmentCaseNewLayoutBindi
 			null,
 			() -> Boolean.TRUE.equals(contentBinding.caseDataDifferentPlaceOfStayJurisdiction.getValue()));
 
-		InfrastructureFieldsDependencyHandler.instance.initializeFacilityFields(
+		InfrastructureFieldsDependencyHandler.medicalFacilities.initializeFacilityFields(
 			record,
 			contentBinding.caseDataRegion,
 			initialRegions,
@@ -223,7 +222,7 @@ public class CaseNewFragment extends BaseEditFragment<FragmentCaseNewLayoutBindi
 		// trigger responsible jurisdiction change handlers removing place of stay region/district/community
 		contentBinding.caseDataDifferentPlaceOfStayJurisdiction.addValueChangedListener(f -> {
 			if (Boolean.FALSE.equals(f.getValue())) {
-				InfrastructureFieldsDependencyHandler.instance.handleCommunityChange(
+				InfrastructureFieldsDependencyHandler.medicalFacilities.handleCommunityChange(
 					contentBinding.caseDataResponsibleCommunity,
 					contentBinding.caseDataResponsibleDistrict,
 					contentBinding.caseDataHealthFacility,
@@ -280,8 +279,6 @@ public class CaseNewFragment extends BaseEditFragment<FragmentCaseNewLayoutBindi
 			TypeOfPlace place = (TypeOfPlace) e.getValue();
 			if (TypeOfPlace.FACILITY.equals(place)) {
 				contentBinding.facilityTypeGroup.setValue(FacilityTypeGroup.MEDICAL_FACILITY);
-				contentBinding.caseDataFacilityType.setValue(FacilityType.HOSPITAL);
-				record.setFacilityType(FacilityType.HOSPITAL);
 				if (record.getHealthFacility() != null && FacilityDto.NONE_FACILITY_UUID.equals(record.getHealthFacility().getUuid())) {
 					record.setHealthFacility(null);
 					contentBinding.caseDataHealthFacility.setValue(null);

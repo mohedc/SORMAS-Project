@@ -87,8 +87,8 @@ public class ReferCaseFromPoeDialog extends AbstractDialog {
 		List<Item> initialDistricts = InfrastructureDaoHelper.loadDistricts(CaseDao.getRegionWithFallback(data));
 		List<Item> initialCommunities = InfrastructureDaoHelper.loadCommunities(CaseDao.getDistrictWithFallback(data));
 		List<Item> initialFacilities = InfrastructureDaoHelper
-			.loadFacilities(CaseDao.getDistrictWithFallback(data), CaseDao.getCommunityWithFallback(data), data.getFacilityType());
-		InfrastructureFieldsDependencyHandler.instance.initializeFacilityFields(
+			.loadMedicalFacilities(CaseDao.getDistrictWithFallback(data), CaseDao.getCommunityWithFallback(data));
+		InfrastructureFieldsDependencyHandler.medicalFacilities.initializeFacilityFields(
 			data,
 			contentBinding.caseDataRegion,
 			initialRegions,

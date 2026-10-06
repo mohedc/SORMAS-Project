@@ -24,7 +24,6 @@ import android.util.Log;
 import androidx.databinding.ViewDataBinding;
 import androidx.databinding.library.baseAdapters.BR;
 import androidx.fragment.app.FragmentActivity;
-import de.symeda.sormas.api.infrastructure.facility.FacilityType;
 import de.symeda.sormas.api.hospitalization.HospitalizationReasonType;
 import de.symeda.sormas.api.hospitalization.PreviousHospitalizationDto;
 import de.symeda.sormas.api.utils.ValidationException;
@@ -106,7 +105,7 @@ public class PreviousHospitalizationDialog extends FormDialog {
 		List<Item> initialRegions = InfrastructureDaoHelper.loadRegionsByServerCountry();
 		List<Item> initialDistricts = InfrastructureDaoHelper.loadDistricts(data.getRegion());
 		List<Item> initialCommunities = InfrastructureDaoHelper.loadCommunities(data.getDistrict());
-		List<Item> initialFacilities = InfrastructureDaoHelper.loadFacilities(data.getDistrict(), data.getCommunity(), FacilityType.HOSPITAL);
+		List<Item> initialFacilities = InfrastructureDaoHelper.loadMedicalFacilities(data.getDistrict(), data.getCommunity());
 		List<Item> hospitalizationReasons = DataUtils.getEnumItems(HospitalizationReasonType.class, true);
 
 		contentBinding.casePreviousHospitalizationHospitalizationReason.initializeSpinner(hospitalizationReasons);
@@ -121,7 +120,7 @@ public class PreviousHospitalizationDialog extends FormDialog {
 		InfrastructureDaoHelper.initializeHealthFacilityDetailsFieldVisibility(
 			contentBinding.casePreviousHospitalizationHealthFacility,
 			contentBinding.casePreviousHospitalizationHealthFacilityDetails);
-		InfrastructureFieldsDependencyHandler.withUnknownValues.initializeFacilityFields(
+		InfrastructureFieldsDependencyHandler.medicalFacilitiesWithUnknownValues.initializeFacilityFields(
 			data,
 			contentBinding.casePreviousHospitalizationRegion,
 			initialRegions,

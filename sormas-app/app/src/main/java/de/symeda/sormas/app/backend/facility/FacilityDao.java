@@ -16,6 +16,8 @@
 package de.symeda.sormas.app.backend.facility;
 
 import java.sql.SQLException;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -88,6 +90,18 @@ public class FacilityDao extends AbstractInfrastructureAdoDao<Facility> {
 		FacilityType type,
 		boolean includeOtherFacility,
 		boolean includeOtherPlace) {
+		return getActiveHealthFacilitiesByDistrictAndTypes(
+			district,
+			type != null ? Collections.singletonList(type) : null,
+			includeOtherFacility,
+			includeOtherPlace);
+	}
+
+	public List<Facility> getActiveHealthFacilitiesByDistrictAndTypes(
+		District district,
+		Collection<FacilityType> types,
+		boolean includeOtherFacility,
+		boolean includeOtherPlace) {
 
 		try {
 			QueryBuilder builder = queryBuilder();
@@ -96,8 +110,8 @@ public class FacilityDao extends AbstractInfrastructureAdoDao<Facility> {
 				where.eq(Facility.DISTRICT, district),
 				where.eq(InfrastructureAdo.ARCHIVED, false),
 				where.eq(AbstractDomainObject.SNAPSHOT, false));
-			if (type != null) {
-				where.and().eq(Facility.TYPE, type);
+			if (types != null) {
+				where.and().in(Facility.TYPE, types);
 			}
 			List<Facility> facilities = builder.orderBy(Facility.NAME, true).query();
 
@@ -127,6 +141,18 @@ public class FacilityDao extends AbstractInfrastructureAdoDao<Facility> {
 		FacilityType type,
 		boolean includeOtherFacility,
 		boolean includeOtherPlace) {
+		return getActiveHealthFacilitiesByCommunityAndTypes(
+			community,
+			type != null ? Collections.singletonList(type) : null,
+			includeOtherFacility,
+			includeOtherPlace);
+	}
+
+	public List<Facility> getActiveHealthFacilitiesByCommunityAndTypes(
+		Community community,
+		Collection<FacilityType> types,
+		boolean includeOtherFacility,
+		boolean includeOtherPlace) {
 
 		try {
 			QueryBuilder builder = queryBuilder();
@@ -135,8 +161,8 @@ public class FacilityDao extends AbstractInfrastructureAdoDao<Facility> {
 				where.eq(Facility.COMMUNITY, community),
 				where.eq(InfrastructureAdo.ARCHIVED, false),
 				where.eq(AbstractDomainObject.SNAPSHOT, false));
-			if (type != null) {
-				where.and().eq(Facility.TYPE, type);
+			if (types != null) {
+				where.and().in(Facility.TYPE, types);
 			}
 			List<Facility> facilities = builder.orderBy(Facility.NAME, true).query();
 

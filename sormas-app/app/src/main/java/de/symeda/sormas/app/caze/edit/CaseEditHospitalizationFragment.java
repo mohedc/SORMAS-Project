@@ -28,7 +28,6 @@ import de.symeda.sormas.api.FormType;
 import de.symeda.sormas.api.hospitalization.HospitalizationDto;
 import de.symeda.sormas.api.hospitalization.HospitalizationReasonType;
 import de.symeda.sormas.api.hospitalization.PreviousHospitalizationDto;
-import de.symeda.sormas.api.infrastructure.facility.FacilityType;
 import de.symeda.sormas.api.utils.InpatOutpat;
 import de.symeda.sormas.api.utils.YesNo;
 import de.symeda.sormas.api.utils.YesNoUnknown;
@@ -256,8 +255,7 @@ public class CaseEditHospitalizationFragment extends BaseEditFragment<FragmentCa
 	private void initializeAdmissionFacilityFields(FragmentCaseEditHospitalizationLayoutBinding contentBinding) {
 		List<Item> initialRegions = InfrastructureDaoHelper.loadRegionsByServerCountry();
 		List<Item> initialDistricts = InfrastructureDaoHelper.loadDistricts(record.getAdmissionRegion());
-		List<Item> initialFacilities =
-			InfrastructureDaoHelper.loadFacilities(record.getAdmissionDistrict(), null, FacilityType.HOSPITAL);
+		List<Item> initialFacilities = InfrastructureDaoHelper.loadMedicalFacilities(record.getAdmissionDistrict(), null);
 		if (record.getAdmissionHealthFacility() != null) {
 			Item facilityItem = DataUtils.toItem(record.getAdmissionHealthFacility());
 			if (facilityItem != null && !initialFacilities.contains(facilityItem)) {
@@ -280,7 +278,7 @@ public class CaseEditHospitalizationFragment extends BaseEditFragment<FragmentCa
 			.initializeSpinner(initialFacilities, record.getAdmissionHealthFacility());
 		contentBinding.caseHospitalizationAdmissionDistrict.addValueChangedListener(field -> {
 			District selectedDistrict = (District) field.getValue();
-			List<Item> facilities = InfrastructureDaoHelper.loadFacilities(selectedDistrict, null, FacilityType.HOSPITAL);
+			List<Item> facilities = InfrastructureDaoHelper.loadMedicalFacilities(selectedDistrict, null);
 			Facility selectedFacility = (Facility) contentBinding.caseHospitalizationAdmissionHealthFacility.getValue();
 			if (selectedFacility != null) {
 				Item facilityItem = DataUtils.toItem(selectedFacility);
@@ -290,6 +288,8 @@ public class CaseEditHospitalizationFragment extends BaseEditFragment<FragmentCa
 			}
 			contentBinding.caseHospitalizationAdmissionHealthFacility.setSpinnerData(facilities, selectedFacility);
 		});
+		contentBinding.caseHospitalizationAdmissionHealthFacility.addValueChangedListener(
+			field -> record.setAdmissionFacilityType(InfrastructureDaoHelper.resolveFacilityType((Facility) field.getValue())));
 
 		contentBinding.caseHospitalizationAdmittedToDifferentHealthFacility.addValueChangedListener(field -> {
 			if (field.getValue() == YesNo.YES) {
@@ -343,6 +343,7 @@ public class CaseEditHospitalizationFragment extends BaseEditFragment<FragmentCa
 		record.setAdmissionRegion(null);
 		record.setAdmissionDistrict(null);
 		record.setAdmissionHealthFacility(null);
+		record.setAdmissionFacilityType(null);
 		record.setAdmissionHealthFacilityDetails(null);
 	}
 

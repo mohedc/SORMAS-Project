@@ -447,7 +447,7 @@ public class CaseEditFragment extends BaseEditFragment<FragmentCaseEditLayoutBin
 		initialResponsibleCommunities = InfrastructureDaoHelper.loadCommunities(record.getResponsibleDistrict());
 		initialDistricts = InfrastructureDaoHelper.loadDistricts(record.getRegion());
 		initialCommunities = InfrastructureDaoHelper.loadCommunities(record.getDistrict());
-		initialFacilities = InfrastructureDaoHelper.loadFacilities(record.getDistrict(), record.getCommunity(), record.getFacilityType());
+		initialFacilities = InfrastructureDaoHelper.loadMedicalFacilities(record.getDistrict(), record.getCommunity());
 		facilityOrHomeList = DataUtils.toItems(TypeOfPlace.FOR_CASES, true);
 		facilityTypeGroupList = DataUtils.toItems(FacilityTypeGroup.getAccomodationGroups(), true);
 
@@ -554,7 +554,7 @@ public class CaseEditFragment extends BaseEditFragment<FragmentCaseEditLayoutBin
 			initialResponsibleCommunities,
 			record.getResponsibleCommunity());
 
-		InfrastructureFieldsDependencyHandler.instance.initializeRegionFieldListeners(
+		InfrastructureFieldsDependencyHandler.medicalFacilities.initializeRegionFieldListeners(
 			contentBinding.caseDataResponsibleRegion,
 			contentBinding.caseDataResponsibleDistrict,
 			record.getResponsibleDistrict(),
@@ -567,7 +567,7 @@ public class CaseEditFragment extends BaseEditFragment<FragmentCaseEditLayoutBin
 			null,
 			() -> Boolean.TRUE.equals(contentBinding.caseDataDifferentPlaceOfStayJurisdiction.getValue()));
 
-		InfrastructureFieldsDependencyHandler.instance.initializeFacilityFields(
+		InfrastructureFieldsDependencyHandler.medicalFacilities.initializeFacilityFields(
 			record,
 			contentBinding.caseDataRegion,
 			initialRegions,
@@ -597,7 +597,7 @@ public class CaseEditFragment extends BaseEditFragment<FragmentCaseEditLayoutBin
 		// trigger responsible jurisdiction change handlers removing place of stay region/district/community
 		contentBinding.caseDataDifferentPlaceOfStayJurisdiction.addValueChangedListener(f -> {
 			if (Boolean.FALSE.equals(f.getValue())) {
-				InfrastructureFieldsDependencyHandler.instance.handleCommunityChange(
+				InfrastructureFieldsDependencyHandler.medicalFacilities.handleCommunityChange(
 					contentBinding.caseDataResponsibleCommunity,
 					contentBinding.caseDataResponsibleDistrict,
 					contentBinding.caseDataHealthFacility,

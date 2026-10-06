@@ -33,6 +33,7 @@ import de.symeda.sormas.api.i18n.Captions;
 import de.symeda.sormas.api.i18n.I18nProperties;
 import de.symeda.sormas.api.infrastructure.facility.FacilityDto;
 import de.symeda.sormas.api.infrastructure.facility.FacilityType;
+import de.symeda.sormas.api.infrastructure.facility.FacilityTypeGroup;
 import de.symeda.sormas.api.infrastructure.pointofentry.PointOfEntryDto;
 import de.symeda.sormas.app.backend.common.DatabaseHelper;
 import de.symeda.sormas.app.backend.facility.Facility;
@@ -163,6 +164,27 @@ public final class InfrastructureDaoHelper {
 					? new ArrayList<>()
 					: DatabaseHelper.getFacilityDao().getActiveHealthFacilitiesByDistrictAndType(district, type, true, false),
 			true);
+	}
+
+	public static List<Item> loadMedicalFacilities(District district, Community community) {
+		List<FacilityType> types = FacilityType.getAccommodationTypes(FacilityTypeGroup.MEDICAL_FACILITY);
+		return toItems(
+			community != null
+				? DatabaseHelper.getFacilityDao().getActiveHealthFacilitiesByCommunityAndTypes(community, types, true, false)
+				: isEmptyDistrict(district)
+					? new ArrayList<>()
+					: DatabaseHelper.getFacilityDao().getActiveHealthFacilitiesByDistrictAndTypes(district, types, true, false),
+			true);
+	}
+
+	public static FacilityType resolveFacilityType(@Nullable Facility facility) {
+		if (isEmptyFacility(facility) || FacilityDto.NONE_FACILITY_UUID.equals(facility.getUuid())) {
+			return null;
+		}
+		if (FacilityDto.OTHER_FACILITY_UUID.equals(facility.getUuid())) {
+			return FacilityType.HOSPITAL;
+		}
+		return facility.getType();
 	}
 
 	public static List<Item> loadPointsOfEntry(District district) {

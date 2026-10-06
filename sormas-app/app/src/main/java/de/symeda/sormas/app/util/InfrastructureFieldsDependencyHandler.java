@@ -13,6 +13,7 @@ import static de.symeda.sormas.app.util.InfrastructureDaoHelper.loadCountriesByC
 import static de.symeda.sormas.app.util.InfrastructureDaoHelper.loadCountriesBySubcontinent;
 import static de.symeda.sormas.app.util.InfrastructureDaoHelper.loadDistricts;
 import static de.symeda.sormas.app.util.InfrastructureDaoHelper.loadFacilities;
+import static de.symeda.sormas.app.util.InfrastructureDaoHelper.loadMedicalFacilities;
 import static de.symeda.sormas.app.util.InfrastructureDaoHelper.loadPointsOfEntry;
 import static de.symeda.sormas.app.util.InfrastructureDaoHelper.loadRegionsByCountry;
 import static de.symeda.sormas.app.util.InfrastructureDaoHelper.loadRegionsByServerCountry;
@@ -38,6 +39,7 @@ import de.symeda.sormas.app.backend.common.AbstractDomainObject;
 import de.symeda.sormas.app.backend.common.DatabaseHelper;
 import de.symeda.sormas.app.backend.config.ConfigProvider;
 import de.symeda.sormas.app.backend.facility.Facility;
+import de.symeda.sormas.app.backend.hospitalization.PreviousHospitalization;
 import de.symeda.sormas.app.backend.pointofentry.PointOfEntry;
 import de.symeda.sormas.app.backend.region.Community;
 import de.symeda.sormas.app.backend.region.Continent;
@@ -53,13 +55,21 @@ import de.symeda.sormas.app.component.controls.ValueChangeListener;
 
 public class InfrastructureFieldsDependencyHandler {
 
-	public static InfrastructureFieldsDependencyHandler instance = new InfrastructureFieldsDependencyHandler(false);
-	public static InfrastructureFieldsDependencyHandler withUnknownValues = new InfrastructureFieldsDependencyHandler(true);
+	public static InfrastructureFieldsDependencyHandler instance = new InfrastructureFieldsDependencyHandler(false, false);
+	public static InfrastructureFieldsDependencyHandler withUnknownValues = new InfrastructureFieldsDependencyHandler(true, false);
+	/**
+	 * Lists all medical facilities regardless of the facility type field, keeps the facility type field disabled and fills it from the
+	 * selected facility.
+	 */
+	public static InfrastructureFieldsDependencyHandler medicalFacilities = new InfrastructureFieldsDependencyHandler(false, true);
+	public static InfrastructureFieldsDependencyHandler medicalFacilitiesWithUnknownValues = new InfrastructureFieldsDependencyHandler(true, true);
 
 	private final boolean withUnknownItems;
+	private final boolean medicalFacilityMode;
 
-	private InfrastructureFieldsDependencyHandler(boolean withUnknownItems) {
+	private InfrastructureFieldsDependencyHandler(boolean withUnknownItems, boolean medicalFacilityMode) {
 		this.withUnknownItems = withUnknownItems;
+		this.medicalFacilityMode = medicalFacilityMode;
 	}
 
 	public void initializeFacilityFields(
@@ -408,7 +418,9 @@ public class InfrastructureFieldsDependencyHandler {
 						} else {
 							typeField.setSpinnerData(DataUtils.toItems(FacilityType.getAccommodationTypes(selectedGroup), true));
 						}
-						if (typeField.getValue() == null && FacilityTypeGroup.MEDICAL_FACILITY.equals(selectedGroup)) {
+						if (medicalFacilityMode) {
+							typeField.setValue(InfrastructureDaoHelper.resolveFacilityType((Facility) facilityField.getValue()));
+						} else if (typeField.getValue() == null && FacilityTypeGroup.MEDICAL_FACILITY.equals(selectedGroup)) {
 							typeField.setValue(FacilityType.HOSPITAL);
 						}
 					}
@@ -443,10 +455,30 @@ public class InfrastructureFieldsDependencyHandler {
 		}
 
 		if (typeField != null) {
+			if (medicalFacilityMode && types == null) {
+				types = DataUtils.toItems(FacilityType.getAccommodationTypes(FacilityTypeGroup.MEDICAL_FACILITY), true);
+			}
 			typeField.initializeSpinner(types);
+			if (medicalFacilityMode) {
+				typeField.setEnabled(false);
+			}
 		}
 
 		facilityField.setSpinnerData(addUnknownItem(facilities, unknownFacility));
+
+		if (medicalFacilityMode) {
+			facilityField.addValueChangedListener(field -> {
+				FacilityType facilityType = InfrastructureDaoHelper.resolveFacilityType((Facility) field.getValue());
+				if (typeField != null && typeField.getValue() != facilityType) {
+					typeField.setValue(facilityType);
+				}
+				if (caze != null) {
+					caze.setFacilityType(facilityType);
+				} else if (entity instanceof PreviousHospitalization) {
+					((PreviousHospitalization) entity).setFacilityType(facilityType);
+				}
+			});
+		}
 
 		if (pointOfEntryField != null) {
 			pointOfEntryField.initializeSpinner(pointsOfEntry);
@@ -544,7 +576,12 @@ public class InfrastructureFieldsDependencyHandler {
 				}
 
 				final List<Item> newFacilities;
-				if (typeField == null) {
+				if (medicalFacilityMode) {
+					newFacilities = loadMedicalFacilities(selectedDistrict, null);
+					if (initialFacility != null && selectedDistrict.equals(initialFacility.getDistrict()) && !newFacilities.contains(facilityItem)) {
+						newFacilities.add(facilityItem);
+					}
+				} else if (typeField == null) {
 					newFacilities = loadFacilities(selectedDistrict, null, FacilityType.HOSPITAL);
 					if (initialFacility != null && selectedDistrict.equals(initialFacility.getDistrict()) && !newFacilities.contains(facilityItem)) {
 						newFacilities.add(facilityItem);
@@ -594,7 +631,7 @@ public class InfrastructureFieldsDependencyHandler {
 			handleCommunityChange(field, districtField, facilityField, typeField, initialFacility);
 		});
 
-		if (typeField != null) {
+		if (typeField != null && !medicalFacilityMode) {
 			typeField.addValueChangedListener(field -> {
 				if (skipListeners != null && skipListeners.get()) {
 					return;
@@ -672,7 +709,17 @@ public class InfrastructureFieldsDependencyHandler {
 		}
 
 		final List<Item> newFacilities;
-		if (selectedCommunity != null && typeField == null) {
+		if (medicalFacilityMode) {
+			newFacilities = loadMedicalFacilities(selectedDistrict, selectedCommunity);
+			if (initialFacility != null && !newFacilities.contains(facilityItem)) {
+				boolean sameJurisdiction = selectedCommunity != null
+					? selectedCommunity.equals(initialFacility.getCommunity())
+					: !isEmptyDistrict(selectedDistrict) && selectedDistrict.equals(initialFacility.getDistrict());
+				if (sameJurisdiction) {
+					newFacilities.add(facilityItem);
+				}
+			}
+		} else if (selectedCommunity != null && typeField == null) {
 			newFacilities = loadFacilities(null, selectedCommunity, FacilityType.HOSPITAL);
 			if (initialFacility != null && selectedCommunity.equals(initialFacility.getCommunity()) && !newFacilities.contains(facilityItem)) {
 				newFacilities.add(facilityItem);
