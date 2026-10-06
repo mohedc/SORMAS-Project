@@ -984,6 +984,7 @@ public interface Captions {
 	String CaseHospitalization_admittedToDifferentHealthFacility = "CaseHospitalization.admittedToDifferentHealthFacility";
 	String CaseHospitalization_admissionRegion = "CaseHospitalization.admissionRegion";
 	String CaseHospitalization_admissionDistrict = "CaseHospitalization.admissionDistrict";
+	String CaseHospitalization_admissionFacilityType = "CaseHospitalization.admissionFacilityType";
 	String CaseHospitalization_admissionHealthFacility = "CaseHospitalization.admissionHealthFacility";
 	String CaseHospitalization_admissionHealthFacilityDetails = "CaseHospitalization.admissionHealthFacilityDetails";
 	String CaseHospitalization_dischargeDate = "CaseHospitalization.dischargeDate";
@@ -1032,6 +1033,7 @@ public interface Captions {
 	String CasePreviousHospitalization_dischargeDate = "CasePreviousHospitalization.dischargeDate";
 	String CasePreviousHospitalization_district = "CasePreviousHospitalization.district";
 	String CasePreviousHospitalization_editColumn = "CasePreviousHospitalization.editColumn";
+	String CasePreviousHospitalization_facilityType = "CasePreviousHospitalization.facilityType";
 	String CasePreviousHospitalization_healthFacility = "CasePreviousHospitalization.healthFacility";
 	String CasePreviousHospitalization_healthFacilityDetails = "CasePreviousHospitalization.healthFacilityDetails";
 	String CasePreviousHospitalization_hospitalizationReason = "CasePreviousHospitalization.hospitalizationReason";

@@ -71,6 +71,7 @@ public class PreviousHospitalizationDao extends AbstractAdoDao<PreviousHospitali
 		previousHospitalization.setRegion(CaseDao.getRegionWithFallback(oldCase));
 		previousHospitalization.setDistrict(CaseDao.getDistrictWithFallback(oldCase));
 		previousHospitalization.setCommunity(CaseDao.getCommunityWithFallback(oldCase));
+		previousHospitalization.setFacilityType(oldCase.getFacilityType());
 		previousHospitalization.setHealthFacility(oldCase.getHealthFacility());
 		previousHospitalization.setHealthFacilityDetails(oldCase.getHealthFacilityDetails());
 		previousHospitalization.setHospitalization(caze.getHospitalization());

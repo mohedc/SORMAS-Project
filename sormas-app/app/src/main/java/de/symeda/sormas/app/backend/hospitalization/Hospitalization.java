@@ -30,6 +30,7 @@ import com.j256.ormlite.table.DatabaseTable;
 
 import de.symeda.sormas.api.hospitalization.AccommodationType;
 import de.symeda.sormas.api.hospitalization.HospitalizationReasonType;
+import de.symeda.sormas.api.infrastructure.facility.FacilityType;
 import de.symeda.sormas.api.utils.YesNo;
 import de.symeda.sormas.api.utils.YesNoUnknown;
 import de.symeda.sormas.api.utils.InpatOutpat;
@@ -124,6 +125,9 @@ public class Hospitalization extends AbstractDomainObject {
 
 	@Column(length = CHARACTER_LIMIT_DEFAULT)
 	private String admissionHealthFacilityDetails;
+
+	@Enumerated(EnumType.STRING)
+	private FacilityType admissionFacilityType;
 
 	// just for reference, not persisted in DB
 	private List<PreviousHospitalization> previousHospitalizations = new ArrayList<>();
@@ -378,5 +382,13 @@ public class Hospitalization extends AbstractDomainObject {
 
 	public void setAdmissionHealthFacilityDetails(String admissionHealthFacilityDetails) {
 		this.admissionHealthFacilityDetails = admissionHealthFacilityDetails;
+	}
+
+	public FacilityType getAdmissionFacilityType() {
+		return admissionFacilityType;
+	}
+
+	public void setAdmissionFacilityType(FacilityType admissionFacilityType) {
+		this.admissionFacilityType = admissionFacilityType;
 	}
 }

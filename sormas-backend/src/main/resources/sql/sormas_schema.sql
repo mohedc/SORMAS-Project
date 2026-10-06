@@ -15740,6 +15740,15 @@ ALTER TABLE hospitalization_history ADD COLUMN IF NOT EXISTS admissiondistrict_i
 INSERT INTO schema_version (version_number, comment) VALUES (680, 'Add admission region and district to hospitalization');
 
 
+-- Migration 681: Add facility type to hospitalization admission facility and previous hospitalizations
+ALTER TABLE hospitalization ADD COLUMN IF NOT EXISTS admissionfacilitytype varchar(255);
+ALTER TABLE hospitalization_history ADD COLUMN IF NOT EXISTS admissionfacilitytype varchar(255);
+ALTER TABLE previoushospitalization ADD COLUMN IF NOT EXISTS facilitytype varchar(255);
+ALTER TABLE previoushospitalization_history ADD COLUMN IF NOT EXISTS facilitytype varchar(255);
+
+INSERT INTO schema_version (version_number, comment) VALUES (681, 'Add facility type to hospitalization admission facility and previous hospitalizations');
+
+
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***
 
 

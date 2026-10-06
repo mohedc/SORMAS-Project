@@ -150,7 +150,7 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
         + fluidRowLocs(PLACE_OF_STAY_HEADING_LOC)
         + fluidRow(fluidColumnLoc(6,0,FACILITY_OR_HOME_LOC))
         + fluidRowLocs(CaseDataDto.REGION, CaseDataDto.DISTRICT, CaseDataDto.COMMUNITY)
-//        + fluidRowLocs(FACILITY_TYPE_GROUP_LOC, CaseDataDto.FACILITY_TYPE)
+        + fluidRowLocs(CaseDataDto.FACILITY_TYPE, "")
         + fluidRowLocs(CaseDataDto.HEALTH_FACILITY, CaseDataDto.HEALTH_FACILITY_DETAILS, CaseDataDto.DEPARTMENT)
 //        + fluidRowLocs(DIFFERENT_POINT_OF_ENTRY_JURISDICTION)
         + fluidRowLocs(POINT_OF_ENTRY_REGION, POINT_OF_ENTRY_DISTRICT)
@@ -474,7 +474,7 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 				if (caseOrigin == CaseOrigin.IN_COUNTRY) {
 					setVisible(false, CaseDataDto.POINT_OF_ENTRY, CaseDataDto.POINT_OF_ENTRY_DETAILS);
 					differentPointOfEntryJurisdiction.setVisible(false);
-					setRequired(true, FACILITY_OR_HOME_LOC, FACILITY_TYPE_GROUP_LOC, CaseDataDto.FACILITY_TYPE, CaseDataDto.HEALTH_FACILITY);
+					setRequired(true, FACILITY_OR_HOME_LOC, CaseDataDto.FACILITY_TYPE, CaseDataDto.HEALTH_FACILITY);
 					setRequired(false, CaseDataDto.POINT_OF_ENTRY);
 					updateFacilityFields(facilityCombo, healthFacilityDetailsField);
 					passportField.setVisible(false);
@@ -484,7 +484,7 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 					setRequired(true, CaseDataDto.POINT_OF_ENTRY);
 					if (userJurisdictionLevel != JurisdictionLevel.HEALTH_FACILITY) {
 						facilityOrHome.clear();
-						setRequired(false, FACILITY_OR_HOME_LOC, FACILITY_TYPE_GROUP_LOC, CaseDataDto.FACILITY_TYPE, CaseDataDto.HEALTH_FACILITY);
+						setRequired(false, FACILITY_OR_HOME_LOC, CaseDataDto.FACILITY_TYPE, CaseDataDto.HEALTH_FACILITY);
 					}
 					updatePointOfEntryFields(cbPointOfEntry, tfPointOfEntryDetails);
                         passportField.setVisible(true);
@@ -521,7 +521,7 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 		// Set initial visibilities & accesses
 		initializeVisibilitiesAndAllowedVisibilities();
 
-		setRequired(true, CaseDataDto.REPORT_DATE, CaseDataDto.DISEASE, FACILITY_TYPE_GROUP_LOC, CaseDataDto.FACILITY_TYPE);
+		setRequired(true, CaseDataDto.REPORT_DATE, CaseDataDto.DISEASE, CaseDataDto.FACILITY_TYPE);
 		FieldHelper.addSoftRequiredStyle(plagueType, communityCombo, healthFacilityDetailsField);
 
 		FieldHelper
@@ -551,7 +551,7 @@ public class CaseCreateForm extends AbstractEditForm<CaseDataDto> {
 			false);
 		FieldHelper.setRequiredWhen(
 			facilityOrHome,
-			Arrays.asList(facilityTypeGroup, facilityType, facilityCombo),
+			Arrays.asList(facilityType, facilityCombo),
 			Collections.singletonList(TypeOfPlace.FACILITY),
 			false,
 			null);

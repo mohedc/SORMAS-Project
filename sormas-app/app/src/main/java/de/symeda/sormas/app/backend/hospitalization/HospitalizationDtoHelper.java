@@ -102,6 +102,7 @@ public class HospitalizationDtoHelper extends AdoDtoHelper<Hospitalization, Hosp
 		} else {
 			a.setAdmissionDistrict(null);
 		}
+		a.setAdmissionFacilityType(b.getAdmissionFacilityType());
 		if (b.getAdmissionHealthFacility() != null) {
 			a.setAdmissionHealthFacility(DatabaseHelper.getFacilityDao().queryUuid(b.getAdmissionHealthFacility().getUuid()));
 		} else {
@@ -160,6 +161,7 @@ public class HospitalizationDtoHelper extends AdoDtoHelper<Hospitalization, Hosp
 		} else {
 			a.setAdmissionDistrict(null);
 		}
+		a.setAdmissionFacilityType(b.getAdmissionFacilityType());
 		if (b.getAdmissionHealthFacility() != null) {
 			Facility facility = DatabaseHelper.getFacilityDao().queryForId(b.getAdmissionHealthFacility().getId());
 			a.setAdmissionHealthFacility(FacilityDtoHelper.toReferenceDto(facility));

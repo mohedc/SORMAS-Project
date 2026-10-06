@@ -29,6 +29,7 @@ import de.symeda.sormas.api.i18n.Validations;
 import de.symeda.sormas.api.infrastructure.community.CommunityReferenceDto;
 import de.symeda.sormas.api.infrastructure.district.DistrictReferenceDto;
 import de.symeda.sormas.api.infrastructure.facility.FacilityReferenceDto;
+import de.symeda.sormas.api.infrastructure.facility.FacilityType;
 import de.symeda.sormas.api.infrastructure.region.RegionReferenceDto;
 import de.symeda.sormas.api.utils.DataHelper;
 import de.symeda.sormas.api.utils.FieldConstraints;
@@ -49,6 +50,7 @@ public class PreviousHospitalizationDto extends PseudonymizableDto {
 	public static final String REGION = "region";
 	public static final String DISTRICT = "district";
 	public static final String COMMUNITY = "community";
+	public static final String FACILITY_TYPE = "facilityType";
 	public static final String HEALTH_FACILITY = "healthFacility";
 	public static final String HEALTH_FACILITY_DETAILS = "healthFacilityDetails";
 	public static final String ISOLATED = "isolated";
@@ -67,6 +69,7 @@ public class PreviousHospitalizationDto extends PseudonymizableDto {
 	private DistrictReferenceDto district;
 	@SensitiveData
 	private CommunityReferenceDto community;
+	private FacilityType facilityType;
 	@SensitiveData
 	private FacilityReferenceDto healthFacility;
 	@SensitiveData
@@ -108,6 +111,7 @@ public class PreviousHospitalizationDto extends PseudonymizableDto {
 		previousHospitalization.setRegion(CaseLogic.getRegionWithFallback(caze));
 		previousHospitalization.setDistrict(CaseLogic.getDistrictWithFallback(caze));
 		previousHospitalization.setCommunity(CaseLogic.getCommunityWithFallback(caze));
+		previousHospitalization.setFacilityType(caze.getFacilityType());
 		previousHospitalization.setHealthFacility(caze.getHealthFacility());
 		previousHospitalization.setHealthFacilityDetails(caze.getHealthFacilityDetails());
 		previousHospitalization.setIsolated(hospitalization.getIsolated());
@@ -168,6 +172,14 @@ public class PreviousHospitalizationDto extends PseudonymizableDto {
 
 	public void setCommunity(CommunityReferenceDto community) {
 		this.community = community;
+	}
+
+	public FacilityType getFacilityType() {
+		return facilityType;
+	}
+
+	public void setFacilityType(FacilityType facilityType) {
+		this.facilityType = facilityType;
 	}
 
 	public FacilityReferenceDto getHealthFacility() {

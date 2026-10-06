@@ -61,7 +61,8 @@ public class CaseFacilityChangeForm extends AbstractEditForm<CaseDataDto> {
 			//XXX #1620 are the divs needed?
 			divs(
 					fluidRowLocs(CaseDataDto.REGION, CaseDataDto.DISTRICT, CaseDataDto.COMMUNITY) +
-					fluidRowLocs(FACILITY_OR_HOME_LOC, TYPE_GROUP_LOC, TYPE_LOC) +
+					fluidRowLocs(FACILITY_OR_HOME_LOC) +
+					fluidRowLocs(TYPE_LOC, "") +
 					fluidRowLocs(CaseDataDto.HEALTH_FACILITY, CaseDataDto.HEALTH_FACILITY_DETAILS) + 
 					fluidRowLocs(CaseDataDto.SURVEILLANCE_OFFICER, "")
 			);
@@ -168,7 +169,12 @@ public class CaseFacilityChangeForm extends AbstractEditForm<CaseDataDto> {
 				facility.setValue(noFacilityRef);
 			}
 			if (TypeOfPlace.FACILITY.equals(facilityOrHome.getValue())) {
-				typeGroup.setVisible(true);
+				if (typeGroup.getValue() == null) {
+					typeGroup.setValue(FacilityTypeGroup.MEDICAL_FACILITY);
+				}
+				if (type.getValue() == null && FacilityTypeGroup.MEDICAL_FACILITY.equals(typeGroup.getValue())) {
+					type.setValue(FacilityType.HOSPITAL);
+				}
 				type.setVisible(true);
 				facility.setVisible(true);
 				facility.setRequired(true);
@@ -219,7 +225,7 @@ public class CaseFacilityChangeForm extends AbstractEditForm<CaseDataDto> {
 		region.addItems(FacadeProvider.getRegionFacade().getAllActiveByServerCountry());
 
 		FieldHelper.addSoftRequiredStyle(community, facilityDetails, officer);
-		setRequired(true, CaseDataDto.REGION, CaseDataDto.DISTRICT, FACILITY_OR_HOME_LOC, TYPE_GROUP_LOC, TYPE_LOC);
+		setRequired(true, CaseDataDto.REGION, CaseDataDto.DISTRICT, FACILITY_OR_HOME_LOC, TYPE_LOC);
 		officer.setNullSelectionAllowed(true);
 	}
 

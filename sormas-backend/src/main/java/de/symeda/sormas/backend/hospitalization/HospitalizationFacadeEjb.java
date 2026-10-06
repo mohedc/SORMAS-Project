@@ -102,6 +102,7 @@ public class HospitalizationFacadeEjb implements HospitalizationFacade {
 		target.setAdmittedToDifferentHealthFacility(source.getAdmittedToDifferentHealthFacility());
 		target.setAdmissionRegion(regionService.getByReferenceDto(source.getAdmissionRegion()));
 		target.setAdmissionDistrict(districtService.getByReferenceDto(source.getAdmissionDistrict()));
+		target.setAdmissionFacilityType(source.getAdmissionFacilityType());
 		target.setAdmissionHealthFacility(facilityService.getByReferenceDto(source.getAdmissionHealthFacility()));
 		target.setAdmissionHealthFacilityDetails(source.getAdmissionHealthFacilityDetails());
 
@@ -127,6 +128,7 @@ public class HospitalizationFacadeEjb implements HospitalizationFacade {
 
 		target.setDistrict(districtService.getByReferenceDto(source.getDistrict()));
 		target.setCommunity(communityService.getByReferenceDto(source.getCommunity()));
+		target.setFacilityType(source.getFacilityType());
 		target.setHealthFacility(facilityService.getByReferenceDto(source.getHealthFacility()));
 		target.setHealthFacilityDetails(source.getHealthFacilityDetails());
 		target.setIsolated(source.getIsolated());
@@ -185,6 +187,7 @@ public class HospitalizationFacadeEjb implements HospitalizationFacade {
 		target.setAdmittedToDifferentHealthFacility(source.getAdmittedToDifferentHealthFacility());
 		target.setAdmissionRegion(RegionFacadeEjb.toReferenceDto(source.getAdmissionRegion()));
 		target.setAdmissionDistrict(DistrictFacadeEjb.toReferenceDto(source.getAdmissionDistrict()));
+		target.setAdmissionFacilityType(source.getAdmissionFacilityType());
 		target.setAdmissionHealthFacility(FacilityFacadeEjb.toReferenceDto(source.getAdmissionHealthFacility()));
 		target.setAdmissionHealthFacilityDetails(source.getAdmissionHealthFacilityDetails());
 
@@ -207,6 +210,7 @@ public class HospitalizationFacadeEjb implements HospitalizationFacade {
 		target.setRegion(RegionFacadeEjb.toReferenceDto(source.getRegion()));
 		target.setDistrict(DistrictFacadeEjb.toReferenceDto(source.getDistrict()));
 		target.setCommunity(CommunityFacadeEjb.toReferenceDto(source.getCommunity()));
+		target.setFacilityType(source.getFacilityType());
 		target.setHealthFacility(FacilityFacadeEjb.toReferenceDto(source.getHealthFacility()));
 		target.setHealthFacilityDetails(source.getHealthFacilityDetails());
 		target.setIsolated(source.getIsolated());

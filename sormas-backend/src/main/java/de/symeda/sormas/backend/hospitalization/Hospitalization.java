@@ -37,6 +37,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import de.symeda.sormas.api.hospitalization.HospitalizationReasonType;
+import de.symeda.sormas.api.infrastructure.facility.FacilityType;
 import de.symeda.sormas.api.utils.InpatOutpat;
 import de.symeda.sormas.api.utils.YesNo;
 import de.symeda.sormas.api.utils.YesNoUnknown;
@@ -74,6 +75,7 @@ public class Hospitalization extends AbstractDomainObject {
 	public static final String ADMITTED_TO_DIFFERENT_HEALTH_FACILITY = "admittedToDifferentHealthFacility";
 	public static final String ADMISSION_REGION = "admissionRegion";
 	public static final String ADMISSION_DISTRICT = "admissionDistrict";
+	public static final String ADMISSION_FACILITY_TYPE = "admissionFacilityType";
 	public static final String ADMISSION_HEALTH_FACILITY = "admissionHealthFacility";
 	public static final String ADMISSION_HEALTH_FACILITY_DETAILS = "admissionHealthFacilityDetails";
 
@@ -106,6 +108,7 @@ public class Hospitalization extends AbstractDomainObject {
 	private YesNo admittedToDifferentHealthFacility;
 	private Region admissionRegion;
 	private District admissionDistrict;
+	private FacilityType admissionFacilityType;
 	private Facility admissionHealthFacility;
 	private String admissionHealthFacilityDetails;
 
@@ -371,6 +374,15 @@ public class Hospitalization extends AbstractDomainObject {
 
 	public void setAdmissionHealthFacility(Facility admissionHealthFacility) {
 		this.admissionHealthFacility = admissionHealthFacility;
+	}
+
+	@Enumerated(EnumType.STRING)
+	public FacilityType getAdmissionFacilityType() {
+		return admissionFacilityType;
+	}
+
+	public void setAdmissionFacilityType(FacilityType admissionFacilityType) {
+		this.admissionFacilityType = admissionFacilityType;
 	}
 
 	@Column(length = CHARACTER_LIMIT_DEFAULT)
