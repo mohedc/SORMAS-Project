@@ -287,6 +287,7 @@ public class CaseNewFragment extends BaseEditFragment<FragmentCaseNewLayoutBindi
 				contentBinding.caseDataHealthFacilityDetails.setValue(null);
 			}
 			updatePlaceOfStayDependentFieldVisibility(contentBinding);
+			updatePointOfEntryFacilityFields(contentBinding);
 		});
 
 		setUpPersonHomeAddressClick(contentBinding);
@@ -308,6 +309,7 @@ public class CaseNewFragment extends BaseEditFragment<FragmentCaseNewLayoutBindi
 						contentBinding.caseDataPointOfEntryDetails);
 				// HOME address is only required when facilityOrHome is HOME
 				contentBinding.personPlaceOfStayHomeAddressLayout.setVisibility(TypeOfPlace.HOME.equals(contentBinding.facilityOrHome.getValue()) ? VISIBLE : GONE);
+				updatePointOfEntryFacilityFields(contentBinding);
 			}
 			});
 	}
@@ -406,36 +408,41 @@ public class CaseNewFragment extends BaseEditFragment<FragmentCaseNewLayoutBindi
 			contentBinding.facilityTypeGroup.setRequired(false);
 			contentBinding.caseDataFacilityType.setRequired(false);
 			contentBinding.caseDataHealthFacility.setRequired(false);
-		} else if (DatabaseHelper.getPointOfEntryDao().hasActiveEntriesInDistrict()) {
+		} else {
 			if (record.getCaseOrigin() == CaseOrigin.IN_COUNTRY) {
 				contentBinding.caseDataPointOfEntry.setRequired(false);
 				contentBinding.caseDataPointOfEntry.setVisibility(GONE);
 			} else {
-				contentBinding.caseDataHealthFacility.setRequired(false);
+				applyPointOfEntryPlaceOfDetection(contentBinding);
 			}
+			// Registered regardless of the POEs in the user's district: the disease form configuration can show the case
+			// origin field even when it is hidden here.
 			contentBinding.caseDataCaseOrigin.addValueChangedListener(e -> {
-				if (e.getValue() == CaseOrigin.IN_COUNTRY) {
+				if (e.getValue() == CaseOrigin.POINT_OF_ENTRY) {
+					contentBinding.caseDataPointOfEntry.setVisibility(VISIBLE);
+					contentBinding.caseDataPointOfEntry.setRequired(true);
+					applyPointOfEntryPlaceOfDetection(contentBinding);
+				} else {
 					contentBinding.caseDataPointOfEntry.setVisibility(GONE);
 					contentBinding.caseDataPointOfEntry.setRequired(false);
 					contentBinding.caseDataPointOfEntry.setValue(null);
-					contentBinding.caseDataHealthFacility.setRequired(true);
 					contentBinding.facilityOrHome.setRequired(true);
-				} else {
-					contentBinding.caseDataPointOfEntry.setVisibility(VISIBLE);
-					contentBinding.caseDataHealthFacility.setRequired(false);
-					contentBinding.caseDataPointOfEntry.setRequired(true);
-					contentBinding.facilityOrHome.setRequired(false);
-					contentBinding.facilityOrHome.setValue(null);
+					contentBinding.facilityTypeGroup.setRequired(true);
+					contentBinding.caseDataFacilityType.setRequired(true);
+					contentBinding.caseDataHealthFacility.setRequired(true);
 				}
 				updatePlaceOfStayDependentFieldVisibility(contentBinding);
+				updatePointOfEntryFacilityFields(contentBinding);
 			});
-		} else {
-			contentBinding.caseDataCaseOrigin.setVisibility(GONE);
-			contentBinding.caseDataPointOfEntry.setVisibility(GONE);
+			if (!DatabaseHelper.getPointOfEntryDao().hasActiveEntriesInDistrict()) {
+				contentBinding.caseDataCaseOrigin.setVisibility(GONE);
+				contentBinding.caseDataPointOfEntry.setVisibility(GONE);
+			}
 		}
 
 		updatePlaceOfStayDependentFieldVisibility(contentBinding);
 		ensureCaseCreationRequiredFieldsVisible(contentBinding);
+		updatePointOfEntryFacilityFields(contentBinding);
 	}
 
 	private static void ensureCaseCreationRequiredFieldsVisible(FragmentCaseNewLayoutBinding contentBinding) {
@@ -479,6 +486,71 @@ public class CaseNewFragment extends BaseEditFragment<FragmentCaseNewLayoutBindi
 			contentBinding.personAddress.setValue(locationClone);
 			record.getPerson().setAddress(locationClone);
 		});
+	}
+
+	/**
+	 * Mirrors web case creation: for a point of entry case the place of detection is optional, and the case must not carry a
+	 * health facility (not even the "none" facility used for home), otherwise "Refer from POE" is not offered afterwards.
+	 */
+	private void applyPointOfEntryPlaceOfDetection(FragmentCaseNewLayoutBinding contentBinding) {
+		contentBinding.facilityOrHome.setRequired(false);
+		contentBinding.facilityTypeGroup.setRequired(false);
+		contentBinding.caseDataFacilityType.setRequired(false);
+		contentBinding.caseDataHealthFacility.setRequired(false);
+		if (ConfigProvider.getUser().hasJurisdictionLevel(JurisdictionLevel.HEALTH_FACILITY)) {
+			return;
+		}
+
+		contentBinding.facilityOrHome.setValue(null);
+		contentBinding.facilityTypeGroup.setValue(null);
+		contentBinding.caseDataFacilityType.setValue(null);
+		contentBinding.caseDataHealthFacility.setValue(null);
+		contentBinding.caseDataHealthFacilityDetails.setValue(null);
+		record.setFacilityType(null);
+		record.setHealthFacility(null);
+		record.setHealthFacilityDetails(null);
+	}
+
+	/**
+	 * The disease form configuration shows every configured field, ignoring the dependency on the place of detection, so for a
+	 * point of entry case the facility fields have to be made optional and hidden again until a place of detection is chosen.
+	 */
+	private void updatePointOfEntryFacilityFields(FragmentCaseNewLayoutBinding contentBinding) {
+		if (UserRole.isPortHealthUser(ConfigProvider.getUser().getUserRoles())
+			|| contentBinding.caseDataCaseOrigin.getValue() != CaseOrigin.POINT_OF_ENTRY) {
+			return;
+		}
+
+		contentBinding.facilityOrHome.setRequired(false);
+		contentBinding.facilityTypeGroup.setRequired(false);
+		contentBinding.caseDataFacilityType.setRequired(false);
+		contentBinding.caseDataHealthFacility.setRequired(false);
+
+		if (contentBinding.facilityOrHome.getValue() == null) {
+			contentBinding.facilityTypeFieldsLayout.setVisibility(GONE);
+			contentBinding.caseDataHealthFacility.setVisibility(GONE);
+			contentBinding.caseDataHealthFacilityDetails.setVisibility(GONE);
+			contentBinding.caseDataHealthFacility.disableErrorState();
+			contentBinding.caseDataHealthFacilityDetails.disableErrorState();
+		}
+	}
+
+	/**
+	 * Hidden facility fields keep their value, so a facility picked before switching to point of entry would otherwise be
+	 * saved with the case.
+	 */
+	void clearFacilityForPointOfEntryWithoutPlaceOfDetection() {
+		FragmentCaseNewLayoutBinding contentBinding = getContentBinding();
+		if (contentBinding == null
+			|| record.getCaseOrigin() != CaseOrigin.POINT_OF_ENTRY
+			|| contentBinding.facilityOrHome.getValue() != null
+			|| ConfigProvider.getUser().hasJurisdictionLevel(JurisdictionLevel.HEALTH_FACILITY)) {
+			return;
+		}
+
+		record.setFacilityType(null);
+		record.setHealthFacility(null);
+		record.setHealthFacilityDetails(null);
 	}
 
 	private void updatePlaceOfStayDependentFieldVisibility(FragmentCaseNewLayoutBinding contentBinding) {

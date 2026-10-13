@@ -3888,9 +3888,31 @@ public class CaseFacadeEjb extends AbstractCoreFacadeEjb<Case, CaseDataDto, Case
 	}
 
 	@RightsAllowed(UserRight._CASE_EDIT)
-	public void updateInvestigationByTask(Case caze) {
+	public void updateInvestigationByTask(Case caze, Task changedTask) {
 
 		CaseReferenceDto caseRef = caze.toReference();
+
+		if (changedTask != null && changedTask.getTaskStatus() == TaskStatus.DONE) {
+			boolean wasDone = caze.getInvestigationStatus() == InvestigationStatus.DONE;
+			Date statusChangeDate = changedTask.getStatusChangeDate() != null ? changedTask.getStatusChangeDate() : new Date();
+
+			caze.setInvestigationStatus(InvestigationStatus.DONE);
+			caze.setInvestigatedDate(statusChangeDate);
+
+			List<Task> otherPendingTasks =
+				taskService.findBy(new TaskCriteria().taskType(TaskType.CASE_INVESTIGATION).caze(caseRef).taskStatus(TaskStatus.PENDING), true);
+			for (Task task : otherPendingTasks) {
+				if (!task.getUuid().equals(changedTask.getUuid())) {
+					task.setTaskStatus(TaskStatus.DONE);
+					task.setStatusChangeDate(new Date());
+				}
+			}
+
+			if (!wasDone) {
+				sendInvestigationDoneNotifications(caze);
+			}
+			return;
+		}
 
 		// any pending case investigation task?
 		long pendingCount =

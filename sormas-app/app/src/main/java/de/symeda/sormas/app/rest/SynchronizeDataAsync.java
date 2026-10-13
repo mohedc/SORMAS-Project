@@ -434,6 +434,7 @@ public class SynchronizeDataAsync extends AsyncTask<Void, Void, Void> {
 		syncCallbacks.ifPresent(c -> c.getUpdateSynchronizationStepCallback().accept(SynchronizationDialog.SynchronizationStep.PULL_MODIFIED));
 
 		casesNeedPull |= clinicalVisitsNeedPull;
+		casesNeedPull |= tasksNeedPull;
 
 		if (personsNeedPull) {
 			personDtoHelper.pullEntities(true, context, syncCallbacks, false);

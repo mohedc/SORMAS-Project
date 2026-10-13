@@ -387,7 +387,7 @@ public class TaskFacadeEjb implements TaskFacade {
 
 		// once we have to handle additional logic this should be moved to it's own function or even class
 		if (ado.getTaskType() == TaskType.CASE_INVESTIGATION && ado.getCaze() != null) {
-			caseFacade.updateInvestigationByTask(ado.getCaze());
+			caseFacade.updateInvestigationByTask(ado.getCaze(), ado);
 		}
 
 		if (ado.getTaskType() == TaskType.CONTACT_FOLLOW_UP && ado.getTaskStatus() == TaskStatus.DONE && ado.getContact() != null) {

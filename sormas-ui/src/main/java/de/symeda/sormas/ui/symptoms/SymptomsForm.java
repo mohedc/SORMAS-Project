@@ -201,7 +201,8 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 			fluidRowLocs(6, INJECTION_SITE_BEFORE_ONSET_PARALYSIS, 6, INJECTION_SITE_BEFORE_ONSET_PARALYSIS_ONSET_DATE) +
 			fluidRowLocs(6, INJECTION_SITE, 6, INJECTION_SITE_ONSET_DATE) +
 			fluidRowLocs(PROVISONAL_DIAGNOSIS)+
-			fluidRowLocs(6, TRUEAFP);
+			fluidRowLocs(6, TRUEAFP) +
+			fluidRowLocs(3, OUTCOME);
 
 	public static final String YELLOW_FEVER_LAYOUT = loc(CLINICAL_MEASUREMENTS_HEADING_LOC) +
 					fluidRowLocs(TEMPERATURE, TEMPERATURE_SOURCE) +
@@ -792,7 +793,7 @@ public class SymptomsForm extends AbstractEditForm<SymptomsDto> {
 			List<CaseOutcome> outcomes = Arrays.asList(CaseOutcome.ALIVE, CaseOutcome.DECEASED, CaseOutcome.UNKNOWN);
 			FieldHelper.updateEnumData(outcomeList, outcomes);
 		}
-		if (disease == Disease.MEASLES) {
+		if (disease == Disease.MEASLES || disease == Disease.AFP) {
 			List<CaseOutcome> outcomes = Arrays.asList(CaseOutcome.ALIVE, CaseOutcome.DECEASED, CaseOutcome.UNKNOWN);
 			FieldHelper.updateEnumData(outcomeList, outcomes);
 		}

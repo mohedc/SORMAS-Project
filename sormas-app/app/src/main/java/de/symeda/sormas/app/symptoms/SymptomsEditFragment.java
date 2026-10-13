@@ -441,6 +441,7 @@ public class SymptomsEditFragment extends BaseEditFragment<FragmentSymptomsEditL
 	private List<Item> getCaseOutcomeListByDisease(Disease disease) {
 
 		if (disease == Disease.MEASLES
+				|| disease == Disease.AFP
 				|| disease == Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS) {
 
 			return DataUtils.toItems(

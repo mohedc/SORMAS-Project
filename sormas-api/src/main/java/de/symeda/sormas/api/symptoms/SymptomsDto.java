@@ -2842,7 +2842,8 @@ public class SymptomsDto extends PseudonymizableDto {
 			MEASLES,
 			YELLOW_FEVER,
 			CONGENITAL_RUBELLA,
-			IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS
+			IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS,
+			AFP
 	})
 	@Outbreaks
 	private CaseOutcome outcome;

@@ -121,6 +121,57 @@ public class TaskFacadeEjbTest extends AbstractBeanTest {
 	}
 
 	@Test
+	public void testDoneInvestigationTaskSetsCaseInvestigationDoneDespiteOtherPendingTask() {
+		RDCF rdcf = creator.createRDCF("Region", "District", "Community", "Facility");
+		UserDto user = creator.createUser(
+			rdcf.region.getUuid(),
+			rdcf.district.getUuid(),
+			rdcf.facility.getUuid(),
+			"Surv",
+			"Sup",
+			creator.userRoleDtoMap.get(DefaultUserRole.SURVEILLANCE_SUPERVISOR));
+		loginWith(user);
+
+		PersonDto cazePerson = creator.createPerson("Case", "Person");
+		CaseDataDto caze = creator.createCase(
+			user.toReference(),
+			cazePerson.toReference(),
+			Disease.EVD,
+			CaseClassification.PROBABLE,
+			InvestigationStatus.PENDING,
+			new Date(),
+			rdcf);
+
+		TaskDto firstTask = creator.createTask(
+			TaskContext.CASE,
+			TaskType.CASE_INVESTIGATION,
+			TaskStatus.PENDING,
+			caze.toReference(),
+			null,
+			null,
+			null,
+			DateHelper.addDays(new Date(), 1),
+			user.toReference());
+		TaskDto secondTask = creator.createTask(
+			TaskContext.CASE,
+			TaskType.CASE_INVESTIGATION,
+			TaskStatus.PENDING,
+			caze.toReference(),
+			null,
+			null,
+			null,
+			DateHelper.addDays(new Date(), 1),
+			user.toReference());
+
+		firstTask = getTaskFacade().getTaskByUuid(firstTask.getUuid());
+		firstTask.setTaskStatus(TaskStatus.DONE);
+		getTaskFacade().saveTask(firstTask);
+
+		assertEquals(InvestigationStatus.DONE, getCaseFacade().getCaseDataByUuid(caze.getUuid()).getInvestigationStatus());
+		assertEquals(TaskStatus.DONE, getTaskFacade().getTaskByUuid(secondTask.getUuid()).getTaskStatus());
+	}
+
+	@Test
 	public void testGetByUuidForArchivedTask() {
 		UserDto user1 = creator.createUser(
 			null,
