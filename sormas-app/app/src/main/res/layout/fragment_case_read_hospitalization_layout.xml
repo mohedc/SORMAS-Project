@@ -26,7 +26,6 @@
         <import type="de.symeda.sormas.api.utils.YesNo" />
         <import type="de.symeda.sormas.api.utils.YesNoUnknown" />
         <import type="de.symeda.sormas.api.hospitalization.HospitalizationReasonType" />
-        <import type="de.symeda.sormas.api.infrastructure.facility.FacilityType" />
 
         <variable name="data" type="de.symeda.sormas.app.backend.hospitalization.Hospitalization" />
         <variable name="caze" type="de.symeda.sormas.app.backend.caze.Case" />
@@ -50,9 +49,7 @@
                 android:padding="@dimen/fragment_padding"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
-                android:id="@+id/main_content"
-                app:goneIfVariable="@{caze.facilityType}"
-                app:goneIfNotValue="@{FacilityType.HOSPITAL}">
+                android:id="@+id/main_content">
 
                 <TextView
                     android:id="@+id/heading_most_recent_hospitalization"
@@ -105,6 +102,13 @@
                         style="@style/ControlSecondOfTwoColumnsStyle" />
 
                 </LinearLayout>
+
+                <de.symeda.sormas.app.component.controls.ControlTextReadField
+                    android:id="@+id/caseHospitalization_admissionFacilityType"
+                    app:dependencyParentField="@{caseHospitalizationAdmittedToDifferentHealthFacility}"
+                    app:dependencyParentValue="@{YesNo.YES}"
+                    app:value="@{data.admissionFacilityType}"
+                    style="@style/ControlSingleColumnStyle" />
 
                 <LinearLayout
                     android:id="@+id/caseHospitalization_admission_facility_layout"

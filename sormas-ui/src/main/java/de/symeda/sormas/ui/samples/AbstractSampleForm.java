@@ -1056,7 +1056,7 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 		getField(SampleDto.DATE_HEALTH_FACILITY_NOTIFY_REGION).setVisible(true);
 		getField(SampleDto.CSF_SAMPLE_COLLECTED).setVisible(true);
 		getField(SampleDto.LUMBAR_PUNCTURE_PERFORMED).setVisible(true);
-		getField(SampleDto.WAS_SPECIMEN_TAKEN).setVisible(true);
+//		getField(SampleDto.WAS_SPECIMEN_TAKEN).setVisible(true);
 		getField(SampleDto.PACKAGING).setVisible(true);
 		getField(SampleDto.MENINGITIS_RDT_PERFORMED).setVisible(true);
 
@@ -1124,12 +1124,13 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 			true);
 
 		// Laboratory fields visibility - shown when wasSpecimenTaken = YES
-		FieldHelper.setVisibleWhen(
-			getFieldGroup(),
-			Arrays.asList(SampleDto.LABORATORY_TYPE, SampleDto.LAB, SampleDto.DATE_SPECIMEN_SENT_TO_LABORATORY_TYPE),
-			SampleDto.WAS_SPECIMEN_TAKEN,
-			Arrays.asList(YesNo.YES),
-			true);
+//		FieldHelper.setVisibleWhen(
+//			getFieldGroup(),
+//			Arrays.asList(SampleDto.LABORATORY_TYPE, SampleDto.LAB, SampleDto.DATE_SPECIMEN_SENT_TO_LABORATORY_TYPE),
+//			SampleDto.WAS_SPECIMEN_TAKEN,
+//			Arrays.asList(YesNo.YES),
+//			true);
+
 		FieldHelper.setEnabledWhen(
 			getFieldGroup(),
 			wasSpecimenTakenField,

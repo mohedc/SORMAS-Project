@@ -28,6 +28,8 @@ import de.symeda.sormas.api.FormType;
 import de.symeda.sormas.api.hospitalization.HospitalizationDto;
 import de.symeda.sormas.api.hospitalization.HospitalizationReasonType;
 import de.symeda.sormas.api.hospitalization.PreviousHospitalizationDto;
+import de.symeda.sormas.api.infrastructure.facility.FacilityType;
+import de.symeda.sormas.api.infrastructure.facility.FacilityTypeGroup;
 import de.symeda.sormas.api.utils.InpatOutpat;
 import de.symeda.sormas.api.utils.YesNo;
 import de.symeda.sormas.api.utils.YesNoUnknown;
@@ -263,6 +265,11 @@ public class CaseEditHospitalizationFragment extends BaseEditFragment<FragmentCa
 			}
 		}
 
+		List<Item> facilityTypes = DataUtils.toItems(FacilityType.getAccommodationTypes(FacilityTypeGroup.MEDICAL_FACILITY), true);
+		contentBinding.caseHospitalizationAdmissionFacilityType.initializeSpinner(facilityTypes, record.getAdmissionFacilityType());
+		contentBinding.caseHospitalizationAdmissionFacilityType.setEnabled(false);
+		updateAdmissionFacilityTypeVisibility(contentBinding);
+
 		InfrastructureFieldsDependencyHandler.instance.initializeRegionFields(
 			contentBinding.caseHospitalizationAdmissionRegion,
 			initialRegions,
@@ -288,10 +295,14 @@ public class CaseEditHospitalizationFragment extends BaseEditFragment<FragmentCa
 			}
 			contentBinding.caseHospitalizationAdmissionHealthFacility.setSpinnerData(facilities, selectedFacility);
 		});
-		contentBinding.caseHospitalizationAdmissionHealthFacility.addValueChangedListener(
-			field -> record.setAdmissionFacilityType(InfrastructureDaoHelper.resolveFacilityType((Facility) field.getValue())));
+		contentBinding.caseHospitalizationAdmissionHealthFacility.addValueChangedListener(field -> {
+			FacilityType facilityType = InfrastructureDaoHelper.resolveFacilityType((Facility) field.getValue());
+			contentBinding.caseHospitalizationAdmissionFacilityType.setValue(facilityType);
+			record.setAdmissionFacilityType(facilityType);
+		});
 
 		contentBinding.caseHospitalizationAdmittedToDifferentHealthFacility.addValueChangedListener(field -> {
+			updateAdmissionFacilityTypeVisibility(contentBinding);
 			if (field.getValue() == YesNo.YES) {
 				ensureDefaultAdmissionJurisdiction(contentBinding);
 			} else {
@@ -302,6 +313,12 @@ public class CaseEditHospitalizationFragment extends BaseEditFragment<FragmentCa
 		if (record.getAdmittedToDifferentHealthFacility() == YesNo.YES) {
 			ensureDefaultAdmissionJurisdiction(contentBinding);
 		}
+	}
+
+	private void updateAdmissionFacilityTypeVisibility(FragmentCaseEditHospitalizationLayoutBinding contentBinding) {
+		boolean showAdmissionFacilityType = contentBinding.caseHospitalizationAdmittedToDifferentHealthFacility.getValue() == YesNo.YES;
+		contentBinding.caseHospitalizationAdmissionFacilityType
+			.setVisibility(showAdmissionFacilityType ? View.VISIBLE : View.GONE);
 	}
 
 	private void ensureDefaultAdmissionJurisdiction(FragmentCaseEditHospitalizationLayoutBinding contentBinding) {
@@ -337,6 +354,7 @@ public class CaseEditHospitalizationFragment extends BaseEditFragment<FragmentCa
 	private void clearAdmissionJurisdiction(FragmentCaseEditHospitalizationLayoutBinding contentBinding) {
 		contentBinding.caseHospitalizationAdmissionRegion.setValue(null);
 		contentBinding.caseHospitalizationAdmissionDistrict.setValue(null);
+		contentBinding.caseHospitalizationAdmissionFacilityType.setValue(null);
 		contentBinding.caseHospitalizationAdmissionHealthFacility.setValue(null);
 		contentBinding.caseHospitalizationAdmissionHealthFacilityDetails.setValue(null);
 

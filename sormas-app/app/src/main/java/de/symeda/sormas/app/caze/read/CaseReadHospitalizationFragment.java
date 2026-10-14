@@ -28,6 +28,7 @@ import de.symeda.sormas.api.FormType;
 import de.symeda.sormas.api.hospitalization.HospitalizationDto;
 import de.symeda.sormas.api.hospitalization.PreviousHospitalizationDto;
 import de.symeda.sormas.api.utils.InpatOutpat;
+import de.symeda.sormas.api.utils.YesNo;
 import de.symeda.sormas.api.utils.fieldaccess.UiFieldAccessCheckers;
 import de.symeda.sormas.api.utils.fieldvisibility.FieldVisibilityCheckers;
 import de.symeda.sormas.app.BaseReadFragment;
@@ -90,6 +91,10 @@ public class CaseReadHospitalizationFragment extends BaseReadFragment<FragmentCa
 		InfrastructureDaoHelper.initializeHealthFacilityDetailsFieldVisibility(
 			contentBinding.caseHospitalizationAdmissionHealthFacility,
 			contentBinding.caseHospitalizationAdmissionHealthFacilityDetails);
+
+		boolean showAdmissionFacilityType = record.getAdmittedToDifferentHealthFacility() == YesNo.YES;
+		contentBinding.caseHospitalizationAdmissionFacilityType
+			.setVisibility(showAdmissionFacilityType ? View.VISIBLE : View.GONE);
 
 		if (caze.getDisease() == Disease.IMMEDIATE_CASE_BASED_FORM_OTHER_CONDITIONS) {
 			contentBinding.caseHospitalizationDateFirstSeenAtHealthFacility.setCaption("Date seen at health facility");
