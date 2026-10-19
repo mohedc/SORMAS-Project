@@ -30,6 +30,7 @@ import android.util.Log;
 
 import de.symeda.sormas.api.Disease;
 import de.symeda.sormas.api.sample.PathogenTestResultType;
+import de.symeda.sormas.api.utils.YesNo;
 import de.symeda.sormas.app.backend.caze.Case;
 import de.symeda.sormas.app.backend.common.AbstractAdoDao;
 import de.symeda.sormas.app.backend.common.AbstractDomainObject;
@@ -66,6 +67,7 @@ public class SampleDao extends AbstractAdoDao<Sample> {
 		sample.setReportingUser(ConfigProvider.getUser());
 		sample.setPathogenTestResult(PathogenTestResultType.PENDING);
 		sample.setLab(DatabaseHelper.getFacilityDao().getDefaultLaboratory());
+		sample.setWasSpecimenTaken(YesNo.YES);
 		return sample;
 	}
 

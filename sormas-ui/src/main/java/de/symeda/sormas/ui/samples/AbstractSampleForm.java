@@ -1041,8 +1041,12 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 	 */
 	protected void configureMeningitisFields() {
 		NullableOptionGroup wasSpecimenTakenField = (NullableOptionGroup) getField(SampleDto.WAS_SPECIMEN_TAKEN);
+		wasSpecimenTakenField.setReadOnly(false);
 		wasSpecimenTakenField.setValue(YesNo.YES);
 		wasSpecimenTakenField.setReadOnly(true);
+		if (getValue() != null) {
+			getValue().setWasSpecimenTaken(YesNo.YES);
+		}
 
 		FieldHelper.updateEnumData(
 			sampleMaterialComboBox,
@@ -1131,12 +1135,8 @@ public abstract class AbstractSampleForm extends AbstractEditForm<SampleDto> {
 //			Arrays.asList(YesNo.YES),
 //			true);
 
-		FieldHelper.setEnabledWhen(
-			getFieldGroup(),
-			wasSpecimenTakenField,
-			Arrays.asList(YesNo.YES),
-			Arrays.asList(SampleDto.LABORATORY_TYPE, SampleDto.LABORATORY_NAME, SampleDto.DATE_SPECIMEN_SENT_TO_LABORATORY_TYPE),
-			true);
+		// wasSpecimenTaken is always YES for meningitis and hidden from the layout;
+		// do not gate/clear LABORATORY_TYPE on it (that broke mobile-synced samples).
 
 		// Received block only when shipped is checked
 		FieldHelper.setVisibleWhen(getFieldGroup(), Arrays.asList(SampleDto.RECEIVED), SampleDto.SHIPPED, Arrays.asList(true), true);

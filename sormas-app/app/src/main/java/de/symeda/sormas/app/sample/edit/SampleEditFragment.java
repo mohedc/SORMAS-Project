@@ -591,6 +591,13 @@ public class SampleEditFragment extends BaseEditFragment<FragmentSampleEditLayou
 			return;
 		}
 
+		record.setWasSpecimenTaken(YesNo.YES);
+		if (contentBinding.sampleWasSpecimenTaken != null) {
+			contentBinding.sampleWasSpecimenTaken.setValue(YesNo.YES);
+			contentBinding.sampleWasSpecimenTaken.setEnabled(false);
+		}
+
+		contentBinding.sampleLaboratoryType.setVisibility(VISIBLE);
 		contentBinding.sampleLaboratoryType.initializeSpinner(DataUtils.toItems(
 			Arrays.asList(LaboratoryType.REGIONAL_LABORATORY, LaboratoryType.REFERENCE_LABORATORY),
 			true));
