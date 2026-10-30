@@ -154,6 +154,14 @@ public class FacadeProvider {
 		return get().lookupEjbRemote(CaseFacade.class);
 	}
 
+	public static de.symeda.sormas.api.caze.samplesexport.CaseSamplesDetailedExportFacade getCaseSamplesDetailedExportFacade() {
+		return get().lookupEjbRemote(de.symeda.sormas.api.caze.samplesexport.CaseSamplesDetailedExportFacade.class);
+	}
+
+	public static de.symeda.sormas.api.caze.samplesexport.DiseaseSpecificExportFieldFacade getDiseaseSpecificExportFieldFacade() {
+		return get().lookupEjbRemote(de.symeda.sormas.api.caze.samplesexport.DiseaseSpecificExportFieldFacade.class);
+	}
+
 	public static ImmunizationFacade getImmunizationFacade() {
 		return get().lookupEjbRemote(ImmunizationFacade.class);
 	}

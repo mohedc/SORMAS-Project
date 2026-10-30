@@ -363,6 +363,10 @@ public class CaseExportDto extends AbstractUuidDto implements IsCase {
 	private Date dateOfInvestigation;
 	private Date dateOfOutcome;
 
+	protected CaseExportDto(String uuid) {
+		super(uuid);
+	}
+
 	//@formatter:off
 	@SuppressWarnings("unchecked")
 	public CaseExportDto(long id, long personId, Double personAddressLatitude, Double personAddressLongitude, Float personAddressLatLonAcc, long epiDataId, long symptomsId,

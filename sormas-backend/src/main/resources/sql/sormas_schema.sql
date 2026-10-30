@@ -15748,6 +15748,99 @@ ALTER TABLE previoushospitalization_history ADD COLUMN IF NOT EXISTS facilitytyp
 
 INSERT INTO schema_version (version_number, comment) VALUES (681, 'Add facility type to hospitalization admission facility and previous hospitalizations');
 
+-- Migration 682: Async detailed case/sample export history, downloads, and disease-specific field catalog
+CREATE TABLE IF NOT EXISTS casesamplesdetailedexport
+(
+    id                   bigint       not null,
+    uuid                 varchar(36)  not null unique,
+    changedate           timestamp    not null,
+    creationdate         timestamp    not null,
+    change_user_id       bigint,
+    sys_period           tstzrange    not null,
+    requestinguser_id    bigint,
+    requestedat          timestamp,
+    result               varchar(255),
+    filtersummary        varchar(4096),
+    criteriajson         text,
+    selecteduuids        text,
+    exportkind           varchar(255),
+    disease              varchar(255),
+    language             varchar(255),
+    snapshottedpaths     text,
+    filepath             varchar(1024),
+    filename             varchar(512),
+    rowcount             bigint,
+    progressrowcount     bigint,
+    lastprogressat       timestamp,
+    errormessage         text,
+    errorstack           text,
+    tokenhash            varchar(64) unique,
+    expiresat            timestamp,
+    downloadcount        integer      not null default 0,
+    totalcases           bigint,
+    primary key (id)
+);
+ALTER TABLE casesamplesdetailedexport OWNER TO sormas_user;
+ALTER TABLE casesamplesdetailedexport ADD CONSTRAINT fk_casesamplesdetailedexport_requestinguser_id FOREIGN KEY (requestinguser_id) REFERENCES users (id);
+CREATE TABLE casesamplesdetailedexport_history (LIKE casesamplesdetailedexport);
+CREATE TRIGGER versioning_trigger BEFORE INSERT OR UPDATE ON casesamplesdetailedexport
+    FOR EACH ROW EXECUTE PROCEDURE versioning('sys_period', 'casesamplesdetailedexport_history', true);
+CREATE TRIGGER delete_history_trigger
+    AFTER DELETE ON casesamplesdetailedexport
+    FOR EACH ROW EXECUTE PROCEDURE delete_history_trigger('casesamplesdetailedexport_history', 'id');
+ALTER TABLE casesamplesdetailedexport_history OWNER TO sormas_user;
+
+CREATE TABLE IF NOT EXISTS casesamplesdetailedexportdownload
+(
+    id                   bigint       not null,
+    uuid                 varchar(36)  not null unique,
+    changedate           timestamp    not null,
+    creationdate         timestamp    not null,
+    change_user_id       bigint,
+    sys_period           tstzrange    not null,
+    export_id            bigint       not null,
+    downloadedat         timestamp,
+    downloadinguser_id   bigint,
+    primary key (id)
+);
+ALTER TABLE casesamplesdetailedexportdownload OWNER TO sormas_user;
+ALTER TABLE casesamplesdetailedexportdownload ADD CONSTRAINT fk_casesamplesdetailedexportdownload_export_id FOREIGN KEY (export_id) REFERENCES casesamplesdetailedexport (id);
+ALTER TABLE casesamplesdetailedexportdownload ADD CONSTRAINT fk_casesamplesdetailedexportdownload_downloadinguser_id FOREIGN KEY (downloadinguser_id) REFERENCES users (id);
+CREATE TABLE casesamplesdetailedexportdownload_history (LIKE casesamplesdetailedexportdownload);
+CREATE TRIGGER versioning_trigger BEFORE INSERT OR UPDATE ON casesamplesdetailedexportdownload
+    FOR EACH ROW EXECUTE PROCEDURE versioning('sys_period', 'casesamplesdetailedexportdownload_history', true);
+CREATE TRIGGER delete_history_trigger
+    AFTER DELETE ON casesamplesdetailedexportdownload
+    FOR EACH ROW EXECUTE PROCEDURE delete_history_trigger('casesamplesdetailedexportdownload_history', 'id');
+ALTER TABLE casesamplesdetailedexportdownload_history OWNER TO sormas_user;
+
+CREATE TABLE IF NOT EXISTS diseasespecificexportfield
+(
+    id                   bigint       not null,
+    uuid                 varchar(36)  not null unique,
+    changedate           timestamp    not null,
+    creationdate         timestamp    not null,
+    change_user_id       bigint,
+    sys_period           tstzrange    not null,
+    disease              varchar(255) not null,
+    propertypath         varchar(512) not null,
+    displayorder         integer      not null,
+    active               boolean      not null,
+    schemablock          varchar(64),
+    primary key (id),
+    unique (disease, propertypath)
+);
+ALTER TABLE diseasespecificexportfield OWNER TO sormas_user;
+CREATE TABLE diseasespecificexportfield_history (LIKE diseasespecificexportfield);
+CREATE TRIGGER versioning_trigger BEFORE INSERT OR UPDATE ON diseasespecificexportfield
+    FOR EACH ROW EXECUTE PROCEDURE versioning('sys_period', 'diseasespecificexportfield_history', true);
+CREATE TRIGGER delete_history_trigger
+    AFTER DELETE ON diseasespecificexportfield
+    FOR EACH ROW EXECUTE PROCEDURE delete_history_trigger('diseasespecificexportfield_history', 'id');
+ALTER TABLE diseasespecificexportfield_history OWNER TO sormas_user;
+
+INSERT INTO schema_version (version_number, comment) VALUES (682, 'Async detailed case and sample export with disease-specific field catalog');
+
 
 -- *** Insert new sql commands BEFORE this line. Remember to always consider _history tables. ***
 

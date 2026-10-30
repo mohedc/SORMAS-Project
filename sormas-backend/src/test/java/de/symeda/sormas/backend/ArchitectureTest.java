@@ -37,6 +37,8 @@ import de.symeda.sormas.backend.bagexport.BAGExportFacadeEjb;
 import de.symeda.sormas.backend.campaign.CampaignFacadeEjb;
 import de.symeda.sormas.backend.caze.CaseFacadeEjb;
 import de.symeda.sormas.backend.caze.caseimport.CaseImportFacadeEjb;
+import de.symeda.sormas.backend.caze.samplesexport.CaseSamplesDetailedExportFacadeEjb;
+import de.symeda.sormas.backend.caze.samplesexport.DiseaseSpecificExportFieldFacadeEjb;
 import de.symeda.sormas.backend.caze.surveillancereport.SurveillanceReportFacadeEjb;
 import de.symeda.sormas.backend.clinicalcourse.ClinicalVisitFacadeEjb;
 import de.symeda.sormas.backend.common.AbstractBaseEjb;
@@ -179,6 +181,16 @@ public class ArchitectureTest {
 	@ArchTest
 	public void testCaseFacadeEjbAuthorization(JavaClasses classes) {
 		assertFacadeEjbAnnotated(CaseFacadeEjb.class, classes);
+	}
+
+	@ArchTest
+	public void testCaseSamplesDetailedExportFacadeEjbAuthorization(JavaClasses classes) {
+		assertFacadeEjbAnnotated(CaseSamplesDetailedExportFacadeEjb.class, classes);
+	}
+
+	@ArchTest
+	public void testDiseaseSpecificExportFieldFacadeEjbAuthorization(JavaClasses classes) {
+		assertFacadeEjbAnnotated(DiseaseSpecificExportFieldFacadeEjb.class, AuthMode.CLASS_ONLY, classes);
 	}
 
 	@ArchTest

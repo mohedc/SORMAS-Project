@@ -62,7 +62,6 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import de.symeda.sormas.api.response.ResponseDto;
-import de.symeda.sormas.backend.afpimmunization.AfpImmunization;
 import de.symeda.sormas.backend.afpimmunization.AfpImmunizationFacadeEjb;
 import de.symeda.sormas.backend.afpimmunization.AfpImmunizationFacadeEjb.AfpImmunizationEjbLocal;
 import de.symeda.sormas.backend.response.ResponseFacadeEjb;
@@ -85,6 +84,7 @@ import de.symeda.sormas.api.caze.CaseBulkEditData;
 import de.symeda.sormas.api.caze.CaseClassification;
 import de.symeda.sormas.api.caze.CaseCriteria;
 import de.symeda.sormas.api.caze.CaseDataDto;
+import de.symeda.sormas.api.caze.CaseExportDetailedSampleDto;
 import de.symeda.sormas.api.caze.CaseExportDto;
 import de.symeda.sormas.api.caze.CaseExportType;
 import de.symeda.sormas.api.caze.CaseFacade;
@@ -803,7 +803,6 @@ public class CaseFacadeEjb extends AbstractCoreFacadeEjb<Case, CaseDataDto, Case
 				joins.getEpiData().get(EpiData.ID),
 				joins.getRoot().get(Case.SYMPTOMS).get(Symptoms.ID),
 				joins.getHospitalization().get(Hospitalization.ID),
-				joins.getAfpImmunization().get(AfpImmunization.ID),
 				joins.getRoot().get(Case.HEALTH_CONDITIONS).get(HealthConditions.ID),
 				caseRoot.get(Case.UUID),
 				caseRoot.get(Case.EPID_NUMBER), caseRoot.get(Case.DISEASE), caseRoot.get(Case.DISEASE_VARIANT_VALUE), caseRoot.get(Case.DISEASE_DETAILS),
@@ -1264,6 +1263,106 @@ public class CaseFacadeEjb extends AbstractCoreFacadeEjb<Case, CaseDataDto, Case
 		caseCriteria.setMustHaveCaseManagementData(previousCaseManagementDataCriteria);
 
 		return resultList;
+	}
+
+	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+	@RightsAllowed(UserRight._CASE_EXPORT)
+	public List<CaseExportDetailedSampleDto> getExportListDetailed(
+		CaseCriteria caseCriteria,
+		Collection<String> selectedRows,
+		CaseExportType exportType,
+		int first,
+		int max,
+		ExportConfigurationDto exportConfiguration,
+		Language userLanguage) {
+
+		ExportConfigurationDto caseConfig = exportConfiguration;
+		if (exportConfiguration != null && exportConfiguration.getProperties() != null) {
+			caseConfig = ExportConfigurationDto.build(exportConfiguration.getUser(), exportConfiguration.getExportType());
+			Set<String> properties = new HashSet<>(exportConfiguration.getProperties());
+			properties.remove(CaseExportDto.SAMPLE_INFORMATION);
+			caseConfig.setProperties(properties);
+		}
+
+		List<CaseExportDto> cases = getExportList(caseCriteria, selectedRows, exportType, first, max, caseConfig, userLanguage);
+		if (cases.isEmpty()) {
+			return Collections.emptyList();
+		}
+
+		List<Long> caseIds = cases.stream().map(CaseExportDto::getId).collect(Collectors.toList());
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		CriteriaQuery<Sample> samplesCq = cb.createQuery(Sample.class);
+		Root<Sample> samplesRoot = samplesCq.from(Sample.class);
+		Join<Sample, Case> samplesCaseJoin = samplesRoot.join(Sample.ASSOCIATED_CASE, JoinType.LEFT);
+		samplesCq.where(cb.and(samplesCaseJoin.get(Case.ID).in(caseIds), cb.isFalse(samplesRoot.get(Sample.DELETED))));
+		samplesCq.orderBy(cb.desc(samplesRoot.get(Sample.SAMPLE_DATE_TIME)), cb.desc(samplesRoot.get(Sample.ID)));
+		List<Sample> samples = em.createQuery(samplesCq).setHint(ModelConstants.READ_ONLY, true).getResultList();
+		Map<Long, List<Sample>> samplesByCaseId = samples.stream()
+			.filter(s -> s.getAssociatedCase() != null)
+			.collect(Collectors.groupingBy(s -> s.getAssociatedCase().getId(), LinkedHashMap::new, Collectors.toList()));
+
+		List<String> sampleUuids = samples.stream().map(Sample::getUuid).collect(Collectors.toList());
+		Map<String, List<PathogenTest>> testsBySampleUuid = sampleUuids.isEmpty()
+			? Collections.emptyMap()
+			: pathogenTestService.getBySampleUuids(sampleUuids, true)
+				.stream()
+				.filter(t -> t.getSample() != null)
+				.collect(Collectors.groupingBy(t -> t.getSample().getUuid()));
+
+		List<CaseExportDetailedSampleDto> rows = new ArrayList<>();
+		for (CaseExportDto caze : cases) {
+			List<Sample> caseSamples = samplesByCaseId.getOrDefault(caze.getId(), Collections.emptyList());
+			if (caseSamples.isEmpty()) {
+				rows.add(CaseExportDetailedSampleDto.copyOf(caze));
+			} else {
+				for (Sample sample : caseSamples) {
+					CaseExportDetailedSampleDto row = CaseExportDetailedSampleDto.copyOf(caze);
+					fillSampleColumns(row, sample, testsBySampleUuid.getOrDefault(sample.getUuid(), Collections.emptyList()));
+					rows.add(row);
+				}
+			}
+		}
+		return rows;
+	}
+
+	private void fillSampleColumns(CaseExportDetailedSampleDto row, Sample sample, List<PathogenTest> tests) {
+		row.setSampleUuid(sample.getUuid());
+		row.setSampleLabSampleID(sample.getLabSampleID());
+		row.setSampleFieldSampleID(sample.getFieldSampleID());
+		row.setSampleDateTime(sample.getSampleDateTime());
+		row.setSampleReportDateTime(sample.getReportDateTime());
+		row.setSampleMaterial(sample.getSampleMaterial());
+		row.setSampleMaterialText(sample.getSampleMaterialText());
+		row.setSamplePurpose(sample.getSamplePurpose());
+		if (sample.getLab() != null) {
+			row.setSampleLab(FacilityHelper.buildFacilityString(sample.getLab().getUuid(), sample.getLab().getName(), sample.getLabDetails()));
+		}
+		row.setSampleShipped(sample.isShipped());
+		row.setSampleShipmentDate(sample.getShipmentDate());
+		row.setSampleReceived(sample.isReceived());
+		row.setSampleReceivedDate(sample.getReceivedDate());
+		row.setSampleSpecimenCondition(sample.getSpecimenCondition());
+		row.setSamplePathogenTestResult(sample.getPathogenTestResult());
+		row.setSampleSamplingReason(sample.getSamplingReason());
+		row.setSampleComment(sample.getComment());
+
+		row.setPathogenTestsTestType(joinTestValues(tests, t -> DataHelper.valueToString(t.getTestType())));
+		row.setPathogenTestsTestDateTime(joinTestValues(tests, t -> DataHelper.valueToString(t.getTestDateTime())));
+		row.setPathogenTestsLab(joinTestValues(tests, t -> t.getLab() == null ? "" : FacilityHelper.buildFacilityString(t.getLab().getUuid(), t.getLab().getName(), t.getLabDetails())));
+		row.setPathogenTestsTestResult(joinTestValues(tests, t -> DataHelper.valueToString(t.getTestResult())));
+		row.setPathogenTestsTestResultText(joinTestValues(tests, t -> DataHelper.toStringNullable(t.getTestResultText())));
+		row.setPathogenTestsTestedDisease(joinTestValues(tests, t -> DataHelper.valueToString(t.getTestedDisease())));
+		row.setPathogenTestsCqValue(joinTestValues(tests, t -> DataHelper.valueToString(t.getCqValue())));
+		row.setPathogenTestsSerotype(joinTestValues(tests, t -> DataHelper.toStringNullable(t.getSerotype())));
+		row.setPathogenTestsTestResultVerified(joinTestValues(tests, t -> DataHelper.valueToString(t.getTestResultVerified())));
+	}
+
+	private String joinTestValues(List<PathogenTest> tests, java.util.function.Function<PathogenTest, String> mapper) {
+		if (tests == null || tests.isEmpty()) {
+			return "";
+		}
+		return tests.stream().map(mapper).map(v -> v == null ? "" : v).collect(Collectors.joining(" | "));
 	}
 
 	private Subquery<Boolean> outbreakSq(CaseQueryContext caseQueryContext) {

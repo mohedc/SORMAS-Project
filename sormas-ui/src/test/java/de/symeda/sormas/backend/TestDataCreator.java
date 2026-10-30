@@ -162,8 +162,9 @@ public class TestDataCreator {
 
 	private void createUserRoles() {
 		Arrays.stream(DefaultUserRole.values()).forEach(defaultUserRole -> {
-			UserRoleDto userRoleDto =
-				UserRoleDto.build(defaultUserRole.getDefaultUserRights().toArray(new UserRight[defaultUserRole.getDefaultUserRights().size()]));
+			Set<UserRight> userRights = new HashSet<>(defaultUserRole.getDefaultUserRights());
+			userRights.addAll(UserRight.getRequiredUserRights(userRights));
+			UserRoleDto userRoleDto = UserRoleDto.build(userRights.toArray(new UserRight[0]));
 			userRoleDto.setCaption(defaultUserRole.toString());
 			userRoleDto.setEnabled(true);
 			userRoleDto.setPortHealthUser(defaultUserRole.isPortHealthUser());

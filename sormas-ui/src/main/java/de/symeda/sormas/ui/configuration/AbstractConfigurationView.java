@@ -31,6 +31,7 @@ import de.symeda.sormas.ui.SubMenu;
 import de.symeda.sormas.ui.UiUtil;
 import de.symeda.sormas.ui.configuration.customizableenum.CustomizableEnumValuesView;
 import de.symeda.sormas.ui.configuration.disease.DiseaseConfigurationView;
+import de.symeda.sormas.ui.configuration.disease.DiseaseSpecificExportFieldsView;
 import de.symeda.sormas.ui.configuration.docgeneration.DocumentTemplatesView;
 import de.symeda.sormas.ui.configuration.docgeneration.emailtemplate.EmailTemplatesView;
 import de.symeda.sormas.ui.configuration.infrastructure.AreasView;
@@ -134,6 +135,11 @@ public abstract class AbstractConfigurationView extends AbstractSubNavigationVie
 		if (UiUtil.permitted(UserRight.DISEASE_MANAGEMENT)) {
 			navigator.addView(DiseaseConfigurationView.VIEW_NAME, DiseaseConfigurationView.class);
 			firstAccessibleView = firstAccessibleView != null ? firstAccessibleView : DiseaseConfigurationView.class;
+		}
+
+		if (UiUtil.permitted(UserRight.MANAGE_PUBLIC_EXPORT_CONFIGURATION)) {
+			navigator.addView(DiseaseSpecificExportFieldsView.VIEW_NAME, DiseaseSpecificExportFieldsView.class);
+			firstAccessibleView = firstAccessibleView != null ? firstAccessibleView : DiseaseSpecificExportFieldsView.class;
 		}
 
 		if(UiUtil.permitted(UserRight.SYSTEM_CONFIGURATION)) {
@@ -282,6 +288,14 @@ public abstract class AbstractConfigurationView extends AbstractSubNavigationVie
 			menu.addView(
 				DiseaseConfigurationView.VIEW_NAME,
 				I18nProperties.getPrefixCaption("View", DiseaseConfigurationView.VIEW_NAME.replaceAll("/", ".") + ".short", ""),
+				null,
+				false);
+		}
+
+		if (UiUtil.permitted(UserRight.MANAGE_PUBLIC_EXPORT_CONFIGURATION)) {
+			menu.addView(
+				DiseaseSpecificExportFieldsView.VIEW_NAME,
+				I18nProperties.getPrefixCaption("View", DiseaseSpecificExportFieldsView.VIEW_NAME.replaceAll("/", ".") + ".short", ""),
 				null,
 				false);
 		}

@@ -707,7 +707,7 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 
 		createLabel(I18nProperties.getString(Strings.headingPersonCompleting), H3, PERSON_COMPLETING_HEADING_LOC);
 		createLabel(I18nProperties.getString(Strings.headingMotherVaccination), H3, MOTHER_VACCINATION_HEADING_LOC);
-		createLabel(I18nProperties.getString(Strings.HeadingVaccinesReceived), H3, VACCINE_TYPE_HEADING_LOC);
+		createLabel(I18nProperties.getString(Strings.headingVaccinesReceived), H3, VACCINE_TYPE_HEADING_LOC);
 		createLabel(I18nProperties.getCaption(Captions.CaseData_notification), H3, MENINGITIS_NOTIFICATION_HEADING_LOC);
 		createLabel("Sample Collection Information.", H3, SAMPLE_COLLECTION_INFORMATION_HEADING_LOC);
 
@@ -715,7 +715,7 @@ public class CaseDataForm extends AbstractEditForm<CaseDataDto> {
 		caseDataHeadingLabel.addStyleName(H3);
 		getContent().addComponent(caseDataHeadingLabel, CASE_DATA_HEADING_LOC);
 
-		Label caseNotifyInvestigateLabel = new Label(I18nProperties.getString(Strings.notifyInvestigate));
+		Label caseNotifyInvestigateLabel = new Label(I18nProperties.getString(Strings.headingnotifyInvestigate));
 		caseNotifyInvestigateLabel.addStyleName(H3);
 		getContent().addComponent(caseNotifyInvestigateLabel, NOTIFY_INVESTIGATE_HEADING_LOC);
 

@@ -87,6 +87,10 @@ public class UiUtil {
 		return Objects.nonNull(getCurrentUserProvider()) && getCurrentUserProvider().isAdmin();
 	}
 
+	public static boolean isNationalUser() {
+		return Objects.nonNull(getCurrentUserProvider()) && getCurrentUserProvider().isNationalUser();
+	}
+
 	public static UserProvider getCurrentUserProvider() {
 		return UserProvider.getCurrent();
 	}

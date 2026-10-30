@@ -98,7 +98,7 @@ public class Case extends CoreAdo implements IsCase, SormasToSormasShareable, Ha
 	public static final String TABLE_NAME = "cases";
 
 	public static final String CASE_CLASSIFICATION = "caseClassification";
-	public static final String CASE_IDENTIFICATION_SOURCE = "caseIdentificationSsource";
+	public static final String CASE_IDENTIFICATION_SOURCE = "caseIdentificationSource";
 	public static final String CLASSIFICATION_DATE = "classificationDate";
 	public static final String SCREENING_TYPE = "screeningType";
 	public static final String CLINICAL_CONFIRMATION = "clinicalConfirmation";

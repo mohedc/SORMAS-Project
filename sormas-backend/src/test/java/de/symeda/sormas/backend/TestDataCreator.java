@@ -177,8 +177,9 @@ public class TestDataCreator {
 
 	private void createUserRoles() {
 		Arrays.stream(DefaultUserRole.values()).forEach(defaultUserRole -> {
-			UserRoleDto userRoleDto =
-				UserRoleDto.build(defaultUserRole.getDefaultUserRights().toArray(new UserRight[defaultUserRole.getDefaultUserRights().size()]));
+			Set<UserRight> userRights = new HashSet<>(defaultUserRole.getDefaultUserRights());
+			userRights.addAll(UserRight.getRequiredUserRights(userRights));
+			UserRoleDto userRoleDto = UserRoleDto.build(userRights.toArray(new UserRight[0]));
 			userRoleDto.setCaption(defaultUserRole.toString());
 			userRoleDto.setEnabled(true);
 			userRoleDto.setPortHealthUser(defaultUserRole.isPortHealthUser());
@@ -206,7 +207,9 @@ public class TestDataCreator {
 		UserRoleDto userRole = new UserRoleDto();
 		userRole.setCaption(templateUserRole.toString() + "Restricted");
 		userRole.setJurisdictionLevel(templateUserRole.getJurisdictionLevel());
-		userRole.setUserRights(Arrays.stream(templateUserRole.getDefaultUserRights().toArray(new UserRight[0])).collect(Collectors.toSet()));
+		Set<UserRight> userRights = new HashSet<>(templateUserRole.getDefaultUserRights());
+		userRights.addAll(UserRight.getRequiredUserRights(userRights));
+		userRole.setUserRights(userRights);
 		userRole.setRestrictAccessToAssignedEntities(true);
 		return beanTest.getUserRoleFacade().saveUserRole(userRole).toReference();
 	}

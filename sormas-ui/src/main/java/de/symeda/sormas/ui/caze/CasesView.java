@@ -60,6 +60,7 @@ import de.symeda.sormas.api.caze.CaseCriteria;
 import de.symeda.sormas.api.caze.CaseDataDto;
 import de.symeda.sormas.api.caze.CaseExportType;
 import de.symeda.sormas.api.caze.CaseIndexDto;
+import de.symeda.sormas.api.caze.samplesexport.DiseaseSpecificExportFieldConfiguration;
 import de.symeda.sormas.api.caze.InvestigationStatus;
 import de.symeda.sormas.api.common.DeletableEntityType;
 import de.symeda.sormas.api.docgeneneration.DocumentWorkflow;
@@ -256,6 +257,12 @@ public class CasesView extends AbstractView implements HasName {
 		return config;
 	}
 
+	private void updateDiseaseSpecificExportButton(Button button) {
+		boolean enabled = DiseaseSpecificExportFieldConfiguration.isSupported(grid.getCriteria().getDisease());
+		button.setEnabled(enabled);
+		button.setDescription(enabled ? null : I18nProperties.getString(Strings.infoDiseaseSpecificExportNeedsDisease));
+	}
+
 	private Set<String> getSelectedRows() {
 		AbstractCaseGrid<?> caseGrid = (AbstractCaseGrid<?>) this.grid;
 		return this.viewConfiguration.isInEagerMode()
@@ -410,6 +417,51 @@ public class CasesView extends AbstractView implements HasName {
 				exportLayout.addComponent(btnCustomCaseExport);
 			}
 
+			Button btnDiseaseSpecificExport = null;
+			if (UiUtil.isNationalUser()) {
+				Button btnDetailedSampleExport = ButtonHelper.createIconButton(Captions.exportCaseSamplesDetailed, VaadinIcons.FILE_TEXT, e -> {
+					FacadeProvider.getCaseSamplesDetailedExportFacade()
+						.startDetailedSampleExport(
+							grid.getCriteria(),
+							getSelectedRows(),
+							CaseExportType.CASE_SURVEILLANCE,
+							detailedExportConfiguration,
+							I18nProperties.getUserLanguage());
+					Notification notification = new Notification(
+						I18nProperties.getString(Strings.headingExportStarted),
+						I18nProperties.getString(Strings.infoDetailedSampleExportStarted),
+						Notification.Type.TRAY_NOTIFICATION);
+					notification.setDelayMsec(8000);
+					notification.show(Page.getCurrent());
+					exportPopupButton.setPopupVisible(false);
+				}, ValoTheme.BUTTON_PRIMARY);
+				btnDetailedSampleExport.setWidth(100, Unit.PERCENTAGE);
+				exportLayout.addComponent(btnDetailedSampleExport);
+
+				btnDiseaseSpecificExport =
+					ButtonHelper.createIconButton(Captions.exportCaseDiseaseSpecificDetailed, VaadinIcons.FILE_TEXT, e -> {
+						FacadeProvider.getCaseSamplesDetailedExportFacade()
+							.startDiseaseSpecificDetailedExport(grid.getCriteria(), getSelectedRows(), I18nProperties.getUserLanguage());
+						Notification notification = new Notification(
+							I18nProperties.getString(Strings.headingExportStarted),
+							I18nProperties.getString(Strings.infoDiseaseSpecificExportStarted),
+							Notification.Type.TRAY_NOTIFICATION);
+						notification.setDelayMsec(8000);
+						notification.show(Page.getCurrent());
+						exportPopupButton.setPopupVisible(false);
+					}, ValoTheme.BUTTON_PRIMARY);
+				btnDiseaseSpecificExport.setWidth(100, Unit.PERCENTAGE);
+				updateDiseaseSpecificExportButton(btnDiseaseSpecificExport);
+				exportLayout.addComponent(btnDiseaseSpecificExport);
+
+				Button btnHistory = ButtonHelper.createIconButton(Captions.caseSamplesDetailedExportHistory, VaadinIcons.TABLE, e -> {
+					UI.getCurrent().getNavigator().navigateTo(de.symeda.sormas.ui.caze.samplesexport.CaseSamplesDetailedExportsView.VIEW_NAME);
+					exportPopupButton.setPopupVisible(false);
+				}, ValoTheme.BUTTON_PRIMARY);
+				btnHistory.setWidth(100, Unit.PERCENTAGE);
+				exportLayout.addComponent(btnHistory);
+			}
+
 			{
 				// Warning if no filters have been selected
 				Label warningLabel = new Label(I18nProperties.getString(Strings.infoExportNoFilters), ContentMode.HTML);
@@ -417,7 +469,13 @@ public class CasesView extends AbstractView implements HasName {
 				exportLayout.addComponent(warningLabel);
 				warningLabel.setVisible(false);
 
-				exportPopupButton.addClickListener(e -> warningLabel.setVisible(!criteria.hasAnyFilterActive()));
+				Button diseaseSpecificExportButton = btnDiseaseSpecificExport;
+				exportPopupButton.addClickListener(e -> {
+					if (diseaseSpecificExportButton != null) {
+						updateDiseaseSpecificExportButton(diseaseSpecificExportButton);
+					}
+					warningLabel.setVisible(!criteria.hasAnyFilterActive());
+				});
 			}
 		}
 

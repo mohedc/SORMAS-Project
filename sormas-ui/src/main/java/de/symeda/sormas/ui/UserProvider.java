@@ -119,6 +119,12 @@ public class UserProvider {
 		return (user.getUserRoles().stream().filter(i -> i.getCaption().contains(I18nProperties.getEnumCaption(DefaultUserRole.ADMIN))).count() == 1);
 	}
 
+	public boolean isNationalUser() {
+		return getUser().getUserRoles()
+			.stream()
+			.anyMatch(role -> role.getCaption() != null && role.getCaption().contains(I18nProperties.getEnumCaption(DefaultUserRole.NATIONAL_USER)));
+	}
+
 	public boolean hasRegionJurisdictionLevel() {
 		return getJurisdictionLevel() == JurisdictionLevel.REGION;
 	}

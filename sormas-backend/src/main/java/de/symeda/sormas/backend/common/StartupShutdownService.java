@@ -184,6 +184,8 @@ public class StartupShutdownService {
 	@EJB
 	private DeletionConfigurationService deletionConfigurationService;
 	@EJB
+	private de.symeda.sormas.backend.caze.samplesexport.DiseaseSpecificExportFieldService diseaseSpecificExportFieldService;
+	@EJB
 	AuditLoggerEjb.AuditLoggerEjbLocal auditLogger;
 	@EJB
 	private UserRoleService userRoleService;
@@ -251,6 +253,8 @@ public class StartupShutdownService {
 		createImportTemplateFiles(featureConfigurationFacade.getActiveServerFeatureConfigurations());
 
 		deletionConfigurationService.createMissingDeletionConfigurations();
+
+		diseaseSpecificExportFieldService.seedFromCsvResources();
 
 		configFacade.validateAppUrls();
 		configFacade.validateConfigUrls();

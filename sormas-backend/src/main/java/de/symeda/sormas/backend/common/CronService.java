@@ -99,6 +99,8 @@ public class CronService {
 	private UserFacadeEjbLocal userFacade;
 	@EJB
 	private SampleService sampleService;
+	@EJB
+	private de.symeda.sormas.backend.caze.samplesexport.CaseSamplesDetailedExportFacadeEjb.CaseSamplesDetailedExportFacadeEjbLocal caseSamplesDetailedExportFacade;
 
 	@Schedule(hour = "*", minute = "*/" + TASK_UPDATE_INTERVAL, second = "0", persistent = false)
 	public void sendNewAndDueTaskMessages() {
@@ -304,5 +306,15 @@ public class CronService {
 	@Schedule(hour = "2", minute = "40", persistent = false)
 	public void sofDeleteOldNegativeSamples() {
 		sampleService.cleanupOldCovidSamples();
+	}
+
+	@Schedule(hour = "*", minute = "*/15", second = "0", persistent = false)
+	public void cleanupStaleCaseSampleExports() {
+		caseSamplesDetailedExportFacade.cleanupStaleInProgressExports();
+	}
+
+	@Schedule(hour = "*", minute = "12", second = "0", persistent = false)
+	public void cleanupExpiredCaseSampleExports() {
+		caseSamplesDetailedExportFacade.cleanupExpiredExports();
 	}
 }

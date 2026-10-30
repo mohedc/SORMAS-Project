@@ -98,6 +98,9 @@
 		<class>de.symeda.sormas.backend.systemconfiguration.SystemConfigurationCategory</class>
 		<class>de.symeda.sormas.backend.person.notifier.Notifier</class>
 		<class>de.symeda.sormas.backend.therapy.DrugSusceptibility</class>
+		<class>de.symeda.sormas.backend.caze.samplesexport.CaseSamplesDetailedExport</class>
+		<class>de.symeda.sormas.backend.caze.samplesexport.CaseSamplesDetailedExportDownload</class>
+		<class>de.symeda.sormas.backend.caze.samplesexport.DiseaseSpecificExportField</class>
 
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 

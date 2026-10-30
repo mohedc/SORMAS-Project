@@ -102,6 +102,9 @@
 		<class>de.symeda.sormas.backend.therapy.DrugSusceptibility</class>
 		<class>de.symeda.sormas.backend.infrastructure.formfield.FormField</class>
 		<class>de.symeda.sormas.backend.infrastructure.formbuilder.FormBuilder</class>
+		<class>de.symeda.sormas.backend.caze.samplesexport.CaseSamplesDetailedExport</class>
+		<class>de.symeda.sormas.backend.caze.samplesexport.CaseSamplesDetailedExportDownload</class>
+		<class>de.symeda.sormas.backend.caze.samplesexport.DiseaseSpecificExportField</class>
 
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
 

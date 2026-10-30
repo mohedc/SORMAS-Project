@@ -488,6 +488,24 @@ public abstract class AbstractBeanTest {
 		return getBean(CaseFacadeEjbLocal.class);
 	}
 
+	public de.symeda.sormas.backend.caze.samplesexport.CaseSamplesDetailedExportFacadeEjb getCaseSamplesDetailedExportFacade() {
+		return getBean(
+			de.symeda.sormas.backend.caze.samplesexport.CaseSamplesDetailedExportFacadeEjb.CaseSamplesDetailedExportFacadeEjbLocal.class);
+	}
+
+	public de.symeda.sormas.backend.caze.samplesexport.CaseSamplesDetailedExportService getCaseSamplesDetailedExportService() {
+		return getBean(de.symeda.sormas.backend.caze.samplesexport.CaseSamplesDetailedExportService.class);
+	}
+
+	public de.symeda.sormas.backend.caze.samplesexport.DiseaseSpecificExportFieldService getDiseaseSpecificExportFieldService() {
+		return getBean(de.symeda.sormas.backend.caze.samplesexport.DiseaseSpecificExportFieldService.class);
+	}
+
+	public de.symeda.sormas.backend.caze.samplesexport.DiseaseSpecificExportFieldFacadeEjb getDiseaseSpecificExportFieldFacade() {
+		return getBean(
+			de.symeda.sormas.backend.caze.samplesexport.DiseaseSpecificExportFieldFacadeEjb.DiseaseSpecificExportFieldFacadeEjbLocal.class);
+	}
+
 	public CaseService getCaseService() {
 		return getBean(CaseService.class);
 	}

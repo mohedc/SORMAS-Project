@@ -65,7 +65,6 @@ public interface Validations {
 	String diseaseConfigurationInvalidStartAge = "diseaseConfigurationInvalidStartAge";
 	String duplicateEpidNumber = "duplicateEpidNumber";
 	String duplicateExternalToken = "duplicateExternalToken";
-	String incompleteEpidNumber = "incompleteEpidNumber";
 	String emailTemplateSubjectInvalid = "emailTemplateSubjectInvalid";
 	String emptyOverwrittenFollowUpUntilDate = "emptyOverwrittenFollowUpUntilDate";
 	String environmentMedia = "environmentMedia";
@@ -156,14 +155,15 @@ public interface Validations {
 	String importSubcontinentNotUnique = "importSubcontinentNotUnique";
 	String importUnexpectedError = "importUnexpectedError";
 	String importWrongDataTypeError = "importWrongDataTypeError";
+	String incompleteEpidNumber = "incompleteEpidNumber";
 	String infrastructureDataLocked = "infrastructureDataLocked";
 	String invalidNationalHealthId = "invalidNationalHealthId";
 	String invalidSelfReportType = "invalidSelfReportType";
 	String investigationStatusUnclassifiedCase = "investigationStatusUnclassifiedCase";
 	String jurisdictionChangeUserAssignment = "jurisdictionChangeUserAssignment";
 	String latitudeBetween = "latitudeBetween";
-	String longitudeBetween = "longitudeBetween";
 	String latLonAccuracyBetweenOneAndFive = "latLonAccuracyBetweenOneAndFive";
+	String longitudeBetween = "longitudeBetween";
 	String missingRequiredUserRightsBaseText = "missingRequiredUserRightsBaseText";
 	String missingRequiredUserRightsLargeDependency = "missingRequiredUserRightsLargeDependency";
 	String missingRequiredUserRightsNoDependency = "missingRequiredUserRightsNoDependency";

@@ -171,6 +171,7 @@ public class CaseController {
 	public void registerViews(Navigator navigator) {
 
 		navigator.addView(CasesView.VIEW_NAME, CasesView.class);
+		navigator.addView(de.symeda.sormas.ui.caze.samplesexport.CaseSamplesDetailedExportsView.VIEW_NAME, de.symeda.sormas.ui.caze.samplesexport.CaseSamplesDetailedExportsView.class);
 		if (UiUtil.permitted(UserRight.CASE_MERGE)) {
 			navigator.addView(MergeCasesView.VIEW_NAME, MergeCasesView.class);
 		}

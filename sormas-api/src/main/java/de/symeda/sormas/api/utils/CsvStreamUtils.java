@@ -25,6 +25,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -172,6 +173,111 @@ public class CsvStreamUtils {
 		}
 	}
 
+	public static <T> void writeCsvPagesToStream(
+		Class<T> csvRowClass,
+		java.util.function.Supplier<List<T>> nextPageSupplier,
+		SupplierBiFunction<String, Class<?>, String> propertyIdCaptionSupplier,
+		ExportConfigurationDto exportConfiguration,
+		final Predicate redMethodFilter,
+		ConfigFacade configFacade,
+		OutputStream out) {
+
+		try (
+			CSVWriter writer = CSVUtils.createCSVWriter(new OutputStreamWriter(out, StandardCharsets.UTF_8.name()), configFacade.getCsvSeparator())) {
+
+			List<Method> readMethods =
+				getExportRowClassReadMethods(csvRowClass, exportConfiguration, redMethodFilter, configFacade.getCountryLocale());
+
+			Map<Method, SubEntityProvider<T>> subEntityProviders = new HashMap<Method, SubEntityProvider<T>>();
+			for (int i = 0; i < readMethods.size(); i++) {
+				final Method method = readMethods.get(i);
+				if (EntityDto.class.isAssignableFrom(method.getReturnType())) {
+					SubEntityProvider<T> subEntityProvider = createSubEntityProvider(method);
+					readMethods.remove(i);
+					List<Method> subReadMethods = getReadMethods(method.getReturnType(), null);
+					readMethods.addAll(i, subReadMethods);
+					i--;
+					for (Method subReadMethod : subReadMethods) {
+						subEntityProviders.put(subReadMethod, subEntityProvider);
+					}
+				}
+			}
+
+			Class<?> entityClass = null;
+			if (csvRowClass.isAnnotationPresent(ExportEntity.class)) {
+				entityClass = csvRowClass.getAnnotation(ExportEntity.class).value();
+			}
+			String[] fieldClassNames = new String[readMethods.size()];
+			String[] fieldIds = new String[readMethods.size()];
+			String[] labels = new String[readMethods.size()];
+			for (int i = 0; i < readMethods.size(); i++) {
+				final Method method = readMethods.get(i);
+				String fieldName = getFieldNameFromMethod(method);
+				String propertyId = fieldName;
+				if (method.isAnnotationPresent(ExportProperty.class)) {
+					final ExportProperty exportProperty = method.getAnnotation(ExportProperty.class);
+					if (!exportProperty.combined()) {
+						propertyId = StringUtils.join(exportProperty.value(), ".");
+					}
+				}
+				Class<?> fieldEntityClass = entityClass;
+				if (method.isAnnotationPresent(ExportEntity.class)) {
+					fieldEntityClass = method.getAnnotation(ExportEntity.class).value();
+				}
+				if (subEntityProviders.containsKey(method)) {
+					fieldEntityClass = subEntityProviders.get(method).getEntityClass();
+					propertyId = subEntityProviders.get(method).getName() + "." + propertyId;
+				}
+				if (fieldEntityClass != null) {
+					fieldClassNames[i] = DataHelper.getHumanClassName(fieldEntityClass);
+				}
+				fieldIds[i] = propertyId;
+				labels[i] = propertyIdCaptionSupplier.apply(fieldName, method.getReturnType());
+			}
+
+			if (entityClass != null) {
+				writer.writeNext(fieldClassNames);
+			}
+			writer.writeNext(fieldIds);
+			labels[0] = CSVCommentLineValidator.DEFAULT_COMMENT_LINE_PREFIX + labels[0];
+			writer.writeNext(labels, false);
+
+			List<T> exportRows;
+			do {
+				exportRows = nextPageSupplier.get();
+				if (exportRows == null || exportRows.isEmpty()) {
+					break;
+				}
+				try {
+					for (T exportRow : exportRows) {
+						for (int i = 0; i < readMethods.size(); i++) {
+							Method method = readMethods.get(i);
+							SubEntityProvider<T> subEntityProvider = subEntityProviders.get(method);
+							Object entity = subEntityProvider != null ? subEntityProvider.get(exportRow) : exportRow;
+							Object value = entity != null ? method.invoke(entity) : null;
+							String formattedValue;
+							ExportFormat formatterAnnotation = method.getAnnotation(ExportFormat.class);
+							if (formatterAnnotation != null) {
+								IExportFormatter<Object> formatter = FormatterProvider.getExportFormatter(formatterAnnotation.value());
+								formattedValue = formatter.format(value);
+							} else {
+								formattedValue = DataHelper.valueToString(value);
+							}
+							labels[i] = formattedValue;
+						}
+						writer.writeNext(labels);
+					}
+				} catch (InvocationTargetException | IllegalAccessException | IllegalArgumentException e) {
+					throw new RuntimeException(e);
+				}
+				writer.flush();
+			}
+			while (!exportRows.isEmpty());
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
 	private static String getFieldNameFromMethod(Method method) {
 		String propertyId = method.getName().startsWith("get") ? method.getName().substring(3) : method.getName().substring(2);
 		propertyId = Character.toLowerCase(propertyId.charAt(0)) + propertyId.substring(1);
@@ -209,7 +315,18 @@ public class CsvStreamUtils {
 	}
 
 	private static List<Method> getReadMethods(Class<?> clazz, final Predicate filters) {
-		ArrayList<Method> readMethods = new ArrayList<>(Arrays.asList(clazz.getDeclaredMethods()));
+		LinkedHashMap<String, Method> byName = new LinkedHashMap<>();
+		Class<?> current = clazz;
+		while (current != null && current != Object.class) {
+			for (Method method : current.getDeclaredMethods()) {
+				if (method.isSynthetic() || method.isBridge()) {
+					continue;
+				}
+				byName.putIfAbsent(method.getName(), method);
+			}
+			current = current.getSuperclass();
+		}
+		ArrayList<Method> readMethods = new ArrayList<>(byName.values());
 
 		CollectionUtils.filter(readMethods, new Predicate() {
 

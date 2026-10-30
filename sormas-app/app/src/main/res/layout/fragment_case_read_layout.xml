@@ -965,7 +965,7 @@
                         android:id="@+id/caseData_headingVaccinesReceived"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@{I18nProperties.getString(Strings.HeadingVaccinesReceived)}"
+                        android:text="@{I18nProperties.getString(Strings.headingVaccinesReceived)}"
                         style="@style/SubHeadingStyle" />
 
                     <LinearLayout
