@@ -36,45 +36,82 @@ public class CaseSamplesDetailedExportsGrid extends Grid<CaseSamplesDetailedExpo
 
 	private static final long serialVersionUID = 1L;
 
+	private static final int FILTER_SUMMARY_MAX_CHARS = 80;
+
 	public CaseSamplesDetailedExportsGrid() {
 		setSizeFull();
 		setHeightByRows(12);
 
 		addColumn(dto -> dto.getRequestedBy() == null ? "" : dto.getRequestedBy().getCaption())
 			.setCaption(I18nProperties.getCaption(Captions.CaseSamplesDetailedExport_requestedBy))
-			.setId(CaseSamplesDetailedExportDto.REQUESTED_BY);
+			.setId(CaseSamplesDetailedExportDto.REQUESTED_BY)
+			.setMinimumWidth(120)
+			.setMaximumWidth(180);
 		addColumn(dto -> DateFormatHelper.formatLocalDateTime(dto.getRequestedAt()))
 			.setCaption(I18nProperties.getCaption(Captions.CaseSamplesDetailedExport_requestedAt))
-			.setId(CaseSamplesDetailedExportDto.REQUESTED_AT);
+			.setId(CaseSamplesDetailedExportDto.REQUESTED_AT)
+			.setMinimumWidth(140)
+			.setMaximumWidth(180);
 		addColumn(dto -> dto.getResult() == null ? "" : dto.getResult().toString())
 			.setCaption(I18nProperties.getCaption(Captions.CaseSamplesDetailedExport_result))
-			.setId(CaseSamplesDetailedExportDto.RESULT);
-		addColumn(CaseSamplesDetailedExportDto::getFilterSummary)
-			.setCaption(I18nProperties.getCaption(Captions.CaseSamplesDetailedExport_filterSummary))
-			.setId(CaseSamplesDetailedExportDto.FILTER_SUMMARY)
-			.setExpandRatio(1);
+			.setId(CaseSamplesDetailedExportDto.RESULT)
+			.setMinimumWidth(90)
+			.setMaximumWidth(120);
 		addColumn(CaseSamplesDetailedExportDto::getRowCount)
 			.setCaption(I18nProperties.getCaption(Captions.CaseSamplesDetailedExport_rowCount))
-			.setId(CaseSamplesDetailedExportDto.ROW_COUNT);
+			.setId(CaseSamplesDetailedExportDto.ROW_COUNT)
+			.setMinimumWidth(90)
+			.setMaximumWidth(120);
 		addColumn(dto -> DateFormatHelper.formatLocalDateTime(dto.getExpiresAt()))
 			.setCaption(I18nProperties.getCaption(Captions.CaseSamplesDetailedExport_expiresAt))
-			.setId(CaseSamplesDetailedExportDto.EXPIRES_AT);
+			.setId(CaseSamplesDetailedExportDto.EXPIRES_AT)
+			.setMinimumWidth(140)
+			.setMaximumWidth(180);
 		addColumn(CaseSamplesDetailedExportDto::getDownloadCount)
 			.setCaption(I18nProperties.getCaption(Captions.CaseSamplesDetailedExport_downloadCount))
-			.setId(CaseSamplesDetailedExportDto.DOWNLOAD_COUNT);
-		addComponentColumn(this::buildErrorButton)
-			.setCaption(I18nProperties.getCaption(Captions.CaseSamplesDetailedExport_errorLog))
-			.setId("errorLog");
+			.setId(CaseSamplesDetailedExportDto.DOWNLOAD_COUNT)
+			.setMinimumWidth(90)
+			.setMaximumWidth(120);
 		addColumn(this::progressCaption)
 			.setCaption(I18nProperties.getCaption(Captions.CaseSamplesDetailedExport_progress))
-			.setId("progress");
+			.setId("progress")
+			.setMinimumWidth(120)
+			.setMaximumWidth(180);
 		addComponentColumn(this::buildDownloadsButton)
 			.setCaption(I18nProperties.getCaption(Captions.CaseSamplesDetailedExport_viewDownloads))
-			.setId("downloadsAction");
+			.setId("downloadsAction")
+			.setSortable(false)
+			.setMinimumWidth(140)
+			.setMaximumWidth(180);
+		addComponentColumn(this::buildErrorButton)
+			.setCaption(I18nProperties.getCaption(Captions.CaseSamplesDetailedExport_errorLog))
+			.setId("errorLog")
+			.setSortable(false)
+			.setMinimumWidth(100)
+			.setMaximumWidth(140);
+		addColumn(this::shortFilterSummary)
+			.setCaption(I18nProperties.getCaption(Captions.CaseSamplesDetailedExport_filterSummary))
+			.setId(CaseSamplesDetailedExportDto.FILTER_SUMMARY)
+			.setMinimumWidth(180)
+			.setMaximumWidth(320)
+			.setExpandRatio(1)
+			.setDescriptionGenerator(dto -> StringUtils.defaultString(dto.getFilterSummary()));
 	}
 
 	public void reload() {
 		setDataProvider(new ListDataProvider<>(FacadeProvider.getCaseSamplesDetailedExportFacade().getIndexList()));
+	}
+
+	private String shortFilterSummary(CaseSamplesDetailedExportDto dto) {
+		String summary = dto.getFilterSummary();
+		if (StringUtils.isBlank(summary)) {
+			return "";
+		}
+		String compact = summary.replace('\n', ' ').trim();
+		if (compact.length() <= FILTER_SUMMARY_MAX_CHARS) {
+			return compact;
+		}
+		return compact.substring(0, FILTER_SUMMARY_MAX_CHARS - 1) + "…";
 	}
 
 	private String progressCaption(CaseSamplesDetailedExportDto dto) {

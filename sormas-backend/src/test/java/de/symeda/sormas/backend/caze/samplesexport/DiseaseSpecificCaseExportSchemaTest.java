@@ -9,7 +9,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -17,7 +16,6 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -41,6 +39,8 @@ public class DiseaseSpecificCaseExportSchemaTest {
 		for (Disease disease : DiseaseSpecificExportFieldConfiguration.SUPPORTED_DISEASES) {
 			List<DiseaseSpecificCaseExportSchema.Column> columns = DiseaseSpecificCaseExportSchema.build(disease, LOCALE);
 			assertFalse(columns.isEmpty(), "Schema is empty for " + disease);
+			assertEquals(DiseaseSpecificCaseExportSchema.PATH_ID, columns.get(0).getPropertyPath());
+			assertEquals(DiseaseSpecificCaseExportSchema.PATH_UUID, columns.get(1).getPropertyPath());
 			boolean hasSample = columns.stream().anyMatch(c -> DiseaseSpecificCaseExportSchema.BLOCK_SAMPLE.equals(c.getSchemaBlock()));
 			boolean hasPathogen = columns.stream().anyMatch(c -> DiseaseSpecificCaseExportSchema.BLOCK_PATHOGEN_TESTS.equals(c.getSchemaBlock()));
 			if (disease == Disease.NEONATAL_TETANUS) {
@@ -65,12 +65,11 @@ public class DiseaseSpecificCaseExportSchemaTest {
 			String expected = DiseaseSpecificCaseExportSchema.toSeedCsv(disease, LOCALE);
 			Path file = dir.resolve(disease.name() + ".csv");
 			Files.write(file, expected.getBytes(StandardCharsets.UTF_8));
-			try (InputStream in = getClass().getResourceAsStream("/disease-specific-export-fields/" + disease.name() + ".csv")) {
-				if (in != null) {
-					String classpath = IOUtils.toString(in, StandardCharsets.UTF_8);
-					assertEquals(normalize(expected), normalize(classpath), "Classpath seed CSV differs from schema for " + disease);
-				}
-			}
+		}
+		for (Disease disease : DiseaseSpecificExportFieldConfiguration.SUPPORTED_DISEASES) {
+			String expected = DiseaseSpecificCaseExportSchema.toSeedCsv(disease, LOCALE);
+			Path file = dir.resolve(disease.name() + ".csv");
+			assertEquals(normalize(expected), normalize(Files.readString(file)), "Source seed CSV differs from schema for " + disease);
 			List<String> expectedPaths = DiseaseSpecificCaseExportSchema.build(disease, LOCALE)
 				.stream()
 				.map(DiseaseSpecificCaseExportSchema.Column::getPropertyPath)

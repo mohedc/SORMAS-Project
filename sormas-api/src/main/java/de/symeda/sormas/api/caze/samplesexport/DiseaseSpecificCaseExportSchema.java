@@ -49,6 +49,9 @@ public final class DiseaseSpecificCaseExportSchema {
 	public static final String BLOCK_SAMPLE = "sample";
 	public static final String BLOCK_PATHOGEN_TESTS = "pathogenTests";
 
+	public static final String PATH_ID = "id";
+	public static final String PATH_UUID = "uuid";
+
 	private static final Set<String> SKIP_PROPERTIES = Collections.unmodifiableSet(
 		new HashSet<>(
 			Arrays.asList(
@@ -80,6 +83,22 @@ public final class DiseaseSpecificCaseExportSchema {
 		}
 		List<Column> columns = new ArrayList<>();
 		int order = 1;
+		columns.add(
+			new Column(
+				BLOCK_CASE,
+				CaseDataDto.class,
+				PATH_ID,
+				PATH_ID,
+				I18nProperties.getPrefixCaption("CaseExport", PATH_ID, "Case SN"),
+				order++));
+		columns.add(
+			new Column(
+				BLOCK_CASE,
+				CaseDataDto.class,
+				PATH_UUID,
+				PATH_UUID,
+				I18nProperties.getPrefixCaption(CaseDataDto.I18N_PREFIX, PATH_UUID, "Case ID"),
+				order++));
 		order = addBlock(columns, order, BLOCK_CASE, "", CaseDataDto.class, CaseDataDto.I18N_PREFIX, disease, visibility);
 		order = addBlock(columns, order, BLOCK_PERSON, "person.", PersonDto.class, PersonDto.I18N_PREFIX, disease, visibility);
 		order = addBlock(columns, order, BLOCK_SYMPTOMS, "symptoms.", SymptomsDto.class, SymptomsDto.I18N_PREFIX, disease, visibility);

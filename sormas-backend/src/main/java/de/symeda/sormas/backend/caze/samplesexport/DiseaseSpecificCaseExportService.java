@@ -11,6 +11,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.function.IntConsumer;
@@ -71,15 +72,22 @@ public class DiseaseSpecificCaseExportService {
 		Map<String, DiseaseSpecificCaseExportSchema.Column> byPath =
 			catalog.stream().collect(Collectors.toMap(DiseaseSpecificCaseExportSchema.Column::getPropertyPath, c -> c, (a, b) -> a));
 		List<DiseaseSpecificCaseExportSchema.Column> columns = new ArrayList<>();
-		for (String path : propertyPaths) {
-			if (StringUtils.isBlank(path)) {
-				continue;
+		LinkedHashSet<String> orderedPaths = new LinkedHashSet<>();
+		orderedPaths.add(DiseaseSpecificCaseExportSchema.PATH_ID);
+		orderedPaths.add(DiseaseSpecificCaseExportSchema.PATH_UUID);
+		if (propertyPaths != null) {
+			for (String path : propertyPaths) {
+				if (StringUtils.isNotBlank(path)) {
+					orderedPaths.add(path.trim());
+				}
 			}
-			DiseaseSpecificCaseExportSchema.Column column = byPath.get(path.trim());
+		}
+		for (String path : orderedPaths) {
+			DiseaseSpecificCaseExportSchema.Column column = byPath.get(path);
 			if (column != null) {
 				columns.add(column);
 			} else {
-				columns.add(new DiseaseSpecificCaseExportSchema.Column("case", CaseDataDto.class, path.trim(), path.trim(), path.trim(), columns.size() + 1));
+				columns.add(new DiseaseSpecificCaseExportSchema.Column("case", CaseDataDto.class, path, path, path, columns.size() + 1));
 			}
 		}
 
@@ -100,6 +108,7 @@ public class DiseaseSpecificCaseExportService {
 					break;
 				}
 				List<CaseDataDto> cases = caseFacade.getByUuids(caseUuids);
+				Map<String, Long> caseIdsByUuid = loadCaseIds(criteria, selectedRows, first, pageSize, caseUuids);
 				Map<String, PersonDto> persons = loadPersons(cases);
 				Map<String, List<SampleDto>> samplesByCase = CollectionUtils.isEmpty(cases)
 					? Collections.emptyMap()
@@ -113,13 +122,15 @@ public class DiseaseSpecificCaseExportService {
 				int rowsThisPage = 0;
 				for (CaseDataDto caze : cases) {
 					PersonDto person = caze.getPerson() == null ? null : persons.get(caze.getPerson().getUuid());
+					Long caseId = caseIdsByUuid.get(caze.getUuid());
 					List<SampleDto> samples = samplesByCase.getOrDefault(caze.getUuid(), Collections.emptyList());
 					if (samples.isEmpty()) {
-						writer.writeNext(buildRow(columns, caze, person, null, Collections.emptyList()));
+						writer.writeNext(buildRow(columns, caze, caseId, person, null, Collections.emptyList()));
 						rowsThisPage++;
 					} else {
 						for (SampleDto sample : samples) {
-							writer.writeNext(buildRow(columns, caze, person, sample, testsBySample.getOrDefault(sample.getUuid(), Collections.emptyList())));
+							writer.writeNext(
+								buildRow(columns, caze, caseId, person, sample, testsBySample.getOrDefault(sample.getUuid(), Collections.emptyList())));
 							rowsThisPage++;
 						}
 					}
@@ -155,22 +166,50 @@ public class DiseaseSpecificCaseExportService {
 		return personFacade.getByUuids(personUuids).stream().collect(Collectors.toMap(PersonDto::getUuid, p -> p));
 	}
 
+	private Map<String, Long> loadCaseIds(
+		CaseCriteria criteria,
+		Collection<String> selectedRows,
+		int first,
+		int max,
+		List<String> caseUuids) {
+		if (CollectionUtils.isEmpty(caseUuids)) {
+			return Collections.emptyMap();
+		}
+		List<CaseIndexDto> index;
+		if (CollectionUtils.isNotEmpty(selectedRows)) {
+			index = caseFacade.getIndexList(criteria, null, null, null)
+				.stream()
+				.filter(c -> caseUuids.contains(c.getUuid()))
+				.collect(Collectors.toList());
+		} else {
+			index = caseFacade.getIndexList(criteria, first, max, null);
+		}
+		return index.stream().collect(Collectors.toMap(CaseIndexDto::getUuid, CaseIndexDto::getId, (a, b) -> a));
+	}
+
 	private String[] buildRow(
 		List<DiseaseSpecificCaseExportSchema.Column> columns,
 		CaseDataDto caze,
+		Long caseId,
 		PersonDto person,
 		SampleDto sample,
 		List<PathogenTestDto> tests) {
 
 		String[] row = new String[columns.size()];
 		for (int i = 0; i < columns.size(); i++) {
-			row[i] = DataHelper.valueToString(resolve(columns.get(i).getPropertyPath(), caze, person, sample, tests));
+			row[i] = DataHelper.valueToString(resolve(columns.get(i).getPropertyPath(), caze, caseId, person, sample, tests));
 		}
 		return row;
 	}
 
-	private Object resolve(String path, CaseDataDto caze, PersonDto person, SampleDto sample, List<PathogenTestDto> tests) {
+	private Object resolve(String path, CaseDataDto caze, Long caseId, PersonDto person, SampleDto sample, List<PathogenTestDto> tests) {
 		try {
+			if (DiseaseSpecificCaseExportSchema.PATH_ID.equals(path)) {
+				return caseId;
+			}
+			if (DiseaseSpecificCaseExportSchema.PATH_UUID.equals(path)) {
+				return caze == null ? null : caze.getUuid();
+			}
 			if ("vaccinationDate".equals(path)) {
 				return caze == null ? null : caze.getLastVaccinationDate();
 			}
